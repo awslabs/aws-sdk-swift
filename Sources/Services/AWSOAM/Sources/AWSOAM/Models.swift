@@ -1359,7 +1359,7 @@ extension ListAttachedLinksOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAttachedLinksOutput()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: OAMClientTypes.ListAttachedLinksItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: OAMClientTypes.ListAttachedLinksItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1372,7 +1372,7 @@ extension ListLinksOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListLinksOutput()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: OAMClientTypes.ListLinksItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: OAMClientTypes.ListLinksItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1385,7 +1385,7 @@ extension ListSinksOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListSinksOutput()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: OAMClientTypes.ListSinksItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: OAMClientTypes.ListSinksItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1856,7 +1856,7 @@ extension OAMClientTypes.MetricConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.MetricConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OAMClientTypes.MetricConfiguration()
-        value.filter = try reader["Filter"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1871,7 +1871,7 @@ extension OAMClientTypes.LogGroupConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.LogGroupConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OAMClientTypes.LogGroupConfiguration()
-        value.filter = try reader["Filter"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent() ?? ""
         return value
     }
 }

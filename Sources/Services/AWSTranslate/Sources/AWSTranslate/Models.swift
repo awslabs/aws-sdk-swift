@@ -2670,8 +2670,8 @@ extension TranslateDocumentOutput {
         var value = TranslateDocumentOutput()
         value.appliedSettings = try reader["AppliedSettings"].readIfPresent(with: TranslateClientTypes.TranslationSettings.read(from:))
         value.appliedTerminologies = try reader["AppliedTerminologies"].readListIfPresent(memberReadingClosure: TranslateClientTypes.AppliedTerminology.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceLanguageCode = try reader["SourceLanguageCode"].readIfPresent()
-        value.targetLanguageCode = try reader["TargetLanguageCode"].readIfPresent()
+        value.sourceLanguageCode = try reader["SourceLanguageCode"].readIfPresent() ?? ""
+        value.targetLanguageCode = try reader["TargetLanguageCode"].readIfPresent() ?? ""
         value.translatedDocument = try reader["TranslatedDocument"].readIfPresent(with: TranslateClientTypes.TranslatedDocument.read(from:))
         return value
     }
@@ -2686,9 +2686,9 @@ extension TranslateTextOutput {
         var value = TranslateTextOutput()
         value.appliedSettings = try reader["AppliedSettings"].readIfPresent(with: TranslateClientTypes.TranslationSettings.read(from:))
         value.appliedTerminologies = try reader["AppliedTerminologies"].readListIfPresent(memberReadingClosure: TranslateClientTypes.AppliedTerminology.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceLanguageCode = try reader["SourceLanguageCode"].readIfPresent()
-        value.targetLanguageCode = try reader["TargetLanguageCode"].readIfPresent()
-        value.translatedText = try reader["TranslatedText"].readIfPresent()
+        value.sourceLanguageCode = try reader["SourceLanguageCode"].readIfPresent() ?? ""
+        value.targetLanguageCode = try reader["TargetLanguageCode"].readIfPresent() ?? ""
+        value.translatedText = try reader["TranslatedText"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3307,7 +3307,7 @@ extension TranslateClientTypes.OutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.OutputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.encryptionKey = try reader["EncryptionKey"].readIfPresent(with: TranslateClientTypes.EncryptionKey.read(from:))
         return value
     }
@@ -3324,8 +3324,8 @@ extension TranslateClientTypes.EncryptionKey {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.EncryptionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.EncryptionKey()
-        value.type = try reader["Type"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3341,8 +3341,8 @@ extension TranslateClientTypes.InputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.InputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        value.contentType = try reader["ContentType"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.contentType = try reader["ContentType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3407,8 +3407,8 @@ extension TranslateClientTypes.ParallelDataDataLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.ParallelDataDataLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.ParallelDataDataLocation()
-        value.repositoryType = try reader["RepositoryType"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
+        value.repositoryType = try reader["RepositoryType"].readIfPresent() ?? ""
+        value.location = try reader["Location"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3441,8 +3441,8 @@ extension TranslateClientTypes.TerminologyDataLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TerminologyDataLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.TerminologyDataLocation()
-        value.repositoryType = try reader["RepositoryType"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
+        value.repositoryType = try reader["RepositoryType"].readIfPresent() ?? ""
+        value.location = try reader["Location"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3452,8 +3452,8 @@ extension TranslateClientTypes.Language {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.Language {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.Language()
-        value.languageName = try reader["LanguageName"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.languageName = try reader["LanguageName"].readIfPresent() ?? ""
+        value.languageCode = try reader["LanguageCode"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3469,8 +3469,8 @@ extension TranslateClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3480,7 +3480,7 @@ extension TranslateClientTypes.TranslatedDocument {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TranslatedDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.TranslatedDocument()
-        value.content = try reader["Content"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent() ?? Foundation.Data("".utf8)
         return value
     }
 }

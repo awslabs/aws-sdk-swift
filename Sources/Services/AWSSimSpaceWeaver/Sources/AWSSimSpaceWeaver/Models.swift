@@ -2228,8 +2228,8 @@ extension SimSpaceWeaverClientTypes.S3Location {
     static func read(from reader: SmithyJSON.Reader) throws -> SimSpaceWeaverClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SimSpaceWeaverClientTypes.S3Location()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.objectKey = try reader["ObjectKey"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.objectKey = try reader["ObjectKey"].readIfPresent() ?? ""
         return value
     }
 }

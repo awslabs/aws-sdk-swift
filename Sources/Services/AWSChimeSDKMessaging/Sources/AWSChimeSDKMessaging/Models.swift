@@ -1224,7 +1224,7 @@ public struct ChannelFlowCallbackInput {
         callbackId: Swift.String? = nil,
         channelArn: Swift.String? = nil,
         channelMessage: ChimeSDKMessagingClientTypes.ChannelMessageCallback? = nil,
-        deleteResource: Swift.Bool? = nil
+        deleteResource: Swift.Bool? = false
     )
     {
         self.callbackId = callbackId
@@ -7232,8 +7232,8 @@ extension ChimeSDKMessagingClientTypes.ExpirationSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ExpirationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMessagingClientTypes.ExpirationSettings()
-        value.expirationDays = try reader["ExpirationDays"].readIfPresent()
-        value.expirationCriterion = try reader["ExpirationCriterion"].readIfPresent()
+        value.expirationDays = try reader["ExpirationDays"].readIfPresent() ?? 0
+        value.expirationCriterion = try reader["ExpirationCriterion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7250,9 +7250,9 @@ extension ChimeSDKMessagingClientTypes.ElasticChannelConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ElasticChannelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMessagingClientTypes.ElasticChannelConfiguration()
-        value.maximumSubChannels = try reader["MaximumSubChannels"].readIfPresent()
-        value.targetMembershipsPerSubChannel = try reader["TargetMembershipsPerSubChannel"].readIfPresent()
-        value.minimumMembershipPercentage = try reader["MinimumMembershipPercentage"].readIfPresent()
+        value.maximumSubChannels = try reader["MaximumSubChannels"].readIfPresent() ?? 0
+        value.targetMembershipsPerSubChannel = try reader["TargetMembershipsPerSubChannel"].readIfPresent() ?? 0
+        value.minimumMembershipPercentage = try reader["MinimumMembershipPercentage"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7297,10 +7297,10 @@ extension ChimeSDKMessagingClientTypes.Processor {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.Processor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMessagingClientTypes.Processor()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.configuration = try reader["Configuration"].readIfPresent(with: ChimeSDKMessagingClientTypes.ProcessorConfiguration.read(from:))
-        value.executionOrder = try reader["ExecutionOrder"].readIfPresent()
-        value.fallbackAction = try reader["FallbackAction"].readIfPresent()
+        value.executionOrder = try reader["ExecutionOrder"].readIfPresent() ?? 0
+        value.fallbackAction = try reader["FallbackAction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7331,8 +7331,8 @@ extension ChimeSDKMessagingClientTypes.LambdaConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.LambdaConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMessagingClientTypes.LambdaConfiguration()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.invocationType = try reader["InvocationType"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.invocationType = try reader["InvocationType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7440,7 +7440,7 @@ extension ChimeSDKMessagingClientTypes.PushNotificationPreferences {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.PushNotificationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMessagingClientTypes.PushNotificationPreferences()
-        value.allowNotifications = try reader["AllowNotifications"].readIfPresent()
+        value.allowNotifications = try reader["AllowNotifications"].readIfPresent() ?? .sdkUnknown("")
         value.filterRule = try reader["FilterRule"].readIfPresent()
         return value
     }
@@ -7533,8 +7533,8 @@ extension ChimeSDKMessagingClientTypes.StreamingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.StreamingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMessagingClientTypes.StreamingConfiguration()
-        value.dataType = try reader["DataType"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7639,8 +7639,8 @@ extension ChimeSDKMessagingClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMessagingClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

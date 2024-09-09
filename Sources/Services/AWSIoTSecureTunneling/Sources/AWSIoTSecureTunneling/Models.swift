@@ -90,7 +90,7 @@ public struct CloseTunnelInput {
     public var tunnelId: Swift.String?
 
     public init(
-        delete: Swift.Bool? = nil,
+        delete: Swift.Bool? = false,
         tunnelId: Swift.String? = nil
     )
     {
@@ -991,8 +991,8 @@ extension IoTSecureTunnelingClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSecureTunnelingClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1024,7 +1024,7 @@ extension IoTSecureTunnelingClientTypes.DestinationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSecureTunnelingClientTypes.DestinationConfig()
         value.thingName = try reader["thingName"].readIfPresent()
-        value.services = try reader["services"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.services = try reader["services"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

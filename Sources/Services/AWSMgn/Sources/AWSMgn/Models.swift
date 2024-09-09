@@ -9289,7 +9289,7 @@ extension CreateLaunchConfigurationTemplateOutput {
         value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
         value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
-        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent()
+        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
@@ -9317,7 +9317,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
@@ -9689,7 +9689,7 @@ extension ListManagedAccountsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListManagedAccountsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.ManagedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.ManagedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -10148,7 +10148,7 @@ extension UpdateLaunchConfigurationTemplateOutput {
         value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
         value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
-        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent()
+        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
@@ -10203,7 +10203,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
@@ -11520,7 +11520,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11537,7 +11537,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = retryAfterSecondsHeaderValue
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -11857,9 +11857,9 @@ extension MgnClientTypes.ConnectorSsmCommandConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ConnectorSsmCommandConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ConnectorSsmCommandConfig()
-        value.s3OutputEnabled = try reader["s3OutputEnabled"].readIfPresent()
+        value.s3OutputEnabled = try reader["s3OutputEnabled"].readIfPresent() ?? false
         value.outputS3BucketName = try reader["outputS3BucketName"].readIfPresent()
-        value.cloudWatchOutputEnabled = try reader["cloudWatchOutputEnabled"].readIfPresent()
+        value.cloudWatchOutputEnabled = try reader["cloudWatchOutputEnabled"].readIfPresent() ?? false
         value.cloudWatchLogGroupName = try reader["cloudWatchLogGroupName"].readIfPresent()
         return value
     }
@@ -11903,8 +11903,8 @@ extension MgnClientTypes.SsmDocument {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SsmDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.SsmDocument()
-        value.actionName = try reader["actionName"].readIfPresent()
-        value.ssmDocumentName = try reader["ssmDocumentName"].readIfPresent()
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
+        value.ssmDocumentName = try reader["ssmDocumentName"].readIfPresent() ?? ""
         value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
         value.mustSucceedForCutover = try reader["mustSucceedForCutover"].readIfPresent()
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: MgnClientTypes.SsmParameterStoreParameter.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -11948,8 +11948,8 @@ extension MgnClientTypes.SsmParameterStoreParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SsmParameterStoreParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.SsmParameterStoreParameter()
-        value.parameterType = try reader["parameterType"].readIfPresent()
-        value.parameterName = try reader["parameterName"].readIfPresent()
+        value.parameterType = try reader["parameterType"].readIfPresent() ?? .sdkUnknown("")
+        value.parameterName = try reader["parameterName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12018,7 +12018,7 @@ extension MgnClientTypes.Job {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.Job()
-        value.jobID = try reader["jobID"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.initiatedBy = try reader["initiatedBy"].readIfPresent()
@@ -12036,7 +12036,7 @@ extension MgnClientTypes.ParticipatingServer {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ParticipatingServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ParticipatingServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
         value.launchStatus = try reader["launchStatus"].readIfPresent()
         value.launchedEc2InstanceID = try reader["launchedEc2InstanceID"].readIfPresent()
         value.postLaunchActionsStatus = try reader["postLaunchActionsStatus"].readIfPresent(with: MgnClientTypes.PostLaunchActionsStatus.read(from:))
@@ -12074,7 +12074,7 @@ extension MgnClientTypes.LaunchConfigurationTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchConfigurationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.LaunchConfigurationTemplate()
-        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent()
+        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent()
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
@@ -12100,7 +12100,7 @@ extension MgnClientTypes.ReplicationConfigurationTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.ReplicationConfigurationTemplate()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent()
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
@@ -12369,8 +12369,8 @@ extension MgnClientTypes.S3BucketSource {
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.S3BucketSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MgnClientTypes.S3BucketSource()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
-        value.s3Key = try reader["s3Key"].readIfPresent()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent() ?? ""
+        value.s3Key = try reader["s3Key"].readIfPresent() ?? ""
         value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
         return value
     }

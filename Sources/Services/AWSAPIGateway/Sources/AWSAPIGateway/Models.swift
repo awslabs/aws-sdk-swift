@@ -607,8 +607,8 @@ public struct CreateApiKeyInput {
     public init(
         customerId: Swift.String? = nil,
         description: Swift.String? = nil,
-        enabled: Swift.Bool? = nil,
-        generateDistinctId: Swift.Bool? = nil,
+        enabled: Swift.Bool? = false,
+        generateDistinctId: Swift.Bool? = false,
         name: Swift.String? = nil,
         stageKeys: [APIGatewayClientTypes.StageKey]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1578,8 +1578,8 @@ public struct CreateRequestValidatorInput {
     public init(
         name: Swift.String? = nil,
         restApiId: Swift.String? = nil,
-        validateRequestBody: Swift.Bool? = nil,
-        validateRequestParameters: Swift.Bool? = nil
+        validateRequestBody: Swift.Bool? = false,
+        validateRequestParameters: Swift.Bool? = false
     )
     {
         self.name = name
@@ -1995,7 +1995,7 @@ public struct CreateRestApiInput {
         binaryMediaTypes: [Swift.String]? = nil,
         cloneFrom: Swift.String? = nil,
         description: Swift.String? = nil,
-        disableExecuteApiEndpoint: Swift.Bool? = nil,
+        disableExecuteApiEndpoint: Swift.Bool? = false,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         minimumCompressionSize: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -2140,7 +2140,7 @@ public struct CreateStageInput {
     public var variables: [Swift.String: Swift.String]?
 
     public init(
-        cacheClusterEnabled: Swift.Bool? = nil,
+        cacheClusterEnabled: Swift.Bool? = false,
         cacheClusterSize: APIGatewayClientTypes.CacheClusterSize? = nil,
         canarySettings: APIGatewayClientTypes.CanarySettings? = nil,
         deploymentId: Swift.String? = nil,
@@ -2149,7 +2149,7 @@ public struct CreateStageInput {
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        tracingEnabled: Swift.Bool? = nil,
+        tracingEnabled: Swift.Bool? = false,
         variables: [Swift.String: Swift.String]? = nil
     )
     {
@@ -4727,7 +4727,7 @@ public struct GetModelInput {
     public var restApiId: Swift.String?
 
     public init(
-        flatten: Swift.Bool? = nil,
+        flatten: Swift.Bool? = false,
         modelName: Swift.String? = nil,
         restApiId: Swift.String? = nil
     )
@@ -6164,7 +6164,7 @@ public struct ImportApiKeysInput {
 
     public init(
         body: Foundation.Data? = nil,
-        failOnWarnings: Swift.Bool? = nil,
+        failOnWarnings: Swift.Bool? = false,
         format: APIGatewayClientTypes.ApiKeysFormat? = nil
     )
     {
@@ -6235,7 +6235,7 @@ public struct ImportDocumentationPartsInput {
 
     public init(
         body: Foundation.Data? = nil,
-        failOnWarnings: Swift.Bool? = nil,
+        failOnWarnings: Swift.Bool? = false,
         mode: APIGatewayClientTypes.PutMode? = nil,
         restApiId: Swift.String? = nil
     )
@@ -6276,7 +6276,7 @@ public struct ImportRestApiInput {
 
     public init(
         body: Foundation.Data? = nil,
-        failOnWarnings: Swift.Bool? = nil,
+        failOnWarnings: Swift.Bool? = false,
         parameters: [Swift.String: Swift.String]? = nil
     )
     {
@@ -6665,7 +6665,7 @@ public struct PutMethodInput {
     public var restApiId: Swift.String?
 
     public init(
-        apiKeyRequired: Swift.Bool? = nil,
+        apiKeyRequired: Swift.Bool? = false,
         authorizationScopes: [Swift.String]? = nil,
         authorizationType: Swift.String? = nil,
         authorizerId: Swift.String? = nil,
@@ -6820,7 +6820,7 @@ public struct PutRestApiInput {
 
     public init(
         body: Foundation.Data? = nil,
-        failOnWarnings: Swift.Bool? = nil,
+        failOnWarnings: Swift.Bool? = false,
         mode: APIGatewayClientTypes.PutMode? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         restApiId: Swift.String? = nil
@@ -15112,7 +15112,7 @@ extension APIGatewayClientTypes.DocumentationPartLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DocumentationPartLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.DocumentationPartLocation()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.path = try reader["path"].readIfPresent()
         value.method = try reader["method"].readIfPresent()
         value.statusCode = try reader["statusCode"].readIfPresent()

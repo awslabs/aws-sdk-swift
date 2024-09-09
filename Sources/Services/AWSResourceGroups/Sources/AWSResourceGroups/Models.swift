@@ -2403,8 +2403,8 @@ extension ResourceGroupsClientTypes.Group {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsClientTypes.Group()
-        value.groupArn = try reader["GroupArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.groupArn = try reader["GroupArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         return value
     }
@@ -2421,8 +2421,8 @@ extension ResourceGroupsClientTypes.ResourceQuery {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsClientTypes.ResourceQuery()
-        value.type = try reader["Type"].readIfPresent()
-        value.query = try reader["Query"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.query = try reader["Query"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2451,7 +2451,7 @@ extension ResourceGroupsClientTypes.GroupConfigurationItem {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsClientTypes.GroupConfigurationItem()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: ResourceGroupsClientTypes.GroupConfigurationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -2468,7 +2468,7 @@ extension ResourceGroupsClientTypes.GroupConfigurationParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupConfigurationParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsClientTypes.GroupConfigurationParameter()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -2491,7 +2491,7 @@ extension ResourceGroupsClientTypes.GroupQuery {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsClientTypes.GroupQuery()
-        value.groupName = try reader["GroupName"].readIfPresent()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
         value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
         return value
     }

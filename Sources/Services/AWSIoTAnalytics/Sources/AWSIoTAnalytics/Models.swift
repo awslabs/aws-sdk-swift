@@ -638,7 +638,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             datasetContentVersionValue: IoTAnalyticsClientTypes.DatasetContentVersionValue? = nil,
-            doubleValue: Swift.Double? = nil,
+            doubleValue: Swift.Double? = 0.0,
             name: Swift.String? = nil,
             outputFileUriValue: IoTAnalyticsClientTypes.OutputFileUriValue? = nil,
             stringValue: Swift.String? = nil
@@ -1836,7 +1836,7 @@ public struct DescribeChannelInput {
 
     public init(
         channelName: Swift.String? = nil,
-        includeStatistics: Swift.Bool? = nil
+        includeStatistics: Swift.Bool? = false
     )
     {
         self.channelName = channelName
@@ -2094,7 +2094,7 @@ public struct DescribeDatastoreInput {
 
     public init(
         datastoreName: Swift.String? = nil,
-        includeStatistics: Swift.Bool? = nil
+        includeStatistics: Swift.Bool? = false
     )
     {
         self.datastoreName = datastoreName
@@ -5188,9 +5188,9 @@ extension IoTAnalyticsClientTypes.CustomerManagedChannelS3Storage {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.CustomerManagedChannelS3Storage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.CustomerManagedChannelS3Storage()
-        value.bucket = try reader["bucket"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5291,7 +5291,7 @@ extension IoTAnalyticsClientTypes.DeltaTimeSessionWindowConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DeltaTimeSessionWindowConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DeltaTimeSessionWindowConfiguration()
-        value.timeoutInMinutes = try reader["timeoutInMinutes"].readIfPresent()
+        value.timeoutInMinutes = try reader["timeoutInMinutes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5360,10 +5360,10 @@ extension IoTAnalyticsClientTypes.S3DestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.S3DestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.S3DestinationConfiguration()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.glueConfiguration = try reader["glueConfiguration"].readIfPresent(with: IoTAnalyticsClientTypes.GlueConfiguration.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5379,8 +5379,8 @@ extension IoTAnalyticsClientTypes.GlueConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.GlueConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.GlueConfiguration()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5396,8 +5396,8 @@ extension IoTAnalyticsClientTypes.IotEventsDestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.IotEventsDestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.IotEventsDestinationConfiguration()
-        value.inputName = try reader["inputName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.inputName = try reader["inputName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5429,7 +5429,7 @@ extension IoTAnalyticsClientTypes.TriggeringDataset {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.TriggeringDataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.TriggeringDataset()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5481,8 +5481,8 @@ extension IoTAnalyticsClientTypes.ContainerDatasetAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ContainerDatasetAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.ContainerDatasetAction()
-        value.image = try reader["image"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
         value.resourceConfiguration = try reader["resourceConfiguration"].readIfPresent(with: IoTAnalyticsClientTypes.ResourceConfiguration.read(from:))
         value.variables = try reader["variables"].readListIfPresent(memberReadingClosure: IoTAnalyticsClientTypes.Variable.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -5503,7 +5503,7 @@ extension IoTAnalyticsClientTypes.Variable {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Variable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.Variable()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.stringValue = try reader["stringValue"].readIfPresent()
         value.doubleValue = try reader["doubleValue"].readIfPresent()
         value.datasetContentVersionValue = try reader["datasetContentVersionValue"].readIfPresent(with: IoTAnalyticsClientTypes.DatasetContentVersionValue.read(from:))
@@ -5522,7 +5522,7 @@ extension IoTAnalyticsClientTypes.OutputFileUriValue {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.OutputFileUriValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.OutputFileUriValue()
-        value.fileName = try reader["fileName"].readIfPresent()
+        value.fileName = try reader["fileName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5537,7 +5537,7 @@ extension IoTAnalyticsClientTypes.DatasetContentVersionValue {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatasetContentVersionValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DatasetContentVersionValue()
-        value.datasetName = try reader["datasetName"].readIfPresent()
+        value.datasetName = try reader["datasetName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5553,8 +5553,8 @@ extension IoTAnalyticsClientTypes.ResourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ResourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.ResourceConfiguration()
-        value.computeType = try reader["computeType"].readIfPresent()
-        value.volumeSizeInGB = try reader["volumeSizeInGB"].readIfPresent()
+        value.computeType = try reader["computeType"].readIfPresent() ?? .sdkUnknown("")
+        value.volumeSizeInGB = try reader["volumeSizeInGB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5570,7 +5570,7 @@ extension IoTAnalyticsClientTypes.SqlQueryDatasetAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.SqlQueryDatasetAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.SqlQueryDatasetAction()
-        value.sqlQuery = try reader["sqlQuery"].readIfPresent()
+        value.sqlQuery = try reader["sqlQuery"].readIfPresent() ?? ""
         value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: IoTAnalyticsClientTypes.QueryFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -5602,8 +5602,8 @@ extension IoTAnalyticsClientTypes.DeltaTime {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DeltaTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DeltaTime()
-        value.offsetSeconds = try reader["offsetSeconds"].readIfPresent()
-        value.timeExpression = try reader["timeExpression"].readIfPresent()
+        value.offsetSeconds = try reader["offsetSeconds"].readIfPresent() ?? 0
+        value.timeExpression = try reader["timeExpression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5670,7 +5670,7 @@ extension IoTAnalyticsClientTypes.TimestampPartition {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.TimestampPartition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.TimestampPartition()
-        value.attributeName = try reader["attributeName"].readIfPresent()
+        value.attributeName = try reader["attributeName"].readIfPresent() ?? ""
         value.timestampFormat = try reader["timestampFormat"].readIfPresent()
         return value
     }
@@ -5686,7 +5686,7 @@ extension IoTAnalyticsClientTypes.Partition {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Partition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.Partition()
-        value.attributeName = try reader["attributeName"].readIfPresent()
+        value.attributeName = try reader["attributeName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5749,8 +5749,8 @@ extension IoTAnalyticsClientTypes.Column {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Column {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.Column()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5826,7 +5826,7 @@ extension IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3Storage {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3Storage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3Storage()
-        value.bucket = try reader["bucket"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         return value
     }
@@ -5844,9 +5844,9 @@ extension IoTAnalyticsClientTypes.CustomerManagedDatastoreS3Storage {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.CustomerManagedDatastoreS3Storage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.CustomerManagedDatastoreS3Storage()
-        value.bucket = try reader["bucket"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5886,8 +5886,8 @@ extension IoTAnalyticsClientTypes.LoggingOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.LoggingOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.LoggingOptions()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.level = try reader["level"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.level = try reader["level"].readIfPresent() ?? .sdkUnknown("")
         value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
@@ -5967,10 +5967,10 @@ extension IoTAnalyticsClientTypes.DeviceShadowEnrichActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DeviceShadowEnrichActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DeviceShadowEnrichActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.thingName = try reader["thingName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.attribute = try reader["attribute"].readIfPresent() ?? ""
+        value.thingName = try reader["thingName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -5990,10 +5990,10 @@ extension IoTAnalyticsClientTypes.DeviceRegistryEnrichActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DeviceRegistryEnrichActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DeviceRegistryEnrichActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.thingName = try reader["thingName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.attribute = try reader["attribute"].readIfPresent() ?? ""
+        value.thingName = try reader["thingName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6012,9 +6012,9 @@ extension IoTAnalyticsClientTypes.MathActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.MathActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.MathActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.math = try reader["math"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.attribute = try reader["attribute"].readIfPresent() ?? ""
+        value.math = try reader["math"].readIfPresent() ?? ""
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6032,8 +6032,8 @@ extension IoTAnalyticsClientTypes.FilterActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.FilterActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.FilterActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.filter = try reader["filter"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.filter = try reader["filter"].readIfPresent() ?? ""
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6051,8 +6051,8 @@ extension IoTAnalyticsClientTypes.SelectAttributesActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.SelectAttributesActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.SelectAttributesActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6070,8 +6070,8 @@ extension IoTAnalyticsClientTypes.RemoveAttributesActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.RemoveAttributesActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.RemoveAttributesActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6089,8 +6089,8 @@ extension IoTAnalyticsClientTypes.AddAttributesActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.AddAttributesActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.AddAttributesActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6107,8 +6107,8 @@ extension IoTAnalyticsClientTypes.DatastoreActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.DatastoreActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.DatastoreActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.datastoreName = try reader["datastoreName"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.datastoreName = try reader["datastoreName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6126,9 +6126,9 @@ extension IoTAnalyticsClientTypes.LambdaActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.LambdaActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.LambdaActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.lambdaName = try reader["lambdaName"].readIfPresent()
-        value.batchSize = try reader["batchSize"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.lambdaName = try reader["lambdaName"].readIfPresent() ?? ""
+        value.batchSize = try reader["batchSize"].readIfPresent() ?? 0
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6146,8 +6146,8 @@ extension IoTAnalyticsClientTypes.ChannelActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.ChannelActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.ChannelActivity()
-        value.name = try reader["name"].readIfPresent()
-        value.channelName = try reader["channelName"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
         value.next = try reader["next"].readIfPresent()
         return value
     }
@@ -6355,8 +6355,8 @@ extension IoTAnalyticsClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTAnalyticsClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTAnalyticsClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

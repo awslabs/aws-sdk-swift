@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The user does not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -4998,11 +4999,11 @@ extension CreateAccessLogSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAccessLogSubscriptionOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5246,13 +5247,13 @@ extension GetAccessLogSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAccessLogSubscriptionOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5446,7 +5447,7 @@ extension ListAccessLogSubscriptionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAccessLogSubscriptionsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.AccessLogSubscriptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.AccessLogSubscriptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5459,7 +5460,7 @@ extension ListListenersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListListenersOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ListenerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ListenerSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5472,7 +5473,7 @@ extension ListRulesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListRulesOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5485,7 +5486,7 @@ extension ListServiceNetworksOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListServiceNetworksOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5498,7 +5499,7 @@ extension ListServiceNetworkServiceAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListServiceNetworkServiceAssociationsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5511,7 +5512,7 @@ extension ListServiceNetworkVpcAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListServiceNetworkVpcAssociationsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5562,7 +5563,7 @@ extension ListTargetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTargetsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.TargetSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.TargetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5622,11 +5623,11 @@ extension UpdateAccessLogSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAccessLogSubscriptionOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6698,7 +6699,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6711,9 +6712,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6727,8 +6728,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6745,7 +6746,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6758,9 +6759,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6777,7 +6778,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -6792,11 +6793,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6858,7 +6859,7 @@ extension VPCLatticeClientTypes.FixedResponseAction {
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.FixedResponseAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.FixedResponseAction()
-        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? 0
         return value
     }
 }
@@ -6873,7 +6874,7 @@ extension VPCLatticeClientTypes.ForwardAction {
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ForwardAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.ForwardAction()
-        value.targetGroups = try reader["targetGroups"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.WeightedTargetGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetGroups = try reader["targetGroups"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.WeightedTargetGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6889,7 +6890,7 @@ extension VPCLatticeClientTypes.WeightedTargetGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.WeightedTargetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.WeightedTargetGroup()
-        value.targetGroupIdentifier = try reader["targetGroupIdentifier"].readIfPresent()
+        value.targetGroupIdentifier = try reader["targetGroupIdentifier"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent()
         return value
     }
@@ -6950,7 +6951,7 @@ extension VPCLatticeClientTypes.HeaderMatch {
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.HeaderMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.HeaderMatch()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.match = try reader["match"].readIfPresent(with: VPCLatticeClientTypes.HeaderMatchType.read(from:))
         value.caseSensitive = try reader["caseSensitive"].readIfPresent()
         return value
@@ -7152,7 +7153,7 @@ extension VPCLatticeClientTypes.Target {
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.Target {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.Target()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.port = try reader["port"].readIfPresent()
         return value
     }
@@ -7176,13 +7177,13 @@ extension VPCLatticeClientTypes.AccessLogSubscriptionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.AccessLogSubscriptionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.AccessLogSubscriptionSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7333,8 +7334,8 @@ extension VPCLatticeClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VPCLatticeClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

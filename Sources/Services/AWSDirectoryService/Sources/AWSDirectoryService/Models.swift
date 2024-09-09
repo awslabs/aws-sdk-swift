@@ -519,7 +519,7 @@ public struct AddIpRoutesInput {
     public init(
         directoryId: Swift.String? = nil,
         ipRoutes: [DirectoryClientTypes.IpRoute]? = nil,
-        updateSecurityGroupForDirectoryControllers: Swift.Bool? = nil
+        updateSecurityGroupForDirectoryControllers: Swift.Bool? = false
     )
     {
         self.directoryId = directoryId
@@ -2078,7 +2078,7 @@ public struct DeleteTrustInput {
     public var trustId: Swift.String?
 
     public init(
-        deleteAssociatedConditionalForwarder: Swift.Bool? = nil,
+        deleteAssociatedConditionalForwarder: Swift.Bool? = false,
         trustId: Swift.String? = nil
     )
     {
@@ -5240,7 +5240,7 @@ public struct StartSchemaExtensionInput {
     public var ldifContent: Swift.String?
 
     public init(
-        createSnapshotBeforeSchemaExtension: Swift.Bool? = nil,
+        createSnapshotBeforeSchemaExtension: Swift.Bool? = false,
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         ldifContent: Swift.String? = nil
@@ -5360,7 +5360,7 @@ public struct UpdateDirectorySetupInput {
     public var updateType: DirectoryClientTypes.UpdateType?
 
     public init(
-        createSnapshotBeforeUpdate: Swift.Bool? = nil,
+        createSnapshotBeforeUpdate: Swift.Bool? = false,
         directoryId: Swift.String? = nil,
         osUpdateSettings: DirectoryClientTypes.OSUpdateSettings? = nil,
         updateType: DirectoryClientTypes.UpdateType? = nil
@@ -9485,8 +9485,8 @@ extension DirectoryClientTypes.DirectoryVpcSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.DirectoryVpcSettings()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9686,8 +9686,8 @@ extension DirectoryClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

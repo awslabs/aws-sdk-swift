@@ -4391,11 +4391,11 @@ public struct CreateDeploymentInput {
         deploymentGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         fileExistsBehavior: CodeDeployClientTypes.FileExistsBehavior? = nil,
-        ignoreApplicationStopFailures: Swift.Bool? = nil,
+        ignoreApplicationStopFailures: Swift.Bool? = false,
         overrideAlarmConfiguration: CodeDeployClientTypes.AlarmConfiguration? = nil,
         revision: CodeDeployClientTypes.RevisionLocation? = nil,
         targetInstances: CodeDeployClientTypes.TargetInstances? = nil,
-        updateOutdatedInstancesOnly: Swift.Bool? = nil
+        updateOutdatedInstancesOnly: Swift.Bool? = false
     )
     {
         self.applicationName = applicationName

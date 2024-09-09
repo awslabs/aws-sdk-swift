@@ -3761,7 +3761,7 @@ extension ListTemplatesOutput {
         let reader = responseReader
         var value = ListTemplatesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.templateSummary = try reader["templateSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.TemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateSummary = try reader["templateSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.TemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3774,7 +3774,7 @@ extension ListTemplateStepGroupsOutput {
         let reader = responseReader
         var value = ListTemplateStepGroupsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.templateStepGroupSummary = try reader["templateStepGroupSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateStepGroupSummary = try reader["templateStepGroupSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3799,7 +3799,7 @@ extension ListWorkflowsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListWorkflowsOutput()
-        value.migrationWorkflowSummary = try reader["migrationWorkflowSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.migrationWorkflowSummary = try reader["migrationWorkflowSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3813,7 +3813,7 @@ extension ListWorkflowStepGroupsOutput {
         let reader = responseReader
         var value = ListWorkflowStepGroupsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.workflowStepGroupsSummary = try reader["workflowStepGroupsSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workflowStepGroupsSummary = try reader["workflowStepGroupsSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3826,7 +3826,7 @@ extension ListWorkflowStepsOutput {
         let reader = responseReader
         var value = ListWorkflowStepsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.workflowStepsSummary = try reader["workflowStepsSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.WorkflowStepSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workflowStepsSummary = try reader["workflowStepsSummary"].readListIfPresent(memberReadingClosure: MigrationHubOrchestratorClientTypes.WorkflowStepSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4504,7 +4504,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4517,7 +4517,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4530,7 +4530,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4543,7 +4543,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4556,7 +4556,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4569,7 +4569,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

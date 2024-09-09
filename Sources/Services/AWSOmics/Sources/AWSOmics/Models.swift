@@ -34,6 +34,7 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct CancelRunOutput {
 
@@ -1005,7 +1006,7 @@ public struct StartAnnotationImportJobInput {
         formatOptions: OmicsClientTypes.FormatOptions? = nil,
         items: [OmicsClientTypes.AnnotationImportItemSource]? = nil,
         roleArn: Swift.String? = nil,
-        runLeftNormalization: Swift.Bool? = nil,
+        runLeftNormalization: Swift.Bool? = false,
         versionName: Swift.String? = nil
     )
     {
@@ -1435,7 +1436,7 @@ public struct DeleteAnnotationStoreInput {
     public var name: Swift.String?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil
     )
     {
@@ -1907,7 +1908,7 @@ public struct DeleteAnnotationStoreVersionsInput {
     public var versions: [Swift.String]?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil,
         versions: [Swift.String]? = nil
     )
@@ -3216,7 +3217,7 @@ public struct DeleteVariantStoreInput {
     public var name: Swift.String?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil
     )
     {
@@ -3704,7 +3705,7 @@ public struct GetReadSetOutput {
     public var payload: Smithy.ByteStream?
 
     public init(
-        payload: Smithy.ByteStream? = nil
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
     )
     {
         self.payload = payload
@@ -4322,7 +4323,7 @@ public struct GetReferenceOutput {
     public var payload: Smithy.ByteStream?
 
     public init(
-        payload: Smithy.ByteStream? = nil
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
     )
     {
         self.payload = payload
@@ -8028,7 +8029,7 @@ public struct StartVariantImportJobInput {
         destinationName: Swift.String? = nil,
         items: [OmicsClientTypes.VariantImportItemSource]? = nil,
         roleArn: Swift.String? = nil,
-        runLeftNormalization: Swift.Bool? = nil
+        runLeftNormalization: Swift.Bool? = false
     )
     {
         self.annotationFields = annotationFields
@@ -9925,7 +9926,7 @@ extension CompleteMultipartReadSetUploadOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CompleteMultipartReadSetUploadOutput()
-        value.readSetId = try reader["readSetId"].readIfPresent()
+        value.readSetId = try reader["readSetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9937,14 +9938,14 @@ extension CreateAnnotationStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAnnotationStoreOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.storeFormat = try reader["storeFormat"].readIfPresent()
         value.storeOptions = try reader["storeOptions"].readIfPresent(with: OmicsClientTypes.StoreOptions.read(from:))
-        value.versionName = try reader["versionName"].readIfPresent()
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9956,12 +9957,12 @@ extension CreateAnnotationStoreVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAnnotationStoreVersionOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.storeId = try reader["storeId"].readIfPresent()
-        value.versionName = try reader["versionName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storeId = try reader["storeId"].readIfPresent() ?? ""
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
         value.versionOptions = try reader["versionOptions"].readIfPresent(with: OmicsClientTypes.VersionOptions.read(from:))
         return value
     }
@@ -9974,17 +9975,17 @@ extension CreateMultipartReadSetUploadOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateMultipartReadSetUploadOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.generatedFrom = try reader["generatedFrom"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.referenceArn = try reader["referenceArn"].readIfPresent()
-        value.sampleId = try reader["sampleId"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.sourceFileType = try reader["sourceFileType"].readIfPresent()
-        value.subjectId = try reader["subjectId"].readIfPresent()
+        value.referenceArn = try reader["referenceArn"].readIfPresent() ?? ""
+        value.sampleId = try reader["sampleId"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.sourceFileType = try reader["sourceFileType"].readIfPresent() ?? .sdkUnknown("")
+        value.subjectId = try reader["subjectId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.uploadId = try reader["uploadId"].readIfPresent()
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9996,10 +9997,10 @@ extension CreateReferenceStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateReferenceStoreOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
         return value
@@ -10027,12 +10028,12 @@ extension CreateSequenceStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSequenceStoreOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.eTagAlgorithmFamily = try reader["eTagAlgorithmFamily"].readIfPresent()
         value.fallbackLocation = try reader["fallbackLocation"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
         return value
@@ -10060,11 +10061,11 @@ extension CreateVariantStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateVariantStoreOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10091,7 +10092,7 @@ extension DeleteAnnotationStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAnnotationStoreOutput()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10162,7 +10163,7 @@ extension DeleteVariantStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteVariantStoreOutput()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10182,18 +10183,18 @@ extension GetAnnotationImportJobOutput {
         let reader = responseReader
         var value = GetAnnotationImportJobOutput()
         value.annotationFields = try reader["annotationFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.destinationName = try reader["destinationName"].readIfPresent()
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationName = try reader["destinationName"].readIfPresent() ?? ""
         value.formatOptions = try reader["formatOptions"].readIfPresent(with: OmicsClientTypes.FormatOptions.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.AnnotationImportItemDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.AnnotationImportItemDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.runLeftNormalization = try reader["runLeftNormalization"].readIfPresent() ?? false
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.versionName = try reader["versionName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10205,21 +10206,21 @@ extension GetAnnotationStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAnnotationStoreOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.numVersions = try reader["numVersions"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.numVersions = try reader["numVersions"].readIfPresent() ?? 0
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.storeArn = try reader["storeArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.storeArn = try reader["storeArn"].readIfPresent() ?? ""
         value.storeFormat = try reader["storeFormat"].readIfPresent()
         value.storeOptions = try reader["storeOptions"].readIfPresent(with: OmicsClientTypes.StoreOptions.read(from:))
-        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent() ?? 0
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10231,19 +10232,19 @@ extension GetAnnotationStoreVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAnnotationStoreVersionOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.storeId = try reader["storeId"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.versionArn = try reader["versionArn"].readIfPresent()
-        value.versionName = try reader["versionName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.storeId = try reader["storeId"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.versionArn = try reader["versionArn"].readIfPresent() ?? ""
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
         value.versionOptions = try reader["versionOptions"].readIfPresent(with: OmicsClientTypes.VersionOptions.read(from:))
-        value.versionSizeBytes = try reader["versionSizeBytes"].readIfPresent()
+        value.versionSizeBytes = try reader["versionSizeBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10272,11 +10273,11 @@ extension GetReadSetActivationJobOutput {
         let reader = responseReader
         var value = GetReadSetActivationJobOutput()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ActivateReadSetSourceItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -10290,12 +10291,12 @@ extension GetReadSetExportJobOutput {
         let reader = responseReader
         var value = GetReadSetExportJobOutput()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.destination = try reader["destination"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destination = try reader["destination"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.readSets = try reader["readSets"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ExportReadSetDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -10309,12 +10310,12 @@ extension GetReadSetImportJobOutput {
         let reader = responseReader
         var value = GetReadSetImportJobOutput()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ImportReadSetSourceItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ImportReadSetSourceItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -10327,21 +10328,21 @@ extension GetReadSetMetadataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetReadSetMetadataOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationJobId = try reader["creationJobId"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.creationType = try reader["creationType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.etag = try reader["etag"].readIfPresent(with: OmicsClientTypes.ETag.read(from:))
-        value.fileType = try reader["fileType"].readIfPresent()
+        value.fileType = try reader["fileType"].readIfPresent() ?? .sdkUnknown("")
         value.files = try reader["files"].readIfPresent(with: OmicsClientTypes.ReadSetFiles.read(from:))
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.referenceArn = try reader["referenceArn"].readIfPresent()
         value.sampleId = try reader["sampleId"].readIfPresent()
         value.sequenceInformation = try reader["sequenceInformation"].readIfPresent(with: OmicsClientTypes.SequenceInformation.read(from:))
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.subjectId = try reader["subjectId"].readIfPresent()
         return value
@@ -10372,12 +10373,12 @@ extension GetReferenceImportJobOutput {
         let reader = responseReader
         var value = GetReferenceImportJobOutput()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ImportReferenceSourceItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ImportReferenceSourceItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -10390,18 +10391,18 @@ extension GetReferenceMetadataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetReferenceMetadataOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationJobId = try reader["creationJobId"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.creationType = try reader["creationType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.files = try reader["files"].readIfPresent(with: OmicsClientTypes.ReferenceFiles.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.md5 = try reader["md5"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.md5 = try reader["md5"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
-        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent()
+        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10413,10 +10414,10 @@ extension GetReferenceStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetReferenceStoreOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
         return value
@@ -10516,12 +10517,12 @@ extension GetSequenceStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSequenceStoreOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.eTagAlgorithmFamily = try reader["eTagAlgorithmFamily"].readIfPresent()
         value.fallbackLocation = try reader["fallbackLocation"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.s3Access = try reader["s3Access"].readIfPresent(with: OmicsClientTypes.SequenceStoreS3Access.read(from:))
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
@@ -10550,15 +10551,15 @@ extension GetVariantImportJobOutput {
         var value = GetVariantImportJobOutput()
         value.annotationFields = try reader["annotationFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.destinationName = try reader["destinationName"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.VariantImportItemDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationName = try reader["destinationName"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.VariantImportItemDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.runLeftNormalization = try reader["runLeftNormalization"].readIfPresent() ?? false
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10570,18 +10571,18 @@ extension GetVariantStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetVariantStoreOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.storeArn = try reader["storeArn"].readIfPresent()
-        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.storeArn = try reader["storeArn"].readIfPresent() ?? ""
+        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent() ?? 0
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10713,7 +10714,7 @@ extension ListReadSetsOutput {
         let reader = responseReader
         var value = ListReadSetsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.readSets = try reader["readSets"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ReadSetListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.readSets = try reader["readSets"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ReadSetListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10752,7 +10753,7 @@ extension ListReferencesOutput {
         let reader = responseReader
         var value = ListReferencesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.references = try reader["references"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ReferenceListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ReferenceListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10765,7 +10766,7 @@ extension ListReferenceStoresOutput {
         let reader = responseReader
         var value = ListReferenceStoresOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.referenceStores = try reader["referenceStores"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ReferenceStoreDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.referenceStores = try reader["referenceStores"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ReferenceStoreDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10817,7 +10818,7 @@ extension ListSequenceStoresOutput {
         let reader = responseReader
         var value = ListSequenceStoresOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.sequenceStores = try reader["sequenceStores"].readListIfPresent(memberReadingClosure: OmicsClientTypes.SequenceStoreDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sequenceStores = try reader["sequenceStores"].readListIfPresent(memberReadingClosure: OmicsClientTypes.SequenceStoreDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10830,7 +10831,7 @@ extension ListSharesOutput {
         let reader = responseReader
         var value = ListSharesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.shares = try reader["shares"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ShareDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.shares = try reader["shares"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ShareDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10842,7 +10843,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -10893,7 +10894,7 @@ extension StartAnnotationImportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartAnnotationImportJobOutput()
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10905,10 +10906,10 @@ extension StartReadSetActivationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartReadSetActivationJobOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10920,11 +10921,11 @@ extension StartReadSetExportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartReadSetExportJobOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.destination = try reader["destination"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destination = try reader["destination"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10936,11 +10937,11 @@ extension StartReadSetImportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartReadSetImportJobOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10952,11 +10953,11 @@ extension StartReferenceImportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartReferenceImportJobOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.id = try reader["id"].readIfPresent()
-        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10985,7 +10986,7 @@ extension StartVariantImportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartVariantImportJobOutput()
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11011,15 +11012,15 @@ extension UpdateAnnotationStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAnnotationStoreOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.storeFormat = try reader["storeFormat"].readIfPresent()
         value.storeOptions = try reader["storeOptions"].readIfPresent(with: OmicsClientTypes.StoreOptions.read(from:))
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -11031,14 +11032,14 @@ extension UpdateAnnotationStoreVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAnnotationStoreVersionOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.storeId = try reader["storeId"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.versionName = try reader["versionName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storeId = try reader["storeId"].readIfPresent() ?? ""
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11057,13 +11058,13 @@ extension UpdateVariantStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateVariantStoreOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -11082,7 +11083,7 @@ extension UploadReadSetPartOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UploadReadSetPartOutput()
-        value.checksum = try reader["checksum"].readIfPresent()
+        value.checksum = try reader["checksum"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12703,7 +12704,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12716,7 +12717,7 @@ extension NotSupportedOperationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotSupportedOperationException {
         let reader = baseError.errorBodyReader
         var value = NotSupportedOperationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12729,7 +12730,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12742,7 +12743,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12755,7 +12756,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12768,7 +12769,7 @@ extension RequestTimeoutException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
         let reader = baseError.errorBodyReader
         var value = RequestTimeoutException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12781,7 +12782,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12794,7 +12795,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12807,7 +12808,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12820,7 +12821,7 @@ extension RangeNotSatisfiableException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RangeNotSatisfiableException {
         let reader = baseError.errorBodyReader
         var value = RangeNotSatisfiableException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12833,9 +12834,9 @@ extension OmicsClientTypes.ReadSetBatchError {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetBatchError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReadSetBatchError()
-        value.id = try reader["id"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12961,7 +12962,7 @@ extension OmicsClientTypes.SseConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SseConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.SseConfig()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.keyArn = try reader["keyArn"].readIfPresent()
         return value
     }
@@ -12972,8 +12973,8 @@ extension OmicsClientTypes.VersionDeleteError {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VersionDeleteError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.VersionDeleteError()
-        value.versionName = try reader["versionName"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12983,8 +12984,8 @@ extension OmicsClientTypes.AnnotationImportItemDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationImportItemDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.AnnotationImportItemDetail()
-        value.source = try reader["source"].readIfPresent()
-        value.jobStatus = try reader["jobStatus"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13085,8 +13086,8 @@ extension OmicsClientTypes.ActivateReadSetSourceItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ActivateReadSetSourceItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ActivateReadSetSourceItem()
-        value.readSetId = try reader["readSetId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.readSetId = try reader["readSetId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -13097,8 +13098,8 @@ extension OmicsClientTypes.ExportReadSetDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ExportReadSetDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ExportReadSetDetail()
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -13110,11 +13111,11 @@ extension OmicsClientTypes.ImportReadSetSourceItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ImportReadSetSourceItem()
         value.sourceFiles = try reader["sourceFiles"].readIfPresent(with: OmicsClientTypes.SourceFiles.read(from:))
-        value.sourceFileType = try reader["sourceFileType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.sourceFileType = try reader["sourceFileType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.subjectId = try reader["subjectId"].readIfPresent()
-        value.sampleId = try reader["sampleId"].readIfPresent()
+        value.subjectId = try reader["subjectId"].readIfPresent() ?? ""
+        value.sampleId = try reader["sampleId"].readIfPresent() ?? ""
         value.generatedFrom = try reader["generatedFrom"].readIfPresent()
         value.referenceArn = try reader["referenceArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
@@ -13136,7 +13137,7 @@ extension OmicsClientTypes.SourceFiles {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SourceFiles {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.SourceFiles()
-        value.source1 = try reader["source1"].readIfPresent()
+        value.source1 = try reader["source1"].readIfPresent() ?? ""
         value.source2 = try reader["source2"].readIfPresent()
         return value
     }
@@ -13208,7 +13209,7 @@ extension OmicsClientTypes.ImportReferenceSourceItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ImportReferenceSourceItem()
         value.sourceFile = try reader["sourceFile"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
@@ -13275,8 +13276,8 @@ extension OmicsClientTypes.VariantImportItemDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VariantImportItemDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.VariantImportItemDetail()
-        value.source = try reader["source"].readIfPresent()
-        value.jobStatus = try reader["jobStatus"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -13304,13 +13305,13 @@ extension OmicsClientTypes.AnnotationImportJobItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationImportJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.AnnotationImportJobItem()
-        value.id = try reader["id"].readIfPresent()
-        value.destinationName = try reader["destinationName"].readIfPresent()
-        value.versionName = try reader["versionName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.destinationName = try reader["destinationName"].readIfPresent() ?? ""
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.runLeftNormalization = try reader["runLeftNormalization"].readIfPresent() ?? false
         value.annotationFields = try reader["annotationFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13323,18 +13324,18 @@ extension OmicsClientTypes.AnnotationStoreItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationStoreItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.AnnotationStoreItem()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.storeArn = try reader["storeArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.storeFormat = try reader["storeFormat"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storeArn = try reader["storeArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.storeFormat = try reader["storeFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent() ?? ""
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -13344,17 +13345,17 @@ extension OmicsClientTypes.AnnotationStoreVersionItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.AnnotationStoreVersionItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.AnnotationStoreVersionItem()
-        value.storeId = try reader["storeId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.versionArn = try reader["versionArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.versionName = try reader["versionName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.versionSizeBytes = try reader["versionSizeBytes"].readIfPresent()
+        value.storeId = try reader["storeId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.versionArn = try reader["versionArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.versionName = try reader["versionName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.versionSizeBytes = try reader["versionSizeBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -13364,17 +13365,17 @@ extension OmicsClientTypes.MultipartReadSetUploadListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.MultipartReadSetUploadListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.MultipartReadSetUploadListItem()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.uploadId = try reader["uploadId"].readIfPresent()
-        value.sourceFileType = try reader["sourceFileType"].readIfPresent()
-        value.subjectId = try reader["subjectId"].readIfPresent()
-        value.sampleId = try reader["sampleId"].readIfPresent()
-        value.generatedFrom = try reader["generatedFrom"].readIfPresent()
-        value.referenceArn = try reader["referenceArn"].readIfPresent()
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.sourceFileType = try reader["sourceFileType"].readIfPresent() ?? .sdkUnknown("")
+        value.subjectId = try reader["subjectId"].readIfPresent() ?? ""
+        value.sampleId = try reader["sampleId"].readIfPresent() ?? ""
+        value.generatedFrom = try reader["generatedFrom"].readIfPresent() ?? ""
+        value.referenceArn = try reader["referenceArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13384,10 +13385,10 @@ extension OmicsClientTypes.ActivateReadSetJobItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ActivateReadSetJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ActivateReadSetJobItem()
-        value.id = try reader["id"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -13398,11 +13399,11 @@ extension OmicsClientTypes.ExportReadSetJobDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ExportReadSetJobDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ExportReadSetJobDetail()
-        value.id = try reader["id"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.destination = try reader["destination"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -13413,11 +13414,11 @@ extension OmicsClientTypes.ImportReadSetJobItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReadSetJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ImportReadSetJobItem()
-        value.id = try reader["id"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -13428,18 +13429,18 @@ extension OmicsClientTypes.ReadSetListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReadSetListItem()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.sequenceStoreId = try reader["sequenceStoreId"].readIfPresent() ?? ""
         value.subjectId = try reader["subjectId"].readIfPresent()
         value.sampleId = try reader["sampleId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.referenceArn = try reader["referenceArn"].readIfPresent()
-        value.fileType = try reader["fileType"].readIfPresent()
+        value.fileType = try reader["fileType"].readIfPresent() ?? .sdkUnknown("")
         value.sequenceInformation = try reader["sequenceInformation"].readIfPresent(with: OmicsClientTypes.SequenceInformation.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.creationType = try reader["creationType"].readIfPresent()
         value.etag = try reader["etag"].readIfPresent(with: OmicsClientTypes.ETag.read(from:))
@@ -13452,10 +13453,10 @@ extension OmicsClientTypes.ReadSetUploadPartListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReadSetUploadPartListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReadSetUploadPartListItem()
-        value.partNumber = try reader["partNumber"].readIfPresent()
-        value.partSize = try reader["partSize"].readIfPresent()
-        value.partSource = try reader["partSource"].readIfPresent()
-        value.checksum = try reader["checksum"].readIfPresent()
+        value.partNumber = try reader["partNumber"].readIfPresent() ?? 0
+        value.partSize = try reader["partSize"].readIfPresent() ?? 0
+        value.partSource = try reader["partSource"].readIfPresent() ?? .sdkUnknown("")
+        value.checksum = try reader["checksum"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -13467,11 +13468,11 @@ extension OmicsClientTypes.ImportReferenceJobItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImportReferenceJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ImportReferenceJobItem()
-        value.id = try reader["id"].readIfPresent()
-        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -13482,15 +13483,15 @@ extension OmicsClientTypes.ReferenceListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReferenceListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReferenceListItem()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent()
-        value.md5 = try reader["md5"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.referenceStoreId = try reader["referenceStoreId"].readIfPresent() ?? ""
+        value.md5 = try reader["md5"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13500,12 +13501,12 @@ extension OmicsClientTypes.ReferenceStoreDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ReferenceStoreDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.ReferenceStoreDetail()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13571,12 +13572,12 @@ extension OmicsClientTypes.SequenceStoreDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SequenceStoreDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.SequenceStoreDetail()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.fallbackLocation = try reader["fallbackLocation"].readIfPresent()
         value.eTagAlgorithmFamily = try reader["eTagAlgorithmFamily"].readIfPresent()
         return value
@@ -13588,12 +13589,12 @@ extension OmicsClientTypes.VariantImportJobItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VariantImportJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.VariantImportJobItem()
-        value.id = try reader["id"].readIfPresent()
-        value.destinationName = try reader["destinationName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.destinationName = try reader["destinationName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.runLeftNormalization = try reader["runLeftNormalization"].readIfPresent() ?? false
         value.annotationFields = try reader["annotationFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13606,17 +13607,17 @@ extension OmicsClientTypes.VariantStoreItem {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VariantStoreItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.VariantStoreItem()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.reference = try reader["reference"].readIfPresent(with: OmicsClientTypes.ReferenceItem.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.storeArn = try reader["storeArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storeArn = try reader["storeArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
+        value.storeSizeBytes = try reader["storeSizeBytes"].readIfPresent() ?? 0
         return value
     }
 }

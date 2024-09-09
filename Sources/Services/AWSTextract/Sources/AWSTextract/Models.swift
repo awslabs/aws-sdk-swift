@@ -4952,7 +4952,7 @@ extension TextractClientTypes.Query {
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Query {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.Query()
-        value.text = try reader["Text"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
         value.alias = try reader["Alias"].readIfPresent()
         value.pages = try reader["Pages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -5139,7 +5139,7 @@ extension TextractClientTypes.AnalyzeIDDetections {
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AnalyzeIDDetections {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.AnalyzeIDDetections()
-        value.text = try reader["Text"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
         value.normalizedValue = try reader["NormalizedValue"].readIfPresent(with: TextractClientTypes.NormalizedValue.read(from:))
         value.confidence = try reader["Confidence"].readIfPresent()
         return value
@@ -5202,7 +5202,7 @@ extension TextractClientTypes.OutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.OutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.OutputConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
         value.s3Prefix = try reader["S3Prefix"].readIfPresent()
         return value
     }
@@ -5319,8 +5319,8 @@ extension TextractClientTypes.PageClassification {
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.PageClassification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TextractClientTypes.PageClassification()
-        value.pageType = try reader["PageType"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pageNumber = try reader["PageNumber"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pageType = try reader["PageType"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.pageNumber = try reader["PageNumber"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

@@ -2678,9 +2678,9 @@ public struct CreateEksAnywhereSubscriptionInput {
     public var term: EKSClientTypes.EksAnywhereSubscriptionTerm?
 
     public init(
-        autoRenew: Swift.Bool? = nil,
+        autoRenew: Swift.Bool? = false,
         clientRequestToken: Swift.String? = nil,
-        licenseQuantity: Swift.Int? = nil,
+        licenseQuantity: Swift.Int? = 0,
         licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -3807,7 +3807,7 @@ public struct DeleteAddonInput {
     public init(
         addonName: Swift.String? = nil,
         clusterName: Swift.String? = nil,
-        preserve: Swift.Bool? = nil
+        preserve: Swift.Bool? = false
     )
     {
         self.addonName = addonName
@@ -5914,7 +5914,7 @@ public struct UpdateEksAnywhereSubscriptionInput {
     public var id: Swift.String?
 
     public init(
-        autoRenew: Swift.Bool? = nil,
+        autoRenew: Swift.Bool? = false,
         clientRequestToken: Swift.String? = nil,
         id: Swift.String? = nil
     )
@@ -6048,7 +6048,7 @@ public struct UpdateNodegroupVersionInput {
     public init(
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         launchTemplate: EKSClientTypes.LaunchTemplateSpecification? = nil,
         nodegroupName: Swift.String? = nil,
         releaseVersion: Swift.String? = nil,
@@ -9357,8 +9357,8 @@ extension EKSClientTypes.OutpostConfigResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.OutpostConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.OutpostConfigResponse()
-        value.outpostArns = try reader["outpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.controlPlaneInstanceType = try reader["controlPlaneInstanceType"].readIfPresent()
+        value.outpostArns = try reader["outpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.controlPlaneInstanceType = try reader["controlPlaneInstanceType"].readIfPresent() ?? ""
         value.controlPlanePlacement = try reader["controlPlanePlacement"].readIfPresent(with: EKSClientTypes.ControlPlanePlacementResponse.read(from:))
         return value
     }
@@ -9998,8 +9998,8 @@ extension EKSClientTypes.IdentityProviderConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IdentityProviderConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.IdentityProviderConfig()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }

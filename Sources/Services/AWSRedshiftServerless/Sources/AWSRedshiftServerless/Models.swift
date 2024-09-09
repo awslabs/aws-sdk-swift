@@ -4797,7 +4797,7 @@ extension ListEndpointAccessOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEndpointAccessOutput()
-        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.EndpointAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.EndpointAccess.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4810,7 +4810,7 @@ extension ListNamespacesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListNamespacesOutput()
-        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Namespace.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Namespace.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4850,7 +4850,7 @@ extension ListSnapshotCopyConfigurationsOutput {
         let reader = responseReader
         var value = ListSnapshotCopyConfigurationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.snapshotCopyConfigurations = try reader["snapshotCopyConfigurations"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.SnapshotCopyConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.snapshotCopyConfigurations = try reader["snapshotCopyConfigurations"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.SnapshotCopyConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4914,7 +4914,7 @@ extension ListWorkgroupsOutput {
         let reader = responseReader
         var value = ListWorkgroupsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.workgroups = try reader["workgroups"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Workgroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workgroups = try reader["workgroups"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Workgroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6046,7 +6046,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6059,7 +6059,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6072,7 +6072,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6086,7 +6086,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6099,7 +6099,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6154,7 +6154,7 @@ extension InsufficientCapacityException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientCapacityException {
         let reader = baseError.errorBodyReader
         var value = InsufficientCapacityException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6167,7 +6167,7 @@ extension InvalidPaginationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPaginationException {
         let reader = baseError.errorBodyReader
         var value = InvalidPaginationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6340,8 +6340,8 @@ extension RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters()
-        value.namespaceName = try reader["namespaceName"].readIfPresent()
-        value.snapshotNamePrefix = try reader["snapshotNamePrefix"].readIfPresent()
+        value.namespaceName = try reader["namespaceName"].readIfPresent() ?? ""
+        value.snapshotNamePrefix = try reader["snapshotNamePrefix"].readIfPresent() ?? ""
         value.retentionPeriod = try reader["retentionPeriod"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -6359,8 +6359,8 @@ extension RedshiftServerlessClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftServerlessClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

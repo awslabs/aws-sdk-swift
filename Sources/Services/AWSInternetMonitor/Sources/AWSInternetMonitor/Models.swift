@@ -2332,8 +2332,8 @@ extension CreateMonitorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateMonitorOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2354,15 +2354,15 @@ extension GetHealthEventOutput {
         var value = GetHealthEventOutput()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.eventArn = try reader["EventArn"].readIfPresent()
-        value.eventId = try reader["EventId"].readIfPresent()
+        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
         value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
-        value.impactType = try reader["ImpactType"].readIfPresent()
-        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.impactType = try reader["ImpactType"].readIfPresent() ?? .sdkUnknown("")
+        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["Status"].readIfPresent()
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2376,11 +2376,11 @@ extension GetInternetEventOutput {
         var value = GetInternetEventOutput()
         value.clientLocation = try reader["ClientLocation"].readIfPresent(with: InternetMonitorClientTypes.ClientLocation.read(from:))
         value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.eventArn = try reader["EventArn"].readIfPresent()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.eventStatus = try reader["EventStatus"].readIfPresent()
-        value.eventType = try reader["EventType"].readIfPresent()
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.eventStatus = try reader["EventStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2392,17 +2392,17 @@ extension GetMonitorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetMonitorOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.healthEventsConfig = try reader["HealthEventsConfig"].readIfPresent(with: InternetMonitorClientTypes.HealthEventsConfig.read(from:))
         value.internetMeasurementsLogDelivery = try reader["InternetMeasurementsLogDelivery"].readIfPresent(with: InternetMonitorClientTypes.InternetMeasurementsLogDelivery.read(from:))
         value.maxCityNetworksToMonitor = try reader["MaxCityNetworksToMonitor"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
-        value.monitorName = try reader["MonitorName"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["MonitorName"].readIfPresent() ?? ""
         value.processingStatus = try reader["ProcessingStatus"].readIfPresent()
         value.processingStatusInfo = try reader["ProcessingStatusInfo"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.trafficPercentageToMonitor = try reader["TrafficPercentageToMonitor"].readIfPresent()
         return value
@@ -2416,8 +2416,8 @@ extension GetQueryResultsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetQueryResultsOutput()
-        value.data = try reader["Data"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.QueryField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.data = try reader["Data"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.QueryField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2430,7 +2430,7 @@ extension GetQueryStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetQueryStatusOutput()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2442,7 +2442,7 @@ extension ListHealthEventsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHealthEventsOutput()
-        value.healthEvents = try reader["HealthEvents"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.HealthEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.healthEvents = try reader["HealthEvents"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.HealthEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2455,7 +2455,7 @@ extension ListInternetEventsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListInternetEventsOutput()
-        value.internetEvents = try reader["InternetEvents"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.InternetEventSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.internetEvents = try reader["InternetEvents"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.InternetEventSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2468,7 +2468,7 @@ extension ListMonitorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMonitorsOutput()
-        value.monitors = try reader["Monitors"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Monitor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitors = try reader["Monitors"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Monitor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2493,7 +2493,7 @@ extension StartQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartQueryOutput()
-        value.queryId = try reader["QueryId"].readIfPresent()
+        value.queryId = try reader["QueryId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2526,8 +2526,8 @@ extension UpdateMonitorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateMonitorOutput()
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2963,9 +2963,9 @@ extension InternetMonitorClientTypes.ImpactedLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ImpactedLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.ImpactedLocation()
-        value.asName = try reader["ASName"].readIfPresent()
-        value.asNumber = try reader["ASNumber"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
+        value.asName = try reader["ASName"].readIfPresent() ?? ""
+        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
+        value.country = try reader["Country"].readIfPresent() ?? ""
         value.subdivision = try reader["Subdivision"].readIfPresent()
         value.metro = try reader["Metro"].readIfPresent()
         value.city = try reader["City"].readIfPresent()
@@ -2974,7 +2974,7 @@ extension InternetMonitorClientTypes.ImpactedLocation {
         value.countryCode = try reader["CountryCode"].readIfPresent()
         value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
         value.serviceLocation = try reader["ServiceLocation"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.causedBy = try reader["CausedBy"].readIfPresent(with: InternetMonitorClientTypes.NetworkImpairment.read(from:))
         value.internetHealth = try reader["InternetHealth"].readIfPresent(with: InternetMonitorClientTypes.InternetHealth.read(from:))
         value.ipv4Prefixes = try reader["Ipv4Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3035,9 +3035,9 @@ extension InternetMonitorClientTypes.NetworkImpairment {
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.NetworkImpairment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.NetworkImpairment()
-        value.networks = try reader["Networks"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkEventType = try reader["NetworkEventType"].readIfPresent()
+        value.networks = try reader["Networks"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.networkEventType = try reader["NetworkEventType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3047,8 +3047,8 @@ extension InternetMonitorClientTypes.Network {
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Network {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.Network()
-        value.asName = try reader["ASName"].readIfPresent()
-        value.asNumber = try reader["ASNumber"].readIfPresent()
+        value.asName = try reader["ASName"].readIfPresent() ?? ""
+        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3058,14 +3058,14 @@ extension InternetMonitorClientTypes.ClientLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ClientLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.ClientLocation()
-        value.asName = try reader["ASName"].readIfPresent()
-        value.asNumber = try reader["ASNumber"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
+        value.asName = try reader["ASName"].readIfPresent() ?? ""
+        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
+        value.country = try reader["Country"].readIfPresent() ?? ""
         value.subdivision = try reader["Subdivision"].readIfPresent()
         value.metro = try reader["Metro"].readIfPresent()
-        value.city = try reader["City"].readIfPresent()
-        value.latitude = try reader["Latitude"].readIfPresent()
-        value.longitude = try reader["Longitude"].readIfPresent()
+        value.city = try reader["City"].readIfPresent() ?? ""
+        value.latitude = try reader["Latitude"].readIfPresent() ?? 0.0
+        value.longitude = try reader["Longitude"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -3160,16 +3160,16 @@ extension InternetMonitorClientTypes.HealthEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.HealthEvent()
-        value.eventArn = try reader["EventArn"].readIfPresent()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
-        value.impactType = try reader["ImpactType"].readIfPresent()
+        value.impactType = try reader["ImpactType"].readIfPresent() ?? .sdkUnknown("")
         value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
         return value
     }
@@ -3180,13 +3180,13 @@ extension InternetMonitorClientTypes.InternetEventSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetEventSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.InternetEventSummary()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.eventArn = try reader["EventArn"].readIfPresent()
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.clientLocation = try reader["ClientLocation"].readIfPresent(with: InternetMonitorClientTypes.ClientLocation.read(from:))
-        value.eventType = try reader["EventType"].readIfPresent()
-        value.eventStatus = try reader["EventStatus"].readIfPresent()
+        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventStatus = try reader["EventStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3196,9 +3196,9 @@ extension InternetMonitorClientTypes.Monitor {
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Monitor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternetMonitorClientTypes.Monitor()
-        value.monitorName = try reader["MonitorName"].readIfPresent()
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.monitorName = try reader["MonitorName"].readIfPresent() ?? ""
+        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.processingStatus = try reader["ProcessingStatus"].readIfPresent()
         return value
     }

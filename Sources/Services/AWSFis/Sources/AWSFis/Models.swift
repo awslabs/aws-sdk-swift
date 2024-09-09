@@ -65,7 +65,7 @@ extension FisClientTypes {
 
         public init(
             description: Swift.String? = nil,
-            `required`: Swift.Bool? = nil
+            `required`: Swift.Bool? = false
         )
         {
             self.description = description
@@ -1775,7 +1775,7 @@ extension FisClientTypes {
 
         public init(
             description: Swift.String? = nil,
-            `required`: Swift.Bool? = nil
+            `required`: Swift.Bool? = false
         )
         {
             self.description = description

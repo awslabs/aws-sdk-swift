@@ -7457,8 +7457,8 @@ extension AcceptResourceGroupingRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AcceptResourceGroupingRecommendationsOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.FailedGroupingRecommendationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.FailedGroupingRecommendationEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7470,9 +7470,9 @@ extension AddDraftAppVersionResourceMappingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AddDraftAppVersionResourceMappingsOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.resourceMappings = try reader["resourceMappings"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
+        value.resourceMappings = try reader["resourceMappings"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7484,9 +7484,9 @@ extension BatchUpdateRecommendationStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchUpdateRecommendationStatusOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.successfulEntries = try reader["successfulEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successfulEntries = try reader["successfulEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7510,9 +7510,9 @@ extension CreateAppVersionAppComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAppVersionAppComponentOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appComponent = try reader["appComponent"].readIfPresent(with: ResiliencehubClientTypes.AppComponent.read(from:))
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7524,8 +7524,8 @@ extension CreateAppVersionResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAppVersionResourceOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.physicalResource = try reader["physicalResource"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResource.read(from:))
         return value
     }
@@ -7562,7 +7562,7 @@ extension DeleteAppOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAppOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7574,8 +7574,8 @@ extension DeleteAppAssessmentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAppAssessmentOutput()
-        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
-        value.assessmentStatus = try reader["assessmentStatus"].readIfPresent()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent() ?? ""
+        value.assessmentStatus = try reader["assessmentStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7600,9 +7600,9 @@ extension DeleteAppVersionAppComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAppVersionAppComponentOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appComponent = try reader["appComponent"].readIfPresent(with: ResiliencehubClientTypes.AppComponent.read(from:))
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7614,8 +7614,8 @@ extension DeleteAppVersionResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAppVersionResourceOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.physicalResource = try reader["physicalResource"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResource.read(from:))
         return value
     }
@@ -7628,8 +7628,8 @@ extension DeleteRecommendationTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteRecommendationTemplateOutput()
-        value.recommendationTemplateArn = try reader["recommendationTemplateArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.recommendationTemplateArn = try reader["recommendationTemplateArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7641,7 +7641,7 @@ extension DeleteResiliencyPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteResiliencyPolicyOutput()
-        value.policyArn = try reader["policyArn"].readIfPresent()
+        value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7678,8 +7678,8 @@ extension DescribeAppVersionOutput {
         let reader = responseReader
         var value = DescribeAppVersionOutput()
         value.additionalInfo = try reader["additionalInfo"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7691,9 +7691,9 @@ extension DescribeAppVersionAppComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAppVersionAppComponentOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appComponent = try reader["appComponent"].readIfPresent(with: ResiliencehubClientTypes.AppComponent.read(from:))
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7705,8 +7705,8 @@ extension DescribeAppVersionResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAppVersionResourceOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.physicalResource = try reader["physicalResource"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResource.read(from:))
         return value
     }
@@ -7719,11 +7719,11 @@ extension DescribeAppVersionResourcesResolutionStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAppVersionResourcesResolutionStatusOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.resolutionId = try reader["resolutionId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.resolutionId = try reader["resolutionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7735,9 +7735,9 @@ extension DescribeAppVersionTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAppVersionTemplateOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appTemplateBody = try reader["appTemplateBody"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appTemplateBody = try reader["appTemplateBody"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7749,11 +7749,11 @@ extension DescribeDraftAppVersionResourcesImportStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeDraftAppVersionResourcesImportStatusOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusChangeTime = try reader["statusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusChangeTime = try reader["statusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7778,8 +7778,8 @@ extension DescribeResourceGroupingRecommendationTaskOutput {
         let reader = responseReader
         var value = DescribeResourceGroupingRecommendationTaskOutput()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.groupingId = try reader["groupingId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.groupingId = try reader["groupingId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7791,11 +7791,11 @@ extension ImportResourcesToDraftAppVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportResourcesToDraftAppVersionOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.eksSources = try reader["eksSources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.EksSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sourceArns = try reader["sourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.terraformSources = try reader["terraformSources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.TerraformSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7808,7 +7808,7 @@ extension ListAlarmRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAlarmRecommendationsOutput()
-        value.alarmRecommendations = try reader["alarmRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AlarmRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.alarmRecommendations = try reader["alarmRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AlarmRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7821,7 +7821,7 @@ extension ListAppAssessmentComplianceDriftsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppAssessmentComplianceDriftsOutput()
-        value.complianceDrifts = try reader["complianceDrifts"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ComplianceDrift.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.complianceDrifts = try reader["complianceDrifts"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ComplianceDrift.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7835,7 +7835,7 @@ extension ListAppAssessmentResourceDriftsOutput {
         let reader = responseReader
         var value = ListAppAssessmentResourceDriftsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.resourceDrifts = try reader["resourceDrifts"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResourceDrift.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceDrifts = try reader["resourceDrifts"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResourceDrift.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7847,7 +7847,7 @@ extension ListAppAssessmentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppAssessmentsOutput()
-        value.assessmentSummaries = try reader["assessmentSummaries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppAssessmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assessmentSummaries = try reader["assessmentSummaries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppAssessmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7860,7 +7860,7 @@ extension ListAppComponentCompliancesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppComponentCompliancesOutput()
-        value.componentCompliances = try reader["componentCompliances"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppComponentCompliance.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.componentCompliances = try reader["componentCompliances"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppComponentCompliance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7873,7 +7873,7 @@ extension ListAppComponentRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppComponentRecommendationsOutput()
-        value.componentRecommendations = try reader["componentRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ComponentRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.componentRecommendations = try reader["componentRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ComponentRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7886,7 +7886,7 @@ extension ListAppInputSourcesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppInputSourcesOutput()
-        value.appInputSources = try reader["appInputSources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appInputSources = try reader["appInputSources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7899,7 +7899,7 @@ extension ListAppsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppsOutput()
-        value.appSummaries = try reader["appSummaries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appSummaries = try reader["appSummaries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7912,9 +7912,9 @@ extension ListAppVersionAppComponentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppVersionAppComponentsOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appComponents = try reader["appComponents"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7928,7 +7928,7 @@ extension ListAppVersionResourceMappingsOutput {
         let reader = responseReader
         var value = ListAppVersionResourceMappingsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.resourceMappings = try reader["resourceMappings"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceMappings = try reader["resourceMappings"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7941,8 +7941,8 @@ extension ListAppVersionResourcesOutput {
         let reader = responseReader
         var value = ListAppVersionResourcesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.physicalResources = try reader["physicalResources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.PhysicalResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resolutionId = try reader["resolutionId"].readIfPresent()
+        value.physicalResources = try reader["physicalResources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.PhysicalResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resolutionId = try reader["resolutionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7954,7 +7954,7 @@ extension ListAppVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppVersionsOutput()
-        value.appVersions = try reader["appVersions"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appVersions = try reader["appVersions"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7981,7 +7981,7 @@ extension ListResiliencyPoliciesOutput {
         let reader = responseReader
         var value = ListResiliencyPoliciesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.resiliencyPolicies = try reader["resiliencyPolicies"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResiliencyPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resiliencyPolicies = try reader["resiliencyPolicies"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResiliencyPolicy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7993,7 +7993,7 @@ extension ListResourceGroupingRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListResourceGroupingRecommendationsOutput()
-        value.groupingRecommendations = try reader["groupingRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.GroupingRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupingRecommendations = try reader["groupingRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.GroupingRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8007,7 +8007,7 @@ extension ListSopRecommendationsOutput {
         let reader = responseReader
         var value = ListSopRecommendationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.sopRecommendations = try reader["sopRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.SopRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sopRecommendations = try reader["sopRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.SopRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8020,7 +8020,7 @@ extension ListSuggestedResiliencyPoliciesOutput {
         let reader = responseReader
         var value = ListSuggestedResiliencyPoliciesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.resiliencyPolicies = try reader["resiliencyPolicies"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResiliencyPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resiliencyPolicies = try reader["resiliencyPolicies"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResiliencyPolicy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8045,7 +8045,7 @@ extension ListTestRecommendationsOutput {
         let reader = responseReader
         var value = ListTestRecommendationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.testRecommendations = try reader["testRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.TestRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.testRecommendations = try reader["testRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.TestRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8058,8 +8058,8 @@ extension ListUnsupportedAppVersionResourcesOutput {
         let reader = responseReader
         var value = ListUnsupportedAppVersionResourcesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.resolutionId = try reader["resolutionId"].readIfPresent()
-        value.unsupportedResources = try reader["unsupportedResources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.UnsupportedResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolutionId = try reader["resolutionId"].readIfPresent() ?? ""
+        value.unsupportedResources = try reader["unsupportedResources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.UnsupportedResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8071,7 +8071,7 @@ extension PublishAppVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PublishAppVersionOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appVersion = try reader["appVersion"].readIfPresent()
         value.identifier = try reader["identifier"].readIfPresent()
         value.versionName = try reader["versionName"].readIfPresent()
@@ -8099,8 +8099,8 @@ extension RejectResourceGroupingRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RejectResourceGroupingRecommendationsOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.FailedGroupingRecommendationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.failedEntries = try reader["failedEntries"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.FailedGroupingRecommendationEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8125,10 +8125,10 @@ extension ResolveAppVersionResourcesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ResolveAppVersionResourcesOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.resolutionId = try reader["resolutionId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
+        value.resolutionId = try reader["resolutionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8152,10 +8152,10 @@ extension StartResourceGroupingRecommendationTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartResourceGroupingRecommendationTaskOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.groupingId = try reader["groupingId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.groupingId = try reader["groupingId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8194,8 +8194,8 @@ extension UpdateAppVersionOutput {
         let reader = responseReader
         var value = UpdateAppVersionOutput()
         value.additionalInfo = try reader["additionalInfo"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8207,9 +8207,9 @@ extension UpdateAppVersionAppComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAppVersionAppComponentOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appComponent = try reader["appComponent"].readIfPresent(with: ResiliencehubClientTypes.AppComponent.read(from:))
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8221,8 +8221,8 @@ extension UpdateAppVersionResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAppVersionResourceOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.physicalResource = try reader["physicalResource"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResource.read(from:))
         return value
     }
@@ -9454,8 +9454,8 @@ extension ResiliencehubClientTypes.FailedGroupingRecommendationEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.FailedGroupingRecommendationEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.FailedGroupingRecommendationEntry()
-        value.groupingRecommendationId = try reader["groupingRecommendationId"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.groupingRecommendationId = try reader["groupingRecommendationId"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9481,7 +9481,7 @@ extension ResiliencehubClientTypes.ResourceMapping {
         value.logicalStackName = try reader["logicalStackName"].readIfPresent()
         value.appRegistryAppName = try reader["appRegistryAppName"].readIfPresent()
         value.resourceGroupName = try reader["resourceGroupName"].readIfPresent()
-        value.mappingType = try reader["mappingType"].readIfPresent()
+        value.mappingType = try reader["mappingType"].readIfPresent() ?? .sdkUnknown("")
         value.physicalResourceId = try reader["physicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResourceId.read(from:))
         value.terraformSourceName = try reader["terraformSourceName"].readIfPresent()
         value.eksSourceName = try reader["eksSourceName"].readIfPresent()
@@ -9502,8 +9502,8 @@ extension ResiliencehubClientTypes.PhysicalResourceId {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.PhysicalResourceId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.PhysicalResourceId()
-        value.identifier = try reader["identifier"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.awsRegion = try reader["awsRegion"].readIfPresent()
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         return value
@@ -9515,10 +9515,10 @@ extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntr
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry()
-        value.entryId = try reader["entryId"].readIfPresent()
-        value.referenceId = try reader["referenceId"].readIfPresent()
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
         value.item = try reader["item"].readIfPresent(with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.read(from:))
-        value.excluded = try reader["excluded"].readIfPresent()
+        value.excluded = try reader["excluded"].readIfPresent() ?? false
         value.excludeReason = try reader["excludeReason"].readIfPresent()
         return value
     }
@@ -9548,8 +9548,8 @@ extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry()
-        value.entryId = try reader["entryId"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.entryId = try reader["entryId"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9559,11 +9559,11 @@ extension ResiliencehubClientTypes.App {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.App {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.App()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.policyArn = try reader["policyArn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent()
         value.complianceStatus = try reader["complianceStatus"].readIfPresent()
         value.lastAppComplianceEvaluationTime = try reader["lastAppComplianceEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -9593,8 +9593,8 @@ extension ResiliencehubClientTypes.EventSubscription {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.EventSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.EventSubscription()
-        value.name = try reader["name"].readIfPresent()
-        value.eventType = try reader["eventType"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
         value.snsTopicArn = try reader["snsTopicArn"].readIfPresent()
         return value
     }
@@ -9612,7 +9612,7 @@ extension ResiliencehubClientTypes.PermissionModel {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.PermissionModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.PermissionModel()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.invokerRoleName = try reader["invokerRoleName"].readIfPresent()
         value.crossAccountRoleArns = try reader["crossAccountRoleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9624,8 +9624,8 @@ extension ResiliencehubClientTypes.AppComponent {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AppComponent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent()
         value.additionalInfo = try reader["additionalInfo"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -9640,7 +9640,7 @@ extension ResiliencehubClientTypes.PhysicalResource {
         value.resourceName = try reader["resourceName"].readIfPresent()
         value.logicalResourceId = try reader["logicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.LogicalResourceId.read(from:))
         value.physicalResourceId = try reader["physicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResourceId.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.appComponents = try reader["appComponents"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.AppComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.additionalInfo = try reader["additionalInfo"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.excluded = try reader["excluded"].readIfPresent()
@@ -9664,7 +9664,7 @@ extension ResiliencehubClientTypes.LogicalResourceId {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.LogicalResourceId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.LogicalResourceId()
-        value.identifier = try reader["identifier"].readIfPresent()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.logicalStackName = try reader["logicalStackName"].readIfPresent()
         value.resourceGroupName = try reader["resourceGroupName"].readIfPresent()
         value.terraformSourceName = try reader["terraformSourceName"].readIfPresent()
@@ -9679,15 +9679,15 @@ extension ResiliencehubClientTypes.RecommendationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.RecommendationTemplate()
         value.templatesLocation = try reader["templatesLocation"].readIfPresent(with: ResiliencehubClientTypes.S3Location.read(from:))
-        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent() ?? ""
         value.appArn = try reader["appArn"].readIfPresent()
         value.recommendationIds = try reader["recommendationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recommendationTypes = try reader["recommendationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ResiliencehubClientTypes.RenderRecommendationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.format = try reader["format"].readIfPresent()
-        value.recommendationTemplateArn = try reader["recommendationTemplateArn"].readIfPresent()
+        value.recommendationTypes = try reader["recommendationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ResiliencehubClientTypes.RenderRecommendationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.recommendationTemplateArn = try reader["recommendationTemplateArn"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9748,7 +9748,7 @@ extension ResiliencehubClientTypes.AppInputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AppInputSource()
         value.sourceName = try reader["sourceName"].readIfPresent()
-        value.importType = try reader["importType"].readIfPresent()
+        value.importType = try reader["importType"].readIfPresent() ?? .sdkUnknown("")
         value.sourceArn = try reader["sourceArn"].readIfPresent()
         value.terraformSource = try reader["terraformSource"].readIfPresent(with: ResiliencehubClientTypes.TerraformSource.read(from:))
         value.resourceCount = try reader["resourceCount"].readIfPresent() ?? 0
@@ -9768,8 +9768,8 @@ extension ResiliencehubClientTypes.EksSourceClusterNamespace {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.EksSourceClusterNamespace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.EksSourceClusterNamespace()
-        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
+        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9784,7 +9784,7 @@ extension ResiliencehubClientTypes.TerraformSource {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.TerraformSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.TerraformSource()
-        value.s3StateFileUrl = try reader["s3StateFileUrl"].readIfPresent()
+        value.s3StateFileUrl = try reader["s3StateFileUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9796,17 +9796,17 @@ extension ResiliencehubClientTypes.AppAssessment {
         var value = ResiliencehubClientTypes.AppAssessment()
         value.appArn = try reader["appArn"].readIfPresent()
         value.appVersion = try reader["appVersion"].readIfPresent()
-        value.invoker = try reader["invoker"].readIfPresent()
+        value.invoker = try reader["invoker"].readIfPresent() ?? .sdkUnknown("")
         value.cost = try reader["cost"].readIfPresent(with: ResiliencehubClientTypes.Cost.read(from:))
         value.resiliencyScore = try reader["resiliencyScore"].readIfPresent(with: ResiliencehubClientTypes.ResiliencyScore.read(from:))
         value.compliance = try reader["compliance"].readMapIfPresent(valueReadingClosure: ResiliencehubClientTypes.DisruptionCompliance.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.complianceStatus = try reader["complianceStatus"].readIfPresent()
-        value.assessmentStatus = try reader["assessmentStatus"].readIfPresent()
+        value.assessmentStatus = try reader["assessmentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["message"].readIfPresent()
         value.assessmentName = try reader["assessmentName"].readIfPresent()
-        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent() ?? ""
         value.policy = try reader["policy"].readIfPresent(with: ResiliencehubClientTypes.ResiliencyPolicy.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.resourceErrorsDetails = try reader["resourceErrorsDetails"].readIfPresent(with: ResiliencehubClientTypes.ResourceErrorsDetails.read(from:))
@@ -9875,7 +9875,7 @@ extension ResiliencehubClientTypes.DisruptionCompliance {
         value.currentRpoInSecs = try reader["currentRpoInSecs"].readIfPresent() ?? 0
         value.rpoReferenceId = try reader["rpoReferenceId"].readIfPresent()
         value.rpoDescription = try reader["rpoDescription"].readIfPresent()
-        value.complianceStatus = try reader["complianceStatus"].readIfPresent()
+        value.complianceStatus = try reader["complianceStatus"].readIfPresent() ?? .sdkUnknown("")
         value.achievableRpoInSecs = try reader["achievableRpoInSecs"].readIfPresent() ?? 0
         value.message = try reader["message"].readIfPresent()
         return value
@@ -9888,7 +9888,7 @@ extension ResiliencehubClientTypes.ResiliencyScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.ResiliencyScore()
         value.score = try reader["score"].readIfPresent() ?? 0
-        value.disruptionScore = try reader["disruptionScore"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.disruptionScore = try reader["disruptionScore"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.componentScore = try reader["componentScore"].readMapIfPresent(valueReadingClosure: ResiliencehubClientTypes.ScoringComponentResiliencyScore.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9913,8 +9913,8 @@ extension ResiliencehubClientTypes.Cost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.Cost()
         value.amount = try reader["amount"].readIfPresent() ?? 0
-        value.currency = try reader["currency"].readIfPresent()
-        value.frequency = try reader["frequency"].readIfPresent()
+        value.currency = try reader["currency"].readIfPresent() ?? ""
+        value.frequency = try reader["frequency"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9930,8 +9930,8 @@ extension ResiliencehubClientTypes.EksSource {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.EksSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.EksSource()
-        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent()
-        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent() ?? ""
+        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9941,11 +9941,11 @@ extension ResiliencehubClientTypes.AlarmRecommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AlarmRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AlarmRecommendation()
-        value.recommendationId = try reader["recommendationId"].readIfPresent()
-        value.referenceId = try reader["referenceId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
+        value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.appComponentName = try reader["appComponentName"].readIfPresent()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.RecommendationItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.prerequisite = try reader["prerequisite"].readIfPresent()
@@ -10021,13 +10021,13 @@ extension ResiliencehubClientTypes.AppAssessmentSummary {
         var value = ResiliencehubClientTypes.AppAssessmentSummary()
         value.appArn = try reader["appArn"].readIfPresent()
         value.appVersion = try reader["appVersion"].readIfPresent()
-        value.assessmentStatus = try reader["assessmentStatus"].readIfPresent()
+        value.assessmentStatus = try reader["assessmentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.invoker = try reader["invoker"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["message"].readIfPresent()
         value.assessmentName = try reader["assessmentName"].readIfPresent()
-        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent() ?? ""
         value.complianceStatus = try reader["complianceStatus"].readIfPresent()
         value.cost = try reader["cost"].readIfPresent(with: ResiliencehubClientTypes.Cost.read(from:))
         value.resiliencyScore = try reader["resiliencyScore"].readIfPresent() ?? 0
@@ -10057,9 +10057,9 @@ extension ResiliencehubClientTypes.ComponentRecommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ComponentRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.ComponentRecommendation()
-        value.appComponentName = try reader["appComponentName"].readIfPresent()
-        value.recommendationStatus = try reader["recommendationStatus"].readIfPresent()
-        value.configRecommendations = try reader["configRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ConfigRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appComponentName = try reader["appComponentName"].readIfPresent() ?? ""
+        value.recommendationStatus = try reader["recommendationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.configRecommendations = try reader["configRecommendations"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ConfigRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10073,12 +10073,12 @@ extension ResiliencehubClientTypes.ConfigRecommendation {
         value.appComponentName = try reader["appComponentName"].readIfPresent()
         value.compliance = try reader["compliance"].readMapIfPresent(valueReadingClosure: ResiliencehubClientTypes.DisruptionCompliance.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.recommendationCompliance = try reader["recommendationCompliance"].readMapIfPresent(valueReadingClosure: ResiliencehubClientTypes.RecommendationDisruptionCompliance.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.optimizationType = try reader["optimizationType"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.optimizationType = try reader["optimizationType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.suggestedChanges = try reader["suggestedChanges"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.haArchitecture = try reader["haArchitecture"].readIfPresent()
-        value.referenceId = try reader["referenceId"].readIfPresent()
+        value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10088,7 +10088,7 @@ extension ResiliencehubClientTypes.RecommendationDisruptionCompliance {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.RecommendationDisruptionCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.RecommendationDisruptionCompliance()
-        value.expectedComplianceStatus = try reader["expectedComplianceStatus"].readIfPresent()
+        value.expectedComplianceStatus = try reader["expectedComplianceStatus"].readIfPresent() ?? .sdkUnknown("")
         value.expectedRtoInSecs = try reader["expectedRtoInSecs"].readIfPresent() ?? 0
         value.expectedRtoDescription = try reader["expectedRtoDescription"].readIfPresent()
         value.expectedRpoInSecs = try reader["expectedRpoInSecs"].readIfPresent() ?? 0
@@ -10102,10 +10102,10 @@ extension ResiliencehubClientTypes.AppSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AppSummary()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.complianceStatus = try reader["complianceStatus"].readIfPresent()
         value.resiliencyScore = try reader["resiliencyScore"].readIfPresent() ?? 0
         value.assessmentSchedule = try reader["assessmentSchedule"].readIfPresent()
@@ -10123,7 +10123,7 @@ extension ResiliencehubClientTypes.AppVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.AppVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.AppVersionSummary()
-        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
         value.identifier = try reader["identifier"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.versionName = try reader["versionName"].readIfPresent()
@@ -10136,14 +10136,14 @@ extension ResiliencehubClientTypes.GroupingRecommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.GroupingRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.GroupingRecommendation()
-        value.groupingRecommendationId = try reader["groupingRecommendationId"].readIfPresent()
+        value.groupingRecommendationId = try reader["groupingRecommendationId"].readIfPresent() ?? ""
         value.groupingAppComponent = try reader["groupingAppComponent"].readIfPresent(with: ResiliencehubClientTypes.GroupingAppComponent.read(from:))
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.GroupingResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.GroupingResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.score = try reader["score"].readIfPresent() ?? 0
-        value.recommendationReasons = try reader["recommendationReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.confidenceLevel = try reader["confidenceLevel"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recommendationReasons = try reader["recommendationReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.confidenceLevel = try reader["confidenceLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.rejectionReason = try reader["rejectionReason"].readIfPresent()
         return value
     }
@@ -10154,11 +10154,11 @@ extension ResiliencehubClientTypes.GroupingResource {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.GroupingResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.GroupingResource()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent() ?? ""
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.physicalResourceId = try reader["physicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResourceId.read(from:))
         value.logicalResourceId = try reader["logicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.LogicalResourceId.read(from:))
-        value.sourceAppComponentIds = try reader["sourceAppComponentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceAppComponentIds = try reader["sourceAppComponentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10168,9 +10168,9 @@ extension ResiliencehubClientTypes.GroupingAppComponent {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.GroupingAppComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.GroupingAppComponent()
-        value.appComponentId = try reader["appComponentId"].readIfPresent()
-        value.appComponentType = try reader["appComponentType"].readIfPresent()
-        value.appComponentName = try reader["appComponentName"].readIfPresent()
+        value.appComponentId = try reader["appComponentId"].readIfPresent() ?? ""
+        value.appComponentType = try reader["appComponentType"].readIfPresent() ?? ""
+        value.appComponentName = try reader["appComponentName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10180,13 +10180,13 @@ extension ResiliencehubClientTypes.SopRecommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.SopRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.SopRecommendation()
-        value.serviceType = try reader["serviceType"].readIfPresent()
+        value.serviceType = try reader["serviceType"].readIfPresent() ?? .sdkUnknown("")
         value.appComponentName = try reader["appComponentName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.recommendationId = try reader["recommendationId"].readIfPresent()
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.RecommendationItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.referenceId = try reader["referenceId"].readIfPresent()
+        value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
         value.prerequisite = try reader["prerequisite"].readIfPresent()
         value.recommendationStatus = try reader["recommendationStatus"].readIfPresent()
         return value
@@ -10199,7 +10199,7 @@ extension ResiliencehubClientTypes.TestRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResiliencehubClientTypes.TestRecommendation()
         value.recommendationId = try reader["recommendationId"].readIfPresent()
-        value.referenceId = try reader["referenceId"].readIfPresent()
+        value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
         value.appComponentName = try reader["appComponentName"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.intent = try reader["intent"].readIfPresent()
@@ -10221,7 +10221,7 @@ extension ResiliencehubClientTypes.UnsupportedResource {
         var value = ResiliencehubClientTypes.UnsupportedResource()
         value.logicalResourceId = try reader["logicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.LogicalResourceId.read(from:))
         value.physicalResourceId = try reader["physicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.PhysicalResourceId.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.unsupportedResourceStatus = try reader["unsupportedResourceStatus"].readIfPresent()
         return value
     }

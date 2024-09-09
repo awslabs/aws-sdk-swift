@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension MailManagerClientTypes {
 
@@ -5047,7 +5048,7 @@ extension CreateAddonInstanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAddonInstanceOutput()
-        value.addonInstanceId = try reader["AddonInstanceId"].readIfPresent()
+        value.addonInstanceId = try reader["AddonInstanceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5059,7 +5060,7 @@ extension CreateAddonSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAddonSubscriptionOutput()
-        value.addonSubscriptionId = try reader["AddonSubscriptionId"].readIfPresent()
+        value.addonSubscriptionId = try reader["AddonSubscriptionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5071,7 +5072,7 @@ extension CreateArchiveOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateArchiveOutput()
-        value.archiveId = try reader["ArchiveId"].readIfPresent()
+        value.archiveId = try reader["ArchiveId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5083,7 +5084,7 @@ extension CreateIngressPointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateIngressPointOutput()
-        value.ingressPointId = try reader["IngressPointId"].readIfPresent()
+        value.ingressPointId = try reader["IngressPointId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5095,7 +5096,7 @@ extension CreateRelayOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRelayOutput()
-        value.relayId = try reader["RelayId"].readIfPresent()
+        value.relayId = try reader["RelayId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5107,7 +5108,7 @@ extension CreateRuleSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRuleSetOutput()
-        value.ruleSetId = try reader["RuleSetId"].readIfPresent()
+        value.ruleSetId = try reader["RuleSetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5119,7 +5120,7 @@ extension CreateTrafficPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTrafficPolicyOutput()
-        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
+        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5209,10 +5210,10 @@ extension GetArchiveOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetArchiveOutput()
-        value.archiveArn = try reader["ArchiveArn"].readIfPresent()
-        value.archiveId = try reader["ArchiveId"].readIfPresent()
-        value.archiveName = try reader["ArchiveName"].readIfPresent()
-        value.archiveState = try reader["ArchiveState"].readIfPresent()
+        value.archiveArn = try reader["ArchiveArn"].readIfPresent() ?? ""
+        value.archiveId = try reader["ArchiveId"].readIfPresent() ?? ""
+        value.archiveName = try reader["ArchiveName"].readIfPresent() ?? ""
+        value.archiveState = try reader["ArchiveState"].readIfPresent() ?? .sdkUnknown("")
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5303,8 +5304,8 @@ extension GetIngressPointOutput {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.ingressPointArn = try reader["IngressPointArn"].readIfPresent()
         value.ingressPointAuthConfiguration = try reader["IngressPointAuthConfiguration"].readIfPresent(with: MailManagerClientTypes.IngressPointAuthConfiguration.read(from:))
-        value.ingressPointId = try reader["IngressPointId"].readIfPresent()
-        value.ingressPointName = try reader["IngressPointName"].readIfPresent()
+        value.ingressPointId = try reader["IngressPointId"].readIfPresent() ?? ""
+        value.ingressPointName = try reader["IngressPointName"].readIfPresent() ?? ""
         value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.ruleSetId = try reader["RuleSetId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
@@ -5325,7 +5326,7 @@ extension GetRelayOutput {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTimestamp = try reader["LastModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.relayArn = try reader["RelayArn"].readIfPresent()
-        value.relayId = try reader["RelayId"].readIfPresent()
+        value.relayId = try reader["RelayId"].readIfPresent() ?? ""
         value.relayName = try reader["RelayName"].readIfPresent()
         value.serverName = try reader["ServerName"].readIfPresent()
         value.serverPort = try reader["ServerPort"].readIfPresent()
@@ -5340,12 +5341,12 @@ extension GetRuleSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRuleSetOutput()
-        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationDate = try reader["LastModificationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ruleSetArn = try reader["RuleSetArn"].readIfPresent()
-        value.ruleSetId = try reader["RuleSetId"].readIfPresent()
-        value.ruleSetName = try reader["RuleSetName"].readIfPresent()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationDate = try reader["LastModificationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.ruleSetArn = try reader["RuleSetArn"].readIfPresent() ?? ""
+        value.ruleSetId = try reader["RuleSetId"].readIfPresent() ?? ""
+        value.ruleSetName = try reader["RuleSetName"].readIfPresent() ?? ""
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5363,8 +5364,8 @@ extension GetTrafficPolicyOutput {
         value.maxMessageSizeBytes = try reader["MaxMessageSizeBytes"].readIfPresent()
         value.policyStatements = try reader["PolicyStatements"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.PolicyStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.trafficPolicyArn = try reader["TrafficPolicyArn"].readIfPresent()
-        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
-        value.trafficPolicyName = try reader["TrafficPolicyName"].readIfPresent()
+        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent() ?? ""
+        value.trafficPolicyName = try reader["TrafficPolicyName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5415,7 +5416,7 @@ extension ListArchivesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListArchivesOutput()
-        value.archives = try reader["Archives"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Archive.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.archives = try reader["Archives"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Archive.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5455,7 +5456,7 @@ extension ListRelaysOutput {
         let reader = responseReader
         var value = ListRelaysOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.relays = try reader["Relays"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Relay.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.relays = try reader["Relays"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Relay.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5468,7 +5469,7 @@ extension ListRuleSetsOutput {
         let reader = responseReader
         var value = ListRuleSetsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.ruleSets = try reader["RuleSets"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.RuleSet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleSets = try reader["RuleSets"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.RuleSet.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5480,7 +5481,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6491,7 +6492,7 @@ extension MailManagerClientTypes.ArchiveBooleanExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.ArchiveBooleanExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.ArchiveBooleanToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6533,8 +6534,8 @@ extension MailManagerClientTypes.ArchiveStringExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.ArchiveStringExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.ArchiveStringToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6743,7 +6744,7 @@ extension MailManagerClientTypes.Rule {
         value.name = try reader["Name"].readIfPresent()
         value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.RuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.unless = try reader["Unless"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.RuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.RuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.RuleAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6813,8 +6814,8 @@ extension MailManagerClientTypes.DeliverToMailboxAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.DeliverToMailboxAction()
         value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.mailboxArn = try reader["MailboxArn"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.mailboxArn = try reader["MailboxArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6845,8 +6846,8 @@ extension MailManagerClientTypes.AddHeaderAction {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddHeaderAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.AddHeaderAction()
-        value.headerName = try reader["HeaderName"].readIfPresent()
-        value.headerValue = try reader["HeaderValue"].readIfPresent()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.headerValue = try reader["HeaderValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6863,7 +6864,7 @@ extension MailManagerClientTypes.SendAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.SendAction()
         value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6883,8 +6884,8 @@ extension MailManagerClientTypes.S3Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.S3Action()
         value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
         value.s3Prefix = try reader["S3Prefix"].readIfPresent()
         value.s3SseKmsKeyId = try reader["S3SseKmsKeyId"].readIfPresent()
         return value
@@ -6903,7 +6904,7 @@ extension MailManagerClientTypes.ArchiveAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.ArchiveAction()
         value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.targetArchive = try reader["TargetArchive"].readIfPresent()
+        value.targetArchive = try reader["TargetArchive"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6921,7 +6922,7 @@ extension MailManagerClientTypes.RelayAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.RelayAction()
         value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.relay = try reader["Relay"].readIfPresent()
+        value.relay = try reader["Relay"].readIfPresent() ?? ""
         value.mailFrom = try reader["MailFrom"].readIfPresent()
         return value
     }
@@ -6995,8 +6996,8 @@ extension MailManagerClientTypes.RuleDmarcExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleDmarcExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.RuleDmarcExpression()
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MailManagerClientTypes.RuleDmarcPolicy>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MailManagerClientTypes.RuleDmarcPolicy>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7014,8 +7015,8 @@ extension MailManagerClientTypes.RuleVerdictExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.RuleVerdictExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleVerdictToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MailManagerClientTypes.RuleVerdict>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MailManagerClientTypes.RuleVerdict>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7059,8 +7060,8 @@ extension MailManagerClientTypes.Analysis {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Analysis {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.Analysis()
-        value.analyzer = try reader["Analyzer"].readIfPresent()
-        value.resultField = try reader["ResultField"].readIfPresent()
+        value.analyzer = try reader["Analyzer"].readIfPresent() ?? ""
+        value.resultField = try reader["ResultField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7078,8 +7079,8 @@ extension MailManagerClientTypes.RuleIpExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.RuleIpExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleIpToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7121,8 +7122,8 @@ extension MailManagerClientTypes.RuleNumberExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.RuleNumberExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleNumberToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -7164,8 +7165,8 @@ extension MailManagerClientTypes.RuleStringExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.RuleStringExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleStringToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7206,7 +7207,7 @@ extension MailManagerClientTypes.RuleBooleanExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.RuleBooleanExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleBooleanToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7246,8 +7247,8 @@ extension MailManagerClientTypes.PolicyStatement {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PolicyStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.PolicyStatement()
-        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.PolicyCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.action = try reader["Action"].readIfPresent()
+        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.PolicyCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7300,7 +7301,7 @@ extension MailManagerClientTypes.IngressBooleanExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.IngressBooleanExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressBooleanToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7340,8 +7341,8 @@ extension MailManagerClientTypes.IngressAnalysis {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressAnalysis {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.IngressAnalysis()
-        value.analyzer = try reader["Analyzer"].readIfPresent()
-        value.resultField = try reader["ResultField"].readIfPresent()
+        value.analyzer = try reader["Analyzer"].readIfPresent() ?? ""
+        value.resultField = try reader["ResultField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7359,8 +7360,8 @@ extension MailManagerClientTypes.IngressTlsProtocolExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.IngressTlsProtocolExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressTlsProtocolToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7402,8 +7403,8 @@ extension MailManagerClientTypes.IngressIpv4Expression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.IngressIpv4Expression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressIpToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7445,8 +7446,8 @@ extension MailManagerClientTypes.IngressStringExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.IngressStringExpression()
         value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressStringToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7518,7 +7519,7 @@ extension MailManagerClientTypes.Archive {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Archive {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.Archive()
-        value.archiveId = try reader["ArchiveId"].readIfPresent()
+        value.archiveId = try reader["ArchiveId"].readIfPresent() ?? ""
         value.archiveName = try reader["ArchiveName"].readIfPresent()
         value.archiveState = try reader["ArchiveState"].readIfPresent()
         value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -7542,10 +7543,10 @@ extension MailManagerClientTypes.IngressPoint {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.IngressPoint()
-        value.ingressPointName = try reader["IngressPointName"].readIfPresent()
-        value.ingressPointId = try reader["IngressPointId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.ingressPointName = try reader["IngressPointName"].readIfPresent() ?? ""
+        value.ingressPointId = try reader["IngressPointId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.aRecord = try reader["ARecord"].readIfPresent()
         return value
     }
@@ -7586,8 +7587,8 @@ extension MailManagerClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7597,9 +7598,9 @@ extension MailManagerClientTypes.TrafficPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.TrafficPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.TrafficPolicy()
-        value.trafficPolicyName = try reader["TrafficPolicyName"].readIfPresent()
-        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
-        value.defaultAction = try reader["DefaultAction"].readIfPresent()
+        value.trafficPolicyName = try reader["TrafficPolicyName"].readIfPresent() ?? ""
+        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent() ?? ""
+        value.defaultAction = try reader["DefaultAction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

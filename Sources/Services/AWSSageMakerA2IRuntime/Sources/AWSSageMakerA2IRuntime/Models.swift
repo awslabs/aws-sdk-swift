@@ -641,14 +641,14 @@ extension DescribeHumanLoopOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeHumanLoopOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureCode = try reader["FailureCode"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent()
-        value.humanLoopArn = try reader["HumanLoopArn"].readIfPresent()
-        value.humanLoopName = try reader["HumanLoopName"].readIfPresent()
+        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent() ?? ""
+        value.humanLoopArn = try reader["HumanLoopArn"].readIfPresent() ?? ""
+        value.humanLoopName = try reader["HumanLoopName"].readIfPresent() ?? ""
         value.humanLoopOutput = try reader["HumanLoopOutput"].readIfPresent(with: SageMakerA2IRuntimeClientTypes.HumanLoopOutput.read(from:))
-        value.humanLoopStatus = try reader["HumanLoopStatus"].readIfPresent()
+        value.humanLoopStatus = try reader["HumanLoopStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -660,7 +660,7 @@ extension ListHumanLoopsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHumanLoopsOutput()
-        value.humanLoopSummaries = try reader["HumanLoopSummaries"].readListIfPresent(memberReadingClosure: SageMakerA2IRuntimeClientTypes.HumanLoopSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.humanLoopSummaries = try reader["HumanLoopSummaries"].readListIfPresent(memberReadingClosure: SageMakerA2IRuntimeClientTypes.HumanLoopSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -854,7 +854,7 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerA2IRuntimeClientTypes.HumanLoopOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerA2IRuntimeClientTypes.HumanLoopOutput()
-        value.outputS3Uri = try reader["OutputS3Uri"].readIfPresent()
+        value.outputS3Uri = try reader["OutputS3Uri"].readIfPresent() ?? ""
         return value
     }
 }

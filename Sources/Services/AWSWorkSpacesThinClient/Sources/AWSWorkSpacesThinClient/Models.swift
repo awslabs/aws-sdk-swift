@@ -2761,8 +2761,8 @@ extension WorkSpacesThinClientClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesThinClientClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

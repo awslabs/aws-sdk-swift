@@ -5962,7 +5962,7 @@ public struct CreateLoadBalancerInput {
         certificateDomainName: Swift.String? = nil,
         certificateName: Swift.String? = nil,
         healthCheckPath: Swift.String? = nil,
-        instancePort: Swift.Int? = nil,
+        instancePort: Swift.Int? = 0,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         loadBalancerName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
@@ -8142,7 +8142,7 @@ public struct GetCertificatesInput {
     public init(
         certificateName: Swift.String? = nil,
         certificateStatuses: [LightsailClientTypes.CertificateStatus]? = nil,
-        includeCertificateDetails: Swift.Bool? = nil,
+        includeCertificateDetails: Swift.Bool? = false,
         pageToken: Swift.String? = nil
     )
     {
@@ -21926,7 +21926,7 @@ extension LightsailClientTypes.BucketAccessLogConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketAccessLogConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LightsailClientTypes.BucketAccessLogConfig()
-        value.enabled = try reader["enabled"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         value.destination = try reader["destination"].readIfPresent()
         value.`prefix` = try reader["prefix"].readIfPresent()
         return value

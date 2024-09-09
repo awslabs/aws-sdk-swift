@@ -1785,11 +1785,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1802,7 +1802,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1817,7 +1817,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1831,7 +1831,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: BCMDataExportsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1845,9 +1845,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1871,7 +1871,7 @@ extension BCMDataExportsClientTypes.Export {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.Export()
         value.exportArn = try reader["ExportArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.dataQuery = try reader["DataQuery"].readIfPresent(with: BCMDataExportsClientTypes.DataQuery.read(from:))
         value.destinationConfigurations = try reader["DestinationConfigurations"].readIfPresent(with: BCMDataExportsClientTypes.DestinationConfigurations.read(from:))
@@ -1890,7 +1890,7 @@ extension BCMDataExportsClientTypes.RefreshCadence {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.RefreshCadence {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.RefreshCadence()
-        value.frequency = try reader["Frequency"].readIfPresent()
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1923,9 +1923,9 @@ extension BCMDataExportsClientTypes.S3Destination {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.S3Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.S3Destination()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
-        value.s3Region = try reader["S3Region"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3Prefix = try reader["S3Prefix"].readIfPresent() ?? ""
+        value.s3Region = try reader["S3Region"].readIfPresent() ?? ""
         value.s3OutputConfigurations = try reader["S3OutputConfigurations"].readIfPresent(with: BCMDataExportsClientTypes.S3OutputConfigurations.read(from:))
         return value
     }
@@ -1944,10 +1944,10 @@ extension BCMDataExportsClientTypes.S3OutputConfigurations {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.S3OutputConfigurations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.S3OutputConfigurations()
-        value.outputType = try reader["OutputType"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.compression = try reader["Compression"].readIfPresent()
-        value.overwrite = try reader["Overwrite"].readIfPresent()
+        value.outputType = try reader["OutputType"].readIfPresent() ?? .sdkUnknown("")
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.overwrite = try reader["Overwrite"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1963,7 +1963,7 @@ extension BCMDataExportsClientTypes.DataQuery {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DataQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.DataQuery()
-        value.queryStatement = try reader["QueryStatement"].readIfPresent()
+        value.queryStatement = try reader["QueryStatement"].readIfPresent() ?? ""
         value.tableConfigurations = try reader["TableConfigurations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -2014,7 +2014,7 @@ extension BCMDataExportsClientTypes.ExecutionReference {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.ExecutionReference()
-        value.executionId = try reader["ExecutionId"].readIfPresent()
+        value.executionId = try reader["ExecutionId"].readIfPresent() ?? ""
         value.executionStatus = try reader["ExecutionStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExecutionStatus.read(from:))
         return value
     }
@@ -2025,8 +2025,8 @@ extension BCMDataExportsClientTypes.ExportReference {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.ExportReference()
-        value.exportArn = try reader["ExportArn"].readIfPresent()
-        value.exportName = try reader["ExportName"].readIfPresent()
+        value.exportArn = try reader["ExportArn"].readIfPresent() ?? ""
+        value.exportName = try reader["ExportName"].readIfPresent() ?? ""
         value.exportStatus = try reader["ExportStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExportStatus.read(from:))
         return value
     }
@@ -2068,8 +2068,8 @@ extension BCMDataExportsClientTypes.ResourceTag {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.ResourceTag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2079,8 +2079,8 @@ extension BCMDataExportsClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDataExportsClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }

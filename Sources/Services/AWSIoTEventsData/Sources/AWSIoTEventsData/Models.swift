@@ -23,6 +23,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension IoTEventsDataClientTypes {
     /// Contains the configuration information of an acknowledge action.
@@ -2472,9 +2473,9 @@ extension IoTEventsDataClientTypes.DetectorState {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.DetectorState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.DetectorState()
-        value.stateName = try reader["stateName"].readIfPresent()
-        value.variables = try reader["variables"].readListIfPresent(memberReadingClosure: IoTEventsDataClientTypes.Variable.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timers = try reader["timers"].readListIfPresent(memberReadingClosure: IoTEventsDataClientTypes.Timer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stateName = try reader["stateName"].readIfPresent() ?? ""
+        value.variables = try reader["variables"].readListIfPresent(memberReadingClosure: IoTEventsDataClientTypes.Variable.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timers = try reader["timers"].readListIfPresent(memberReadingClosure: IoTEventsDataClientTypes.Timer.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2484,8 +2485,8 @@ extension IoTEventsDataClientTypes.Timer {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.Timer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.Timer()
-        value.name = try reader["name"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2495,8 +2496,8 @@ extension IoTEventsDataClientTypes.Variable {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTEventsDataClientTypes.Variable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTEventsDataClientTypes.Variable()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

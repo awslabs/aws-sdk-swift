@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteCustomActionTypeOutput {
 
@@ -6369,7 +6370,7 @@ public struct StopPipelineExecutionInput {
     public var reason: Swift.String?
 
     public init(
-        abandon: Swift.Bool? = nil,
+        abandon: Swift.Bool? = false,
         pipelineExecutionId: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         reason: Swift.String? = nil
@@ -7416,7 +7417,7 @@ extension ListActionTypesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListActionTypesOutput()
-        value.actionTypes = try reader["actionTypes"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.ActionType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actionTypes = try reader["actionTypes"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.ActionType.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7468,7 +7469,7 @@ extension ListRuleTypesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListRuleTypesOutput()
-        value.ruleTypes = try reader["ruleTypes"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.RuleType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleTypes = try reader["ruleTypes"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.RuleType.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7621,7 +7622,7 @@ extension RollbackStageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RollbackStageOutput()
-        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent()
+        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8972,7 +8973,7 @@ extension CodePipelineClientTypes.ActionConfigurationProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionConfigurationProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionConfigurationProperty()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.`required` = try reader["required"].readIfPresent() ?? false
         value.key = try reader["key"].readIfPresent() ?? false
         value.secret = try reader["secret"].readIfPresent() ?? false
@@ -9017,10 +9018,10 @@ extension CodePipelineClientTypes.ActionTypeId {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionTypeId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionTypeId()
-        value.category = try reader["category"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
+        value.owner = try reader["owner"].readIfPresent() ?? .sdkUnknown("")
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9036,8 +9037,8 @@ extension CodePipelineClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9061,11 +9062,11 @@ extension CodePipelineClientTypes.PipelineDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.PipelineDeclaration()
-        value.name = try reader["name"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.artifactStore = try reader["artifactStore"].readIfPresent(with: CodePipelineClientTypes.ArtifactStore.read(from:))
         value.artifactStores = try reader["artifactStores"].readMapIfPresent(valueReadingClosure: CodePipelineClientTypes.ArtifactStore.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.stages = try reader["stages"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.StageDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stages = try reader["stages"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.StageDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.version = try reader["version"].readIfPresent()
         value.executionMode = try reader["executionMode"].readIfPresent()
         value.pipelineType = try reader["pipelineType"].readIfPresent()
@@ -9086,7 +9087,7 @@ extension CodePipelineClientTypes.PipelineTriggerDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineTriggerDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.PipelineTriggerDeclaration()
-        value.providerType = try reader["providerType"].readIfPresent()
+        value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
         value.gitConfiguration = try reader["gitConfiguration"].readIfPresent(with: CodePipelineClientTypes.GitConfiguration.read(from:))
         return value
     }
@@ -9104,7 +9105,7 @@ extension CodePipelineClientTypes.GitConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.GitConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.GitConfiguration()
-        value.sourceActionName = try reader["sourceActionName"].readIfPresent()
+        value.sourceActionName = try reader["sourceActionName"].readIfPresent() ?? ""
         value.push = try reader["push"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.GitPushFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.pullRequest = try reader["pullRequest"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.GitPullRequestFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9212,7 +9213,7 @@ extension CodePipelineClientTypes.PipelineVariableDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineVariableDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.PipelineVariableDeclaration()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.defaultValue = try reader["defaultValue"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         return value
@@ -9234,9 +9235,9 @@ extension CodePipelineClientTypes.StageDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.StageDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.StageDeclaration()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.blockers = try reader["blockers"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.BlockerDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.ActionDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.ActionDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.onFailure = try reader["onFailure"].readIfPresent(with: CodePipelineClientTypes.FailureConditions.read(from:))
         value.onSuccess = try reader["onSuccess"].readIfPresent(with: CodePipelineClientTypes.SuccessConditions.read(from:))
         value.beforeEntry = try reader["beforeEntry"].readIfPresent(with: CodePipelineClientTypes.BeforeEntryConditions.read(from:))
@@ -9254,7 +9255,7 @@ extension CodePipelineClientTypes.BeforeEntryConditions {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.BeforeEntryConditions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.BeforeEntryConditions()
-        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9292,7 +9293,7 @@ extension CodePipelineClientTypes.RuleDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.RuleDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.RuleDeclaration()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.ruleTypeId = try reader["ruleTypeId"].readIfPresent(with: CodePipelineClientTypes.RuleTypeId.read(from:))
         value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.inputArtifacts = try reader["inputArtifacts"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.InputArtifact.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9313,7 +9314,7 @@ extension CodePipelineClientTypes.InputArtifact {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.InputArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.InputArtifact()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9331,9 +9332,9 @@ extension CodePipelineClientTypes.RuleTypeId {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.RuleTypeId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.RuleTypeId()
-        value.category = try reader["category"].readIfPresent()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
         value.owner = try reader["owner"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         value.version = try reader["version"].readIfPresent()
         return value
     }
@@ -9349,7 +9350,7 @@ extension CodePipelineClientTypes.SuccessConditions {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.SuccessConditions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.SuccessConditions()
-        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9390,7 +9391,7 @@ extension CodePipelineClientTypes.ActionDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionDeclaration()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.actionTypeId = try reader["actionTypeId"].readIfPresent(with: CodePipelineClientTypes.ActionTypeId.read(from:))
         value.runOrder = try reader["runOrder"].readIfPresent()
         value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9414,7 +9415,7 @@ extension CodePipelineClientTypes.OutputArtifact {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.OutputArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.OutputArtifact()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9430,8 +9431,8 @@ extension CodePipelineClientTypes.BlockerDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.BlockerDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.BlockerDeclaration()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9448,8 +9449,8 @@ extension CodePipelineClientTypes.ArtifactStore {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ArtifactStore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ArtifactStore()
-        value.type = try reader["type"].readIfPresent()
-        value.location = try reader["location"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent() ?? ""
         value.encryptionKey = try reader["encryptionKey"].readIfPresent(with: CodePipelineClientTypes.EncryptionKey.read(from:))
         return value
     }
@@ -9466,8 +9467,8 @@ extension CodePipelineClientTypes.EncryptionKey {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.EncryptionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.EncryptionKey()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9537,7 +9538,7 @@ extension CodePipelineClientTypes.ActionTypeProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionTypeProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionTypeProperty()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.`optional` = try reader["optional"].readIfPresent() ?? false
         value.key = try reader["key"].readIfPresent() ?? false
         value.noEcho = try reader["noEcho"].readIfPresent() ?? false
@@ -9557,7 +9558,7 @@ extension CodePipelineClientTypes.ActionTypePermissions {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionTypePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionTypePermissions()
-        value.allowedAccounts = try reader["allowedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAccounts = try reader["allowedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9592,10 +9593,10 @@ extension CodePipelineClientTypes.ActionTypeIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionTypeIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionTypeIdentifier()
-        value.category = try reader["category"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
+        value.owner = try reader["owner"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9614,7 +9615,7 @@ extension CodePipelineClientTypes.ActionTypeExecutor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionTypeExecutor()
         value.configuration = try reader["configuration"].readIfPresent(with: CodePipelineClientTypes.ExecutorConfiguration.read(from:))
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.policyStatementsTemplate = try reader["policyStatementsTemplate"].readIfPresent()
         value.jobTimeout = try reader["jobTimeout"].readIfPresent()
         return value
@@ -9665,7 +9666,7 @@ extension CodePipelineClientTypes.LambdaExecutorConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.LambdaExecutorConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.LambdaExecutorConfiguration()
-        value.lambdaFunctionArn = try reader["lambdaFunctionArn"].readIfPresent()
+        value.lambdaFunctionArn = try reader["lambdaFunctionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9704,9 +9705,9 @@ extension CodePipelineClientTypes.AWSSessionCredentials {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.AWSSessionCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.AWSSessionCredentials()
-        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
-        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
-        value.sessionToken = try reader["sessionToken"].readIfPresent()
+        value.accessKeyId = try reader["accessKeyId"].readIfPresent() ?? ""
+        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent() ?? ""
+        value.sessionToken = try reader["sessionToken"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9739,8 +9740,8 @@ extension CodePipelineClientTypes.S3ArtifactLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.S3ArtifactLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.S3ArtifactLocation()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.objectKey = try reader["objectKey"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.objectKey = try reader["objectKey"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9958,9 +9959,9 @@ extension CodePipelineClientTypes.RuleRevision {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.RuleRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.RuleRevision()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.revisionChangeId = try reader["revisionChangeId"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.revisionChangeId = try reader["revisionChangeId"].readIfPresent() ?? ""
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9993,8 +9994,8 @@ extension CodePipelineClientTypes.StageExecution {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.StageExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.StageExecution()
-        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.type = try reader["type"].readIfPresent()
         return value
     }
@@ -10045,9 +10046,9 @@ extension CodePipelineClientTypes.ActionRevision {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.ActionRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ActionRevision()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.revisionChangeId = try reader["revisionChangeId"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.revisionChangeId = try reader["revisionChangeId"].readIfPresent() ?? ""
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10212,7 +10213,7 @@ extension CodePipelineClientTypes.SourceRevision {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.SourceRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.SourceRevision()
-        value.actionName = try reader["actionName"].readIfPresent()
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
         value.revisionId = try reader["revisionId"].readIfPresent()
         value.revisionSummary = try reader["revisionSummary"].readIfPresent()
         value.revisionUrl = try reader["revisionUrl"].readIfPresent()
@@ -10311,7 +10312,7 @@ extension CodePipelineClientTypes.RuleConfigurationProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.RuleConfigurationProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.RuleConfigurationProperty()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.`required` = try reader["required"].readIfPresent() ?? false
         value.key = try reader["key"].readIfPresent() ?? false
         value.secret = try reader["secret"].readIfPresent() ?? false
@@ -10341,7 +10342,7 @@ extension CodePipelineClientTypes.ListWebhookItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.ListWebhookItem()
         value.definition = try reader["definition"].readIfPresent(with: CodePipelineClientTypes.WebhookDefinition.read(from:))
-        value.url = try reader["url"].readIfPresent()
+        value.url = try reader["url"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.lastTriggered = try reader["lastTriggered"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -10366,11 +10367,11 @@ extension CodePipelineClientTypes.WebhookDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.WebhookDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.WebhookDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.targetPipeline = try reader["targetPipeline"].readIfPresent()
-        value.targetAction = try reader["targetAction"].readIfPresent()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.WebhookFilterRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.authentication = try reader["authentication"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.targetPipeline = try reader["targetPipeline"].readIfPresent() ?? ""
+        value.targetAction = try reader["targetAction"].readIfPresent() ?? ""
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.WebhookFilterRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.authentication = try reader["authentication"].readIfPresent() ?? .sdkUnknown("")
         value.authenticationConfiguration = try reader["authenticationConfiguration"].readIfPresent(with: CodePipelineClientTypes.WebhookAuthConfiguration.read(from:))
         return value
     }
@@ -10404,7 +10405,7 @@ extension CodePipelineClientTypes.WebhookFilterRule {
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.WebhookFilterRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.WebhookFilterRule()
-        value.jsonPath = try reader["jsonPath"].readIfPresent()
+        value.jsonPath = try reader["jsonPath"].readIfPresent() ?? ""
         value.matchEquals = try reader["matchEquals"].readIfPresent()
         return value
     }

@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct TagResourceOutput {
 
@@ -2225,6 +2226,52 @@ extension KafkaClientTypes {
 }
 
 extension KafkaClientTypes {
+
+    /// The type of replicated topic name.
+    public enum ReplicationTopicNameConfigurationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case identical
+        case prefixedWithSourceClusterAlias
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationTopicNameConfigurationType] {
+            return [
+                .identical,
+                .prefixedWithSourceClusterAlias
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .identical: return "IDENTICAL"
+            case .prefixedWithSourceClusterAlias: return "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+    /// Configuration for specifying replicated topic names should be the same as their corresponding upstream topics or prefixed with source cluster alias.
+    public struct ReplicationTopicNameConfiguration {
+        /// The type of replicated topic name.
+        public var type: KafkaClientTypes.ReplicationTopicNameConfigurationType?
+
+        public init(
+            type: KafkaClientTypes.ReplicationTopicNameConfigurationType? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension KafkaClientTypes {
     /// Details about topic replication.
     public struct TopicReplication {
         /// Whether to periodically configure remote topic ACLs to match their corresponding upstream topics.
@@ -2235,6 +2282,8 @@ extension KafkaClientTypes {
         public var detectAndCopyNewTopics: Swift.Bool?
         /// Configuration for specifying the position in the topics to start replicating from.
         public var startingPosition: KafkaClientTypes.ReplicationStartingPosition?
+        /// Configuration for specifying replicated topic names should be the same as their corresponding upstream topics or prefixed with source cluster alias.
+        public var topicNameConfiguration: KafkaClientTypes.ReplicationTopicNameConfiguration?
         /// List of regular expression patterns indicating the topics that should not be replicated.
         public var topicsToExclude: [Swift.String]?
         /// List of regular expression patterns indicating the topics to copy.
@@ -2246,6 +2295,7 @@ extension KafkaClientTypes {
             copyTopicConfigurations: Swift.Bool? = nil,
             detectAndCopyNewTopics: Swift.Bool? = nil,
             startingPosition: KafkaClientTypes.ReplicationStartingPosition? = nil,
+            topicNameConfiguration: KafkaClientTypes.ReplicationTopicNameConfiguration? = nil,
             topicsToExclude: [Swift.String]? = nil,
             topicsToReplicate: [Swift.String]? = nil
         )
@@ -2254,6 +2304,7 @@ extension KafkaClientTypes {
             self.copyTopicConfigurations = copyTopicConfigurations
             self.detectAndCopyNewTopics = detectAndCopyNewTopics
             self.startingPosition = startingPosition
+            self.topicNameConfiguration = topicNameConfiguration
             self.topicsToExclude = topicsToExclude
             self.topicsToReplicate = topicsToReplicate
         }
@@ -7798,9 +7849,9 @@ extension KafkaClientTypes.ConfigurationRevision {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ConfigurationRevision()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7892,7 +7943,7 @@ extension KafkaClientTypes.S3 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.S3()
         value.bucket = try reader["bucket"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
@@ -7910,7 +7961,7 @@ extension KafkaClientTypes.Firehose {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.Firehose()
         value.deliveryStream = try reader["deliveryStream"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -7926,7 +7977,7 @@ extension KafkaClientTypes.CloudWatchLogs {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CloudWatchLogs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.CloudWatchLogs()
-        value.enabled = try reader["enabled"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         value.logGroup = try reader["logGroup"].readIfPresent()
         return value
     }
@@ -7958,7 +8009,7 @@ extension KafkaClientTypes.NodeExporter {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.NodeExporter()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
         return value
     }
 }
@@ -7968,7 +8019,7 @@ extension KafkaClientTypes.JmxExporter {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.JmxExporter()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
         return value
     }
 }
@@ -8017,7 +8068,7 @@ extension KafkaClientTypes.EncryptionAtRest {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EncryptionAtRest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.EncryptionAtRest()
-        value.dataVolumeKMSKeyId = try reader["dataVolumeKMSKeyId"].readIfPresent()
+        value.dataVolumeKMSKeyId = try reader["dataVolumeKMSKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8149,8 +8200,8 @@ extension KafkaClientTypes.BrokerNodeGroupInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.BrokerNodeGroupInfo()
         value.brokerAZDistribution = try reader["brokerAZDistribution"].readIfPresent()
-        value.clientSubnets = try reader["clientSubnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.clientSubnets = try reader["clientSubnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.storageInfo = try reader["storageInfo"].readIfPresent(with: KafkaClientTypes.StorageInfo.read(from:))
         value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
@@ -8423,8 +8474,8 @@ extension KafkaClientTypes.ConfigurationInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ConfigurationInfo()
-        value.arn = try reader["arn"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8441,7 +8492,7 @@ extension KafkaClientTypes.BrokerEBSVolumeInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerEBSVolumeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.BrokerEBSVolumeInfo()
-        value.kafkaBrokerNodeId = try reader["kafkaBrokerNodeId"].readIfPresent()
+        value.kafkaBrokerNodeId = try reader["kafkaBrokerNodeId"].readIfPresent() ?? ""
         value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
         value.volumeSizeGB = try reader["volumeSizeGB"].readIfPresent()
         return value
@@ -8560,7 +8611,7 @@ extension KafkaClientTypes.Serverless {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Serverless {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.Serverless()
-        value.vpcConfigs = try reader["vpcConfigs"].readListIfPresent(memberReadingClosure: KafkaClientTypes.VpcConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConfigs = try reader["vpcConfigs"].readListIfPresent(memberReadingClosure: KafkaClientTypes.VpcConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ServerlessClientAuthentication.read(from:))
         return value
     }
@@ -8607,7 +8658,7 @@ extension KafkaClientTypes.VpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.VpcConfig()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8625,7 +8676,7 @@ extension KafkaClientTypes.Provisioned {
         value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
         value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoringInfo.read(from:))
         value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
-        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent()
+        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent() ?? 0
         value.zookeeperConnectString = try reader["zookeeperConnectString"].readIfPresent()
         value.zookeeperConnectStringTls = try reader["zookeeperConnectStringTls"].readIfPresent()
         value.storageMode = try reader["storageMode"].readIfPresent()
@@ -8676,7 +8727,7 @@ extension KafkaClientTypes.NodeExporterInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporterInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.NodeExporterInfo()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
         return value
     }
 }
@@ -8691,7 +8742,7 @@ extension KafkaClientTypes.JmxExporterInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporterInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.JmxExporterInfo()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
         return value
     }
 }
@@ -8720,7 +8771,7 @@ extension KafkaClientTypes.KafkaClusterClientVpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.KafkaClusterClientVpcConfig()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8735,7 +8786,7 @@ extension KafkaClientTypes.AmazonMskCluster {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AmazonMskCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.AmazonMskCluster()
-        value.mskClusterArn = try reader["mskClusterArn"].readIfPresent()
+        value.mskClusterArn = try reader["mskClusterArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8762,6 +8813,7 @@ extension KafkaClientTypes.TopicReplication {
         try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
         try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
         try writer["startingPosition"].write(value.startingPosition, with: KafkaClientTypes.ReplicationStartingPosition.write(value:to:))
+        try writer["topicNameConfiguration"].write(value.topicNameConfiguration, with: KafkaClientTypes.ReplicationTopicNameConfiguration.write(value:to:))
         try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -8773,8 +8825,24 @@ extension KafkaClientTypes.TopicReplication {
         value.copyTopicConfigurations = try reader["copyTopicConfigurations"].readIfPresent()
         value.detectAndCopyNewTopics = try reader["detectAndCopyNewTopics"].readIfPresent()
         value.startingPosition = try reader["startingPosition"].readIfPresent(with: KafkaClientTypes.ReplicationStartingPosition.read(from:))
+        value.topicNameConfiguration = try reader["topicNameConfiguration"].readIfPresent(with: KafkaClientTypes.ReplicationTopicNameConfiguration.read(from:))
         value.topicsToExclude = try reader["topicsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.topicsToReplicate = try reader["topicsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsToReplicate = try reader["topicsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationTopicNameConfiguration {
+
+    static func write(value: KafkaClientTypes.ReplicationTopicNameConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationTopicNameConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationTopicNameConfiguration()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -8808,7 +8876,7 @@ extension KafkaClientTypes.ConsumerGroupReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ConsumerGroupReplication()
         value.consumerGroupsToExclude = try reader["consumerGroupsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.consumerGroupsToReplicate = try reader["consumerGroupsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.consumerGroupsToReplicate = try reader["consumerGroupsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.detectAndCopyNewConsumerGroups = try reader["detectAndCopyNewConsumerGroups"].readIfPresent()
         value.synchroniseConsumerGroupOffsets = try reader["synchroniseConsumerGroupOffsets"].readIfPresent()
         return value
@@ -8845,7 +8913,7 @@ extension KafkaClientTypes.ClientVpcConnection {
         value.authentication = try reader["authentication"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.state = try reader["state"].readIfPresent()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
         value.owner = try reader["owner"].readIfPresent()
         return value
     }
@@ -8872,13 +8940,13 @@ extension KafkaClientTypes.Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.Configuration()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.kafkaVersions = try reader["kafkaVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.kafkaVersions = try reader["kafkaVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.latestRevision = try reader["latestRevision"].readIfPresent(with: KafkaClientTypes.ConfigurationRevision.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8994,8 +9062,8 @@ extension KafkaClientTypes.VpcConnection {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.VpcConnection()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
-        value.targetClusterArn = try reader["targetClusterArn"].readIfPresent()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
+        value.targetClusterArn = try reader["targetClusterArn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.authentication = try reader["authentication"].readIfPresent()
         value.vpcId = try reader["vpcId"].readIfPresent()

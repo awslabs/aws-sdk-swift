@@ -4333,7 +4333,7 @@ extension ServiceDiscoveryClientTypes.HealthCheckConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.HealthCheckConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.HealthCheckConfig()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.resourcePath = try reader["ResourcePath"].readIfPresent()
         value.failureThreshold = try reader["FailureThreshold"].readIfPresent()
         return value
@@ -4354,7 +4354,7 @@ extension ServiceDiscoveryClientTypes.DnsConfig {
         var value = ServiceDiscoveryClientTypes.DnsConfig()
         value.namespaceId = try reader["NamespaceId"].readIfPresent()
         value.routingPolicy = try reader["RoutingPolicy"].readIfPresent()
-        value.dnsRecords = try reader["DnsRecords"].readListIfPresent(memberReadingClosure: ServiceDiscoveryClientTypes.DnsRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsRecords = try reader["DnsRecords"].readListIfPresent(memberReadingClosure: ServiceDiscoveryClientTypes.DnsRecord.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4370,8 +4370,8 @@ extension ServiceDiscoveryClientTypes.DnsRecord {
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.DnsRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.DnsRecord()
-        value.type = try reader["Type"].readIfPresent()
-        value.ttl = try reader["TTL"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.ttl = try reader["TTL"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4395,7 +4395,7 @@ extension ServiceDiscoveryClientTypes.Instance {
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.Instance()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -4462,7 +4462,7 @@ extension ServiceDiscoveryClientTypes.SOA {
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.SOA {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.SOA()
-        value.ttl = try reader["TTL"].readIfPresent()
+        value.ttl = try reader["TTL"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4553,8 +4553,8 @@ extension ServiceDiscoveryClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

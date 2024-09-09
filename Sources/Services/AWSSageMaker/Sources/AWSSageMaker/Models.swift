@@ -29,6 +29,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct CreateDeviceFleetOutput {
 
@@ -9684,6 +9685,35 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+
+    public enum DeepHealthCheckType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instanceConnectivity
+        case instanceStress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeepHealthCheckType] {
+            return [
+                .instanceConnectivity,
+                .instanceStress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instanceConnectivity: return "InstanceConnectivity"
+            case .instanceStress: return "InstanceStress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
     /// Details of an instance group in a SageMaker HyperPod cluster.
     public struct ClusterInstanceGroupDetails {
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
@@ -9698,6 +9728,8 @@ extension SageMakerClientTypes {
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
         /// Details of LifeCycle configuration for the instance group.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
+        /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
+        public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public var targetCount: Swift.Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
@@ -9710,6 +9742,7 @@ extension SageMakerClientTypes {
             instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
+            onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
             targetCount: Swift.Int? = nil,
             threadsPerCore: Swift.Int? = nil
         )
@@ -9720,6 +9753,7 @@ extension SageMakerClientTypes {
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
+            self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
         }
@@ -9747,6 +9781,8 @@ extension SageMakerClientTypes {
         /// Specifies the LifeCycle configuration for the instance group.
         /// This member is required.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
+        /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
+        public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
 
@@ -9757,6 +9793,7 @@ extension SageMakerClientTypes {
             instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
+            onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
             threadsPerCore: Swift.Int? = nil
         )
         {
@@ -9766,6 +9803,7 @@ extension SageMakerClientTypes {
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
+            self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.threadsPerCore = threadsPerCore
         }
     }
@@ -9795,6 +9833,7 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
 
     public enum ClusterInstanceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deepHealthCheckInProgress
         case failure
         case pending
         case running
@@ -9804,6 +9843,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [ClusterInstanceStatus] {
             return [
+                .deepHealthCheckInProgress,
                 .failure,
                 .pending,
                 .running,
@@ -9819,6 +9859,7 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deepHealthCheckInProgress: return "DeepHealthCheckInProgress"
             case .failure: return "Failure"
             case .pending: return "Pending"
             case .running: return "Running"
@@ -9908,6 +9949,35 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+
+    public enum ClusterNodeRecovery: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterNodeRecovery] {
+            return [
+                .automatic,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "Automatic"
+            case .none: return "None"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
     /// Lists a summary of the properties of an instance (also called a node interchangeably) of a SageMaker HyperPod cluster.
     public struct ClusterNodeSummary {
         /// The name of the instance group in which the instance is.
@@ -9939,6 +10009,40 @@ extension SageMakerClientTypes {
             self.instanceStatus = instanceStatus
             self.instanceType = instanceType
             self.launchTime = launchTime
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// The configuration settings for the Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod cluster.
+    public struct ClusterOrchestratorEksConfig {
+        /// The Amazon Resource Name (ARN) of the Amazon EKS cluster associated with the SageMaker HyperPod cluster.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+
+        public init(
+            clusterArn: Swift.String? = nil
+        )
+        {
+            self.clusterArn = clusterArn
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// The type of orchestrator used for the SageMaker HyperPod cluster.
+    public struct ClusterOrchestrator {
+        /// The Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod cluster.
+        /// This member is required.
+        public var eks: SageMakerClientTypes.ClusterOrchestratorEksConfig?
+
+        public init(
+            eks: SageMakerClientTypes.ClusterOrchestratorEksConfig? = nil
+        )
+        {
+            self.eks = eks
         }
     }
 
@@ -11919,6 +12023,10 @@ public struct CreateClusterInput {
     /// The instance groups to be created in the SageMaker HyperPod cluster.
     /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
+    /// The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
+    public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
+    /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
+    public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
     /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
@@ -11927,12 +12035,16 @@ public struct CreateClusterInput {
     public init(
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
+        nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
+        orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     )
     {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
+        self.nodeRecovery = nodeRecovery
+        self.orchestrator = orchestrator
         self.tags = tags
         self.vpcConfig = vpcConfig
     }
@@ -26349,6 +26461,10 @@ public struct DescribeClusterOutput {
     /// The instance groups of the SageMaker HyperPod cluster.
     /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupDetails]?
+    /// The node recovery mode configured for the SageMaker HyperPod cluster.
+    public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
+    /// The type of orchestrator used for the SageMaker HyperPod cluster.
+    public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
@@ -26359,6 +26475,8 @@ public struct DescribeClusterOutput {
         creationTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupDetails]? = nil,
+        nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
+        orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     )
     {
@@ -26368,6 +26486,8 @@ public struct DescribeClusterOutput {
         self.creationTime = creationTime
         self.failureMessage = failureMessage
         self.instanceGroups = instanceGroups
+        self.nodeRecovery = nodeRecovery
+        self.orchestrator = orchestrator
         self.vpcConfig = vpcConfig
     }
 }
@@ -47670,14 +47790,18 @@ public struct UpdateClusterInput {
     /// Specify the instance groups to update.
     /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
+    /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
+    public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
 
     public init(
         clusterName: Swift.String? = nil,
-        instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil
+        instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
+        nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil
     )
     {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
+        self.nodeRecovery = nodeRecovery
     }
 }
 
@@ -51749,6 +51873,8 @@ extension CreateClusterInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NodeRecovery"].write(value.nodeRecovery)
+        try writer["Orchestrator"].write(value.orchestrator, with: SageMakerClientTypes.ClusterOrchestrator.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
     }
@@ -55051,6 +55177,7 @@ extension UpdateClusterInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NodeRecovery"].write(value.nodeRecovery)
     }
 }
 
@@ -55524,7 +55651,7 @@ extension CreateAlgorithmOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAlgorithmOutput()
-        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent()
+        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55572,7 +55699,7 @@ extension CreateAutoMLJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAutoMLJobOutput()
-        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
+        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55584,7 +55711,7 @@ extension CreateAutoMLJobV2Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAutoMLJobV2Output()
-        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
+        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55596,7 +55723,7 @@ extension CreateClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateClusterOutput()
-        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55608,7 +55735,7 @@ extension CreateCodeRepositoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateCodeRepositoryOutput()
-        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent()
+        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55620,7 +55747,7 @@ extension CreateCompilationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateCompilationJobOutput()
-        value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent()
+        value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55644,7 +55771,7 @@ extension CreateDataQualityJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDataQualityJobDefinitionOutput()
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55676,7 +55803,7 @@ extension CreateEdgeDeploymentPlanOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEdgeDeploymentPlanOutput()
-        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent()
+        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55702,7 +55829,7 @@ extension CreateEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEndpointOutput()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55714,7 +55841,7 @@ extension CreateEndpointConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEndpointConfigOutput()
-        value.endpointConfigArn = try reader["EndpointConfigArn"].readIfPresent()
+        value.endpointConfigArn = try reader["EndpointConfigArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55738,7 +55865,7 @@ extension CreateFeatureGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFeatureGroupOutput()
-        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent()
+        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55750,7 +55877,7 @@ extension CreateFlowDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFlowDefinitionOutput()
-        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent()
+        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55762,7 +55889,7 @@ extension CreateHubOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateHubOutput()
-        value.hubArn = try reader["HubArn"].readIfPresent()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55774,8 +55901,8 @@ extension CreateHubContentReferenceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateHubContentReferenceOutput()
-        value.hubArn = try reader["HubArn"].readIfPresent()
-        value.hubContentArn = try reader["HubContentArn"].readIfPresent()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55787,7 +55914,7 @@ extension CreateHumanTaskUiOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateHumanTaskUiOutput()
-        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent()
+        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55799,7 +55926,7 @@ extension CreateHyperParameterTuningJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateHyperParameterTuningJobOutput()
-        value.hyperParameterTuningJobArn = try reader["HyperParameterTuningJobArn"].readIfPresent()
+        value.hyperParameterTuningJobArn = try reader["HyperParameterTuningJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55835,7 +55962,7 @@ extension CreateInferenceComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateInferenceComponentOutput()
-        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent()
+        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55847,7 +55974,7 @@ extension CreateInferenceExperimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateInferenceExperimentOutput()
-        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent()
+        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55859,7 +55986,7 @@ extension CreateInferenceRecommendationsJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateInferenceRecommendationsJobOutput()
-        value.jobArn = try reader["JobArn"].readIfPresent()
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55871,7 +55998,7 @@ extension CreateLabelingJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateLabelingJobOutput()
-        value.labelingJobArn = try reader["LabelingJobArn"].readIfPresent()
+        value.labelingJobArn = try reader["LabelingJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55895,7 +56022,7 @@ extension CreateModelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelOutput()
-        value.modelArn = try reader["ModelArn"].readIfPresent()
+        value.modelArn = try reader["ModelArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55907,7 +56034,7 @@ extension CreateModelBiasJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelBiasJobDefinitionOutput()
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55919,7 +56046,7 @@ extension CreateModelCardOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelCardOutput()
-        value.modelCardArn = try reader["ModelCardArn"].readIfPresent()
+        value.modelCardArn = try reader["ModelCardArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55931,7 +56058,7 @@ extension CreateModelCardExportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelCardExportJobOutput()
-        value.modelCardExportJobArn = try reader["ModelCardExportJobArn"].readIfPresent()
+        value.modelCardExportJobArn = try reader["ModelCardExportJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55943,7 +56070,7 @@ extension CreateModelExplainabilityJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelExplainabilityJobDefinitionOutput()
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55955,7 +56082,7 @@ extension CreateModelPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelPackageOutput()
-        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent()
+        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55967,7 +56094,7 @@ extension CreateModelPackageGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelPackageGroupOutput()
-        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent()
+        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55979,7 +56106,7 @@ extension CreateModelQualityJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelQualityJobDefinitionOutput()
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55991,7 +56118,7 @@ extension CreateMonitoringScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateMonitoringScheduleOutput()
-        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent()
+        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56027,7 +56154,7 @@ extension CreateOptimizationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateOptimizationJobOutput()
-        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent()
+        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56087,7 +56214,7 @@ extension CreateProcessingJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProcessingJobOutput()
-        value.processingJobArn = try reader["ProcessingJobArn"].readIfPresent()
+        value.processingJobArn = try reader["ProcessingJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56099,8 +56226,8 @@ extension CreateProjectOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProjectOutput()
-        value.projectArn = try reader["ProjectArn"].readIfPresent()
-        value.projectId = try reader["ProjectId"].readIfPresent()
+        value.projectArn = try reader["ProjectArn"].readIfPresent() ?? ""
+        value.projectId = try reader["ProjectId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56136,7 +56263,7 @@ extension CreateTrainingJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTrainingJobOutput()
-        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent()
+        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56148,7 +56275,7 @@ extension CreateTransformJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTransformJobOutput()
-        value.transformJobArn = try reader["TransformJobArn"].readIfPresent()
+        value.transformJobArn = try reader["TransformJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56196,7 +56323,7 @@ extension CreateWorkforceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateWorkforceOutput()
-        value.workforceArn = try reader["WorkforceArn"].readIfPresent()
+        value.workforceArn = try reader["WorkforceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56278,7 +56405,7 @@ extension DeleteClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteClusterOutput()
-        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56447,7 +56574,7 @@ extension DeleteInferenceExperimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteInferenceExperimentOutput()
-        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent()
+        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56633,7 +56760,7 @@ extension DeleteWorkteamOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteWorkteamOutput()
-        value.success = try reader["Success"].readIfPresent()
+        value.success = try reader["Success"].readIfPresent() ?? false
         return value
     }
 }
@@ -56676,13 +56803,13 @@ extension DescribeAlgorithmOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAlgorithmOutput()
-        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent()
+        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent() ?? ""
         value.algorithmDescription = try reader["AlgorithmDescription"].readIfPresent()
-        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
-        value.algorithmStatus = try reader["AlgorithmStatus"].readIfPresent()
+        value.algorithmName = try reader["AlgorithmName"].readIfPresent() ?? ""
+        value.algorithmStatus = try reader["AlgorithmStatus"].readIfPresent() ?? .sdkUnknown("")
         value.algorithmStatusDetails = try reader["AlgorithmStatusDetails"].readIfPresent(with: SageMakerClientTypes.AlgorithmStatusDetails.read(from:))
         value.certifyForMarketplace = try reader["CertifyForMarketplace"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.inferenceSpecification = try reader["InferenceSpecification"].readIfPresent(with: SageMakerClientTypes.InferenceSpecification.read(from:))
         value.productId = try reader["ProductId"].readIfPresent()
         value.trainingSpecification = try reader["TrainingSpecification"].readIfPresent(with: SageMakerClientTypes.TrainingSpecification.read(from:))
@@ -56761,27 +56888,27 @@ extension DescribeAutoMLJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAutoMLJobOutput()
-        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
+        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent() ?? ""
         value.autoMLJobArtifacts = try reader["AutoMLJobArtifacts"].readIfPresent(with: SageMakerClientTypes.AutoMLJobArtifacts.read(from:))
         value.autoMLJobConfig = try reader["AutoMLJobConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLJobConfig.read(from:))
-        value.autoMLJobName = try reader["AutoMLJobName"].readIfPresent()
+        value.autoMLJobName = try reader["AutoMLJobName"].readIfPresent() ?? ""
         value.autoMLJobObjective = try reader["AutoMLJobObjective"].readIfPresent(with: SageMakerClientTypes.AutoMLJobObjective.read(from:))
-        value.autoMLJobSecondaryStatus = try reader["AutoMLJobSecondaryStatus"].readIfPresent()
-        value.autoMLJobStatus = try reader["AutoMLJobStatus"].readIfPresent()
+        value.autoMLJobSecondaryStatus = try reader["AutoMLJobSecondaryStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.autoMLJobStatus = try reader["AutoMLJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.bestCandidate = try reader["BestCandidate"].readIfPresent(with: SageMakerClientTypes.AutoMLCandidate.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.generateCandidateDefinitionsOnly = try reader["GenerateCandidateDefinitionsOnly"].readIfPresent()
-        value.inputDataConfig = try reader["InputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLChannel.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inputDataConfig = try reader["InputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLChannel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modelDeployConfig = try reader["ModelDeployConfig"].readIfPresent(with: SageMakerClientTypes.ModelDeployConfig.read(from:))
         value.modelDeployResult = try reader["ModelDeployResult"].readIfPresent(with: SageMakerClientTypes.ModelDeployResult.read(from:))
         value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLOutputDataConfig.read(from:))
         value.partialFailureReasons = try reader["PartialFailureReasons"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLPartialFailureReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.problemType = try reader["ProblemType"].readIfPresent()
         value.resolvedAttributes = try reader["ResolvedAttributes"].readIfPresent(with: SageMakerClientTypes.ResolvedAttributes.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56794,27 +56921,27 @@ extension DescribeAutoMLJobV2Output {
         let reader = responseReader
         var value = DescribeAutoMLJobV2Output()
         value.autoMLComputeConfig = try reader["AutoMLComputeConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLComputeConfig.read(from:))
-        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
+        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent() ?? ""
         value.autoMLJobArtifacts = try reader["AutoMLJobArtifacts"].readIfPresent(with: SageMakerClientTypes.AutoMLJobArtifacts.read(from:))
-        value.autoMLJobInputDataConfig = try reader["AutoMLJobInputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLJobChannel.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoMLJobName = try reader["AutoMLJobName"].readIfPresent()
+        value.autoMLJobInputDataConfig = try reader["AutoMLJobInputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLJobChannel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.autoMLJobName = try reader["AutoMLJobName"].readIfPresent() ?? ""
         value.autoMLJobObjective = try reader["AutoMLJobObjective"].readIfPresent(with: SageMakerClientTypes.AutoMLJobObjective.read(from:))
-        value.autoMLJobSecondaryStatus = try reader["AutoMLJobSecondaryStatus"].readIfPresent()
-        value.autoMLJobStatus = try reader["AutoMLJobStatus"].readIfPresent()
+        value.autoMLJobSecondaryStatus = try reader["AutoMLJobSecondaryStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.autoMLJobStatus = try reader["AutoMLJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.autoMLProblemTypeConfig = try reader["AutoMLProblemTypeConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLProblemTypeConfig.read(from:))
         value.autoMLProblemTypeConfigName = try reader["AutoMLProblemTypeConfigName"].readIfPresent()
         value.bestCandidate = try reader["BestCandidate"].readIfPresent(with: SageMakerClientTypes.AutoMLCandidate.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataSplitConfig = try reader["DataSplitConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLDataSplitConfig.read(from:))
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modelDeployConfig = try reader["ModelDeployConfig"].readIfPresent(with: SageMakerClientTypes.ModelDeployConfig.read(from:))
         value.modelDeployResult = try reader["ModelDeployResult"].readIfPresent(with: SageMakerClientTypes.ModelDeployResult.read(from:))
         value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLOutputDataConfig.read(from:))
         value.partialFailureReasons = try reader["PartialFailureReasons"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLPartialFailureReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resolvedAttributes = try reader["ResolvedAttributes"].readIfPresent(with: SageMakerClientTypes.AutoMLResolvedAttributes.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.securityConfig = try reader["SecurityConfig"].readIfPresent(with: SageMakerClientTypes.AutoMLSecurityConfig.read(from:))
         return value
     }
@@ -56827,12 +56954,14 @@ extension DescribeClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeClusterOutput()
-        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         value.clusterName = try reader["ClusterName"].readIfPresent()
-        value.clusterStatus = try reader["ClusterStatus"].readIfPresent()
+        value.clusterStatus = try reader["ClusterStatus"].readIfPresent() ?? .sdkUnknown("")
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceGroupDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceGroupDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nodeRecovery = try reader["NodeRecovery"].readIfPresent()
+        value.orchestrator = try reader["Orchestrator"].readIfPresent(with: SageMakerClientTypes.ClusterOrchestrator.read(from:))
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
     }
@@ -56857,11 +56986,11 @@ extension DescribeCodeRepositoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeCodeRepositoryOutput()
-        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent()
-        value.codeRepositoryName = try reader["CodeRepositoryName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent() ?? ""
+        value.codeRepositoryName = try reader["CodeRepositoryName"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.gitConfig = try reader["GitConfig"].readIfPresent(with: SageMakerClientTypes.GitConfig.read(from:))
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -56874,21 +57003,21 @@ extension DescribeCompilationJobOutput {
         let reader = responseReader
         var value = DescribeCompilationJobOutput()
         value.compilationEndTime = try reader["CompilationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent()
-        value.compilationJobName = try reader["CompilationJobName"].readIfPresent()
-        value.compilationJobStatus = try reader["CompilationJobStatus"].readIfPresent()
+        value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent() ?? ""
+        value.compilationJobName = try reader["CompilationJobName"].readIfPresent() ?? ""
+        value.compilationJobStatus = try reader["CompilationJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.compilationStartTime = try reader["CompilationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.derivedInformation = try reader["DerivedInformation"].readIfPresent(with: SageMakerClientTypes.DerivedInformation.read(from:))
-        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent() ?? ""
         value.inferenceImage = try reader["InferenceImage"].readIfPresent()
         value.inputConfig = try reader["InputConfig"].readIfPresent(with: SageMakerClientTypes.InputConfig.read(from:))
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modelArtifacts = try reader["ModelArtifacts"].readIfPresent(with: SageMakerClientTypes.ModelArtifacts.read(from:))
         value.modelDigests = try reader["ModelDigests"].readIfPresent(with: SageMakerClientTypes.ModelDigests.read(from:))
         value.modelPackageVersionArn = try reader["ModelPackageVersionArn"].readIfPresent()
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.OutputConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.StoppingCondition.read(from:))
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.NeoVpcConfig.read(from:))
         return value
@@ -56924,16 +57053,16 @@ extension DescribeDataQualityJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeDataQualityJobDefinitionOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataQualityAppSpecification = try reader["DataQualityAppSpecification"].readIfPresent(with: SageMakerClientTypes.DataQualityAppSpecification.read(from:))
         value.dataQualityBaselineConfig = try reader["DataQualityBaselineConfig"].readIfPresent(with: SageMakerClientTypes.DataQualityBaselineConfig.read(from:))
         value.dataQualityJobInput = try reader["DataQualityJobInput"].readIfPresent(with: SageMakerClientTypes.DataQualityJobInput.read(from:))
         value.dataQualityJobOutputConfig = try reader["DataQualityJobOutputConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringOutputConfig.read(from:))
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
-        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent()
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
+        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent() ?? ""
         value.jobResources = try reader["JobResources"].readIfPresent(with: SageMakerClientTypes.MonitoringResources.read(from:))
         value.networkConfig = try reader["NetworkConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringNetworkConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.MonitoringStoppingCondition.read(from:))
         return value
     }
@@ -56949,14 +57078,14 @@ extension DescribeDeviceOutput {
         value.agentVersion = try reader["AgentVersion"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.deviceArn = try reader["DeviceArn"].readIfPresent()
-        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
-        value.deviceName = try reader["DeviceName"].readIfPresent()
+        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent() ?? ""
+        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
         value.iotThingName = try reader["IotThingName"].readIfPresent()
         value.latestHeartbeat = try reader["LatestHeartbeat"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.maxModels = try reader["MaxModels"].readIfPresent()
         value.models = try reader["Models"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgeModel.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationTime = try reader["RegistrationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.registrationTime = try reader["RegistrationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -56968,12 +57097,12 @@ extension DescribeDeviceFleetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeDeviceFleetOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
-        value.deviceFleetArn = try reader["DeviceFleetArn"].readIfPresent()
-        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
+        value.deviceFleetArn = try reader["DeviceFleetArn"].readIfPresent() ?? ""
+        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent() ?? ""
         value.iotRoleAlias = try reader["IotRoleAlias"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.EdgeOutputConfig.read(from:))
         value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
@@ -57021,16 +57150,16 @@ extension DescribeEdgeDeploymentPlanOutput {
         let reader = responseReader
         var value = DescribeEdgeDeploymentPlanOutput()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
+        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent() ?? ""
         value.edgeDeploymentFailed = try reader["EdgeDeploymentFailed"].readIfPresent()
         value.edgeDeploymentPending = try reader["EdgeDeploymentPending"].readIfPresent()
-        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent()
-        value.edgeDeploymentPlanName = try reader["EdgeDeploymentPlanName"].readIfPresent()
+        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent() ?? ""
+        value.edgeDeploymentPlanName = try reader["EdgeDeploymentPlanName"].readIfPresent() ?? ""
         value.edgeDeploymentSuccess = try reader["EdgeDeploymentSuccess"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modelConfigs = try reader["ModelConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgeDeploymentModelConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelConfigs = try reader["ModelConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgeDeploymentModelConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.stages = try reader["Stages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeploymentStageStatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stages = try reader["Stages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeploymentStageStatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -57044,9 +57173,9 @@ extension DescribeEdgePackagingJobOutput {
         var value = DescribeEdgePackagingJobOutput()
         value.compilationJobName = try reader["CompilationJobName"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.edgePackagingJobArn = try reader["EdgePackagingJobArn"].readIfPresent()
-        value.edgePackagingJobName = try reader["EdgePackagingJobName"].readIfPresent()
-        value.edgePackagingJobStatus = try reader["EdgePackagingJobStatus"].readIfPresent()
+        value.edgePackagingJobArn = try reader["EdgePackagingJobArn"].readIfPresent() ?? ""
+        value.edgePackagingJobName = try reader["EdgePackagingJobName"].readIfPresent() ?? ""
+        value.edgePackagingJobStatus = try reader["EdgePackagingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.edgePackagingJobStatusMessage = try reader["EdgePackagingJobStatusMessage"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modelArtifact = try reader["ModelArtifact"].readIfPresent()
@@ -57069,16 +57198,16 @@ extension DescribeEndpointOutput {
         let reader = responseReader
         var value = DescribeEndpointOutput()
         value.asyncInferenceConfig = try reader["AsyncInferenceConfig"].readIfPresent(with: SageMakerClientTypes.AsyncInferenceConfig.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataCaptureConfig = try reader["DataCaptureConfig"].readIfPresent(with: SageMakerClientTypes.DataCaptureConfigSummary.read(from:))
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
         value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
+        value.endpointStatus = try reader["EndpointStatus"].readIfPresent() ?? .sdkUnknown("")
         value.explainerConfig = try reader["ExplainerConfig"].readIfPresent(with: SageMakerClientTypes.ExplainerConfig.read(from:))
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.lastDeploymentConfig = try reader["LastDeploymentConfig"].readIfPresent(with: SageMakerClientTypes.DeploymentConfig.read(from:))
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.pendingDeploymentSummary = try reader["PendingDeploymentSummary"].readIfPresent(with: SageMakerClientTypes.PendingDeploymentSummary.read(from:))
         value.productionVariants = try reader["ProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProductionVariantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.shadowProductionVariants = try reader["ShadowProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProductionVariantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -57094,15 +57223,15 @@ extension DescribeEndpointConfigOutput {
         let reader = responseReader
         var value = DescribeEndpointConfigOutput()
         value.asyncInferenceConfig = try reader["AsyncInferenceConfig"].readIfPresent(with: SageMakerClientTypes.AsyncInferenceConfig.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataCaptureConfig = try reader["DataCaptureConfig"].readIfPresent(with: SageMakerClientTypes.DataCaptureConfig.read(from:))
         value.enableNetworkIsolation = try reader["EnableNetworkIsolation"].readIfPresent()
-        value.endpointConfigArn = try reader["EndpointConfigArn"].readIfPresent()
-        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent()
+        value.endpointConfigArn = try reader["EndpointConfigArn"].readIfPresent() ?? ""
+        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent() ?? ""
         value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
         value.explainerConfig = try reader["ExplainerConfig"].readIfPresent(with: SageMakerClientTypes.ExplainerConfig.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.productionVariants = try reader["ProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProductionVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.productionVariants = try reader["ProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProductionVariant.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.shadowProductionVariants = try reader["ShadowProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProductionVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
@@ -57136,22 +57265,22 @@ extension DescribeFeatureGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeFeatureGroupOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
-        value.eventTimeFeatureName = try reader["EventTimeFeatureName"].readIfPresent()
+        value.eventTimeFeatureName = try reader["EventTimeFeatureName"].readIfPresent() ?? ""
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.featureDefinitions = try reader["FeatureDefinitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.FeatureDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent()
-        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent()
+        value.featureDefinitions = try reader["FeatureDefinitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.FeatureDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent() ?? ""
+        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
         value.featureGroupStatus = try reader["FeatureGroupStatus"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateStatus = try reader["LastUpdateStatus"].readIfPresent(with: SageMakerClientTypes.LastUpdateStatus.read(from:))
-        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
         value.offlineStoreConfig = try reader["OfflineStoreConfig"].readIfPresent(with: SageMakerClientTypes.OfflineStoreConfig.read(from:))
         value.offlineStoreStatus = try reader["OfflineStoreStatus"].readIfPresent(with: SageMakerClientTypes.OfflineStoreStatus.read(from:))
         value.onlineStoreConfig = try reader["OnlineStoreConfig"].readIfPresent(with: SageMakerClientTypes.OnlineStoreConfig.read(from:))
         value.onlineStoreTotalSizeBytes = try reader["OnlineStoreTotalSizeBytes"].readIfPresent()
-        value.recordIdentifierFeatureName = try reader["RecordIdentifierFeatureName"].readIfPresent()
+        value.recordIdentifierFeatureName = try reader["RecordIdentifierFeatureName"].readIfPresent() ?? ""
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.throughputConfig = try reader["ThroughputConfig"].readIfPresent(with: SageMakerClientTypes.ThroughputConfigDescription.read(from:))
         return value
@@ -57165,13 +57294,13 @@ extension DescribeFeatureMetadataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeFeatureMetadataOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
-        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent()
-        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent()
-        value.featureName = try reader["FeatureName"].readIfPresent()
-        value.featureType = try reader["FeatureType"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent() ?? ""
+        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
+        value.featureName = try reader["FeatureName"].readIfPresent() ?? ""
+        value.featureType = try reader["FeatureType"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.FeatureParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -57184,16 +57313,16 @@ extension DescribeFlowDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeFlowDefinitionOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent()
-        value.flowDefinitionName = try reader["FlowDefinitionName"].readIfPresent()
-        value.flowDefinitionStatus = try reader["FlowDefinitionStatus"].readIfPresent()
+        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent() ?? ""
+        value.flowDefinitionName = try reader["FlowDefinitionName"].readIfPresent() ?? ""
+        value.flowDefinitionStatus = try reader["FlowDefinitionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.humanLoopActivationConfig = try reader["HumanLoopActivationConfig"].readIfPresent(with: SageMakerClientTypes.HumanLoopActivationConfig.read(from:))
         value.humanLoopConfig = try reader["HumanLoopConfig"].readIfPresent(with: SageMakerClientTypes.HumanLoopConfig.read(from:))
         value.humanLoopRequestSource = try reader["HumanLoopRequestSource"].readIfPresent(with: SageMakerClientTypes.HumanLoopRequestSource.read(from:))
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.FlowDefinitionOutputConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -57205,15 +57334,15 @@ extension DescribeHubOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeHubOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.hubArn = try reader["HubArn"].readIfPresent()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
         value.hubDescription = try reader["HubDescription"].readIfPresent()
         value.hubDisplayName = try reader["HubDisplayName"].readIfPresent()
-        value.hubName = try reader["HubName"].readIfPresent()
+        value.hubName = try reader["HubName"].readIfPresent() ?? ""
         value.hubSearchKeywords = try reader["HubSearchKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hubStatus = try reader["HubStatus"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.hubStatus = try reader["HubStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.s3StorageConfig = try reader["S3StorageConfig"].readIfPresent(with: SageMakerClientTypes.HubS3StorageConfig.read(from:))
         return value
     }
@@ -57226,22 +57355,22 @@ extension DescribeHubContentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeHubContentOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.documentSchemaVersion = try reader["DocumentSchemaVersion"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.documentSchemaVersion = try reader["DocumentSchemaVersion"].readIfPresent() ?? ""
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.hubArn = try reader["HubArn"].readIfPresent()
-        value.hubContentArn = try reader["HubContentArn"].readIfPresent()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         value.hubContentDependencies = try reader["HubContentDependencies"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HubContentDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.hubContentDescription = try reader["HubContentDescription"].readIfPresent()
         value.hubContentDisplayName = try reader["HubContentDisplayName"].readIfPresent()
-        value.hubContentDocument = try reader["HubContentDocument"].readIfPresent()
+        value.hubContentDocument = try reader["HubContentDocument"].readIfPresent() ?? ""
         value.hubContentMarkdown = try reader["HubContentMarkdown"].readIfPresent()
-        value.hubContentName = try reader["HubContentName"].readIfPresent()
+        value.hubContentName = try reader["HubContentName"].readIfPresent() ?? ""
         value.hubContentSearchKeywords = try reader["HubContentSearchKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hubContentStatus = try reader["HubContentStatus"].readIfPresent()
-        value.hubContentType = try reader["HubContentType"].readIfPresent()
-        value.hubContentVersion = try reader["HubContentVersion"].readIfPresent()
-        value.hubName = try reader["HubName"].readIfPresent()
+        value.hubContentStatus = try reader["HubContentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.hubContentType = try reader["HubContentType"].readIfPresent() ?? .sdkUnknown("")
+        value.hubContentVersion = try reader["HubContentVersion"].readIfPresent() ?? ""
+        value.hubName = try reader["HubName"].readIfPresent() ?? ""
         value.referenceMinVersion = try reader["ReferenceMinVersion"].readIfPresent()
         value.sageMakerPublicHubContentArn = try reader["SageMakerPublicHubContentArn"].readIfPresent()
         value.supportStatus = try reader["SupportStatus"].readIfPresent()
@@ -57256,9 +57385,9 @@ extension DescribeHumanTaskUiOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeHumanTaskUiOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent()
-        value.humanTaskUiName = try reader["HumanTaskUiName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent() ?? ""
+        value.humanTaskUiName = try reader["HumanTaskUiName"].readIfPresent() ?? ""
         value.humanTaskUiStatus = try reader["HumanTaskUiStatus"].readIfPresent()
         value.uiTemplate = try reader["UiTemplate"].readIfPresent(with: SageMakerClientTypes.UiTemplateInfo.read(from:))
         return value
@@ -57275,13 +57404,13 @@ extension DescribeHyperParameterTuningJobOutput {
         value.autotune = try reader["Autotune"].readIfPresent(with: SageMakerClientTypes.Autotune.read(from:))
         value.bestTrainingJob = try reader["BestTrainingJob"].readIfPresent(with: SageMakerClientTypes.HyperParameterTrainingJobSummary.read(from:))
         value.consumedResources = try reader["ConsumedResources"].readIfPresent(with: SageMakerClientTypes.HyperParameterTuningJobConsumedResources.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.hyperParameterTuningEndTime = try reader["HyperParameterTuningEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.hyperParameterTuningJobArn = try reader["HyperParameterTuningJobArn"].readIfPresent()
+        value.hyperParameterTuningJobArn = try reader["HyperParameterTuningJobArn"].readIfPresent() ?? ""
         value.hyperParameterTuningJobConfig = try reader["HyperParameterTuningJobConfig"].readIfPresent(with: SageMakerClientTypes.HyperParameterTuningJobConfig.read(from:))
-        value.hyperParameterTuningJobName = try reader["HyperParameterTuningJobName"].readIfPresent()
-        value.hyperParameterTuningJobStatus = try reader["HyperParameterTuningJobStatus"].readIfPresent()
+        value.hyperParameterTuningJobName = try reader["HyperParameterTuningJobName"].readIfPresent() ?? ""
+        value.hyperParameterTuningJobStatus = try reader["HyperParameterTuningJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.objectiveStatusCounters = try reader["ObjectiveStatusCounters"].readIfPresent(with: SageMakerClientTypes.ObjectiveStatusCounters.read(from:))
         value.overallBestTrainingJob = try reader["OverallBestTrainingJob"].readIfPresent(with: SageMakerClientTypes.HyperParameterTrainingJobSummary.read(from:))
@@ -57348,14 +57477,14 @@ extension DescribeInferenceComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeInferenceComponentOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent()
-        value.inferenceComponentName = try reader["InferenceComponentName"].readIfPresent()
+        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
+        value.inferenceComponentName = try reader["InferenceComponentName"].readIfPresent() ?? ""
         value.inferenceComponentStatus = try reader["InferenceComponentStatus"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary.read(from:))
         value.specification = try reader["Specification"].readIfPresent(with: SageMakerClientTypes.InferenceComponentSpecificationSummary.read(from:))
         value.variantName = try reader["VariantName"].readIfPresent()
@@ -57370,7 +57499,7 @@ extension DescribeInferenceExperimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeInferenceExperimentOutput()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataStorageConfig = try reader["DataStorageConfig"].readIfPresent(with: SageMakerClientTypes.InferenceExperimentDataStorageConfig.read(from:))
@@ -57378,14 +57507,14 @@ extension DescribeInferenceExperimentOutput {
         value.endpointMetadata = try reader["EndpointMetadata"].readIfPresent(with: SageMakerClientTypes.EndpointMetadata.read(from:))
         value.kmsKey = try reader["KmsKey"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modelVariants = try reader["ModelVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelVariantConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
+        value.modelVariants = try reader["ModelVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelVariantConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.schedule = try reader["Schedule"].readIfPresent(with: SageMakerClientTypes.InferenceExperimentSchedule.read(from:))
         value.shadowModeConfig = try reader["ShadowModeConfig"].readIfPresent(with: SageMakerClientTypes.ShadowModeConfig.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -57398,18 +57527,18 @@ extension DescribeInferenceRecommendationsJobOutput {
         let reader = responseReader
         var value = DescribeInferenceRecommendationsJobOutput()
         value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endpointPerformances = try reader["EndpointPerformances"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EndpointPerformance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.inferenceRecommendations = try reader["InferenceRecommendations"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InferenceRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputConfig = try reader["InputConfig"].readIfPresent(with: SageMakerClientTypes.RecommendationJobInputConfig.read(from:))
-        value.jobArn = try reader["JobArn"].readIfPresent()
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
         value.jobDescription = try reader["JobDescription"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobType = try reader["JobType"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
+        value.jobType = try reader["JobType"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.stoppingConditions = try reader["StoppingConditions"].readIfPresent(with: SageMakerClientTypes.RecommendationJobStoppingConditions.read(from:))
         return value
     }
@@ -57422,22 +57551,22 @@ extension DescribeLabelingJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeLabelingJobOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.humanTaskConfig = try reader["HumanTaskConfig"].readIfPresent(with: SageMakerClientTypes.HumanTaskConfig.read(from:))
         value.inputConfig = try reader["InputConfig"].readIfPresent(with: SageMakerClientTypes.LabelingJobInputConfig.read(from:))
-        value.jobReferenceCode = try reader["JobReferenceCode"].readIfPresent()
+        value.jobReferenceCode = try reader["JobReferenceCode"].readIfPresent() ?? ""
         value.labelAttributeName = try reader["LabelAttributeName"].readIfPresent()
         value.labelCategoryConfigS3Uri = try reader["LabelCategoryConfigS3Uri"].readIfPresent()
         value.labelCounters = try reader["LabelCounters"].readIfPresent(with: SageMakerClientTypes.LabelCounters.read(from:))
         value.labelingJobAlgorithmsConfig = try reader["LabelingJobAlgorithmsConfig"].readIfPresent(with: SageMakerClientTypes.LabelingJobAlgorithmsConfig.read(from:))
-        value.labelingJobArn = try reader["LabelingJobArn"].readIfPresent()
-        value.labelingJobName = try reader["LabelingJobName"].readIfPresent()
+        value.labelingJobArn = try reader["LabelingJobArn"].readIfPresent() ?? ""
+        value.labelingJobName = try reader["LabelingJobName"].readIfPresent() ?? ""
         value.labelingJobOutput = try reader["LabelingJobOutput"].readIfPresent(with: SageMakerClientTypes.LabelingJobOutput.read(from:))
-        value.labelingJobStatus = try reader["LabelingJobStatus"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.labelingJobStatus = try reader["LabelingJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.LabelingJobOutputConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingConditions = try reader["StoppingConditions"].readIfPresent(with: SageMakerClientTypes.LabelingJobStoppingConditions.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -57497,13 +57626,13 @@ extension DescribeModelOutput {
         let reader = responseReader
         var value = DescribeModelOutput()
         value.containers = try reader["Containers"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deploymentRecommendation = try reader["DeploymentRecommendation"].readIfPresent(with: SageMakerClientTypes.DeploymentRecommendation.read(from:))
         value.enableNetworkIsolation = try reader["EnableNetworkIsolation"].readIfPresent()
         value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
         value.inferenceExecutionConfig = try reader["InferenceExecutionConfig"].readIfPresent(with: SageMakerClientTypes.InferenceExecutionConfig.read(from:))
-        value.modelArn = try reader["ModelArn"].readIfPresent()
-        value.modelName = try reader["ModelName"].readIfPresent()
+        value.modelArn = try reader["ModelArn"].readIfPresent() ?? ""
+        value.modelName = try reader["ModelName"].readIfPresent() ?? ""
         value.primaryContainer = try reader["PrimaryContainer"].readIfPresent(with: SageMakerClientTypes.ContainerDefinition.read(from:))
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
@@ -57517,16 +57646,16 @@ extension DescribeModelBiasJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeModelBiasJobDefinitionOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
-        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
+        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent() ?? ""
         value.jobResources = try reader["JobResources"].readIfPresent(with: SageMakerClientTypes.MonitoringResources.read(from:))
         value.modelBiasAppSpecification = try reader["ModelBiasAppSpecification"].readIfPresent(with: SageMakerClientTypes.ModelBiasAppSpecification.read(from:))
         value.modelBiasBaselineConfig = try reader["ModelBiasBaselineConfig"].readIfPresent(with: SageMakerClientTypes.ModelBiasBaselineConfig.read(from:))
         value.modelBiasJobInput = try reader["ModelBiasJobInput"].readIfPresent(with: SageMakerClientTypes.ModelBiasJobInput.read(from:))
         value.modelBiasJobOutputConfig = try reader["ModelBiasJobOutputConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringOutputConfig.read(from:))
         value.networkConfig = try reader["NetworkConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringNetworkConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.MonitoringStoppingCondition.read(from:))
         return value
     }
@@ -57539,16 +57668,16 @@ extension DescribeModelCardOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeModelCardOutput()
-        value.content = try reader["Content"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent() ?? ""
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modelCardArn = try reader["ModelCardArn"].readIfPresent()
-        value.modelCardName = try reader["ModelCardName"].readIfPresent()
+        value.modelCardArn = try reader["ModelCardArn"].readIfPresent() ?? ""
+        value.modelCardName = try reader["ModelCardName"].readIfPresent() ?? ""
         value.modelCardProcessingStatus = try reader["ModelCardProcessingStatus"].readIfPresent()
-        value.modelCardStatus = try reader["ModelCardStatus"].readIfPresent()
-        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent()
+        value.modelCardStatus = try reader["ModelCardStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent() ?? 0
         value.securityConfig = try reader["SecurityConfig"].readIfPresent(with: SageMakerClientTypes.ModelCardSecurityConfig.read(from:))
         return value
     }
@@ -57561,16 +57690,16 @@ extension DescribeModelCardExportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeModelCardExportJobOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.exportArtifacts = try reader["ExportArtifacts"].readIfPresent(with: SageMakerClientTypes.ModelCardExportArtifacts.read(from:))
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.lastModifiedAt = try reader["LastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modelCardExportJobArn = try reader["ModelCardExportJobArn"].readIfPresent()
-        value.modelCardExportJobName = try reader["ModelCardExportJobName"].readIfPresent()
-        value.modelCardName = try reader["ModelCardName"].readIfPresent()
-        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent()
+        value.lastModifiedAt = try reader["LastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modelCardExportJobArn = try reader["ModelCardExportJobArn"].readIfPresent() ?? ""
+        value.modelCardExportJobName = try reader["ModelCardExportJobName"].readIfPresent() ?? ""
+        value.modelCardName = try reader["ModelCardName"].readIfPresent() ?? ""
+        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent() ?? 0
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.ModelCardExportOutputConfig.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -57582,16 +57711,16 @@ extension DescribeModelExplainabilityJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeModelExplainabilityJobDefinitionOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
-        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
+        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent() ?? ""
         value.jobResources = try reader["JobResources"].readIfPresent(with: SageMakerClientTypes.MonitoringResources.read(from:))
         value.modelExplainabilityAppSpecification = try reader["ModelExplainabilityAppSpecification"].readIfPresent(with: SageMakerClientTypes.ModelExplainabilityAppSpecification.read(from:))
         value.modelExplainabilityBaselineConfig = try reader["ModelExplainabilityBaselineConfig"].readIfPresent(with: SageMakerClientTypes.ModelExplainabilityBaselineConfig.read(from:))
         value.modelExplainabilityJobInput = try reader["ModelExplainabilityJobInput"].readIfPresent(with: SageMakerClientTypes.ModelExplainabilityJobInput.read(from:))
         value.modelExplainabilityJobOutputConfig = try reader["ModelExplainabilityJobOutputConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringOutputConfig.read(from:))
         value.networkConfig = try reader["NetworkConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringNetworkConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.MonitoringStoppingCondition.read(from:))
         return value
     }
@@ -57608,7 +57737,7 @@ extension DescribeModelPackageOutput {
         value.approvalDescription = try reader["ApprovalDescription"].readIfPresent()
         value.certifyForMarketplace = try reader["CertifyForMarketplace"].readIfPresent()
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerMetadataProperties = try reader["CustomerMetadataProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.domain = try reader["Domain"].readIfPresent()
         value.driftCheckBaselines = try reader["DriftCheckBaselines"].readIfPresent(with: SageMakerClientTypes.DriftCheckBaselines.read(from:))
@@ -57619,11 +57748,11 @@ extension DescribeModelPackageOutput {
         value.modelApprovalStatus = try reader["ModelApprovalStatus"].readIfPresent()
         value.modelCard = try reader["ModelCard"].readIfPresent(with: SageMakerClientTypes.ModelPackageModelCard.read(from:))
         value.modelMetrics = try reader["ModelMetrics"].readIfPresent(with: SageMakerClientTypes.ModelMetrics.read(from:))
-        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent()
+        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent() ?? ""
         value.modelPackageDescription = try reader["ModelPackageDescription"].readIfPresent()
         value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent()
-        value.modelPackageName = try reader["ModelPackageName"].readIfPresent()
-        value.modelPackageStatus = try reader["ModelPackageStatus"].readIfPresent()
+        value.modelPackageName = try reader["ModelPackageName"].readIfPresent() ?? ""
+        value.modelPackageStatus = try reader["ModelPackageStatus"].readIfPresent() ?? .sdkUnknown("")
         value.modelPackageStatusDetails = try reader["ModelPackageStatusDetails"].readIfPresent(with: SageMakerClientTypes.ModelPackageStatusDetails.read(from:))
         value.modelPackageVersion = try reader["ModelPackageVersion"].readIfPresent()
         value.samplePayloadUrl = try reader["SamplePayloadUrl"].readIfPresent()
@@ -57645,11 +57774,11 @@ extension DescribeModelPackageGroupOutput {
         let reader = responseReader
         var value = DescribeModelPackageGroupOutput()
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent() ?? ""
         value.modelPackageGroupDescription = try reader["ModelPackageGroupDescription"].readIfPresent()
-        value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent()
-        value.modelPackageGroupStatus = try reader["ModelPackageGroupStatus"].readIfPresent()
+        value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent() ?? ""
+        value.modelPackageGroupStatus = try reader["ModelPackageGroupStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -57661,16 +57790,16 @@ extension DescribeModelQualityJobDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeModelQualityJobDefinitionOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent()
-        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobDefinitionArn = try reader["JobDefinitionArn"].readIfPresent() ?? ""
+        value.jobDefinitionName = try reader["JobDefinitionName"].readIfPresent() ?? ""
         value.jobResources = try reader["JobResources"].readIfPresent(with: SageMakerClientTypes.MonitoringResources.read(from:))
         value.modelQualityAppSpecification = try reader["ModelQualityAppSpecification"].readIfPresent(with: SageMakerClientTypes.ModelQualityAppSpecification.read(from:))
         value.modelQualityBaselineConfig = try reader["ModelQualityBaselineConfig"].readIfPresent(with: SageMakerClientTypes.ModelQualityBaselineConfig.read(from:))
         value.modelQualityJobInput = try reader["ModelQualityJobInput"].readIfPresent(with: SageMakerClientTypes.ModelQualityJobInput.read(from:))
         value.modelQualityJobOutputConfig = try reader["ModelQualityJobOutputConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringOutputConfig.read(from:))
         value.networkConfig = try reader["NetworkConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringNetworkConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.MonitoringStoppingCondition.read(from:))
         return value
     }
@@ -57683,15 +57812,15 @@ extension DescribeMonitoringScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeMonitoringScheduleOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endpointName = try reader["EndpointName"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastMonitoringExecutionSummary = try reader["LastMonitoringExecutionSummary"].readIfPresent(with: SageMakerClientTypes.MonitoringExecutionSummary.read(from:))
-        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent()
+        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent() ?? ""
         value.monitoringScheduleConfig = try reader["MonitoringScheduleConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringScheduleConfig.read(from:))
-        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent()
-        value.monitoringScheduleStatus = try reader["MonitoringScheduleStatus"].readIfPresent()
+        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent() ?? ""
+        value.monitoringScheduleStatus = try reader["MonitoringScheduleStatus"].readIfPresent() ?? .sdkUnknown("")
         value.monitoringType = try reader["MonitoringType"].readIfPresent()
         return value
     }
@@ -57754,21 +57883,21 @@ extension DescribeOptimizationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeOptimizationJobOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deploymentInstanceType = try reader["DeploymentInstanceType"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deploymentInstanceType = try reader["DeploymentInstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modelSource = try reader["ModelSource"].readIfPresent(with: SageMakerClientTypes.OptimizationJobModelSource.read(from:))
-        value.optimizationConfigs = try reader["OptimizationConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.OptimizationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.optimizationConfigs = try reader["OptimizationConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.OptimizationConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.optimizationEndTime = try reader["OptimizationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.optimizationEnvironment = try reader["OptimizationEnvironment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent()
-        value.optimizationJobName = try reader["OptimizationJobName"].readIfPresent()
-        value.optimizationJobStatus = try reader["OptimizationJobStatus"].readIfPresent()
+        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent() ?? ""
+        value.optimizationJobName = try reader["OptimizationJobName"].readIfPresent() ?? ""
+        value.optimizationJobStatus = try reader["OptimizationJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.optimizationOutput = try reader["OptimizationOutput"].readIfPresent(with: SageMakerClientTypes.OptimizationOutput.read(from:))
         value.optimizationStartTime = try reader["OptimizationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.OptimizationJobOutputConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.StoppingCondition.read(from:))
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.OptimizationVpcConfig.read(from:))
         return value
@@ -57845,7 +57974,7 @@ extension DescribeProcessingJobOutput {
         var value = DescribeProcessingJobOutput()
         value.appSpecification = try reader["AppSpecification"].readIfPresent(with: SageMakerClientTypes.AppSpecification.read(from:))
         value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.exitMessage = try reader["ExitMessage"].readIfPresent()
         value.experimentConfig = try reader["ExperimentConfig"].readIfPresent(with: SageMakerClientTypes.ExperimentConfig.read(from:))
@@ -57855,9 +57984,9 @@ extension DescribeProcessingJobOutput {
         value.networkConfig = try reader["NetworkConfig"].readIfPresent(with: SageMakerClientTypes.NetworkConfig.read(from:))
         value.processingEndTime = try reader["ProcessingEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.processingInputs = try reader["ProcessingInputs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProcessingInput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.processingJobArn = try reader["ProcessingJobArn"].readIfPresent()
-        value.processingJobName = try reader["ProcessingJobName"].readIfPresent()
-        value.processingJobStatus = try reader["ProcessingJobStatus"].readIfPresent()
+        value.processingJobArn = try reader["ProcessingJobArn"].readIfPresent() ?? ""
+        value.processingJobName = try reader["ProcessingJobName"].readIfPresent() ?? ""
+        value.processingJobStatus = try reader["ProcessingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.processingOutputConfig = try reader["ProcessingOutputConfig"].readIfPresent(with: SageMakerClientTypes.ProcessingOutputConfig.read(from:))
         value.processingResources = try reader["ProcessingResources"].readIfPresent(with: SageMakerClientTypes.ProcessingResources.read(from:))
         value.processingStartTime = try reader["ProcessingStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -57876,14 +58005,14 @@ extension DescribeProjectOutput {
         let reader = responseReader
         var value = DescribeProjectOutput()
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.projectArn = try reader["ProjectArn"].readIfPresent()
+        value.projectArn = try reader["ProjectArn"].readIfPresent() ?? ""
         value.projectDescription = try reader["ProjectDescription"].readIfPresent()
-        value.projectId = try reader["ProjectId"].readIfPresent()
-        value.projectName = try reader["ProjectName"].readIfPresent()
-        value.projectStatus = try reader["ProjectStatus"].readIfPresent()
+        value.projectId = try reader["ProjectId"].readIfPresent() ?? ""
+        value.projectName = try reader["ProjectName"].readIfPresent() ?? ""
+        value.projectStatus = try reader["ProjectStatus"].readIfPresent() ?? .sdkUnknown("")
         value.serviceCatalogProvisionedProductDetails = try reader["ServiceCatalogProvisionedProductDetails"].readIfPresent(with: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails.read(from:))
         value.serviceCatalogProvisioningDetails = try reader["ServiceCatalogProvisioningDetails"].readIfPresent(with: SageMakerClientTypes.ServiceCatalogProvisioningDetails.read(from:))
         return value
@@ -57954,7 +58083,7 @@ extension DescribeTrainingJobOutput {
         value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
         value.billableTimeInSeconds = try reader["BillableTimeInSeconds"].readIfPresent()
         value.checkpointConfig = try reader["CheckpointConfig"].readIfPresent(with: SageMakerClientTypes.CheckpointConfig.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.debugHookConfig = try reader["DebugHookConfig"].readIfPresent(with: SageMakerClientTypes.DebugHookConfig.read(from:))
         value.debugRuleConfigurations = try reader["DebugRuleConfigurations"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DebugRuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.debugRuleEvaluationStatuses = try reader["DebugRuleEvaluationStatuses"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DebugRuleEvaluationStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -57980,14 +58109,14 @@ extension DescribeTrainingJobOutput {
         value.resourceConfig = try reader["ResourceConfig"].readIfPresent(with: SageMakerClientTypes.ResourceConfig.read(from:))
         value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: SageMakerClientTypes.RetryStrategy.read(from:))
         value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.secondaryStatus = try reader["SecondaryStatus"].readIfPresent()
+        value.secondaryStatus = try reader["SecondaryStatus"].readIfPresent() ?? .sdkUnknown("")
         value.secondaryStatusTransitions = try reader["SecondaryStatusTransitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SecondaryStatusTransition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.StoppingCondition.read(from:))
         value.tensorBoardOutputConfig = try reader["TensorBoardOutputConfig"].readIfPresent(with: SageMakerClientTypes.TensorBoardOutputConfig.read(from:))
         value.trainingEndTime = try reader["TrainingEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent()
-        value.trainingJobName = try reader["TrainingJobName"].readIfPresent()
-        value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent()
+        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent() ?? ""
+        value.trainingJobName = try reader["TrainingJobName"].readIfPresent() ?? ""
+        value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.trainingStartTime = try reader["TrainingStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.trainingTimeInSeconds = try reader["TrainingTimeInSeconds"].readIfPresent()
         value.tuningJobArn = try reader["TuningJobArn"].readIfPresent()
@@ -58006,7 +58135,7 @@ extension DescribeTransformJobOutput {
         var value = DescribeTransformJobOutput()
         value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
         value.batchStrategy = try reader["BatchStrategy"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataCaptureConfig = try reader["DataCaptureConfig"].readIfPresent(with: SageMakerClientTypes.BatchDataCaptureConfig.read(from:))
         value.dataProcessing = try reader["DataProcessing"].readIfPresent(with: SageMakerClientTypes.DataProcessing.read(from:))
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -58016,12 +58145,12 @@ extension DescribeTransformJobOutput {
         value.maxConcurrentTransforms = try reader["MaxConcurrentTransforms"].readIfPresent()
         value.maxPayloadInMB = try reader["MaxPayloadInMB"].readIfPresent()
         value.modelClientConfig = try reader["ModelClientConfig"].readIfPresent(with: SageMakerClientTypes.ModelClientConfig.read(from:))
-        value.modelName = try reader["ModelName"].readIfPresent()
+        value.modelName = try reader["ModelName"].readIfPresent() ?? ""
         value.transformEndTime = try reader["TransformEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.transformInput = try reader["TransformInput"].readIfPresent(with: SageMakerClientTypes.TransformInput.read(from:))
-        value.transformJobArn = try reader["TransformJobArn"].readIfPresent()
-        value.transformJobName = try reader["TransformJobName"].readIfPresent()
-        value.transformJobStatus = try reader["TransformJobStatus"].readIfPresent()
+        value.transformJobArn = try reader["TransformJobArn"].readIfPresent() ?? ""
+        value.transformJobName = try reader["TransformJobName"].readIfPresent() ?? ""
+        value.transformJobStatus = try reader["TransformJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.transformOutput = try reader["TransformOutput"].readIfPresent(with: SageMakerClientTypes.TransformOutput.read(from:))
         value.transformResources = try reader["TransformResources"].readIfPresent(with: SageMakerClientTypes.TransformResources.read(from:))
         value.transformStartTime = try reader["TransformStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -58161,8 +58290,8 @@ extension GetDeviceFleetReportOutput {
         var value = GetDeviceFleetReportOutput()
         value.agentVersions = try reader["AgentVersions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AgentVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
-        value.deviceFleetArn = try reader["DeviceFleetArn"].readIfPresent()
-        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
+        value.deviceFleetArn = try reader["DeviceFleetArn"].readIfPresent() ?? ""
+        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent() ?? ""
         value.deviceStats = try reader["DeviceStats"].readIfPresent(with: SageMakerClientTypes.DeviceStats.read(from:))
         value.modelStats = try reader["ModelStats"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgeModelStat.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.EdgeOutputConfig.read(from:))
@@ -58191,7 +58320,7 @@ extension GetModelPackageGroupPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetModelPackageGroupPolicyOutput()
-        value.resourcePolicy = try reader["ResourcePolicy"].readIfPresent()
+        value.resourcePolicy = try reader["ResourcePolicy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -58245,8 +58374,8 @@ extension ImportHubContentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportHubContentOutput()
-        value.hubArn = try reader["HubArn"].readIfPresent()
-        value.hubContentArn = try reader["HubContentArn"].readIfPresent()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -58271,7 +58400,7 @@ extension ListAlgorithmsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAlgorithmsOutput()
-        value.algorithmSummaryList = try reader["AlgorithmSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AlgorithmSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.algorithmSummaryList = try reader["AlgorithmSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AlgorithmSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58349,7 +58478,7 @@ extension ListAutoMLJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutoMLJobsOutput()
-        value.autoMLJobSummaries = try reader["AutoMLJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoMLJobSummaries = try reader["AutoMLJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58362,7 +58491,7 @@ extension ListCandidatesForAutoMLJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCandidatesForAutoMLJobOutput()
-        value.candidates = try reader["Candidates"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLCandidate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.candidates = try reader["Candidates"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLCandidate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58375,8 +58504,8 @@ extension ListClusterNodesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListClusterNodesOutput()
-        value.clusterNodeSummaries = try reader["ClusterNodeSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterNodeSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.clusterNodeSummaries = try reader["ClusterNodeSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterNodeSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
         return value
     }
 }
@@ -58388,8 +58517,8 @@ extension ListClustersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListClustersOutput()
-        value.clusterSummaries = try reader["ClusterSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.clusterSummaries = try reader["ClusterSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
         return value
     }
 }
@@ -58401,7 +58530,7 @@ extension ListCodeRepositoriesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCodeRepositoriesOutput()
-        value.codeRepositorySummaryList = try reader["CodeRepositorySummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CodeRepositorySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.codeRepositorySummaryList = try reader["CodeRepositorySummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CodeRepositorySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58414,7 +58543,7 @@ extension ListCompilationJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCompilationJobsOutput()
-        value.compilationJobSummaries = try reader["CompilationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CompilationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.compilationJobSummaries = try reader["CompilationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CompilationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58440,7 +58569,7 @@ extension ListDataQualityJobDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataQualityJobDefinitionsOutput()
-        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58453,7 +58582,7 @@ extension ListDeviceFleetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDeviceFleetsOutput()
-        value.deviceFleetSummaries = try reader["DeviceFleetSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeviceFleetSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deviceFleetSummaries = try reader["DeviceFleetSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeviceFleetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58466,7 +58595,7 @@ extension ListDevicesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDevicesOutput()
-        value.deviceSummaries = try reader["DeviceSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeviceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deviceSummaries = try reader["DeviceSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeviceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58492,7 +58621,7 @@ extension ListEdgeDeploymentPlansOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEdgeDeploymentPlansOutput()
-        value.edgeDeploymentPlanSummaries = try reader["EdgeDeploymentPlanSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgeDeploymentPlanSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edgeDeploymentPlanSummaries = try reader["EdgeDeploymentPlanSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgeDeploymentPlanSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58505,7 +58634,7 @@ extension ListEdgePackagingJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEdgePackagingJobsOutput()
-        value.edgePackagingJobSummaries = try reader["EdgePackagingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgePackagingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edgePackagingJobSummaries = try reader["EdgePackagingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EdgePackagingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58518,7 +58647,7 @@ extension ListEndpointConfigsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEndpointConfigsOutput()
-        value.endpointConfigs = try reader["EndpointConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EndpointConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpointConfigs = try reader["EndpointConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EndpointConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58531,7 +58660,7 @@ extension ListEndpointsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEndpointsOutput()
-        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.EndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58557,7 +58686,7 @@ extension ListFeatureGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFeatureGroupsOutput()
-        value.featureGroupSummaries = try reader["FeatureGroupSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.FeatureGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.featureGroupSummaries = try reader["FeatureGroupSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.FeatureGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58570,7 +58699,7 @@ extension ListFlowDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFlowDefinitionsOutput()
-        value.flowDefinitionSummaries = try reader["FlowDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.FlowDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flowDefinitionSummaries = try reader["FlowDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.FlowDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58583,7 +58712,7 @@ extension ListHubContentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHubContentsOutput()
-        value.hubContentSummaries = try reader["HubContentSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HubContentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hubContentSummaries = try reader["HubContentSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HubContentInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58596,7 +58725,7 @@ extension ListHubContentVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHubContentVersionsOutput()
-        value.hubContentSummaries = try reader["HubContentSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HubContentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hubContentSummaries = try reader["HubContentSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HubContentInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58609,7 +58738,7 @@ extension ListHubsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHubsOutput()
-        value.hubSummaries = try reader["HubSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HubInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hubSummaries = try reader["HubSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HubInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58622,7 +58751,7 @@ extension ListHumanTaskUisOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHumanTaskUisOutput()
-        value.humanTaskUiSummaries = try reader["HumanTaskUiSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HumanTaskUiSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.humanTaskUiSummaries = try reader["HumanTaskUiSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HumanTaskUiSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58635,7 +58764,7 @@ extension ListHyperParameterTuningJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHyperParameterTuningJobsOutput()
-        value.hyperParameterTuningJobSummaries = try reader["HyperParameterTuningJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HyperParameterTuningJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hyperParameterTuningJobSummaries = try reader["HyperParameterTuningJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HyperParameterTuningJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58674,7 +58803,7 @@ extension ListInferenceComponentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListInferenceComponentsOutput()
-        value.inferenceComponents = try reader["InferenceComponents"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InferenceComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferenceComponents = try reader["InferenceComponents"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InferenceComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58700,7 +58829,7 @@ extension ListInferenceRecommendationsJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListInferenceRecommendationsJobsOutput()
-        value.inferenceRecommendationsJobs = try reader["InferenceRecommendationsJobs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InferenceRecommendationsJob.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferenceRecommendationsJobs = try reader["InferenceRecommendationsJobs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InferenceRecommendationsJob.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58739,7 +58868,7 @@ extension ListLabelingJobsForWorkteamOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListLabelingJobsForWorkteamOutput()
-        value.labelingJobSummaryList = try reader["LabelingJobSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.LabelingJobForWorkteamSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.labelingJobSummaryList = try reader["LabelingJobSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.LabelingJobForWorkteamSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58778,7 +58907,7 @@ extension ListModelBiasJobDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelBiasJobDefinitionsOutput()
-        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58791,7 +58920,7 @@ extension ListModelCardExportJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelCardExportJobsOutput()
-        value.modelCardExportJobSummaries = try reader["ModelCardExportJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelCardExportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelCardExportJobSummaries = try reader["ModelCardExportJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelCardExportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58804,7 +58933,7 @@ extension ListModelCardsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelCardsOutput()
-        value.modelCardSummaries = try reader["ModelCardSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelCardSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelCardSummaries = try reader["ModelCardSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelCardSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58817,7 +58946,7 @@ extension ListModelCardVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelCardVersionsOutput()
-        value.modelCardVersionSummaryList = try reader["ModelCardVersionSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelCardVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelCardVersionSummaryList = try reader["ModelCardVersionSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelCardVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58830,7 +58959,7 @@ extension ListModelExplainabilityJobDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelExplainabilityJobDefinitionsOutput()
-        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58843,7 +58972,7 @@ extension ListModelMetadataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelMetadataOutput()
-        value.modelMetadataSummaries = try reader["ModelMetadataSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelMetadataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelMetadataSummaries = try reader["ModelMetadataSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelMetadataSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58856,7 +58985,7 @@ extension ListModelPackageGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelPackageGroupsOutput()
-        value.modelPackageGroupSummaryList = try reader["ModelPackageGroupSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelPackageGroupSummaryList = try reader["ModelPackageGroupSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58869,7 +58998,7 @@ extension ListModelPackagesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelPackagesOutput()
-        value.modelPackageSummaryList = try reader["ModelPackageSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelPackageSummaryList = try reader["ModelPackageSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58882,7 +59011,7 @@ extension ListModelQualityJobDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelQualityJobDefinitionsOutput()
-        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobDefinitionSummaries = try reader["JobDefinitionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringJobDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58895,7 +59024,7 @@ extension ListModelsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListModelsOutput()
-        value.models = try reader["Models"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.models = try reader["Models"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58934,7 +59063,7 @@ extension ListMonitoringExecutionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMonitoringExecutionsOutput()
-        value.monitoringExecutionSummaries = try reader["MonitoringExecutionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoringExecutionSummaries = try reader["MonitoringExecutionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58947,7 +59076,7 @@ extension ListMonitoringSchedulesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMonitoringSchedulesOutput()
-        value.monitoringScheduleSummaries = try reader["MonitoringScheduleSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringScheduleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoringScheduleSummaries = try reader["MonitoringScheduleSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringScheduleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -58987,7 +59116,7 @@ extension ListOptimizationJobsOutput {
         let reader = responseReader
         var value = ListOptimizationJobsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.optimizationJobSummaries = try reader["OptimizationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.OptimizationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.optimizationJobSummaries = try reader["OptimizationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.OptimizationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59052,7 +59181,7 @@ extension ListProcessingJobsOutput {
         let reader = responseReader
         var value = ListProcessingJobsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.processingJobSummaries = try reader["ProcessingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProcessingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.processingJobSummaries = try reader["ProcessingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProcessingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59065,7 +59194,7 @@ extension ListProjectsOutput {
         let reader = responseReader
         var value = ListProjectsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.projectSummaryList = try reader["ProjectSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProjectSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projectSummaryList = try reader["ProjectSummaryList"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProjectSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59103,7 +59232,7 @@ extension ListStageDevicesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListStageDevicesOutput()
-        value.deviceDeploymentSummaries = try reader["DeviceDeploymentSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeviceDeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deviceDeploymentSummaries = try reader["DeviceDeploymentSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeviceDeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -59130,7 +59259,7 @@ extension ListSubscribedWorkteamsOutput {
         let reader = responseReader
         var value = ListSubscribedWorkteamsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.subscribedWorkteams = try reader["SubscribedWorkteams"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SubscribedWorkteam.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subscribedWorkteams = try reader["SubscribedWorkteams"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SubscribedWorkteam.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59156,7 +59285,7 @@ extension ListTrainingJobsOutput {
         let reader = responseReader
         var value = ListTrainingJobsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.trainingJobSummaries = try reader["TrainingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrainingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trainingJobSummaries = try reader["TrainingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrainingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59169,7 +59298,7 @@ extension ListTrainingJobsForHyperParameterTuningJobOutput {
         let reader = responseReader
         var value = ListTrainingJobsForHyperParameterTuningJobOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.trainingJobSummaries = try reader["TrainingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HyperParameterTrainingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trainingJobSummaries = try reader["TrainingJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HyperParameterTrainingJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59182,7 +59311,7 @@ extension ListTransformJobsOutput {
         let reader = responseReader
         var value = ListTransformJobsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.transformJobSummaries = try reader["TransformJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TransformJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transformJobSummaries = try reader["TransformJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TransformJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59234,7 +59363,7 @@ extension ListWorkforcesOutput {
         let reader = responseReader
         var value = ListWorkforcesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.workforces = try reader["Workforces"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Workforce.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workforces = try reader["Workforces"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Workforce.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59247,7 +59376,7 @@ extension ListWorkteamsOutput {
         let reader = responseReader
         var value = ListWorkteamsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.workteams = try reader["Workteams"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Workteam.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workteams = try reader["Workteams"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Workteam.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59259,7 +59388,7 @@ extension PutModelPackageGroupPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutModelPackageGroupPolicyOutput()
-        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent()
+        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59292,8 +59421,8 @@ extension RenderUiTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RenderUiTemplateOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.RenderingError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.renderedContent = try reader["RenderedContent"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.RenderingError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.renderedContent = try reader["RenderedContent"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59361,7 +59490,7 @@ extension StartInferenceExperimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartInferenceExperimentOutput()
-        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent()
+        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59446,7 +59575,7 @@ extension StopInferenceExperimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StopInferenceExperimentOutput()
-        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent()
+        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59574,7 +59703,7 @@ extension UpdateClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateClusterOutput()
-        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59586,7 +59715,7 @@ extension UpdateClusterSoftwareOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateClusterSoftwareOutput()
-        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59598,7 +59727,7 @@ extension UpdateCodeRepositoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateCodeRepositoryOutput()
-        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent()
+        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59648,7 +59777,7 @@ extension UpdateEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEndpointOutput()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59660,7 +59789,7 @@ extension UpdateEndpointWeightsAndCapacitiesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEndpointWeightsAndCapacitiesOutput()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59684,7 +59813,7 @@ extension UpdateFeatureGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFeatureGroupOutput()
-        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent()
+        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59703,7 +59832,7 @@ extension UpdateHubOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateHubOutput()
-        value.hubArn = try reader["HubArn"].readIfPresent()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59739,7 +59868,7 @@ extension UpdateInferenceComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateInferenceComponentOutput()
-        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent()
+        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59751,7 +59880,7 @@ extension UpdateInferenceComponentRuntimeConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateInferenceComponentRuntimeConfigOutput()
-        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent()
+        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59763,7 +59892,7 @@ extension UpdateInferenceExperimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateInferenceExperimentOutput()
-        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent()
+        value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59787,7 +59916,7 @@ extension UpdateModelCardOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateModelCardOutput()
-        value.modelCardArn = try reader["ModelCardArn"].readIfPresent()
+        value.modelCardArn = try reader["ModelCardArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59799,7 +59928,7 @@ extension UpdateModelPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateModelPackageOutput()
-        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent()
+        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59812,7 +59941,7 @@ extension UpdateMonitoringAlertOutput {
         let reader = responseReader
         var value = UpdateMonitoringAlertOutput()
         value.monitoringAlertName = try reader["MonitoringAlertName"].readIfPresent()
-        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent()
+        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59824,7 +59953,7 @@ extension UpdateMonitoringScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateMonitoringScheduleOutput()
-        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent()
+        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59874,7 +60003,7 @@ extension UpdateProjectOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateProjectOutput()
-        value.projectArn = try reader["ProjectArn"].readIfPresent()
+        value.projectArn = try reader["ProjectArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -59898,7 +60027,7 @@ extension UpdateTrainingJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateTrainingJobOutput()
-        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent()
+        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -64719,8 +64848,8 @@ extension SageMakerClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -64730,13 +64859,13 @@ extension SageMakerClientTypes.BatchDescribeModelPackageSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDescribeModelPackageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.BatchDescribeModelPackageSummary()
-        value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent()
+        value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent() ?? ""
         value.modelPackageVersion = try reader["ModelPackageVersion"].readIfPresent()
-        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent()
+        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent() ?? ""
         value.modelPackageDescription = try reader["ModelPackageDescription"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.inferenceSpecification = try reader["InferenceSpecification"].readIfPresent(with: SageMakerClientTypes.InferenceSpecification.read(from:))
-        value.modelPackageStatus = try reader["ModelPackageStatus"].readIfPresent()
+        value.modelPackageStatus = try reader["ModelPackageStatus"].readIfPresent() ?? .sdkUnknown("")
         value.modelApprovalStatus = try reader["ModelApprovalStatus"].readIfPresent()
         return value
     }
@@ -64756,7 +64885,7 @@ extension SageMakerClientTypes.InferenceSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceSpecification()
-        value.containers = try reader["Containers"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containers = try reader["Containers"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.supportedTransformInstanceTypes = try reader["SupportedTransformInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.TransformInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedRealtimeInferenceInstanceTypes = try reader["SupportedRealtimeInferenceInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.ProductionVariantInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedContentTypes = try reader["SupportedContentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -64787,7 +64916,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageContainerDefinition()
         value.containerHostname = try reader["ContainerHostname"].readIfPresent()
-        value.image = try reader["Image"].readIfPresent()
+        value.image = try reader["Image"].readIfPresent() ?? ""
         value.imageDigest = try reader["ImageDigest"].readIfPresent()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))
@@ -64814,8 +64943,8 @@ extension SageMakerClientTypes.AdditionalS3DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AdditionalS3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AdditionalS3DataSource()
-        value.s3DataType = try reader["S3DataType"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.compressionType = try reader["CompressionType"].readIfPresent()
         return value
     }
@@ -64831,7 +64960,7 @@ extension SageMakerClientTypes.ModelInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelInput()
-        value.dataInputConfig = try reader["DataInputConfig"].readIfPresent()
+        value.dataInputConfig = try reader["DataInputConfig"].readIfPresent() ?? ""
         return value
     }
 }
@@ -64865,9 +64994,9 @@ extension SageMakerClientTypes.S3ModelDataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3ModelDataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.S3ModelDataSource()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        value.s3DataType = try reader["S3DataType"].readIfPresent()
-        value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.compressionType = try reader["CompressionType"].readIfPresent() ?? .sdkUnknown("")
         value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
         value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.InferenceHubAccessConfig.read(from:))
         return value
@@ -64884,7 +65013,7 @@ extension SageMakerClientTypes.InferenceHubAccessConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceHubAccessConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceHubAccessConfig()
-        value.hubContentArn = try reader["HubContentArn"].readIfPresent()
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -64899,7 +65028,7 @@ extension SageMakerClientTypes.ModelAccessConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelAccessConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelAccessConfig()
-        value.acceptEula = try reader["AcceptEula"].readIfPresent()
+        value.acceptEula = try reader["AcceptEula"].readIfPresent() ?? false
         return value
     }
 }
@@ -64909,8 +65038,8 @@ extension SageMakerClientTypes.BatchDescribeModelPackageError {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDescribeModelPackageError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.BatchDescribeModelPackageError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorResponse = try reader["ErrorResponse"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorResponse = try reader["ErrorResponse"].readIfPresent() ?? ""
         return value
     }
 }
@@ -64927,7 +65056,7 @@ extension SageMakerClientTypes.ActionSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ActionSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ActionSource()
-        value.sourceUri = try reader["SourceUri"].readIfPresent()
+        value.sourceUri = try reader["SourceUri"].readIfPresent() ?? ""
         value.sourceType = try reader["SourceType"].readIfPresent()
         value.sourceId = try reader["SourceId"].readIfPresent()
         return value
@@ -64998,13 +65127,13 @@ extension SageMakerClientTypes.TrainingSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingSpecification()
-        value.trainingImage = try reader["TrainingImage"].readIfPresent()
+        value.trainingImage = try reader["TrainingImage"].readIfPresent() ?? ""
         value.trainingImageDigest = try reader["TrainingImageDigest"].readIfPresent()
         value.supportedHyperParameters = try reader["SupportedHyperParameters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HyperParameterSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedTrainingInstanceTypes = try reader["SupportedTrainingInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.TrainingInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedTrainingInstanceTypes = try reader["SupportedTrainingInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.TrainingInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.supportsDistributedTraining = try reader["SupportsDistributedTraining"].readIfPresent()
         value.metricDefinitions = try reader["MetricDefinitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MetricDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.trainingChannels = try reader["TrainingChannels"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ChannelSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trainingChannels = try reader["TrainingChannels"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ChannelSpecification.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.supportedTuningJobObjectiveMetrics = try reader["SupportedTuningJobObjectiveMetrics"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HyperParameterTuningJobObjective.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.additionalS3DataSource = try reader["AdditionalS3DataSource"].readIfPresent(with: SageMakerClientTypes.AdditionalS3DataSource.read(from:))
         return value
@@ -65022,8 +65151,8 @@ extension SageMakerClientTypes.HyperParameterTuningJobObjective {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobObjective {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTuningJobObjective()
-        value.type = try reader["Type"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65043,12 +65172,12 @@ extension SageMakerClientTypes.ChannelSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ChannelSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ChannelSpecification()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.isRequired = try reader["IsRequired"].readIfPresent()
-        value.supportedContentTypes = try reader["SupportedContentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedContentTypes = try reader["SupportedContentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.supportedCompressionTypes = try reader["SupportedCompressionTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.CompressionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedInputModes = try reader["SupportedInputModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.TrainingInputMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedInputModes = try reader["SupportedInputModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.TrainingInputMode>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -65064,8 +65193,8 @@ extension SageMakerClientTypes.MetricDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MetricDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MetricDefinition()
-        value.name = try reader["Name"].readIfPresent()
-        value.regex = try reader["Regex"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.regex = try reader["Regex"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65086,9 +65215,9 @@ extension SageMakerClientTypes.HyperParameterSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterSpecification()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.range = try reader["Range"].readIfPresent(with: SageMakerClientTypes.ParameterRange.read(from:))
         value.isTunable = try reader["IsTunable"].readIfPresent()
         value.isRequired = try reader["IsRequired"].readIfPresent()
@@ -65126,7 +65255,7 @@ extension SageMakerClientTypes.CategoricalParameterRangeSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CategoricalParameterRangeSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CategoricalParameterRangeSpecification()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -65142,8 +65271,8 @@ extension SageMakerClientTypes.ContinuousParameterRangeSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ContinuousParameterRangeSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ContinuousParameterRangeSpecification()
-        value.minValue = try reader["MinValue"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
+        value.minValue = try reader["MinValue"].readIfPresent() ?? ""
+        value.maxValue = try reader["MaxValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65159,8 +65288,8 @@ extension SageMakerClientTypes.IntegerParameterRangeSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.IntegerParameterRangeSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.IntegerParameterRangeSpecification()
-        value.minValue = try reader["MinValue"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
+        value.minValue = try reader["MinValue"].readIfPresent() ?? ""
+        value.maxValue = try reader["MaxValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65176,8 +65305,8 @@ extension SageMakerClientTypes.AlgorithmValidationSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlgorithmValidationSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AlgorithmValidationSpecification()
-        value.validationRole = try reader["ValidationRole"].readIfPresent()
-        value.validationProfiles = try reader["ValidationProfiles"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AlgorithmValidationProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationRole = try reader["ValidationRole"].readIfPresent() ?? ""
+        value.validationProfiles = try reader["ValidationProfiles"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AlgorithmValidationProfile.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -65194,7 +65323,7 @@ extension SageMakerClientTypes.AlgorithmValidationProfile {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlgorithmValidationProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AlgorithmValidationProfile()
-        value.profileName = try reader["ProfileName"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent() ?? ""
         value.trainingJobDefinition = try reader["TrainingJobDefinition"].readIfPresent(with: SageMakerClientTypes.TrainingJobDefinition.read(from:))
         value.transformJobDefinition = try reader["TransformJobDefinition"].readIfPresent(with: SageMakerClientTypes.TransformJobDefinition.read(from:))
         return value
@@ -65240,8 +65369,8 @@ extension SageMakerClientTypes.TransformResources {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TransformResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TransformResources()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
         return value
     }
@@ -65260,7 +65389,7 @@ extension SageMakerClientTypes.TransformOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TransformOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TransformOutput()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         value.accept = try reader["Accept"].readIfPresent()
         value.assembleWith = try reader["AssembleWith"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
@@ -65315,8 +65444,8 @@ extension SageMakerClientTypes.TransformS3DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TransformS3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TransformS3DataSource()
-        value.s3DataType = try reader["S3DataType"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65336,9 +65465,9 @@ extension SageMakerClientTypes.TrainingJobDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingJobDefinition()
-        value.trainingInputMode = try reader["TrainingInputMode"].readIfPresent()
+        value.trainingInputMode = try reader["TrainingInputMode"].readIfPresent() ?? .sdkUnknown("")
         value.hyperParameters = try reader["HyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.inputDataConfig = try reader["InputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputDataConfig = try reader["InputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: SageMakerClientTypes.OutputDataConfig.read(from:))
         value.resourceConfig = try reader["ResourceConfig"].readIfPresent(with: SageMakerClientTypes.ResourceConfig.read(from:))
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.StoppingCondition.read(from:))
@@ -65382,7 +65511,7 @@ extension SageMakerClientTypes.ResourceConfig {
         var value = SageMakerClientTypes.ResourceConfig()
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.instanceCount = try reader["InstanceCount"].readIfPresent()
-        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
+        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent() ?? 0
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
         value.keepAlivePeriodInSeconds = try reader["KeepAlivePeriodInSeconds"].readIfPresent()
         value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InstanceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -65402,9 +65531,9 @@ extension SageMakerClientTypes.InstanceGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InstanceGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InstanceGroup()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
-        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
+        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65422,7 +65551,7 @@ extension SageMakerClientTypes.OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OutputDataConfig()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         value.compressionType = try reader["CompressionType"].readIfPresent()
         return value
     }
@@ -65444,7 +65573,7 @@ extension SageMakerClientTypes.Channel {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Channel()
-        value.channelName = try reader["ChannelName"].readIfPresent()
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
         value.dataSource = try reader["DataSource"].readIfPresent(with: SageMakerClientTypes.DataSource.read(from:))
         value.contentType = try reader["ContentType"].readIfPresent()
         value.compressionType = try reader["CompressionType"].readIfPresent()
@@ -65465,7 +65594,7 @@ extension SageMakerClientTypes.ShuffleConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ShuffleConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ShuffleConfig()
-        value.seed = try reader["Seed"].readIfPresent()
+        value.seed = try reader["Seed"].readIfPresent() ?? 0
         return value
     }
 }
@@ -65500,10 +65629,10 @@ extension SageMakerClientTypes.FileSystemDataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FileSystemDataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FileSystemDataSource()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.fileSystemAccessMode = try reader["FileSystemAccessMode"].readIfPresent()
-        value.fileSystemType = try reader["FileSystemType"].readIfPresent()
-        value.directoryPath = try reader["DirectoryPath"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        value.fileSystemAccessMode = try reader["FileSystemAccessMode"].readIfPresent() ?? .sdkUnknown("")
+        value.fileSystemType = try reader["FileSystemType"].readIfPresent() ?? .sdkUnknown("")
+        value.directoryPath = try reader["DirectoryPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65522,8 +65651,8 @@ extension SageMakerClientTypes.S3DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.S3DataSource()
-        value.s3DataType = try reader["S3DataType"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.s3DataDistributionType = try reader["S3DataDistributionType"].readIfPresent()
         value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceGroupNames = try reader["InstanceGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -65547,8 +65676,8 @@ extension SageMakerClientTypes.AlgorithmStatusItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlgorithmStatusItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AlgorithmStatusItem()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
@@ -65588,7 +65717,7 @@ extension SageMakerClientTypes.KernelGatewayImageConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.KernelGatewayImageConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.KernelGatewayImageConfig()
-        value.kernelSpecs = try reader["KernelSpecs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.KernelSpec.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kernelSpecs = try reader["KernelSpecs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.KernelSpec.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.fileSystemConfig = try reader["FileSystemConfig"].readIfPresent(with: SageMakerClientTypes.FileSystemConfig.read(from:))
         return value
     }
@@ -65624,7 +65753,7 @@ extension SageMakerClientTypes.KernelSpec {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.KernelSpec {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.KernelSpec()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.displayName = try reader["DisplayName"].readIfPresent()
         return value
     }
@@ -65694,7 +65823,7 @@ extension SageMakerClientTypes.ArtifactSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ArtifactSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ArtifactSource()
-        value.sourceUri = try reader["SourceUri"].readIfPresent()
+        value.sourceUri = try reader["SourceUri"].readIfPresent() ?? ""
         value.sourceTypes = try reader["SourceTypes"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ArtifactSourceType.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -65711,8 +65840,8 @@ extension SageMakerClientTypes.ArtifactSourceType {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ArtifactSourceType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ArtifactSourceType()
-        value.sourceIdType = try reader["SourceIdType"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.sourceIdType = try reader["SourceIdType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65734,7 +65863,7 @@ extension SageMakerClientTypes.AutoMLChannel {
         var value = SageMakerClientTypes.AutoMLChannel()
         value.dataSource = try reader["DataSource"].readIfPresent(with: SageMakerClientTypes.AutoMLDataSource.read(from:))
         value.compressionType = try reader["CompressionType"].readIfPresent()
-        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent()
+        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent() ?? ""
         value.contentType = try reader["ContentType"].readIfPresent()
         value.channelType = try reader["ChannelType"].readIfPresent()
         value.sampleWeightAttributeName = try reader["SampleWeightAttributeName"].readIfPresent()
@@ -65768,8 +65897,8 @@ extension SageMakerClientTypes.AutoMLS3DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLS3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLS3DataSource()
-        value.s3DataType = try reader["S3DataType"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65786,7 +65915,7 @@ extension SageMakerClientTypes.AutoMLOutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLOutputDataConfig()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -65801,7 +65930,7 @@ extension SageMakerClientTypes.AutoMLJobObjective {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLJobObjective {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLJobObjective()
-        value.metricName = try reader["MetricName"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -65871,7 +66000,7 @@ extension SageMakerClientTypes.AutoMLAlgorithmConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLAlgorithmConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLAlgorithmConfig()
-        value.autoMLAlgorithms = try reader["AutoMLAlgorithms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.AutoMLAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoMLAlgorithms = try reader["AutoMLAlgorithms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.AutoMLAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -65906,8 +66035,8 @@ extension SageMakerClientTypes.VpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.VpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.VpcConfig()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -65946,15 +66075,15 @@ extension SageMakerClientTypes.AutoMLCandidate {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLCandidate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLCandidate()
-        value.candidateName = try reader["CandidateName"].readIfPresent()
+        value.candidateName = try reader["CandidateName"].readIfPresent() ?? ""
         value.finalAutoMLJobObjectiveMetric = try reader["FinalAutoMLJobObjectiveMetric"].readIfPresent(with: SageMakerClientTypes.FinalAutoMLJobObjectiveMetric.read(from:))
-        value.objectiveStatus = try reader["ObjectiveStatus"].readIfPresent()
-        value.candidateSteps = try reader["CandidateSteps"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLCandidateStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.candidateStatus = try reader["CandidateStatus"].readIfPresent()
+        value.objectiveStatus = try reader["ObjectiveStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.candidateSteps = try reader["CandidateSteps"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLCandidateStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.candidateStatus = try reader["CandidateStatus"].readIfPresent() ?? .sdkUnknown("")
         value.inferenceContainers = try reader["InferenceContainers"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.candidateProperties = try reader["CandidateProperties"].readIfPresent(with: SageMakerClientTypes.CandidateProperties.read(from:))
         value.inferenceContainerDefinitions = try reader["InferenceContainerDefinitions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SageMakerClientTypes.AutoMLContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -65967,8 +66096,8 @@ extension SageMakerClientTypes.AutoMLContainerDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLContainerDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLContainerDefinition()
-        value.image = try reader["Image"].readIfPresent()
-        value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
+        value.image = try reader["Image"].readIfPresent() ?? ""
+        value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent() ?? ""
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -66003,7 +66132,7 @@ extension SageMakerClientTypes.CandidateArtifactLocations {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CandidateArtifactLocations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CandidateArtifactLocations()
-        value.explainability = try reader["Explainability"].readIfPresent()
+        value.explainability = try reader["Explainability"].readIfPresent() ?? ""
         value.modelInsights = try reader["ModelInsights"].readIfPresent()
         value.backtestResults = try reader["BacktestResults"].readIfPresent()
         return value
@@ -66015,9 +66144,9 @@ extension SageMakerClientTypes.AutoMLCandidateStep {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLCandidateStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLCandidateStep()
-        value.candidateStepType = try reader["CandidateStepType"].readIfPresent()
-        value.candidateStepArn = try reader["CandidateStepArn"].readIfPresent()
-        value.candidateStepName = try reader["CandidateStepName"].readIfPresent()
+        value.candidateStepType = try reader["CandidateStepType"].readIfPresent() ?? .sdkUnknown("")
+        value.candidateStepArn = try reader["CandidateStepArn"].readIfPresent() ?? ""
+        value.candidateStepName = try reader["CandidateStepName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -66028,8 +66157,8 @@ extension SageMakerClientTypes.FinalAutoMLJobObjectiveMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FinalAutoMLJobObjectiveMetric()
         value.type = try reader["Type"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
         value.standardMetricName = try reader["StandardMetricName"].readIfPresent()
         return value
     }
@@ -66190,7 +66319,7 @@ extension SageMakerClientTypes.TabularJobConfig {
         value.mode = try reader["Mode"].readIfPresent()
         value.generateCandidateDefinitionsOnly = try reader["GenerateCandidateDefinitionsOnly"].readIfPresent()
         value.problemType = try reader["ProblemType"].readIfPresent()
-        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent()
+        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent() ?? ""
         value.sampleWeightAttributeName = try reader["SampleWeightAttributeName"].readIfPresent()
         return value
     }
@@ -66231,8 +66360,8 @@ extension SageMakerClientTypes.TimeSeriesForecastingJobConfig {
         var value = SageMakerClientTypes.TimeSeriesForecastingJobConfig()
         value.featureSpecificationS3Uri = try reader["FeatureSpecificationS3Uri"].readIfPresent()
         value.completionCriteria = try reader["CompletionCriteria"].readIfPresent(with: SageMakerClientTypes.AutoMLJobCompletionCriteria.read(from:))
-        value.forecastFrequency = try reader["ForecastFrequency"].readIfPresent()
-        value.forecastHorizon = try reader["ForecastHorizon"].readIfPresent()
+        value.forecastFrequency = try reader["ForecastFrequency"].readIfPresent() ?? ""
+        value.forecastHorizon = try reader["ForecastHorizon"].readIfPresent() ?? 0
         value.forecastQuantiles = try reader["ForecastQuantiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.transformations = try reader["Transformations"].readIfPresent(with: SageMakerClientTypes.TimeSeriesTransformations.read(from:))
         value.timeSeriesConfig = try reader["TimeSeriesConfig"].readIfPresent(with: SageMakerClientTypes.TimeSeriesConfig.read(from:))
@@ -66270,9 +66399,9 @@ extension SageMakerClientTypes.TimeSeriesConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TimeSeriesConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TimeSeriesConfig()
-        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent()
-        value.timestampAttributeName = try reader["TimestampAttributeName"].readIfPresent()
-        value.itemIdentifierAttributeName = try reader["ItemIdentifierAttributeName"].readIfPresent()
+        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent() ?? ""
+        value.timestampAttributeName = try reader["TimestampAttributeName"].readIfPresent() ?? ""
+        value.itemIdentifierAttributeName = try reader["ItemIdentifierAttributeName"].readIfPresent() ?? ""
         value.groupingAttributeNames = try reader["GroupingAttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -66308,8 +66437,8 @@ extension SageMakerClientTypes.TextClassificationJobConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TextClassificationJobConfig()
         value.completionCriteria = try reader["CompletionCriteria"].readIfPresent(with: SageMakerClientTypes.AutoMLJobCompletionCriteria.read(from:))
-        value.contentColumn = try reader["ContentColumn"].readIfPresent()
-        value.targetLabelColumn = try reader["TargetLabelColumn"].readIfPresent()
+        value.contentColumn = try reader["ContentColumn"].readIfPresent() ?? ""
+        value.targetLabelColumn = try reader["TargetLabelColumn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -66402,7 +66531,7 @@ extension SageMakerClientTypes.EmrServerlessComputeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EmrServerlessComputeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EmrServerlessComputeConfig()
-        value.executionRoleARN = try reader["ExecutionRoleARN"].readIfPresent()
+        value.executionRoleARN = try reader["ExecutionRoleARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -66420,6 +66549,7 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.executionRole = try reader["ExecutionRole"].readIfPresent()
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
         value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.onStartDeepHealthChecks = try reader["OnStartDeepHealthChecks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -66458,7 +66588,7 @@ extension SageMakerClientTypes.ClusterEbsVolumeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterEbsVolumeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterEbsVolumeConfig()
-        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
+        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -66474,8 +66604,38 @@ extension SageMakerClientTypes.ClusterLifeCycleConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterLifeCycleConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterLifeCycleConfig()
-        value.sourceS3Uri = try reader["SourceS3Uri"].readIfPresent()
-        value.onCreate = try reader["OnCreate"].readIfPresent()
+        value.sourceS3Uri = try reader["SourceS3Uri"].readIfPresent() ?? ""
+        value.onCreate = try reader["OnCreate"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterOrchestrator {
+
+    static func write(value: SageMakerClientTypes.ClusterOrchestrator?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Eks"].write(value.eks, with: SageMakerClientTypes.ClusterOrchestratorEksConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterOrchestrator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterOrchestrator()
+        value.eks = try reader["Eks"].readIfPresent(with: SageMakerClientTypes.ClusterOrchestratorEksConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterOrchestratorEksConfig {
+
+    static func write(value: SageMakerClientTypes.ClusterOrchestratorEksConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterOrchestratorEksConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterOrchestratorEksConfig()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -66516,7 +66676,7 @@ extension SageMakerClientTypes.ClusterInstanceStatusDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterInstanceStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterInstanceStatusDetails()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["Message"].readIfPresent()
         return value
     }
@@ -66534,7 +66694,7 @@ extension SageMakerClientTypes.GitConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.GitConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.GitConfig()
-        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent()
+        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent() ?? ""
         value.branch = try reader["Branch"].readIfPresent()
         value.secretArn = try reader["SecretArn"].readIfPresent()
         return value
@@ -66546,7 +66706,7 @@ extension SageMakerClientTypes.ModelArtifacts {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelArtifacts()
-        value.s3ModelArtifacts = try reader["S3ModelArtifacts"].readIfPresent()
+        value.s3ModelArtifacts = try reader["S3ModelArtifacts"].readIfPresent() ?? ""
         return value
     }
 }
@@ -66574,9 +66734,9 @@ extension SageMakerClientTypes.InputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InputConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.dataInputConfig = try reader["DataInputConfig"].readIfPresent()
-        value.framework = try reader["Framework"].readIfPresent()
+        value.framework = try reader["Framework"].readIfPresent() ?? .sdkUnknown("")
         value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent()
         return value
     }
@@ -66596,7 +66756,7 @@ extension SageMakerClientTypes.OutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OutputConfig()
-        value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent()
+        value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent() ?? ""
         value.targetDevice = try reader["TargetDevice"].readIfPresent()
         value.targetPlatform = try reader["TargetPlatform"].readIfPresent(with: SageMakerClientTypes.TargetPlatform.read(from:))
         value.compilerOptions = try reader["CompilerOptions"].readIfPresent()
@@ -66617,8 +66777,8 @@ extension SageMakerClientTypes.TargetPlatform {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TargetPlatform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TargetPlatform()
-        value.os = try reader["Os"].readIfPresent()
-        value.arch = try reader["Arch"].readIfPresent()
+        value.os = try reader["Os"].readIfPresent() ?? .sdkUnknown("")
+        value.arch = try reader["Arch"].readIfPresent() ?? .sdkUnknown("")
         value.accelerator = try reader["Accelerator"].readIfPresent()
         return value
     }
@@ -66635,8 +66795,8 @@ extension SageMakerClientTypes.NeoVpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.NeoVpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.NeoVpcConfig()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -66663,7 +66823,7 @@ extension SageMakerClientTypes.ContextSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ContextSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ContextSource()
-        value.sourceUri = try reader["SourceUri"].readIfPresent()
+        value.sourceUri = try reader["SourceUri"].readIfPresent() ?? ""
         value.sourceType = try reader["SourceType"].readIfPresent()
         value.sourceId = try reader["SourceId"].readIfPresent()
         return value
@@ -66734,7 +66894,7 @@ extension SageMakerClientTypes.DataQualityAppSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DataQualityAppSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DataQualityAppSpecification()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.imageUri = try reader["ImageUri"].readIfPresent() ?? ""
         value.containerEntrypoint = try reader["ContainerEntrypoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.containerArguments = try reader["ContainerArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.recordPreprocessorSourceUri = try reader["RecordPreprocessorSourceUri"].readIfPresent()
@@ -66782,9 +66942,9 @@ extension SageMakerClientTypes.BatchTransformInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchTransformInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.BatchTransformInput()
-        value.dataCapturedDestinationS3Uri = try reader["DataCapturedDestinationS3Uri"].readIfPresent()
+        value.dataCapturedDestinationS3Uri = try reader["DataCapturedDestinationS3Uri"].readIfPresent() ?? ""
         value.datasetFormat = try reader["DatasetFormat"].readIfPresent(with: SageMakerClientTypes.MonitoringDatasetFormat.read(from:))
-        value.localPath = try reader["LocalPath"].readIfPresent()
+        value.localPath = try reader["LocalPath"].readIfPresent() ?? ""
         value.s3InputMode = try reader["S3InputMode"].readIfPresent()
         value.s3DataDistributionType = try reader["S3DataDistributionType"].readIfPresent()
         value.featuresAttribute = try reader["FeaturesAttribute"].readIfPresent()
@@ -66880,8 +67040,8 @@ extension SageMakerClientTypes.EndpointInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EndpointInput()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.localPath = try reader["LocalPath"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
+        value.localPath = try reader["LocalPath"].readIfPresent() ?? ""
         value.s3InputMode = try reader["S3InputMode"].readIfPresent()
         value.s3DataDistributionType = try reader["S3DataDistributionType"].readIfPresent()
         value.featuresAttribute = try reader["FeaturesAttribute"].readIfPresent()
@@ -66906,7 +67066,7 @@ extension SageMakerClientTypes.MonitoringOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringOutputConfig()
-        value.monitoringOutputs = try reader["MonitoringOutputs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoringOutputs = try reader["MonitoringOutputs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -66939,8 +67099,8 @@ extension SageMakerClientTypes.MonitoringS3Output {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringS3Output {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringS3Output()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        value.localPath = try reader["LocalPath"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.localPath = try reader["LocalPath"].readIfPresent() ?? ""
         value.s3UploadMode = try reader["S3UploadMode"].readIfPresent()
         return value
     }
@@ -66974,9 +67134,9 @@ extension SageMakerClientTypes.MonitoringClusterConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringClusterConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringClusterConfig()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent() ?? 0
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
         return value
     }
@@ -67011,7 +67171,7 @@ extension SageMakerClientTypes.MonitoringStoppingCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringStoppingCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringStoppingCondition()
-        value.maxRuntimeInSeconds = try reader["MaxRuntimeInSeconds"].readIfPresent()
+        value.maxRuntimeInSeconds = try reader["MaxRuntimeInSeconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -67021,8 +67181,8 @@ extension SageMakerClientTypes.EdgeModel {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeModel()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
+        value.modelName = try reader["ModelName"].readIfPresent() ?? ""
+        value.modelVersion = try reader["ModelVersion"].readIfPresent() ?? ""
         value.latestSampleTime = try reader["LatestSampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.latestInference = try reader["LatestInference"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -67042,7 +67202,7 @@ extension SageMakerClientTypes.EdgeOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeOutputConfig()
-        value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent()
+        value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.presetDeploymentType = try reader["PresetDeploymentType"].readIfPresent()
         value.presetDeploymentConfig = try reader["PresetDeploymentConfig"].readIfPresent()
@@ -67151,7 +67311,7 @@ extension SageMakerClientTypes.EFSFileSystemConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EFSFileSystemConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EFSFileSystemConfig()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.fileSystemPath = try reader["FileSystemPath"].readIfPresent()
         return value
     }
@@ -67168,8 +67328,8 @@ extension SageMakerClientTypes.CustomPosixUserConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CustomPosixUserConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CustomPosixUserConfig()
-        value.uid = try reader["Uid"].readIfPresent()
-        value.gid = try reader["Gid"].readIfPresent()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
         return value
     }
 }
@@ -67200,8 +67360,8 @@ extension SageMakerClientTypes.DefaultEbsStorageSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DefaultEbsStorageSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DefaultEbsStorageSettings()
-        value.defaultEbsVolumeSizeInGb = try reader["DefaultEbsVolumeSizeInGb"].readIfPresent()
-        value.maximumEbsVolumeSizeInGb = try reader["MaximumEbsVolumeSizeInGb"].readIfPresent()
+        value.defaultEbsVolumeSizeInGb = try reader["DefaultEbsVolumeSizeInGb"].readIfPresent() ?? 0
+        value.maximumEbsVolumeSizeInGb = try reader["MaximumEbsVolumeSizeInGb"].readIfPresent() ?? 0
         return value
     }
 }
@@ -67294,7 +67454,7 @@ extension SageMakerClientTypes.CodeRepository {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CodeRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CodeRepository()
-        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent()
+        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -67311,9 +67471,9 @@ extension SageMakerClientTypes.CustomImage {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CustomImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CustomImage()
-        value.imageName = try reader["ImageName"].readIfPresent()
+        value.imageName = try reader["ImageName"].readIfPresent() ?? ""
         value.imageVersionNumber = try reader["ImageVersionNumber"].readIfPresent()
-        value.appImageConfigName = try reader["AppImageConfigName"].readIfPresent()
+        value.appImageConfigName = try reader["AppImageConfigName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -67676,7 +67836,7 @@ extension SageMakerClientTypes.RStudioServerProDomainSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RStudioServerProDomainSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RStudioServerProDomainSettings()
-        value.domainExecutionRoleArn = try reader["DomainExecutionRoleArn"].readIfPresent()
+        value.domainExecutionRoleArn = try reader["DomainExecutionRoleArn"].readIfPresent() ?? ""
         value.rStudioConnectUrl = try reader["RStudioConnectUrl"].readIfPresent()
         value.rStudioPackageManagerUrl = try reader["RStudioPackageManagerUrl"].readIfPresent()
         value.defaultResourceSpec = try reader["DefaultResourceSpec"].readIfPresent(with: SageMakerClientTypes.ResourceSpec.read(from:))
@@ -67724,8 +67884,8 @@ extension SageMakerClientTypes.EdgeDeploymentModelConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeDeploymentModelConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeDeploymentModelConfig()
-        value.modelHandle = try reader["ModelHandle"].readIfPresent()
-        value.edgePackagingJobName = try reader["EdgePackagingJobName"].readIfPresent()
+        value.modelHandle = try reader["ModelHandle"].readIfPresent() ?? ""
+        value.edgePackagingJobName = try reader["EdgePackagingJobName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -67735,7 +67895,7 @@ extension SageMakerClientTypes.DeploymentStageStatusSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeploymentStageStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeploymentStageStatusSummary()
-        value.stageName = try reader["StageName"].readIfPresent()
+        value.stageName = try reader["StageName"].readIfPresent() ?? ""
         value.deviceSelectionConfig = try reader["DeviceSelectionConfig"].readIfPresent(with: SageMakerClientTypes.DeviceSelectionConfig.read(from:))
         value.deploymentConfig = try reader["DeploymentConfig"].readIfPresent(with: SageMakerClientTypes.EdgeDeploymentConfig.read(from:))
         value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent(with: SageMakerClientTypes.EdgeDeploymentStatus.read(from:))
@@ -67748,10 +67908,10 @@ extension SageMakerClientTypes.EdgeDeploymentStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeDeploymentStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeDeploymentStatus()
-        value.stageStatus = try reader["StageStatus"].readIfPresent()
-        value.edgeDeploymentSuccessInStage = try reader["EdgeDeploymentSuccessInStage"].readIfPresent()
-        value.edgeDeploymentPendingInStage = try reader["EdgeDeploymentPendingInStage"].readIfPresent()
-        value.edgeDeploymentFailedInStage = try reader["EdgeDeploymentFailedInStage"].readIfPresent()
+        value.stageStatus = try reader["StageStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.edgeDeploymentSuccessInStage = try reader["EdgeDeploymentSuccessInStage"].readIfPresent() ?? 0
+        value.edgeDeploymentPendingInStage = try reader["EdgeDeploymentPendingInStage"].readIfPresent() ?? 0
+        value.edgeDeploymentFailedInStage = try reader["EdgeDeploymentFailedInStage"].readIfPresent() ?? 0
         value.edgeDeploymentStatusMessage = try reader["EdgeDeploymentStatusMessage"].readIfPresent()
         value.edgeDeploymentStageStartTime = try reader["EdgeDeploymentStageStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -67768,7 +67928,7 @@ extension SageMakerClientTypes.EdgeDeploymentConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeDeploymentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeDeploymentConfig()
-        value.failureHandlingPolicy = try reader["FailureHandlingPolicy"].readIfPresent()
+        value.failureHandlingPolicy = try reader["FailureHandlingPolicy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -67786,7 +67946,7 @@ extension SageMakerClientTypes.DeviceSelectionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceSelectionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeviceSelectionConfig()
-        value.deviceSubsetType = try reader["DeviceSubsetType"].readIfPresent()
+        value.deviceSubsetType = try reader["DeviceSubsetType"].readIfPresent() ?? .sdkUnknown("")
         value.percentage = try reader["Percentage"].readIfPresent()
         value.deviceNames = try reader["DeviceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.deviceNameContains = try reader["DeviceNameContains"].readIfPresent()
@@ -67799,7 +67959,7 @@ extension SageMakerClientTypes.EdgePresetDeploymentOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgePresetDeploymentOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgePresetDeploymentOutput()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.artifact = try reader["Artifact"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
@@ -67812,7 +67972,7 @@ extension SageMakerClientTypes.ProductionVariantSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProductionVariantSummary()
-        value.variantName = try reader["VariantName"].readIfPresent()
+        value.variantName = try reader["VariantName"].readIfPresent() ?? ""
         value.deployedImages = try reader["DeployedImages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeployedImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.currentWeight = try reader["CurrentWeight"].readIfPresent()
         value.desiredWeight = try reader["DesiredWeight"].readIfPresent()
@@ -67837,7 +67997,7 @@ extension SageMakerClientTypes.ProductionVariantRoutingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantRoutingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProductionVariantRoutingConfig()
-        value.routingStrategy = try reader["RoutingStrategy"].readIfPresent()
+        value.routingStrategy = try reader["RoutingStrategy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -67873,8 +68033,8 @@ extension SageMakerClientTypes.ProductionVariantServerlessConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantServerlessConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProductionVariantServerlessConfig()
-        value.memorySizeInMB = try reader["MemorySizeInMB"].readIfPresent()
-        value.maxConcurrency = try reader["MaxConcurrency"].readIfPresent()
+        value.memorySizeInMB = try reader["MemorySizeInMB"].readIfPresent() ?? 0
+        value.maxConcurrency = try reader["MaxConcurrency"].readIfPresent() ?? 0
         value.provisionedConcurrency = try reader["ProvisionedConcurrency"].readIfPresent()
         return value
     }
@@ -67885,7 +68045,7 @@ extension SageMakerClientTypes.ProductionVariantStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProductionVariantStatus()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -67909,11 +68069,11 @@ extension SageMakerClientTypes.DataCaptureConfigSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DataCaptureConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DataCaptureConfigSummary()
-        value.enableCapture = try reader["EnableCapture"].readIfPresent()
-        value.captureStatus = try reader["CaptureStatus"].readIfPresent()
-        value.currentSamplingPercentage = try reader["CurrentSamplingPercentage"].readIfPresent()
-        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.enableCapture = try reader["EnableCapture"].readIfPresent() ?? false
+        value.captureStatus = try reader["CaptureStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.currentSamplingPercentage = try reader["CurrentSamplingPercentage"].readIfPresent() ?? 0
+        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -67981,7 +68141,7 @@ extension SageMakerClientTypes.RollingUpdatePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RollingUpdatePolicy()
         value.maximumBatchSize = try reader["MaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.CapacitySize.read(from:))
-        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent()
+        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent() ?? 0
         value.maximumExecutionTimeoutInSeconds = try reader["MaximumExecutionTimeoutInSeconds"].readIfPresent()
         value.rollbackMaximumBatchSize = try reader["RollbackMaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.CapacitySize.read(from:))
         return value
@@ -67999,8 +68159,8 @@ extension SageMakerClientTypes.CapacitySize {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CapacitySize {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CapacitySize()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -68037,8 +68197,8 @@ extension SageMakerClientTypes.TrafficRoutingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrafficRoutingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrafficRoutingConfig()
-        value.type = try reader["Type"].readIfPresent()
-        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent() ?? 0
         value.canarySize = try reader["CanarySize"].readIfPresent(with: SageMakerClientTypes.CapacitySize.read(from:))
         value.linearStepSize = try reader["LinearStepSize"].readIfPresent(with: SageMakerClientTypes.CapacitySize.read(from:))
         return value
@@ -68122,7 +68282,7 @@ extension SageMakerClientTypes.PendingDeploymentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PendingDeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.PendingDeploymentSummary()
-        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent()
+        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent() ?? ""
         value.productionVariants = try reader["ProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PendingProductionVariantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.shadowProductionVariants = try reader["ShadowProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PendingProductionVariantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -68135,7 +68295,7 @@ extension SageMakerClientTypes.PendingProductionVariantSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PendingProductionVariantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.PendingProductionVariantSummary()
-        value.variantName = try reader["VariantName"].readIfPresent()
+        value.variantName = try reader["VariantName"].readIfPresent() ?? ""
         value.deployedImages = try reader["DeployedImages"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.DeployedImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.currentWeight = try reader["CurrentWeight"].readIfPresent()
         value.desiredWeight = try reader["DesiredWeight"].readIfPresent()
@@ -68220,8 +68380,8 @@ extension SageMakerClientTypes.ClarifyTextConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClarifyTextConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClarifyTextConfig()
-        value.language = try reader["Language"].readIfPresent()
-        value.granularity = try reader["Granularity"].readIfPresent()
+        value.language = try reader["Language"].readIfPresent() ?? .sdkUnknown("")
+        value.granularity = try reader["Granularity"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -68304,7 +68464,7 @@ extension SageMakerClientTypes.ProductionVariant {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProductionVariant()
-        value.variantName = try reader["VariantName"].readIfPresent()
+        value.variantName = try reader["VariantName"].readIfPresent() ?? ""
         value.modelName = try reader["ModelName"].readIfPresent()
         value.initialInstanceCount = try reader["InitialInstanceCount"].readIfPresent()
         value.instanceType = try reader["InstanceType"].readIfPresent()
@@ -68334,7 +68494,7 @@ extension SageMakerClientTypes.ProductionVariantCoreDumpConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantCoreDumpConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProductionVariantCoreDumpConfig()
-        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent()
+        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -68356,10 +68516,10 @@ extension SageMakerClientTypes.DataCaptureConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DataCaptureConfig()
         value.enableCapture = try reader["EnableCapture"].readIfPresent()
-        value.initialSamplingPercentage = try reader["InitialSamplingPercentage"].readIfPresent()
-        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent()
+        value.initialSamplingPercentage = try reader["InitialSamplingPercentage"].readIfPresent() ?? 0
+        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.captureOptions = try reader["CaptureOptions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CaptureOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.captureOptions = try reader["CaptureOptions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CaptureOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.captureContentTypeHeader = try reader["CaptureContentTypeHeader"].readIfPresent(with: SageMakerClientTypes.CaptureContentTypeHeader.read(from:))
         return value
     }
@@ -68392,7 +68552,7 @@ extension SageMakerClientTypes.CaptureOption {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CaptureOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CaptureOption()
-        value.captureMode = try reader["CaptureMode"].readIfPresent()
+        value.captureMode = try reader["CaptureMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -68402,7 +68562,7 @@ extension SageMakerClientTypes.ExperimentSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ExperimentSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ExperimentSource()
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
         value.sourceType = try reader["SourceType"].readIfPresent()
         return value
     }
@@ -68421,8 +68581,8 @@ extension SageMakerClientTypes.FeatureDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FeatureDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FeatureDefinition()
-        value.featureName = try reader["FeatureName"].readIfPresent()
-        value.featureType = try reader["FeatureType"].readIfPresent()
+        value.featureName = try reader["FeatureName"].readIfPresent() ?? ""
+        value.featureType = try reader["FeatureType"].readIfPresent() ?? .sdkUnknown("")
         value.collectionType = try reader["CollectionType"].readIfPresent()
         value.collectionConfig = try reader["CollectionConfig"].readIfPresent(with: SageMakerClientTypes.CollectionConfig.read(from:))
         return value
@@ -68463,7 +68623,7 @@ extension SageMakerClientTypes.VectorConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.VectorConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.VectorConfig()
-        value.dimension = try reader["Dimension"].readIfPresent()
+        value.dimension = try reader["Dimension"].readIfPresent() ?? 0
         return value
     }
 }
@@ -68554,9 +68714,9 @@ extension SageMakerClientTypes.DataCatalogConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DataCatalogConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DataCatalogConfig()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.catalog = try reader["Catalog"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -68573,7 +68733,7 @@ extension SageMakerClientTypes.S3StorageConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3StorageConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.S3StorageConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.resolvedOutputS3Uri = try reader["ResolvedOutputS3Uri"].readIfPresent()
         return value
@@ -68585,7 +68745,7 @@ extension SageMakerClientTypes.ThroughputConfigDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ThroughputConfigDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ThroughputConfigDescription()
-        value.throughputMode = try reader["ThroughputMode"].readIfPresent()
+        value.throughputMode = try reader["ThroughputMode"].readIfPresent() ?? .sdkUnknown("")
         value.provisionedReadCapacityUnits = try reader["ProvisionedReadCapacityUnits"].readIfPresent()
         value.provisionedWriteCapacityUnits = try reader["ProvisionedWriteCapacityUnits"].readIfPresent()
         return value
@@ -68597,7 +68757,7 @@ extension SageMakerClientTypes.OfflineStoreStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OfflineStoreStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OfflineStoreStatus()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.blockedReason = try reader["BlockedReason"].readIfPresent()
         return value
     }
@@ -68608,7 +68768,7 @@ extension SageMakerClientTypes.LastUpdateStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LastUpdateStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LastUpdateStatus()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
@@ -68641,7 +68801,7 @@ extension SageMakerClientTypes.HumanLoopRequestSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HumanLoopRequestSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HumanLoopRequestSource()
-        value.awsManagedHumanLoopRequestSource = try reader["AwsManagedHumanLoopRequestSource"].readIfPresent()
+        value.awsManagedHumanLoopRequestSource = try reader["AwsManagedHumanLoopRequestSource"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -68671,7 +68831,7 @@ extension SageMakerClientTypes.HumanLoopActivationConditionsConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HumanLoopActivationConditionsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HumanLoopActivationConditionsConfig()
-        value.humanLoopActivationConditions = try reader["HumanLoopActivationConditions"].readIfPresent()
+        value.humanLoopActivationConditions = try reader["HumanLoopActivationConditions"].readIfPresent() ?? ""
         return value
     }
 }
@@ -68694,11 +68854,11 @@ extension SageMakerClientTypes.HumanLoopConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HumanLoopConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HumanLoopConfig()
-        value.workteamArn = try reader["WorkteamArn"].readIfPresent()
-        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent()
-        value.taskTitle = try reader["TaskTitle"].readIfPresent()
-        value.taskDescription = try reader["TaskDescription"].readIfPresent()
-        value.taskCount = try reader["TaskCount"].readIfPresent()
+        value.workteamArn = try reader["WorkteamArn"].readIfPresent() ?? ""
+        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent() ?? ""
+        value.taskTitle = try reader["TaskTitle"].readIfPresent() ?? ""
+        value.taskDescription = try reader["TaskDescription"].readIfPresent() ?? ""
+        value.taskCount = try reader["TaskCount"].readIfPresent() ?? 0
         value.taskAvailabilityLifetimeInSeconds = try reader["TaskAvailabilityLifetimeInSeconds"].readIfPresent()
         value.taskTimeLimitInSeconds = try reader["TaskTimeLimitInSeconds"].readIfPresent()
         value.taskKeywords = try reader["TaskKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -68752,7 +68912,7 @@ extension SageMakerClientTypes.FlowDefinitionOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FlowDefinitionOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FlowDefinitionOutputConfig()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -68812,7 +68972,7 @@ extension SageMakerClientTypes.HyperParameterTuningJobConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTuningJobConfig()
-        value.strategy = try reader["Strategy"].readIfPresent()
+        value.strategy = try reader["Strategy"].readIfPresent() ?? .sdkUnknown("")
         value.strategyConfig = try reader["StrategyConfig"].readIfPresent(with: SageMakerClientTypes.HyperParameterTuningJobStrategyConfig.read(from:))
         value.hyperParameterTuningJobObjective = try reader["HyperParameterTuningJobObjective"].readIfPresent(with: SageMakerClientTypes.HyperParameterTuningJobObjective.read(from:))
         value.resourceLimits = try reader["ResourceLimits"].readIfPresent(with: SageMakerClientTypes.ResourceLimits.read(from:))
@@ -68905,8 +69065,8 @@ extension SageMakerClientTypes.AutoParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.valueHint = try reader["ValueHint"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueHint = try reader["ValueHint"].readIfPresent() ?? ""
         return value
     }
 }
@@ -68922,8 +69082,8 @@ extension SageMakerClientTypes.CategoricalParameterRange {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CategoricalParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CategoricalParameterRange()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -68941,9 +69101,9 @@ extension SageMakerClientTypes.ContinuousParameterRange {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ContinuousParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ContinuousParameterRange()
-        value.name = try reader["Name"].readIfPresent()
-        value.minValue = try reader["MinValue"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.minValue = try reader["MinValue"].readIfPresent() ?? ""
+        value.maxValue = try reader["MaxValue"].readIfPresent() ?? ""
         value.scalingType = try reader["ScalingType"].readIfPresent()
         return value
     }
@@ -68962,9 +69122,9 @@ extension SageMakerClientTypes.IntegerParameterRange {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.IntegerParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.IntegerParameterRange()
-        value.name = try reader["Name"].readIfPresent()
-        value.minValue = try reader["MinValue"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.minValue = try reader["MinValue"].readIfPresent() ?? ""
+        value.maxValue = try reader["MaxValue"].readIfPresent() ?? ""
         value.scalingType = try reader["ScalingType"].readIfPresent()
         return value
     }
@@ -68983,7 +69143,7 @@ extension SageMakerClientTypes.ResourceLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ResourceLimits()
         value.maxNumberOfTrainingJobs = try reader["MaxNumberOfTrainingJobs"].readIfPresent()
-        value.maxParallelTrainingJobs = try reader["MaxParallelTrainingJobs"].readIfPresent()
+        value.maxParallelTrainingJobs = try reader["MaxParallelTrainingJobs"].readIfPresent() ?? 0
         value.maxRuntimeInSeconds = try reader["MaxRuntimeInSeconds"].readIfPresent()
         return value
     }
@@ -69053,7 +69213,7 @@ extension SageMakerClientTypes.HyperParameterTrainingJobDefinition {
         value.hyperParameterRanges = try reader["HyperParameterRanges"].readIfPresent(with: SageMakerClientTypes.ParameterRanges.read(from:))
         value.staticHyperParameters = try reader["StaticHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.algorithmSpecification = try reader["AlgorithmSpecification"].readIfPresent(with: SageMakerClientTypes.HyperParameterAlgorithmSpecification.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.inputDataConfig = try reader["InputDataConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: SageMakerClientTypes.OutputDataConfig.read(from:))
@@ -69080,7 +69240,7 @@ extension SageMakerClientTypes.RetryStrategy {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RetryStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RetryStrategy()
-        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent() ?? 0
         return value
     }
 }
@@ -69096,7 +69256,7 @@ extension SageMakerClientTypes.CheckpointConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CheckpointConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CheckpointConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.localPath = try reader["LocalPath"].readIfPresent()
         return value
     }
@@ -69139,9 +69299,9 @@ extension SageMakerClientTypes.HyperParameterTuningInstanceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningInstanceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTuningInstanceConfig()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
-        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
+        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -69160,7 +69320,7 @@ extension SageMakerClientTypes.HyperParameterAlgorithmSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterAlgorithmSpecification()
         value.trainingImage = try reader["TrainingImage"].readIfPresent()
-        value.trainingInputMode = try reader["TrainingInputMode"].readIfPresent()
+        value.trainingInputMode = try reader["TrainingInputMode"].readIfPresent() ?? .sdkUnknown("")
         value.algorithmName = try reader["AlgorithmName"].readIfPresent()
         value.metricDefinitions = try reader["MetricDefinitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MetricDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -69199,14 +69359,14 @@ extension SageMakerClientTypes.HyperParameterTrainingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTrainingJobSummary()
         value.trainingJobDefinitionName = try reader["TrainingJobDefinitionName"].readIfPresent()
-        value.trainingJobName = try reader["TrainingJobName"].readIfPresent()
-        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent()
+        value.trainingJobName = try reader["TrainingJobName"].readIfPresent() ?? ""
+        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent() ?? ""
         value.tuningJobName = try reader["TuningJobName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.trainingStartTime = try reader["TrainingStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.trainingEndTime = try reader["TrainingEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent()
-        value.tunedHyperParameters = try reader["TunedHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.tunedHyperParameters = try reader["TunedHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.finalHyperParameterTuningJobObjectiveMetric = try reader["FinalHyperParameterTuningJobObjectiveMetric"].readIfPresent(with: SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric.read(from:))
         value.objectiveStatus = try reader["ObjectiveStatus"].readIfPresent()
@@ -69220,8 +69380,8 @@ extension SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric()
         value.type = try reader["Type"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -69237,8 +69397,8 @@ extension SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig()
-        value.parentHyperParameterTuningJobs = try reader["ParentHyperParameterTuningJobs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ParentHyperParameterTuningJob.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.warmStartType = try reader["WarmStartType"].readIfPresent()
+        value.parentHyperParameterTuningJobs = try reader["ParentHyperParameterTuningJobs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ParentHyperParameterTuningJob.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.warmStartType = try reader["WarmStartType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -69268,7 +69428,7 @@ extension SageMakerClientTypes.Autotune {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Autotune {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Autotune()
-        value.mode = try reader["Mode"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -69322,7 +69482,7 @@ extension SageMakerClientTypes.InferenceComponentComputeResourceRequirements {
         var value = SageMakerClientTypes.InferenceComponentComputeResourceRequirements()
         value.numberOfCpuCoresRequired = try reader["NumberOfCpuCoresRequired"].readIfPresent()
         value.numberOfAcceleratorDevicesRequired = try reader["NumberOfAcceleratorDevicesRequired"].readIfPresent()
-        value.minMemoryRequiredInMb = try reader["MinMemoryRequiredInMb"].readIfPresent()
+        value.minMemoryRequiredInMb = try reader["MinMemoryRequiredInMb"].readIfPresent() ?? 0
         value.maxMemoryRequiredInMb = try reader["MaxMemoryRequiredInMb"].readIfPresent()
         return value
     }
@@ -69390,7 +69550,7 @@ extension SageMakerClientTypes.EndpointMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EndpointMetadata()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
         value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent()
         value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
@@ -69403,10 +69563,10 @@ extension SageMakerClientTypes.ModelVariantConfigSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelVariantConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelVariantConfigSummary()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.variantName = try reader["VariantName"].readIfPresent()
+        value.modelName = try reader["ModelName"].readIfPresent() ?? ""
+        value.variantName = try reader["VariantName"].readIfPresent() ?? ""
         value.infrastructureConfig = try reader["InfrastructureConfig"].readIfPresent(with: SageMakerClientTypes.ModelInfrastructureConfig.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -69422,7 +69582,7 @@ extension SageMakerClientTypes.ModelInfrastructureConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelInfrastructureConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelInfrastructureConfig()
-        value.infrastructureType = try reader["InfrastructureType"].readIfPresent()
+        value.infrastructureType = try reader["InfrastructureType"].readIfPresent() ?? .sdkUnknown("")
         value.realTimeInferenceConfig = try reader["RealTimeInferenceConfig"].readIfPresent(with: SageMakerClientTypes.RealTimeInferenceConfig.read(from:))
         return value
     }
@@ -69439,8 +69599,8 @@ extension SageMakerClientTypes.RealTimeInferenceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RealTimeInferenceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RealTimeInferenceConfig()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -69457,7 +69617,7 @@ extension SageMakerClientTypes.InferenceExperimentDataStorageConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceExperimentDataStorageConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceExperimentDataStorageConfig()
-        value.destination = try reader["Destination"].readIfPresent()
+        value.destination = try reader["Destination"].readIfPresent() ?? ""
         value.kmsKey = try reader["KmsKey"].readIfPresent()
         value.contentType = try reader["ContentType"].readIfPresent(with: SageMakerClientTypes.CaptureContentTypeHeader.read(from:))
         return value
@@ -69475,8 +69635,8 @@ extension SageMakerClientTypes.ShadowModeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ShadowModeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ShadowModeConfig()
-        value.sourceModelVariantName = try reader["SourceModelVariantName"].readIfPresent()
-        value.shadowModelVariants = try reader["ShadowModelVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ShadowModelVariantConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceModelVariantName = try reader["SourceModelVariantName"].readIfPresent() ?? ""
+        value.shadowModelVariants = try reader["ShadowModelVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ShadowModelVariantConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -69492,8 +69652,8 @@ extension SageMakerClientTypes.ShadowModelVariantConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ShadowModelVariantConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ShadowModelVariantConfig()
-        value.shadowModelVariantName = try reader["ShadowModelVariantName"].readIfPresent()
-        value.samplingPercentage = try reader["SamplingPercentage"].readIfPresent()
+        value.shadowModelVariantName = try reader["ShadowModelVariantName"].readIfPresent() ?? ""
+        value.samplingPercentage = try reader["SamplingPercentage"].readIfPresent() ?? 0
         return value
     }
 }
@@ -69542,8 +69702,8 @@ extension SageMakerClientTypes.RecommendationJobVpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RecommendationJobVpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RecommendationJobVpcConfig()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -69660,8 +69820,8 @@ extension SageMakerClientTypes.CategoricalParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CategoricalParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CategoricalParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -69808,9 +69968,9 @@ extension SageMakerClientTypes.EnvironmentParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EnvironmentParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EnvironmentParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.valueType = try reader["ValueType"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -69820,8 +69980,8 @@ extension SageMakerClientTypes.EndpointOutputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointOutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EndpointOutputConfiguration()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.variantName = try reader["VariantName"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
+        value.variantName = try reader["VariantName"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.initialInstanceCount = try reader["InitialInstanceCount"].readIfPresent()
         value.serverlessConfig = try reader["ServerlessConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantServerlessConfig.read(from:))
@@ -69861,8 +70021,8 @@ extension SageMakerClientTypes.InferenceMetrics {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceMetrics()
-        value.maxInvocations = try reader["MaxInvocations"].readIfPresent()
-        value.modelLatency = try reader["ModelLatency"].readIfPresent()
+        value.maxInvocations = try reader["MaxInvocations"].readIfPresent() ?? 0
+        value.modelLatency = try reader["ModelLatency"].readIfPresent() ?? 0
         return value
     }
 }
@@ -69940,7 +70100,7 @@ extension SageMakerClientTypes.LabelingJobSnsDataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobSnsDataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobSnsDataSource()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -69955,7 +70115,7 @@ extension SageMakerClientTypes.LabelingJobS3DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobS3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobS3DataSource()
-        value.manifestS3Uri = try reader["ManifestS3Uri"].readIfPresent()
+        value.manifestS3Uri = try reader["ManifestS3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -69972,7 +70132,7 @@ extension SageMakerClientTypes.LabelingJobOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobOutputConfig()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
         return value
@@ -70008,7 +70168,7 @@ extension SageMakerClientTypes.LabelingJobAlgorithmsConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobAlgorithmsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobAlgorithmsConfig()
-        value.labelingJobAlgorithmSpecificationArn = try reader["LabelingJobAlgorithmSpecificationArn"].readIfPresent()
+        value.labelingJobAlgorithmSpecificationArn = try reader["LabelingJobAlgorithmSpecificationArn"].readIfPresent() ?? ""
         value.initialActiveLearningModelArn = try reader["InitialActiveLearningModelArn"].readIfPresent()
         value.labelingJobResourceConfig = try reader["LabelingJobResourceConfig"].readIfPresent(with: SageMakerClientTypes.LabelingJobResourceConfig.read(from:))
         return value
@@ -70053,14 +70213,14 @@ extension SageMakerClientTypes.HumanTaskConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HumanTaskConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HumanTaskConfig()
-        value.workteamArn = try reader["WorkteamArn"].readIfPresent()
+        value.workteamArn = try reader["WorkteamArn"].readIfPresent() ?? ""
         value.uiConfig = try reader["UiConfig"].readIfPresent(with: SageMakerClientTypes.UiConfig.read(from:))
-        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent()
+        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent() ?? ""
         value.taskKeywords = try reader["TaskKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.taskTitle = try reader["TaskTitle"].readIfPresent()
-        value.taskDescription = try reader["TaskDescription"].readIfPresent()
-        value.numberOfHumanWorkersPerDataObject = try reader["NumberOfHumanWorkersPerDataObject"].readIfPresent()
-        value.taskTimeLimitInSeconds = try reader["TaskTimeLimitInSeconds"].readIfPresent()
+        value.taskTitle = try reader["TaskTitle"].readIfPresent() ?? ""
+        value.taskDescription = try reader["TaskDescription"].readIfPresent() ?? ""
+        value.numberOfHumanWorkersPerDataObject = try reader["NumberOfHumanWorkersPerDataObject"].readIfPresent() ?? 0
+        value.taskTimeLimitInSeconds = try reader["TaskTimeLimitInSeconds"].readIfPresent() ?? 0
         value.taskAvailabilityLifetimeInSeconds = try reader["TaskAvailabilityLifetimeInSeconds"].readIfPresent()
         value.maxConcurrentTaskCount = try reader["MaxConcurrentTaskCount"].readIfPresent()
         value.annotationConsolidationConfig = try reader["AnnotationConsolidationConfig"].readIfPresent(with: SageMakerClientTypes.AnnotationConsolidationConfig.read(from:))
@@ -70079,7 +70239,7 @@ extension SageMakerClientTypes.AnnotationConsolidationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AnnotationConsolidationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AnnotationConsolidationConfig()
-        value.annotationConsolidationLambdaArn = try reader["AnnotationConsolidationLambdaArn"].readIfPresent()
+        value.annotationConsolidationLambdaArn = try reader["AnnotationConsolidationLambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70106,7 +70266,7 @@ extension SageMakerClientTypes.LabelingJobOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobOutput()
-        value.outputDatasetS3Uri = try reader["OutputDatasetS3Uri"].readIfPresent()
+        value.outputDatasetS3Uri = try reader["OutputDatasetS3Uri"].readIfPresent() ?? ""
         value.finalActiveLearningModelArn = try reader["FinalActiveLearningModelArn"].readIfPresent()
         return value
     }
@@ -70173,7 +70333,7 @@ extension SageMakerClientTypes.AdditionalModelDataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AdditionalModelDataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AdditionalModelDataSource()
-        value.channelName = try reader["ChannelName"].readIfPresent()
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
         value.s3DataSource = try reader["S3DataSource"].readIfPresent(with: SageMakerClientTypes.S3ModelDataSource.read(from:))
         return value
     }
@@ -70190,7 +70350,7 @@ extension SageMakerClientTypes.ImageConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ImageConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ImageConfig()
-        value.repositoryAccessMode = try reader["RepositoryAccessMode"].readIfPresent()
+        value.repositoryAccessMode = try reader["RepositoryAccessMode"].readIfPresent() ?? .sdkUnknown("")
         value.repositoryAuthConfig = try reader["RepositoryAuthConfig"].readIfPresent(with: SageMakerClientTypes.RepositoryAuthConfig.read(from:))
         return value
     }
@@ -70206,7 +70366,7 @@ extension SageMakerClientTypes.RepositoryAuthConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RepositoryAuthConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RepositoryAuthConfig()
-        value.repositoryCredentialsProviderArn = try reader["RepositoryCredentialsProviderArn"].readIfPresent()
+        value.repositoryCredentialsProviderArn = try reader["RepositoryCredentialsProviderArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70221,7 +70381,7 @@ extension SageMakerClientTypes.InferenceExecutionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceExecutionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceExecutionConfig()
-        value.mode = try reader["Mode"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -70231,7 +70391,7 @@ extension SageMakerClientTypes.DeploymentRecommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeploymentRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeploymentRecommendation()
-        value.recommendationStatus = try reader["RecommendationStatus"].readIfPresent()
+        value.recommendationStatus = try reader["RecommendationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.realTimeInferenceRecommendations = try reader["RealTimeInferenceRecommendations"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.RealTimeInferenceRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -70242,8 +70402,8 @@ extension SageMakerClientTypes.RealTimeInferenceRecommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RealTimeInferenceRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RealTimeInferenceRecommendation()
-        value.recommendationId = try reader["RecommendationId"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.recommendationId = try reader["RecommendationId"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -70278,8 +70438,8 @@ extension SageMakerClientTypes.ModelBiasAppSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelBiasAppSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelBiasAppSpecification()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
-        value.configUri = try reader["ConfigUri"].readIfPresent()
+        value.imageUri = try reader["ImageUri"].readIfPresent() ?? ""
+        value.configUri = try reader["ConfigUri"].readIfPresent() ?? ""
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -70344,7 +70504,7 @@ extension SageMakerClientTypes.ModelCardExportOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardExportOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelCardExportOutputConfig()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70354,7 +70514,7 @@ extension SageMakerClientTypes.ModelCardExportArtifacts {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardExportArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelCardExportArtifacts()
-        value.s3ExportArtifacts = try reader["S3ExportArtifacts"].readIfPresent()
+        value.s3ExportArtifacts = try reader["S3ExportArtifacts"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70388,8 +70548,8 @@ extension SageMakerClientTypes.ModelExplainabilityAppSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelExplainabilityAppSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelExplainabilityAppSpecification()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
-        value.configUri = try reader["ConfigUri"].readIfPresent()
+        value.imageUri = try reader["ImageUri"].readIfPresent() ?? ""
+        value.configUri = try reader["ConfigUri"].readIfPresent() ?? ""
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -70422,7 +70582,7 @@ extension SageMakerClientTypes.SourceAlgorithmSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SourceAlgorithmSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SourceAlgorithmSpecification()
-        value.sourceAlgorithms = try reader["SourceAlgorithms"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SourceAlgorithm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceAlgorithms = try reader["SourceAlgorithms"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SourceAlgorithm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -70441,7 +70601,7 @@ extension SageMakerClientTypes.SourceAlgorithm {
         var value = SageMakerClientTypes.SourceAlgorithm()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))
-        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
+        value.algorithmName = try reader["AlgorithmName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70457,8 +70617,8 @@ extension SageMakerClientTypes.ModelPackageValidationSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageValidationSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageValidationSpecification()
-        value.validationRole = try reader["ValidationRole"].readIfPresent()
-        value.validationProfiles = try reader["ValidationProfiles"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageValidationProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationRole = try reader["ValidationRole"].readIfPresent() ?? ""
+        value.validationProfiles = try reader["ValidationProfiles"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageValidationProfile.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -70474,7 +70634,7 @@ extension SageMakerClientTypes.ModelPackageValidationProfile {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageValidationProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageValidationProfile()
-        value.profileName = try reader["ProfileName"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent() ?? ""
         value.transformJobDefinition = try reader["TransformJobDefinition"].readIfPresent(with: SageMakerClientTypes.TransformJobDefinition.read(from:))
         return value
     }
@@ -70485,7 +70645,7 @@ extension SageMakerClientTypes.ModelPackageStatusDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageStatusDetails()
-        value.validationStatuses = try reader["ValidationStatuses"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageStatusItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationStatuses = try reader["ValidationStatuses"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageStatusItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.imageScanStatuses = try reader["ImageScanStatuses"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageStatusItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -70496,8 +70656,8 @@ extension SageMakerClientTypes.ModelPackageStatusItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageStatusItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageStatusItem()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
@@ -70551,9 +70711,9 @@ extension SageMakerClientTypes.MetricsSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MetricsSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MetricsSource()
-        value.contentType = try reader["ContentType"].readIfPresent()
+        value.contentType = try reader["ContentType"].readIfPresent() ?? ""
         value.contentDigest = try reader["ContentDigest"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70697,7 +70857,7 @@ extension SageMakerClientTypes.FileSource {
         var value = SageMakerClientTypes.FileSource()
         value.contentType = try reader["ContentType"].readIfPresent()
         value.contentDigest = try reader["ContentDigest"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70737,9 +70897,9 @@ extension SageMakerClientTypes.AdditionalInferenceSpecificationDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AdditionalInferenceSpecificationDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AdditionalInferenceSpecificationDefinition()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.containers = try reader["Containers"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containers = try reader["Containers"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ModelPackageContainerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.supportedTransformInstanceTypes = try reader["SupportedTransformInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.TransformInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedRealtimeInferenceInstanceTypes = try reader["SupportedRealtimeInferenceInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.ProductionVariantInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedContentTypes = try reader["SupportedContentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -70758,7 +70918,7 @@ extension SageMakerClientTypes.ModelPackageSecurityConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageSecurityConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageSecurityConfig()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70813,7 +70973,7 @@ extension SageMakerClientTypes.ModelQualityAppSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelQualityAppSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelQualityAppSpecification()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.imageUri = try reader["ImageUri"].readIfPresent() ?? ""
         value.containerEntrypoint = try reader["ContainerEntrypoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.containerArguments = try reader["ContainerArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.recordPreprocessorSourceUri = try reader["RecordPreprocessorSourceUri"].readIfPresent()
@@ -70883,14 +71043,14 @@ extension SageMakerClientTypes.MonitoringJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringJobDefinition()
         value.baselineConfig = try reader["BaselineConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringBaselineConfig.read(from:))
-        value.monitoringInputs = try reader["MonitoringInputs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringInput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoringInputs = try reader["MonitoringInputs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringInput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.monitoringOutputConfig = try reader["MonitoringOutputConfig"].readIfPresent(with: SageMakerClientTypes.MonitoringOutputConfig.read(from:))
         value.monitoringResources = try reader["MonitoringResources"].readIfPresent(with: SageMakerClientTypes.MonitoringResources.read(from:))
         value.monitoringAppSpecification = try reader["MonitoringAppSpecification"].readIfPresent(with: SageMakerClientTypes.MonitoringAppSpecification.read(from:))
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.MonitoringStoppingCondition.read(from:))
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.networkConfig = try reader["NetworkConfig"].readIfPresent(with: SageMakerClientTypes.NetworkConfig.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -70928,7 +71088,7 @@ extension SageMakerClientTypes.MonitoringAppSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringAppSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringAppSpecification()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.imageUri = try reader["ImageUri"].readIfPresent() ?? ""
         value.containerEntrypoint = try reader["ContainerEntrypoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.containerArguments = try reader["ContainerArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.recordPreprocessorSourceUri = try reader["RecordPreprocessorSourceUri"].readIfPresent()
@@ -70985,7 +71145,7 @@ extension SageMakerClientTypes.ScheduleConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ScheduleConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ScheduleConfig()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
         value.dataAnalysisStartTime = try reader["DataAnalysisStartTime"].readIfPresent()
         value.dataAnalysisEndTime = try reader["DataAnalysisEndTime"].readIfPresent()
         return value
@@ -70997,11 +71157,11 @@ extension SageMakerClientTypes.MonitoringExecutionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringExecutionSummary()
-        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent()
-        value.scheduledTime = try reader["ScheduledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.monitoringExecutionStatus = try reader["MonitoringExecutionStatus"].readIfPresent()
+        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent() ?? ""
+        value.scheduledTime = try reader["ScheduledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.monitoringExecutionStatus = try reader["MonitoringExecutionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.processingJobArn = try reader["ProcessingJobArn"].readIfPresent()
         value.endpointName = try reader["EndpointName"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
@@ -71021,7 +71181,7 @@ extension SageMakerClientTypes.InstanceMetadataServiceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InstanceMetadataServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InstanceMetadataServiceConfiguration()
-        value.minimumInstanceMetadataServiceVersion = try reader["MinimumInstanceMetadataServiceVersion"].readIfPresent()
+        value.minimumInstanceMetadataServiceVersion = try reader["MinimumInstanceMetadataServiceVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71083,7 +71243,7 @@ extension SageMakerClientTypes.OptimizationModelAccessConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationModelAccessConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OptimizationModelAccessConfig()
-        value.acceptEula = try reader["AcceptEula"].readIfPresent()
+        value.acceptEula = try reader["AcceptEula"].readIfPresent() ?? false
         return value
     }
 }
@@ -71162,7 +71322,7 @@ extension SageMakerClientTypes.OptimizationJobOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OptimizationJobOutputConfig()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent()
+        value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71188,8 +71348,8 @@ extension SageMakerClientTypes.OptimizationVpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationVpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OptimizationVpcConfig()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -71204,7 +71364,7 @@ extension SageMakerClientTypes.ParallelismConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ParallelismConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ParallelismConfiguration()
-        value.maxParallelExecutionSteps = try reader["MaxParallelExecutionSteps"].readIfPresent()
+        value.maxParallelExecutionSteps = try reader["MaxParallelExecutionSteps"].readIfPresent() ?? 0
         return value
     }
 }
@@ -71232,7 +71392,7 @@ extension SageMakerClientTypes.SelectiveExecutionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SelectiveExecutionConfig()
         value.sourcePipelineExecutionArn = try reader["SourcePipelineExecutionArn"].readIfPresent()
-        value.selectedSteps = try reader["SelectedSteps"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SelectedStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectedSteps = try reader["SelectedSteps"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SelectedStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -71247,7 +71407,7 @@ extension SageMakerClientTypes.SelectedStep {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SelectedStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SelectedStep()
-        value.stepName = try reader["StepName"].readIfPresent()
+        value.stepName = try reader["StepName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71265,7 +71425,7 @@ extension SageMakerClientTypes.ProcessingInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingInput()
-        value.inputName = try reader["InputName"].readIfPresent()
+        value.inputName = try reader["InputName"].readIfPresent() ?? ""
         value.appManaged = try reader["AppManaged"].readIfPresent()
         value.s3Input = try reader["S3Input"].readIfPresent(with: SageMakerClientTypes.ProcessingS3Input.read(from:))
         value.datasetDefinition = try reader["DatasetDefinition"].readIfPresent(with: SageMakerClientTypes.DatasetDefinition.read(from:))
@@ -71314,14 +71474,14 @@ extension SageMakerClientTypes.RedshiftDatasetDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RedshiftDatasetDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RedshiftDatasetDefinition()
-        value.clusterId = try reader["ClusterId"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
-        value.dbUser = try reader["DbUser"].readIfPresent()
-        value.queryString = try reader["QueryString"].readIfPresent()
-        value.clusterRoleArn = try reader["ClusterRoleArn"].readIfPresent()
-        value.outputS3Uri = try reader["OutputS3Uri"].readIfPresent()
+        value.clusterId = try reader["ClusterId"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.dbUser = try reader["DbUser"].readIfPresent() ?? ""
+        value.queryString = try reader["QueryString"].readIfPresent() ?? ""
+        value.clusterRoleArn = try reader["ClusterRoleArn"].readIfPresent() ?? ""
+        value.outputS3Uri = try reader["OutputS3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.outputFormat = try reader["OutputFormat"].readIfPresent()
+        value.outputFormat = try reader["OutputFormat"].readIfPresent() ?? .sdkUnknown("")
         value.outputCompression = try reader["OutputCompression"].readIfPresent()
         return value
     }
@@ -71344,13 +71504,13 @@ extension SageMakerClientTypes.AthenaDatasetDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AthenaDatasetDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AthenaDatasetDefinition()
-        value.catalog = try reader["Catalog"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
-        value.queryString = try reader["QueryString"].readIfPresent()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.queryString = try reader["QueryString"].readIfPresent() ?? ""
         value.workGroup = try reader["WorkGroup"].readIfPresent()
-        value.outputS3Uri = try reader["OutputS3Uri"].readIfPresent()
+        value.outputS3Uri = try reader["OutputS3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.outputFormat = try reader["OutputFormat"].readIfPresent()
+        value.outputFormat = try reader["OutputFormat"].readIfPresent() ?? .sdkUnknown("")
         value.outputCompression = try reader["OutputCompression"].readIfPresent()
         return value
     }
@@ -71371,9 +71531,9 @@ extension SageMakerClientTypes.ProcessingS3Input {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingS3Input {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingS3Input()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.localPath = try reader["LocalPath"].readIfPresent()
-        value.s3DataType = try reader["S3DataType"].readIfPresent()
+        value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
         value.s3InputMode = try reader["S3InputMode"].readIfPresent()
         value.s3DataDistributionType = try reader["S3DataDistributionType"].readIfPresent()
         value.s3CompressionType = try reader["S3CompressionType"].readIfPresent()
@@ -71392,7 +71552,7 @@ extension SageMakerClientTypes.ProcessingOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingOutputConfig()
-        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProcessingOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProcessingOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -71411,7 +71571,7 @@ extension SageMakerClientTypes.ProcessingOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingOutput()
-        value.outputName = try reader["OutputName"].readIfPresent()
+        value.outputName = try reader["OutputName"].readIfPresent() ?? ""
         value.s3Output = try reader["S3Output"].readIfPresent(with: SageMakerClientTypes.ProcessingS3Output.read(from:))
         value.featureStoreOutput = try reader["FeatureStoreOutput"].readIfPresent(with: SageMakerClientTypes.ProcessingFeatureStoreOutput.read(from:))
         value.appManaged = try reader["AppManaged"].readIfPresent()
@@ -71429,7 +71589,7 @@ extension SageMakerClientTypes.ProcessingFeatureStoreOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingFeatureStoreOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingFeatureStoreOutput()
-        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent()
+        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71446,9 +71606,9 @@ extension SageMakerClientTypes.ProcessingS3Output {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingS3Output {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingS3Output()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.localPath = try reader["LocalPath"].readIfPresent()
-        value.s3UploadMode = try reader["S3UploadMode"].readIfPresent()
+        value.s3UploadMode = try reader["S3UploadMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -71481,9 +71641,9 @@ extension SageMakerClientTypes.ProcessingClusterConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingClusterConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingClusterConfig()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent() ?? 0
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
         return value
     }
@@ -71499,7 +71659,7 @@ extension SageMakerClientTypes.ProcessingStoppingCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingStoppingCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingStoppingCondition()
-        value.maxRuntimeInSeconds = try reader["MaxRuntimeInSeconds"].readIfPresent()
+        value.maxRuntimeInSeconds = try reader["MaxRuntimeInSeconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -71516,7 +71676,7 @@ extension SageMakerClientTypes.AppSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AppSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AppSpecification()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.imageUri = try reader["ImageUri"].readIfPresent() ?? ""
         value.containerEntrypoint = try reader["ContainerEntrypoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.containerArguments = try reader["ContainerArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -71557,7 +71717,7 @@ extension SageMakerClientTypes.ServiceCatalogProvisioningDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ServiceCatalogProvisioningDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ServiceCatalogProvisioningDetails()
-        value.productId = try reader["ProductId"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent() ?? ""
         value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
         value.pathId = try reader["PathId"].readIfPresent()
         value.provisioningParameters = try reader["ProvisioningParameters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProvisioningParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -71654,7 +71814,7 @@ extension SageMakerClientTypes.EFSFileSystem {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EFSFileSystem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EFSFileSystem()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71684,7 +71844,7 @@ extension SageMakerClientTypes.EbsStorageSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EbsStorageSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EbsStorageSettings()
-        value.ebsVolumeSizeInGb = try reader["EbsVolumeSizeInGb"].readIfPresent()
+        value.ebsVolumeSizeInGb = try reader["EbsVolumeSizeInGb"].readIfPresent() ?? 0
         return value
     }
 }
@@ -71765,7 +71925,7 @@ extension SageMakerClientTypes.OwnershipSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OwnershipSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OwnershipSettings()
-        value.ownerUserProfileName = try reader["OwnerUserProfileName"].readIfPresent()
+        value.ownerUserProfileName = try reader["OwnerUserProfileName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71780,7 +71940,7 @@ extension SageMakerClientTypes.SpaceSharingSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SpaceSharingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SpaceSharingSettings()
-        value.sharingType = try reader["SharingType"].readIfPresent()
+        value.sharingType = try reader["SharingType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -71790,7 +71950,7 @@ extension SageMakerClientTypes.SubscribedWorkteam {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SubscribedWorkteam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SubscribedWorkteam()
-        value.workteamArn = try reader["WorkteamArn"].readIfPresent()
+        value.workteamArn = try reader["WorkteamArn"].readIfPresent() ?? ""
         value.marketplaceTitle = try reader["MarketplaceTitle"].readIfPresent()
         value.sellerName = try reader["SellerName"].readIfPresent()
         value.marketplaceDescription = try reader["MarketplaceDescription"].readIfPresent()
@@ -71818,7 +71978,7 @@ extension SageMakerClientTypes.AlgorithmSpecification {
         var value = SageMakerClientTypes.AlgorithmSpecification()
         value.trainingImage = try reader["TrainingImage"].readIfPresent()
         value.algorithmName = try reader["AlgorithmName"].readIfPresent()
-        value.trainingInputMode = try reader["TrainingInputMode"].readIfPresent()
+        value.trainingInputMode = try reader["TrainingInputMode"].readIfPresent() ?? .sdkUnknown("")
         value.metricDefinitions = try reader["MetricDefinitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MetricDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.enableSageMakerMetricsTimeSeries = try reader["EnableSageMakerMetricsTimeSeries"].readIfPresent()
         value.containerEntrypoint = try reader["ContainerEntrypoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -71839,7 +71999,7 @@ extension SageMakerClientTypes.TrainingImageConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingImageConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingImageConfig()
-        value.trainingRepositoryAccessMode = try reader["TrainingRepositoryAccessMode"].readIfPresent()
+        value.trainingRepositoryAccessMode = try reader["TrainingRepositoryAccessMode"].readIfPresent() ?? .sdkUnknown("")
         value.trainingRepositoryAuthConfig = try reader["TrainingRepositoryAuthConfig"].readIfPresent(with: SageMakerClientTypes.TrainingRepositoryAuthConfig.read(from:))
         return value
     }
@@ -71855,7 +72015,7 @@ extension SageMakerClientTypes.TrainingRepositoryAuthConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingRepositoryAuthConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingRepositoryAuthConfig()
-        value.trainingRepositoryCredentialsProviderArn = try reader["TrainingRepositoryCredentialsProviderArn"].readIfPresent()
+        value.trainingRepositoryCredentialsProviderArn = try reader["TrainingRepositoryCredentialsProviderArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71865,7 +72025,7 @@ extension SageMakerClientTypes.WarmPoolStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.WarmPoolStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.WarmPoolStatus()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.resourceRetainedBillableTimeInSeconds = try reader["ResourceRetainedBillableTimeInSeconds"].readIfPresent()
         value.reusedByJob = try reader["ReusedByJob"].readIfPresent()
         return value
@@ -71877,8 +72037,8 @@ extension SageMakerClientTypes.SecondaryStatusTransition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SecondaryStatusTransition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SecondaryStatusTransition()
-        value.status = try reader["Status"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
@@ -71911,7 +72071,7 @@ extension SageMakerClientTypes.DebugHookConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DebugHookConfig()
         value.localPath = try reader["LocalPath"].readIfPresent()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         value.hookParameters = try reader["HookParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.collectionConfigurations = try reader["CollectionConfigurations"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CollectionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -71951,10 +72111,10 @@ extension SageMakerClientTypes.DebugRuleConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DebugRuleConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DebugRuleConfiguration()
-        value.ruleConfigurationName = try reader["RuleConfigurationName"].readIfPresent()
+        value.ruleConfigurationName = try reader["RuleConfigurationName"].readIfPresent() ?? ""
         value.localPath = try reader["LocalPath"].readIfPresent()
         value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
-        value.ruleEvaluatorImage = try reader["RuleEvaluatorImage"].readIfPresent()
+        value.ruleEvaluatorImage = try reader["RuleEvaluatorImage"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
         value.ruleParameters = try reader["RuleParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -71974,7 +72134,7 @@ extension SageMakerClientTypes.TensorBoardOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TensorBoardOutputConfig()
         value.localPath = try reader["LocalPath"].readIfPresent()
-        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72030,10 +72190,10 @@ extension SageMakerClientTypes.ProfilerRuleConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProfilerRuleConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProfilerRuleConfiguration()
-        value.ruleConfigurationName = try reader["RuleConfigurationName"].readIfPresent()
+        value.ruleConfigurationName = try reader["RuleConfigurationName"].readIfPresent() ?? ""
         value.localPath = try reader["LocalPath"].readIfPresent()
         value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
-        value.ruleEvaluatorImage = try reader["RuleEvaluatorImage"].readIfPresent()
+        value.ruleEvaluatorImage = try reader["RuleEvaluatorImage"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
         value.ruleParameters = try reader["RuleParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -72114,7 +72274,7 @@ extension SageMakerClientTypes.BatchDataCaptureConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDataCaptureConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.BatchDataCaptureConfig()
-        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent()
+        value.destinationS3Uri = try reader["DestinationS3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.generateInferenceId = try reader["GenerateInferenceId"].readIfPresent()
         return value
@@ -72145,7 +72305,7 @@ extension SageMakerClientTypes.TrialSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrialSource()
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
         value.sourceType = try reader["SourceType"].readIfPresent()
         return value
     }
@@ -72156,7 +72316,7 @@ extension SageMakerClientTypes.TrialComponentSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrialComponentSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrialComponentSource()
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
         value.sourceType = try reader["SourceType"].readIfPresent()
         return value
     }
@@ -72219,7 +72379,7 @@ extension SageMakerClientTypes.TrialComponentArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrialComponentArtifact()
         value.mediaType = try reader["MediaType"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72247,8 +72407,8 @@ extension SageMakerClientTypes.Workforce {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Workforce {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Workforce()
-        value.workforceName = try reader["WorkforceName"].readIfPresent()
-        value.workforceArn = try reader["WorkforceArn"].readIfPresent()
+        value.workforceName = try reader["WorkforceName"].readIfPresent() ?? ""
+        value.workforceArn = try reader["WorkforceArn"].readIfPresent() ?? ""
         value.lastUpdatedDate = try reader["LastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceIpConfig = try reader["SourceIpConfig"].readIfPresent(with: SageMakerClientTypes.SourceIpConfig.read(from:))
         value.subDomain = try reader["SubDomain"].readIfPresent()
@@ -72267,9 +72427,9 @@ extension SageMakerClientTypes.WorkforceVpcConfigResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.WorkforceVpcConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.WorkforceVpcConfigResponse()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
@@ -72304,8 +72464,8 @@ extension SageMakerClientTypes.CognitoConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CognitoConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CognitoConfig()
-        value.userPool = try reader["UserPool"].readIfPresent()
-        value.clientId = try reader["ClientId"].readIfPresent()
+        value.userPool = try reader["UserPool"].readIfPresent() ?? ""
+        value.clientId = try reader["ClientId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72320,7 +72480,7 @@ extension SageMakerClientTypes.SourceIpConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SourceIpConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SourceIpConfig()
-        value.cidrs = try reader["Cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cidrs = try reader["Cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -72330,12 +72490,12 @@ extension SageMakerClientTypes.Workteam {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Workteam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Workteam()
-        value.workteamName = try reader["WorkteamName"].readIfPresent()
-        value.memberDefinitions = try reader["MemberDefinitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MemberDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.workteamArn = try reader["WorkteamArn"].readIfPresent()
+        value.workteamName = try reader["WorkteamName"].readIfPresent() ?? ""
+        value.memberDefinitions = try reader["MemberDefinitions"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MemberDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.workteamArn = try reader["WorkteamArn"].readIfPresent() ?? ""
         value.workforceArn = try reader["WorkforceArn"].readIfPresent()
         value.productListingIds = try reader["ProductListingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.description = try reader["Description"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.subDomain = try reader["SubDomain"].readIfPresent()
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedDate = try reader["LastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -72451,9 +72611,9 @@ extension SageMakerClientTypes.CognitoMemberDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CognitoMemberDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CognitoMemberDefinition()
-        value.userPool = try reader["UserPool"].readIfPresent()
-        value.userGroup = try reader["UserGroup"].readIfPresent()
-        value.clientId = try reader["ClientId"].readIfPresent()
+        value.userPool = try reader["UserPool"].readIfPresent() ?? ""
+        value.userGroup = try reader["UserGroup"].readIfPresent() ?? ""
+        value.clientId = try reader["ClientId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72463,8 +72623,8 @@ extension SageMakerClientTypes.DeviceStats {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceStats {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeviceStats()
-        value.connectedDeviceCount = try reader["ConnectedDeviceCount"].readIfPresent()
-        value.registeredDeviceCount = try reader["RegisteredDeviceCount"].readIfPresent()
+        value.connectedDeviceCount = try reader["ConnectedDeviceCount"].readIfPresent() ?? 0
+        value.registeredDeviceCount = try reader["RegisteredDeviceCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -72474,8 +72634,8 @@ extension SageMakerClientTypes.AgentVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AgentVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AgentVersion()
-        value.version = try reader["Version"].readIfPresent()
-        value.agentCount = try reader["AgentCount"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent() ?? ""
+        value.agentCount = try reader["AgentCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -72485,12 +72645,12 @@ extension SageMakerClientTypes.EdgeModelStat {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeModelStat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeModelStat()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
-        value.offlineDeviceCount = try reader["OfflineDeviceCount"].readIfPresent()
-        value.connectedDeviceCount = try reader["ConnectedDeviceCount"].readIfPresent()
-        value.activeDeviceCount = try reader["ActiveDeviceCount"].readIfPresent()
-        value.samplingDeviceCount = try reader["SamplingDeviceCount"].readIfPresent()
+        value.modelName = try reader["ModelName"].readIfPresent() ?? ""
+        value.modelVersion = try reader["ModelVersion"].readIfPresent() ?? ""
+        value.offlineDeviceCount = try reader["OfflineDeviceCount"].readIfPresent() ?? 0
+        value.connectedDeviceCount = try reader["ConnectedDeviceCount"].readIfPresent() ?? 0
+        value.activeDeviceCount = try reader["ActiveDeviceCount"].readIfPresent() ?? 0
+        value.samplingDeviceCount = try reader["SamplingDeviceCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -72631,11 +72791,11 @@ extension SageMakerClientTypes.AlgorithmSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlgorithmSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AlgorithmSummary()
-        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
-        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent()
+        value.algorithmName = try reader["AlgorithmName"].readIfPresent() ?? ""
+        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent() ?? ""
         value.algorithmDescription = try reader["AlgorithmDescription"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.algorithmStatus = try reader["AlgorithmStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.algorithmStatus = try reader["AlgorithmStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -72711,13 +72871,13 @@ extension SageMakerClientTypes.AutoMLJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AutoMLJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.AutoMLJobSummary()
-        value.autoMLJobName = try reader["AutoMLJobName"].readIfPresent()
-        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent()
-        value.autoMLJobStatus = try reader["AutoMLJobStatus"].readIfPresent()
-        value.autoMLJobSecondaryStatus = try reader["AutoMLJobSecondaryStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.autoMLJobName = try reader["AutoMLJobName"].readIfPresent() ?? ""
+        value.autoMLJobArn = try reader["AutoMLJobArn"].readIfPresent() ?? ""
+        value.autoMLJobStatus = try reader["AutoMLJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.autoMLJobSecondaryStatus = try reader["AutoMLJobSecondaryStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.partialFailureReasons = try reader["PartialFailureReasons"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLPartialFailureReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -72729,10 +72889,10 @@ extension SageMakerClientTypes.ClusterNodeSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterNodeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterNodeSummary()
-        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent() ?? ""
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.instanceStatus = try reader["InstanceStatus"].readIfPresent(with: SageMakerClientTypes.ClusterInstanceStatusDetails.read(from:))
         return value
     }
@@ -72743,10 +72903,10 @@ extension SageMakerClientTypes.ClusterSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterSummary()
-        value.clusterArn = try reader["ClusterArn"].readIfPresent()
-        value.clusterName = try reader["ClusterName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.clusterStatus = try reader["ClusterStatus"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
+        value.clusterName = try reader["ClusterName"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.clusterStatus = try reader["ClusterStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -72756,10 +72916,10 @@ extension SageMakerClientTypes.CodeRepositorySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CodeRepositorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CodeRepositorySummary()
-        value.codeRepositoryName = try reader["CodeRepositoryName"].readIfPresent()
-        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.codeRepositoryName = try reader["CodeRepositoryName"].readIfPresent() ?? ""
+        value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.gitConfig = try reader["GitConfig"].readIfPresent(with: SageMakerClientTypes.GitConfig.read(from:))
         return value
     }
@@ -72770,9 +72930,9 @@ extension SageMakerClientTypes.CompilationJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CompilationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.CompilationJobSummary()
-        value.compilationJobName = try reader["CompilationJobName"].readIfPresent()
-        value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.compilationJobName = try reader["CompilationJobName"].readIfPresent() ?? ""
+        value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.compilationStartTime = try reader["CompilationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.compilationEndTime = try reader["CompilationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.compilationTargetDevice = try reader["CompilationTargetDevice"].readIfPresent()
@@ -72780,7 +72940,7 @@ extension SageMakerClientTypes.CompilationJobSummary {
         value.compilationTargetPlatformArch = try reader["CompilationTargetPlatformArch"].readIfPresent()
         value.compilationTargetPlatformAccelerator = try reader["CompilationTargetPlatformAccelerator"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.compilationJobStatus = try reader["CompilationJobStatus"].readIfPresent()
+        value.compilationJobStatus = try reader["CompilationJobStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -72805,10 +72965,10 @@ extension SageMakerClientTypes.MonitoringJobDefinitionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringJobDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringJobDefinitionSummary()
-        value.monitoringJobDefinitionName = try reader["MonitoringJobDefinitionName"].readIfPresent()
-        value.monitoringJobDefinitionArn = try reader["MonitoringJobDefinitionArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.monitoringJobDefinitionName = try reader["MonitoringJobDefinitionName"].readIfPresent() ?? ""
+        value.monitoringJobDefinitionArn = try reader["MonitoringJobDefinitionArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72818,8 +72978,8 @@ extension SageMakerClientTypes.DeviceFleetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceFleetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeviceFleetSummary()
-        value.deviceFleetArn = try reader["DeviceFleetArn"].readIfPresent()
-        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
+        value.deviceFleetArn = try reader["DeviceFleetArn"].readIfPresent() ?? ""
+        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -72831,8 +72991,8 @@ extension SageMakerClientTypes.DeviceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeviceSummary()
-        value.deviceName = try reader["DeviceName"].readIfPresent()
-        value.deviceArn = try reader["DeviceArn"].readIfPresent()
+        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
+        value.deviceArn = try reader["DeviceArn"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
         value.iotThingName = try reader["IotThingName"].readIfPresent()
@@ -72849,8 +73009,8 @@ extension SageMakerClientTypes.EdgeModelSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeModelSummary()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
+        value.modelName = try reader["ModelName"].readIfPresent() ?? ""
+        value.modelVersion = try reader["ModelVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72876,12 +73036,12 @@ extension SageMakerClientTypes.EdgeDeploymentPlanSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgeDeploymentPlanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgeDeploymentPlanSummary()
-        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent()
-        value.edgeDeploymentPlanName = try reader["EdgeDeploymentPlanName"].readIfPresent()
-        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
-        value.edgeDeploymentSuccess = try reader["EdgeDeploymentSuccess"].readIfPresent()
-        value.edgeDeploymentPending = try reader["EdgeDeploymentPending"].readIfPresent()
-        value.edgeDeploymentFailed = try reader["EdgeDeploymentFailed"].readIfPresent()
+        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent() ?? ""
+        value.edgeDeploymentPlanName = try reader["EdgeDeploymentPlanName"].readIfPresent() ?? ""
+        value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent() ?? ""
+        value.edgeDeploymentSuccess = try reader["EdgeDeploymentSuccess"].readIfPresent() ?? 0
+        value.edgeDeploymentPending = try reader["EdgeDeploymentPending"].readIfPresent() ?? 0
+        value.edgeDeploymentFailed = try reader["EdgeDeploymentFailed"].readIfPresent() ?? 0
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -72893,9 +73053,9 @@ extension SageMakerClientTypes.EdgePackagingJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EdgePackagingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EdgePackagingJobSummary()
-        value.edgePackagingJobArn = try reader["EdgePackagingJobArn"].readIfPresent()
-        value.edgePackagingJobName = try reader["EdgePackagingJobName"].readIfPresent()
-        value.edgePackagingJobStatus = try reader["EdgePackagingJobStatus"].readIfPresent()
+        value.edgePackagingJobArn = try reader["EdgePackagingJobArn"].readIfPresent() ?? ""
+        value.edgePackagingJobName = try reader["EdgePackagingJobName"].readIfPresent() ?? ""
+        value.edgePackagingJobStatus = try reader["EdgePackagingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.compilationJobName = try reader["CompilationJobName"].readIfPresent()
         value.modelName = try reader["ModelName"].readIfPresent()
         value.modelVersion = try reader["ModelVersion"].readIfPresent()
@@ -72910,9 +73070,9 @@ extension SageMakerClientTypes.EndpointConfigSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EndpointConfigSummary()
-        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent()
-        value.endpointConfigArn = try reader["EndpointConfigArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent() ?? ""
+        value.endpointConfigArn = try reader["EndpointConfigArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -72922,11 +73082,11 @@ extension SageMakerClientTypes.EndpointSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EndpointSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.EndpointSummary()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpointStatus = try reader["EndpointStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -72951,9 +73111,9 @@ extension SageMakerClientTypes.FeatureGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FeatureGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FeatureGroupSummary()
-        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent()
-        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
+        value.featureGroupArn = try reader["FeatureGroupArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.featureGroupStatus = try reader["FeatureGroupStatus"].readIfPresent()
         value.offlineStoreStatus = try reader["OfflineStoreStatus"].readIfPresent(with: SageMakerClientTypes.OfflineStoreStatus.read(from:))
         return value
@@ -72965,10 +73125,10 @@ extension SageMakerClientTypes.FlowDefinitionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FlowDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.FlowDefinitionSummary()
-        value.flowDefinitionName = try reader["FlowDefinitionName"].readIfPresent()
-        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent()
-        value.flowDefinitionStatus = try reader["FlowDefinitionStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flowDefinitionName = try reader["FlowDefinitionName"].readIfPresent() ?? ""
+        value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent() ?? ""
+        value.flowDefinitionStatus = try reader["FlowDefinitionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
@@ -72979,18 +73139,18 @@ extension SageMakerClientTypes.HubContentInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubContentInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HubContentInfo()
-        value.hubContentName = try reader["HubContentName"].readIfPresent()
-        value.hubContentArn = try reader["HubContentArn"].readIfPresent()
+        value.hubContentName = try reader["HubContentName"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         value.sageMakerPublicHubContentArn = try reader["SageMakerPublicHubContentArn"].readIfPresent()
-        value.hubContentVersion = try reader["HubContentVersion"].readIfPresent()
-        value.hubContentType = try reader["HubContentType"].readIfPresent()
-        value.documentSchemaVersion = try reader["DocumentSchemaVersion"].readIfPresent()
+        value.hubContentVersion = try reader["HubContentVersion"].readIfPresent() ?? ""
+        value.hubContentType = try reader["HubContentType"].readIfPresent() ?? .sdkUnknown("")
+        value.documentSchemaVersion = try reader["DocumentSchemaVersion"].readIfPresent() ?? ""
         value.hubContentDisplayName = try reader["HubContentDisplayName"].readIfPresent()
         value.hubContentDescription = try reader["HubContentDescription"].readIfPresent()
         value.supportStatus = try reader["SupportStatus"].readIfPresent()
         value.hubContentSearchKeywords = try reader["HubContentSearchKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hubContentStatus = try reader["HubContentStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.hubContentStatus = try reader["HubContentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.originalCreationTime = try reader["OriginalCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -73001,14 +73161,14 @@ extension SageMakerClientTypes.HubInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HubInfo()
-        value.hubName = try reader["HubName"].readIfPresent()
-        value.hubArn = try reader["HubArn"].readIfPresent()
+        value.hubName = try reader["HubName"].readIfPresent() ?? ""
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
         value.hubDisplayName = try reader["HubDisplayName"].readIfPresent()
         value.hubDescription = try reader["HubDescription"].readIfPresent()
         value.hubSearchKeywords = try reader["HubSearchKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hubStatus = try reader["HubStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.hubStatus = try reader["HubStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -73018,9 +73178,9 @@ extension SageMakerClientTypes.HumanTaskUiSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HumanTaskUiSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HumanTaskUiSummary()
-        value.humanTaskUiName = try reader["HumanTaskUiName"].readIfPresent()
-        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.humanTaskUiName = try reader["HumanTaskUiName"].readIfPresent() ?? ""
+        value.humanTaskUiArn = try reader["HumanTaskUiArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -73030,11 +73190,11 @@ extension SageMakerClientTypes.HyperParameterTuningJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HyperParameterTuningJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.HyperParameterTuningJobSummary()
-        value.hyperParameterTuningJobName = try reader["HyperParameterTuningJobName"].readIfPresent()
-        value.hyperParameterTuningJobArn = try reader["HyperParameterTuningJobArn"].readIfPresent()
-        value.hyperParameterTuningJobStatus = try reader["HyperParameterTuningJobStatus"].readIfPresent()
-        value.strategy = try reader["Strategy"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.hyperParameterTuningJobName = try reader["HyperParameterTuningJobName"].readIfPresent() ?? ""
+        value.hyperParameterTuningJobArn = try reader["HyperParameterTuningJobArn"].readIfPresent() ?? ""
+        value.hyperParameterTuningJobStatus = try reader["HyperParameterTuningJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.strategy = try reader["Strategy"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.hyperParameterTuningEndTime = try reader["HyperParameterTuningEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.trainingJobStatusCounters = try reader["TrainingJobStatusCounters"].readIfPresent(with: SageMakerClientTypes.TrainingJobStatusCounters.read(from:))
@@ -73049,14 +73209,14 @@ extension SageMakerClientTypes.Image {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Image {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Image()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.imageArn = try reader["ImageArn"].readIfPresent()
-        value.imageName = try reader["ImageName"].readIfPresent()
-        value.imageStatus = try reader["ImageStatus"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.imageArn = try reader["ImageArn"].readIfPresent() ?? ""
+        value.imageName = try reader["ImageName"].readIfPresent() ?? ""
+        value.imageStatus = try reader["ImageStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -73066,13 +73226,13 @@ extension SageMakerClientTypes.ImageVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ImageVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ImageVersion()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.imageArn = try reader["ImageArn"].readIfPresent()
-        value.imageVersionArn = try reader["ImageVersionArn"].readIfPresent()
-        value.imageVersionStatus = try reader["ImageVersionStatus"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.version = try reader["Version"].readIfPresent()
+        value.imageArn = try reader["ImageArn"].readIfPresent() ?? ""
+        value.imageVersionArn = try reader["ImageVersionArn"].readIfPresent() ?? ""
+        value.imageVersionStatus = try reader["ImageVersionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["Version"].readIfPresent() ?? 0
         return value
     }
 }
@@ -73082,14 +73242,14 @@ extension SageMakerClientTypes.InferenceComponentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceComponentSummary()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent()
-        value.inferenceComponentName = try reader["InferenceComponentName"].readIfPresent()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.variantName = try reader["VariantName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
+        value.inferenceComponentName = try reader["InferenceComponentName"].readIfPresent() ?? ""
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
+        value.variantName = try reader["VariantName"].readIfPresent() ?? ""
         value.inferenceComponentStatus = try reader["InferenceComponentStatus"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -73099,15 +73259,15 @@ extension SageMakerClientTypes.InferenceExperimentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceExperimentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceExperimentSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.schedule = try reader["Schedule"].readIfPresent(with: SageMakerClientTypes.InferenceExperimentSchedule.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
     }
@@ -73118,15 +73278,15 @@ extension SageMakerClientTypes.InferenceRecommendationsJob {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceRecommendationsJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceRecommendationsJob()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobDescription = try reader["JobDescription"].readIfPresent()
-        value.jobType = try reader["JobType"].readIfPresent()
-        value.jobArn = try reader["JobArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
+        value.jobDescription = try reader["JobDescription"].readIfPresent() ?? ""
+        value.jobType = try reader["JobType"].readIfPresent() ?? .sdkUnknown("")
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.modelName = try reader["ModelName"].readIfPresent()
         value.samplePayloadUrl = try reader["SamplePayloadUrl"].readIfPresent()
@@ -73140,9 +73300,9 @@ extension SageMakerClientTypes.InferenceRecommendationsJobStep {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceRecommendationsJobStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InferenceRecommendationsJobStep()
-        value.stepType = try reader["StepType"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.stepType = try reader["StepType"].readIfPresent() ?? .sdkUnknown("")
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.inferenceBenchmark = try reader["InferenceBenchmark"].readIfPresent(with: SageMakerClientTypes.RecommendationJobInferenceBenchmark.read(from:))
         return value
     }
@@ -73169,14 +73329,14 @@ extension SageMakerClientTypes.LabelingJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.LabelingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobSummary()
-        value.labelingJobName = try reader["LabelingJobName"].readIfPresent()
-        value.labelingJobArn = try reader["LabelingJobArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.labelingJobStatus = try reader["LabelingJobStatus"].readIfPresent()
+        value.labelingJobName = try reader["LabelingJobName"].readIfPresent() ?? ""
+        value.labelingJobArn = try reader["LabelingJobArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.labelingJobStatus = try reader["LabelingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.labelCounters = try reader["LabelCounters"].readIfPresent(with: SageMakerClientTypes.LabelCounters.read(from:))
-        value.workteamArn = try reader["WorkteamArn"].readIfPresent()
-        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent()
+        value.workteamArn = try reader["WorkteamArn"].readIfPresent() ?? ""
+        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent() ?? ""
         value.annotationConsolidationLambdaArn = try reader["AnnotationConsolidationLambdaArn"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.labelingJobOutput = try reader["LabelingJobOutput"].readIfPresent(with: SageMakerClientTypes.LabelingJobOutput.read(from:))
@@ -73191,9 +73351,9 @@ extension SageMakerClientTypes.LabelingJobForWorkteamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.LabelingJobForWorkteamSummary()
         value.labelingJobName = try reader["LabelingJobName"].readIfPresent()
-        value.jobReferenceCode = try reader["JobReferenceCode"].readIfPresent()
-        value.workRequesterAccountId = try reader["WorkRequesterAccountId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobReferenceCode = try reader["JobReferenceCode"].readIfPresent() ?? ""
+        value.workRequesterAccountId = try reader["WorkRequesterAccountId"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.labelCounters = try reader["LabelCounters"].readIfPresent(with: SageMakerClientTypes.LabelCountersForWorkteam.read(from:))
         value.numberOfHumanWorkersPerDataObject = try reader["NumberOfHumanWorkersPerDataObject"].readIfPresent()
         return value
@@ -73247,13 +73407,13 @@ extension SageMakerClientTypes.ModelCardExportJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelCardExportJobSummary()
-        value.modelCardExportJobName = try reader["ModelCardExportJobName"].readIfPresent()
-        value.modelCardExportJobArn = try reader["ModelCardExportJobArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.modelCardName = try reader["ModelCardName"].readIfPresent()
-        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["LastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modelCardExportJobName = try reader["ModelCardExportJobName"].readIfPresent() ?? ""
+        value.modelCardExportJobArn = try reader["ModelCardExportJobArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.modelCardName = try reader["ModelCardName"].readIfPresent() ?? ""
+        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent() ?? 0
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["LastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -73263,10 +73423,10 @@ extension SageMakerClientTypes.ModelCardSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelCardSummary()
-        value.modelCardName = try reader["ModelCardName"].readIfPresent()
-        value.modelCardArn = try reader["ModelCardArn"].readIfPresent()
-        value.modelCardStatus = try reader["ModelCardStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modelCardName = try reader["ModelCardName"].readIfPresent() ?? ""
+        value.modelCardArn = try reader["ModelCardArn"].readIfPresent() ?? ""
+        value.modelCardStatus = try reader["ModelCardStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -73277,11 +73437,11 @@ extension SageMakerClientTypes.ModelCardVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCardVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelCardVersionSummary()
-        value.modelCardName = try reader["ModelCardName"].readIfPresent()
-        value.modelCardArn = try reader["ModelCardArn"].readIfPresent()
-        value.modelCardStatus = try reader["ModelCardStatus"].readIfPresent()
-        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modelCardName = try reader["ModelCardName"].readIfPresent() ?? ""
+        value.modelCardArn = try reader["ModelCardArn"].readIfPresent() ?? ""
+        value.modelCardStatus = try reader["ModelCardStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.modelCardVersion = try reader["ModelCardVersion"].readIfPresent() ?? 0
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -73292,11 +73452,11 @@ extension SageMakerClientTypes.ModelMetadataSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelMetadataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelMetadataSummary()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.framework = try reader["Framework"].readIfPresent()
-        value.task = try reader["Task"].readIfPresent()
-        value.model = try reader["Model"].readIfPresent()
-        value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.framework = try reader["Framework"].readIfPresent() ?? ""
+        value.task = try reader["Task"].readIfPresent() ?? ""
+        value.model = try reader["Model"].readIfPresent() ?? ""
+        value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -73306,11 +73466,11 @@ extension SageMakerClientTypes.ModelPackageGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageGroupSummary()
-        value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent()
-        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent()
+        value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent() ?? ""
+        value.modelPackageGroupArn = try reader["ModelPackageGroupArn"].readIfPresent() ?? ""
         value.modelPackageGroupDescription = try reader["ModelPackageGroupDescription"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modelPackageGroupStatus = try reader["ModelPackageGroupStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modelPackageGroupStatus = try reader["ModelPackageGroupStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -73323,10 +73483,10 @@ extension SageMakerClientTypes.ModelPackageSummary {
         value.modelPackageName = try reader["ModelPackageName"].readIfPresent()
         value.modelPackageGroupName = try reader["ModelPackageGroupName"].readIfPresent()
         value.modelPackageVersion = try reader["ModelPackageVersion"].readIfPresent()
-        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent()
+        value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent() ?? ""
         value.modelPackageDescription = try reader["ModelPackageDescription"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modelPackageStatus = try reader["ModelPackageStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modelPackageStatus = try reader["ModelPackageStatus"].readIfPresent() ?? .sdkUnknown("")
         value.modelApprovalStatus = try reader["ModelApprovalStatus"].readIfPresent()
         return value
     }
@@ -73337,9 +73497,9 @@ extension SageMakerClientTypes.ModelSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelSummary()
-        value.modelName = try reader["ModelName"].readIfPresent()
-        value.modelArn = try reader["ModelArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modelName = try reader["ModelName"].readIfPresent() ?? ""
+        value.modelArn = try reader["ModelArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -73349,10 +73509,10 @@ extension SageMakerClientTypes.MonitoringAlertHistorySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringAlertHistorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringAlertHistorySummary()
-        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent()
-        value.monitoringAlertName = try reader["MonitoringAlertName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.alertStatus = try reader["AlertStatus"].readIfPresent()
+        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent() ?? ""
+        value.monitoringAlertName = try reader["MonitoringAlertName"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.alertStatus = try reader["AlertStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -73362,12 +73522,12 @@ extension SageMakerClientTypes.MonitoringAlertSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringAlertSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringAlertSummary()
-        value.monitoringAlertName = try reader["MonitoringAlertName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.alertStatus = try reader["AlertStatus"].readIfPresent()
-        value.datapointsToAlert = try reader["DatapointsToAlert"].readIfPresent()
-        value.evaluationPeriod = try reader["EvaluationPeriod"].readIfPresent()
+        value.monitoringAlertName = try reader["MonitoringAlertName"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.alertStatus = try reader["AlertStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.datapointsToAlert = try reader["DatapointsToAlert"].readIfPresent() ?? 0
+        value.evaluationPeriod = try reader["EvaluationPeriod"].readIfPresent() ?? 0
         value.actions = try reader["Actions"].readIfPresent(with: SageMakerClientTypes.MonitoringAlertActions.read(from:))
         return value
     }
@@ -73398,11 +73558,11 @@ extension SageMakerClientTypes.MonitoringScheduleSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.MonitoringScheduleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MonitoringScheduleSummary()
-        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent()
-        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.monitoringScheduleStatus = try reader["MonitoringScheduleStatus"].readIfPresent()
+        value.monitoringScheduleName = try reader["MonitoringScheduleName"].readIfPresent() ?? ""
+        value.monitoringScheduleArn = try reader["MonitoringScheduleArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.monitoringScheduleStatus = try reader["MonitoringScheduleStatus"].readIfPresent() ?? .sdkUnknown("")
         value.endpointName = try reader["EndpointName"].readIfPresent()
         value.monitoringJobDefinitionName = try reader["MonitoringJobDefinitionName"].readIfPresent()
         value.monitoringType = try reader["MonitoringType"].readIfPresent()
@@ -73415,8 +73575,8 @@ extension SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary()
-        value.notebookInstanceLifecycleConfigName = try reader["NotebookInstanceLifecycleConfigName"].readIfPresent()
-        value.notebookInstanceLifecycleConfigArn = try reader["NotebookInstanceLifecycleConfigArn"].readIfPresent()
+        value.notebookInstanceLifecycleConfigName = try reader["NotebookInstanceLifecycleConfigName"].readIfPresent() ?? ""
+        value.notebookInstanceLifecycleConfigArn = try reader["NotebookInstanceLifecycleConfigArn"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -73428,8 +73588,8 @@ extension SageMakerClientTypes.NotebookInstanceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.NotebookInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.NotebookInstanceSummary()
-        value.notebookInstanceName = try reader["NotebookInstanceName"].readIfPresent()
-        value.notebookInstanceArn = try reader["NotebookInstanceArn"].readIfPresent()
+        value.notebookInstanceName = try reader["NotebookInstanceName"].readIfPresent() ?? ""
+        value.notebookInstanceArn = try reader["NotebookInstanceArn"].readIfPresent() ?? ""
         value.notebookInstanceStatus = try reader["NotebookInstanceStatus"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         value.instanceType = try reader["InstanceType"].readIfPresent()
@@ -73447,15 +73607,15 @@ extension SageMakerClientTypes.OptimizationJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OptimizationJobSummary()
-        value.optimizationJobName = try reader["OptimizationJobName"].readIfPresent()
-        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.optimizationJobStatus = try reader["OptimizationJobStatus"].readIfPresent()
+        value.optimizationJobName = try reader["OptimizationJobName"].readIfPresent() ?? ""
+        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.optimizationJobStatus = try reader["OptimizationJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.optimizationStartTime = try reader["OptimizationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.optimizationEndTime = try reader["OptimizationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deploymentInstanceType = try reader["DeploymentInstanceType"].readIfPresent()
-        value.optimizationTypes = try reader["OptimizationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deploymentInstanceType = try reader["DeploymentInstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.optimizationTypes = try reader["OptimizationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -73641,8 +73801,8 @@ extension SageMakerClientTypes.OutputParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OutputParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.OutputParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -73750,8 +73910,8 @@ extension SageMakerClientTypes.Parameter {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Parameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Parameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -73778,12 +73938,12 @@ extension SageMakerClientTypes.ProcessingJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProcessingJobSummary()
-        value.processingJobName = try reader["ProcessingJobName"].readIfPresent()
-        value.processingJobArn = try reader["ProcessingJobArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.processingJobName = try reader["ProcessingJobName"].readIfPresent() ?? ""
+        value.processingJobArn = try reader["ProcessingJobArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.processingEndTime = try reader["ProcessingEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.processingJobStatus = try reader["ProcessingJobStatus"].readIfPresent()
+        value.processingJobStatus = try reader["ProcessingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.exitMessage = try reader["ExitMessage"].readIfPresent()
         return value
@@ -73795,12 +73955,12 @@ extension SageMakerClientTypes.ProjectSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ProjectSummary()
-        value.projectName = try reader["ProjectName"].readIfPresent()
+        value.projectName = try reader["ProjectName"].readIfPresent() ?? ""
         value.projectDescription = try reader["ProjectDescription"].readIfPresent()
-        value.projectArn = try reader["ProjectArn"].readIfPresent()
-        value.projectId = try reader["ProjectId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.projectStatus = try reader["ProjectStatus"].readIfPresent()
+        value.projectArn = try reader["ProjectArn"].readIfPresent() ?? ""
+        value.projectId = try reader["ProjectId"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.projectStatus = try reader["ProjectStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -73810,10 +73970,10 @@ extension SageMakerClientTypes.ResourceCatalog {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ResourceCatalog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ResourceCatalog()
-        value.resourceCatalogArn = try reader["ResourceCatalogArn"].readIfPresent()
-        value.resourceCatalogName = try reader["ResourceCatalogName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceCatalogArn = try reader["ResourceCatalogArn"].readIfPresent() ?? ""
+        value.resourceCatalogName = try reader["ResourceCatalogName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -73872,13 +74032,13 @@ extension SageMakerClientTypes.DeviceDeploymentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeviceDeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DeviceDeploymentSummary()
-        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent()
-        value.edgeDeploymentPlanName = try reader["EdgeDeploymentPlanName"].readIfPresent()
-        value.stageName = try reader["StageName"].readIfPresent()
+        value.edgeDeploymentPlanArn = try reader["EdgeDeploymentPlanArn"].readIfPresent() ?? ""
+        value.edgeDeploymentPlanName = try reader["EdgeDeploymentPlanName"].readIfPresent() ?? ""
+        value.stageName = try reader["StageName"].readIfPresent() ?? ""
         value.deployedStageName = try reader["DeployedStageName"].readIfPresent()
         value.deviceFleetName = try reader["DeviceFleetName"].readIfPresent()
-        value.deviceName = try reader["DeviceName"].readIfPresent()
-        value.deviceArn = try reader["DeviceArn"].readIfPresent()
+        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
+        value.deviceArn = try reader["DeviceArn"].readIfPresent() ?? ""
         value.deviceDeploymentStatus = try reader["DeviceDeploymentStatus"].readIfPresent()
         value.deviceDeploymentStatusMessage = try reader["DeviceDeploymentStatusMessage"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -73906,12 +74066,12 @@ extension SageMakerClientTypes.TrainingJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TrainingJobSummary()
-        value.trainingJobName = try reader["TrainingJobName"].readIfPresent()
-        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.trainingJobName = try reader["TrainingJobName"].readIfPresent() ?? ""
+        value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.trainingEndTime = try reader["TrainingEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent()
+        value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.warmPoolStatus = try reader["WarmPoolStatus"].readIfPresent(with: SageMakerClientTypes.WarmPoolStatus.read(from:))
         return value
     }
@@ -73922,12 +74082,12 @@ extension SageMakerClientTypes.TransformJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TransformJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.TransformJobSummary()
-        value.transformJobName = try reader["TransformJobName"].readIfPresent()
-        value.transformJobArn = try reader["TransformJobArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.transformJobName = try reader["TransformJobName"].readIfPresent() ?? ""
+        value.transformJobArn = try reader["TransformJobArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.transformEndTime = try reader["TransformEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.transformJobStatus = try reader["TransformJobStatus"].readIfPresent()
+        value.transformJobStatus = try reader["TransformJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
@@ -74011,8 +74171,8 @@ extension SageMakerClientTypes.RenderingError {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RenderingError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.RenderingError()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -74133,11 +74293,11 @@ extension SageMakerClientTypes.ModelDashboardEndpoint {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelDashboardEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelDashboardEndpoint()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpointStatus = try reader["EndpointStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -74380,15 +74540,15 @@ extension SageMakerClientTypes.Endpoint {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.Endpoint()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.endpointArn = try reader["EndpointArn"].readIfPresent()
-        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent() ?? ""
+        value.endpointArn = try reader["EndpointArn"].readIfPresent() ?? ""
+        value.endpointConfigName = try reader["EndpointConfigName"].readIfPresent() ?? ""
         value.productionVariants = try reader["ProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProductionVariantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataCaptureConfig = try reader["DataCaptureConfig"].readIfPresent(with: SageMakerClientTypes.DataCaptureConfigSummary.read(from:))
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
+        value.endpointStatus = try reader["EndpointStatus"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.monitoringSchedules = try reader["MonitoringSchedules"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.MonitoringSchedule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.shadowProductionVariants = try reader["ShadowProductionVariants"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ProductionVariantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -74612,6 +74772,7 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["InstanceStorageConfigs"].writeList(value.instanceStorageConfigs, memberWritingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceType"].write(value.instanceType)
         try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
+        try writer["OnStartDeepHealthChecks"].writeList(value.onStartDeepHealthChecks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
     }
 }

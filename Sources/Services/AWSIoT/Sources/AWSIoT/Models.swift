@@ -474,7 +474,7 @@ public struct AcceptCertificateTransferInput {
 
     public init(
         certificateId: Swift.String? = nil,
-        setAsActive: Swift.Bool? = nil
+        setAsActive: Swift.Bool? = false
     )
     {
         self.certificateId = certificateId
@@ -2239,7 +2239,7 @@ public struct AddThingToThingGroupInput {
     public var thingName: Swift.String?
 
     public init(
-        overrideDynamicGroups: Swift.Bool? = nil,
+        overrideDynamicGroups: Swift.Bool? = false,
         thingArn: Swift.String? = nil,
         thingGroupArn: Swift.String? = nil,
         thingGroupName: Swift.String? = nil,
@@ -3453,7 +3453,7 @@ extension IoTClientTypes {
         public var defaultAuthorizerName: Swift.String?
 
         public init(
-            allowAuthorizerOverride: Swift.Bool? = nil,
+            allowAuthorizerOverride: Swift.Bool? = false,
             defaultAuthorizerName: Swift.String? = nil
         )
         {
@@ -3759,7 +3759,7 @@ public struct CancelJobInput {
 
     public init(
         comment: Swift.String? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         jobId: Swift.String? = nil,
         reasonCode: Swift.String? = nil
     )
@@ -3832,7 +3832,7 @@ public struct CancelJobExecutionInput {
 
     public init(
         expectedVersion: Swift.Int? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         jobId: Swift.String? = nil,
         statusDetails: [Swift.String: Swift.String]? = nil,
         thingName: Swift.String? = nil
@@ -4143,7 +4143,7 @@ public struct CreateCertificateFromCsrInput {
 
     public init(
         certificateSigningRequest: Swift.String? = nil,
-        setAsActive: Swift.Bool? = nil
+        setAsActive: Swift.Bool? = false
     )
     {
         self.certificateSigningRequest = certificateSigningRequest
@@ -5379,7 +5379,7 @@ public struct CreateKeysAndCertificateInput {
     public var setAsActive: Swift.Bool?
 
     public init(
-        setAsActive: Swift.Bool? = nil
+        setAsActive: Swift.Bool? = false
     )
     {
         self.setAsActive = setAsActive
@@ -6715,7 +6715,7 @@ public struct CreatePolicyVersionInput {
     public init(
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
-        setAsDefault: Swift.Bool? = nil
+        setAsDefault: Swift.Bool? = false
     )
     {
         self.policyDocument = policyDocument
@@ -6910,7 +6910,7 @@ public struct CreateProvisioningTemplateVersionInput {
     public var templateName: Swift.String?
 
     public init(
-        setAsDefault: Swift.Bool? = nil,
+        setAsDefault: Swift.Bool? = false,
         templateBody: Swift.String? = nil,
         templateName: Swift.String? = nil
     )
@@ -7694,7 +7694,7 @@ public struct DeleteAccountAuditConfigurationInput {
     public var deleteScheduledAudits: Swift.Bool?
 
     public init(
-        deleteScheduledAudits: Swift.Bool? = nil
+        deleteScheduledAudits: Swift.Bool? = false
     )
     {
         self.deleteScheduledAudits = deleteScheduledAudits
@@ -7849,7 +7849,7 @@ public struct DeleteCertificateInput {
 
     public init(
         certificateId: Swift.String? = nil,
-        forceDelete: Swift.Bool? = nil
+        forceDelete: Swift.Bool? = false
     )
     {
         self.certificateId = certificateId
@@ -7978,7 +7978,7 @@ public struct DeleteJobInput {
     public var namespaceId: Swift.String?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         jobId: Swift.String? = nil,
         namespaceId: Swift.String? = nil
     )
@@ -8006,7 +8006,7 @@ public struct DeleteJobExecutionInput {
 
     public init(
         executionNumber: Swift.Int? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         jobId: Swift.String? = nil,
         namespaceId: Swift.String? = nil,
         thingName: Swift.String? = nil
@@ -8061,8 +8061,8 @@ public struct DeleteOTAUpdateInput {
     public var otaUpdateId: Swift.String?
 
     public init(
-        deleteStream: Swift.Bool? = nil,
-        forceDeleteAWSJob: Swift.Bool? = nil,
+        deleteStream: Swift.Bool? = false,
+        forceDeleteAWSJob: Swift.Bool? = false,
         otaUpdateId: Swift.String? = nil
     )
     {
@@ -8452,7 +8452,7 @@ public struct DeprecateThingTypeInput {
 
     public init(
         thingTypeName: Swift.String? = nil,
-        undoDeprecate: Swift.Bool? = nil
+        undoDeprecate: Swift.Bool? = false
     )
     {
         self.thingTypeName = thingTypeName
@@ -12698,14 +12698,14 @@ extension IoTClientTypes {
         public var variance: Swift.Double?
 
         public init(
-            average: Swift.Double? = nil,
+            average: Swift.Double? = 0.0,
             count: Swift.Int = 0,
-            maximum: Swift.Double? = nil,
-            minimum: Swift.Double? = nil,
-            stdDeviation: Swift.Double? = nil,
-            sum: Swift.Double? = nil,
-            sumOfSquares: Swift.Double? = nil,
-            variance: Swift.Double? = nil
+            maximum: Swift.Double? = 0.0,
+            minimum: Swift.Double? = 0.0,
+            stdDeviation: Swift.Double? = 0.0,
+            sum: Swift.Double? = 0.0,
+            sumOfSquares: Swift.Double? = 0.0,
+            variance: Swift.Double? = 0.0
         )
         {
             self.average = average
@@ -12981,7 +12981,7 @@ public struct ListAttachedPoliciesInput {
     public init(
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
-        recursive: Swift.Bool? = nil,
+        recursive: Swift.Bool? = false,
         target: Swift.String? = nil
     )
     {
@@ -13029,7 +13029,7 @@ public struct ListAuditFindingsInput {
     public init(
         checkName: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
-        listSuppressedFindings: Swift.Bool? = nil,
+        listSuppressedFindings: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
@@ -13177,7 +13177,7 @@ public struct ListAuditSuppressionsInput {
     public var resourceIdentifier: IoTClientTypes.ResourceIdentifier?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         checkName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -13269,7 +13269,7 @@ public struct ListAuthorizersInput {
     public var status: IoTClientTypes.AuthorizerStatus?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         status: IoTClientTypes.AuthorizerStatus? = nil
@@ -13346,7 +13346,7 @@ public struct ListCACertificatesInput {
     public var templateName: Swift.String?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         templateName: Swift.String? = nil
@@ -13411,7 +13411,7 @@ public struct ListCertificateProvidersInput {
     public var nextToken: Swift.String?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         nextToken: Swift.String? = nil
     )
     {
@@ -13466,7 +13466,7 @@ public struct ListCertificatesInput {
     public var pageSize: Swift.Int?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -13539,7 +13539,7 @@ public struct ListCertificatesByCAInput {
     public var pageSize: Swift.Int?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         caCertificateId: Swift.String? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
@@ -14564,7 +14564,7 @@ public struct ListOutgoingCertificatesInput {
     public var pageSize: Swift.Int?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -14771,7 +14771,7 @@ public struct ListPoliciesInput {
     public var pageSize: Swift.Int?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -14812,7 +14812,7 @@ public struct ListPolicyPrincipalsInput {
     public var policyName: Swift.String?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         policyName: Swift.String? = nil
@@ -14906,7 +14906,7 @@ public struct ListPrincipalPoliciesInput {
     public var principal: Swift.String?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         principal: Swift.String? = nil
@@ -15154,7 +15154,7 @@ public struct ListRoleAliasesInput {
     public var pageSize: Swift.Int?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     )
@@ -15321,7 +15321,7 @@ public struct ListSecurityProfilesForTargetInput {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        recursive: Swift.Bool? = nil,
+        recursive: Swift.Bool? = false,
         securityProfileTargetArn: Swift.String? = nil
     )
     {
@@ -15394,7 +15394,7 @@ public struct ListStreamsInput {
     public var nextToken: Swift.String?
 
     public init(
-        ascendingOrder: Swift.Bool? = nil,
+        ascendingOrder: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -15808,7 +15808,7 @@ public struct ListThingsInput {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         thingTypeName: Swift.String? = nil,
-        usePrefixAttributeValue: Swift.Bool? = nil
+        usePrefixAttributeValue: Swift.Bool? = false
     )
     {
         self.attributeName = attributeName
@@ -15920,7 +15920,7 @@ public struct ListThingsInThingGroupInput {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        recursive: Swift.Bool? = nil,
+        recursive: Swift.Bool? = false,
         thingGroupName: Swift.String? = nil
     )
     {
@@ -16497,11 +16497,11 @@ public struct RegisterCACertificateInput {
     public var verificationCertificate: Swift.String?
 
     public init(
-        allowAutoRegistration: Swift.Bool? = nil,
+        allowAutoRegistration: Swift.Bool? = false,
         caCertificate: Swift.String? = nil,
         certificateMode: IoTClientTypes.CertificateMode? = nil,
         registrationConfig: IoTClientTypes.RegistrationConfig? = nil,
-        setAsActive: Swift.Bool? = nil,
+        setAsActive: Swift.Bool? = false,
         tags: [IoTClientTypes.Tag]? = nil,
         verificationCertificate: Swift.String? = nil
     )
@@ -17048,7 +17048,7 @@ public struct SetV2LoggingOptionsInput {
 
     public init(
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
-        disableAllLogs: Swift.Bool? = nil,
+        disableAllLogs: Swift.Bool? = false,
         roleArn: Swift.String? = nil
     )
     {
@@ -17717,7 +17717,7 @@ public struct UpdateCACertificateInput {
         newAutoRegistrationStatus: IoTClientTypes.AutoRegistrationStatus? = nil,
         newStatus: IoTClientTypes.CACertificateStatus? = nil,
         registrationConfig: IoTClientTypes.RegistrationConfig? = nil,
-        removeAutoRegistration: Swift.Bool? = nil
+        removeAutoRegistration: Swift.Bool? = false
     )
     {
         self.certificateId = certificateId
@@ -17903,7 +17903,7 @@ public struct UpdateDomainConfigurationInput {
         authorizerConfig: IoTClientTypes.AuthorizerConfig? = nil,
         domainConfigurationName: Swift.String? = nil,
         domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus? = nil,
-        removeAuthorizerConfig: Swift.Bool? = nil,
+        removeAuthorizerConfig: Swift.Bool? = false,
         serverCertificateConfig: IoTClientTypes.ServerCertificateConfig? = nil,
         tlsConfig: IoTClientTypes.TlsConfig? = nil
     )
@@ -18431,10 +18431,10 @@ public struct UpdateSecurityProfileInput {
         additionalMetricsToRetainV2: [IoTClientTypes.MetricToRetain]? = nil,
         alertTargets: [Swift.String: IoTClientTypes.AlertTarget]? = nil,
         behaviors: [IoTClientTypes.Behavior]? = nil,
-        deleteAdditionalMetricsToRetain: Swift.Bool? = nil,
-        deleteAlertTargets: Swift.Bool? = nil,
-        deleteBehaviors: Swift.Bool? = nil,
-        deleteMetricsExportConfig: Swift.Bool? = nil,
+        deleteAdditionalMetricsToRetain: Swift.Bool? = false,
+        deleteAlertTargets: Swift.Bool? = false,
+        deleteBehaviors: Swift.Bool? = false,
+        deleteMetricsExportConfig: Swift.Bool? = false,
         expectedVersion: Swift.Int? = nil,
         metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileDescription: Swift.String? = nil,
@@ -18575,7 +18575,7 @@ public struct UpdateThingInput {
     public init(
         attributePayload: IoTClientTypes.AttributePayload? = nil,
         expectedVersion: Swift.Int? = nil,
-        removeThingType: Swift.Bool? = nil,
+        removeThingType: Swift.Bool? = false,
         thingName: Swift.String? = nil,
         thingTypeName: Swift.String? = nil
     )
@@ -18639,7 +18639,7 @@ public struct UpdateThingGroupsForThingInput {
     public var thingName: Swift.String?
 
     public init(
-        overrideDynamicGroups: Swift.Bool? = nil,
+        overrideDynamicGroups: Swift.Bool? = false,
         thingGroupsToAdd: [Swift.String]? = nil,
         thingGroupsToRemove: [Swift.String]? = nil,
         thingName: Swift.String? = nil
@@ -32288,7 +32288,7 @@ extension IoTClientTypes.PublishFindingToSnsParams {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PublishFindingToSnsParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.PublishFindingToSnsParams()
-        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32304,8 +32304,8 @@ extension IoTClientTypes.EnableIoTLoggingParams {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.EnableIoTLoggingParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.EnableIoTLoggingParams()
-        value.roleArnForLogging = try reader["roleArnForLogging"].readIfPresent()
-        value.logLevel = try reader["logLevel"].readIfPresent()
+        value.roleArnForLogging = try reader["roleArnForLogging"].readIfPresent() ?? ""
+        value.logLevel = try reader["logLevel"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -32320,7 +32320,7 @@ extension IoTClientTypes.ReplaceDefaultPolicyVersionParams {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ReplaceDefaultPolicyVersionParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ReplaceDefaultPolicyVersionParams()
-        value.templateName = try reader["templateName"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -32336,7 +32336,7 @@ extension IoTClientTypes.AddThingsToThingGroupParams {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AddThingsToThingGroupParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AddThingsToThingGroupParams()
-        value.thingGroupNames = try reader["thingGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.thingGroupNames = try reader["thingGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.overrideDynamicGroups = try reader["overrideDynamicGroups"].readIfPresent()
         return value
     }
@@ -32352,7 +32352,7 @@ extension IoTClientTypes.UpdateCACertificateParams {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.UpdateCACertificateParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.UpdateCACertificateParams()
-        value.action = try reader["action"].readIfPresent()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -32367,7 +32367,7 @@ extension IoTClientTypes.UpdateDeviceCertificateParams {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.UpdateDeviceCertificateParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.UpdateDeviceCertificateParams()
-        value.action = try reader["action"].readIfPresent()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -32578,8 +32578,8 @@ extension IoTClientTypes.ViolationEventOccurrenceRange {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ViolationEventOccurrenceRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ViolationEventOccurrenceRange()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -32688,7 +32688,7 @@ extension IoTClientTypes.AggregationType {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AggregationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AggregationType()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? .sdkUnknown("")
         value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -32770,8 +32770,8 @@ extension IoTClientTypes.MaintenanceWindow {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MaintenanceWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.MaintenanceWindow()
-        value.startTime = try reader["startTime"].readIfPresent()
-        value.durationInMinutes = try reader["durationInMinutes"].readIfPresent()
+        value.startTime = try reader["startTime"].readIfPresent() ?? ""
+        value.durationInMinutes = try reader["durationInMinutes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -32786,7 +32786,7 @@ extension IoTClientTypes.JobExecutionsRetryConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.JobExecutionsRetryConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.JobExecutionsRetryConfig()
-        value.criteriaList = try reader["criteriaList"].readListIfPresent(memberReadingClosure: IoTClientTypes.RetryCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.criteriaList = try reader["criteriaList"].readListIfPresent(memberReadingClosure: IoTClientTypes.RetryCriteria.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -32802,8 +32802,8 @@ extension IoTClientTypes.RetryCriteria {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.RetryCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.RetryCriteria()
-        value.failureType = try reader["failureType"].readIfPresent()
-        value.numberOfRetries = try reader["numberOfRetries"].readIfPresent()
+        value.failureType = try reader["failureType"].readIfPresent() ?? .sdkUnknown("")
+        value.numberOfRetries = try reader["numberOfRetries"].readIfPresent() ?? 0
         return value
     }
 }
@@ -32851,7 +32851,7 @@ extension IoTClientTypes.AbortConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AbortConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AbortConfig()
-        value.criteriaList = try reader["criteriaList"].readListIfPresent(memberReadingClosure: IoTClientTypes.AbortCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.criteriaList = try reader["criteriaList"].readListIfPresent(memberReadingClosure: IoTClientTypes.AbortCriteria.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -32869,10 +32869,10 @@ extension IoTClientTypes.AbortCriteria {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AbortCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AbortCriteria()
-        value.failureType = try reader["failureType"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        value.thresholdPercentage = try reader["thresholdPercentage"].readIfPresent()
-        value.minNumberOfExecutedThings = try reader["minNumberOfExecutedThings"].readIfPresent()
+        value.failureType = try reader["failureType"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.thresholdPercentage = try reader["thresholdPercentage"].readIfPresent() ?? 0.0
+        value.minNumberOfExecutedThings = try reader["minNumberOfExecutedThings"].readIfPresent() ?? 0
         return value
     }
 }
@@ -32906,8 +32906,8 @@ extension IoTClientTypes.ExponentialRolloutRate {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ExponentialRolloutRate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ExponentialRolloutRate()
-        value.baseRatePerMinute = try reader["baseRatePerMinute"].readIfPresent()
-        value.incrementFactor = try reader["incrementFactor"].readIfPresent()
+        value.baseRatePerMinute = try reader["baseRatePerMinute"].readIfPresent() ?? 0
+        value.incrementFactor = try reader["incrementFactor"].readIfPresent() ?? 0.0
         value.rateIncreaseCriteria = try reader["rateIncreaseCriteria"].readIfPresent(with: IoTClientTypes.RateIncreaseCriteria.read(from:))
         return value
     }
@@ -33003,7 +33003,7 @@ extension IoTClientTypes.ProvisioningHook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ProvisioningHook()
         value.payloadVersion = try reader["payloadVersion"].readIfPresent()
-        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -33039,7 +33039,7 @@ extension IoTClientTypes.Behavior {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Behavior {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.Behavior()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.metric = try reader["metric"].readIfPresent()
         value.metricDimension = try reader["metricDimension"].readIfPresent(with: IoTClientTypes.MetricDimension.read(from:))
         value.criteria = try reader["criteria"].readIfPresent(with: IoTClientTypes.BehaviorCriteria.read(from:))
@@ -33086,7 +33086,7 @@ extension IoTClientTypes.MachineLearningDetectionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MachineLearningDetectionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.MachineLearningDetectionConfig()
-        value.confidenceLevel = try reader["confidenceLevel"].readIfPresent()
+        value.confidenceLevel = try reader["confidenceLevel"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -33142,7 +33142,7 @@ extension IoTClientTypes.MetricDimension {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MetricDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.MetricDimension()
-        value.dimensionName = try reader["dimensionName"].readIfPresent()
+        value.dimensionName = try reader["dimensionName"].readIfPresent() ?? ""
         value.`operator` = try reader["operator"].readIfPresent()
         return value
     }
@@ -33159,8 +33159,8 @@ extension IoTClientTypes.AlertTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AlertTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AlertTarget()
-        value.alertTargetArn = try reader["alertTargetArn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.alertTargetArn = try reader["alertTargetArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -33177,7 +33177,7 @@ extension IoTClientTypes.MetricToRetain {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MetricToRetain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.MetricToRetain()
-        value.metric = try reader["metric"].readIfPresent()
+        value.metric = try reader["metric"].readIfPresent() ?? ""
         value.metricDimension = try reader["metricDimension"].readIfPresent(with: IoTClientTypes.MetricDimension.read(from:))
         value.exportMetric = try reader["exportMetric"].readIfPresent()
         return value
@@ -33195,8 +33195,8 @@ extension IoTClientTypes.MetricsExportConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.MetricsExportConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.MetricsExportConfig()
-        value.mqttTopic = try reader["mqttTopic"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.mqttTopic = try reader["mqttTopic"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -33394,7 +33394,7 @@ extension IoTClientTypes.ThingIndexingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingIndexingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ThingIndexingConfiguration()
-        value.thingIndexingMode = try reader["thingIndexingMode"].readIfPresent()
+        value.thingIndexingMode = try reader["thingIndexingMode"].readIfPresent() ?? .sdkUnknown("")
         value.thingConnectivityIndexingMode = try reader["thingConnectivityIndexingMode"].readIfPresent()
         value.deviceDefenderIndexingMode = try reader["deviceDefenderIndexingMode"].readIfPresent()
         value.namedShadowIndexingMode = try reader["namedShadowIndexingMode"].readIfPresent()
@@ -33468,7 +33468,7 @@ extension IoTClientTypes.ThingGroupIndexingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingGroupIndexingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ThingGroupIndexingConfiguration()
-        value.thingGroupIndexingMode = try reader["thingGroupIndexingMode"].readIfPresent()
+        value.thingGroupIndexingMode = try reader["thingGroupIndexingMode"].readIfPresent() ?? .sdkUnknown("")
         value.managedFields = try reader["managedFields"].readListIfPresent(memberReadingClosure: IoTClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customFields = try reader["customFields"].readListIfPresent(memberReadingClosure: IoTClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -33756,7 +33756,7 @@ extension IoTClientTypes.AwsJobExponentialRolloutRate {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AwsJobExponentialRolloutRate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AwsJobExponentialRolloutRate()
-        value.baseRatePerMinute = try reader["baseRatePerMinute"].readIfPresent()
+        value.baseRatePerMinute = try reader["baseRatePerMinute"].readIfPresent() ?? 0
         value.incrementFactor = try reader["incrementFactor"].readIfPresent() ?? 0
         value.rateIncreaseCriteria = try reader["rateIncreaseCriteria"].readIfPresent(with: IoTClientTypes.AwsJobRateIncreaseCriteria.read(from:))
         return value
@@ -33916,12 +33916,12 @@ extension IoTClientTypes.LocationAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LocationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.LocationAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.trackerName = try reader["trackerName"].readIfPresent()
-        value.deviceId = try reader["deviceId"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.trackerName = try reader["trackerName"].readIfPresent() ?? ""
+        value.deviceId = try reader["deviceId"].readIfPresent() ?? ""
         value.timestamp = try reader["timestamp"].readIfPresent(with: IoTClientTypes.LocationTimestamp.read(from:))
-        value.latitude = try reader["latitude"].readIfPresent()
-        value.longitude = try reader["longitude"].readIfPresent()
+        value.latitude = try reader["latitude"].readIfPresent() ?? ""
+        value.longitude = try reader["longitude"].readIfPresent() ?? ""
         return value
     }
 }
@@ -33937,7 +33937,7 @@ extension IoTClientTypes.LocationTimestamp {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LocationTimestamp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.LocationTimestamp()
-        value.value = try reader["value"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
         value.unit = try reader["unit"].readIfPresent()
         return value
     }
@@ -33957,11 +33957,11 @@ extension IoTClientTypes.OpenSearchAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.OpenSearchAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.OpenSearchAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.index = try reader["index"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.index = try reader["index"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -33981,11 +33981,11 @@ extension IoTClientTypes.KafkaAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.KafkaAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.KafkaAction()
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
-        value.topic = try reader["topic"].readIfPresent()
+        value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
+        value.topic = try reader["topic"].readIfPresent() ?? ""
         value.key = try reader["key"].readIfPresent()
         value.partition = try reader["partition"].readIfPresent()
-        value.clientProperties = try reader["clientProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.clientProperties = try reader["clientProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: IoTClientTypes.KafkaActionHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -34002,8 +34002,8 @@ extension IoTClientTypes.KafkaActionHeader {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.KafkaActionHeader {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.KafkaActionHeader()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34021,7 +34021,7 @@ extension IoTClientTypes.HttpAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.HttpAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.HttpAction()
-        value.url = try reader["url"].readIfPresent()
+        value.url = try reader["url"].readIfPresent() ?? ""
         value.confirmationUrl = try reader["confirmationUrl"].readIfPresent()
         value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: IoTClientTypes.HttpActionHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.auth = try reader["auth"].readIfPresent(with: IoTClientTypes.HttpAuthorization.read(from:))
@@ -34056,9 +34056,9 @@ extension IoTClientTypes.SigV4Authorization {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SigV4Authorization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SigV4Authorization()
-        value.signingRegion = try reader["signingRegion"].readIfPresent()
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.signingRegion = try reader["signingRegion"].readIfPresent() ?? ""
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34074,8 +34074,8 @@ extension IoTClientTypes.HttpActionHeader {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.HttpActionHeader {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.HttpActionHeader()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34094,10 +34094,10 @@ extension IoTClientTypes.TimestreamAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TimestreamAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.TimestreamAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.dimensions = try reader["dimensions"].readListIfPresent(memberReadingClosure: IoTClientTypes.TimestreamDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.dimensions = try reader["dimensions"].readListIfPresent(memberReadingClosure: IoTClientTypes.TimestreamDimension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.timestamp = try reader["timestamp"].readIfPresent(with: IoTClientTypes.TimestreamTimestamp.read(from:))
         return value
     }
@@ -34114,8 +34114,8 @@ extension IoTClientTypes.TimestreamTimestamp {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TimestreamTimestamp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.TimestreamTimestamp()
-        value.value = try reader["value"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.unit = try reader["unit"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34131,8 +34131,8 @@ extension IoTClientTypes.TimestreamDimension {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.TimestreamDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.TimestreamDimension()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34150,8 +34150,8 @@ extension IoTClientTypes.StepFunctionsAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.StepFunctionsAction()
         value.executionNamePrefix = try reader["executionNamePrefix"].readIfPresent()
-        value.stateMachineName = try reader["stateMachineName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.stateMachineName = try reader["stateMachineName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34167,8 +34167,8 @@ extension IoTClientTypes.IotSiteWiseAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.IotSiteWiseAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.IotSiteWiseAction()
-        value.putAssetPropertyValueEntries = try reader["putAssetPropertyValueEntries"].readListIfPresent(memberReadingClosure: IoTClientTypes.PutAssetPropertyValueEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.putAssetPropertyValueEntries = try reader["putAssetPropertyValueEntries"].readListIfPresent(memberReadingClosure: IoTClientTypes.PutAssetPropertyValueEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34191,7 +34191,7 @@ extension IoTClientTypes.PutAssetPropertyValueEntry {
         value.assetId = try reader["assetId"].readIfPresent()
         value.propertyId = try reader["propertyId"].readIfPresent()
         value.propertyAlias = try reader["propertyAlias"].readIfPresent()
-        value.propertyValues = try reader["propertyValues"].readListIfPresent(memberReadingClosure: IoTClientTypes.AssetPropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propertyValues = try reader["propertyValues"].readListIfPresent(memberReadingClosure: IoTClientTypes.AssetPropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -34226,7 +34226,7 @@ extension IoTClientTypes.AssetPropertyTimestamp {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AssetPropertyTimestamp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AssetPropertyTimestamp()
-        value.timeInSeconds = try reader["timeInSeconds"].readIfPresent()
+        value.timeInSeconds = try reader["timeInSeconds"].readIfPresent() ?? ""
         value.offsetInNanos = try reader["offsetInNanos"].readIfPresent()
         return value
     }
@@ -34281,10 +34281,10 @@ extension IoTClientTypes.IotEventsAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.IotEventsAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.IotEventsAction()
-        value.inputName = try reader["inputName"].readIfPresent()
+        value.inputName = try reader["inputName"].readIfPresent() ?? ""
         value.messageId = try reader["messageId"].readIfPresent()
         value.batchMode = try reader["batchMode"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34321,8 +34321,8 @@ extension IoTClientTypes.SalesforceAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SalesforceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SalesforceAction()
-        value.token = try reader["token"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
+        value.token = try reader["token"].readIfPresent() ?? ""
+        value.url = try reader["url"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34341,11 +34341,11 @@ extension IoTClientTypes.ElasticsearchAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ElasticsearchAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ElasticsearchAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.index = try reader["index"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.index = try reader["index"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34362,8 +34362,8 @@ extension IoTClientTypes.CloudwatchLogsAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CloudwatchLogsAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.CloudwatchLogsAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         value.batchMode = try reader["batchMode"].readIfPresent()
         return value
     }
@@ -34382,10 +34382,10 @@ extension IoTClientTypes.CloudwatchAlarmAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CloudwatchAlarmAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.CloudwatchAlarmAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.alarmName = try reader["alarmName"].readIfPresent()
-        value.stateReason = try reader["stateReason"].readIfPresent()
-        value.stateValue = try reader["stateValue"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.alarmName = try reader["alarmName"].readIfPresent() ?? ""
+        value.stateReason = try reader["stateReason"].readIfPresent() ?? ""
+        value.stateValue = try reader["stateValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34405,11 +34405,11 @@ extension IoTClientTypes.CloudwatchMetricAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CloudwatchMetricAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.CloudwatchMetricAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.metricNamespace = try reader["metricNamespace"].readIfPresent()
-        value.metricName = try reader["metricName"].readIfPresent()
-        value.metricValue = try reader["metricValue"].readIfPresent()
-        value.metricUnit = try reader["metricUnit"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.metricNamespace = try reader["metricNamespace"].readIfPresent() ?? ""
+        value.metricName = try reader["metricName"].readIfPresent() ?? ""
+        value.metricValue = try reader["metricValue"].readIfPresent() ?? ""
+        value.metricUnit = try reader["metricUnit"].readIfPresent() ?? ""
         value.metricTimestamp = try reader["metricTimestamp"].readIfPresent()
         return value
     }
@@ -34428,8 +34428,8 @@ extension IoTClientTypes.FirehoseAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.FirehoseAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.FirehoseAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.deliveryStreamName = try reader["deliveryStreamName"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.deliveryStreamName = try reader["deliveryStreamName"].readIfPresent() ?? ""
         value.separator = try reader["separator"].readIfPresent()
         value.batchMode = try reader["batchMode"].readIfPresent()
         return value
@@ -34449,9 +34449,9 @@ extension IoTClientTypes.S3Action {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.S3Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.S3Action()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.cannedAcl = try reader["cannedAcl"].readIfPresent()
         return value
     }
@@ -34470,8 +34470,8 @@ extension IoTClientTypes.RepublishAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.RepublishAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.RepublishAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.topic = try reader["topic"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.topic = try reader["topic"].readIfPresent() ?? ""
         value.qos = try reader["qos"].readIfPresent()
         value.headers = try reader["headers"].readIfPresent(with: IoTClientTypes.MqttHeaders.read(from:))
         return value
@@ -34514,8 +34514,8 @@ extension IoTClientTypes.UserProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.UserProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.UserProperty()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34532,8 +34532,8 @@ extension IoTClientTypes.KinesisAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.KinesisAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.KinesisAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.streamName = try reader["streamName"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.streamName = try reader["streamName"].readIfPresent() ?? ""
         value.partitionKey = try reader["partitionKey"].readIfPresent()
         return value
     }
@@ -34551,8 +34551,8 @@ extension IoTClientTypes.SqsAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SqsAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SqsAction()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.queueUrl = try reader["queueUrl"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.queueUrl = try reader["queueUrl"].readIfPresent() ?? ""
         value.useBase64 = try reader["useBase64"].readIfPresent()
         return value
     }
@@ -34570,8 +34570,8 @@ extension IoTClientTypes.SnsAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SnsAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SnsAction()
-        value.targetArn = try reader["targetArn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.messageFormat = try reader["messageFormat"].readIfPresent()
         return value
     }
@@ -34587,7 +34587,7 @@ extension IoTClientTypes.LambdaAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LambdaAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.LambdaAction()
-        value.functionArn = try reader["functionArn"].readIfPresent()
+        value.functionArn = try reader["functionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34603,7 +34603,7 @@ extension IoTClientTypes.DynamoDBv2Action {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DynamoDBv2Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.DynamoDBv2Action()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.putItem = try reader["putItem"].readIfPresent(with: IoTClientTypes.PutItemInput.read(from:))
         return value
     }
@@ -34619,7 +34619,7 @@ extension IoTClientTypes.PutItemInput {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PutItemInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.PutItemInput()
-        value.tableName = try reader["tableName"].readIfPresent()
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -34643,11 +34643,11 @@ extension IoTClientTypes.DynamoDBAction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DynamoDBAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.DynamoDBAction()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.operation = try reader["operation"].readIfPresent()
-        value.hashKeyField = try reader["hashKeyField"].readIfPresent()
-        value.hashKeyValue = try reader["hashKeyValue"].readIfPresent()
+        value.hashKeyField = try reader["hashKeyField"].readIfPresent() ?? ""
+        value.hashKeyValue = try reader["hashKeyValue"].readIfPresent() ?? ""
         value.hashKeyType = try reader["hashKeyType"].readIfPresent()
         value.rangeKeyField = try reader["rangeKeyField"].readIfPresent()
         value.rangeKeyValue = try reader["rangeKeyValue"].readIfPresent()
@@ -34732,7 +34732,7 @@ extension IoTClientTypes.AuditSuppression {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.AuditSuppression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuditSuppression()
-        value.checkName = try reader["checkName"].readIfPresent()
+        value.checkName = try reader["checkName"].readIfPresent() ?? ""
         value.resourceIdentifier = try reader["resourceIdentifier"].readIfPresent(with: IoTClientTypes.ResourceIdentifier.read(from:))
         value.expirationDate = try reader["expirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.suppressIndefinitely = try reader["suppressIndefinitely"].readIfPresent()
@@ -35061,8 +35061,8 @@ extension IoTClientTypes.SecurityProfileIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SecurityProfileIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SecurityProfileIdentifier()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -35083,7 +35083,7 @@ extension IoTClientTypes.SecurityProfileTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SecurityProfileTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.SecurityProfileTarget()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -35112,7 +35112,7 @@ extension IoTClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -35220,7 +35220,7 @@ extension IoTClientTypes.LogTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.LogTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.LogTarget()
-        value.targetType = try reader["targetType"].readIfPresent()
+        value.targetType = try reader["targetType"].readIfPresent() ?? .sdkUnknown("")
         value.targetName = try reader["targetName"].readIfPresent()
         return value
     }
@@ -35355,7 +35355,7 @@ extension IoTClientTypes.AuthInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuthInfo()
         value.actionType = try reader["actionType"].readIfPresent()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

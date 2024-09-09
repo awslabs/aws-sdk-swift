@@ -1368,7 +1368,7 @@ public struct CreateCommentInput {
     public init(
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
-        notifyCollaborators: Swift.Bool? = nil,
+        notifyCollaborators: Swift.Bool? = false,
         parentId: Swift.String? = nil,
         text: Swift.String? = nil,
         threadId: Swift.String? = nil,
@@ -2081,7 +2081,7 @@ public struct DeleteCustomMetadataInput {
 
     public init(
         authenticationToken: Swift.String? = nil,
-        deleteAll: Swift.Bool? = nil,
+        deleteAll: Swift.Bool? = false,
         keys: [Swift.String]? = nil,
         resourceId: Swift.String? = nil,
         versionId: Swift.String? = nil
@@ -2166,7 +2166,7 @@ public struct DeleteDocumentVersionInput {
 
     public init(
         authenticationToken: Swift.String? = nil,
-        deletePriorVersions: Swift.Bool? = nil,
+        deletePriorVersions: Swift.Bool? = false,
         documentId: Swift.String? = nil,
         versionId: Swift.String? = nil
     )
@@ -2240,7 +2240,7 @@ public struct DeleteLabelsInput {
 
     public init(
         authenticationToken: Swift.String? = nil,
-        deleteAll: Swift.Bool? = nil,
+        deleteAll: Swift.Bool? = false,
         labels: [Swift.String]? = nil,
         resourceId: Swift.String? = nil
     )
@@ -2328,7 +2328,7 @@ public struct DescribeActivitiesInput {
         activityTypes: Swift.String? = nil,
         authenticationToken: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
-        includeIndirectActivities: Swift.Bool? = nil,
+        includeIndirectActivities: Swift.Bool? = false,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         organizationId: Swift.String? = nil,
@@ -3326,7 +3326,7 @@ public struct GetDocumentInput {
     public init(
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
-        includeCustomMetadata: Swift.Bool? = nil
+        includeCustomMetadata: Swift.Bool? = false
     )
     {
         self.authenticationToken = authenticationToken
@@ -3461,7 +3461,7 @@ public struct GetDocumentVersionInput {
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
         fields: Swift.String? = nil,
-        includeCustomMetadata: Swift.Bool? = nil,
+        includeCustomMetadata: Swift.Bool? = false,
         versionId: Swift.String? = nil
     )
     {
@@ -3506,7 +3506,7 @@ public struct GetFolderInput {
     public init(
         authenticationToken: Swift.String? = nil,
         folderId: Swift.String? = nil,
-        includeCustomMetadata: Swift.Bool? = nil
+        includeCustomMetadata: Swift.Bool? = false
     )
     {
         self.authenticationToken = authenticationToken
@@ -7980,7 +7980,7 @@ extension WorkDocsClientTypes.Comment {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Comment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkDocsClientTypes.Comment()
-        value.commentId = try reader["CommentId"].readIfPresent()
+        value.commentId = try reader["CommentId"].readIfPresent() ?? ""
         value.parentId = try reader["ParentId"].readIfPresent()
         value.threadId = try reader["ThreadId"].readIfPresent()
         value.text = try reader["Text"].readIfPresent()

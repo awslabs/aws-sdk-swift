@@ -31,6 +31,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct CancelQueryOutput {
 
@@ -3396,10 +3397,10 @@ extension CancelImportTaskOutput {
         var value = CancelImportTaskOutput()
         value.format = try reader["format"].readIfPresent()
         value.graphId = try reader["graphId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.taskId = try reader["taskId"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3418,14 +3419,14 @@ extension CreateGraphOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGraphOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
         value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
         value.replicaCount = try reader["replicaCount"].readIfPresent()
@@ -3444,10 +3445,10 @@ extension CreateGraphSnapshotOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGraphSnapshotOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.snapshotCreateTime = try reader["snapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceGraphId = try reader["sourceGraphId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -3465,10 +3466,10 @@ extension CreateGraphUsingImportTaskOutput {
         value.format = try reader["format"].readIfPresent()
         value.graphId = try reader["graphId"].readIfPresent()
         value.importOptions = try reader["importOptions"].readIfPresent(with: NeptuneGraphClientTypes.ImportOptions.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.taskId = try reader["taskId"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3480,10 +3481,10 @@ extension CreatePrivateGraphEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePrivateGraphEndpointOutput()
-        value.status = try reader["status"].readIfPresent()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3495,14 +3496,14 @@ extension DeleteGraphOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteGraphOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
         value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
         value.replicaCount = try reader["replicaCount"].readIfPresent()
@@ -3521,10 +3522,10 @@ extension DeleteGraphSnapshotOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteGraphSnapshotOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.snapshotCreateTime = try reader["snapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceGraphId = try reader["sourceGraphId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -3539,10 +3540,10 @@ extension DeletePrivateGraphEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeletePrivateGraphEndpointOutput()
-        value.status = try reader["status"].readIfPresent()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3570,14 +3571,14 @@ extension GetGraphOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGraphOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
         value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
         value.replicaCount = try reader["replicaCount"].readIfPresent()
@@ -3596,10 +3597,10 @@ extension GetGraphSnapshotOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGraphSnapshotOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.snapshotCreateTime = try reader["snapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceGraphId = try reader["sourceGraphId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -3633,11 +3634,11 @@ extension GetImportTaskOutput {
         value.graphId = try reader["graphId"].readIfPresent()
         value.importOptions = try reader["importOptions"].readIfPresent(with: NeptuneGraphClientTypes.ImportOptions.read(from:))
         value.importTaskDetails = try reader["importTaskDetails"].readIfPresent(with: NeptuneGraphClientTypes.ImportTaskDetails.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
-        value.taskId = try reader["taskId"].readIfPresent()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3649,10 +3650,10 @@ extension GetPrivateGraphEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPrivateGraphEndpointOutput()
-        value.status = try reader["status"].readIfPresent()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3680,7 +3681,7 @@ extension ListGraphsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGraphsOutput()
-        value.graphs = try reader["graphs"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.GraphSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.graphs = try reader["graphs"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.GraphSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3693,7 +3694,7 @@ extension ListGraphSnapshotsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGraphSnapshotsOutput()
-        value.graphSnapshots = try reader["graphSnapshots"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.GraphSnapshotSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.graphSnapshots = try reader["graphSnapshots"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.GraphSnapshotSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3707,7 +3708,7 @@ extension ListImportTasksOutput {
         let reader = responseReader
         var value = ListImportTasksOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.ImportTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.ImportTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3720,7 +3721,7 @@ extension ListPrivateGraphEndpointsOutput {
         let reader = responseReader
         var value = ListPrivateGraphEndpointsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.privateGraphEndpoints = try reader["privateGraphEndpoints"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.PrivateGraphEndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privateGraphEndpoints = try reader["privateGraphEndpoints"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.PrivateGraphEndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3732,7 +3733,7 @@ extension ListQueriesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListQueriesOutput()
-        value.queries = try reader["queries"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.QuerySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.queries = try reader["queries"].readListIfPresent(memberReadingClosure: NeptuneGraphClientTypes.QuerySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3756,14 +3757,14 @@ extension ResetGraphOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ResetGraphOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
         value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
         value.replicaCount = try reader["replicaCount"].readIfPresent()
@@ -3782,14 +3783,14 @@ extension RestoreGraphFromSnapshotOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RestoreGraphFromSnapshotOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
         value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
         value.replicaCount = try reader["replicaCount"].readIfPresent()
@@ -3811,10 +3812,10 @@ extension StartImportTaskOutput {
         value.format = try reader["format"].readIfPresent()
         value.graphId = try reader["graphId"].readIfPresent()
         value.importOptions = try reader["importOptions"].readIfPresent(with: NeptuneGraphClientTypes.ImportOptions.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.taskId = try reader["taskId"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3840,14 +3841,14 @@ extension UpdateGraphOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateGraphOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
         value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
         value.replicaCount = try reader["replicaCount"].readIfPresent()
@@ -4359,7 +4360,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4372,7 +4373,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4385,7 +4386,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4399,7 +4400,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4412,7 +4413,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4426,7 +4427,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4439,7 +4440,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
@@ -4456,8 +4457,8 @@ extension UnprocessableException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableException {
         let reader = baseError.errorBodyReader
         var value = UnprocessableException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4475,7 +4476,7 @@ extension NeptuneGraphClientTypes.VectorSearchConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.VectorSearchConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.VectorSearchConfiguration()
-        value.dimension = try reader["dimension"].readIfPresent()
+        value.dimension = try reader["dimension"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4517,8 +4518,8 @@ extension NeptuneGraphClientTypes.NeptuneImportOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.NeptuneImportOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.NeptuneImportOptions()
-        value.s3ExportPath = try reader["s3ExportPath"].readIfPresent()
-        value.s3ExportKmsKeyId = try reader["s3ExportKmsKeyId"].readIfPresent()
+        value.s3ExportPath = try reader["s3ExportPath"].readIfPresent() ?? ""
+        value.s3ExportKmsKeyId = try reader["s3ExportKmsKeyId"].readIfPresent() ?? ""
         value.preserveDefaultVertexLabels = try reader["preserveDefaultVertexLabels"].readIfPresent()
         value.preserveEdgeIds = try reader["preserveEdgeIds"].readIfPresent()
         return value
@@ -4576,14 +4577,14 @@ extension NeptuneGraphClientTypes.ImportTaskDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.ImportTaskDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.ImportTaskDetails()
-        value.status = try reader["status"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.timeElapsedSeconds = try reader["timeElapsedSeconds"].readIfPresent()
-        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
-        value.errorCount = try reader["errorCount"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.timeElapsedSeconds = try reader["timeElapsedSeconds"].readIfPresent() ?? 0
+        value.progressPercentage = try reader["progressPercentage"].readIfPresent() ?? 0
+        value.errorCount = try reader["errorCount"].readIfPresent() ?? 0
         value.errorDetails = try reader["errorDetails"].readIfPresent()
-        value.statementCount = try reader["statementCount"].readIfPresent()
-        value.dictionaryEntryCount = try reader["dictionaryEntryCount"].readIfPresent()
+        value.statementCount = try reader["statementCount"].readIfPresent() ?? 0
+        value.dictionaryEntryCount = try reader["dictionaryEntryCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4593,9 +4594,9 @@ extension NeptuneGraphClientTypes.GraphSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.GraphSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.GraphSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
         value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
@@ -4612,9 +4613,9 @@ extension NeptuneGraphClientTypes.GraphSnapshotSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.GraphSnapshotSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.GraphSnapshotSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.sourceGraphId = try reader["sourceGraphId"].readIfPresent()
         value.snapshotCreateTime = try reader["snapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["status"].readIfPresent()
@@ -4629,11 +4630,11 @@ extension NeptuneGraphClientTypes.ImportTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.ImportTaskSummary()
         value.graphId = try reader["graphId"].readIfPresent()
-        value.taskId = try reader["taskId"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
         value.format = try reader["format"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4643,9 +4644,9 @@ extension NeptuneGraphClientTypes.PrivateGraphEndpointSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.PrivateGraphEndpointSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptuneGraphClientTypes.PrivateGraphEndpointSummary()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
         return value
     }

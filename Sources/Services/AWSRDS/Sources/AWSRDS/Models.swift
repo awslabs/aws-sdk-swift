@@ -33158,7 +33158,7 @@ extension RDSClientTypes.IntegrationError {
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IntegrationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.IntegrationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }

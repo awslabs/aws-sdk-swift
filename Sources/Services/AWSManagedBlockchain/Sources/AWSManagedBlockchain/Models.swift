@@ -4583,7 +4583,7 @@ extension ManagedBlockchainClientTypes.RemoveAction {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.RemoveAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.RemoveAction()
-        value.memberId = try reader["MemberId"].readIfPresent()
+        value.memberId = try reader["MemberId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4598,7 +4598,7 @@ extension ManagedBlockchainClientTypes.InviteAction {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainClientTypes.InviteAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainClientTypes.InviteAction()
-        value.principal = try reader["Principal"].readIfPresent()
+        value.principal = try reader["Principal"].readIfPresent() ?? ""
         return value
     }
 }

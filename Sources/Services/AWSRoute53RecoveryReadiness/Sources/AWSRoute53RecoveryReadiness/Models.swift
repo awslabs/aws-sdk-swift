@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteCellOutput {
 
@@ -3452,7 +3453,7 @@ extension Route53RecoveryReadinessClientTypes.Recommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.Recommendation()
-        value.recommendationText = try reader["recommendationText"].readIfPresent()
+        value.recommendationText = try reader["recommendationText"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3473,10 +3474,10 @@ extension Route53RecoveryReadinessClientTypes.RuleResult {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.RuleResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.RuleResult()
-        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Route53RecoveryReadinessClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.readiness = try reader["readiness"].readIfPresent()
-        value.ruleId = try reader["ruleId"].readIfPresent()
+        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Route53RecoveryReadinessClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.readiness = try reader["readiness"].readIfPresent() ?? .sdkUnknown("")
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3497,8 +3498,8 @@ extension Route53RecoveryReadinessClientTypes.ResourceResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.ResourceResult()
         value.componentId = try reader["componentId"].readIfPresent()
-        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.readiness = try reader["readiness"].readIfPresent()
+        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.readiness = try reader["readiness"].readIfPresent() ?? .sdkUnknown("")
         value.resourceArn = try reader["resourceArn"].readIfPresent()
         return value
     }
@@ -3509,10 +3510,10 @@ extension Route53RecoveryReadinessClientTypes.CellOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.CellOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.CellOutput()
-        value.cellArn = try reader["cellArn"].readIfPresent()
-        value.cellName = try reader["cellName"].readIfPresent()
-        value.cells = try reader["cells"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.parentReadinessScopes = try reader["parentReadinessScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cellArn = try reader["cellArn"].readIfPresent() ?? ""
+        value.cellName = try reader["cellName"].readIfPresent() ?? ""
+        value.cells = try reader["cells"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.parentReadinessScopes = try reader["parentReadinessScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3523,9 +3524,9 @@ extension Route53RecoveryReadinessClientTypes.ReadinessCheckOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ReadinessCheckOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.ReadinessCheckOutput()
-        value.readinessCheckArn = try reader["readinessCheckArn"].readIfPresent()
+        value.readinessCheckArn = try reader["readinessCheckArn"].readIfPresent() ?? ""
         value.readinessCheckName = try reader["readinessCheckName"].readIfPresent()
-        value.resourceSet = try reader["resourceSet"].readIfPresent()
+        value.resourceSet = try reader["resourceSet"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3536,9 +3537,9 @@ extension Route53RecoveryReadinessClientTypes.RecoveryGroupOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.RecoveryGroupOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.RecoveryGroupOutput()
-        value.cells = try reader["cells"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recoveryGroupArn = try reader["recoveryGroupArn"].readIfPresent()
-        value.recoveryGroupName = try reader["recoveryGroupName"].readIfPresent()
+        value.cells = try reader["cells"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recoveryGroupArn = try reader["recoveryGroupArn"].readIfPresent() ?? ""
+        value.recoveryGroupName = try reader["recoveryGroupName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3549,10 +3550,10 @@ extension Route53RecoveryReadinessClientTypes.ResourceSetOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ResourceSetOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.ResourceSetOutput()
-        value.resourceSetArn = try reader["resourceSetArn"].readIfPresent()
-        value.resourceSetName = try reader["resourceSetName"].readIfPresent()
-        value.resourceSetType = try reader["resourceSetType"].readIfPresent()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: Route53RecoveryReadinessClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceSetArn = try reader["resourceSetArn"].readIfPresent() ?? ""
+        value.resourceSetName = try reader["resourceSetName"].readIfPresent() ?? ""
+        value.resourceSetType = try reader["resourceSetType"].readIfPresent() ?? ""
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: Route53RecoveryReadinessClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3563,9 +3564,9 @@ extension Route53RecoveryReadinessClientTypes.ListRulesOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ListRulesOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryReadinessClientTypes.ListRulesOutput()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.ruleDescription = try reader["ruleDescription"].readIfPresent()
-        value.ruleId = try reader["ruleId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.ruleDescription = try reader["ruleDescription"].readIfPresent() ?? ""
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
         return value
     }
 }

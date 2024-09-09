@@ -729,7 +729,7 @@ public struct DescribeTableInput {
         connectedDatabase: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         schema: Swift.String? = nil,
         secretArn: Swift.String? = nil,
@@ -985,7 +985,7 @@ public struct ListDatabasesInput {
         clusterIdentifier: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         workgroupName: Swift.String? = nil
@@ -1043,7 +1043,7 @@ public struct ListSchemasInput {
         connectedDatabase: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         schemaPattern: Swift.String? = nil,
         secretArn: Swift.String? = nil,
@@ -1105,7 +1105,7 @@ public struct ListStatementsInput {
     public var status: RedshiftDataClientTypes.StatusString?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         roleLevel: Swift.Bool? = nil,
         statementName: Swift.String? = nil,
@@ -1222,7 +1222,7 @@ public struct ListTablesInput {
         connectedDatabase: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         schemaPattern: Swift.String? = nil,
         secretArn: Swift.String? = nil,
@@ -1537,7 +1537,7 @@ extension DescribeStatementOutput {
         value.duration = try reader["Duration"].readIfPresent() ?? 0
         value.error = try reader["Error"].readIfPresent()
         value.hasResultSet = try reader["HasResultSet"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.queryParameters = try reader["QueryParameters"].readListIfPresent(memberReadingClosure: RedshiftDataClientTypes.SqlParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.queryString = try reader["QueryString"].readIfPresent()
         value.redshiftPid = try reader["RedshiftPid"].readIfPresent() ?? 0
@@ -1597,7 +1597,7 @@ extension GetStatementResultOutput {
         var value = GetStatementResultOutput()
         value.columnMetadata = try reader["ColumnMetadata"].readListIfPresent(memberReadingClosure: RedshiftDataClientTypes.ColumnMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.records = try reader["Records"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: RedshiftDataClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.records = try reader["Records"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: RedshiftDataClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         value.totalNumRows = try reader["TotalNumRows"].readIfPresent() ?? 0
         return value
     }
@@ -1637,7 +1637,7 @@ extension ListStatementsOutput {
         let reader = responseReader
         var value = ListStatementsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.statements = try reader["Statements"].readListIfPresent(memberReadingClosure: RedshiftDataClientTypes.StatementData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statements = try reader["Statements"].readListIfPresent(memberReadingClosure: RedshiftDataClientTypes.StatementData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1828,7 +1828,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1867,8 +1867,8 @@ extension BatchExecuteStatementException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchExecuteStatementException {
         let reader = baseError.errorBodyReader
         var value = BatchExecuteStatementException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.statementId = try reader["StatementId"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.statementId = try reader["StatementId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1894,8 +1894,8 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1908,7 +1908,7 @@ extension DatabaseConnectionException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DatabaseConnectionException {
         let reader = baseError.errorBodyReader
         var value = DatabaseConnectionException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1934,8 +1934,8 @@ extension ExecuteStatementException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecuteStatementException {
         let reader = baseError.errorBodyReader
         var value = ExecuteStatementException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.statementId = try reader["StatementId"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.statementId = try reader["StatementId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1954,8 +1954,8 @@ extension RedshiftDataClientTypes.SqlParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SqlParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftDataClientTypes.SqlParameter()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1965,7 +1965,7 @@ extension RedshiftDataClientTypes.SubStatementData {
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SubStatementData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftDataClientTypes.SubStatementData()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.duration = try reader["Duration"].readIfPresent() ?? 0
         value.error = try reader["Error"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
@@ -2031,7 +2031,7 @@ extension RedshiftDataClientTypes.StatementData {
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.StatementData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftDataClientTypes.StatementData()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.queryString = try reader["QueryString"].readIfPresent()
         value.queryStrings = try reader["QueryStrings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.secretArn = try reader["SecretArn"].readIfPresent()

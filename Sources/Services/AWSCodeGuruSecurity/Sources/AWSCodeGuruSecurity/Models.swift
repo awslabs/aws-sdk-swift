@@ -1747,8 +1747,8 @@ extension BatchGetFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetFindingsOutput()
-        value.failedFindings = try reader["failedFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.BatchGetFindingsError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.Finding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failedFindings = try reader["failedFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.BatchGetFindingsError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.Finding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1761,10 +1761,10 @@ extension CreateScanOutput {
         let reader = responseReader
         var value = CreateScanOutput()
         value.resourceId = try reader["resourceId"].readIfPresent(with: CodeGuruSecurityClientTypes.ResourceId.read(from:))
-        value.runId = try reader["runId"].readIfPresent()
-        value.scanName = try reader["scanName"].readIfPresent()
+        value.runId = try reader["runId"].readIfPresent() ?? ""
+        value.scanName = try reader["scanName"].readIfPresent() ?? ""
         value.scanNameArn = try reader["scanNameArn"].readIfPresent()
-        value.scanState = try reader["scanState"].readIfPresent()
+        value.scanState = try reader["scanState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1776,9 +1776,9 @@ extension CreateUploadUrlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateUploadUrlOutput()
-        value.codeArtifactId = try reader["codeArtifactId"].readIfPresent()
-        value.requestHeaders = try reader["requestHeaders"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.s3Url = try reader["s3Url"].readIfPresent()
+        value.codeArtifactId = try reader["codeArtifactId"].readIfPresent() ?? ""
+        value.requestHeaders = try reader["requestHeaders"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.s3Url = try reader["s3Url"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1827,14 +1827,14 @@ extension GetScanOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetScanOutput()
-        value.analysisType = try reader["analysisType"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.numberOfRevisions = try reader["numberOfRevisions"].readIfPresent()
-        value.runId = try reader["runId"].readIfPresent()
-        value.scanName = try reader["scanName"].readIfPresent()
+        value.runId = try reader["runId"].readIfPresent() ?? ""
+        value.scanName = try reader["scanName"].readIfPresent() ?? ""
         value.scanNameArn = try reader["scanNameArn"].readIfPresent()
-        value.scanState = try reader["scanState"].readIfPresent()
+        value.scanState = try reader["scanState"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -2142,10 +2142,10 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.errorCode = try reader["errorCode"].readIfPresent()
+        value.properties.errorCode = try reader["errorCode"].readIfPresent() ?? ""
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2172,8 +2172,8 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.errorCode = try reader["errorCode"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -2188,8 +2188,8 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.errorCode = try reader["errorCode"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -2204,10 +2204,10 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.errorCode = try reader["errorCode"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2220,10 +2220,10 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.errorCode = try reader["errorCode"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2344,10 +2344,10 @@ extension CodeGuruSecurityClientTypes.BatchGetFindingsError {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.BatchGetFindingsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.BatchGetFindingsError()
-        value.scanName = try reader["scanName"].readIfPresent()
-        value.findingId = try reader["findingId"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.scanName = try reader["scanName"].readIfPresent() ?? ""
+        value.findingId = try reader["findingId"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2460,11 +2460,11 @@ extension CodeGuruSecurityClientTypes.ScanSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.ScanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.ScanSummary()
-        value.scanState = try reader["scanState"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanState = try reader["scanState"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.scanName = try reader["scanName"].readIfPresent()
-        value.runId = try reader["runId"].readIfPresent()
+        value.scanName = try reader["scanName"].readIfPresent() ?? ""
+        value.runId = try reader["runId"].readIfPresent() ?? ""
         value.scanNameArn = try reader["scanNameArn"].readIfPresent()
         return value
     }
@@ -2475,8 +2475,8 @@ extension CodeGuruSecurityClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruSecurityClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

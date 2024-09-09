@@ -30,6 +30,7 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct AssociateAccessGrantsIdentityCenterOutput {
 
@@ -1819,7 +1820,7 @@ public struct CreateBucketInput {
         grantReadACP: Swift.String? = nil,
         grantWrite: Swift.String? = nil,
         grantWriteACP: Swift.String? = nil,
-        objectLockEnabledForBucket: Swift.Bool? = nil,
+        objectLockEnabledForBucket: Swift.Bool? = false,
         outpostId: Swift.String? = nil
     )
     {
@@ -2207,12 +2208,12 @@ extension S3ControlClientTypes {
         public init(
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
-            eligibleForReplication: Swift.Bool? = nil,
+            eligibleForReplication: Swift.Bool? = false,
             keyNameConstraint: S3ControlClientTypes.KeyNameConstraint? = nil,
             matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]? = nil,
             objectReplicationStatuses: [S3ControlClientTypes.ReplicationStatus]? = nil,
-            objectSizeGreaterThanBytes: Swift.Int? = nil,
-            objectSizeLessThanBytes: Swift.Int? = nil
+            objectSizeGreaterThanBytes: Swift.Int? = 0,
+            objectSizeLessThanBytes: Swift.Int? = 0
         )
         {
             self.createdAfter = createdAfter
@@ -2449,7 +2450,7 @@ extension S3ControlClientTypes {
         public var glacierJobTier: S3ControlClientTypes.S3GlacierJobTier?
 
         public init(
-            expirationInDays: Swift.Int? = nil,
+            expirationInDays: Swift.Int? = 0,
             glacierJobTier: S3ControlClientTypes.S3GlacierJobTier? = nil
         )
         {
@@ -2819,7 +2820,7 @@ extension S3ControlClientTypes {
             contentDisposition: Swift.String? = nil,
             contentEncoding: Swift.String? = nil,
             contentLanguage: Swift.String? = nil,
-            contentLength: Swift.Int? = nil,
+            contentLength: Swift.Int? = 0,
             contentMD5: Swift.String? = nil,
             contentType: Swift.String? = nil,
             httpExpiresDate: Foundation.Date? = nil,
@@ -3105,7 +3106,7 @@ extension S3ControlClientTypes {
         public var retention: S3ControlClientTypes.S3Retention?
 
         public init(
-            bypassGovernanceRetention: Swift.Bool? = nil,
+            bypassGovernanceRetention: Swift.Bool? = false,
             retention: S3ControlClientTypes.S3Retention? = nil
         )
         {
@@ -3310,12 +3311,12 @@ public struct CreateJobInput {
     public init(
         accountId: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        confirmationRequired: Swift.Bool? = nil,
+        confirmationRequired: Swift.Bool? = false,
         description: Swift.String? = nil,
         manifest: S3ControlClientTypes.JobManifest? = nil,
         manifestGenerator: S3ControlClientTypes.JobManifestGenerator? = nil,
         operation: S3ControlClientTypes.JobOperation? = nil,
-        priority: Swift.Int? = nil,
+        priority: Swift.Int? = 0,
         report: S3ControlClientTypes.JobReport? = nil,
         roleArn: Swift.String? = nil,
         tags: [S3ControlClientTypes.S3Tag]? = nil
@@ -4017,7 +4018,7 @@ extension S3ControlClientTypes {
         public var elapsedTimeInActiveSeconds: Swift.Int?
 
         public init(
-            elapsedTimeInActiveSeconds: Swift.Int? = nil
+            elapsedTimeInActiveSeconds: Swift.Int? = 0
         )
         {
             self.elapsedTimeInActiveSeconds = elapsedTimeInActiveSeconds
@@ -4039,10 +4040,10 @@ extension S3ControlClientTypes {
         public var totalNumberOfTasks: Swift.Int?
 
         public init(
-            numberOfTasksFailed: Swift.Int? = nil,
-            numberOfTasksSucceeded: Swift.Int? = nil,
+            numberOfTasksFailed: Swift.Int? = 0,
+            numberOfTasksSucceeded: Swift.Int? = 0,
             timers: S3ControlClientTypes.JobTimers? = nil,
-            totalNumberOfTasks: Swift.Int? = nil
+            totalNumberOfTasks: Swift.Int? = 0
         )
         {
             self.numberOfTasksFailed = numberOfTasksFailed
@@ -4159,7 +4160,7 @@ extension S3ControlClientTypes {
         public var terminationDate: Foundation.Date?
 
         public init(
-            confirmationRequired: Swift.Bool? = nil,
+            confirmationRequired: Swift.Bool? = false,
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             failureReasons: [S3ControlClientTypes.JobFailure]? = nil,
@@ -4853,8 +4854,8 @@ extension S3ControlClientTypes {
         public var tags: [S3ControlClientTypes.S3Tag]?
 
         public init(
-            objectSizeGreaterThan: Swift.Int? = nil,
-            objectSizeLessThan: Swift.Int? = nil,
+            objectSizeGreaterThan: Swift.Int? = 0,
+            objectSizeLessThan: Swift.Int? = 0,
             `prefix`: Swift.String? = nil,
             tags: [S3ControlClientTypes.S3Tag]? = nil
         )
@@ -4884,8 +4885,8 @@ extension S3ControlClientTypes {
 
         public init(
             and: S3ControlClientTypes.LifecycleRuleAndOperator? = nil,
-            objectSizeGreaterThan: Swift.Int? = nil,
-            objectSizeLessThan: Swift.Int? = nil,
+            objectSizeGreaterThan: Swift.Int? = 0,
+            objectSizeLessThan: Swift.Int? = 0,
             `prefix`: Swift.String? = nil,
             tag: S3ControlClientTypes.S3Tag? = nil
         )
@@ -4909,7 +4910,7 @@ extension S3ControlClientTypes {
         public var noncurrentDays: Swift.Int
 
         public init(
-            newerNoncurrentVersions: Swift.Int? = nil,
+            newerNoncurrentVersions: Swift.Int? = 0,
             noncurrentDays: Swift.Int = 0
         )
         {
@@ -5205,7 +5206,7 @@ extension S3ControlClientTypes {
         public var minutes: Swift.Int?
 
         public init(
-            minutes: Swift.Int? = nil
+            minutes: Swift.Int? = 0
         )
         {
             self.minutes = minutes
@@ -5681,7 +5682,7 @@ extension S3ControlClientTypes {
             filter: S3ControlClientTypes.ReplicationRuleFilter? = nil,
             id: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
-            priority: Swift.Int? = nil,
+            priority: Swift.Int? = 0,
             sourceSelectionCriteria: S3ControlClientTypes.SourceSelectionCriteria? = nil,
             status: S3ControlClientTypes.ReplicationRuleStatus? = nil
         )
@@ -6799,7 +6800,7 @@ public struct ListAccessGrantsInput {
         grantScope: Swift.String? = nil,
         granteeIdentifier: Swift.String? = nil,
         granteeType: S3ControlClientTypes.GranteeType? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         permission: S3ControlClientTypes.Permission? = nil
     )
@@ -6842,7 +6843,7 @@ public struct ListAccessGrantsInstancesInput {
 
     public init(
         accountId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6882,7 +6883,7 @@ public struct ListAccessGrantsLocationsInput {
     public init(
         accountId: Swift.String? = nil,
         locationScope: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6923,7 +6924,7 @@ public struct ListAccessPointsInput {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6961,7 +6962,7 @@ public struct ListAccessPointsForObjectLambdaInput {
 
     public init(
         accountId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7027,9 +7028,9 @@ public struct ListCallerAccessGrantsInput {
 
     public init(
         accountId: Swift.String? = nil,
-        allowedByApplication: Swift.Bool? = nil,
+        allowedByApplication: Swift.Bool? = false,
         grantScope: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7149,7 +7150,7 @@ public struct ListJobsInput {
     public init(
         accountId: Swift.String? = nil,
         jobStatuses: [S3ControlClientTypes.JobStatus]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7281,7 +7282,7 @@ public struct ListMultiRegionAccessPointsInput {
 
     public init(
         accountId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7320,7 +7321,7 @@ public struct ListRegionalBucketsInput {
 
     public init(
         accountId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
     )
@@ -7702,7 +7703,7 @@ public struct PutBucketPolicyInput {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
-        confirmRemoveSelfBucketAccess: Swift.Bool? = nil,
+        confirmRemoveSelfBucketAccess: Swift.Bool? = false,
         policy: Swift.String? = nil
     )
     {
@@ -8161,7 +8162,7 @@ public struct UpdateJobPriorityInput {
     public init(
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil,
-        priority: Swift.Int? = nil
+        priority: Swift.Int? = 0
     )
     {
         self.accountId = accountId
@@ -11298,7 +11299,7 @@ extension GetBucketTaggingOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = GetBucketTaggingOutput()
-        value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagSet = try reader["TagSet"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11747,7 +11748,7 @@ extension UpdateJobPriorityOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateJobPriorityOutput()
-        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         value.priority = try reader["Priority"].readIfPresent() ?? 0
         return value
     }
@@ -13262,9 +13263,9 @@ extension S3ControlClientTypes.JobManifestLocation {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobManifestLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.JobManifestLocation()
-        value.objectArn = try reader["ObjectArn"].readIfPresent()
+        value.objectArn = try reader["ObjectArn"].readIfPresent() ?? ""
         value.objectVersionId = try reader["ObjectVersionId"].readIfPresent()
-        value.eTag = try reader["ETag"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13308,7 +13309,7 @@ extension S3ControlClientTypes.S3JobManifestGenerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.S3JobManifestGenerator()
         value.expectedBucketOwner = try reader["ExpectedBucketOwner"].readIfPresent()
-        value.sourceBucket = try reader["SourceBucket"].readIfPresent()
+        value.sourceBucket = try reader["SourceBucket"].readIfPresent() ?? ""
         value.manifestOutputLocation = try reader["ManifestOutputLocation"].readIfPresent(with: S3ControlClientTypes.S3ManifestOutputLocation.read(from:))
         value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.JobManifestGeneratorFilter.read(from:))
         value.enableManifestOutput = try reader["EnableManifestOutput"].readIfPresent() ?? false
@@ -13379,10 +13380,10 @@ extension S3ControlClientTypes.S3ManifestOutputLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.S3ManifestOutputLocation()
         value.expectedManifestBucketOwner = try reader["ExpectedManifestBucketOwner"].readIfPresent()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.manifestPrefix = try reader["ManifestPrefix"].readIfPresent()
         value.manifestEncryption = try reader["ManifestEncryption"].readIfPresent(with: S3ControlClientTypes.GeneratedManifestEncryption.read(from:))
-        value.manifestFormat = try reader["ManifestFormat"].readIfPresent()
+        value.manifestFormat = try reader["ManifestFormat"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13414,7 +13415,7 @@ extension S3ControlClientTypes.SSEKMSEncryption {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSEKMSEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.SSEKMSEncryption()
-        value.keyId = try reader["KeyId"].readIfPresent()
+        value.keyId = try reader["KeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13592,7 +13593,7 @@ extension S3ControlClientTypes.S3ObjectLockLegalHold {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ObjectLockLegalHold {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.S3ObjectLockLegalHold()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13653,8 +13654,8 @@ extension S3ControlClientTypes.S3Tag {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.S3Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13892,7 +13893,7 @@ extension S3ControlClientTypes.JobManifestSpec {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobManifestSpec {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.JobManifestSpec()
-        value.format = try reader["Format"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
         value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.JobManifestFieldName>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -13981,8 +13982,8 @@ extension S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput()
-        value.name = try reader["Name"].readIfPresent()
-        value.policy = try reader["Policy"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.policy = try reader["Policy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13997,7 +13998,7 @@ extension S3ControlClientTypes.DeleteMultiRegionAccessPointInput {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DeleteMultiRegionAccessPointInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.DeleteMultiRegionAccessPointInput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14014,9 +14015,9 @@ extension S3ControlClientTypes.CreateMultiRegionAccessPointInput {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.CreateMultiRegionAccessPointInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.CreateMultiRegionAccessPointInput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.publicAccessBlock = try reader["PublicAccessBlock"].readIfPresent(with: S3ControlClientTypes.PublicAccessBlockConfiguration.read(from:))
-        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Region.read(from:), memberNodeInfo: "Region", isFlattened: false)
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Region.read(from:), memberNodeInfo: "Region", isFlattened: false) ?? []
         return value
     }
 }
@@ -14032,7 +14033,7 @@ extension S3ControlClientTypes.Region {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Region {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.Region()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
         return value
     }
@@ -14069,7 +14070,7 @@ extension S3ControlClientTypes.VpcConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.VpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.VpcConfiguration()
-        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14087,10 +14088,10 @@ extension S3ControlClientTypes.ObjectLambdaConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ObjectLambdaConfiguration()
-        value.supportingAccessPoint = try reader["SupportingAccessPoint"].readIfPresent()
+        value.supportingAccessPoint = try reader["SupportingAccessPoint"].readIfPresent() ?? ""
         value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent() ?? false
         value.allowedFeatures = try reader["AllowedFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.ObjectLambdaAllowedFeature>().read(from:), memberNodeInfo: "AllowedFeature", isFlattened: false)
-        value.transformationConfigurations = try reader["TransformationConfigurations"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfiguration.read(from:), memberNodeInfo: "TransformationConfiguration", isFlattened: false)
+        value.transformationConfigurations = try reader["TransformationConfigurations"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectLambdaTransformationConfiguration.read(from:), memberNodeInfo: "TransformationConfiguration", isFlattened: false) ?? []
         return value
     }
 }
@@ -14106,7 +14107,7 @@ extension S3ControlClientTypes.ObjectLambdaTransformationConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaTransformationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ObjectLambdaTransformationConfiguration()
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction>().read(from:), memberNodeInfo: "Action", isFlattened: false)
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction>().read(from:), memberNodeInfo: "Action", isFlattened: false) ?? []
         value.contentTransformation = try reader["ContentTransformation"].readIfPresent(with: S3ControlClientTypes.ObjectLambdaContentTransformation.read(from:))
         return value
     }
@@ -14147,7 +14148,7 @@ extension S3ControlClientTypes.AwsLambdaTransformation {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AwsLambdaTransformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.AwsLambdaTransformation()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
         value.functionPayload = try reader["FunctionPayload"].readIfPresent()
         return value
     }
@@ -14183,7 +14184,7 @@ extension S3ControlClientTypes.LifecycleRule {
         value.expiration = try reader["Expiration"].readIfPresent(with: S3ControlClientTypes.LifecycleExpiration.read(from:))
         value.id = try reader["ID"].readIfPresent()
         value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.LifecycleRuleFilter.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.transitions = try reader["Transitions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.Transition.read(from:), memberNodeInfo: "Transition", isFlattened: false)
         value.noncurrentVersionTransitions = try reader["NoncurrentVersionTransitions"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.NoncurrentVersionTransition.read(from:), memberNodeInfo: "NoncurrentVersionTransition", isFlattened: false)
         value.noncurrentVersionExpiration = try reader["NoncurrentVersionExpiration"].readIfPresent(with: S3ControlClientTypes.NoncurrentVersionExpiration.read(from:))
@@ -14334,8 +14335,8 @@ extension S3ControlClientTypes.ReplicationConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ReplicationConfiguration()
-        value.role = try reader["Role"].readIfPresent()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ReplicationRule.read(from:), memberNodeInfo: "Rule", isFlattened: false)
+        value.role = try reader["Role"].readIfPresent() ?? ""
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ReplicationRule.read(from:), memberNodeInfo: "Rule", isFlattened: false) ?? []
         return value
     }
 }
@@ -14363,12 +14364,12 @@ extension S3ControlClientTypes.ReplicationRule {
         value.priority = try reader["Priority"].readIfPresent()
         value.`prefix` = try reader["Prefix"].readIfPresent()
         value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.ReplicationRuleFilter.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.sourceSelectionCriteria = try reader["SourceSelectionCriteria"].readIfPresent(with: S3ControlClientTypes.SourceSelectionCriteria.read(from:))
         value.existingObjectReplication = try reader["ExistingObjectReplication"].readIfPresent(with: S3ControlClientTypes.ExistingObjectReplication.read(from:))
         value.destination = try reader["Destination"].readIfPresent(with: S3ControlClientTypes.Destination.read(from:))
         value.deleteMarkerReplication = try reader["DeleteMarkerReplication"].readIfPresent(with: S3ControlClientTypes.DeleteMarkerReplication.read(from:))
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14383,7 +14384,7 @@ extension S3ControlClientTypes.DeleteMarkerReplication {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DeleteMarkerReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.DeleteMarkerReplication()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14405,7 +14406,7 @@ extension S3ControlClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.Destination()
         value.account = try reader["Account"].readIfPresent()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.replicationTime = try reader["ReplicationTime"].readIfPresent(with: S3ControlClientTypes.ReplicationTime.read(from:))
         value.accessControlTranslation = try reader["AccessControlTranslation"].readIfPresent(with: S3ControlClientTypes.AccessControlTranslation.read(from:))
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: S3ControlClientTypes.EncryptionConfiguration.read(from:))
@@ -14426,7 +14427,7 @@ extension S3ControlClientTypes.Metrics {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Metrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.Metrics()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.eventThreshold = try reader["EventThreshold"].readIfPresent(with: S3ControlClientTypes.ReplicationTimeValue.read(from:))
         return value
     }
@@ -14472,7 +14473,7 @@ extension S3ControlClientTypes.AccessControlTranslation {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AccessControlTranslation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.AccessControlTranslation()
-        value.owner = try reader["Owner"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14488,7 +14489,7 @@ extension S3ControlClientTypes.ReplicationTime {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicationTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ReplicationTime()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.time = try reader["Time"].readIfPresent(with: S3ControlClientTypes.ReplicationTimeValue.read(from:))
         return value
     }
@@ -14504,7 +14505,7 @@ extension S3ControlClientTypes.ExistingObjectReplication {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ExistingObjectReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ExistingObjectReplication()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14536,7 +14537,7 @@ extension S3ControlClientTypes.ReplicaModifications {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ReplicaModifications {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ReplicaModifications()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14551,7 +14552,7 @@ extension S3ControlClientTypes.SseKmsEncryptedObjects {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SseKmsEncryptedObjects {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.SseKmsEncryptedObjects()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14677,7 +14678,7 @@ extension S3ControlClientTypes.MultiRegionAccessPointRoute {
         var value = S3ControlClientTypes.MultiRegionAccessPointRoute()
         value.bucket = try reader["Bucket"].readIfPresent()
         value.region = try reader["Region"].readIfPresent()
-        value.trafficDialPercentage = try reader["TrafficDialPercentage"].readIfPresent()
+        value.trafficDialPercentage = try reader["TrafficDialPercentage"].readIfPresent() ?? 0
         return value
     }
 }
@@ -14699,7 +14700,7 @@ extension S3ControlClientTypes.StorageLensConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.StorageLensConfiguration()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.accountLevel = try reader["AccountLevel"].readIfPresent(with: S3ControlClientTypes.AccountLevel.read(from:))
         value.include = try reader["Include"].readIfPresent(with: S3ControlClientTypes.Include.read(from:))
         value.exclude = try reader["Exclude"].readIfPresent(with: S3ControlClientTypes.Exclude.read(from:))
@@ -14721,7 +14722,7 @@ extension S3ControlClientTypes.StorageLensAwsOrg {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensAwsOrg {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.StorageLensAwsOrg()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14773,10 +14774,10 @@ extension S3ControlClientTypes.S3BucketDestination {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3BucketDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.S3BucketDestination()
-        value.format = try reader["Format"].readIfPresent()
-        value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         value.encryption = try reader["Encryption"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExportEncryption.read(from:))
         return value
@@ -14810,7 +14811,7 @@ extension S3ControlClientTypes.SSEKMS {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSEKMS {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.SSEKMS()
-        value.keyId = try reader["KeyId"].readIfPresent()
+        value.keyId = try reader["KeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15064,8 +15065,8 @@ extension S3ControlClientTypes.StorageLensTag {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.StorageLensTag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15082,7 +15083,7 @@ extension S3ControlClientTypes.StorageLensGroup {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.StorageLensGroup()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.filter = try reader["Filter"].readIfPresent(with: S3ControlClientTypes.StorageLensGroupFilter.read(from:))
         value.storageLensGroupArn = try reader["StorageLensGroupArn"].readIfPresent()
         return value
@@ -15248,10 +15249,10 @@ extension S3ControlClientTypes.AccessPoint {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AccessPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.AccessPoint()
-        value.name = try reader["Name"].readIfPresent()
-        value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.networkOrigin = try reader["NetworkOrigin"].readIfPresent() ?? .sdkUnknown("")
         value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: S3ControlClientTypes.VpcConfiguration.read(from:))
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
         value.alias = try reader["Alias"].readIfPresent()
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
@@ -15264,7 +15265,7 @@ extension S3ControlClientTypes.ObjectLambdaAccessPoint {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectLambdaAccessPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ObjectLambdaAccessPoint()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.objectLambdaAccessPointArn = try reader["ObjectLambdaAccessPointArn"].readIfPresent()
         value.alias = try reader["Alias"].readIfPresent(with: S3ControlClientTypes.ObjectLambdaAccessPointAlias.read(from:))
         return value
@@ -15305,10 +15306,10 @@ extension S3ControlClientTypes.RegionalBucket {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.RegionalBucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.RegionalBucket()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.bucketArn = try reader["BucketArn"].readIfPresent()
         value.publicAccessBlockEnabled = try reader["PublicAccessBlockEnabled"].readIfPresent() ?? false
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.outpostId = try reader["OutpostId"].readIfPresent()
         return value
     }
@@ -15319,9 +15320,9 @@ extension S3ControlClientTypes.ListStorageLensConfigurationEntry {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListStorageLensConfigurationEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ListStorageLensConfigurationEntry()
-        value.id = try reader["Id"].readIfPresent()
-        value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
-        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.storageLensArn = try reader["StorageLensArn"].readIfPresent() ?? ""
+        value.homeRegion = try reader["HomeRegion"].readIfPresent() ?? ""
         value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
         return value
     }
@@ -15332,9 +15333,9 @@ extension S3ControlClientTypes.ListStorageLensGroupEntry {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ListStorageLensGroupEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.ListStorageLensGroupEntry()
-        value.name = try reader["Name"].readIfPresent()
-        value.storageLensGroupArn = try reader["StorageLensGroupArn"].readIfPresent()
-        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.storageLensGroupArn = try reader["StorageLensGroupArn"].readIfPresent() ?? ""
+        value.homeRegion = try reader["HomeRegion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15350,8 +15351,8 @@ extension S3ControlClientTypes.Tag {
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

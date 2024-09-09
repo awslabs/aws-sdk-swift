@@ -4085,7 +4085,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             filter: BedrockAgentRuntimeClientTypes.RetrievalFilter? = nil,
-            numberOfResults: Swift.Int? = nil,
+            numberOfResults: Swift.Int? = 5,
             overrideSearchType: BedrockAgentRuntimeClientTypes.SearchType? = nil
         )
         {
@@ -4571,7 +4571,7 @@ extension RetrieveOutput {
         let reader = responseReader
         var value = RetrieveOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.retrievalResults = try reader["retrievalResults"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.retrievalResults = try reader["retrievalResults"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4586,7 +4586,7 @@ extension RetrieveAndGenerateOutput {
         value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.guardrailAction = try reader["guardrailAction"].readIfPresent()
         value.output = try reader["output"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput.read(from:))
-        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5146,7 +5146,7 @@ extension BedrockAgentRuntimeClientTypes.FunctionInvocationInput {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FunctionInvocationInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.FunctionInvocationInput()
-        value.actionGroup = try reader["actionGroup"].readIfPresent()
+        value.actionGroup = try reader["actionGroup"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.FunctionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.function = try reader["function"].readIfPresent()
         value.actionInvocationType = try reader["actionInvocationType"].readIfPresent()
@@ -5171,7 +5171,7 @@ extension BedrockAgentRuntimeClientTypes.ApiInvocationInput {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ApiInvocationInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.ApiInvocationInput()
-        value.actionGroup = try reader["actionGroup"].readIfPresent()
+        value.actionGroup = try reader["actionGroup"].readIfPresent() ?? ""
         value.httpMethod = try reader["httpMethod"].readIfPresent()
         value.apiPath = try reader["apiPath"].readIfPresent()
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.ApiParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5481,7 +5481,7 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RetrievalResultLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.RetrievalResultLocation()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.s3Location = try reader["s3Location"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultS3Location.read(from:))
         value.webLocation = try reader["webLocation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultWebLocation.read(from:))
         value.confluenceLocation = try reader["confluenceLocation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultConfluenceLocation.read(from:))
@@ -5546,7 +5546,7 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RetrievalResultContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.RetrievalResultContent()
-        value.text = try reader["text"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5882,7 +5882,7 @@ extension BedrockAgentRuntimeClientTypes.FlowCompletionEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowCompletionEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.FlowCompletionEvent()
-        value.completionReason = try reader["completionReason"].readIfPresent()
+        value.completionReason = try reader["completionReason"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5892,8 +5892,8 @@ extension BedrockAgentRuntimeClientTypes.FlowOutputEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowOutputEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.FlowOutputEvent()
-        value.nodeName = try reader["nodeName"].readIfPresent()
-        value.nodeType = try reader["nodeType"].readIfPresent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.nodeType = try reader["nodeType"].readIfPresent() ?? .sdkUnknown("")
         value.content = try reader["content"].readIfPresent(with: BedrockAgentRuntimeClientTypes.FlowOutputContent.read(from:))
         return value
     }
@@ -5931,7 +5931,7 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput()
-        value.text = try reader["text"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
         return value
     }
 }

@@ -30,6 +30,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1129,7 +1130,7 @@ extension CustomerProfilesClientTypes {
             firstExecutionFrom: Foundation.Date? = nil,
             scheduleEndTime: Foundation.Date? = nil,
             scheduleExpression: Swift.String? = nil,
-            scheduleOffset: Swift.Int? = nil,
+            scheduleOffset: Swift.Int? = 0,
             scheduleStartTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
         )
@@ -5528,7 +5529,7 @@ public struct PutProfileObjectTypeInput {
     public var templateId: Swift.String?
 
     public init(
-        allowProfileCreation: Swift.Bool? = nil,
+        allowProfileCreation: Swift.Bool? = false,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
         encryptionKey: Swift.String? = nil,
@@ -7463,12 +7464,12 @@ extension CreateDomainOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDomainOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deadLetterQueueUrl = try reader["DeadLetterQueueUrl"].readIfPresent()
         value.defaultEncryptionKey = try reader["DefaultEncryptionKey"].readIfPresent()
-        value.defaultExpirationDays = try reader["DefaultExpirationDays"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.defaultExpirationDays = try reader["DefaultExpirationDays"].readIfPresent() ?? 0
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.matching = try reader["Matching"].readIfPresent(with: CustomerProfilesClientTypes.MatchingResponse.read(from:))
         value.ruleBasedMatching = try reader["RuleBasedMatching"].readIfPresent(with: CustomerProfilesClientTypes.RuleBasedMatchingResponse.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7483,7 +7484,7 @@ extension CreateEventStreamOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEventStreamOutput()
-        value.eventStreamArn = try reader["EventStreamArn"].readIfPresent()
+        value.eventStreamArn = try reader["EventStreamArn"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -7496,8 +7497,8 @@ extension CreateIntegrationWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateIntegrationWorkflowOutput()
-        value.message = try reader["Message"].readIfPresent()
-        value.workflowId = try reader["WorkflowId"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7509,7 +7510,7 @@ extension CreateProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProfileOutput()
-        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7528,7 +7529,7 @@ extension DeleteDomainOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDomainOutput()
-        value.message = try reader["Message"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7547,7 +7548,7 @@ extension DeleteIntegrationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteIntegrationOutput()
-        value.message = try reader["Message"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7595,7 +7596,7 @@ extension DeleteProfileObjectTypeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteProfileObjectTypeOutput()
-        value.message = try reader["Message"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7626,7 +7627,7 @@ extension GetAutoMergingPreviewOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAutoMergingPreviewOutput()
-        value.domainName = try reader["DomainName"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
         value.numberOfMatchesInSample = try reader["NumberOfMatchesInSample"].readIfPresent() ?? 0
         value.numberOfProfilesInSample = try reader["NumberOfProfilesInSample"].readIfPresent() ?? 0
         value.numberOfProfilesWillBeMerged = try reader["NumberOfProfilesWillBeMerged"].readIfPresent() ?? 0
@@ -7676,12 +7677,12 @@ extension GetDomainOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDomainOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deadLetterQueueUrl = try reader["DeadLetterQueueUrl"].readIfPresent()
         value.defaultEncryptionKey = try reader["DefaultEncryptionKey"].readIfPresent()
         value.defaultExpirationDays = try reader["DefaultExpirationDays"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.matching = try reader["Matching"].readIfPresent(with: CustomerProfilesClientTypes.MatchingResponse.read(from:))
         value.ruleBasedMatching = try reader["RuleBasedMatching"].readIfPresent(with: CustomerProfilesClientTypes.RuleBasedMatchingResponse.read(from:))
         value.stats = try reader["Stats"].readIfPresent(with: CustomerProfilesClientTypes.DomainStats.read(from:))
@@ -7697,11 +7698,11 @@ extension GetEventStreamOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEventStreamOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.destinationDetails = try reader["DestinationDetails"].readIfPresent(with: CustomerProfilesClientTypes.EventStreamDestinationDetails.read(from:))
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.eventStreamArn = try reader["EventStreamArn"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.eventStreamArn = try reader["EventStreamArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.stoppedSince = try reader["StoppedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -7737,14 +7738,14 @@ extension GetIntegrationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetIntegrationOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.domainName = try reader["DomainName"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
         value.objectTypeNames = try reader["ObjectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.uri = try reader["Uri"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent() ?? ""
         value.workflowId = try reader["WorkflowId"].readIfPresent()
         return value
     }
@@ -7774,7 +7775,7 @@ extension GetProfileObjectTypeOutput {
         var value = GetProfileObjectTypeOutput()
         value.allowProfileCreation = try reader["AllowProfileCreation"].readIfPresent() ?? false
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["Description"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.encryptionKey = try reader["EncryptionKey"].readIfPresent()
         value.expirationDays = try reader["ExpirationDays"].readIfPresent()
         value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.ObjectTypeField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7782,7 +7783,7 @@ extension GetProfileObjectTypeOutput {
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.maxAvailableProfileObjectCount = try reader["MaxAvailableProfileObjectCount"].readIfPresent()
         value.maxProfileObjectCount = try reader["MaxProfileObjectCount"].readIfPresent()
-        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent() ?? ""
         value.sourceLastUpdatedTimestampFormat = try reader["SourceLastUpdatedTimestampFormat"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateId = try reader["TemplateId"].readIfPresent()
@@ -8046,14 +8047,14 @@ extension PutIntegrationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutIntegrationOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.domainName = try reader["DomainName"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
         value.objectTypeNames = try reader["ObjectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.uri = try reader["Uri"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent() ?? ""
         value.workflowId = try reader["WorkflowId"].readIfPresent()
         return value
     }
@@ -8080,7 +8081,7 @@ extension PutProfileObjectTypeOutput {
         var value = PutProfileObjectTypeOutput()
         value.allowProfileCreation = try reader["AllowProfileCreation"].readIfPresent() ?? false
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["Description"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.encryptionKey = try reader["EncryptionKey"].readIfPresent()
         value.expirationDays = try reader["ExpirationDays"].readIfPresent()
         value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.ObjectTypeField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8088,7 +8089,7 @@ extension PutProfileObjectTypeOutput {
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.maxAvailableProfileObjectCount = try reader["MaxAvailableProfileObjectCount"].readIfPresent()
         value.maxProfileObjectCount = try reader["MaxProfileObjectCount"].readIfPresent()
-        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent() ?? ""
         value.sourceLastUpdatedTimestampFormat = try reader["SourceLastUpdatedTimestampFormat"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateId = try reader["TemplateId"].readIfPresent()
@@ -8150,12 +8151,12 @@ extension UpdateDomainOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateDomainOutput()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deadLetterQueueUrl = try reader["DeadLetterQueueUrl"].readIfPresent()
         value.defaultEncryptionKey = try reader["DefaultEncryptionKey"].readIfPresent()
         value.defaultExpirationDays = try reader["DefaultExpirationDays"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.matching = try reader["Matching"].readIfPresent(with: CustomerProfilesClientTypes.MatchingResponse.read(from:))
         value.ruleBasedMatching = try reader["RuleBasedMatching"].readIfPresent(with: CustomerProfilesClientTypes.RuleBasedMatchingResponse.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8170,7 +8171,7 @@ extension UpdateProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateProfileOutput()
-        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9180,8 +9181,8 @@ extension CustomerProfilesClientTypes.AttributeDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AttributeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.AttributeDetails()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.AttributeItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.expression = try reader["Expression"].readIfPresent()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.AttributeItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9196,7 +9197,7 @@ extension CustomerProfilesClientTypes.AttributeItem {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AttributeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.AttributeItem()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9231,8 +9232,8 @@ extension CustomerProfilesClientTypes.Threshold {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Threshold {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.Threshold()
-        value.value = try reader["Value"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9248,8 +9249,8 @@ extension CustomerProfilesClientTypes.Range {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Range {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.Range()
-        value.value = try reader["Value"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9293,7 +9294,7 @@ extension CustomerProfilesClientTypes.S3ExportingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.S3ExportingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.S3ExportingConfig()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
         value.s3KeyName = try reader["S3KeyName"].readIfPresent()
         return value
     }
@@ -9312,7 +9313,7 @@ extension CustomerProfilesClientTypes.AutoMerging {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AutoMerging {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.AutoMerging()
-        value.enabled = try reader["Enabled"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.consolidation = try reader["Consolidation"].readIfPresent(with: CustomerProfilesClientTypes.Consolidation.read(from:))
         value.conflictResolution = try reader["ConflictResolution"].readIfPresent(with: CustomerProfilesClientTypes.ConflictResolution.read(from:))
         value.minAllowedConfidenceScoreForMerging = try reader["MinAllowedConfidenceScoreForMerging"].readIfPresent()
@@ -9331,7 +9332,7 @@ extension CustomerProfilesClientTypes.ConflictResolution {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ConflictResolution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ConflictResolution()
-        value.conflictResolvingModel = try reader["ConflictResolvingModel"].readIfPresent()
+        value.conflictResolvingModel = try reader["ConflictResolvingModel"].readIfPresent() ?? .sdkUnknown("")
         value.sourceName = try reader["SourceName"].readIfPresent()
         return value
     }
@@ -9347,7 +9348,7 @@ extension CustomerProfilesClientTypes.Consolidation {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Consolidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.Consolidation()
-        value.matchingAttributesList = try reader["MatchingAttributesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.matchingAttributesList = try reader["MatchingAttributesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9363,8 +9364,8 @@ extension CustomerProfilesClientTypes.JobSchedule {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.JobSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.JobSchedule()
-        value.dayOfTheWeek = try reader["DayOfTheWeek"].readIfPresent()
-        value.time = try reader["Time"].readIfPresent()
+        value.dayOfTheWeek = try reader["DayOfTheWeek"].readIfPresent() ?? .sdkUnknown("")
+        value.time = try reader["Time"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9399,7 +9400,7 @@ extension CustomerProfilesClientTypes.AttributeTypesSelector {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AttributeTypesSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.AttributeTypesSelector()
-        value.attributeMatchingModel = try reader["AttributeMatchingModel"].readIfPresent()
+        value.attributeMatchingModel = try reader["AttributeMatchingModel"].readIfPresent() ?? .sdkUnknown("")
         value.address = try reader["Address"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.phoneNumber = try reader["PhoneNumber"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.emailAddress = try reader["EmailAddress"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9417,7 +9418,7 @@ extension CustomerProfilesClientTypes.MatchingRule {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.MatchingRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.MatchingRule()
-        value.rule = try reader["Rule"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rule = try reader["Rule"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9488,8 +9489,8 @@ extension CustomerProfilesClientTypes.EventStreamDestinationDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventStreamDestinationDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.EventStreamDestinationDetails()
-        value.uri = try reader["Uri"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.unhealthySince = try reader["UnhealthySince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["Message"].readIfPresent()
         return value
@@ -9556,8 +9557,8 @@ extension CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes()
-        value.sourceConnectorType = try reader["SourceConnectorType"].readIfPresent()
-        value.connectorProfileName = try reader["ConnectorProfileName"].readIfPresent()
+        value.sourceConnectorType = try reader["SourceConnectorType"].readIfPresent() ?? .sdkUnknown("")
+        value.connectorProfileName = try reader["ConnectorProfileName"].readIfPresent() ?? ""
         value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
     }
@@ -9600,14 +9601,14 @@ extension CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep()
-        value.flowName = try reader["FlowName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.executionMessage = try reader["ExecutionMessage"].readIfPresent()
+        value.flowName = try reader["FlowName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.executionMessage = try reader["ExecutionMessage"].readIfPresent() ?? ""
         value.recordsProcessed = try reader["RecordsProcessed"].readIfPresent() ?? 0
-        value.batchRecordsStartTime = try reader["BatchRecordsStartTime"].readIfPresent()
-        value.batchRecordsEndTime = try reader["BatchRecordsEndTime"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.batchRecordsStartTime = try reader["BatchRecordsStartTime"].readIfPresent() ?? ""
+        value.batchRecordsEndTime = try reader["BatchRecordsEndTime"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9617,11 +9618,11 @@ extension CustomerProfilesClientTypes.ListIntegrationItem {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListIntegrationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListIntegrationItem()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.uri = try reader["Uri"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.uri = try reader["Uri"].readIfPresent() ?? ""
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.objectTypeNames = try reader["ObjectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.workflowId = try reader["WorkflowId"].readIfPresent()
@@ -9663,9 +9664,9 @@ extension CustomerProfilesClientTypes.ListDomainItem {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListDomainItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListDomainItem()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9676,10 +9677,10 @@ extension CustomerProfilesClientTypes.EventStreamSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventStreamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.EventStreamSummary()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.eventStreamName = try reader["EventStreamName"].readIfPresent()
-        value.eventStreamArn = try reader["EventStreamArn"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.eventStreamName = try reader["EventStreamName"].readIfPresent() ?? ""
+        value.eventStreamArn = try reader["EventStreamArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.stoppedSince = try reader["StoppedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.destinationSummary = try reader["DestinationSummary"].readIfPresent(with: CustomerProfilesClientTypes.DestinationSummary.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9692,8 +9693,8 @@ extension CustomerProfilesClientTypes.DestinationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.DestinationSummary()
-        value.uri = try reader["Uri"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.unhealthySince = try reader["UnhealthySince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -9733,8 +9734,8 @@ extension CustomerProfilesClientTypes.ListProfileObjectTypeItem {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListProfileObjectTypeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListProfileObjectTypeItem()
-        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.maxProfileObjectCount = try reader["MaxProfileObjectCount"].readIfPresent()
@@ -9761,12 +9762,12 @@ extension CustomerProfilesClientTypes.ListWorkflowsItem {
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListWorkflowsItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.ListWorkflowsItem()
-        value.workflowType = try reader["WorkflowType"].readIfPresent()
-        value.workflowId = try reader["WorkflowId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusDescription = try reader["StatusDescription"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.workflowType = try reader["WorkflowType"].readIfPresent() ?? .sdkUnknown("")
+        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusDescription = try reader["StatusDescription"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

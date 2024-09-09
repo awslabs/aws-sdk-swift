@@ -27,7 +27,6 @@ class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomiz
         "S3PreservesEmbeddedDotSegmentInUriLabel", // moved to s3-tests.smithy
         "S3PreservesLeadingDotSegmentInUriLabel", // moved to s3-tests.smithy
     )
-    override val tagsToIgnore = setOf("defaults")
 
     override fun generateDeserializers(ctx: ProtocolGenerator.GenerationContext) {
         super.generateDeserializers(ctx)

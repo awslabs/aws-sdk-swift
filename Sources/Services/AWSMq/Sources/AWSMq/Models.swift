@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct CreateTagsOutput {
 
@@ -3671,9 +3672,9 @@ extension MqClientTypes.ConfigurationRevision {
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.ConfigurationRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.ConfigurationRevision()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3724,7 +3725,7 @@ extension MqClientTypes.ConfigurationId {
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.ConfigurationId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.ConfigurationId()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent()
         return value
     }
@@ -3742,7 +3743,7 @@ extension MqClientTypes.EncryptionOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.EncryptionOptions()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        value.useAwsOwnedKey = try reader["useAwsOwnedKey"].readIfPresent()
+        value.useAwsOwnedKey = try reader["useAwsOwnedKey"].readIfPresent() ?? false
         return value
     }
 }
@@ -3752,15 +3753,15 @@ extension MqClientTypes.LdapServerMetadataOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.LdapServerMetadataOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.LdapServerMetadataOutput()
-        value.hosts = try reader["hosts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleBase = try reader["roleBase"].readIfPresent()
+        value.hosts = try reader["hosts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleBase = try reader["roleBase"].readIfPresent() ?? ""
         value.roleName = try reader["roleName"].readIfPresent()
-        value.roleSearchMatching = try reader["roleSearchMatching"].readIfPresent()
+        value.roleSearchMatching = try reader["roleSearchMatching"].readIfPresent() ?? ""
         value.roleSearchSubtree = try reader["roleSearchSubtree"].readIfPresent()
-        value.serviceAccountUsername = try reader["serviceAccountUsername"].readIfPresent()
-        value.userBase = try reader["userBase"].readIfPresent()
+        value.serviceAccountUsername = try reader["serviceAccountUsername"].readIfPresent() ?? ""
+        value.userBase = try reader["userBase"].readIfPresent() ?? ""
         value.userRoleName = try reader["userRoleName"].readIfPresent()
-        value.userSearchMatching = try reader["userSearchMatching"].readIfPresent()
+        value.userSearchMatching = try reader["userSearchMatching"].readIfPresent() ?? ""
         value.userSearchSubtree = try reader["userSearchSubtree"].readIfPresent()
         return value
     }
@@ -3773,8 +3774,8 @@ extension MqClientTypes.LogsSummary {
         var value = MqClientTypes.LogsSummary()
         value.audit = try reader["audit"].readIfPresent()
         value.auditLogGroup = try reader["auditLogGroup"].readIfPresent()
-        value.general = try reader["general"].readIfPresent()
-        value.generalLogGroup = try reader["generalLogGroup"].readIfPresent()
+        value.general = try reader["general"].readIfPresent() ?? false
+        value.generalLogGroup = try reader["generalLogGroup"].readIfPresent() ?? ""
         value.pending = try reader["pending"].readIfPresent(with: MqClientTypes.PendingLogs.read(from:))
         return value
     }
@@ -3803,8 +3804,8 @@ extension MqClientTypes.WeeklyStartTime {
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.WeeklyStartTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.WeeklyStartTime()
-        value.dayOfWeek = try reader["dayOfWeek"].readIfPresent()
-        value.timeOfDay = try reader["timeOfDay"].readIfPresent()
+        value.dayOfWeek = try reader["dayOfWeek"].readIfPresent() ?? .sdkUnknown("")
+        value.timeOfDay = try reader["timeOfDay"].readIfPresent() ?? ""
         value.timeZone = try reader["timeZone"].readIfPresent()
         return value
     }
@@ -3816,7 +3817,7 @@ extension MqClientTypes.UserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.UserSummary()
         value.pendingChange = try reader["pendingChange"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
+        value.username = try reader["username"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3827,7 +3828,7 @@ extension MqClientTypes.DataReplicationMetadataOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.DataReplicationMetadataOutput()
         value.dataReplicationCounterpart = try reader["dataReplicationCounterpart"].readIfPresent(with: MqClientTypes.DataReplicationCounterpart.read(from:))
-        value.dataReplicationRole = try reader["dataReplicationRole"].readIfPresent()
+        value.dataReplicationRole = try reader["dataReplicationRole"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3837,8 +3838,8 @@ extension MqClientTypes.DataReplicationCounterpart {
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.DataReplicationCounterpart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.DataReplicationCounterpart()
-        value.brokerId = try reader["brokerId"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
+        value.brokerId = try reader["brokerId"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3896,7 +3897,7 @@ extension MqClientTypes.UserPendingChanges {
         var value = MqClientTypes.UserPendingChanges()
         value.consoleAccess = try reader["consoleAccess"].readIfPresent()
         value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pendingChange = try reader["pendingChange"].readIfPresent()
+        value.pendingChange = try reader["pendingChange"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3911,8 +3912,8 @@ extension MqClientTypes.BrokerSummary {
         value.brokerName = try reader["brokerName"].readIfPresent()
         value.brokerState = try reader["brokerState"].readIfPresent()
         value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.deploymentMode = try reader["deploymentMode"].readIfPresent()
-        value.engineType = try reader["engineType"].readIfPresent()
+        value.deploymentMode = try reader["deploymentMode"].readIfPresent() ?? .sdkUnknown("")
+        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
         value.hostInstanceType = try reader["hostInstanceType"].readIfPresent()
         return value
     }
@@ -3923,15 +3924,15 @@ extension MqClientTypes.Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> MqClientTypes.Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MqClientTypes.Configuration()
-        value.arn = try reader["arn"].readIfPresent()
-        value.authenticationStrategy = try reader["authenticationStrategy"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.engineType = try reader["engineType"].readIfPresent()
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.authenticationStrategy = try reader["authenticationStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
+        value.engineVersion = try reader["engineVersion"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.latestRevision = try reader["latestRevision"].readIfPresent(with: MqClientTypes.ConfigurationRevision.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3961,7 +3962,7 @@ extension MqClientTypes.SanitizationWarning {
         var value = MqClientTypes.SanitizationWarning()
         value.attributeName = try reader["attributeName"].readIfPresent()
         value.elementName = try reader["elementName"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

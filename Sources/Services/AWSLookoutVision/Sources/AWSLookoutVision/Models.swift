@@ -3302,11 +3302,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3319,9 +3319,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3334,7 +3334,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3347,9 +3347,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3366,7 +3366,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -3381,7 +3381,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3398,7 +3398,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3516,8 +3516,8 @@ extension LookoutVisionClientTypes.OutputS3Object {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.OutputS3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.OutputS3Object()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3548,7 +3548,7 @@ extension LookoutVisionClientTypes.S3Location {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.S3Location()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
@@ -3632,7 +3632,7 @@ extension LookoutVisionClientTypes.GreengrassConfiguration {
         value.targetDevice = try reader["TargetDevice"].readIfPresent()
         value.targetPlatform = try reader["TargetPlatform"].readIfPresent(with: LookoutVisionClientTypes.TargetPlatform.read(from:))
         value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent(with: LookoutVisionClientTypes.S3Location.read(from:))
-        value.componentName = try reader["ComponentName"].readIfPresent()
+        value.componentName = try reader["ComponentName"].readIfPresent() ?? ""
         value.componentVersion = try reader["ComponentVersion"].readIfPresent()
         value.componentDescription = try reader["ComponentDescription"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: LookoutVisionClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3651,8 +3651,8 @@ extension LookoutVisionClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3669,8 +3669,8 @@ extension LookoutVisionClientTypes.TargetPlatform {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutVisionClientTypes.TargetPlatform {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutVisionClientTypes.TargetPlatform()
-        value.os = try reader["Os"].readIfPresent()
-        value.arch = try reader["Arch"].readIfPresent()
+        value.os = try reader["Os"].readIfPresent() ?? .sdkUnknown("")
+        value.arch = try reader["Arch"].readIfPresent() ?? .sdkUnknown("")
         value.accelerator = try reader["Accelerator"].readIfPresent()
         return value
     }

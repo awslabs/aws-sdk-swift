@@ -2093,7 +2093,7 @@ extension CreateScheduledQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateScheduledQueryOutput()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2125,7 +2125,7 @@ extension DescribeEndpointsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeEndpointsOutput()
-        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Endpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Endpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2157,7 +2157,7 @@ extension ListScheduledQueriesOutput {
         let reader = responseReader
         var value = ListScheduledQueriesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.scheduledQueries = try reader["ScheduledQueries"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.ScheduledQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scheduledQueries = try reader["ScheduledQueries"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.ScheduledQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2170,7 +2170,7 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2182,9 +2182,9 @@ extension PrepareQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PrepareQueryOutput()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.SelectColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.ParameterMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.queryString = try reader["QueryString"].readIfPresent()
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.SelectColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.ParameterMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.queryString = try reader["QueryString"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2196,11 +2196,11 @@ extension QueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = QueryOutput()
-        value.columnInfo = try reader["ColumnInfo"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.ColumnInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnInfo = try reader["ColumnInfo"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.ColumnInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.queryId = try reader["QueryId"].readIfPresent()
+        value.queryId = try reader["QueryId"].readIfPresent() ?? ""
         value.queryStatus = try reader["QueryStatus"].readIfPresent(with: TimestreamQueryClientTypes.QueryStatus.read(from:))
-        value.rows = try reader["Rows"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Row.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rows = try reader["Rows"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Row.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2635,7 +2635,7 @@ extension TimestreamQueryClientTypes.Endpoint {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent() ?? ""
         value.cachePeriodInMinutes = try reader["CachePeriodInMinutes"].readIfPresent() ?? 0
         return value
     }
@@ -2646,11 +2646,11 @@ extension TimestreamQueryClientTypes.ScheduledQueryDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ScheduledQueryDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ScheduledQueryDescription()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.queryString = try reader["QueryString"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.queryString = try reader["QueryString"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.previousInvocationTime = try reader["PreviousInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.nextInvocationTime = try reader["NextInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: TimestreamQueryClientTypes.ScheduleConfiguration.read(from:))
@@ -2743,7 +2743,7 @@ extension TimestreamQueryClientTypes.S3Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.S3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.S3Configuration()
-        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
         value.objectKeyPrefix = try reader["ObjectKeyPrefix"].readIfPresent()
         value.encryptionOption = try reader["EncryptionOption"].readIfPresent()
         return value
@@ -2781,10 +2781,10 @@ extension TimestreamQueryClientTypes.TimestreamConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.TimestreamConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.TimestreamConfiguration()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.timeColumn = try reader["TimeColumn"].readIfPresent()
-        value.dimensionMappings = try reader["DimensionMappings"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.DimensionMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.timeColumn = try reader["TimeColumn"].readIfPresent() ?? ""
+        value.dimensionMappings = try reader["DimensionMappings"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.DimensionMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.multiMeasureMappings = try reader["MultiMeasureMappings"].readIfPresent(with: TimestreamQueryClientTypes.MultiMeasureMappings.read(from:))
         value.mixedMeasureMappings = try reader["MixedMeasureMappings"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.MixedMeasureMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.measureNameColumn = try reader["MeasureNameColumn"].readIfPresent()
@@ -2809,7 +2809,7 @@ extension TimestreamQueryClientTypes.MixedMeasureMapping {
         value.measureName = try reader["MeasureName"].readIfPresent()
         value.sourceColumn = try reader["SourceColumn"].readIfPresent()
         value.targetMeasureName = try reader["TargetMeasureName"].readIfPresent()
-        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
+        value.measureValueType = try reader["MeasureValueType"].readIfPresent() ?? .sdkUnknown("")
         value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -2827,9 +2827,9 @@ extension TimestreamQueryClientTypes.MultiMeasureAttributeMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.MultiMeasureAttributeMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.MultiMeasureAttributeMapping()
-        value.sourceColumn = try reader["SourceColumn"].readIfPresent()
+        value.sourceColumn = try reader["SourceColumn"].readIfPresent() ?? ""
         value.targetMultiMeasureAttributeName = try reader["TargetMultiMeasureAttributeName"].readIfPresent()
-        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
+        value.measureValueType = try reader["MeasureValueType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2846,7 +2846,7 @@ extension TimestreamQueryClientTypes.MultiMeasureMappings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.MultiMeasureMappings()
         value.targetMultiMeasureName = try reader["TargetMultiMeasureName"].readIfPresent()
-        value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2862,8 +2862,8 @@ extension TimestreamQueryClientTypes.DimensionMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.DimensionMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.DimensionMapping()
-        value.name = try reader["Name"].readIfPresent()
-        value.dimensionValueType = try reader["DimensionValueType"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.dimensionValueType = try reader["DimensionValueType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2893,7 +2893,7 @@ extension TimestreamQueryClientTypes.SnsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.SnsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.SnsConfiguration()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2908,7 +2908,7 @@ extension TimestreamQueryClientTypes.ScheduleConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ScheduleConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ScheduleConfiguration()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2918,10 +2918,10 @@ extension TimestreamQueryClientTypes.ScheduledQuery {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ScheduledQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ScheduledQuery()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.previousInvocationTime = try reader["PreviousInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.nextInvocationTime = try reader["NextInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errorReportConfiguration = try reader["ErrorReportConfiguration"].readIfPresent(with: TimestreamQueryClientTypes.ErrorReportConfiguration.read(from:))
@@ -2963,8 +2963,8 @@ extension TimestreamQueryClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3012,7 +3012,7 @@ extension TimestreamQueryClientTypes.ParameterMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ParameterMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.ParameterMapping()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent(with: TimestreamQueryClientTypes.ModelType.read(from:))
         return value
     }
@@ -3023,7 +3023,7 @@ extension TimestreamQueryClientTypes.Row {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.Row {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.Row()
-        value.data = try reader["Data"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.data = try reader["Data"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3047,7 +3047,7 @@ extension TimestreamQueryClientTypes.TimeSeriesDataPoint {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.TimeSeriesDataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamQueryClientTypes.TimeSeriesDataPoint()
-        value.time = try reader["Time"].readIfPresent()
+        value.time = try reader["Time"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent(with: TimestreamQueryClientTypes.Datum.read(from:))
         return value
     }

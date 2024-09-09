@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteAlertManagerDefinitionOutput {
 
@@ -2544,8 +2545,8 @@ extension CreateRuleGroupsNamespaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRuleGroupsNamespaceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -2559,8 +2560,8 @@ extension CreateScraperOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateScraperOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.scraperId = try reader["scraperId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -2574,11 +2575,11 @@ extension CreateWorkspaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateWorkspaceOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceStatus.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2611,7 +2612,7 @@ extension DeleteScraperOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteScraperOutput()
-        value.scraperId = try reader["scraperId"].readIfPresent()
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
         return value
     }
@@ -2691,7 +2692,7 @@ extension GetDefaultScraperConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDefaultScraperConfigurationOutput()
-        value.configuration = try reader["configuration"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent() ?? Foundation.Data("".utf8)
         return value
     }
 }
@@ -2704,7 +2705,7 @@ extension ListRuleGroupsNamespacesOutput {
         let reader = responseReader
         var value = ListRuleGroupsNamespacesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.ruleGroupsNamespaces = try reader["ruleGroupsNamespaces"].readListIfPresent(memberReadingClosure: AmpClientTypes.RuleGroupsNamespaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleGroupsNamespaces = try reader["ruleGroupsNamespaces"].readListIfPresent(memberReadingClosure: AmpClientTypes.RuleGroupsNamespaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2717,7 +2718,7 @@ extension ListScrapersOutput {
         let reader = responseReader
         var value = ListScrapersOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.scrapers = try reader["scrapers"].readListIfPresent(memberReadingClosure: AmpClientTypes.ScraperSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scrapers = try reader["scrapers"].readListIfPresent(memberReadingClosure: AmpClientTypes.ScraperSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2742,7 +2743,7 @@ extension ListWorkspacesOutput {
         let reader = responseReader
         var value = ListWorkspacesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.workspaces = try reader["workspaces"].readListIfPresent(memberReadingClosure: AmpClientTypes.WorkspaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workspaces = try reader["workspaces"].readListIfPresent(memberReadingClosure: AmpClientTypes.WorkspaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2766,8 +2767,8 @@ extension PutRuleGroupsNamespaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutRuleGroupsNamespaceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -3291,9 +3292,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3306,9 +3307,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3325,7 +3326,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3339,8 +3340,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: AmpClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3357,7 +3358,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -3372,7 +3373,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3385,11 +3386,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3402,7 +3403,7 @@ extension AmpClientTypes.AlertManagerDefinitionStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AlertManagerDefinitionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.AlertManagerDefinitionStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -3413,7 +3414,7 @@ extension AmpClientTypes.LoggingConfigurationStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.LoggingConfigurationStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -3424,7 +3425,7 @@ extension AmpClientTypes.RuleGroupsNamespaceStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.RuleGroupsNamespaceStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -3435,7 +3436,7 @@ extension AmpClientTypes.ScraperStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.ScraperStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3445,7 +3446,7 @@ extension AmpClientTypes.WorkspaceStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.WorkspaceStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3456,9 +3457,9 @@ extension AmpClientTypes.AlertManagerDefinitionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.AlertManagerDefinitionDescription()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AlertManagerDefinitionStatus.read(from:))
-        value.data = try reader["data"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -3469,10 +3470,10 @@ extension AmpClientTypes.LoggingConfigurationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.LoggingConfigurationMetadata()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.LoggingConfigurationStatus.read(from:))
-        value.workspace = try reader["workspace"].readIfPresent()
-        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.workspace = try reader["workspace"].readIfPresent() ?? ""
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -3482,12 +3483,12 @@ extension AmpClientTypes.RuleGroupsNamespaceDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.RuleGroupsNamespaceDescription()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
-        value.data = try reader["data"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3499,12 +3500,12 @@ extension AmpClientTypes.ScraperDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.ScraperDescription()
         value.alias = try reader["alias"].readIfPresent()
-        value.scraperId = try reader["scraperId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.scrapeConfiguration = try reader["scrapeConfiguration"].readIfPresent(with: AmpClientTypes.ScrapeConfiguration.read(from:))
@@ -3548,7 +3549,7 @@ extension AmpClientTypes.AmpConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AmpConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.AmpConfiguration()
-        value.workspaceArn = try reader["workspaceArn"].readIfPresent()
+        value.workspaceArn = try reader["workspaceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3589,9 +3590,9 @@ extension AmpClientTypes.EksConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.EksConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.EksConfiguration()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3625,12 +3626,12 @@ extension AmpClientTypes.WorkspaceDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.WorkspaceDescription()
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         value.alias = try reader["alias"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceStatus.read(from:))
         value.prometheusEndpoint = try reader["prometheusEndpoint"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
@@ -3642,11 +3643,11 @@ extension AmpClientTypes.RuleGroupsNamespaceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.RuleGroupsNamespaceSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3658,12 +3659,12 @@ extension AmpClientTypes.ScraperSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.ScraperSummary()
         value.alias = try reader["alias"].readIfPresent()
-        value.scraperId = try reader["scraperId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
@@ -3677,11 +3678,11 @@ extension AmpClientTypes.WorkspaceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.WorkspaceSummary()
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         value.alias = try reader["alias"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
@@ -3693,8 +3694,8 @@ extension AmpClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

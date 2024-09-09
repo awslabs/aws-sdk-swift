@@ -918,7 +918,7 @@ public struct DeletePolicyInput {
     public var policyId: Swift.String?
 
     public init(
-        deleteAllPolicyResources: Swift.Bool? = nil,
+        deleteAllPolicyResources: Swift.Bool? = false,
         policyId: Swift.String? = nil
     )
     {
@@ -1049,7 +1049,7 @@ public struct GetAppsListInput {
     public var listId: Swift.String?
 
     public init(
-        defaultList: Swift.Bool? = nil,
+        defaultList: Swift.Bool? = false,
         listId: Swift.String? = nil
     )
     {
@@ -1982,7 +1982,7 @@ public struct GetProtocolsListInput {
     public var listId: Swift.String?
 
     public init(
-        defaultList: Swift.Bool? = nil,
+        defaultList: Swift.Bool? = false,
         listId: Swift.String? = nil
     )
     {
@@ -4342,7 +4342,7 @@ public struct ListAppsListsInput {
     public var nextToken: Swift.String?
 
     public init(
-        defaultLists: Swift.Bool? = nil,
+        defaultLists: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4691,7 +4691,7 @@ public struct ListProtocolsListsInput {
     public var nextToken: Swift.String?
 
     public init(
-        defaultLists: Swift.Bool? = nil,
+        defaultLists: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -5867,8 +5867,8 @@ extension BatchAssociateResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchAssociateResourceOutput()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: FMSClientTypes.FailedItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceSetIdentifier = try reader["ResourceSetIdentifier"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: FMSClientTypes.FailedItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceSetIdentifier = try reader["ResourceSetIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5880,8 +5880,8 @@ extension BatchDisassociateResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDisassociateResourceOutput()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: FMSClientTypes.FailedItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceSetIdentifier = try reader["ResourceSetIdentifier"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: FMSClientTypes.FailedItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceSetIdentifier = try reader["ResourceSetIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6053,7 +6053,7 @@ extension GetResourceSetOutput {
         let reader = responseReader
         var value = GetResourceSetOutput()
         value.resourceSet = try reader["ResourceSet"].readIfPresent(with: FMSClientTypes.ResourceSet.read(from:))
-        value.resourceSetArn = try reader["ResourceSetArn"].readIfPresent()
+        value.resourceSetArn = try reader["ResourceSetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6194,7 +6194,7 @@ extension ListResourceSetResourcesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListResourceSetResourcesOutput()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: FMSClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: FMSClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6299,7 +6299,7 @@ extension PutResourceSetOutput {
         let reader = responseReader
         var value = PutResourceSetOutput()
         value.resourceSet = try reader["ResourceSet"].readIfPresent(with: FMSClientTypes.ResourceSet.read(from:))
-        value.resourceSetArn = try reader["ResourceSetArn"].readIfPresent()
+        value.resourceSetArn = try reader["ResourceSetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7221,11 +7221,11 @@ extension FMSClientTypes.AppsListData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.AppsListData()
         value.listId = try reader["ListId"].readIfPresent()
-        value.listName = try reader["ListName"].readIfPresent()
+        value.listName = try reader["ListName"].readIfPresent() ?? ""
         value.listUpdateToken = try reader["ListUpdateToken"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.appsList = try reader["AppsList"].readListIfPresent(memberReadingClosure: FMSClientTypes.App.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appsList = try reader["AppsList"].readListIfPresent(memberReadingClosure: FMSClientTypes.App.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.previousAppsList = try reader["PreviousAppsList"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: FMSClientTypes.App.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -7243,9 +7243,9 @@ extension FMSClientTypes.App {
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.App {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.App()
-        value.appName = try reader["AppName"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
+        value.appName = try reader["AppName"].readIfPresent() ?? ""
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7304,10 +7304,10 @@ extension FMSClientTypes.Policy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.Policy()
         value.policyId = try reader["PolicyId"].readIfPresent()
-        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
         value.policyUpdateToken = try reader["PolicyUpdateToken"].readIfPresent()
         value.securityServicePolicyData = try reader["SecurityServicePolicyData"].readIfPresent(with: FMSClientTypes.SecurityServicePolicyData.read(from:))
-        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.resourceTypeList = try reader["ResourceTypeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceTags = try reader["ResourceTags"].readListIfPresent(memberReadingClosure: FMSClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.excludeResourceTags = try reader["ExcludeResourceTags"].readIfPresent() ?? false
@@ -7333,7 +7333,7 @@ extension FMSClientTypes.ResourceTag {
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ResourceTag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -7351,7 +7351,7 @@ extension FMSClientTypes.SecurityServicePolicyData {
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.SecurityServicePolicyData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.SecurityServicePolicyData()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.managedServiceData = try reader["ManagedServiceData"].readIfPresent()
         value.policyOption = try reader["PolicyOption"].readIfPresent(with: FMSClientTypes.PolicyOption.read(from:))
         return value
@@ -7406,9 +7406,9 @@ extension FMSClientTypes.NetworkAclEntrySet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkAclEntrySet()
         value.firstEntries = try reader["FirstEntries"].readListIfPresent(memberReadingClosure: FMSClientTypes.NetworkAclEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.forceRemediateForFirstEntries = try reader["ForceRemediateForFirstEntries"].readIfPresent()
+        value.forceRemediateForFirstEntries = try reader["ForceRemediateForFirstEntries"].readIfPresent() ?? false
         value.lastEntries = try reader["LastEntries"].readListIfPresent(memberReadingClosure: FMSClientTypes.NetworkAclEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.forceRemediateForLastEntries = try reader["ForceRemediateForLastEntries"].readIfPresent()
+        value.forceRemediateForLastEntries = try reader["ForceRemediateForLastEntries"].readIfPresent() ?? false
         return value
     }
 }
@@ -7430,12 +7430,12 @@ extension FMSClientTypes.NetworkAclEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.NetworkAclEntry()
         value.icmpTypeCode = try reader["IcmpTypeCode"].readIfPresent(with: FMSClientTypes.NetworkAclIcmpTypeCode.read(from:))
-        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? ""
         value.portRange = try reader["PortRange"].readIfPresent(with: FMSClientTypes.NetworkAclPortRange.read(from:))
         value.cidrBlock = try reader["CidrBlock"].readIfPresent()
         value.ipv6CidrBlock = try reader["Ipv6CidrBlock"].readIfPresent()
-        value.ruleAction = try reader["RuleAction"].readIfPresent()
-        value.egress = try reader["Egress"].readIfPresent()
+        value.ruleAction = try reader["RuleAction"].readIfPresent() ?? .sdkUnknown("")
+        value.egress = try reader["Egress"].readIfPresent() ?? false
         return value
     }
 }
@@ -7521,11 +7521,11 @@ extension FMSClientTypes.ProtocolsListData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ProtocolsListData()
         value.listId = try reader["ListId"].readIfPresent()
-        value.listName = try reader["ListName"].readIfPresent()
+        value.listName = try reader["ListName"].readIfPresent() ?? ""
         value.listUpdateToken = try reader["ListUpdateToken"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.protocolsList = try reader["ProtocolsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.protocolsList = try reader["ProtocolsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.previousProtocolsList = try reader["PreviousProtocolsList"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -7548,10 +7548,10 @@ extension FMSClientTypes.ResourceSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ResourceSet()
         value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.updateToken = try reader["UpdateToken"].readIfPresent()
-        value.resourceTypeList = try reader["ResourceTypeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTypeList = try reader["ResourceTypeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.resourceSetStatus = try reader["ResourceSetStatus"].readIfPresent()
         return value
@@ -7563,11 +7563,11 @@ extension FMSClientTypes.ViolationDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.ViolationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.ViolationDetail()
-        value.policyId = try reader["PolicyId"].readIfPresent()
-        value.memberAccount = try reader["MemberAccount"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceViolations = try reader["ResourceViolations"].readListIfPresent(memberReadingClosure: FMSClientTypes.ResourceViolation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policyId = try reader["PolicyId"].readIfPresent() ?? ""
+        value.memberAccount = try reader["MemberAccount"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.resourceViolations = try reader["ResourceViolations"].readListIfPresent(memberReadingClosure: FMSClientTypes.ResourceViolation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.resourceTags = try reader["ResourceTags"].readListIfPresent(memberReadingClosure: FMSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceDescription = try reader["ResourceDescription"].readIfPresent()
         return value
@@ -7585,8 +7585,8 @@ extension FMSClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7641,7 +7641,7 @@ extension FMSClientTypes.PossibleRemediationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.PossibleRemediationAction()
         value.description = try reader["Description"].readIfPresent()
-        value.orderedRemediationActions = try reader["OrderedRemediationActions"].readListIfPresent(memberReadingClosure: FMSClientTypes.RemediationActionWithOrder.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.orderedRemediationActions = try reader["OrderedRemediationActions"].readListIfPresent(memberReadingClosure: FMSClientTypes.RemediationActionWithOrder.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isDefaultAction = try reader["IsDefaultAction"].readIfPresent() ?? false
         return value
     }
@@ -8430,7 +8430,7 @@ extension FMSClientTypes.Resource {
     static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FMSClientTypes.Resource()
-        value.uri = try reader["URI"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent() ?? ""
         value.accountId = try reader["AccountId"].readIfPresent()
         return value
     }

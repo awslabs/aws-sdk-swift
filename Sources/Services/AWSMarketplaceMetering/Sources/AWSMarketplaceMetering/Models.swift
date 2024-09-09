@@ -22,6 +22,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The API is disabled in the Region.
 public struct DisabledApiException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1187,9 +1188,9 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.UsageRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceMeteringClientTypes.UsageRecord()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.customerIdentifier = try reader["CustomerIdentifier"].readIfPresent()
-        value.dimension = try reader["Dimension"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customerIdentifier = try reader["CustomerIdentifier"].readIfPresent() ?? ""
+        value.dimension = try reader["Dimension"].readIfPresent() ?? ""
         value.quantity = try reader["Quantity"].readIfPresent()
         value.usageAllocations = try reader["UsageAllocations"].readListIfPresent(memberReadingClosure: MarketplaceMeteringClientTypes.UsageAllocation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -1207,7 +1208,7 @@ extension MarketplaceMeteringClientTypes.UsageAllocation {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.UsageAllocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceMeteringClientTypes.UsageAllocation()
-        value.allocatedUsageQuantity = try reader["AllocatedUsageQuantity"].readIfPresent()
+        value.allocatedUsageQuantity = try reader["AllocatedUsageQuantity"].readIfPresent() ?? 0
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: MarketplaceMeteringClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -1224,8 +1225,8 @@ extension MarketplaceMeteringClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceMeteringClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

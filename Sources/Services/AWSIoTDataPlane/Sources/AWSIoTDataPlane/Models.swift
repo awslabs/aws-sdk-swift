@@ -519,12 +519,12 @@ public struct PublishInput {
     public init(
         contentType: Swift.String? = nil,
         correlationData: Swift.String? = nil,
-        messageExpiry: Swift.Int? = nil,
+        messageExpiry: Swift.Int? = 0,
         payload: Foundation.Data? = nil,
         payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator? = nil,
-        qos: Swift.Int? = nil,
+        qos: Swift.Int? = 0,
         responseTopic: Swift.String? = nil,
-        retain: Swift.Bool? = nil,
+        retain: Swift.Bool? = false,
         topic: Swift.String? = nil,
         userProperties: Swift.String? = nil
     )

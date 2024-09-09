@@ -677,8 +677,8 @@ extension CreateApplicationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateApplicationOutput()
-        value.applicationArn = try reader["applicationArn"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -697,16 +697,16 @@ extension DescribeApplicationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeApplicationOutput()
-        value.applicationArn = try reader["applicationArn"].readIfPresent()
+        value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
         value.applicationCreationDate = try reader["applicationCreationDate"].readIfPresent() ?? 0
         value.applicationDescription = try reader["applicationDescription"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
         value.applicationLastUpdateDate = try reader["applicationLastUpdateDate"].readIfPresent() ?? 0
-        value.applicationName = try reader["applicationName"].readIfPresent()
-        value.applicationState = try reader["applicationState"].readIfPresent()
-        value.applicationUrl = try reader["applicationUrl"].readIfPresent()
+        value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
+        value.applicationState = try reader["applicationState"].readIfPresent() ?? .sdkUnknown("")
+        value.applicationUrl = try reader["applicationUrl"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.ssoClientId = try reader["ssoClientId"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -975,10 +975,10 @@ extension IoTFleetHubClientTypes.ApplicationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetHubClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetHubClientTypes.ApplicationSummary()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.applicationName = try reader["applicationName"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
         value.applicationDescription = try reader["applicationDescription"].readIfPresent()
-        value.applicationUrl = try reader["applicationUrl"].readIfPresent()
+        value.applicationUrl = try reader["applicationUrl"].readIfPresent() ?? ""
         value.applicationCreationDate = try reader["applicationCreationDate"].readIfPresent() ?? 0
         value.applicationLastUpdateDate = try reader["applicationLastUpdateDate"].readIfPresent() ?? 0
         value.applicationState = try reader["applicationState"].readIfPresent()

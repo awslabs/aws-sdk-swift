@@ -173,7 +173,7 @@ extension SecurityLakeClientTypes {
             accounts: [Swift.String]? = nil,
             regions: [Swift.String]? = nil,
             sourceName: SecurityLakeClientTypes.AwsLogSourceName? = nil,
-            sourceVersion: Swift.String? = nil
+            sourceVersion: Swift.String? = "latest"
         )
         {
             self.accounts = accounts
@@ -3566,8 +3566,8 @@ extension SecurityLakeClientTypes.DataLakeResource {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.DataLakeResource()
-        value.dataLakeArn = try reader["dataLakeArn"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
+        value.dataLakeArn = try reader["dataLakeArn"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent() ?? ""
         value.s3BucketArn = try reader["s3BucketArn"].readIfPresent()
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SecurityLakeClientTypes.DataLakeEncryptionConfiguration.read(from:))
         value.lifecycleConfiguration = try reader["lifecycleConfiguration"].readIfPresent(with: SecurityLakeClientTypes.DataLakeLifecycleConfiguration.read(from:))
@@ -3687,12 +3687,12 @@ extension SecurityLakeClientTypes.SubscriberResource {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.SubscriberResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.SubscriberResource()
-        value.subscriberId = try reader["subscriberId"].readIfPresent()
-        value.subscriberArn = try reader["subscriberArn"].readIfPresent()
+        value.subscriberId = try reader["subscriberId"].readIfPresent() ?? ""
+        value.subscriberArn = try reader["subscriberArn"].readIfPresent() ?? ""
         value.subscriberIdentity = try reader["subscriberIdentity"].readIfPresent(with: SecurityLakeClientTypes.AwsIdentity.read(from:))
-        value.subscriberName = try reader["subscriberName"].readIfPresent()
+        value.subscriberName = try reader["subscriberName"].readIfPresent() ?? ""
         value.subscriberDescription = try reader["subscriberDescription"].readIfPresent()
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SecurityLakeClientTypes.LogSourceResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SecurityLakeClientTypes.LogSourceResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.accessTypes = try reader["accessTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityLakeClientTypes.AccessType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.s3BucketArn = try reader["s3BucketArn"].readIfPresent()
@@ -3762,8 +3762,8 @@ extension SecurityLakeClientTypes.AwsIdentity {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.AwsIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.AwsIdentity()
-        value.principal = try reader["principal"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
+        value.principal = try reader["principal"].readIfPresent() ?? ""
+        value.externalId = try reader["externalId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3779,8 +3779,8 @@ extension SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration()
-        value.region = try reader["region"].readIfPresent()
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SecurityLakeClientTypes.AwsLogSourceResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SecurityLakeClientTypes.AwsLogSourceResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3845,8 +3845,8 @@ extension SecurityLakeClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityLakeClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityLakeClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

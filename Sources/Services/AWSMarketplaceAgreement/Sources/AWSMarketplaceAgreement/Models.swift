@@ -206,7 +206,7 @@ extension MarketplaceAgreementClientTypes {
 
         public init(
             dimensionKey: Swift.String? = nil,
-            maxQuantity: Swift.Int? = nil
+            maxQuantity: Swift.Int? = 1
         )
         {
             self.dimensionKey = dimensionKey
@@ -1674,8 +1674,8 @@ extension MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfigur
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration()
-        value.selectorValue = try reader["selectorValue"].readIfPresent()
-        value.dimensions = try reader["dimensions"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectorValue = try reader["selectorValue"].readIfPresent() ?? ""
+        value.dimensions = try reader["dimensions"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1685,7 +1685,7 @@ extension MarketplaceAgreementClientTypes.Dimension {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Dimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.Dimension()
-        value.dimensionKey = try reader["dimensionKey"].readIfPresent()
+        value.dimensionKey = try reader["dimensionKey"].readIfPresent() ?? ""
         value.dimensionValue = try reader["dimensionValue"].readIfPresent() ?? 0
         return value
     }
@@ -1774,7 +1774,7 @@ extension MarketplaceAgreementClientTypes.RenewalTermConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RenewalTermConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.RenewalTermConfiguration()
-        value.enableAutoRenew = try reader["enableAutoRenew"].readIfPresent()
+        value.enableAutoRenew = try reader["enableAutoRenew"].readIfPresent() ?? false
         return value
     }
 }
@@ -1836,8 +1836,8 @@ extension MarketplaceAgreementClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceAgreementClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

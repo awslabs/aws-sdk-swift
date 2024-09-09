@@ -511,7 +511,7 @@ public struct CreateClusterInput {
         notificationTopicArn: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
-        replicationFactor: Swift.Int? = nil,
+        replicationFactor: Swift.Int? = 0,
         securityGroupIds: [Swift.String]? = nil,
         sseSpecification: DAXClientTypes.SSESpecification? = nil,
         subnetGroupName: Swift.String? = nil,
@@ -1158,7 +1158,7 @@ public struct DecreaseReplicationFactorInput {
     public init(
         availabilityZones: [Swift.String]? = nil,
         clusterName: Swift.String? = nil,
-        newReplicationFactor: Swift.Int? = nil,
+        newReplicationFactor: Swift.Int? = 0,
         nodeIdsToRemove: [Swift.String]? = nil
     )
     {
@@ -1748,7 +1748,7 @@ public struct IncreaseReplicationFactorInput {
     public init(
         availabilityZones: [Swift.String]? = nil,
         clusterName: Swift.String? = nil,
-        newReplicationFactor: Swift.Int? = nil
+        newReplicationFactor: Swift.Int? = 0
     )
     {
         self.availabilityZones = availabilityZones

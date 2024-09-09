@@ -343,7 +343,7 @@ public struct GetClipOutput {
 
     public init(
         contentType: Swift.String? = nil,
-        payload: Smithy.ByteStream? = nil
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
     )
     {
         self.contentType = contentType
@@ -1100,7 +1100,7 @@ public struct GetMediaForFragmentListOutput {
 
     public init(
         contentType: Swift.String? = nil,
-        payload: Smithy.ByteStream? = nil
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
     )
     {
         self.contentType = contentType

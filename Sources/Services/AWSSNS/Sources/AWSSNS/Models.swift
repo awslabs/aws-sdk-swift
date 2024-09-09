@@ -2871,7 +2871,7 @@ public struct SubscribeInput {
         attributes: [Swift.String: Swift.String]? = nil,
         endpoint: Swift.String? = nil,
         `protocol`: Swift.String? = nil,
-        returnSubscriptionArn: Swift.Bool? = nil,
+        returnSubscriptionArn: Swift.Bool? = false,
         topicArn: Swift.String? = nil
     )
     {
@@ -4017,7 +4017,7 @@ extension ListSMSSandboxPhoneNumbersOutput {
         let reader = responseReader["ListSMSSandboxPhoneNumbersResult"]
         var value = ListSMSSandboxPhoneNumbersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.phoneNumbers = try reader["PhoneNumbers"].readListIfPresent(memberReadingClosure: SNSClientTypes.SMSSandboxPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.phoneNumbers = try reader["PhoneNumbers"].readListIfPresent(memberReadingClosure: SNSClientTypes.SMSSandboxPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5206,7 +5206,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5401,8 +5401,8 @@ extension VerificationException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> VerificationException {
         let reader = baseError.errorBodyReader
         var value = VerificationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.status = try reader["Status"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.status = try reader["Status"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5483,8 +5483,8 @@ extension SNSClientTypes.Tag {
     static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SNSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5516,8 +5516,8 @@ extension SNSClientTypes.BatchResultErrorEntry {
     static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.BatchResultErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SNSClientTypes.BatchResultErrorEntry()
-        value.id = try reader["Id"].readIfPresent()
-        value.code = try reader["Code"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.code = try reader["Code"].readIfPresent() ?? ""
         value.message = try reader["Message"].readIfPresent()
         value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
         return value

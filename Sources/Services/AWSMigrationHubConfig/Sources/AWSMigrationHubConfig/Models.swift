@@ -230,7 +230,7 @@ public struct CreateHomeRegionControlInput {
     public var target: MigrationHubConfigClientTypes.Target?
 
     public init(
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         homeRegion: Swift.String? = nil,
         target: MigrationHubConfigClientTypes.Target? = nil
     )
@@ -591,7 +591,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -649,7 +649,7 @@ extension MigrationHubConfigClientTypes.Target {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubConfigClientTypes.Target {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubConfigClientTypes.Target()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.id = try reader["Id"].readIfPresent()
         return value
     }

@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteSpaceOutput {
 
@@ -652,7 +653,7 @@ public struct ListSpacesInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
     )
     {
@@ -1123,7 +1124,7 @@ extension CreateSpaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSpaceOutput()
-        value.spaceId = try reader["spaceId"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1149,26 +1150,26 @@ extension GetSpaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSpaceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.configurationStatus = try reader["configurationStatus"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clientId = try reader["clientId"].readIfPresent() ?? ""
+        value.configurationStatus = try reader["configurationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.contentSize = try reader["contentSize"].readIfPresent()
-        value.createDateTime = try reader["createDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createDateTime = try reader["createDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerRoleArn = try reader["customerRoleArn"].readIfPresent()
         value.deleteDateTime = try reader["deleteDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.groupAdmins = try reader["groupAdmins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.randomDomain = try reader["randomDomain"].readIfPresent()
-        value.spaceId = try reader["spaceId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.storageLimit = try reader["storageLimit"].readIfPresent()
-        value.tier = try reader["tier"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.randomDomain = try reader["randomDomain"].readIfPresent() ?? ""
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.storageLimit = try reader["storageLimit"].readIfPresent() ?? 0
+        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
         value.userAdmins = try reader["userAdmins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userCount = try reader["userCount"].readIfPresent()
         value.userKMSKey = try reader["userKMSKey"].readIfPresent()
-        value.vanityDomain = try reader["vanityDomain"].readIfPresent()
-        value.vanityDomainStatus = try reader["vanityDomainStatus"].readIfPresent()
+        value.vanityDomain = try reader["vanityDomain"].readIfPresent() ?? ""
+        value.vanityDomainStatus = try reader["vanityDomainStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1181,7 +1182,7 @@ extension ListSpacesOutput {
         let reader = responseReader
         var value = ListSpacesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.spaces = try reader["spaces"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.SpaceData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.spaces = try reader["spaces"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.SpaceData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1438,9 +1439,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1453,11 +1454,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1470,9 +1471,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1489,7 +1490,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1503,8 +1504,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1521,7 +1522,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1536,7 +1537,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1549,18 +1550,18 @@ extension RepostspaceClientTypes.SpaceData {
     static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.SpaceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RepostspaceClientTypes.SpaceData()
-        value.spaceId = try reader["spaceId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.configurationStatus = try reader["configurationStatus"].readIfPresent()
-        value.vanityDomainStatus = try reader["vanityDomainStatus"].readIfPresent()
-        value.vanityDomain = try reader["vanityDomain"].readIfPresent()
-        value.randomDomain = try reader["randomDomain"].readIfPresent()
-        value.tier = try reader["tier"].readIfPresent()
-        value.storageLimit = try reader["storageLimit"].readIfPresent()
-        value.createDateTime = try reader["createDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.configurationStatus = try reader["configurationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.vanityDomainStatus = try reader["vanityDomainStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.vanityDomain = try reader["vanityDomain"].readIfPresent() ?? ""
+        value.randomDomain = try reader["randomDomain"].readIfPresent() ?? ""
+        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
+        value.storageLimit = try reader["storageLimit"].readIfPresent() ?? 0
+        value.createDateTime = try reader["createDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deleteDateTime = try reader["deleteDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.userKMSKey = try reader["userKMSKey"].readIfPresent()
         value.userCount = try reader["userCount"].readIfPresent()
@@ -1574,8 +1575,8 @@ extension RepostspaceClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RepostspaceClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

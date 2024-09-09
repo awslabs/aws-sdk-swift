@@ -426,7 +426,7 @@ public struct AddLayerVersionPermissionInput {
         principal: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.action = action
@@ -2244,7 +2244,7 @@ public struct CreateFunctionInput {
         loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
-        publish: Swift.Bool? = nil,
+        publish: Swift.Bool? = false,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
@@ -3433,7 +3433,7 @@ public struct DeleteLayerVersionInput {
 
     public init(
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.layerName = layerName
@@ -4421,7 +4421,7 @@ public struct GetLayerVersionInput {
 
     public init(
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.layerName = layerName
@@ -4572,7 +4572,7 @@ public struct GetLayerVersionPolicyInput {
 
     public init(
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.layerName = layerName
@@ -7394,7 +7394,7 @@ public struct RemoveLayerVersionPermissionInput {
         layerName: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.layerName = layerName
@@ -7850,10 +7850,10 @@ public struct UpdateFunctionCodeInput {
 
     public init(
         architectures: [LambdaClientTypes.Architecture]? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         functionName: Swift.String? = nil,
         imageUri: Swift.String? = nil,
-        publish: Swift.Bool? = nil,
+        publish: Swift.Bool? = false,
         revisionId: Swift.String? = nil,
         s3Bucket: Swift.String? = nil,
         s3Key: Swift.String? = nil,
@@ -10173,11 +10173,11 @@ extension CreateFunctionUrlConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFunctionUrlConfigOutput()
-        value.authType = try reader["AuthType"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent() ?? .sdkUnknown("")
         value.cors = try reader["Cors"].readIfPresent(with: LambdaClientTypes.Cors.read(from:))
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
-        value.functionUrl = try reader["FunctionUrl"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? ""
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.functionUrl = try reader["FunctionUrl"].readIfPresent() ?? ""
         value.invokeMode = try reader["InvokeMode"].readIfPresent()
         return value
     }
@@ -10390,8 +10390,8 @@ extension GetFunctionCodeSigningConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFunctionCodeSigningConfigOutput()
-        value.codeSigningConfigArn = try reader["CodeSigningConfigArn"].readIfPresent()
-        value.functionName = try reader["FunctionName"].readIfPresent()
+        value.codeSigningConfigArn = try reader["CodeSigningConfigArn"].readIfPresent() ?? ""
+        value.functionName = try reader["FunctionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10490,13 +10490,13 @@ extension GetFunctionUrlConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFunctionUrlConfigOutput()
-        value.authType = try reader["AuthType"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent() ?? .sdkUnknown("")
         value.cors = try reader["Cors"].readIfPresent(with: LambdaClientTypes.Cors.read(from:))
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
-        value.functionUrl = try reader["FunctionUrl"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? ""
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.functionUrl = try reader["FunctionUrl"].readIfPresent() ?? ""
         value.invokeMode = try reader["InvokeMode"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10738,7 +10738,7 @@ extension ListFunctionUrlConfigsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFunctionUrlConfigsOutput()
-        value.functionUrlConfigs = try reader["FunctionUrlConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FunctionUrlConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.functionUrlConfigs = try reader["FunctionUrlConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FunctionUrlConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextMarker = try reader["NextMarker"].readIfPresent()
         return value
     }
@@ -10882,8 +10882,8 @@ extension PutFunctionCodeSigningConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutFunctionCodeSigningConfigOutput()
-        value.codeSigningConfigArn = try reader["CodeSigningConfigArn"].readIfPresent()
-        value.functionName = try reader["FunctionName"].readIfPresent()
+        value.codeSigningConfigArn = try reader["CodeSigningConfigArn"].readIfPresent() ?? ""
+        value.functionName = try reader["FunctionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10952,9 +10952,9 @@ extension PutRuntimeManagementConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutRuntimeManagementConfigOutput()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
         value.runtimeVersionArn = try reader["RuntimeVersionArn"].readIfPresent()
-        value.updateRuntimeOn = try reader["UpdateRuntimeOn"].readIfPresent()
+        value.updateRuntimeOn = try reader["UpdateRuntimeOn"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11173,13 +11173,13 @@ extension UpdateFunctionUrlConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFunctionUrlConfigOutput()
-        value.authType = try reader["AuthType"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent() ?? .sdkUnknown("")
         value.cors = try reader["Cors"].readIfPresent(with: LambdaClientTypes.Cors.read(from:))
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
-        value.functionUrl = try reader["FunctionUrl"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? ""
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.functionUrl = try reader["FunctionUrl"].readIfPresent() ?? ""
         value.invokeMode = try reader["InvokeMode"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13029,12 +13029,12 @@ extension LambdaClientTypes.CodeSigningConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CodeSigningConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.CodeSigningConfig()
-        value.codeSigningConfigId = try reader["CodeSigningConfigId"].readIfPresent()
-        value.codeSigningConfigArn = try reader["CodeSigningConfigArn"].readIfPresent()
+        value.codeSigningConfigId = try reader["CodeSigningConfigId"].readIfPresent() ?? ""
+        value.codeSigningConfigArn = try reader["CodeSigningConfigArn"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.allowedPublishers = try reader["AllowedPublishers"].readIfPresent(with: LambdaClientTypes.AllowedPublishers.read(from:))
         value.codeSigningPolicies = try reader["CodeSigningPolicies"].readIfPresent(with: LambdaClientTypes.CodeSigningPolicies.read(from:))
-        value.lastModified = try reader["LastModified"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13064,7 +13064,7 @@ extension LambdaClientTypes.AllowedPublishers {
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AllowedPublishers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.AllowedPublishers()
-        value.signingProfileVersionArns = try reader["SigningProfileVersionArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signingProfileVersionArns = try reader["SigningProfileVersionArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13337,8 +13337,8 @@ extension LambdaClientTypes.FileSystemConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FileSystemConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.FileSystemConfig()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.localMountPath = try reader["LocalMountPath"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.localMountPath = try reader["LocalMountPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13394,7 +13394,7 @@ extension LambdaClientTypes.EphemeralStorage {
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EphemeralStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.EphemeralStorage()
-        value.size = try reader["Size"].readIfPresent()
+        value.size = try reader["Size"].readIfPresent() ?? 0
         return value
     }
 }
@@ -13679,12 +13679,12 @@ extension LambdaClientTypes.FunctionUrlConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionUrlConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.FunctionUrlConfig()
-        value.functionUrl = try reader["FunctionUrl"].readIfPresent()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent()
+        value.functionUrl = try reader["FunctionUrl"].readIfPresent() ?? ""
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent() ?? ""
         value.cors = try reader["Cors"].readIfPresent(with: LambdaClientTypes.Cors.read(from:))
-        value.authType = try reader["AuthType"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent() ?? .sdkUnknown("")
         value.invokeMode = try reader["InvokeMode"].readIfPresent()
         return value
     }

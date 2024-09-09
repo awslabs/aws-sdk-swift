@@ -3041,7 +3041,7 @@ extension DescribeAttackStatisticsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAttackStatisticsOutput()
-        value.dataItems = try reader["DataItems"].readListIfPresent(memberReadingClosure: ShieldClientTypes.AttackStatisticsDataItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataItems = try reader["DataItems"].readListIfPresent(memberReadingClosure: ShieldClientTypes.AttackStatisticsDataItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.timeRange = try reader["TimeRange"].readIfPresent(with: ShieldClientTypes.TimeRange.read(from:))
         return value
     }
@@ -3164,7 +3164,7 @@ extension GetSubscriptionStateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSubscriptionStateOutput()
-        value.subscriptionState = try reader["SubscriptionState"].readIfPresent()
+        value.subscriptionState = try reader["SubscriptionState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3190,7 +3190,7 @@ extension ListProtectionGroupsOutput {
         let reader = responseReader
         var value = ListProtectionGroupsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.protectionGroups = try reader["ProtectionGroups"].readListIfPresent(memberReadingClosure: ShieldClientTypes.ProtectionGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.protectionGroups = try reader["ProtectionGroups"].readListIfPresent(memberReadingClosure: ShieldClientTypes.ProtectionGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3216,7 +3216,7 @@ extension ListResourcesInProtectionGroupOutput {
         let reader = responseReader
         var value = ListResourcesInProtectionGroupOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.resourceArns = try reader["ResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceArns = try reader["ResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4145,7 +4145,7 @@ extension ShieldClientTypes.SummarizedAttackVector {
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.SummarizedAttackVector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.SummarizedAttackVector()
-        value.vectorType = try reader["VectorType"].readIfPresent()
+        value.vectorType = try reader["VectorType"].readIfPresent() ?? ""
         value.vectorCounters = try reader["VectorCounters"].readListIfPresent(memberReadingClosure: ShieldClientTypes.SummarizedCounter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -4213,7 +4213,7 @@ extension ShieldClientTypes.EmergencyContact {
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.EmergencyContact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.EmergencyContact()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent() ?? ""
         value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
         value.contactNotes = try reader["ContactNotes"].readIfPresent()
         return value
@@ -4240,7 +4240,7 @@ extension ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.ApplicationLayerAutomaticResponseConfiguration()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["Action"].readIfPresent(with: ShieldClientTypes.ResponseAction.read(from:))
         return value
     }
@@ -4294,11 +4294,11 @@ extension ShieldClientTypes.ProtectionGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ProtectionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.ProtectionGroup()
-        value.protectionGroupId = try reader["ProtectionGroupId"].readIfPresent()
-        value.aggregation = try reader["Aggregation"].readIfPresent()
-        value.pattern = try reader["Pattern"].readIfPresent()
+        value.protectionGroupId = try reader["ProtectionGroupId"].readIfPresent() ?? ""
+        value.aggregation = try reader["Aggregation"].readIfPresent() ?? .sdkUnknown("")
+        value.pattern = try reader["Pattern"].readIfPresent() ?? .sdkUnknown("")
         value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.members = try reader["Members"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.members = try reader["Members"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.protectionGroupArn = try reader["ProtectionGroupArn"].readIfPresent()
         return value
     }
@@ -4368,7 +4368,7 @@ extension ShieldClientTypes.ProtectionLimits {
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ProtectionLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.ProtectionLimits()
-        value.protectedResourceTypeLimits = try reader["ProtectedResourceTypeLimits"].readListIfPresent(memberReadingClosure: ShieldClientTypes.Limit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.protectedResourceTypeLimits = try reader["ProtectedResourceTypeLimits"].readListIfPresent(memberReadingClosure: ShieldClientTypes.Limit.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4403,7 +4403,7 @@ extension ShieldClientTypes.AttackVectorDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.AttackVectorDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.AttackVectorDescription()
-        value.vectorType = try reader["VectorType"].readIfPresent()
+        value.vectorType = try reader["VectorType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4430,8 +4430,8 @@ extension ShieldClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> ShieldClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ShieldClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

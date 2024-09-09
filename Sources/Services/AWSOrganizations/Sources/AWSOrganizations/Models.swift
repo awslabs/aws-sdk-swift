@@ -7910,8 +7910,8 @@ extension OrganizationsClientTypes.HandshakeParty {
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeParty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.HandshakeParty()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8134,8 +8134,8 @@ extension OrganizationsClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OrganizationsClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

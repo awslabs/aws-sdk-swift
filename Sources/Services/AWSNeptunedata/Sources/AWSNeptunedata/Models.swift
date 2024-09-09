@@ -5136,7 +5136,7 @@ extension ExecuteFastResetOutput {
         let reader = responseReader
         var value = ExecuteFastResetOutput()
         value.payload = try reader["payload"].readIfPresent(with: NeptunedataClientTypes.FastResetToken.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5211,7 +5211,7 @@ extension ExecuteOpenCypherQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ExecuteOpenCypherQueryOutput()
-        value.results = try reader["results"].readIfPresent()
+        value.results = try reader["results"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
@@ -5261,8 +5261,8 @@ extension GetLoaderJobStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetLoaderJobStatusOutput()
-        value.payload = try reader["payload"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.payload = try reader["payload"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5351,7 +5351,7 @@ extension GetPropertygraphStatisticsOutput {
         let reader = responseReader
         var value = GetPropertygraphStatisticsOutput()
         value.payload = try reader["payload"].readIfPresent(with: NeptunedataClientTypes.Statistics.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5363,11 +5363,11 @@ extension GetPropertygraphStreamOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPropertygraphStreamOutput()
-        value.format = try reader["format"].readIfPresent()
-        value.lastEventId = try reader["lastEventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.lastTrxTimestampInMillis = try reader["lastTrxTimestamp"].readIfPresent()
-        value.records = try reader["records"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.PropertygraphRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalRecords = try reader["totalRecords"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? ""
+        value.lastEventId = try reader["lastEventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.lastTrxTimestampInMillis = try reader["lastTrxTimestamp"].readIfPresent() ?? 0
+        value.records = try reader["records"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.PropertygraphRecord.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.totalRecords = try reader["totalRecords"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5406,7 +5406,7 @@ extension GetSparqlStatisticsOutput {
         let reader = responseReader
         var value = GetSparqlStatisticsOutput()
         value.payload = try reader["payload"].readIfPresent(with: NeptunedataClientTypes.Statistics.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5418,11 +5418,11 @@ extension GetSparqlStreamOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSparqlStreamOutput()
-        value.format = try reader["format"].readIfPresent()
-        value.lastEventId = try reader["lastEventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.lastTrxTimestampInMillis = try reader["lastTrxTimestamp"].readIfPresent()
-        value.records = try reader["records"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.SparqlRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalRecords = try reader["totalRecords"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? ""
+        value.lastEventId = try reader["lastEventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.lastTrxTimestampInMillis = try reader["lastTrxTimestamp"].readIfPresent() ?? 0
+        value.records = try reader["records"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.SparqlRecord.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.totalRecords = try reader["totalRecords"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5449,7 +5449,7 @@ extension ListLoaderJobsOutput {
         let reader = responseReader
         var value = ListLoaderJobsOutput()
         value.payload = try reader["payload"].readIfPresent(with: NeptunedataClientTypes.LoaderIdResult.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5524,7 +5524,7 @@ extension ManagePropertygraphStatisticsOutput {
         let reader = responseReader
         var value = ManagePropertygraphStatisticsOutput()
         value.payload = try reader["payload"].readIfPresent(with: NeptunedataClientTypes.RefreshStatisticsIdMap.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5537,7 +5537,7 @@ extension ManageSparqlStatisticsOutput {
         let reader = responseReader
         var value = ManageSparqlStatisticsOutput()
         value.payload = try reader["payload"].readIfPresent(with: NeptunedataClientTypes.RefreshStatisticsIdMap.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5549,8 +5549,8 @@ extension StartLoaderJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartLoaderJobOutput()
-        value.payload = try reader["payload"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.payload = try reader["payload"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6735,9 +6735,9 @@ extension ParsingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ParsingException {
         let reader = baseError.errorBodyReader
         var value = ParsingException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6750,9 +6750,9 @@ extension UnsupportedOperationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedOperationException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6765,9 +6765,9 @@ extension InvalidArgumentException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6780,9 +6780,9 @@ extension InvalidParameterException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6795,9 +6795,9 @@ extension ConcurrentModificationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6810,9 +6810,9 @@ extension MissingParameterException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterException {
         let reader = baseError.errorBodyReader
         var value = MissingParameterException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6825,9 +6825,9 @@ extension TimeLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TimeLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TimeLimitExceededException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6840,9 +6840,9 @@ extension PreconditionsFailedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionsFailedException {
         let reader = baseError.errorBodyReader
         var value = PreconditionsFailedException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6855,9 +6855,9 @@ extension BadRequestException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6870,9 +6870,9 @@ extension ConstraintViolationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
         var value = ConstraintViolationException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6885,9 +6885,9 @@ extension ClientTimeoutException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientTimeoutException {
         let reader = baseError.errorBodyReader
         var value = ClientTimeoutException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6900,9 +6900,9 @@ extension FailureByQueryException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FailureByQueryException {
         let reader = baseError.errorBodyReader
         var value = FailureByQueryException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6915,9 +6915,9 @@ extension IllegalArgumentException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IllegalArgumentException {
         let reader = baseError.errorBodyReader
         var value = IllegalArgumentException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6930,9 +6930,9 @@ extension TooManyRequestsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6945,9 +6945,9 @@ extension InternalFailureException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6960,9 +6960,9 @@ extension LoadUrlAccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LoadUrlAccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = LoadUrlAccessDeniedException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6975,9 +6975,9 @@ extension BulkLoadIdNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BulkLoadIdNotFoundException {
         let reader = baseError.errorBodyReader
         var value = BulkLoadIdNotFoundException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6990,9 +6990,9 @@ extension MLResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MLResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = MLResourceNotFoundException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7005,9 +7005,9 @@ extension InvalidNumericDataException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNumericDataException {
         let reader = baseError.errorBodyReader
         var value = InvalidNumericDataException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7020,9 +7020,9 @@ extension ReadOnlyViolationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ReadOnlyViolationException {
         let reader = baseError.errorBodyReader
         var value = ReadOnlyViolationException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7035,9 +7035,9 @@ extension StatisticsNotAvailableException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatisticsNotAvailableException {
         let reader = baseError.errorBodyReader
         var value = StatisticsNotAvailableException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7050,9 +7050,9 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7065,9 +7065,9 @@ extension MethodNotAllowedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
         let reader = baseError.errorBodyReader
         var value = MethodNotAllowedException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7080,9 +7080,9 @@ extension ServerShutdownException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServerShutdownException {
         let reader = baseError.errorBodyReader
         var value = ServerShutdownException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7095,9 +7095,9 @@ extension MemoryLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MemoryLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = MemoryLimitExceededException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7110,9 +7110,9 @@ extension CancelledByUserException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CancelledByUserException {
         let reader = baseError.errorBodyReader
         var value = CancelledByUserException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7125,9 +7125,9 @@ extension MalformedQueryException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedQueryException {
         let reader = baseError.errorBodyReader
         var value = MalformedQueryException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7140,9 +7140,9 @@ extension QueryLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> QueryLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = QueryLimitExceededException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7155,9 +7155,9 @@ extension QueryLimitException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> QueryLimitException {
         let reader = baseError.errorBodyReader
         var value = QueryLimitException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7170,9 +7170,9 @@ extension QueryTooLargeException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> QueryTooLargeException {
         let reader = baseError.errorBodyReader
         var value = QueryTooLargeException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7185,9 +7185,9 @@ extension ExpiredStreamException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ExpiredStreamException {
         let reader = baseError.errorBodyReader
         var value = ExpiredStreamException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7200,9 +7200,9 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7215,9 +7215,9 @@ extension StreamRecordsNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StreamRecordsNotFoundException {
         let reader = baseError.errorBodyReader
         var value = StreamRecordsNotFoundException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7230,9 +7230,9 @@ extension S3Exception {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> S3Exception {
         let reader = baseError.errorBodyReader
         var value = S3Exception()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent()
-        value.properties.requestId = try reader["requestId"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7278,7 +7278,7 @@ extension NeptunedataClientTypes.QueryLanguageVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryLanguageVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.QueryLanguageVersion()
-        value.version = try reader["version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7354,10 +7354,10 @@ extension NeptunedataClientTypes.PropertygraphRecord {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.PropertygraphRecord()
-        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent()
-        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
+        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.PropertygraphData.read(from:))
-        value.op = try reader["op"].readIfPresent()
+        value.op = try reader["op"].readIfPresent() ?? ""
         value.isLastOp = try reader["isLastOp"].readIfPresent()
         return value
     }
@@ -7368,10 +7368,10 @@ extension NeptunedataClientTypes.PropertygraphData {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.PropertygraphData()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         value.from = try reader["from"].readIfPresent()
         value.to = try reader["to"].readIfPresent()
         return value
@@ -7480,10 +7480,10 @@ extension NeptunedataClientTypes.SparqlRecord {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.SparqlRecord()
-        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent()
-        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
+        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.SparqlData.read(from:))
-        value.op = try reader["op"].readIfPresent()
+        value.op = try reader["op"].readIfPresent() ?? ""
         value.isLastOp = try reader["isLastOp"].readIfPresent()
         return value
     }
@@ -7494,7 +7494,7 @@ extension NeptunedataClientTypes.SparqlData {
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.SparqlData()
-        value.stmt = try reader["stmt"].readIfPresent()
+        value.stmt = try reader["stmt"].readIfPresent() ?? ""
         return value
     }
 }

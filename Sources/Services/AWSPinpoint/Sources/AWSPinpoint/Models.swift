@@ -19210,9 +19210,9 @@ extension PinpointClientTypes.ApplicationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ApplicationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ApplicationResponse()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.creationDate = try reader["CreationDate"].readIfPresent()
         return value
@@ -19225,23 +19225,23 @@ extension PinpointClientTypes.CampaignResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CampaignResponse()
         value.additionalTreatments = try reader["AdditionalTreatments"].readListIfPresent(memberReadingClosure: PinpointClientTypes.TreatmentResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.customDeliveryConfiguration = try reader["CustomDeliveryConfiguration"].readIfPresent(with: PinpointClientTypes.CustomDeliveryConfiguration.read(from:))
         value.defaultState = try reader["DefaultState"].readIfPresent(with: PinpointClientTypes.CampaignState.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.holdoutPercent = try reader["HoldoutPercent"].readIfPresent()
         value.hook = try reader["Hook"].readIfPresent(with: PinpointClientTypes.CampaignHook.read(from:))
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.isPaused = try reader["IsPaused"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.limits = try reader["Limits"].readIfPresent(with: PinpointClientTypes.CampaignLimits.read(from:))
         value.messageConfiguration = try reader["MessageConfiguration"].readIfPresent(with: PinpointClientTypes.MessageConfiguration.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.schedule = try reader["Schedule"].readIfPresent(with: PinpointClientTypes.Schedule.read(from:))
-        value.segmentId = try reader["SegmentId"].readIfPresent()
-        value.segmentVersion = try reader["SegmentVersion"].readIfPresent()
+        value.segmentId = try reader["SegmentId"].readIfPresent() ?? ""
+        value.segmentVersion = try reader["SegmentVersion"].readIfPresent() ?? 0
         value.state = try reader["State"].readIfPresent(with: PinpointClientTypes.CampaignState.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateConfiguration = try reader["TemplateConfiguration"].readIfPresent(with: PinpointClientTypes.TemplateConfiguration.read(from:))
@@ -19324,7 +19324,7 @@ extension PinpointClientTypes.Schedule {
         value.frequency = try reader["Frequency"].readIfPresent()
         value.isLocalTime = try reader["IsLocalTime"].readIfPresent()
         value.quietTime = try reader["QuietTime"].readIfPresent(with: PinpointClientTypes.QuietTime.read(from:))
-        value.startTime = try reader["StartTime"].readIfPresent()
+        value.startTime = try reader["StartTime"].readIfPresent() ?? ""
         value.timezone = try reader["Timezone"].readIfPresent()
         return value
     }
@@ -19359,7 +19359,7 @@ extension PinpointClientTypes.CampaignEventFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CampaignEventFilter()
         value.dimensions = try reader["Dimensions"].readIfPresent(with: PinpointClientTypes.EventDimensions.read(from:))
-        value.filterType = try reader["FilterType"].readIfPresent()
+        value.filterType = try reader["FilterType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -19394,8 +19394,8 @@ extension PinpointClientTypes.MetricDimension {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MetricDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.MetricDimension()
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -19412,7 +19412,7 @@ extension PinpointClientTypes.SetDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SetDimension()
         value.dimensionType = try reader["DimensionType"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -19429,7 +19429,7 @@ extension PinpointClientTypes.AttributeDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.AttributeDimension()
         value.attributeType = try reader["AttributeType"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -19543,7 +19543,7 @@ extension PinpointClientTypes.OverrideButtonConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.OverrideButtonConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.OverrideButtonConfiguration()
-        value.buttonAction = try reader["ButtonAction"].readIfPresent()
+        value.buttonAction = try reader["ButtonAction"].readIfPresent() ?? .sdkUnknown("")
         value.link = try reader["Link"].readIfPresent()
         return value
     }
@@ -19566,9 +19566,9 @@ extension PinpointClientTypes.DefaultButtonConfiguration {
         var value = PinpointClientTypes.DefaultButtonConfiguration()
         value.backgroundColor = try reader["BackgroundColor"].readIfPresent()
         value.borderRadius = try reader["BorderRadius"].readIfPresent()
-        value.buttonAction = try reader["ButtonAction"].readIfPresent()
+        value.buttonAction = try reader["ButtonAction"].readIfPresent() ?? .sdkUnknown("")
         value.link = try reader["Link"].readIfPresent()
-        value.text = try reader["Text"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
         value.textColor = try reader["TextColor"].readIfPresent()
         return value
     }
@@ -19586,9 +19586,9 @@ extension PinpointClientTypes.InAppMessageHeaderConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppMessageHeaderConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.InAppMessageHeaderConfig()
-        value.alignment = try reader["Alignment"].readIfPresent()
-        value.header = try reader["Header"].readIfPresent()
-        value.textColor = try reader["TextColor"].readIfPresent()
+        value.alignment = try reader["Alignment"].readIfPresent() ?? .sdkUnknown("")
+        value.header = try reader["Header"].readIfPresent() ?? ""
+        value.textColor = try reader["TextColor"].readIfPresent() ?? ""
         return value
     }
 }
@@ -19605,9 +19605,9 @@ extension PinpointClientTypes.InAppMessageBodyConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.InAppMessageBodyConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.InAppMessageBodyConfig()
-        value.alignment = try reader["Alignment"].readIfPresent()
-        value.body = try reader["Body"].readIfPresent()
-        value.textColor = try reader["TextColor"].readIfPresent()
+        value.alignment = try reader["Alignment"].readIfPresent() ?? .sdkUnknown("")
+        value.body = try reader["Body"].readIfPresent() ?? ""
+        value.textColor = try reader["TextColor"].readIfPresent() ?? ""
         return value
     }
 }
@@ -19782,7 +19782,7 @@ extension PinpointClientTypes.CustomDeliveryConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CustomDeliveryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CustomDeliveryConfiguration()
-        value.deliveryUri = try reader["DeliveryUri"].readIfPresent()
+        value.deliveryUri = try reader["DeliveryUri"].readIfPresent() ?? ""
         value.endpointTypes = try reader["EndpointTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointClientTypes.__EndpointTypesElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -19794,10 +19794,10 @@ extension PinpointClientTypes.TreatmentResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TreatmentResource()
         value.customDeliveryConfiguration = try reader["CustomDeliveryConfiguration"].readIfPresent(with: PinpointClientTypes.CustomDeliveryConfiguration.read(from:))
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.messageConfiguration = try reader["MessageConfiguration"].readIfPresent(with: PinpointClientTypes.MessageConfiguration.read(from:))
         value.schedule = try reader["Schedule"].readIfPresent(with: PinpointClientTypes.Schedule.read(from:))
-        value.sizePercent = try reader["SizePercent"].readIfPresent()
+        value.sizePercent = try reader["SizePercent"].readIfPresent() ?? 0
         value.state = try reader["State"].readIfPresent(with: PinpointClientTypes.CampaignState.read(from:))
         value.templateConfiguration = try reader["TemplateConfiguration"].readIfPresent(with: PinpointClientTypes.TemplateConfiguration.read(from:))
         value.treatmentDescription = try reader["TreatmentDescription"].readIfPresent()
@@ -19823,19 +19823,19 @@ extension PinpointClientTypes.ExportJobResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ExportJobResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ExportJobResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
         value.completedPieces = try reader["CompletedPieces"].readIfPresent()
         value.completionDate = try reader["CompletionDate"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.definition = try reader["Definition"].readIfPresent(with: PinpointClientTypes.ExportJobResource.read(from:))
         value.failedPieces = try reader["FailedPieces"].readIfPresent()
         value.failures = try reader["Failures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["Id"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.totalFailures = try reader["TotalFailures"].readIfPresent()
         value.totalPieces = try reader["TotalPieces"].readIfPresent()
         value.totalProcessed = try reader["TotalProcessed"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -19845,8 +19845,8 @@ extension PinpointClientTypes.ExportJobResource {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ExportJobResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ExportJobResource()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.s3UrlPrefix = try reader["S3UrlPrefix"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.s3UrlPrefix = try reader["S3UrlPrefix"].readIfPresent() ?? ""
         value.segmentId = try reader["SegmentId"].readIfPresent()
         value.segmentVersion = try reader["SegmentVersion"].readIfPresent()
         return value
@@ -19858,19 +19858,19 @@ extension PinpointClientTypes.ImportJobResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ImportJobResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ImportJobResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
         value.completedPieces = try reader["CompletedPieces"].readIfPresent()
         value.completionDate = try reader["CompletionDate"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.definition = try reader["Definition"].readIfPresent(with: PinpointClientTypes.ImportJobResource.read(from:))
         value.failedPieces = try reader["FailedPieces"].readIfPresent()
         value.failures = try reader["Failures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["Id"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.totalFailures = try reader["TotalFailures"].readIfPresent()
         value.totalPieces = try reader["TotalPieces"].readIfPresent()
         value.totalProcessed = try reader["TotalProcessed"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -19882,10 +19882,10 @@ extension PinpointClientTypes.ImportJobResource {
         var value = PinpointClientTypes.ImportJobResource()
         value.defineSegment = try reader["DefineSegment"].readIfPresent()
         value.externalId = try reader["ExternalId"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
         value.registerEndpoints = try reader["RegisterEndpoints"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.s3Url = try reader["S3Url"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.s3Url = try reader["S3Url"].readIfPresent() ?? ""
         value.segmentId = try reader["SegmentId"].readIfPresent()
         value.segmentName = try reader["SegmentName"].readIfPresent()
         return value
@@ -19910,13 +19910,13 @@ extension PinpointClientTypes.JourneyResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyResponse()
         value.activities = try reader["Activities"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.Activity.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
         value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
         value.limits = try reader["Limits"].readIfPresent(with: PinpointClientTypes.JourneyLimits.read(from:))
         value.localTime = try reader["LocalTime"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.quietTime = try reader["QuietTime"].readIfPresent(with: PinpointClientTypes.QuietTime.read(from:))
         value.refreshFrequency = try reader["RefreshFrequency"].readIfPresent()
         value.schedule = try reader["Schedule"].readIfPresent(with: PinpointClientTypes.JourneySchedule.read(from:))
@@ -20063,7 +20063,7 @@ extension PinpointClientTypes.SegmentCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SegmentCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SegmentCondition()
-        value.segmentId = try reader["SegmentId"].readIfPresent()
+        value.segmentId = try reader["SegmentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20097,7 +20097,7 @@ extension PinpointClientTypes.EventFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EventFilter()
         value.dimensions = try reader["Dimensions"].readIfPresent(with: PinpointClientTypes.EventDimensions.read(from:))
-        value.filterType = try reader["FilterType"].readIfPresent()
+        value.filterType = try reader["FilterType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -20484,8 +20484,8 @@ extension PinpointClientTypes.GPSCoordinates {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.GPSCoordinates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.GPSCoordinates()
-        value.latitude = try reader["Latitude"].readIfPresent()
-        value.longitude = try reader["Longitude"].readIfPresent()
+        value.latitude = try reader["Latitude"].readIfPresent() ?? 0.0
+        value.longitude = try reader["Longitude"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -20541,8 +20541,8 @@ extension PinpointClientTypes.RecencyDimension {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.RecencyDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.RecencyDimension()
-        value.duration = try reader["Duration"].readIfPresent()
-        value.recencyType = try reader["RecencyType"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent() ?? .sdkUnknown("")
+        value.recencyType = try reader["RecencyType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -20576,7 +20576,7 @@ extension PinpointClientTypes.HoldoutActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.HoldoutActivity()
         value.nextActivity = try reader["NextActivity"].readIfPresent()
-        value.percentage = try reader["Percentage"].readIfPresent()
+        value.percentage = try reader["Percentage"].readIfPresent() ?? 0
         return value
     }
 }
@@ -20701,14 +20701,14 @@ extension PinpointClientTypes.RecommenderConfigurationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.RecommenderConfigurationResponse()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.recommendationProviderIdType = try reader["RecommendationProviderIdType"].readIfPresent()
-        value.recommendationProviderRoleArn = try reader["RecommendationProviderRoleArn"].readIfPresent()
-        value.recommendationProviderUri = try reader["RecommendationProviderUri"].readIfPresent()
+        value.recommendationProviderRoleArn = try reader["RecommendationProviderRoleArn"].readIfPresent() ?? ""
+        value.recommendationProviderUri = try reader["RecommendationProviderUri"].readIfPresent() ?? ""
         value.recommendationTransformerUri = try reader["RecommendationTransformerUri"].readIfPresent()
         value.recommendationsDisplayName = try reader["RecommendationsDisplayName"].readIfPresent()
         value.recommendationsPerMessage = try reader["RecommendationsPerMessage"].readIfPresent()
@@ -20721,16 +20721,16 @@ extension PinpointClientTypes.SegmentResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SegmentResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SegmentResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.dimensions = try reader["Dimensions"].readIfPresent(with: PinpointClientTypes.SegmentDimensions.read(from:))
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.importDefinition = try reader["ImportDefinition"].readIfPresent(with: PinpointClientTypes.SegmentImportResource.read(from:))
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.segmentGroups = try reader["SegmentGroups"].readIfPresent(with: PinpointClientTypes.SegmentGroupList.read(from:))
-        value.segmentType = try reader["SegmentType"].readIfPresent()
+        value.segmentType = try reader["SegmentType"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["Version"].readIfPresent()
         return value
@@ -20786,7 +20786,7 @@ extension PinpointClientTypes.SegmentReference {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SegmentReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SegmentReference()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -20798,11 +20798,11 @@ extension PinpointClientTypes.SegmentImportResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SegmentImportResource()
         value.channelCounts = try reader["ChannelCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.externalId = try reader["ExternalId"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.s3Url = try reader["S3Url"].readIfPresent()
-        value.size = try reader["Size"].readIfPresent()
+        value.externalId = try reader["ExternalId"].readIfPresent() ?? ""
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.s3Url = try reader["S3Url"].readIfPresent() ?? ""
+        value.size = try reader["Size"].readIfPresent() ?? 0
         return value
     }
 }
@@ -20820,7 +20820,7 @@ extension PinpointClientTypes.ADMChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -20841,7 +20841,7 @@ extension PinpointClientTypes.APNSChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -20862,7 +20862,7 @@ extension PinpointClientTypes.APNSSandboxChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -20883,7 +20883,7 @@ extension PinpointClientTypes.APNSVoipChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -20904,7 +20904,7 @@ extension PinpointClientTypes.APNSVoipSandboxChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -20917,14 +20917,14 @@ extension PinpointClientTypes.BaiduChannelResponse {
         var value = PinpointClientTypes.BaiduChannelResponse()
         value.applicationId = try reader["ApplicationId"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.credential = try reader["Credential"].readIfPresent()
+        value.credential = try reader["Credential"].readIfPresent() ?? ""
         value.enabled = try reader["Enabled"].readIfPresent()
         value.hasCredential = try reader["HasCredential"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -20947,7 +20947,7 @@ extension PinpointClientTypes.EmailChannelResponse {
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
         value.messagesPerSecond = try reader["MessagesPerSecond"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.orchestrationSendingRoleArn = try reader["OrchestrationSendingRoleArn"].readIfPresent()
         value.version = try reader["Version"].readIfPresent()
@@ -21066,12 +21066,12 @@ extension PinpointClientTypes.EventStream {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EventStream {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EventStream()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.destinationStreamArn = try reader["DestinationStreamArn"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.destinationStreamArn = try reader["DestinationStreamArn"].readIfPresent() ?? ""
         value.externalId = try reader["ExternalId"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
         value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21092,7 +21092,7 @@ extension PinpointClientTypes.GCMChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -21111,7 +21111,7 @@ extension PinpointClientTypes.SMSChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.promotionalMessagesPerSecond = try reader["PromotionalMessagesPerSecond"].readIfPresent()
         value.senderId = try reader["SenderId"].readIfPresent()
         value.shortCode = try reader["ShortCode"].readIfPresent()
@@ -21126,7 +21126,7 @@ extension PinpointClientTypes.EndpointsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.EndpointsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EndpointsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.EndpointResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.EndpointResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -21144,7 +21144,7 @@ extension PinpointClientTypes.VoiceChannelResponse {
         value.isArchived = try reader["IsArchived"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -21155,12 +21155,12 @@ extension PinpointClientTypes.ApplicationDateRangeKpiResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ApplicationDateRangeKpiResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ApplicationDateRangeKpiResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.kpiName = try reader["KpiName"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.kpiName = try reader["KpiName"].readIfPresent() ?? ""
         value.kpiResult = try reader["KpiResult"].readIfPresent(with: PinpointClientTypes.BaseKpiResult.read(from:))
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -21170,7 +21170,7 @@ extension PinpointClientTypes.BaseKpiResult {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.BaseKpiResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.BaseKpiResult()
-        value.rows = try reader["Rows"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ResultRow.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rows = try reader["Rows"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ResultRow.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -21180,8 +21180,8 @@ extension PinpointClientTypes.ResultRow {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ResultRow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ResultRow()
-        value.groupedBys = try reader["GroupedBys"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ResultRowValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ResultRowValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedBys = try reader["GroupedBys"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ResultRowValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ResultRowValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -21191,9 +21191,9 @@ extension PinpointClientTypes.ResultRowValue {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ResultRowValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ResultRowValue()
-        value.key = try reader["Key"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21203,7 +21203,7 @@ extension PinpointClientTypes.ApplicationSettingsResource {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ApplicationSettingsResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ApplicationSettingsResource()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
         value.campaignHook = try reader["CampaignHook"].readIfPresent(with: PinpointClientTypes.CampaignHook.read(from:))
         value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
         value.limits = try reader["Limits"].readIfPresent(with: PinpointClientTypes.CampaignLimits.read(from:))
@@ -21248,7 +21248,7 @@ extension PinpointClientTypes.ActivitiesResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ActivitiesResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ActivitiesResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ActivityResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ActivityResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21259,10 +21259,10 @@ extension PinpointClientTypes.ActivityResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ActivityResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ActivityResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.campaignId = try reader["CampaignId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.campaignId = try reader["CampaignId"].readIfPresent() ?? ""
         value.end = try reader["End"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.result = try reader["Result"].readIfPresent()
         value.scheduledStart = try reader["ScheduledStart"].readIfPresent()
         value.start = try reader["Start"].readIfPresent()
@@ -21282,13 +21282,13 @@ extension PinpointClientTypes.CampaignDateRangeKpiResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CampaignDateRangeKpiResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CampaignDateRangeKpiResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.campaignId = try reader["CampaignId"].readIfPresent()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.kpiName = try reader["KpiName"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.campaignId = try reader["CampaignId"].readIfPresent() ?? ""
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.kpiName = try reader["KpiName"].readIfPresent() ?? ""
         value.kpiResult = try reader["KpiResult"].readIfPresent(with: PinpointClientTypes.BaseKpiResult.read(from:))
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -21298,7 +21298,7 @@ extension PinpointClientTypes.CampaignsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.CampaignsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.CampaignsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.CampaignResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.CampaignResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21309,7 +21309,7 @@ extension PinpointClientTypes.ChannelsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ChannelsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ChannelsResponse()
-        value.channels = try reader["Channels"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.ChannelResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.channels = try reader["Channels"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.ChannelResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -21338,17 +21338,17 @@ extension PinpointClientTypes.EmailTemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EmailTemplateResponse()
         value.arn = try reader["Arn"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
         value.htmlPart = try reader["HtmlPart"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.recommenderId = try reader["RecommenderId"].readIfPresent()
         value.subject = try reader["Subject"].readIfPresent()
         value.headers = try reader["Headers"].readListIfPresent(memberReadingClosure: PinpointClientTypes.MessageHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? .sdkUnknown("")
         value.textPart = try reader["TextPart"].readIfPresent()
         value.version = try reader["Version"].readIfPresent()
         return value
@@ -21360,7 +21360,7 @@ extension PinpointClientTypes.ExportJobsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ExportJobsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ExportJobsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ExportJobResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ExportJobResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21371,7 +21371,7 @@ extension PinpointClientTypes.ImportJobsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ImportJobsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ImportJobsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ImportJobResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.ImportJobResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21435,14 +21435,14 @@ extension PinpointClientTypes.InAppTemplateResponse {
         var value = PinpointClientTypes.InAppTemplateResponse()
         value.arn = try reader["Arn"].readIfPresent()
         value.content = try reader["Content"].readListIfPresent(memberReadingClosure: PinpointClientTypes.InAppMessageContent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.customConfig = try reader["CustomConfig"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.layout = try reader["Layout"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? .sdkUnknown("")
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -21453,13 +21453,13 @@ extension PinpointClientTypes.JourneyDateRangeKpiResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyDateRangeKpiResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyDateRangeKpiResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.journeyId = try reader["JourneyId"].readIfPresent()
-        value.kpiName = try reader["KpiName"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.journeyId = try reader["JourneyId"].readIfPresent() ?? ""
+        value.kpiName = try reader["KpiName"].readIfPresent() ?? ""
         value.kpiResult = try reader["KpiResult"].readIfPresent(with: PinpointClientTypes.BaseKpiResult.read(from:))
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -21469,12 +21469,12 @@ extension PinpointClientTypes.JourneyExecutionActivityMetricsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyExecutionActivityMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyExecutionActivityMetricsResponse()
-        value.activityType = try reader["ActivityType"].readIfPresent()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.journeyActivityId = try reader["JourneyActivityId"].readIfPresent()
-        value.journeyId = try reader["JourneyId"].readIfPresent()
-        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent()
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.activityType = try reader["ActivityType"].readIfPresent() ?? ""
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.journeyActivityId = try reader["JourneyActivityId"].readIfPresent() ?? ""
+        value.journeyId = try reader["JourneyId"].readIfPresent() ?? ""
+        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent() ?? ""
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -21484,10 +21484,10 @@ extension PinpointClientTypes.JourneyExecutionMetricsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyExecutionMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyExecutionMetricsResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.journeyId = try reader["JourneyId"].readIfPresent()
-        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent()
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.journeyId = try reader["JourneyId"].readIfPresent() ?? ""
+        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent() ?? ""
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -21497,13 +21497,13 @@ extension PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse()
-        value.activityType = try reader["ActivityType"].readIfPresent()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.journeyActivityId = try reader["JourneyActivityId"].readIfPresent()
-        value.journeyId = try reader["JourneyId"].readIfPresent()
-        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent()
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.runId = try reader["RunId"].readIfPresent()
+        value.activityType = try reader["ActivityType"].readIfPresent() ?? ""
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.journeyActivityId = try reader["JourneyActivityId"].readIfPresent() ?? ""
+        value.journeyId = try reader["JourneyId"].readIfPresent() ?? ""
+        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent() ?? ""
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.runId = try reader["RunId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21513,11 +21513,11 @@ extension PinpointClientTypes.JourneyRunExecutionMetricsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunExecutionMetricsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyRunExecutionMetricsResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.journeyId = try reader["JourneyId"].readIfPresent()
-        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent()
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.runId = try reader["RunId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.journeyId = try reader["JourneyId"].readIfPresent() ?? ""
+        value.lastEvaluatedTime = try reader["LastEvaluatedTime"].readIfPresent() ?? ""
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.runId = try reader["RunId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21527,7 +21527,7 @@ extension PinpointClientTypes.JourneyRunsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyRunsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.JourneyRunResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.JourneyRunResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21538,10 +21538,10 @@ extension PinpointClientTypes.JourneyRunResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneyRunResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneyRunResponse()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readIfPresent()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? ""
+        value.lastUpdateTime = try reader["LastUpdateTime"].readIfPresent() ?? ""
+        value.runId = try reader["RunId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -21555,16 +21555,16 @@ extension PinpointClientTypes.PushNotificationTemplateResponse {
         value.apns = try reader["APNS"].readIfPresent(with: PinpointClientTypes.APNSPushNotificationTemplate.read(from:))
         value.arn = try reader["Arn"].readIfPresent()
         value.baidu = try reader["Baidu"].readIfPresent(with: PinpointClientTypes.AndroidPushNotificationTemplate.read(from:))
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.`default` = try reader["Default"].readIfPresent(with: PinpointClientTypes.DefaultPushNotificationTemplate.read(from:))
         value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
         value.gcm = try reader["GCM"].readIfPresent(with: PinpointClientTypes.AndroidPushNotificationTemplate.read(from:))
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.recommenderId = try reader["RecommenderId"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? .sdkUnknown("")
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -21656,7 +21656,7 @@ extension PinpointClientTypes.ListRecommenderConfigurationsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.ListRecommenderConfigurationsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.ListRecommenderConfigurationsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.RecommenderConfigurationResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.RecommenderConfigurationResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21667,7 +21667,7 @@ extension PinpointClientTypes.SegmentsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SegmentsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SegmentsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.SegmentResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.SegmentResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21680,14 +21680,14 @@ extension PinpointClientTypes.SMSTemplateResponse {
         var value = PinpointClientTypes.SMSTemplateResponse()
         value.arn = try reader["Arn"].readIfPresent()
         value.body = try reader["Body"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.recommenderId = try reader["RecommenderId"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? .sdkUnknown("")
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -21700,14 +21700,14 @@ extension PinpointClientTypes.VoiceTemplateResponse {
         var value = PinpointClientTypes.VoiceTemplateResponse()
         value.arn = try reader["Arn"].readIfPresent()
         value.body = try reader["Body"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
         value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? .sdkUnknown("")
         value.version = try reader["Version"].readIfPresent()
         value.voiceId = try reader["VoiceId"].readIfPresent()
         return value
@@ -21719,7 +21719,7 @@ extension PinpointClientTypes.JourneysResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.JourneysResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.JourneysResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.JourneyResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.JourneyResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21735,7 +21735,7 @@ extension PinpointClientTypes.TagsModel {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TagsModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TagsModel()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -21745,7 +21745,7 @@ extension PinpointClientTypes.TemplatesResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplatesResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TemplatesResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.TemplateResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.TemplateResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -21757,13 +21757,13 @@ extension PinpointClientTypes.TemplateResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TemplateResponse()
         value.arn = try reader["Arn"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? .sdkUnknown("")
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -21774,7 +21774,7 @@ extension PinpointClientTypes.TemplateVersionsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplateVersionsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TemplateVersionsResponse()
-        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.TemplateVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.item = try reader["Item"].readListIfPresent(memberReadingClosure: PinpointClientTypes.TemplateVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.message = try reader["Message"].readIfPresent()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestID = try reader["RequestID"].readIfPresent()
@@ -21787,12 +21787,12 @@ extension PinpointClientTypes.TemplateVersionResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.TemplateVersionResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.TemplateVersionResponse()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.defaultSubstitutions = try reader["DefaultSubstitutions"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent() ?? ""
         value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateType = try reader["TemplateType"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         return value
     }
@@ -21869,8 +21869,8 @@ extension PinpointClientTypes.AttributesResource {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.AttributesResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.AttributesResource()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.attributeType = try reader["AttributeType"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.attributeType = try reader["AttributeType"].readIfPresent() ?? ""
         value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -21881,7 +21881,7 @@ extension PinpointClientTypes.MessageResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MessageResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.MessageResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
         value.endpointResult = try reader["EndpointResult"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.EndpointMessageResult.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.result = try reader["Result"].readMapIfPresent(valueReadingClosure: PinpointClientTypes.MessageResult.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -21894,9 +21894,9 @@ extension PinpointClientTypes.MessageResult {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.MessageResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.MessageResult()
-        value.deliveryStatus = try reader["DeliveryStatus"].readIfPresent()
+        value.deliveryStatus = try reader["DeliveryStatus"].readIfPresent() ?? .sdkUnknown("")
         value.messageId = try reader["MessageId"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.updatedToken = try reader["UpdatedToken"].readIfPresent()
         return value
@@ -21909,9 +21909,9 @@ extension PinpointClientTypes.EndpointMessageResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.EndpointMessageResult()
         value.address = try reader["Address"].readIfPresent()
-        value.deliveryStatus = try reader["DeliveryStatus"].readIfPresent()
+        value.deliveryStatus = try reader["DeliveryStatus"].readIfPresent() ?? .sdkUnknown("")
         value.messageId = try reader["MessageId"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.updatedToken = try reader["UpdatedToken"].readIfPresent()
         return value
@@ -21923,7 +21923,7 @@ extension PinpointClientTypes.SendUsersMessageResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointClientTypes.SendUsersMessageResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointClientTypes.SendUsersMessageResponse()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
         value.requestId = try reader["RequestId"].readIfPresent()
         value.result = try reader["Result"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: PinpointClientTypes.EndpointMessageResult.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value

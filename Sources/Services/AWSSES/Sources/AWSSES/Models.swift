@@ -4268,7 +4268,7 @@ public struct SetIdentityDkimEnabledInput {
     public var identity: Swift.String?
 
     public init(
-        dkimEnabled: Swift.Bool? = nil,
+        dkimEnabled: Swift.Bool? = false,
         identity: Swift.String? = nil
     )
     {
@@ -4293,7 +4293,7 @@ public struct SetIdentityFeedbackForwardingEnabledInput {
     public var identity: Swift.String?
 
     public init(
-        forwardingEnabled: Swift.Bool? = nil,
+        forwardingEnabled: Swift.Bool? = false,
         identity: Swift.String? = nil
     )
     {
@@ -4321,7 +4321,7 @@ public struct SetIdentityHeadersInNotificationsEnabledInput {
     public var notificationType: SESClientTypes.NotificationType?
 
     public init(
-        enabled: Swift.Bool? = nil,
+        enabled: Swift.Bool? = false,
         identity: Swift.String? = nil,
         notificationType: SESClientTypes.NotificationType? = nil
     )
@@ -4460,7 +4460,7 @@ public struct UpdateAccountSendingEnabledInput {
     public var enabled: Swift.Bool?
 
     public init(
-        enabled: Swift.Bool? = nil
+        enabled: Swift.Bool? = false
     )
     {
         self.enabled = enabled
@@ -4503,7 +4503,7 @@ public struct UpdateConfigurationSetReputationMetricsEnabledInput {
 
     public init(
         configurationSetName: Swift.String? = nil,
-        enabled: Swift.Bool? = nil
+        enabled: Swift.Bool? = false
     )
     {
         self.configurationSetName = configurationSetName
@@ -4522,7 +4522,7 @@ public struct UpdateConfigurationSetSendingEnabledInput {
 
     public init(
         configurationSetName: Swift.String? = nil,
-        enabled: Swift.Bool? = nil
+        enabled: Swift.Bool? = false
     )
     {
         self.configurationSetName = configurationSetName
@@ -6247,7 +6247,7 @@ extension GetIdentityDkimAttributesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetIdentityDkimAttributesResult"]
         var value = GetIdentityDkimAttributesOutput()
-        value.dkimAttributes = try reader["DkimAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityDkimAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.dkimAttributes = try reader["DkimAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityDkimAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -6259,7 +6259,7 @@ extension GetIdentityMailFromDomainAttributesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetIdentityMailFromDomainAttributesResult"]
         var value = GetIdentityMailFromDomainAttributesOutput()
-        value.mailFromDomainAttributes = try reader["MailFromDomainAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityMailFromDomainAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.mailFromDomainAttributes = try reader["MailFromDomainAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityMailFromDomainAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -6271,7 +6271,7 @@ extension GetIdentityNotificationAttributesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetIdentityNotificationAttributesResult"]
         var value = GetIdentityNotificationAttributesOutput()
-        value.notificationAttributes = try reader["NotificationAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityNotificationAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.notificationAttributes = try reader["NotificationAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityNotificationAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -6283,7 +6283,7 @@ extension GetIdentityPoliciesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetIdentityPoliciesResult"]
         var value = GetIdentityPoliciesOutput()
-        value.policies = try reader["Policies"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.policies = try reader["Policies"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -6295,7 +6295,7 @@ extension GetIdentityVerificationAttributesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetIdentityVerificationAttributesResult"]
         var value = GetIdentityVerificationAttributesOutput()
-        value.verificationAttributes = try reader["VerificationAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityVerificationAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.verificationAttributes = try reader["VerificationAttributes"].readMapIfPresent(valueReadingClosure: SESClientTypes.IdentityVerificationAttributes.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -6371,7 +6371,7 @@ extension ListIdentitiesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListIdentitiesResult"]
         var value = ListIdentitiesOutput()
-        value.identities = try reader["Identities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.identities = try reader["Identities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6384,7 +6384,7 @@ extension ListIdentityPoliciesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListIdentityPoliciesResult"]
         var value = ListIdentityPoliciesOutput()
-        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6479,7 +6479,7 @@ extension SendBulkTemplatedEmailOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SendBulkTemplatedEmailResult"]
         var value = SendBulkTemplatedEmailOutput()
-        value.status = try reader["Status"].readListIfPresent(memberReadingClosure: SESClientTypes.BulkEmailDestinationStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readListIfPresent(memberReadingClosure: SESClientTypes.BulkEmailDestinationStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6503,7 +6503,7 @@ extension SendEmailOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SendEmailResult"]
         var value = SendEmailOutput()
-        value.messageId = try reader["MessageId"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6515,7 +6515,7 @@ extension SendRawEmailOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SendRawEmailResult"]
         var value = SendRawEmailOutput()
-        value.messageId = try reader["MessageId"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6527,7 +6527,7 @@ extension SendTemplatedEmailOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SendTemplatedEmailResult"]
         var value = SendTemplatedEmailOutput()
-        value.messageId = try reader["MessageId"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6656,7 +6656,7 @@ extension VerifyDomainDkimOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["VerifyDomainDkimResult"]
         var value = VerifyDomainDkimOutput()
-        value.dkimTokens = try reader["DkimTokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dkimTokens = try reader["DkimTokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6668,7 +6668,7 @@ extension VerifyDomainIdentityOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["VerifyDomainIdentityResult"]
         var value = VerifyDomainIdentityOutput()
-        value.verificationToken = try reader["VerificationToken"].readIfPresent()
+        value.verificationToken = try reader["VerificationToken"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8213,7 +8213,7 @@ extension SESClientTypes.ReceiptRule {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.ReceiptRule()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
         value.recipients = try reader["Recipients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8261,7 +8261,7 @@ extension SESClientTypes.SNSAction {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SNSAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.SNSAction()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
         value.encoding = try reader["Encoding"].readIfPresent()
         return value
     }
@@ -8278,8 +8278,8 @@ extension SESClientTypes.AddHeaderAction {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.AddHeaderAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.AddHeaderAction()
-        value.headerName = try reader["HeaderName"].readIfPresent()
-        value.headerValue = try reader["HeaderValue"].readIfPresent()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.headerValue = try reader["HeaderValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8295,7 +8295,7 @@ extension SESClientTypes.StopAction {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.StopAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.StopAction()
-        value.scope = try reader["Scope"].readIfPresent()
+        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
         value.topicArn = try reader["TopicArn"].readIfPresent()
         return value
     }
@@ -8314,7 +8314,7 @@ extension SESClientTypes.LambdaAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.LambdaAction()
         value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
         value.invocationType = try reader["InvocationType"].readIfPresent()
         return value
     }
@@ -8332,7 +8332,7 @@ extension SESClientTypes.WorkmailAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.WorkmailAction()
         value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.organizationArn = try reader["OrganizationArn"].readIfPresent()
+        value.organizationArn = try reader["OrganizationArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8352,10 +8352,10 @@ extension SESClientTypes.BounceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.BounceAction()
         value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.smtpReplyCode = try reader["SmtpReplyCode"].readIfPresent()
+        value.smtpReplyCode = try reader["SmtpReplyCode"].readIfPresent() ?? ""
         value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.sender = try reader["Sender"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.sender = try reader["Sender"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8375,7 +8375,7 @@ extension SESClientTypes.S3Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.S3Action()
         value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
         value.objectKeyPrefix = try reader["ObjectKeyPrefix"].readIfPresent()
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
@@ -8393,7 +8393,7 @@ extension SESClientTypes.ConfigurationSet {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ConfigurationSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.ConfigurationSet()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8413,9 +8413,9 @@ extension SESClientTypes.EventDestination {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.EventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.EventDestination()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: SESClientTypes.KinesisFirehoseDestination.read(from:))
         value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: SESClientTypes.CloudWatchDestination.read(from:))
         value.snsDestination = try reader["SNSDestination"].readIfPresent(with: SESClientTypes.SNSDestination.read(from:))
@@ -8433,7 +8433,7 @@ extension SESClientTypes.SNSDestination {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SNSDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.SNSDestination()
-        value.topicARN = try reader["TopicARN"].readIfPresent()
+        value.topicARN = try reader["TopicARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8448,7 +8448,7 @@ extension SESClientTypes.CloudWatchDestination {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.CloudWatchDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.CloudWatchDestination()
-        value.dimensionConfigurations = try reader["DimensionConfigurations"].readListIfPresent(memberReadingClosure: SESClientTypes.CloudWatchDimensionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dimensionConfigurations = try reader["DimensionConfigurations"].readListIfPresent(memberReadingClosure: SESClientTypes.CloudWatchDimensionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8465,9 +8465,9 @@ extension SESClientTypes.CloudWatchDimensionConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.CloudWatchDimensionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.CloudWatchDimensionConfiguration()
-        value.dimensionName = try reader["DimensionName"].readIfPresent()
-        value.dimensionValueSource = try reader["DimensionValueSource"].readIfPresent()
-        value.defaultDimensionValue = try reader["DefaultDimensionValue"].readIfPresent()
+        value.dimensionName = try reader["DimensionName"].readIfPresent() ?? ""
+        value.dimensionValueSource = try reader["DimensionValueSource"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultDimensionValue = try reader["DefaultDimensionValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8483,8 +8483,8 @@ extension SESClientTypes.KinesisFirehoseDestination {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.KinesisFirehoseDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.KinesisFirehoseDestination()
-        value.iamRoleARN = try reader["IAMRoleARN"].readIfPresent()
-        value.deliveryStreamARN = try reader["DeliveryStreamARN"].readIfPresent()
+        value.iamRoleARN = try reader["IAMRoleARN"].readIfPresent() ?? ""
+        value.deliveryStreamARN = try reader["DeliveryStreamARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8537,7 +8537,7 @@ extension SESClientTypes.IdentityDkimAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.IdentityDkimAttributes()
         value.dkimEnabled = try reader["DkimEnabled"].readIfPresent() ?? false
-        value.dkimVerificationStatus = try reader["DkimVerificationStatus"].readIfPresent()
+        value.dkimVerificationStatus = try reader["DkimVerificationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.dkimTokens = try reader["DkimTokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8548,9 +8548,9 @@ extension SESClientTypes.IdentityMailFromDomainAttributes {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.IdentityMailFromDomainAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.IdentityMailFromDomainAttributes()
-        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent()
-        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent()
-        value.behaviorOnMXFailure = try reader["BehaviorOnMXFailure"].readIfPresent()
+        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent() ?? ""
+        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.behaviorOnMXFailure = try reader["BehaviorOnMXFailure"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8560,9 +8560,9 @@ extension SESClientTypes.IdentityNotificationAttributes {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.IdentityNotificationAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.IdentityNotificationAttributes()
-        value.bounceTopic = try reader["BounceTopic"].readIfPresent()
-        value.complaintTopic = try reader["ComplaintTopic"].readIfPresent()
-        value.deliveryTopic = try reader["DeliveryTopic"].readIfPresent()
+        value.bounceTopic = try reader["BounceTopic"].readIfPresent() ?? ""
+        value.complaintTopic = try reader["ComplaintTopic"].readIfPresent() ?? ""
+        value.deliveryTopic = try reader["DeliveryTopic"].readIfPresent() ?? ""
         value.forwardingEnabled = try reader["ForwardingEnabled"].readIfPresent() ?? false
         value.headersInBounceNotificationsEnabled = try reader["HeadersInBounceNotificationsEnabled"].readIfPresent() ?? false
         value.headersInComplaintNotificationsEnabled = try reader["HeadersInComplaintNotificationsEnabled"].readIfPresent() ?? false
@@ -8576,7 +8576,7 @@ extension SESClientTypes.IdentityVerificationAttributes {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.IdentityVerificationAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.IdentityVerificationAttributes()
-        value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.verificationToken = try reader["VerificationToken"].readIfPresent()
         return value
     }
@@ -8609,7 +8609,7 @@ extension SESClientTypes.Template {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.Template {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.Template()
-        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
         value.subjectPart = try reader["SubjectPart"].readIfPresent()
         value.textPart = try reader["TextPart"].readIfPresent()
         value.htmlPart = try reader["HtmlPart"].readIfPresent()
@@ -8642,7 +8642,7 @@ extension SESClientTypes.ReceiptFilter {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.ReceiptFilter()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.ipFilter = try reader["IpFilter"].readIfPresent(with: SESClientTypes.ReceiptIpFilter.read(from:))
         return value
     }
@@ -8659,8 +8659,8 @@ extension SESClientTypes.ReceiptIpFilter {
     static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptIpFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESClientTypes.ReceiptIpFilter()
-        value.policy = try reader["Policy"].readIfPresent()
-        value.cidr = try reader["Cidr"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent() ?? .sdkUnknown("")
+        value.cidr = try reader["Cidr"].readIfPresent() ?? ""
         return value
     }
 }

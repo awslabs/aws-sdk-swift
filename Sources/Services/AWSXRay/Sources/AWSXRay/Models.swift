@@ -2844,7 +2844,7 @@ public struct PutResourcePolicyInput {
     public var policyRevisionId: Swift.String?
 
     public init(
-        bypassPolicyLockoutCheck: Swift.Bool? = nil,
+        bypassPolicyLockoutCheck: Swift.Bool? = false,
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyRevisionId: Swift.String? = nil
@@ -4768,16 +4768,16 @@ extension XRayClientTypes.SamplingRule {
         var value = XRayClientTypes.SamplingRule()
         value.ruleName = try reader["RuleName"].readIfPresent()
         value.ruleARN = try reader["RuleARN"].readIfPresent()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
         value.fixedRate = try reader["FixedRate"].readIfPresent() ?? 0
         value.reservoirSize = try reader["ReservoirSize"].readIfPresent() ?? 0
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.serviceType = try reader["ServiceType"].readIfPresent()
-        value.host = try reader["Host"].readIfPresent()
-        value.httpMethod = try reader["HTTPMethod"].readIfPresent()
-        value.urlPath = try reader["URLPath"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.serviceType = try reader["ServiceType"].readIfPresent() ?? ""
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.httpMethod = try reader["HTTPMethod"].readIfPresent() ?? ""
+        value.urlPath = try reader["URLPath"].readIfPresent() ?? ""
+        value.version = try reader["Version"].readIfPresent() ?? 0
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5366,8 +5366,8 @@ extension XRayClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = XRayClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

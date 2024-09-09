@@ -32,6 +32,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -3429,7 +3430,7 @@ extension QuickSightClientTypes {
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             parameterName: Swift.String? = nil,
             selectAllOptions: QuickSightClientTypes.NumericFilterSelectAllOptions? = nil,
-            value: Swift.Double? = nil
+            value: Swift.Double? = 0.0
         )
         {
             self.aggregationFunction = aggregationFunction
@@ -3456,7 +3457,7 @@ extension QuickSightClientTypes {
 
         public init(
             parameter: Swift.String? = nil,
-            staticValue: Swift.Double? = nil
+            staticValue: Swift.Double? = 0.0
         )
         {
             self.parameter = parameter
@@ -3506,8 +3507,8 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
-            includeMaximum: Swift.Bool? = nil,
-            includeMinimum: Swift.Bool? = nil,
+            includeMaximum: Swift.Bool? = false,
+            includeMinimum: Swift.Bool? = false,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             rangeMaximum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
@@ -3623,7 +3624,7 @@ extension QuickSightClientTypes {
         public var status: QuickSightClientTypes.WidgetStatus?
 
         public init(
-            amount: Swift.Int? = nil,
+            amount: Swift.Int? = 0,
             granularity: QuickSightClientTypes.TimeGranularity? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil
         )
@@ -3732,7 +3733,7 @@ extension QuickSightClientTypes {
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             parameterName: Swift.String? = nil,
             relativeDateType: QuickSightClientTypes.RelativeDateType? = nil,
-            relativeDateValue: Swift.Int? = nil,
+            relativeDateValue: Swift.Int? = 0,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
         )
         {
@@ -3882,8 +3883,8 @@ extension QuickSightClientTypes {
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             excludePeriodConfiguration: QuickSightClientTypes.ExcludePeriodConfiguration? = nil,
             filterId: Swift.String? = nil,
-            includeMaximum: Swift.Bool? = nil,
-            includeMinimum: Swift.Bool? = nil,
+            includeMaximum: Swift.Bool? = false,
+            includeMinimum: Swift.Bool? = false,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             rangeMaximumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
             rangeMinimumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
@@ -3931,7 +3932,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
-            limit: Swift.Int? = nil,
+            limit: Swift.Int? = 0,
             parameterName: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
         )
@@ -4425,7 +4426,7 @@ extension QuickSightClientTypes {
         public var valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption?
 
         public init(
-            customValue: Swift.Double? = nil,
+            customValue: Swift.Double? = 0.0,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
         )
         {
@@ -4513,7 +4514,7 @@ extension QuickSightClientTypes {
         public var valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption?
 
         public init(
-            customValue: Swift.Int? = nil,
+            customValue: Swift.Int? = 0,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
         )
         {
@@ -6684,8 +6685,8 @@ extension QuickSightClientTypes {
         public var minimum: Swift.Double?
 
         public init(
-            maximum: Swift.Double? = nil,
-            minimum: Swift.Double? = nil
+            maximum: Swift.Double? = 0.0,
+            minimum: Swift.Double? = 0.0
         )
         {
             self.maximum = maximum
@@ -6724,8 +6725,8 @@ extension QuickSightClientTypes {
         public var stepSize: Swift.Double?
 
         public init(
-            stepCount: Swift.Int? = nil,
-            stepSize: Swift.Double? = nil
+            stepCount: Swift.Int? = 0,
+            stepSize: Swift.Double? = 0.0
         )
         {
             self.stepCount = stepCount
@@ -6742,7 +6743,7 @@ extension QuickSightClientTypes {
         public var base: Swift.Double?
 
         public init(
-            base: Swift.Double? = nil
+            base: Swift.Double? = 0.0
         )
         {
             self.base = base
@@ -6820,8 +6821,8 @@ extension QuickSightClientTypes {
         public var to: Swift.Double?
 
         public init(
-            from: Swift.Double? = nil,
-            to: Swift.Double? = nil
+            from: Swift.Double? = 0.0,
+            to: Swift.Double? = 0.0
         )
         {
             self.from = from
@@ -6877,7 +6878,7 @@ extension QuickSightClientTypes {
 
         public init(
             labelOptions: QuickSightClientTypes.LabelOptions? = nil,
-            rotationAngle: Swift.Double? = nil
+            rotationAngle: Swift.Double? = 0.0
         )
         {
             self.labelOptions = labelOptions
@@ -8484,7 +8485,7 @@ extension QuickSightClientTypes {
         public var otherCategories: QuickSightClientTypes.OtherCategories?
 
         public init(
-            itemsLimit: Swift.Int? = nil,
+            itemsLimit: Swift.Int? = 0,
             otherCategories: QuickSightClientTypes.OtherCategories? = nil
         )
         {
@@ -9469,7 +9470,7 @@ extension QuickSightClientTypes {
 
         public init(
             pageNumber: Swift.Int? = nil,
-            pageSize: Swift.Int? = nil
+            pageSize: Swift.Int? = 0
         )
         {
             self.pageNumber = pageNumber
@@ -10247,7 +10248,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            dataValue: Swift.Double? = nil,
+            dataValue: Swift.Double? = 0.0,
             gradientOffset: Swift.Double = 0.0
         )
         {
@@ -10757,7 +10758,7 @@ extension QuickSightClientTypes {
         public var arcThickness: QuickSightClientTypes.ArcThicknessOptions?
 
         public init(
-            arcAngle: Swift.Double? = nil,
+            arcAngle: Swift.Double? = 0.0,
             arcThickness: QuickSightClientTypes.ArcThicknessOptions? = nil
         )
         {
@@ -10777,8 +10778,8 @@ extension QuickSightClientTypes {
         public var min: Swift.Double?
 
         public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil
+            max: Swift.Double? = 0.0,
+            min: Swift.Double? = 0.0
         )
         {
             self.max = max
@@ -11712,7 +11713,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            dataValue: Swift.Double? = nil
+            dataValue: Swift.Double? = 0.0
         )
         {
             self.color = color
@@ -11982,7 +11983,7 @@ extension QuickSightClientTypes {
             binCount: QuickSightClientTypes.BinCountOptions? = nil,
             binWidth: QuickSightClientTypes.BinWidthOptions? = nil,
             selectedBinType: QuickSightClientTypes.HistogramBinType? = nil,
-            startValue: Swift.Double? = nil
+            startValue: Swift.Double? = 0.0
         )
         {
             self.binCount = binCount
@@ -12170,14 +12171,14 @@ extension QuickSightClientTypes {
         public init(
             computationId: Swift.String? = nil,
             customSeasonalityValue: Swift.Int? = nil,
-            lowerBoundary: Swift.Double? = nil,
+            lowerBoundary: Swift.Double? = 0.0,
             name: Swift.String? = nil,
             periodsBackward: Swift.Int? = nil,
             periodsForward: Swift.Int? = nil,
             predictionInterval: Swift.Int? = nil,
             seasonality: QuickSightClientTypes.ForecastComputationSeasonality? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
-            upperBoundary: Swift.Double? = nil,
+            upperBoundary: Swift.Double? = 0.0,
             value: QuickSightClientTypes.MeasureField? = nil
         )
         {
@@ -13441,12 +13442,12 @@ extension QuickSightClientTypes {
         public var upperBoundary: Swift.Double?
 
         public init(
-            lowerBoundary: Swift.Double? = nil,
+            lowerBoundary: Swift.Double? = 0.0,
             periodsBackward: Swift.Int? = nil,
             periodsForward: Swift.Int? = nil,
             predictionInterval: Swift.Int? = nil,
             seasonality: Swift.Int? = nil,
-            upperBoundary: Swift.Double? = nil
+            upperBoundary: Swift.Double? = 0.0
         )
         {
             self.lowerBoundary = lowerBoundary
@@ -19640,7 +19641,7 @@ extension QuickSightClientTypes {
         public var enableIdentityPropagation: Swift.Bool?
 
         public init(
-            enableIdentityPropagation: Swift.Bool? = nil
+            enableIdentityPropagation: Swift.Bool? = false
         )
         {
             self.enableIdentityPropagation = enableIdentityPropagation
@@ -22170,7 +22171,7 @@ extension QuickSightClientTypes {
         public var show: Swift.Bool?
 
         public init(
-            show: Swift.Bool? = nil
+            show: Swift.Bool? = false
         )
         {
             self.show = show
@@ -24478,7 +24479,7 @@ extension QuickSightClientTypes {
         public var uniqueKey: Swift.Bool?
 
         public init(
-            uniqueKey: Swift.Bool? = nil
+            uniqueKey: Swift.Bool? = false
         )
         {
             self.uniqueKey = uniqueKey
@@ -24833,7 +24834,7 @@ extension QuickSightClientTypes {
         public var textQualifier: QuickSightClientTypes.TextQualifier?
 
         public init(
-            containsHeader: Swift.Bool? = nil,
+            containsHeader: Swift.Bool? = false,
             delimiter: Swift.String? = nil,
             format: QuickSightClientTypes.FileFormat? = nil,
             startFromRow: Swift.Int? = nil,
@@ -26840,7 +26841,7 @@ extension QuickSightClientTypes {
         public var show: Swift.Bool?
 
         public init(
-            show: Swift.Bool? = nil
+            show: Swift.Bool? = false
         )
         {
             self.show = show
@@ -26856,7 +26857,7 @@ extension QuickSightClientTypes {
         public var show: Swift.Bool?
 
         public init(
-            show: Swift.Bool? = nil
+            show: Swift.Bool? = false
         )
         {
             self.show = show
@@ -29612,7 +29613,7 @@ public struct DeleteAnalysisInput {
     public init(
         analysisId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
-        forceDeleteWithoutRecovery: Swift.Bool? = nil,
+        forceDeleteWithoutRecovery: Swift.Bool? = false,
         recoveryWindowInDays: Swift.Int? = nil
     )
     {
@@ -30653,7 +30654,7 @@ public struct DescribeAccountCustomizationInput {
     public init(
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
-        resolved: Swift.Bool? = nil
+        resolved: Swift.Bool? = false
     )
     {
         self.awsAccountId = awsAccountId
@@ -32524,9 +32525,9 @@ extension QuickSightClientTypes {
         public var totalRowsInDataset: Swift.Int?
 
         public init(
-            rowsDropped: Swift.Int? = nil,
-            rowsIngested: Swift.Int? = nil,
-            totalRowsInDataset: Swift.Int? = nil
+            rowsDropped: Swift.Int? = 0,
+            rowsIngested: Swift.Int? = 0,
+            totalRowsInDataset: Swift.Int? = 0
         )
         {
             self.rowsDropped = rowsDropped
@@ -32571,9 +32572,9 @@ extension QuickSightClientTypes {
             createdTime: Foundation.Date? = nil,
             errorInfo: QuickSightClientTypes.ErrorInfo? = nil,
             ingestionId: Swift.String? = nil,
-            ingestionSizeInBytes: Swift.Int? = nil,
+            ingestionSizeInBytes: Swift.Int? = 0,
             ingestionStatus: QuickSightClientTypes.IngestionStatus? = nil,
-            ingestionTimeInSeconds: Swift.Int? = nil,
+            ingestionTimeInSeconds: Swift.Int? = 0,
             queueInfo: QuickSightClientTypes.QueueInfo? = nil,
             requestSource: QuickSightClientTypes.IngestionRequestSource? = nil,
             requestType: QuickSightClientTypes.IngestionRequestType? = nil,
@@ -32674,7 +32675,7 @@ public struct DescribeKeyRegistrationInput {
 
     public init(
         awsAccountId: Swift.String? = nil,
-        defaultKeyOnly: Swift.Bool? = nil
+        defaultKeyOnly: Swift.Bool? = false
     )
     {
         self.awsAccountId = awsAccountId
@@ -34991,10 +34992,10 @@ public struct GetDashboardEmbedUrlInput {
         dashboardId: Swift.String? = nil,
         identityType: QuickSightClientTypes.EmbeddingIdentityType? = nil,
         namespace: Swift.String? = nil,
-        resetDisabled: Swift.Bool? = nil,
+        resetDisabled: Swift.Bool? = false,
         sessionLifetimeInMinutes: Swift.Int? = nil,
-        statePersistenceEnabled: Swift.Bool? = nil,
-        undoRedoDisabled: Swift.Bool? = nil,
+        statePersistenceEnabled: Swift.Bool? = false,
+        undoRedoDisabled: Swift.Bool? = false,
         userArn: Swift.String? = nil
     )
     {
@@ -35875,7 +35876,7 @@ public struct ListIdentityPropagationConfigsInput {
 
     public init(
         awsAccountId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -37522,9 +37523,9 @@ public struct StartAssetBundleExportJobInput {
         awsAccountId: Swift.String? = nil,
         cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration? = nil,
         exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
-        includeAllDependencies: Swift.Bool? = nil,
-        includePermissions: Swift.Bool? = nil,
-        includeTags: Swift.Bool? = nil,
+        includeAllDependencies: Swift.Bool? = false,
+        includePermissions: Swift.Bool? = false,
+        includeTags: Swift.Bool? = false,
         resourceArns: [Swift.String]? = nil,
         validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy? = nil
     )
@@ -37859,7 +37860,7 @@ public struct UpdateAccountSettingsInput {
         awsAccountId: Swift.String? = nil,
         defaultNamespace: Swift.String? = nil,
         notificationEmail: Swift.String? = nil,
-        terminationProtectionEnabled: Swift.Bool? = nil
+        terminationProtectionEnabled: Swift.Bool? = false
     )
     {
         self.awsAccountId = awsAccountId
@@ -38915,7 +38916,7 @@ public struct UpdatePublicSharingSettingsInput {
 
     public init(
         awsAccountId: Swift.String? = nil,
-        publicSharingEnabled: Swift.Bool? = nil
+        publicSharingEnabled: Swift.Bool? = false
     )
     {
         self.awsAccountId = awsAccountId
@@ -39638,7 +39639,7 @@ public struct UpdateUserInput {
         externalLoginId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         role: QuickSightClientTypes.UserRole? = nil,
-        unapplyCustomPermissions: Swift.Bool? = nil,
+        unapplyCustomPermissions: Swift.Bool? = false,
         userName: Swift.String? = nil
     )
     {
@@ -45203,9 +45204,9 @@ extension GenerateEmbedUrlForAnonymousUserOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GenerateEmbedUrlForAnonymousUserOutput()
-        value.anonymousUserArn = try reader["AnonymousUserArn"].readIfPresent()
-        value.embedUrl = try reader["EmbedUrl"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
+        value.anonymousUserArn = try reader["AnonymousUserArn"].readIfPresent() ?? ""
+        value.embedUrl = try reader["EmbedUrl"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -45218,8 +45219,8 @@ extension GenerateEmbedUrlForRegisteredUserOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GenerateEmbedUrlForRegisteredUserOutput()
-        value.embedUrl = try reader["EmbedUrl"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
+        value.embedUrl = try reader["EmbedUrl"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -50421,7 +50422,7 @@ extension QuickSightClientTypes.AnalysisDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AnalysisDefinition()
-        value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDeclarations = try reader["ParameterDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ParameterDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -50642,7 +50643,7 @@ extension QuickSightClientTypes.FreeFormLayoutScreenCanvasSizeOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FreeFormLayoutScreenCanvasSizeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FreeFormLayoutScreenCanvasSizeOptions()
-        value.optimizedViewPortWidth = try reader["OptimizedViewPortWidth"].readIfPresent()
+        value.optimizedViewPortWidth = try reader["OptimizedViewPortWidth"].readIfPresent() ?? ""
         return value
     }
 }
@@ -50688,7 +50689,7 @@ extension QuickSightClientTypes.GridLayoutScreenCanvasSizeOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutScreenCanvasSizeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GridLayoutScreenCanvasSizeOptions()
-        value.resizeOption = try reader["ResizeOption"].readIfPresent()
+        value.resizeOption = try reader["ResizeOption"].readIfPresent() ?? .sdkUnknown("")
         value.optimizedViewPortWidth = try reader["OptimizedViewPortWidth"].readIfPresent()
         return value
     }
@@ -50743,7 +50744,7 @@ extension QuickSightClientTypes.CustomColor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomColor()
         value.fieldValue = try reader["FieldValue"].readIfPresent()
-        value.color = try reader["Color"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent() ?? ""
         value.specialValue = try reader["SpecialValue"].readIfPresent()
         return value
     }
@@ -50841,7 +50842,7 @@ extension QuickSightClientTypes.NullValueFormatConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NullValueFormatConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NullValueFormatConfiguration()
-        value.nullString = try reader["NullString"].readIfPresent()
+        value.nullString = try reader["NullString"].readIfPresent() ?? ""
         return value
     }
 }
@@ -50856,7 +50857,7 @@ extension QuickSightClientTypes.NegativeValueConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NegativeValueConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NegativeValueConfiguration()
-        value.displayMode = try reader["DisplayMode"].readIfPresent()
+        value.displayMode = try reader["DisplayMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -50871,7 +50872,7 @@ extension QuickSightClientTypes.DecimalPlacesConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DecimalPlacesConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DecimalPlacesConfiguration()
-        value.decimalPlaces = try reader["DecimalPlaces"].readIfPresent()
+        value.decimalPlaces = try reader["DecimalPlaces"].readIfPresent() ?? 0
         return value
     }
 }
@@ -51009,8 +51010,8 @@ extension QuickSightClientTypes.ColumnIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ColumnIdentifier()
-        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent()
-        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -51029,11 +51030,11 @@ extension QuickSightClientTypes.FilterGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterGroup()
-        value.filterGroupId = try reader["FilterGroupId"].readIfPresent()
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterGroupId = try reader["FilterGroupId"].readIfPresent() ?? ""
+        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.scopeConfiguration = try reader["ScopeConfiguration"].readIfPresent(with: QuickSightClientTypes.FilterScopeConfiguration.read(from:))
         value.status = try reader["Status"].readIfPresent()
-        value.crossDataset = try reader["CrossDataset"].readIfPresent()
+        value.crossDataset = try reader["CrossDataset"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -51095,8 +51096,8 @@ extension QuickSightClientTypes.SheetVisualScopingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetVisualScopingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SheetVisualScopingConfiguration()
-        value.sheetId = try reader["SheetId"].readIfPresent()
-        value.scope = try reader["Scope"].readIfPresent()
+        value.sheetId = try reader["SheetId"].readIfPresent() ?? ""
+        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
         value.visualIds = try reader["VisualIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -51144,7 +51145,7 @@ extension QuickSightClientTypes.NestedFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NestedFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NestedFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.includeInnerSet = try reader["IncludeInnerSet"].readIfPresent() ?? false
         value.innerFilter = try reader["InnerFilter"].readIfPresent(with: QuickSightClientTypes.InnerFilter.read(from:))
@@ -51197,7 +51198,7 @@ extension QuickSightClientTypes.DefaultFilterControlConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DefaultFilterControlConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DefaultFilterControlConfiguration()
-        value.title = try reader["Title"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent() ?? ""
         value.controlOptions = try reader["ControlOptions"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlOptions.read(from:))
         return value
     }
@@ -51674,11 +51675,11 @@ extension QuickSightClientTypes.CustomFilterConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomFilterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomFilterConfiguration()
-        value.matchOperator = try reader["MatchOperator"].readIfPresent()
+        value.matchOperator = try reader["MatchOperator"].readIfPresent() ?? .sdkUnknown("")
         value.categoryValue = try reader["CategoryValue"].readIfPresent()
         value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
         value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.nullOption = try reader["NullOption"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -51696,10 +51697,10 @@ extension QuickSightClientTypes.CustomFilterListConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomFilterListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomFilterListConfiguration()
-        value.matchOperator = try reader["MatchOperator"].readIfPresent()
+        value.matchOperator = try reader["MatchOperator"].readIfPresent() ?? .sdkUnknown("")
         value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
-        value.nullOption = try reader["NullOption"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -51717,7 +51718,7 @@ extension QuickSightClientTypes.FilterListConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterListConfiguration()
-        value.matchOperator = try reader["MatchOperator"].readIfPresent()
+        value.matchOperator = try reader["MatchOperator"].readIfPresent() ?? .sdkUnknown("")
         value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
         value.nullOption = try reader["NullOption"].readIfPresent()
@@ -51741,10 +51742,10 @@ extension QuickSightClientTypes.TopBottomFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopBottomFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopBottomFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.limit = try reader["Limit"].readIfPresent()
-        value.aggregationSortConfigurations = try reader["AggregationSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AggregationSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregationSortConfigurations = try reader["AggregationSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AggregationSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
         value.parameterName = try reader["ParameterName"].readIfPresent()
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
@@ -51765,7 +51766,7 @@ extension QuickSightClientTypes.AggregationSortConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AggregationSortConfiguration()
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.sortDirection = try reader["SortDirection"].readIfPresent()
+        value.sortDirection = try reader["SortDirection"].readIfPresent() ?? .sdkUnknown("")
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.AggregationFunction.read(from:))
         return value
     }
@@ -51861,15 +51862,15 @@ extension QuickSightClientTypes.RelativeDatesFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RelativeDatesFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RelativeDatesFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.anchorDateConfiguration = try reader["AnchorDateConfiguration"].readIfPresent(with: QuickSightClientTypes.AnchorDateConfiguration.read(from:))
         value.minimumGranularity = try reader["MinimumGranularity"].readIfPresent()
-        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
-        value.relativeDateType = try reader["RelativeDateType"].readIfPresent()
+        value.timeGranularity = try reader["TimeGranularity"].readIfPresent() ?? .sdkUnknown("")
+        value.relativeDateType = try reader["RelativeDateType"].readIfPresent() ?? .sdkUnknown("")
         value.relativeDateValue = try reader["RelativeDateValue"].readIfPresent()
         value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.nullOption = try reader["NullOption"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
         value.excludePeriodConfiguration = try reader["ExcludePeriodConfiguration"].readIfPresent(with: QuickSightClientTypes.ExcludePeriodConfiguration.read(from:))
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
         return value
@@ -51889,7 +51890,7 @@ extension QuickSightClientTypes.ExcludePeriodConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ExcludePeriodConfiguration()
         value.amount = try reader["Amount"].readIfPresent()
-        value.granularity = try reader["Granularity"].readIfPresent()
+        value.granularity = try reader["Granularity"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["Status"].readIfPresent()
         return value
     }
@@ -51931,13 +51932,13 @@ extension QuickSightClientTypes.TimeRangeFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TimeRangeFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TimeRangeFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.includeMinimum = try reader["IncludeMinimum"].readIfPresent()
         value.includeMaximum = try reader["IncludeMaximum"].readIfPresent()
         value.rangeMinimumValue = try reader["RangeMinimumValue"].readIfPresent(with: QuickSightClientTypes.TimeRangeFilterValue.read(from:))
         value.rangeMaximumValue = try reader["RangeMaximumValue"].readIfPresent(with: QuickSightClientTypes.TimeRangeFilterValue.read(from:))
-        value.nullOption = try reader["NullOption"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
         value.excludePeriodConfiguration = try reader["ExcludePeriodConfiguration"].readIfPresent(with: QuickSightClientTypes.ExcludePeriodConfiguration.read(from:))
         value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
@@ -51976,7 +51977,7 @@ extension QuickSightClientTypes.RollingDateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RollingDateConfiguration()
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -51997,7 +51998,7 @@ extension QuickSightClientTypes.TimeEqualityFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TimeEqualityFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TimeEqualityFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.value = try reader["Value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.parameterName = try reader["ParameterName"].readIfPresent()
@@ -52026,14 +52027,14 @@ extension QuickSightClientTypes.NumericEqualityFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericEqualityFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NumericEqualityFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.value = try reader["Value"].readIfPresent()
         value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
-        value.matchOperator = try reader["MatchOperator"].readIfPresent()
+        value.matchOperator = try reader["MatchOperator"].readIfPresent() ?? .sdkUnknown("")
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.AggregationFunction.read(from:))
         value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.nullOption = try reader["NullOption"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
         return value
     }
@@ -52058,7 +52059,7 @@ extension QuickSightClientTypes.NumericRangeFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericRangeFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NumericRangeFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.includeMinimum = try reader["IncludeMinimum"].readIfPresent()
         value.includeMaximum = try reader["IncludeMaximum"].readIfPresent()
@@ -52066,7 +52067,7 @@ extension QuickSightClientTypes.NumericRangeFilter {
         value.rangeMaximum = try reader["RangeMaximum"].readIfPresent(with: QuickSightClientTypes.NumericRangeFilterValue.read(from:))
         value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.AggregationFunction.read(from:))
-        value.nullOption = try reader["NullOption"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
         return value
     }
@@ -52102,7 +52103,7 @@ extension QuickSightClientTypes.CategoryFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoryFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CategoryFilter()
-        value.filterId = try reader["FilterId"].readIfPresent()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.configuration = try reader["Configuration"].readIfPresent(with: QuickSightClientTypes.CategoryFilterConfiguration.read(from:))
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
@@ -52145,7 +52146,7 @@ extension QuickSightClientTypes.DateTimeParameterDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateTimeParameterDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DateTimeParameterDeclaration()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.DateTimeDefaultValues.read(from:))
         value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
         value.valueWhenUnset = try reader["ValueWhenUnset"].readIfPresent(with: QuickSightClientTypes.DateTimeValueWhenUnsetConfiguration.read(from:))
@@ -52165,8 +52166,8 @@ extension QuickSightClientTypes.MappedDataSetParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MappedDataSetParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.MappedDataSetParameter()
-        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent()
-        value.dataSetParameterName = try reader["DataSetParameterName"].readIfPresent()
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.dataSetParameterName = try reader["DataSetParameterName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -52240,8 +52241,8 @@ extension QuickSightClientTypes.IntegerParameterDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.IntegerParameterDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.IntegerParameterDeclaration()
-        value.parameterValueType = try reader["ParameterValueType"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.parameterValueType = try reader["ParameterValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.IntegerDefaultValues.read(from:))
         value.valueWhenUnset = try reader["ValueWhenUnset"].readIfPresent(with: QuickSightClientTypes.IntegerValueWhenUnsetConfiguration.read(from:))
         value.mappedDataSetParameters = try reader["MappedDataSetParameters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.MappedDataSetParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -52297,8 +52298,8 @@ extension QuickSightClientTypes.DecimalParameterDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DecimalParameterDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DecimalParameterDeclaration()
-        value.parameterValueType = try reader["ParameterValueType"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.parameterValueType = try reader["ParameterValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.DecimalDefaultValues.read(from:))
         value.valueWhenUnset = try reader["ValueWhenUnset"].readIfPresent(with: QuickSightClientTypes.DecimalValueWhenUnsetConfiguration.read(from:))
         value.mappedDataSetParameters = try reader["MappedDataSetParameters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.MappedDataSetParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -52354,8 +52355,8 @@ extension QuickSightClientTypes.StringParameterDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StringParameterDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.StringParameterDeclaration()
-        value.parameterValueType = try reader["ParameterValueType"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.parameterValueType = try reader["ParameterValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.StringDefaultValues.read(from:))
         value.valueWhenUnset = try reader["ValueWhenUnset"].readIfPresent(with: QuickSightClientTypes.StringValueWhenUnsetConfiguration.read(from:))
         value.mappedDataSetParameters = try reader["MappedDataSetParameters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.MappedDataSetParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -52409,9 +52410,9 @@ extension QuickSightClientTypes.CalculatedField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CalculatedField()
-        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -52436,7 +52437,7 @@ extension QuickSightClientTypes.SheetDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SheetDefinition()
-        value.sheetId = try reader["SheetId"].readIfPresent()
+        value.sheetId = try reader["SheetId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
@@ -52492,7 +52493,7 @@ extension QuickSightClientTypes.GridLayoutConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GridLayoutConfiguration()
-        value.elements = try reader["Elements"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.GridLayoutElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.elements = try reader["Elements"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.GridLayoutElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.canvasSizeOptions = try reader["CanvasSizeOptions"].readIfPresent(with: QuickSightClientTypes.GridLayoutCanvasSizeOptions.read(from:))
         return value
     }
@@ -52513,12 +52514,12 @@ extension QuickSightClientTypes.GridLayoutElement {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GridLayoutElement()
-        value.elementId = try reader["ElementId"].readIfPresent()
-        value.elementType = try reader["ElementType"].readIfPresent()
+        value.elementId = try reader["ElementId"].readIfPresent() ?? ""
+        value.elementType = try reader["ElementType"].readIfPresent() ?? .sdkUnknown("")
         value.columnIndex = try reader["ColumnIndex"].readIfPresent()
-        value.columnSpan = try reader["ColumnSpan"].readIfPresent()
+        value.columnSpan = try reader["ColumnSpan"].readIfPresent() ?? 0
         value.rowIndex = try reader["RowIndex"].readIfPresent()
-        value.rowSpan = try reader["RowSpan"].readIfPresent()
+        value.rowSpan = try reader["RowSpan"].readIfPresent() ?? 0
         return value
     }
 }
@@ -52570,9 +52571,9 @@ extension QuickSightClientTypes.SectionBasedLayoutConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SectionBasedLayoutConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SectionBasedLayoutConfiguration()
-        value.headerSections = try reader["HeaderSections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.HeaderFooterSectionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.bodySections = try reader["BodySections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BodySectionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.footerSections = try reader["FooterSections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.HeaderFooterSectionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.headerSections = try reader["HeaderSections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.HeaderFooterSectionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.bodySections = try reader["BodySections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BodySectionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.footerSections = try reader["FooterSections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.HeaderFooterSectionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.canvasSizeOptions = try reader["CanvasSizeOptions"].readIfPresent(with: QuickSightClientTypes.SectionBasedLayoutCanvasSizeOptions.read(from:))
         return value
     }
@@ -52590,7 +52591,7 @@ extension QuickSightClientTypes.HeaderFooterSectionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HeaderFooterSectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.HeaderFooterSectionConfiguration()
-        value.sectionId = try reader["SectionId"].readIfPresent()
+        value.sectionId = try reader["SectionId"].readIfPresent() ?? ""
         value.layout = try reader["Layout"].readIfPresent(with: QuickSightClientTypes.SectionLayoutConfiguration.read(from:))
         value.style = try reader["Style"].readIfPresent(with: QuickSightClientTypes.SectionStyle.read(from:))
         return value
@@ -52639,7 +52640,7 @@ extension QuickSightClientTypes.FreeFormSectionLayoutConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FreeFormSectionLayoutConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FreeFormSectionLayoutConfiguration()
-        value.elements = try reader["Elements"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FreeFormLayoutElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.elements = try reader["Elements"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FreeFormLayoutElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -52665,12 +52666,12 @@ extension QuickSightClientTypes.FreeFormLayoutElement {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FreeFormLayoutElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FreeFormLayoutElement()
-        value.elementId = try reader["ElementId"].readIfPresent()
-        value.elementType = try reader["ElementType"].readIfPresent()
-        value.xAxisLocation = try reader["XAxisLocation"].readIfPresent()
-        value.yAxisLocation = try reader["YAxisLocation"].readIfPresent()
-        value.width = try reader["Width"].readIfPresent()
-        value.height = try reader["Height"].readIfPresent()
+        value.elementId = try reader["ElementId"].readIfPresent() ?? ""
+        value.elementType = try reader["ElementType"].readIfPresent() ?? .sdkUnknown("")
+        value.xAxisLocation = try reader["XAxisLocation"].readIfPresent() ?? ""
+        value.yAxisLocation = try reader["YAxisLocation"].readIfPresent() ?? ""
+        value.width = try reader["Width"].readIfPresent() ?? ""
+        value.height = try reader["Height"].readIfPresent() ?? ""
         value.visibility = try reader["Visibility"].readIfPresent()
         value.renderingRules = try reader["RenderingRules"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetElementRenderingRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.borderStyle = try reader["BorderStyle"].readIfPresent(with: QuickSightClientTypes.FreeFormLayoutElementBorderStyle.read(from:))
@@ -52741,7 +52742,7 @@ extension QuickSightClientTypes.SheetElementRenderingRule {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetElementRenderingRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SheetElementRenderingRule()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         value.configurationOverrides = try reader["ConfigurationOverrides"].readIfPresent(with: QuickSightClientTypes.SheetElementConfigurationOverrides.read(from:))
         return value
     }
@@ -52776,7 +52777,7 @@ extension QuickSightClientTypes.BodySectionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BodySectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.BodySectionConfiguration()
-        value.sectionId = try reader["SectionId"].readIfPresent()
+        value.sectionId = try reader["SectionId"].readIfPresent() ?? ""
         value.content = try reader["Content"].readIfPresent(with: QuickSightClientTypes.BodySectionContent.read(from:))
         value.style = try reader["Style"].readIfPresent(with: QuickSightClientTypes.SectionStyle.read(from:))
         value.pageBreakConfiguration = try reader["PageBreakConfiguration"].readIfPresent(with: QuickSightClientTypes.SectionPageBreakConfiguration.read(from:))
@@ -52883,7 +52884,7 @@ extension QuickSightClientTypes.ColumnSort {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ColumnSort()
         value.sortBy = try reader["SortBy"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.direction = try reader["Direction"].readIfPresent()
+        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.AggregationFunction.read(from:))
         return value
     }
@@ -52949,7 +52950,7 @@ extension QuickSightClientTypes.FreeFormLayoutConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FreeFormLayoutConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FreeFormLayoutConfiguration()
-        value.elements = try reader["Elements"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FreeFormLayoutElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.elements = try reader["Elements"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FreeFormLayoutElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.canvasSizeOptions = try reader["CanvasSizeOptions"].readIfPresent(with: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions.read(from:))
         return value
     }
@@ -52966,7 +52967,7 @@ extension QuickSightClientTypes.SheetTextBox {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetTextBox {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SheetTextBox()
-        value.sheetTextBoxId = try reader["SheetTextBoxId"].readIfPresent()
+        value.sheetTextBoxId = try reader["SheetTextBoxId"].readIfPresent() ?? ""
         value.content = try reader["Content"].readIfPresent()
         return value
     }
@@ -53046,7 +53047,7 @@ extension QuickSightClientTypes.RadarChartVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RadarChartVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RadarChartVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.RadarChartConfiguration.read(from:))
@@ -53087,8 +53088,8 @@ extension QuickSightClientTypes.PredefinedHierarchy {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PredefinedHierarchy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PredefinedHierarchy()
-        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hierarchyId = try reader["HierarchyId"].readIfPresent() ?? ""
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.drillDownFilters = try reader["DrillDownFilters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DrillDownFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -53127,9 +53128,9 @@ extension QuickSightClientTypes.TimeRangeDrillDownFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TimeRangeDrillDownFilter()
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.rangeMinimum = try reader["RangeMinimum"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.rangeMaximum = try reader["RangeMaximum"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
+        value.rangeMinimum = try reader["RangeMinimum"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.rangeMaximum = try reader["RangeMaximum"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.timeGranularity = try reader["TimeGranularity"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -53146,7 +53147,7 @@ extension QuickSightClientTypes.CategoryDrillDownFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CategoryDrillDownFilter()
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -53179,7 +53180,7 @@ extension QuickSightClientTypes.DateTimeHierarchy {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateTimeHierarchy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DateTimeHierarchy()
-        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
+        value.hierarchyId = try reader["HierarchyId"].readIfPresent() ?? ""
         value.drillDownFilters = try reader["DrillDownFilters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DrillDownFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -53197,8 +53198,8 @@ extension QuickSightClientTypes.ExplicitHierarchy {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ExplicitHierarchy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ExplicitHierarchy()
-        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hierarchyId = try reader["HierarchyId"].readIfPresent() ?? ""
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.drillDownFilters = try reader["DrillDownFilters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DrillDownFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -53218,11 +53219,11 @@ extension QuickSightClientTypes.VisualCustomAction {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualCustomAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.VisualCustomAction()
-        value.customActionId = try reader["CustomActionId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.customActionId = try reader["CustomActionId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent()
-        value.trigger = try reader["Trigger"].readIfPresent()
-        value.actionOperations = try reader["ActionOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomActionOperation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trigger = try reader["Trigger"].readIfPresent() ?? .sdkUnknown("")
+        value.actionOperations = try reader["ActionOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomActionOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -53258,7 +53259,7 @@ extension QuickSightClientTypes.CustomActionSetParametersOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionSetParametersOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomActionSetParametersOperation()
-        value.parameterValueConfigurations = try reader["ParameterValueConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SetParameterValueConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parameterValueConfigurations = try reader["ParameterValueConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SetParameterValueConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -53274,7 +53275,7 @@ extension QuickSightClientTypes.SetParameterValueConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SetParameterValueConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SetParameterValueConfiguration()
-        value.destinationParameterName = try reader["DestinationParameterName"].readIfPresent()
+        value.destinationParameterName = try reader["DestinationParameterName"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.DestinationParameterValueConfiguration.read(from:))
         return value
     }
@@ -53352,8 +53353,8 @@ extension QuickSightClientTypes.CustomActionURLOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionURLOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomActionURLOperation()
-        value.urlTemplate = try reader["URLTemplate"].readIfPresent()
-        value.urlTarget = try reader["URLTarget"].readIfPresent()
+        value.urlTemplate = try reader["URLTemplate"].readIfPresent() ?? ""
+        value.urlTarget = try reader["URLTarget"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -53383,7 +53384,7 @@ extension QuickSightClientTypes.LocalNavigationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LocalNavigationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.LocalNavigationConfiguration()
-        value.targetSheetId = try reader["TargetSheetId"].readIfPresent()
+        value.targetSheetId = try reader["TargetSheetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -53620,7 +53621,7 @@ extension QuickSightClientTypes.AxisLabelReferenceOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AxisLabelReferenceOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AxisLabelReferenceOptions()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         return value
     }
@@ -53892,7 +53893,7 @@ extension QuickSightClientTypes.DataPathColor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DataPathColor()
         value.element = try reader["Element"].readIfPresent(with: QuickSightClientTypes.DataPathValue.read(from:))
-        value.color = try reader["Color"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent() ?? ""
         value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
         return value
     }
@@ -54028,8 +54029,8 @@ extension QuickSightClientTypes.FieldSort {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldSort {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FieldSort()
-        value.fieldId = try reader["FieldId"].readIfPresent()
-        value.direction = try reader["Direction"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -54100,8 +54101,8 @@ extension QuickSightClientTypes.CalculatedMeasureField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedMeasureField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CalculatedMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -54119,7 +54120,7 @@ extension QuickSightClientTypes.DateMeasureField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateMeasureField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DateMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent()
         value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.DateTimeFormatConfiguration.read(from:))
@@ -54140,7 +54141,7 @@ extension QuickSightClientTypes.CategoricalMeasureField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoricalMeasureField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CategoricalMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent()
         value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.StringFormatConfiguration.read(from:))
@@ -54161,7 +54162,7 @@ extension QuickSightClientTypes.NumericalMeasureField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericalMeasureField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NumericalMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.NumericalAggregationFunction.read(from:))
         value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.NumberFormatConfiguration.read(from:))
@@ -54202,7 +54203,7 @@ extension QuickSightClientTypes.DateDimensionField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateDimensionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DateDimensionField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.dateGranularity = try reader["DateGranularity"].readIfPresent()
         value.hierarchyId = try reader["HierarchyId"].readIfPresent()
@@ -54224,7 +54225,7 @@ extension QuickSightClientTypes.CategoricalDimensionField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoricalDimensionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CategoricalDimensionField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.hierarchyId = try reader["HierarchyId"].readIfPresent()
         value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.StringFormatConfiguration.read(from:))
@@ -54245,7 +54246,7 @@ extension QuickSightClientTypes.NumericalDimensionField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericalDimensionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NumericalDimensionField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.hierarchyId = try reader["HierarchyId"].readIfPresent()
         value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.NumberFormatConfiguration.read(from:))
@@ -54333,8 +54334,8 @@ extension QuickSightClientTypes.EmptyVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.EmptyVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.EmptyVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
-        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -54355,12 +54356,12 @@ extension QuickSightClientTypes.CustomContentVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomContentVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomContentVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomContentConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent()
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -54400,7 +54401,7 @@ extension QuickSightClientTypes.SankeyDiagramVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SankeyDiagramVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SankeyDiagramVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.SankeyDiagramChartConfiguration.read(from:))
@@ -54635,12 +54636,12 @@ extension QuickSightClientTypes.InsightVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InsightVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.InsightVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.insightConfiguration = try reader["InsightConfiguration"].readIfPresent(with: QuickSightClientTypes.InsightConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent()
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -54674,7 +54675,7 @@ extension QuickSightClientTypes.CustomNarrativeOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomNarrativeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomNarrativeOptions()
-        value.narrative = try reader["Narrative"].readIfPresent()
+        value.narrative = try reader["Narrative"].readIfPresent() ?? ""
         return value
     }
 }
@@ -54732,7 +54733,7 @@ extension QuickSightClientTypes.ForecastComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ForecastComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ForecastComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
@@ -54759,7 +54760,7 @@ extension QuickSightClientTypes.UniqueValuesComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UniqueValuesComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.UniqueValuesComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.category = try reader["Category"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         return value
@@ -54780,7 +54781,7 @@ extension QuickSightClientTypes.GrowthRateComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GrowthRateComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GrowthRateComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
@@ -54803,7 +54804,7 @@ extension QuickSightClientTypes.PeriodToDateComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PeriodToDateComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PeriodToDateComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
@@ -54825,7 +54826,7 @@ extension QuickSightClientTypes.PeriodOverPeriodComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PeriodOverPeriodComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PeriodOverPeriodComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
@@ -54847,7 +54848,7 @@ extension QuickSightClientTypes.MetricComparisonComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MetricComparisonComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.MetricComparisonComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.fromValue = try reader["FromValue"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
@@ -54870,11 +54871,11 @@ extension QuickSightClientTypes.MaximumMinimumComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MaximumMinimumComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.MaximumMinimumComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -54891,7 +54892,7 @@ extension QuickSightClientTypes.TotalAggregationComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TotalAggregationComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TotalAggregationComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
         return value
@@ -54915,14 +54916,14 @@ extension QuickSightClientTypes.TopBottomMoversComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopBottomMoversComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopBottomMoversComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.category = try reader["Category"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
         value.moverSize = try reader["MoverSize"].readIfPresent()
         value.sortOrder = try reader["SortOrder"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -54942,12 +54943,12 @@ extension QuickSightClientTypes.TopBottomRankedComputation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopBottomRankedComputation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopBottomRankedComputation()
-        value.computationId = try reader["ComputationId"].readIfPresent()
+        value.computationId = try reader["ComputationId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.category = try reader["Category"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
         value.resultSize = try reader["ResultSize"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -54967,7 +54968,7 @@ extension QuickSightClientTypes.WordCloudVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.WordCloudVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.WordCloudVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.WordCloudChartConfiguration.read(from:))
@@ -55088,7 +55089,7 @@ extension QuickSightClientTypes.HistogramVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HistogramVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.HistogramVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.HistogramConfiguration.read(from:))
@@ -55219,7 +55220,7 @@ extension QuickSightClientTypes.FieldTooltipItem {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldTooltipItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FieldTooltipItem()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.label = try reader["Label"].readIfPresent()
         value.visibility = try reader["Visibility"].readIfPresent()
         value.tooltipTarget = try reader["TooltipTarget"].readIfPresent()
@@ -55325,7 +55326,7 @@ extension QuickSightClientTypes.WaterfallVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.WaterfallVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.WaterfallVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.WaterfallChartConfiguration.read(from:))
@@ -55487,7 +55488,7 @@ extension QuickSightClientTypes.BoxPlotVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BoxPlotVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.BoxPlotVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.BoxPlotChartConfiguration.read(from:))
@@ -55590,7 +55591,7 @@ extension QuickSightClientTypes.ReferenceLineCustomLabelConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReferenceLineCustomLabelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ReferenceLineCustomLabelConfiguration()
-        value.customLabel = try reader["CustomLabel"].readIfPresent()
+        value.customLabel = try reader["CustomLabel"].readIfPresent() ?? ""
         return value
     }
 }
@@ -55747,7 +55748,7 @@ extension QuickSightClientTypes.PaginationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PaginationConfiguration()
         value.pageSize = try reader["PageSize"].readIfPresent()
-        value.pageNumber = try reader["PageNumber"].readIfPresent()
+        value.pageNumber = try reader["PageNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -55799,7 +55800,7 @@ extension QuickSightClientTypes.ComboChartVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ComboChartVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ComboChartVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.ComboChartConfiguration.read(from:))
@@ -55883,7 +55884,7 @@ extension QuickSightClientTypes.YAxisOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.YAxisOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.YAxisOptions()
-        value.yAxis = try reader["YAxis"].readIfPresent()
+        value.yAxis = try reader["YAxis"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -55960,7 +55961,7 @@ extension QuickSightClientTypes.ScatterPlotVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ScatterPlotVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ScatterPlotVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.ScatterPlotConfiguration.read(from:))
@@ -56098,7 +56099,7 @@ extension QuickSightClientTypes.FunnelChartVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FunnelChartVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FunnelChartVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.FunnelChartConfiguration.read(from:))
@@ -56229,7 +56230,7 @@ extension QuickSightClientTypes.FilledMapVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilledMapVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilledMapVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.FilledMapConfiguration.read(from:))
@@ -56250,7 +56251,7 @@ extension QuickSightClientTypes.FilledMapConditionalFormatting {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilledMapConditionalFormatting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilledMapConditionalFormatting()
-        value.conditionalFormattingOptions = try reader["ConditionalFormattingOptions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilledMapConditionalFormattingOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditionalFormattingOptions = try reader["ConditionalFormattingOptions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilledMapConditionalFormattingOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -56281,7 +56282,7 @@ extension QuickSightClientTypes.FilledMapShapeConditionalFormatting {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilledMapShapeConditionalFormatting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilledMapShapeConditionalFormatting()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.format = try reader["Format"].readIfPresent(with: QuickSightClientTypes.ShapeConditionalFormat.read(from:))
         return value
     }
@@ -56330,7 +56331,7 @@ extension QuickSightClientTypes.ConditionalFormattingGradientColor {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ConditionalFormattingGradientColor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ConditionalFormattingGradientColor()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         value.color = try reader["Color"].readIfPresent(with: QuickSightClientTypes.GradientColor.read(from:))
         return value
     }
@@ -56381,7 +56382,7 @@ extension QuickSightClientTypes.ConditionalFormattingSolidColor {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ConditionalFormattingSolidColor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ConditionalFormattingSolidColor()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         value.color = try reader["Color"].readIfPresent()
         return value
     }
@@ -56459,10 +56460,10 @@ extension QuickSightClientTypes.GeospatialCoordinateBounds {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialCoordinateBounds {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GeospatialCoordinateBounds()
-        value.north = try reader["North"].readIfPresent()
-        value.south = try reader["South"].readIfPresent()
-        value.west = try reader["West"].readIfPresent()
-        value.east = try reader["East"].readIfPresent()
+        value.north = try reader["North"].readIfPresent() ?? 0.0
+        value.south = try reader["South"].readIfPresent() ?? 0.0
+        value.west = try reader["West"].readIfPresent() ?? 0.0
+        value.east = try reader["East"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -56529,7 +56530,7 @@ extension QuickSightClientTypes.GeospatialMapVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialMapVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GeospatialMapVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.GeospatialMapConfiguration.read(from:))
@@ -56627,7 +56628,7 @@ extension QuickSightClientTypes.GeospatialHeatmapDataColor {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialHeatmapDataColor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GeospatialHeatmapDataColor()
-        value.color = try reader["Color"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56726,7 +56727,7 @@ extension QuickSightClientTypes.TreeMapVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TreeMapVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TreeMapVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.TreeMapConfiguration.read(from:))
@@ -56781,8 +56782,8 @@ extension QuickSightClientTypes.ColorScale {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColorScale {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ColorScale()
-        value.colors = try reader["Colors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataColor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.colorFillType = try reader["ColorFillType"].readIfPresent()
+        value.colors = try reader["Colors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataColor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.colorFillType = try reader["ColorFillType"].readIfPresent() ?? .sdkUnknown("")
         value.nullValueColor = try reader["NullValueColor"].readIfPresent(with: QuickSightClientTypes.DataColor.read(from:))
         return value
     }
@@ -56871,7 +56872,7 @@ extension QuickSightClientTypes.HeatMapVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HeatMapVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.HeatMapVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.HeatMapConfiguration.read(from:))
@@ -56982,7 +56983,7 @@ extension QuickSightClientTypes.LineChartVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LineChartVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.LineChartVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.LineChartConfiguration.read(from:))
@@ -57058,8 +57059,8 @@ extension QuickSightClientTypes.ContributionAnalysisDefault {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ContributionAnalysisDefault {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ContributionAnalysisDefault()
-        value.measureFieldId = try reader["MeasureFieldId"].readIfPresent()
-        value.contributorDimensions = try reader["ContributorDimensions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.measureFieldId = try reader["MeasureFieldId"].readIfPresent() ?? ""
+        value.contributorDimensions = try reader["ContributorDimensions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -57094,9 +57095,9 @@ extension QuickSightClientTypes.DataFieldSeriesItem {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataFieldSeriesItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DataFieldSeriesItem()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.fieldValue = try reader["FieldValue"].readIfPresent()
-        value.axisBinding = try reader["AxisBinding"].readIfPresent()
+        value.axisBinding = try reader["AxisBinding"].readIfPresent() ?? .sdkUnknown("")
         value.settings = try reader["Settings"].readIfPresent(with: QuickSightClientTypes.LineChartSeriesSettings.read(from:))
         return value
     }
@@ -57173,8 +57174,8 @@ extension QuickSightClientTypes.FieldSeriesItem {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldSeriesItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FieldSeriesItem()
-        value.fieldId = try reader["FieldId"].readIfPresent()
-        value.axisBinding = try reader["AxisBinding"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.axisBinding = try reader["AxisBinding"].readIfPresent() ?? .sdkUnknown("")
         value.settings = try reader["Settings"].readIfPresent(with: QuickSightClientTypes.LineChartSeriesSettings.read(from:))
         return value
     }
@@ -57367,8 +57368,8 @@ extension QuickSightClientTypes.WhatIfRangeScenario {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.WhatIfRangeScenario {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.WhatIfRangeScenario()
-        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endDate = try reader["EndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endDate = try reader["EndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.value = try reader["Value"].readIfPresent() ?? 0
         return value
     }
@@ -57385,7 +57386,7 @@ extension QuickSightClientTypes.WhatIfPointScenario {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.WhatIfPointScenario {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.WhatIfPointScenario()
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.value = try reader["Value"].readIfPresent() ?? 0
         return value
     }
@@ -57490,7 +57491,7 @@ extension QuickSightClientTypes.GaugeChartVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GaugeChartVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GaugeChartVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.GaugeChartConfiguration.read(from:))
@@ -57594,7 +57595,7 @@ extension QuickSightClientTypes.ConditionalFormattingCustomIconCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ConditionalFormattingCustomIconCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ConditionalFormattingCustomIconCondition()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         value.iconOptions = try reader["IconOptions"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingCustomIconOptions.read(from:))
         value.color = try reader["Color"].readIfPresent()
         value.displayConfiguration = try reader["DisplayConfiguration"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingIconDisplayConfiguration.read(from:))
@@ -57645,7 +57646,7 @@ extension QuickSightClientTypes.ConditionalFormattingIconSet {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ConditionalFormattingIconSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ConditionalFormattingIconSet()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         value.iconSetType = try reader["IconSetType"].readIfPresent()
         return value
     }
@@ -57835,7 +57836,7 @@ extension QuickSightClientTypes.PieChartVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PieChartVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PieChartVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.PieChartConfiguration.read(from:))
@@ -58000,7 +58001,7 @@ extension QuickSightClientTypes.KPIVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KPIVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.KPIVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.KPIConfiguration.read(from:))
@@ -58190,7 +58191,7 @@ extension QuickSightClientTypes.KPIVisualStandardLayout {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.KPIVisualStandardLayout {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.KPIVisualStandardLayout()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -58209,7 +58210,7 @@ extension QuickSightClientTypes.KPISparklineOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.KPISparklineOptions()
         value.visibility = try reader["Visibility"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.color = try reader["Color"].readIfPresent()
         value.tooltipVisibility = try reader["TooltipVisibility"].readIfPresent()
         return value
@@ -58310,7 +58311,7 @@ extension QuickSightClientTypes.BarChartVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BarChartVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.BarChartVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.BarChartConfiguration.read(from:))
@@ -58443,7 +58444,7 @@ extension QuickSightClientTypes.PivotTableVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotTableVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PivotTableVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.PivotTableConfiguration.read(from:))
@@ -58496,7 +58497,7 @@ extension QuickSightClientTypes.PivotTableCellConditionalFormatting {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotTableCellConditionalFormatting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PivotTableCellConditionalFormatting()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.textFormat = try reader["TextFormat"].readIfPresent(with: QuickSightClientTypes.TextConditionalFormat.read(from:))
         value.scope = try reader["Scope"].readIfPresent(with: QuickSightClientTypes.PivotTableConditionalFormattingScope.read(from:))
         value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.PivotTableConditionalFormattingScope.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -58646,7 +58647,7 @@ extension QuickSightClientTypes.PivotTableDataPathOption {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotTableDataPathOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PivotTableDataPathOption()
-        value.dataPathList = try reader["DataPathList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataPathValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataPathList = try reader["DataPathList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataPathValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.width = try reader["Width"].readIfPresent()
         return value
     }
@@ -58664,7 +58665,7 @@ extension QuickSightClientTypes.PivotTableFieldOption {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotTableFieldOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PivotTableFieldOption()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.customLabel = try reader["CustomLabel"].readIfPresent()
         value.visibility = try reader["Visibility"].readIfPresent()
         return value
@@ -58732,7 +58733,7 @@ extension QuickSightClientTypes.TotalAggregationOption {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TotalAggregationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TotalAggregationOption()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.totalAggregationFunction = try reader["TotalAggregationFunction"].readIfPresent(with: QuickSightClientTypes.TotalAggregationFunction.read(from:))
         return value
     }
@@ -58882,7 +58883,7 @@ extension QuickSightClientTypes.TableStyleTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableStyleTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TableStyleTarget()
-        value.cellType = try reader["CellType"].readIfPresent()
+        value.cellType = try reader["CellType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -59003,7 +59004,7 @@ extension QuickSightClientTypes.PivotFieldSortOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotFieldSortOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PivotFieldSortOptions()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.sortBy = try reader["SortBy"].readIfPresent(with: QuickSightClientTypes.PivotTableSortBy.read(from:))
         return value
     }
@@ -59039,8 +59040,8 @@ extension QuickSightClientTypes.DataPathSort {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataPathSort {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DataPathSort()
-        value.direction = try reader["Direction"].readIfPresent()
-        value.sortPaths = try reader["SortPaths"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataPathValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
+        value.sortPaths = try reader["SortPaths"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataPathValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -59094,7 +59095,7 @@ extension QuickSightClientTypes.TableVisual {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableVisual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TableVisual()
-        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.TableConfiguration.read(from:))
@@ -59164,7 +59165,7 @@ extension QuickSightClientTypes.TableCellConditionalFormatting {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableCellConditionalFormatting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TableCellConditionalFormatting()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.textFormat = try reader["TextFormat"].readIfPresent(with: QuickSightClientTypes.TextConditionalFormat.read(from:))
         return value
     }
@@ -59226,7 +59227,7 @@ extension QuickSightClientTypes.DataBarsOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataBarsOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DataBarsOptions()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.positiveColor = try reader["PositiveColor"].readIfPresent()
         value.negativeColor = try reader["NegativeColor"].readIfPresent()
         return value
@@ -59298,7 +59299,7 @@ extension QuickSightClientTypes.TableFieldOption {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableFieldOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TableFieldOption()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.width = try reader["Width"].readIfPresent()
         value.customLabel = try reader["CustomLabel"].readIfPresent()
         value.visibility = try reader["Visibility"].readIfPresent()
@@ -59365,7 +59366,7 @@ extension QuickSightClientTypes.TableFieldLinkConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableFieldLinkConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TableFieldLinkConfiguration()
-        value.target = try reader["Target"].readIfPresent()
+        value.target = try reader["Target"].readIfPresent() ?? .sdkUnknown("")
         value.content = try reader["Content"].readIfPresent(with: QuickSightClientTypes.TableFieldLinkContentConfiguration.read(from:))
         return value
     }
@@ -59527,7 +59528,7 @@ extension QuickSightClientTypes.UnaggregatedField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UnaggregatedField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.UnaggregatedField()
-        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.FormatConfiguration.read(from:))
         return value
@@ -59592,8 +59593,8 @@ extension QuickSightClientTypes.FilterCrossSheetControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterCrossSheetControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterCrossSheetControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         return value
     }
@@ -59644,9 +59645,9 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterRelativeDateTimeControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterRelativeDateTimeControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.read(from:))
         return value
     }
@@ -59669,9 +59670,9 @@ extension QuickSightClientTypes.FilterSliderControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterSliderControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterSliderControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.SliderControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
@@ -59695,9 +59696,9 @@ extension QuickSightClientTypes.FilterTextAreaControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterTextAreaControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterTextAreaControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.delimiter = try reader["Delimiter"].readIfPresent()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextAreaControlDisplayOptions.read(from:))
         return value
@@ -59717,9 +59718,9 @@ extension QuickSightClientTypes.FilterTextFieldControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterTextFieldControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterTextFieldControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextFieldControlDisplayOptions.read(from:))
         return value
     }
@@ -59741,9 +59742,9 @@ extension QuickSightClientTypes.FilterDropDownControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterDropDownControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterDropDownControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DropDownControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
@@ -59768,9 +59769,9 @@ extension QuickSightClientTypes.FilterListControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterListControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterListControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.ListControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
@@ -59793,9 +59794,9 @@ extension QuickSightClientTypes.FilterDateTimePickerControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterDateTimePickerControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterDateTimePickerControl()
-        value.filterControlId = try reader["FilterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         return value
@@ -59843,9 +59844,9 @@ extension QuickSightClientTypes.ParameterSliderControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ParameterSliderControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ParameterSliderControl()
-        value.parameterControlId = try reader["ParameterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
+        value.parameterControlId = try reader["ParameterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.SliderControlDisplayOptions.read(from:))
         value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
         value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
@@ -59868,9 +59869,9 @@ extension QuickSightClientTypes.ParameterTextAreaControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ParameterTextAreaControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ParameterTextAreaControl()
-        value.parameterControlId = try reader["ParameterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
+        value.parameterControlId = try reader["ParameterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.delimiter = try reader["Delimiter"].readIfPresent()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextAreaControlDisplayOptions.read(from:))
         return value
@@ -59890,9 +59891,9 @@ extension QuickSightClientTypes.ParameterTextFieldControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ParameterTextFieldControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ParameterTextFieldControl()
-        value.parameterControlId = try reader["ParameterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
+        value.parameterControlId = try reader["ParameterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextFieldControlDisplayOptions.read(from:))
         return value
     }
@@ -59914,9 +59915,9 @@ extension QuickSightClientTypes.ParameterDropDownControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ParameterDropDownControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ParameterDropDownControl()
-        value.parameterControlId = try reader["ParameterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
+        value.parameterControlId = try reader["ParameterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DropDownControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.ParameterSelectableValues.read(from:))
@@ -59958,9 +59959,9 @@ extension QuickSightClientTypes.ParameterListControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ParameterListControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ParameterListControl()
-        value.parameterControlId = try reader["ParameterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
+        value.parameterControlId = try reader["ParameterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.ListControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.ParameterSelectableValues.read(from:))
@@ -59982,9 +59983,9 @@ extension QuickSightClientTypes.ParameterDateTimePickerControl {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ParameterDateTimePickerControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ParameterDateTimePickerControl()
-        value.parameterControlId = try reader["ParameterControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
+        value.parameterControlId = try reader["ParameterControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
         return value
     }
@@ -60001,8 +60002,8 @@ extension QuickSightClientTypes.DataSetIdentifierDeclaration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetIdentifierDeclaration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DataSetIdentifierDeclaration()
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.dataSetArn = try reader["DataSetArn"].readIfPresent()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        value.dataSetArn = try reader["DataSetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60018,8 +60019,8 @@ extension QuickSightClientTypes.ResourcePermission {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ResourcePermission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ResourcePermission()
-        value.principal = try reader["Principal"].readIfPresent()
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.principal = try reader["Principal"].readIfPresent() ?? ""
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60076,8 +60077,8 @@ extension QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobDashboardPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60093,8 +60094,8 @@ extension QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobAnalysisPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60110,8 +60111,8 @@ extension QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60127,8 +60128,8 @@ extension QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobDataSetPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60144,8 +60145,8 @@ extension QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobDataSourcePropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60161,8 +60162,8 @@ extension QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverridePrope
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobRefreshSchedulePropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60178,8 +60179,8 @@ extension QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverridePropert
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobVPCConnectionPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60288,7 +60289,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters()
-        value.dashboardId = try reader["DashboardId"].readIfPresent()
+        value.dashboardId = try reader["DashboardId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         return value
     }
@@ -60305,7 +60306,7 @@ extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters()
-        value.analysisId = try reader["AnalysisId"].readIfPresent()
+        value.analysisId = try reader["AnalysisId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         return value
     }
@@ -60322,7 +60323,7 @@ extension QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters()
-        value.themeId = try reader["ThemeId"].readIfPresent()
+        value.themeId = try reader["ThemeId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         return value
     }
@@ -60339,7 +60340,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters()
-        value.dataSetId = try reader["DataSetId"].readIfPresent()
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         return value
     }
@@ -60360,7 +60361,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters()
-        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.dataSourceParameters = try reader["DataSourceParameters"].readIfPresent(with: QuickSightClientTypes.DataSourceParameters.read(from:))
         value.vpcConnectionProperties = try reader["VpcConnectionProperties"].readIfPresent(with: QuickSightClientTypes.VpcConnectionProperties.read(from:))
@@ -60398,8 +60399,8 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair()
-        value.username = try reader["Username"].readIfPresent()
-        value.password = try reader["Password"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent() ?? ""
+        value.password = try reader["Password"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60429,7 +60430,7 @@ extension QuickSightClientTypes.VpcConnectionProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VpcConnectionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.VpcConnectionProperties()
-        value.vpcConnectionArn = try reader["VpcConnectionArn"].readIfPresent()
+        value.vpcConnectionArn = try reader["VpcConnectionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60569,7 +60570,7 @@ extension QuickSightClientTypes.BigQueryParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BigQueryParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.BigQueryParameters()
-        value.projectId = try reader["ProjectId"].readIfPresent()
+        value.projectId = try reader["ProjectId"].readIfPresent() ?? ""
         value.dataSetRegion = try reader["DataSetRegion"].readIfPresent()
         return value
     }
@@ -60587,9 +60588,9 @@ extension QuickSightClientTypes.TrinoParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TrinoParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TrinoParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.catalog = try reader["Catalog"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60607,9 +60608,9 @@ extension QuickSightClientTypes.StarburstParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StarburstParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.StarburstParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.catalog = try reader["Catalog"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
         value.productType = try reader["ProductType"].readIfPresent()
         return value
     }
@@ -60627,9 +60628,9 @@ extension QuickSightClientTypes.DatabricksParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DatabricksParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DatabricksParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.sqlEndpointPath = try reader["SqlEndpointPath"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.sqlEndpointPath = try reader["SqlEndpointPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60645,8 +60646,8 @@ extension QuickSightClientTypes.ExasolParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ExasolParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ExasolParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -60661,7 +60662,7 @@ extension QuickSightClientTypes.AmazonOpenSearchParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AmazonOpenSearchParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AmazonOpenSearchParameters()
-        value.domain = try reader["Domain"].readIfPresent()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60677,8 +60678,8 @@ extension QuickSightClientTypes.TwitterParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TwitterParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TwitterParameters()
-        value.query = try reader["Query"].readIfPresent()
-        value.maxRows = try reader["MaxRows"].readIfPresent()
+        value.query = try reader["Query"].readIfPresent() ?? ""
+        value.maxRows = try reader["MaxRows"].readIfPresent() ?? 0
         return value
     }
 }
@@ -60695,9 +60696,9 @@ extension QuickSightClientTypes.TeradataParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TeradataParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TeradataParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60714,9 +60715,9 @@ extension QuickSightClientTypes.SqlServerParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SqlServerParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SqlServerParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60732,8 +60733,8 @@ extension QuickSightClientTypes.SparkParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SparkParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SparkParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -60750,9 +60751,9 @@ extension QuickSightClientTypes.SnowflakeParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnowflakeParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SnowflakeParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
-        value.warehouse = try reader["Warehouse"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.warehouse = try reader["Warehouse"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60767,7 +60768,7 @@ extension QuickSightClientTypes.ServiceNowParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ServiceNowParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ServiceNowParameters()
-        value.siteBaseUrl = try reader["SiteBaseUrl"].readIfPresent()
+        value.siteBaseUrl = try reader["SiteBaseUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60800,8 +60801,8 @@ extension QuickSightClientTypes.ManifestFileLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ManifestFileLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ManifestFileLocation()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60823,7 +60824,7 @@ extension QuickSightClientTypes.RedshiftParameters {
         var value = QuickSightClientTypes.RedshiftParameters()
         value.host = try reader["Host"].readIfPresent()
         value.port = try reader["Port"].readIfPresent() ?? 0
-        value.database = try reader["Database"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
         value.clusterId = try reader["ClusterId"].readIfPresent()
         value.iamParameters = try reader["IAMParameters"].readIfPresent(with: QuickSightClientTypes.RedshiftIAMParameters.read(from:))
         value.identityCenterConfiguration = try reader["IdentityCenterConfiguration"].readIfPresent(with: QuickSightClientTypes.IdentityCenterConfiguration.read(from:))
@@ -60859,7 +60860,7 @@ extension QuickSightClientTypes.RedshiftIAMParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RedshiftIAMParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RedshiftIAMParameters()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.databaseUser = try reader["DatabaseUser"].readIfPresent()
         value.databaseGroups = try reader["DatabaseGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.autoCreateDatabaseUser = try reader["AutoCreateDatabaseUser"].readIfPresent() ?? false
@@ -60878,8 +60879,8 @@ extension QuickSightClientTypes.RdsParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RdsParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RdsParameters()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60896,9 +60897,9 @@ extension QuickSightClientTypes.PrestoParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PrestoParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PrestoParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.catalog = try reader["Catalog"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60915,9 +60916,9 @@ extension QuickSightClientTypes.PostgreSqlParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PostgreSqlParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.PostgreSqlParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60934,9 +60935,9 @@ extension QuickSightClientTypes.OracleParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OracleParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.OracleParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60953,9 +60954,9 @@ extension QuickSightClientTypes.MySqlParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MySqlParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.MySqlParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60972,9 +60973,9 @@ extension QuickSightClientTypes.MariaDbParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MariaDbParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.MariaDbParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -60989,7 +60990,7 @@ extension QuickSightClientTypes.JiraParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.JiraParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.JiraParameters()
-        value.siteBaseUrl = try reader["SiteBaseUrl"].readIfPresent()
+        value.siteBaseUrl = try reader["SiteBaseUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -61004,7 +61005,7 @@ extension QuickSightClientTypes.AwsIotAnalyticsParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AwsIotAnalyticsParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AwsIotAnalyticsParameters()
-        value.dataSetName = try reader["DataSetName"].readIfPresent()
+        value.dataSetName = try reader["DataSetName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -61021,9 +61022,9 @@ extension QuickSightClientTypes.AuroraPostgreSqlParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AuroraPostgreSqlParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AuroraPostgreSqlParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -61040,9 +61041,9 @@ extension QuickSightClientTypes.AuroraParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AuroraParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AuroraParameters()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent() ?? ""
         return value
     }
 }
@@ -61074,7 +61075,7 @@ extension QuickSightClientTypes.AmazonElasticsearchParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AmazonElasticsearchParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AmazonElasticsearchParameters()
-        value.domain = try reader["Domain"].readIfPresent()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
         return value
     }
 }
@@ -61091,8 +61092,8 @@ extension QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParam
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters()
-        value.dataSetId = try reader["DataSetId"].readIfPresent()
-        value.scheduleId = try reader["ScheduleId"].readIfPresent()
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.scheduleId = try reader["ScheduleId"].readIfPresent() ?? ""
         value.startAfterDateTime = try reader["StartAfterDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -61113,7 +61114,7 @@ extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParamet
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters()
-        value.vpcConnectionId = try reader["VPCConnectionId"].readIfPresent()
+        value.vpcConnectionId = try reader["VPCConnectionId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -61173,7 +61174,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions()
-        value.dashboardIds = try reader["DashboardIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dashboardIds = try reader["DashboardIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
         value.linkSharingConfiguration = try reader["LinkSharingConfiguration"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration.read(from:))
         return value
@@ -61206,8 +61207,8 @@ extension QuickSightClientTypes.AssetBundleResourcePermissions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleResourcePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleResourcePermissions()
-        value.principals = try reader["Principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.principals = try reader["Principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61223,7 +61224,7 @@ extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions()
-        value.analysisIds = try reader["AnalysisIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysisIds = try reader["AnalysisIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
         return value
     }
@@ -61240,7 +61241,7 @@ extension QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions()
-        value.themeIds = try reader["ThemeIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.themeIds = try reader["ThemeIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
         return value
     }
@@ -61257,7 +61258,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions()
-        value.dataSetIds = try reader["DataSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSetIds = try reader["DataSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
         return value
     }
@@ -61274,7 +61275,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermission
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions()
-        value.dataSourceIds = try reader["DataSourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSourceIds = try reader["DataSourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
         return value
     }
@@ -61316,8 +61317,8 @@ extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags()
-        value.dashboardIds = try reader["DashboardIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dashboardIds = try reader["DashboardIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61333,8 +61334,8 @@ extension QuickSightClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -61350,8 +61351,8 @@ extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags()
-        value.analysisIds = try reader["AnalysisIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysisIds = try reader["AnalysisIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61367,8 +61368,8 @@ extension QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags()
-        value.themeIds = try reader["ThemeIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.themeIds = try reader["ThemeIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61384,8 +61385,8 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags()
-        value.dataSetIds = try reader["DataSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSetIds = try reader["DataSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61401,8 +61402,8 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags()
-        value.dataSourceIds = try reader["DataSourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSourceIds = try reader["DataSourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61418,8 +61419,8 @@ extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags()
-        value.vpcConnectionIds = try reader["VPCConnectionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConnectionIds = try reader["VPCConnectionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61515,7 +61516,7 @@ extension QuickSightClientTypes.DashboardVersionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVersionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DashboardVersionDefinition()
-        value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDeclarations = try reader["ParameterDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ParameterDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -61774,7 +61775,7 @@ extension QuickSightClientTypes.SnapshotConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SnapshotConfiguration()
-        value.fileGroups = try reader["FileGroups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SnapshotFileGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fileGroups = try reader["FileGroups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SnapshotFileGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.destinationConfiguration = try reader["DestinationConfiguration"].readIfPresent(with: QuickSightClientTypes.SnapshotDestinationConfiguration.read(from:))
         value.parameters = try reader["Parameters"].readIfPresent(with: QuickSightClientTypes.Parameters.read(from:))
         return value
@@ -61813,8 +61814,8 @@ extension QuickSightClientTypes.DateTimeParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateTimeParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DateTimeParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61830,8 +61831,8 @@ extension QuickSightClientTypes.DecimalParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DecimalParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DecimalParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61847,8 +61848,8 @@ extension QuickSightClientTypes.IntegerParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.IntegerParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.IntegerParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61864,8 +61865,8 @@ extension QuickSightClientTypes.StringParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StringParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.StringParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61912,9 +61913,9 @@ extension QuickSightClientTypes.S3BucketConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.S3BucketConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.S3BucketConfiguration()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent()
-        value.bucketRegion = try reader["BucketRegion"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent() ?? ""
+        value.bucketRegion = try reader["BucketRegion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -61945,8 +61946,8 @@ extension QuickSightClientTypes.SnapshotFile {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotFile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SnapshotFile()
-        value.sheetSelections = try reader["SheetSelections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SnapshotFileSheetSelection.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.formatType = try reader["FormatType"].readIfPresent()
+        value.sheetSelections = try reader["SheetSelections"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SnapshotFileSheetSelection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.formatType = try reader["FormatType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -61963,8 +61964,8 @@ extension QuickSightClientTypes.SnapshotFileSheetSelection {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotFileSheetSelection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SnapshotFileSheetSelection()
-        value.sheetId = try reader["SheetId"].readIfPresent()
-        value.selectionScope = try reader["SelectionScope"].readIfPresent()
+        value.sheetId = try reader["SheetId"].readIfPresent() ?? ""
+        value.selectionScope = try reader["SelectionScope"].readIfPresent() ?? .sdkUnknown("")
         value.visualIds = try reader["VisualIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -62096,9 +62097,9 @@ extension QuickSightClientTypes.DateTimeDatasetParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateTimeDatasetParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DateTimeDatasetParameter()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.valueType = try reader["ValueType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
         value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.DateTimeDatasetParameterDefaultValues.read(from:))
         return value
@@ -62133,9 +62134,9 @@ extension QuickSightClientTypes.IntegerDatasetParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.IntegerDatasetParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.IntegerDatasetParameter()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.valueType = try reader["ValueType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.IntegerDatasetParameterDefaultValues.read(from:))
         return value
     }
@@ -62169,9 +62170,9 @@ extension QuickSightClientTypes.DecimalDatasetParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DecimalDatasetParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DecimalDatasetParameter()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.valueType = try reader["ValueType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.DecimalDatasetParameterDefaultValues.read(from:))
         return value
     }
@@ -62205,9 +62206,9 @@ extension QuickSightClientTypes.StringDatasetParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StringDatasetParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.StringDatasetParameter()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.valueType = try reader["ValueType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
         value.defaultValues = try reader["DefaultValues"].readIfPresent(with: QuickSightClientTypes.StringDatasetParameterDefaultValues.read(from:))
         return value
     }
@@ -62275,7 +62276,7 @@ extension QuickSightClientTypes.RowLevelPermissionTagConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RowLevelPermissionTagConfiguration()
         value.status = try reader["Status"].readIfPresent()
-        value.tagRules = try reader["TagRules"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RowLevelPermissionTagRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagRules = try reader["TagRules"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RowLevelPermissionTagRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tagRuleConfigurations = try reader["TagRuleConfigurations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -62294,8 +62295,8 @@ extension QuickSightClientTypes.RowLevelPermissionTagRule {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionTagRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RowLevelPermissionTagRule()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
         value.tagMultiValueDelimiter = try reader["TagMultiValueDelimiter"].readIfPresent()
         value.matchAllValue = try reader["MatchAllValue"].readIfPresent()
         return value
@@ -62317,8 +62318,8 @@ extension QuickSightClientTypes.RowLevelPermissionDataSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RowLevelPermissionDataSet()
         value.namespace = try reader["Namespace"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.permissionPolicy = try reader["PermissionPolicy"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.permissionPolicy = try reader["PermissionPolicy"].readIfPresent() ?? .sdkUnknown("")
         value.formatVersion = try reader["FormatVersion"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         return value
@@ -62369,9 +62370,9 @@ extension QuickSightClientTypes.GeoSpatialColumnGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeoSpatialColumnGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.GeoSpatialColumnGroup()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62401,7 +62402,7 @@ extension QuickSightClientTypes.LogicalTable {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LogicalTable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.LogicalTable()
-        value.alias = try reader["Alias"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
         value.dataTransforms = try reader["DataTransforms"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TransformOperation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.LogicalTableSource.read(from:))
         return value
@@ -62442,12 +62443,12 @@ extension QuickSightClientTypes.JoinInstruction {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.JoinInstruction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.JoinInstruction()
-        value.leftOperand = try reader["LeftOperand"].readIfPresent()
-        value.rightOperand = try reader["RightOperand"].readIfPresent()
+        value.leftOperand = try reader["LeftOperand"].readIfPresent() ?? ""
+        value.rightOperand = try reader["RightOperand"].readIfPresent() ?? ""
         value.leftJoinKeyProperties = try reader["LeftJoinKeyProperties"].readIfPresent(with: QuickSightClientTypes.JoinKeyProperties.read(from:))
         value.rightJoinKeyProperties = try reader["RightJoinKeyProperties"].readIfPresent(with: QuickSightClientTypes.JoinKeyProperties.read(from:))
-        value.type = try reader["Type"].readIfPresent()
-        value.onClause = try reader["OnClause"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.onClause = try reader["OnClause"].readIfPresent() ?? ""
         return value
     }
 }
@@ -62531,7 +62532,7 @@ extension QuickSightClientTypes.OverrideDatasetParameterOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OverrideDatasetParameterOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.OverrideDatasetParameterOperation()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.parameterName = try reader["ParameterName"].readIfPresent() ?? ""
         value.newParameterName = try reader["NewParameterName"].readIfPresent()
         value.newDefaultValues = try reader["NewDefaultValues"].readIfPresent(with: QuickSightClientTypes.NewDefaultValues.read(from:))
         return value
@@ -62570,8 +62571,8 @@ extension QuickSightClientTypes.UntagColumnOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UntagColumnOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.UntagColumnOperation()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.tagNames = try reader["TagNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.ColumnTagName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.tagNames = try reader["TagNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.ColumnTagName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62587,8 +62588,8 @@ extension QuickSightClientTypes.TagColumnOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TagColumnOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TagColumnOperation()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62638,8 +62639,8 @@ extension QuickSightClientTypes.CastColumnTypeOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CastColumnTypeOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CastColumnTypeOperation()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.newColumnType = try reader["NewColumnType"].readIfPresent()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.newColumnType = try reader["NewColumnType"].readIfPresent() ?? .sdkUnknown("")
         value.subType = try reader["SubType"].readIfPresent()
         value.format = try reader["Format"].readIfPresent()
         return value
@@ -62657,8 +62658,8 @@ extension QuickSightClientTypes.RenameColumnOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RenameColumnOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RenameColumnOperation()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.newColumnName = try reader["NewColumnName"].readIfPresent()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.newColumnName = try reader["NewColumnName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -62673,7 +62674,7 @@ extension QuickSightClientTypes.CreateColumnsOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CreateColumnsOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CreateColumnsOperation()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62690,9 +62691,9 @@ extension QuickSightClientTypes.CalculatedColumn {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CalculatedColumn()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.columnId = try reader["ColumnId"].readIfPresent()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.columnId = try reader["ColumnId"].readIfPresent() ?? ""
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -62707,7 +62708,7 @@ extension QuickSightClientTypes.FilterOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FilterOperation()
-        value.conditionExpression = try reader["ConditionExpression"].readIfPresent()
+        value.conditionExpression = try reader["ConditionExpression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -62722,7 +62723,7 @@ extension QuickSightClientTypes.ProjectOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ProjectOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ProjectOperation()
-        value.projectedColumns = try reader["ProjectedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projectedColumns = try reader["ProjectedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62771,9 +62772,9 @@ extension QuickSightClientTypes.S3Source {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.S3Source {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.S3Source()
-        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
         value.uploadSettings = try reader["UploadSettings"].readIfPresent(with: QuickSightClientTypes.UploadSettings.read(from:))
-        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62790,8 +62791,8 @@ extension QuickSightClientTypes.InputColumn {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InputColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.InputColumn()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.subType = try reader["SubType"].readIfPresent()
         return value
     }
@@ -62833,9 +62834,9 @@ extension QuickSightClientTypes.CustomSql {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomSql {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CustomSql()
-        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.sqlQuery = try reader["SqlQuery"].readIfPresent()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.sqlQuery = try reader["SqlQuery"].readIfPresent() ?? ""
         value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -62855,11 +62856,11 @@ extension QuickSightClientTypes.RelationalTable {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RelationalTable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RelationalTable()
-        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
         value.catalog = try reader["Catalog"].readIfPresent()
         value.schema = try reader["Schema"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62921,9 +62922,9 @@ extension QuickSightClientTypes.LookbackWindow {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LookbackWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.LookbackWindow()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.size = try reader["Size"].readIfPresent()
-        value.sizeUnit = try reader["SizeUnit"].readIfPresent()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.size = try reader["Size"].readIfPresent() ?? 0
+        value.sizeUnit = try reader["SizeUnit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -62998,13 +62999,13 @@ extension QuickSightClientTypes.Ingestion {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Ingestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Ingestion()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.ingestionId = try reader["IngestionId"].readIfPresent()
-        value.ingestionStatus = try reader["IngestionStatus"].readIfPresent()
+        value.ingestionStatus = try reader["IngestionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.errorInfo = try reader["ErrorInfo"].readIfPresent(with: QuickSightClientTypes.ErrorInfo.read(from:))
         value.rowInfo = try reader["RowInfo"].readIfPresent(with: QuickSightClientTypes.RowInfo.read(from:))
         value.queueInfo = try reader["QueueInfo"].readIfPresent(with: QuickSightClientTypes.QueueInfo.read(from:))
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ingestionTimeInSeconds = try reader["IngestionTimeInSeconds"].readIfPresent()
         value.ingestionSizeInBytes = try reader["IngestionSizeInBytes"].readIfPresent()
         value.requestSource = try reader["RequestSource"].readIfPresent()
@@ -63018,8 +63019,8 @@ extension QuickSightClientTypes.QueueInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.QueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.QueueInfo()
-        value.waitingOnIngestion = try reader["WaitingOnIngestion"].readIfPresent()
-        value.queuedIngestion = try reader["QueuedIngestion"].readIfPresent()
+        value.waitingOnIngestion = try reader["WaitingOnIngestion"].readIfPresent() ?? ""
+        value.queuedIngestion = try reader["QueuedIngestion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -63104,10 +63105,10 @@ extension QuickSightClientTypes.RefreshSchedule {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RefreshSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RefreshSchedule()
-        value.scheduleId = try reader["ScheduleId"].readIfPresent()
+        value.scheduleId = try reader["ScheduleId"].readIfPresent() ?? ""
         value.scheduleFrequency = try reader["ScheduleFrequency"].readIfPresent(with: QuickSightClientTypes.RefreshFrequency.read(from:))
         value.startAfterDateTime = try reader["StartAfterDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.refreshType = try reader["RefreshType"].readIfPresent()
+        value.refreshType = try reader["RefreshType"].readIfPresent() ?? .sdkUnknown("")
         value.arn = try reader["Arn"].readIfPresent()
         return value
     }
@@ -63126,7 +63127,7 @@ extension QuickSightClientTypes.RefreshFrequency {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RefreshFrequency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.RefreshFrequency()
-        value.interval = try reader["Interval"].readIfPresent()
+        value.interval = try reader["Interval"].readIfPresent() ?? .sdkUnknown("")
         value.refreshOnDay = try reader["RefreshOnDay"].readIfPresent(with: QuickSightClientTypes.ScheduleRefreshOnEntity.read(from:))
         value.timezone = try reader["Timezone"].readIfPresent()
         value.timeOfTheDay = try reader["TimeOfTheDay"].readIfPresent()
@@ -63299,7 +63300,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateVersionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TemplateVersionDefinition()
-        value.dataSetConfigurations = try reader["DataSetConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSetConfigurations = try reader["DataSetConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDeclarations = try reader["ParameterDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ParameterDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -63603,7 +63604,7 @@ extension QuickSightClientTypes.DatasetMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DatasetMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DatasetMetadata()
-        value.datasetArn = try reader["DatasetArn"].readIfPresent()
+        value.datasetArn = try reader["DatasetArn"].readIfPresent() ?? ""
         value.datasetName = try reader["DatasetName"].readIfPresent()
         value.datasetDescription = try reader["DatasetDescription"].readIfPresent()
         value.dataAggregation = try reader["DataAggregation"].readIfPresent(with: QuickSightClientTypes.DataAggregation.read(from:))
@@ -63629,7 +63630,7 @@ extension QuickSightClientTypes.TopicNamedEntity {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicNamedEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopicNamedEntity()
-        value.entityName = try reader["EntityName"].readIfPresent()
+        value.entityName = try reader["EntityName"].readIfPresent() ?? ""
         value.entityDescription = try reader["EntityDescription"].readIfPresent()
         value.entitySynonyms = try reader["EntitySynonyms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.semanticEntityType = try reader["SemanticEntityType"].readIfPresent(with: QuickSightClientTypes.SemanticEntityType.read(from:))
@@ -63723,9 +63724,9 @@ extension QuickSightClientTypes.TopicCalculatedField {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicCalculatedField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopicCalculatedField()
-        value.calculatedFieldName = try reader["CalculatedFieldName"].readIfPresent()
+        value.calculatedFieldName = try reader["CalculatedFieldName"].readIfPresent() ?? ""
         value.calculatedFieldDescription = try reader["CalculatedFieldDescription"].readIfPresent()
-        value.expression = try reader["Expression"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
         value.calculatedFieldSynonyms = try reader["CalculatedFieldSynonyms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isIncludedInTopic = try reader["IsIncludedInTopic"].readIfPresent() ?? false
         value.disableIndexing = try reader["DisableIndexing"].readIfPresent()
@@ -63904,7 +63905,7 @@ extension QuickSightClientTypes.TopicColumn {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopicColumn()
-        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
         value.columnFriendlyName = try reader["ColumnFriendlyName"].readIfPresent()
         value.columnDescription = try reader["ColumnDescription"].readIfPresent()
         value.columnSynonyms = try reader["ColumnSynonyms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -63947,9 +63948,9 @@ extension QuickSightClientTypes.TopicFilter {
         var value = QuickSightClientTypes.TopicFilter()
         value.filterDescription = try reader["FilterDescription"].readIfPresent()
         value.filterClass = try reader["FilterClass"].readIfPresent()
-        value.filterName = try reader["FilterName"].readIfPresent()
+        value.filterName = try reader["FilterName"].readIfPresent() ?? ""
         value.filterSynonyms = try reader["FilterSynonyms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operandFieldName = try reader["OperandFieldName"].readIfPresent()
+        value.operandFieldName = try reader["OperandFieldName"].readIfPresent() ?? ""
         value.filterType = try reader["FilterType"].readIfPresent()
         value.categoryFilter = try reader["CategoryFilter"].readIfPresent(with: QuickSightClientTypes.TopicCategoryFilter.read(from:))
         value.numericEqualityFilter = try reader["NumericEqualityFilter"].readIfPresent(with: QuickSightClientTypes.TopicNumericEqualityFilter.read(from:))
@@ -64182,7 +64183,7 @@ extension QuickSightClientTypes.TopicRefreshSchedule {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicRefreshSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopicRefreshSchedule()
-        value.isEnabled = try reader["IsEnabled"].readIfPresent()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
         value.basedOnSpiceSchedule = try reader["BasedOnSpiceSchedule"].readIfPresent() ?? false
         value.startingAt = try reader["StartingAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.timezone = try reader["Timezone"].readIfPresent()
@@ -64479,9 +64480,9 @@ extension QuickSightClientTypes.TopicReviewedAnswer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TopicReviewedAnswer()
         value.arn = try reader["Arn"].readIfPresent()
-        value.answerId = try reader["AnswerId"].readIfPresent()
-        value.datasetArn = try reader["DatasetArn"].readIfPresent()
-        value.question = try reader["Question"].readIfPresent()
+        value.answerId = try reader["AnswerId"].readIfPresent() ?? ""
+        value.datasetArn = try reader["DatasetArn"].readIfPresent() ?? ""
+        value.question = try reader["Question"].readIfPresent() ?? ""
         value.mir = try reader["Mir"].readIfPresent(with: QuickSightClientTypes.TopicIR.read(from:))
         value.primaryVisual = try reader["PrimaryVisual"].readIfPresent(with: QuickSightClientTypes.TopicVisual.read(from:))
         value.template = try reader["Template"].readIfPresent(with: QuickSightClientTypes.TopicTemplate.read(from:))
@@ -64759,7 +64760,7 @@ extension QuickSightClientTypes.Identifier {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Identifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Identifier()
-        value.identity = try reader["Identity"].readIfPresent()
+        value.identity = try reader["Identity"].readIfPresent() ?? ""
         return value
     }
 }
@@ -64979,7 +64980,7 @@ extension QuickSightClientTypes.FailedKeyRegistrationEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FailedKeyRegistrationEntry()
         value.keyArn = try reader["KeyArn"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
         value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
         value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
         return value
@@ -64991,7 +64992,7 @@ extension QuickSightClientTypes.SuccessfulKeyRegistrationEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SuccessfulKeyRegistrationEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SuccessfulKeyRegistrationEntry()
-        value.keyArn = try reader["KeyArn"].readIfPresent()
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
         value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
         return value
     }

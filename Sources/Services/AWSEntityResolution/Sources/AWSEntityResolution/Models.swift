@@ -33,6 +33,7 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -820,7 +821,7 @@ public struct CreateIdMappingWorkflowOutput {
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
-        roleArn: Swift.String? = nil,
+        roleArn: Swift.String? = "",
         workflowArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
     )
@@ -1879,7 +1880,7 @@ public struct GetIdMappingWorkflowOutput {
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
-        roleArn: Swift.String? = nil,
+        roleArn: Swift.String? = "",
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil,
         workflowArn: Swift.String? = nil,
@@ -3247,7 +3248,7 @@ public struct UpdateIdMappingWorkflowOutput {
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
-        roleArn: Swift.String? = nil,
+        roleArn: Swift.String? = "",
         workflowArn: Swift.String? = nil,
         workflowName: Swift.String? = nil
     )
@@ -4128,9 +4129,9 @@ extension AddPolicyStatementOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AddPolicyStatementOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.policy = try reader["policy"].readIfPresent()
-        value.token = try reader["token"].readIfPresent()
+        value.token = try reader["token"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4142,10 +4143,10 @@ extension BatchDeleteUniqueIdOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDeleteUniqueIdOutput()
-        value.deleted = try reader["deleted"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.DeletedUniqueId.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disconnectedUniqueIds = try reader["disconnectedUniqueIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.DeleteUniqueIdError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.deleted = try reader["deleted"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.DeletedUniqueId.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.disconnectedUniqueIds = try reader["disconnectedUniqueIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.DeleteUniqueIdError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4159,11 +4160,11 @@ extension CreateIdMappingWorkflowOutput {
         var value = CreateIdMappingWorkflowOutput()
         value.description = try reader["description"].readIfPresent()
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
-        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
-        value.workflowName = try reader["workflowName"].readIfPresent()
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4175,16 +4176,16 @@ extension CreateIdNamespaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateIdNamespaceOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.idMappingWorkflowProperties = try reader["idMappingWorkflowProperties"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent()
-        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent()
+        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent() ?? ""
+        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent() ?? ""
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4198,12 +4199,12 @@ extension CreateMatchingWorkflowOutput {
         var value = CreateMatchingWorkflowOutput()
         value.description = try reader["description"].readIfPresent()
         value.incrementalRunConfig = try reader["incrementalRunConfig"].readIfPresent(with: EntityResolutionClientTypes.IncrementalRunConfig.read(from:))
-        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.resolutionTechniques = try reader["resolutionTechniques"].readIfPresent(with: EntityResolutionClientTypes.ResolutionTechniques.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
-        value.workflowName = try reader["workflowName"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4215,10 +4216,10 @@ extension CreateSchemaMappingOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSchemaMappingOutput()
-        value.description = try reader["description"].readIfPresent()
-        value.mappedInputFields = try reader["mappedInputFields"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.SchemaInputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.schemaName = try reader["schemaName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.mappedInputFields = try reader["mappedInputFields"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.SchemaInputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.schemaArn = try reader["schemaArn"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4230,7 +4231,7 @@ extension DeleteIdMappingWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteIdMappingWorkflowOutput()
-        value.message = try reader["message"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4242,7 +4243,7 @@ extension DeleteIdNamespaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteIdNamespaceOutput()
-        value.message = try reader["message"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4254,7 +4255,7 @@ extension DeleteMatchingWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteMatchingWorkflowOutput()
-        value.message = try reader["message"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4266,9 +4267,9 @@ extension DeletePolicyStatementOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeletePolicyStatementOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.policy = try reader["policy"].readIfPresent()
-        value.token = try reader["token"].readIfPresent()
+        value.token = try reader["token"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4280,7 +4281,7 @@ extension DeleteSchemaMappingOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteSchemaMappingOutput()
-        value.message = try reader["message"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4294,11 +4295,11 @@ extension GetIdMappingJobOutput {
         var value = GetIdMappingJobOutput()
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: EntityResolutionClientTypes.ErrorDetails.read(from:))
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.metrics = try reader["metrics"].readIfPresent(with: EntityResolutionClientTypes.IdMappingJobMetrics.read(from:))
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingJobOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4310,16 +4311,16 @@ extension GetIdMappingWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetIdMappingWorkflowOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
-        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
-        value.workflowName = try reader["workflowName"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4331,16 +4332,16 @@ extension GetIdNamespaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetIdNamespaceOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.idMappingWorkflowProperties = try reader["idMappingWorkflowProperties"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent()
-        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent()
+        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent() ?? ""
+        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent() ?? ""
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4367,11 +4368,11 @@ extension GetMatchingJobOutput {
         var value = GetMatchingJobOutput()
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: EntityResolutionClientTypes.ErrorDetails.read(from:))
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.metrics = try reader["metrics"].readIfPresent(with: EntityResolutionClientTypes.JobMetrics.read(from:))
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.JobOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4383,17 +4384,17 @@ extension GetMatchingWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetMatchingWorkflowOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.incrementalRunConfig = try reader["incrementalRunConfig"].readIfPresent(with: EntityResolutionClientTypes.IncrementalRunConfig.read(from:))
-        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.resolutionTechniques = try reader["resolutionTechniques"].readIfPresent(with: EntityResolutionClientTypes.ResolutionTechniques.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
-        value.workflowName = try reader["workflowName"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4405,9 +4406,9 @@ extension GetPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPolicyOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.policy = try reader["policy"].readIfPresent()
-        value.token = try reader["token"].readIfPresent()
+        value.token = try reader["token"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4419,19 +4420,19 @@ extension GetProviderServiceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetProviderServiceOutput()
-        value.anonymizedOutput = try reader["anonymizedOutput"].readIfPresent()
+        value.anonymizedOutput = try reader["anonymizedOutput"].readIfPresent() ?? false
         value.providerComponentSchema = try reader["providerComponentSchema"].readIfPresent(with: EntityResolutionClientTypes.ProviderComponentSchema.read(from:))
         value.providerConfigurationDefinition = try reader["providerConfigurationDefinition"].readIfPresent()
         value.providerEndpointConfiguration = try reader["providerEndpointConfiguration"].readIfPresent(with: EntityResolutionClientTypes.ProviderEndpointConfiguration.read(from:))
-        value.providerEntityOutputDefinition = try reader["providerEntityOutputDefinition"].readIfPresent()
+        value.providerEntityOutputDefinition = try reader["providerEntityOutputDefinition"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         value.providerIdNameSpaceConfiguration = try reader["providerIdNameSpaceConfiguration"].readIfPresent(with: EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration.read(from:))
         value.providerIntermediateDataAccessConfiguration = try reader["providerIntermediateDataAccessConfiguration"].readIfPresent(with: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration.read(from:))
         value.providerJobConfiguration = try reader["providerJobConfiguration"].readIfPresent()
-        value.providerName = try reader["providerName"].readIfPresent()
-        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent()
-        value.providerServiceDisplayName = try reader["providerServiceDisplayName"].readIfPresent()
-        value.providerServiceName = try reader["providerServiceName"].readIfPresent()
-        value.providerServiceType = try reader["providerServiceType"].readIfPresent()
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
+        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent() ?? ""
+        value.providerServiceDisplayName = try reader["providerServiceDisplayName"].readIfPresent() ?? ""
+        value.providerServiceName = try reader["providerServiceName"].readIfPresent() ?? ""
+        value.providerServiceType = try reader["providerServiceType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4443,14 +4444,14 @@ extension GetSchemaMappingOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSchemaMappingOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.hasWorkflows = try reader["hasWorkflows"].readIfPresent()
-        value.mappedInputFields = try reader["mappedInputFields"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.SchemaInputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.schemaName = try reader["schemaName"].readIfPresent()
+        value.hasWorkflows = try reader["hasWorkflows"].readIfPresent() ?? false
+        value.mappedInputFields = try reader["mappedInputFields"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.SchemaInputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.schemaArn = try reader["schemaArn"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4553,7 +4554,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -4565,9 +4566,9 @@ extension PutPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutPolicyOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.policy = try reader["policy"].readIfPresent()
-        value.token = try reader["token"].readIfPresent()
+        value.token = try reader["token"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4579,7 +4580,7 @@ extension StartIdMappingJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartIdMappingJobOutput()
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingJobOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -4592,7 +4593,7 @@ extension StartMatchingJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartMatchingJobOutput()
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4620,11 +4621,11 @@ extension UpdateIdMappingWorkflowOutput {
         var value = UpdateIdMappingWorkflowOutput()
         value.description = try reader["description"].readIfPresent()
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
-        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
-        value.workflowName = try reader["workflowName"].readIfPresent()
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4636,15 +4637,15 @@ extension UpdateIdNamespaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateIdNamespaceOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.idMappingWorkflowProperties = try reader["idMappingWorkflowProperties"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent()
-        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent()
+        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent() ?? ""
+        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent() ?? ""
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceInputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4658,11 +4659,11 @@ extension UpdateMatchingWorkflowOutput {
         var value = UpdateMatchingWorkflowOutput()
         value.description = try reader["description"].readIfPresent()
         value.incrementalRunConfig = try reader["incrementalRunConfig"].readIfPresent(with: EntityResolutionClientTypes.IncrementalRunConfig.read(from:))
-        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.resolutionTechniques = try reader["resolutionTechniques"].readIfPresent(with: EntityResolutionClientTypes.ResolutionTechniques.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.workflowName = try reader["workflowName"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4675,9 +4676,9 @@ extension UpdateSchemaMappingOutput {
         let reader = responseReader
         var value = UpdateSchemaMappingOutput()
         value.description = try reader["description"].readIfPresent()
-        value.mappedInputFields = try reader["mappedInputFields"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.SchemaInputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.schemaName = try reader["schemaName"].readIfPresent()
+        value.mappedInputFields = try reader["mappedInputFields"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.SchemaInputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.schemaArn = try reader["schemaArn"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5443,8 +5444,8 @@ extension EntityResolutionClientTypes.DeleteUniqueIdError {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.DeleteUniqueIdError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.DeleteUniqueIdError()
-        value.uniqueId = try reader["uniqueId"].readIfPresent()
-        value.errorType = try reader["errorType"].readIfPresent()
+        value.uniqueId = try reader["uniqueId"].readIfPresent() ?? ""
+        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5454,7 +5455,7 @@ extension EntityResolutionClientTypes.DeletedUniqueId {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.DeletedUniqueId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.DeletedUniqueId()
-        value.uniqueId = try reader["uniqueId"].readIfPresent()
+        value.uniqueId = try reader["uniqueId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5471,7 +5472,7 @@ extension EntityResolutionClientTypes.IdMappingWorkflowInputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingWorkflowInputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingWorkflowInputSource()
-        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent()
+        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent() ?? ""
         value.schemaName = try reader["schemaName"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         return value
@@ -5489,7 +5490,7 @@ extension EntityResolutionClientTypes.IdMappingWorkflowOutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingWorkflowOutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingWorkflowOutputSource()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent()
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
         return value
     }
@@ -5507,7 +5508,7 @@ extension EntityResolutionClientTypes.IdMappingTechniques {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingTechniques {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingTechniques()
-        value.idMappingType = try reader["idMappingType"].readIfPresent()
+        value.idMappingType = try reader["idMappingType"].readIfPresent() ?? .sdkUnknown("")
         value.ruleBasedProperties = try reader["ruleBasedProperties"].readIfPresent(with: EntityResolutionClientTypes.IdMappingRuleBasedProperties.read(from:))
         value.providerProperties = try reader["providerProperties"].readIfPresent(with: EntityResolutionClientTypes.ProviderProperties.read(from:))
         return value
@@ -5526,7 +5527,7 @@ extension EntityResolutionClientTypes.ProviderProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ProviderProperties()
-        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent()
+        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent() ?? ""
         value.providerConfiguration = try reader["providerConfiguration"].readIfPresent()
         value.intermediateSourceConfiguration = try reader["intermediateSourceConfiguration"].readIfPresent(with: EntityResolutionClientTypes.IntermediateSourceConfiguration.read(from:))
         return value
@@ -5543,7 +5544,7 @@ extension EntityResolutionClientTypes.IntermediateSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IntermediateSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IntermediateSourceConfiguration()
-        value.intermediateS3Path = try reader["intermediateS3Path"].readIfPresent()
+        value.intermediateS3Path = try reader["intermediateS3Path"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5562,9 +5563,9 @@ extension EntityResolutionClientTypes.IdMappingRuleBasedProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingRuleBasedProperties()
         value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ruleDefinitionType = try reader["ruleDefinitionType"].readIfPresent()
-        value.attributeMatchingModel = try reader["attributeMatchingModel"].readIfPresent()
-        value.recordMatchingModel = try reader["recordMatchingModel"].readIfPresent()
+        value.ruleDefinitionType = try reader["ruleDefinitionType"].readIfPresent() ?? .sdkUnknown("")
+        value.attributeMatchingModel = try reader["attributeMatchingModel"].readIfPresent() ?? .sdkUnknown("")
+        value.recordMatchingModel = try reader["recordMatchingModel"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5580,8 +5581,8 @@ extension EntityResolutionClientTypes.Rule {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.Rule()
-        value.ruleName = try reader["ruleName"].readIfPresent()
-        value.matchingKeys = try reader["matchingKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleName = try reader["ruleName"].readIfPresent() ?? ""
+        value.matchingKeys = try reader["matchingKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5597,7 +5598,7 @@ extension EntityResolutionClientTypes.IdNamespaceInputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdNamespaceInputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdNamespaceInputSource()
-        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent()
+        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent() ?? ""
         value.schemaName = try reader["schemaName"].readIfPresent()
         return value
     }
@@ -5615,7 +5616,7 @@ extension EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties()
-        value.idMappingType = try reader["idMappingType"].readIfPresent()
+        value.idMappingType = try reader["idMappingType"].readIfPresent() ?? .sdkUnknown("")
         value.ruleBasedProperties = try reader["ruleBasedProperties"].readIfPresent(with: EntityResolutionClientTypes.NamespaceRuleBasedProperties.read(from:))
         value.providerProperties = try reader["providerProperties"].readIfPresent(with: EntityResolutionClientTypes.NamespaceProviderProperties.read(from:))
         return value
@@ -5633,7 +5634,7 @@ extension EntityResolutionClientTypes.NamespaceProviderProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.NamespaceProviderProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.NamespaceProviderProperties()
-        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent()
+        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent() ?? ""
         value.providerConfiguration = try reader["providerConfiguration"].readIfPresent()
         return value
     }
@@ -5672,8 +5673,8 @@ extension EntityResolutionClientTypes.InputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.InputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.InputSource()
-        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent()
-        value.schemaName = try reader["schemaName"].readIfPresent()
+        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
         value.applyNormalization = try reader["applyNormalization"].readIfPresent()
         return value
     }
@@ -5692,9 +5693,9 @@ extension EntityResolutionClientTypes.OutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.OutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.OutputSource()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent()
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
-        value.output = try reader["output"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.output = try reader["output"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.applyNormalization = try reader["applyNormalization"].readIfPresent()
         return value
     }
@@ -5711,7 +5712,7 @@ extension EntityResolutionClientTypes.OutputAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.OutputAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.OutputAttribute()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.hashed = try reader["hashed"].readIfPresent()
         return value
     }
@@ -5729,7 +5730,7 @@ extension EntityResolutionClientTypes.ResolutionTechniques {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ResolutionTechniques {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ResolutionTechniques()
-        value.resolutionType = try reader["resolutionType"].readIfPresent()
+        value.resolutionType = try reader["resolutionType"].readIfPresent() ?? .sdkUnknown("")
         value.ruleBasedProperties = try reader["ruleBasedProperties"].readIfPresent(with: EntityResolutionClientTypes.RuleBasedProperties.read(from:))
         value.providerProperties = try reader["providerProperties"].readIfPresent(with: EntityResolutionClientTypes.ProviderProperties.read(from:))
         return value
@@ -5748,8 +5749,8 @@ extension EntityResolutionClientTypes.RuleBasedProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.RuleBasedProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.RuleBasedProperties()
-        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attributeMatchingModel = try reader["attributeMatchingModel"].readIfPresent()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributeMatchingModel = try reader["attributeMatchingModel"].readIfPresent() ?? .sdkUnknown("")
         value.matchPurpose = try reader["matchPurpose"].readIfPresent()
         return value
     }
@@ -5785,8 +5786,8 @@ extension EntityResolutionClientTypes.SchemaInputAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.SchemaInputAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.SchemaInputAttribute()
-        value.fieldName = try reader["fieldName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.fieldName = try reader["fieldName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.groupName = try reader["groupName"].readIfPresent()
         value.matchKey = try reader["matchKey"].readIfPresent()
         value.subType = try reader["subType"].readIfPresent()
@@ -5832,8 +5833,8 @@ extension EntityResolutionClientTypes.IdMappingJobOutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingJobOutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingJobOutputSource()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
         return value
     }
@@ -5857,8 +5858,8 @@ extension EntityResolutionClientTypes.JobOutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.JobOutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.JobOutputSource()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
         return value
     }
@@ -5895,10 +5896,10 @@ extension EntityResolutionClientTypes.ProviderMarketplaceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderMarketplaceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ProviderMarketplaceConfiguration()
-        value.dataSetId = try reader["dataSetId"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.listingId = try reader["listingId"].readIfPresent()
+        value.dataSetId = try reader["dataSetId"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.listingId = try reader["listingId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5930,8 +5931,8 @@ extension EntityResolutionClientTypes.ProviderSchemaAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderSchemaAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ProviderSchemaAttribute()
-        value.fieldName = try reader["fieldName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.fieldName = try reader["fieldName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.subType = try reader["subType"].readIfPresent()
         value.hashing = try reader["hashing"].readIfPresent()
         return value
@@ -5943,9 +5944,9 @@ extension EntityResolutionClientTypes.JobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.JobSummary()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -5956,10 +5957,10 @@ extension EntityResolutionClientTypes.IdMappingWorkflowSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingWorkflowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingWorkflowSummary()
-        value.workflowName = try reader["workflowName"].readIfPresent()
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5969,13 +5970,13 @@ extension EntityResolutionClientTypes.IdNamespaceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdNamespaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdNamespaceSummary()
-        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent()
-        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent()
+        value.idNamespaceName = try reader["idNamespaceName"].readIfPresent() ?? ""
+        value.idNamespaceArn = try reader["idNamespaceArn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.idMappingWorkflowProperties = try reader["idMappingWorkflowProperties"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5985,7 +5986,7 @@ extension EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowMetadata()
-        value.idMappingType = try reader["idMappingType"].readIfPresent()
+        value.idMappingType = try reader["idMappingType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5995,11 +5996,11 @@ extension EntityResolutionClientTypes.MatchingWorkflowSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.MatchingWorkflowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.MatchingWorkflowSummary()
-        value.workflowName = try reader["workflowName"].readIfPresent()
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resolutionType = try reader["resolutionType"].readIfPresent()
+        value.workflowName = try reader["workflowName"].readIfPresent() ?? ""
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resolutionType = try reader["resolutionType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6009,11 +6010,11 @@ extension EntityResolutionClientTypes.ProviderServiceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.ProviderServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.ProviderServiceSummary()
-        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent()
-        value.providerName = try reader["providerName"].readIfPresent()
-        value.providerServiceDisplayName = try reader["providerServiceDisplayName"].readIfPresent()
-        value.providerServiceName = try reader["providerServiceName"].readIfPresent()
-        value.providerServiceType = try reader["providerServiceType"].readIfPresent()
+        value.providerServiceArn = try reader["providerServiceArn"].readIfPresent() ?? ""
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
+        value.providerServiceDisplayName = try reader["providerServiceDisplayName"].readIfPresent() ?? ""
+        value.providerServiceName = try reader["providerServiceName"].readIfPresent() ?? ""
+        value.providerServiceType = try reader["providerServiceType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6023,11 +6024,11 @@ extension EntityResolutionClientTypes.SchemaMappingSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.SchemaMappingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.SchemaMappingSummary()
-        value.schemaName = try reader["schemaName"].readIfPresent()
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.hasWorkflows = try reader["hasWorkflows"].readIfPresent()
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
+        value.schemaArn = try reader["schemaArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.hasWorkflows = try reader["hasWorkflows"].readIfPresent() ?? false
         return value
     }
 }

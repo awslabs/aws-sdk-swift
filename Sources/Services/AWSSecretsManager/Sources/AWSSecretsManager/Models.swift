@@ -604,7 +604,7 @@ public struct CreateSecretInput {
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        forceOverwriteReplicaSecret: Swift.Bool? = nil,
+        forceOverwriteReplicaSecret: Swift.Bool? = false,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         secretBinary: Foundation.Data? = nil,
@@ -762,8 +762,8 @@ public struct DeleteSecretInput {
     public var secretId: Swift.String?
 
     public init(
-        forceDeleteWithoutRecovery: Swift.Bool? = nil,
-        recoveryWindowInDays: Swift.Int? = nil,
+        forceDeleteWithoutRecovery: Swift.Bool? = false,
+        recoveryWindowInDays: Swift.Int? = 0,
         secretId: Swift.String? = nil
     )
     {
@@ -897,7 +897,7 @@ public struct DescribeSecretOutput {
         owningService: Swift.String? = nil,
         primaryRegion: Swift.String? = nil,
         replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]? = nil,
-        rotationEnabled: Swift.Bool? = nil,
+        rotationEnabled: Swift.Bool? = false,
         rotationLambdaARN: Swift.String? = nil,
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         tags: [SecretsManagerClientTypes.Tag]? = nil,
@@ -945,13 +945,13 @@ public struct GetRandomPasswordInput {
 
     public init(
         excludeCharacters: Swift.String? = nil,
-        excludeLowercase: Swift.Bool? = nil,
-        excludeNumbers: Swift.Bool? = nil,
-        excludePunctuation: Swift.Bool? = nil,
-        excludeUppercase: Swift.Bool? = nil,
-        includeSpace: Swift.Bool? = nil,
+        excludeLowercase: Swift.Bool? = false,
+        excludeNumbers: Swift.Bool? = false,
+        excludePunctuation: Swift.Bool? = false,
+        excludeUppercase: Swift.Bool? = false,
+        includeSpace: Swift.Bool? = false,
         passwordLength: Swift.Int? = nil,
-        requireEachIncludedType: Swift.Bool? = nil
+        requireEachIncludedType: Swift.Bool? = false
     )
     {
         self.excludeCharacters = excludeCharacters
@@ -1120,7 +1120,7 @@ public struct ListSecretsInput {
 
     public init(
         filters: [SecretsManagerClientTypes.Filter]? = nil,
-        includePlannedDeletion: Swift.Bool? = nil,
+        includePlannedDeletion: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SecretsManagerClientTypes.SortOrderType? = nil
@@ -1185,7 +1185,7 @@ extension SecretsManagerClientTypes {
             nextRotationDate: Foundation.Date? = nil,
             owningService: Swift.String? = nil,
             primaryRegion: Swift.String? = nil,
-            rotationEnabled: Swift.Bool? = nil,
+            rotationEnabled: Swift.Bool? = false,
             rotationLambdaARN: Swift.String? = nil,
             rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
             secretVersionsToStages: [Swift.String: [Swift.String]]? = nil,
@@ -1242,7 +1242,7 @@ public struct ListSecretVersionIdsInput {
     public var secretId: Swift.String?
 
     public init(
-        includeDeprecated: Swift.Bool? = nil,
+        includeDeprecated: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         secretId: Swift.String? = nil
@@ -1353,7 +1353,7 @@ public struct PutResourcePolicyInput {
     public var secretId: Swift.String?
 
     public init(
-        blockPublicPolicy: Swift.Bool? = nil,
+        blockPublicPolicy: Swift.Bool? = false,
         resourcePolicy: Swift.String? = nil,
         secretId: Swift.String? = nil
     )
@@ -1497,7 +1497,7 @@ public struct ReplicateSecretToRegionsInput {
 
     public init(
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
-        forceOverwriteReplicaSecret: Swift.Bool? = nil,
+        forceOverwriteReplicaSecret: Swift.Bool? = false,
         secretId: Swift.String? = nil
     )
     {
@@ -1567,7 +1567,7 @@ public struct RotateSecretInput {
 
     public init(
         clientRequestToken: Swift.String? = nil,
-        rotateImmediately: Swift.Bool? = nil,
+        rotateImmediately: Swift.Bool? = false,
         rotationLambdaARN: Swift.String? = nil,
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         secretId: Swift.String? = nil

@@ -344,8 +344,8 @@ extension ApiGatewayManagementApiClientTypes.Identity {
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayManagementApiClientTypes.Identity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayManagementApiClientTypes.Identity()
-        value.sourceIp = try reader["sourceIp"].readIfPresent()
-        value.userAgent = try reader["userAgent"].readIfPresent()
+        value.sourceIp = try reader["sourceIp"].readIfPresent() ?? ""
+        value.userAgent = try reader["userAgent"].readIfPresent() ?? ""
         return value
     }
 }

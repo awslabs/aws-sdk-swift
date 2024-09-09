@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct TagResourceOutput {
 
@@ -866,7 +867,7 @@ public struct ListComputeNodeGroupsInput {
 
     public init(
         clusterIdentifier: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
     )
     {
@@ -1551,7 +1552,7 @@ public struct ListClustersInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
     )
     {
@@ -1845,7 +1846,7 @@ public struct ListQueuesInput {
 
     public init(
         clusterIdentifier: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
     )
     {
@@ -2482,7 +2483,7 @@ extension ListClustersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListClustersOutput()
-        value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: PCSClientTypes.ClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: PCSClientTypes.ClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2495,7 +2496,7 @@ extension ListComputeNodeGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListComputeNodeGroupsOutput()
-        value.computeNodeGroups = try reader["computeNodeGroups"].readListIfPresent(memberReadingClosure: PCSClientTypes.ComputeNodeGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.computeNodeGroups = try reader["computeNodeGroups"].readListIfPresent(memberReadingClosure: PCSClientTypes.ComputeNodeGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2509,7 +2510,7 @@ extension ListQueuesOutput {
         let reader = responseReader
         var value = ListQueuesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.queues = try reader["queues"].readListIfPresent(memberReadingClosure: PCSClientTypes.QueueSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.queues = try reader["queues"].readListIfPresent(memberReadingClosure: PCSClientTypes.QueueSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2533,9 +2534,9 @@ extension RegisterComputeNodeGroupInstanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RegisterComputeNodeGroupInstanceOutput()
-        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: PCSClientTypes.Endpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nodeID = try reader["nodeID"].readIfPresent()
-        value.sharedSecret = try reader["sharedSecret"].readIfPresent()
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: PCSClientTypes.Endpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nodeID = try reader["nodeID"].readIfPresent() ?? ""
+        value.sharedSecret = try reader["sharedSecret"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2910,7 +2911,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2923,11 +2924,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2944,7 +2945,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2957,9 +2958,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2973,8 +2974,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: PCSClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2987,7 +2988,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3000,9 +3001,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3015,14 +3016,14 @@ extension PCSClientTypes.Cluster {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Cluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.Cluster()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.scheduler = try reader["scheduler"].readIfPresent(with: PCSClientTypes.Scheduler.read(from:))
-        value.size = try reader["size"].readIfPresent()
+        value.size = try reader["size"].readIfPresent() ?? .sdkUnknown("")
         value.slurmConfiguration = try reader["slurmConfiguration"].readIfPresent(with: PCSClientTypes.ClusterSlurmConfiguration.read(from:))
         value.networking = try reader["networking"].readIfPresent(with: PCSClientTypes.Networking.read(from:))
         value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: PCSClientTypes.Endpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3047,10 +3048,10 @@ extension PCSClientTypes.Endpoint {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.Endpoint()
-        value.type = try reader["type"].readIfPresent()
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent() ?? ""
         value.publicIpAddress = try reader["publicIpAddress"].readIfPresent()
-        value.port = try reader["port"].readIfPresent()
+        value.port = try reader["port"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3083,8 +3084,8 @@ extension PCSClientTypes.SlurmAuthKey {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmAuthKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.SlurmAuthKey()
-        value.secretArn = try reader["secretArn"].readIfPresent()
-        value.secretVersion = try reader["secretVersion"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.secretVersion = try reader["secretVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3100,8 +3101,8 @@ extension PCSClientTypes.SlurmCustomSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmCustomSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.SlurmCustomSetting()
-        value.parameterName = try reader["parameterName"].readIfPresent()
-        value.parameterValue = try reader["parameterValue"].readIfPresent()
+        value.parameterName = try reader["parameterName"].readIfPresent() ?? ""
+        value.parameterValue = try reader["parameterValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3111,8 +3112,8 @@ extension PCSClientTypes.Scheduler {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Scheduler {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.Scheduler()
-        value.type = try reader["type"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3122,20 +3123,20 @@ extension PCSClientTypes.ComputeNodeGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ComputeNodeGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.ComputeNodeGroup()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.clusterId = try reader["clusterId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.amiId = try reader["amiId"].readIfPresent()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.purchaseOption = try reader["purchaseOption"].readIfPresent()
         value.customLaunchTemplate = try reader["customLaunchTemplate"].readIfPresent(with: PCSClientTypes.CustomLaunchTemplate.read(from:))
-        value.iamInstanceProfileArn = try reader["iamInstanceProfileArn"].readIfPresent()
+        value.iamInstanceProfileArn = try reader["iamInstanceProfileArn"].readIfPresent() ?? ""
         value.scalingConfiguration = try reader["scalingConfiguration"].readIfPresent(with: PCSClientTypes.ScalingConfiguration.read(from:))
-        value.instanceConfigs = try reader["instanceConfigs"].readListIfPresent(memberReadingClosure: PCSClientTypes.InstanceConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceConfigs = try reader["instanceConfigs"].readListIfPresent(memberReadingClosure: PCSClientTypes.InstanceConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.spotOptions = try reader["spotOptions"].readIfPresent(with: PCSClientTypes.SpotOptions.read(from:))
         value.slurmConfiguration = try reader["slurmConfiguration"].readIfPresent(with: PCSClientTypes.ComputeNodeGroupSlurmConfiguration.read(from:))
         value.errorInfo = try reader["errorInfo"].readListIfPresent(memberReadingClosure: PCSClientTypes.ErrorInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3205,8 +3206,8 @@ extension PCSClientTypes.CustomLaunchTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.CustomLaunchTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.CustomLaunchTemplate()
-        value.id = try reader["id"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3216,14 +3217,14 @@ extension PCSClientTypes.Queue {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Queue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.Queue()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.clusterId = try reader["clusterId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
-        value.computeNodeGroupConfigurations = try reader["computeNodeGroupConfigurations"].readListIfPresent(memberReadingClosure: PCSClientTypes.ComputeNodeGroupConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.computeNodeGroupConfigurations = try reader["computeNodeGroupConfigurations"].readListIfPresent(memberReadingClosure: PCSClientTypes.ComputeNodeGroupConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.errorInfo = try reader["errorInfo"].readListIfPresent(memberReadingClosure: PCSClientTypes.ErrorInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -3249,12 +3250,12 @@ extension PCSClientTypes.ClusterSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.ClusterSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3264,13 +3265,13 @@ extension PCSClientTypes.ComputeNodeGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ComputeNodeGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.ComputeNodeGroupSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.clusterId = try reader["clusterId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3280,13 +3281,13 @@ extension PCSClientTypes.QueueSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.QueueSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.QueueSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.clusterId = try reader["clusterId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3296,8 +3297,8 @@ extension PCSClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

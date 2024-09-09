@@ -1888,7 +1888,7 @@ public struct CreateKeyInput {
     public var xksKeyId: Swift.String?
 
     public init(
-        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = false,
         customKeyStoreId: Swift.String? = nil,
         customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec? = nil,
         description: Swift.String? = nil,
@@ -4611,7 +4611,7 @@ public struct PutKeyPolicyInput {
     public var policyName: Swift.String?
 
     public init(
-        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = false,
         keyId: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
@@ -4760,7 +4760,7 @@ public struct ReplicateKeyInput {
     public var tags: [KMSClientTypes.Tag]?
 
     public init(
-        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = false,
         description: Swift.String? = nil,
         keyId: Swift.String? = nil,
         policy: Swift.String? = nil,
@@ -8599,7 +8599,7 @@ extension KMSClientTypes.KeyMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KMSClientTypes.KeyMetadata()
         value.awsAccountId = try reader["AWSAccountId"].readIfPresent()
-        value.keyId = try reader["KeyId"].readIfPresent()
+        value.keyId = try reader["KeyId"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
@@ -8775,8 +8775,8 @@ extension KMSClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KMSClientTypes.Tag()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.tagValue = try reader["TagValue"].readIfPresent()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValue = try reader["TagValue"].readIfPresent() ?? ""
         return value
     }
 }

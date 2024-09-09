@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteLedgerOutput {
 
@@ -2031,7 +2032,7 @@ extension ExportJournalToS3Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ExportJournalToS3Output()
-        value.exportId = try reader["ExportId"].readIfPresent()
+        value.exportId = try reader["ExportId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2056,7 +2057,7 @@ extension GetDigestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDigestOutput()
-        value.digest = try reader["Digest"].readIfPresent()
+        value.digest = try reader["Digest"].readIfPresent() ?? Foundation.Data("".utf8)
         value.digestTipAddress = try reader["DigestTipAddress"].readIfPresent(with: QLDBClientTypes.ValueHolder.read(from:))
         return value
     }
@@ -2593,17 +2594,17 @@ extension QLDBClientTypes.JournalKinesisStreamDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.JournalKinesisStreamDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.JournalKinesisStreamDescription()
-        value.ledgerName = try reader["LedgerName"].readIfPresent()
+        value.ledgerName = try reader["LedgerName"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.inclusiveStartTime = try reader["InclusiveStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.exclusiveEndTime = try reader["ExclusiveEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.streamId = try reader["StreamId"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.streamId = try reader["StreamId"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.kinesisConfiguration = try reader["KinesisConfiguration"].readIfPresent(with: QLDBClientTypes.KinesisConfiguration.read(from:))
         value.errorCause = try reader["ErrorCause"].readIfPresent()
-        value.streamName = try reader["StreamName"].readIfPresent()
+        value.streamName = try reader["StreamName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2619,7 +2620,7 @@ extension QLDBClientTypes.KinesisConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.KinesisConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.KinesisConfiguration()
-        value.streamArn = try reader["StreamArn"].readIfPresent()
+        value.streamArn = try reader["StreamArn"].readIfPresent() ?? ""
         value.aggregationEnabled = try reader["AggregationEnabled"].readIfPresent()
         return value
     }
@@ -2630,14 +2631,14 @@ extension QLDBClientTypes.JournalS3ExportDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.JournalS3ExportDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.JournalS3ExportDescription()
-        value.ledgerName = try reader["LedgerName"].readIfPresent()
-        value.exportId = try reader["ExportId"].readIfPresent()
-        value.exportCreationTime = try reader["ExportCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.inclusiveStartTime = try reader["InclusiveStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.exclusiveEndTime = try reader["ExclusiveEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ledgerName = try reader["LedgerName"].readIfPresent() ?? ""
+        value.exportId = try reader["ExportId"].readIfPresent() ?? ""
+        value.exportCreationTime = try reader["ExportCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.inclusiveStartTime = try reader["InclusiveStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.exclusiveEndTime = try reader["ExclusiveEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.s3ExportConfiguration = try reader["S3ExportConfiguration"].readIfPresent(with: QLDBClientTypes.S3ExportConfiguration.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.outputFormat = try reader["OutputFormat"].readIfPresent()
         return value
     }
@@ -2655,8 +2656,8 @@ extension QLDBClientTypes.S3ExportConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.S3ExportConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.S3ExportConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent() ?? ""
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: QLDBClientTypes.S3EncryptionConfiguration.read(from:))
         return value
     }
@@ -2673,7 +2674,7 @@ extension QLDBClientTypes.S3EncryptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.S3EncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.S3EncryptionConfiguration()
-        value.objectEncryptionType = try reader["ObjectEncryptionType"].readIfPresent()
+        value.objectEncryptionType = try reader["ObjectEncryptionType"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         return value
     }
@@ -2684,8 +2685,8 @@ extension QLDBClientTypes.LedgerEncryptionDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> QLDBClientTypes.LedgerEncryptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QLDBClientTypes.LedgerEncryptionDescription()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        value.encryptionStatus = try reader["EncryptionStatus"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
+        value.encryptionStatus = try reader["EncryptionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.inaccessibleKmsKeyDateTime = try reader["InaccessibleKmsKeyDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }

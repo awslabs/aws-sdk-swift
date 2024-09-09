@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension FSxClientTypes {
     /// The Microsoft Active Directory attributes of the Amazon FSx for Windows File Server file system.
@@ -11680,7 +11681,7 @@ extension IncompatibleParameterError {
         let reader = baseError.errorBodyReader
         var value = IncompatibleParameterError()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.parameter = try reader["Parameter"].readIfPresent()
+        value.properties.parameter = try reader["Parameter"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11759,7 +11760,7 @@ extension ServiceLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ServiceLimitExceeded()
-        value.properties.limit = try reader["Limit"].readIfPresent()
+        value.properties.limit = try reader["Limit"].readIfPresent() ?? .sdkUnknown("")
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11893,7 +11894,7 @@ extension ActiveDirectoryError {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveDirectoryError {
         let reader = baseError.errorBodyReader
         var value = ActiveDirectoryError()
-        value.properties.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent()
+        value.properties.activeDirectoryId = try reader["ActiveDirectoryId"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -12015,7 +12016,7 @@ extension NotServiceResourceError {
         let reader = baseError.errorBodyReader
         var value = NotServiceResourceError()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.properties.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12029,7 +12030,7 @@ extension ResourceDoesNotSupportTagging {
         let reader = baseError.errorBodyReader
         var value = ResourceDoesNotSupportTagging()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.properties.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12043,7 +12044,7 @@ extension ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.properties.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12067,12 +12068,12 @@ extension FSxClientTypes.Backup {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Backup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.Backup()
-        value.backupId = try reader["BackupId"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.backupId = try reader["BackupId"].readIfPresent() ?? ""
+        value.lifecycle = try reader["Lifecycle"].readIfPresent() ?? .sdkUnknown("")
         value.failureDetails = try reader["FailureDetails"].readIfPresent(with: FSxClientTypes.BackupFailureDetails.read(from:))
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.progressPercent = try reader["ProgressPercent"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.resourceARN = try reader["ResourceARN"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: FSxClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12147,9 +12148,9 @@ extension FSxClientTypes.OpenZFSUserOrGroupQuota {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSUserOrGroupQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.OpenZFSUserOrGroupQuota()
-        value.type = try reader["Type"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? 0
+        value.storageCapacityQuotaGiB = try reader["StorageCapacityQuotaGiB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -12164,7 +12165,7 @@ extension FSxClientTypes.OpenZFSNfsExport {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSNfsExport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.OpenZFSNfsExport()
-        value.clientConfigurations = try reader["ClientConfigurations"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSClientConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientConfigurations = try reader["ClientConfigurations"].readListIfPresent(memberReadingClosure: FSxClientTypes.OpenZFSClientConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12180,8 +12181,8 @@ extension FSxClientTypes.OpenZFSClientConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSClientConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.OpenZFSClientConfiguration()
-        value.clients = try reader["Clients"].readIfPresent()
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clients = try reader["Clients"].readIfPresent() ?? ""
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12245,8 +12246,8 @@ extension FSxClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12412,7 +12413,7 @@ extension FSxClientTypes.FileSystemLustreMetadataConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.FileSystemLustreMetadataConfiguration()
         value.iops = try reader["Iops"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12439,7 +12440,7 @@ extension FSxClientTypes.LustreLogConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreLogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.LustreLogConfiguration()
-        value.level = try reader["Level"].readIfPresent()
+        value.level = try reader["Level"].readIfPresent() ?? .sdkUnknown("")
         value.destination = try reader["Destination"].readIfPresent()
         return value
     }
@@ -12499,8 +12500,8 @@ extension FSxClientTypes.WindowsAuditLogConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsAuditLogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.WindowsAuditLogConfiguration()
-        value.fileAccessAuditLogLevel = try reader["FileAccessAuditLogLevel"].readIfPresent()
-        value.fileShareAccessAuditLogLevel = try reader["FileShareAccessAuditLogLevel"].readIfPresent()
+        value.fileAccessAuditLogLevel = try reader["FileAccessAuditLogLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.fileShareAccessAuditLogLevel = try reader["FileShareAccessAuditLogLevel"].readIfPresent() ?? .sdkUnknown("")
         value.auditLogDestination = try reader["AuditLogDestination"].readIfPresent()
         return value
     }
@@ -12611,7 +12612,7 @@ extension FSxClientTypes.RetentionPeriod {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.RetentionPeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.RetentionPeriod()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -12628,7 +12629,7 @@ extension FSxClientTypes.AutocommitPeriod {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.AutocommitPeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.AutocommitPeriod()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -12703,7 +12704,7 @@ extension FSxClientTypes.NFSDataRepositoryConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.NFSDataRepositoryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.NFSDataRepositoryConfiguration()
-        value.version = try reader["Version"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent() ?? .sdkUnknown("")
         value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.autoExportPolicy = try reader["AutoExportPolicy"].readIfPresent(with: FSxClientTypes.AutoExportPolicy.read(from:))
         return value
@@ -12762,10 +12763,10 @@ extension FSxClientTypes.DataRepositoryTask {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.DataRepositoryTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.DataRepositoryTask()
-        value.taskId = try reader["TaskId"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.taskId = try reader["TaskId"].readIfPresent() ?? ""
+        value.lifecycle = try reader["Lifecycle"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.resourceARN = try reader["ResourceARN"].readIfPresent()
@@ -12827,7 +12828,7 @@ extension FSxClientTypes.CompletionReport {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.CompletionReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.CompletionReport()
-        value.enabled = try reader["Enabled"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.path = try reader["Path"].readIfPresent()
         value.format = try reader["Format"].readIfPresent()
         value.scope = try reader["Scope"].readIfPresent()
@@ -12911,7 +12912,7 @@ extension FSxClientTypes.FileCacheLustreMetadataConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileCacheLustreMetadataConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.FileCacheLustreMetadataConfiguration()
-        value.storageCapacity = try reader["StorageCapacity"].readIfPresent()
+        value.storageCapacity = try reader["StorageCapacity"].readIfPresent() ?? 0
         return value
     }
 }

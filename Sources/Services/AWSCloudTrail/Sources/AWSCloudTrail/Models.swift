@@ -7083,8 +7083,8 @@ extension CancelQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelQueryOutput()
-        value.queryId = try reader["QueryId"].readIfPresent()
-        value.queryStatus = try reader["QueryStatus"].readIfPresent()
+        value.queryId = try reader["QueryId"].readIfPresent() ?? ""
+        value.queryStatus = try reader["QueryStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9989,8 +9989,8 @@ extension CloudTrailClientTypes.Destination {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Destination()
-        value.type = try reader["Type"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["Location"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10006,7 +10006,7 @@ extension CloudTrailClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -10024,7 +10024,7 @@ extension CloudTrailClientTypes.AdvancedEventSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.AdvancedEventSelector()
         value.name = try reader["Name"].readIfPresent()
-        value.fieldSelectors = try reader["FieldSelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.AdvancedFieldSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldSelectors = try reader["FieldSelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.AdvancedFieldSelector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10045,7 +10045,7 @@ extension CloudTrailClientTypes.AdvancedFieldSelector {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.AdvancedFieldSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.AdvancedFieldSelector()
-        value.field = try reader["Field"].readIfPresent()
+        value.field = try reader["Field"].readIfPresent() ?? ""
         value.equals = try reader["Equals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.startsWith = try reader["StartsWith"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.endsWith = try reader["EndsWith"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10125,8 +10125,8 @@ extension CloudTrailClientTypes.PartitionKey {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.PartitionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.PartitionKey()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10196,9 +10196,9 @@ extension CloudTrailClientTypes.S3ImportSource {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.S3ImportSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.S3ImportSource()
-        value.s3LocationUri = try reader["S3LocationUri"].readIfPresent()
-        value.s3BucketRegion = try reader["S3BucketRegion"].readIfPresent()
-        value.s3BucketAccessRoleArn = try reader["S3BucketAccessRoleArn"].readIfPresent()
+        value.s3LocationUri = try reader["S3LocationUri"].readIfPresent() ?? ""
+        value.s3BucketRegion = try reader["S3BucketRegion"].readIfPresent() ?? ""
+        value.s3BucketAccessRoleArn = try reader["S3BucketAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }

@@ -6913,7 +6913,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
@@ -7142,7 +7142,7 @@ extension GetFailbackReplicationConfigurationOutput {
         var value = GetFailbackReplicationConfigurationOutput()
         value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
         value.name = try reader["name"].readIfPresent()
-        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
+        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent() ?? ""
         value.usePrivateIP = try reader["usePrivateIP"].readIfPresent()
         return value
     }
@@ -7517,7 +7517,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
@@ -8479,7 +8479,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = retryAfterSecondsHeaderValue
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8532,7 +8532,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8575,7 +8575,7 @@ extension DrsClientTypes.Job {
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.Job()
-        value.jobID = try reader["jobID"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.initiatedBy = try reader["initiatedBy"].readIfPresent()
@@ -8965,9 +8965,9 @@ extension DrsClientTypes.PITPolicyRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.PITPolicyRule()
         value.ruleID = try reader["ruleID"].readIfPresent() ?? 0
-        value.units = try reader["units"].readIfPresent()
-        value.interval = try reader["interval"].readIfPresent()
-        value.retentionDuration = try reader["retentionDuration"].readIfPresent()
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
+        value.interval = try reader["interval"].readIfPresent() ?? 0
+        value.retentionDuration = try reader["retentionDuration"].readIfPresent() ?? 0
         value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
@@ -9194,9 +9194,9 @@ extension DrsClientTypes.RecoverySnapshot {
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoverySnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.RecoverySnapshot()
-        value.snapshotID = try reader["snapshotID"].readIfPresent()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.expectedTimestamp = try reader["expectedTimestamp"].readIfPresent()
+        value.snapshotID = try reader["snapshotID"].readIfPresent() ?? ""
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
+        value.expectedTimestamp = try reader["expectedTimestamp"].readIfPresent() ?? ""
         value.timestamp = try reader["timestamp"].readIfPresent()
         value.ebsSnapshots = try reader["ebsSnapshots"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9208,7 +9208,7 @@ extension DrsClientTypes.ReplicationConfigurationTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DrsClientTypes.ReplicationConfigurationTemplate()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent()
         value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
         value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()

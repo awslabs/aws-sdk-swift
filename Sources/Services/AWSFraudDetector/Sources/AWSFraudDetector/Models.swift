@@ -8673,7 +8673,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8686,7 +8686,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8699,7 +8699,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8712,7 +8712,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8725,7 +8725,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8738,7 +8738,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8813,9 +8813,9 @@ extension FraudDetectorClientTypes.Rule {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.Rule()
-        value.detectorId = try reader["detectorId"].readIfPresent()
-        value.ruleId = try reader["ruleId"].readIfPresent()
-        value.ruleVersion = try reader["ruleVersion"].readIfPresent()
+        value.detectorId = try reader["detectorId"].readIfPresent() ?? ""
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.ruleVersion = try reader["ruleVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8883,8 +8883,8 @@ extension FraudDetectorClientTypes.AggregatedLogOddsMetric {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AggregatedLogOddsMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.AggregatedLogOddsMetric()
-        value.variableNames = try reader["variableNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aggregatedVariablesImportance = try reader["aggregatedVariablesImportance"].readIfPresent()
+        value.variableNames = try reader["variableNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.aggregatedVariablesImportance = try reader["aggregatedVariablesImportance"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -8904,9 +8904,9 @@ extension FraudDetectorClientTypes.LogOddsMetric {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.LogOddsMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.LogOddsMetric()
-        value.variableName = try reader["variableName"].readIfPresent()
-        value.variableType = try reader["variableType"].readIfPresent()
-        value.variableImportance = try reader["variableImportance"].readIfPresent()
+        value.variableName = try reader["variableName"].readIfPresent() ?? ""
+        value.variableType = try reader["variableType"].readIfPresent() ?? ""
+        value.variableImportance = try reader["variableImportance"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -8984,8 +8984,8 @@ extension FraudDetectorClientTypes.UncertaintyRange {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.UncertaintyRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.UncertaintyRange()
-        value.lowerBoundValue = try reader["lowerBoundValue"].readIfPresent()
-        value.upperBoundValue = try reader["upperBoundValue"].readIfPresent()
+        value.lowerBoundValue = try reader["lowerBoundValue"].readIfPresent() ?? 0.0
+        value.upperBoundValue = try reader["upperBoundValue"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -9137,8 +9137,8 @@ extension FraudDetectorClientTypes.IngestedEventsTimeWindow {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.IngestedEventsTimeWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.IngestedEventsTimeWindow()
-        value.startTime = try reader["startTime"].readIfPresent()
-        value.endTime = try reader["endTime"].readIfPresent()
+        value.startTime = try reader["startTime"].readIfPresent() ?? ""
+        value.endTime = try reader["endTime"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9154,8 +9154,8 @@ extension FraudDetectorClientTypes.ExternalEventsDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ExternalEventsDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ExternalEventsDetail()
-        value.dataLocation = try reader["dataLocation"].readIfPresent()
-        value.dataAccessRoleArn = try reader["dataAccessRoleArn"].readIfPresent()
+        value.dataLocation = try reader["dataLocation"].readIfPresent() ?? ""
+        value.dataAccessRoleArn = try reader["dataAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9171,7 +9171,7 @@ extension FraudDetectorClientTypes.TrainingDataSchema {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.TrainingDataSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.TrainingDataSchema()
-        value.modelVariables = try reader["modelVariables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelVariables = try reader["modelVariables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.labelSchema = try reader["labelSchema"].readIfPresent(with: FraudDetectorClientTypes.LabelSchema.read(from:))
         return value
     }
@@ -9268,9 +9268,9 @@ extension FraudDetectorClientTypes.ModelVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ModelVersion()
-        value.modelId = try reader["modelId"].readIfPresent()
-        value.modelType = try reader["modelType"].readIfPresent()
-        value.modelVersionNumber = try reader["modelVersionNumber"].readIfPresent()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.modelType = try reader["modelType"].readIfPresent() ?? .sdkUnknown("")
+        value.modelVersionNumber = try reader["modelVersionNumber"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent()
         return value
     }
@@ -9317,8 +9317,8 @@ extension FraudDetectorClientTypes.Entity {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Entity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.Entity()
-        value.entityType = try reader["entityType"].readIfPresent()
-        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityType = try reader["entityType"].readIfPresent() ?? ""
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9498,7 +9498,7 @@ extension FraudDetectorClientTypes.EventOrchestration {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.EventOrchestration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.EventOrchestration()
-        value.eventBridgeEnabled = try reader["eventBridgeEnabled"].readIfPresent()
+        value.eventBridgeEnabled = try reader["eventBridgeEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -9547,7 +9547,7 @@ extension FraudDetectorClientTypes.ModelOutputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.ModelOutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.ModelOutputConfiguration()
-        value.format = try reader["format"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.jsonKeyToVariableMap = try reader["jsonKeyToVariableMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.csvIndexToVariableMap = try reader["csvIndexToVariableMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -9570,7 +9570,7 @@ extension FraudDetectorClientTypes.ModelInputConfiguration {
         var value = FraudDetectorClientTypes.ModelInputConfiguration()
         value.eventTypeName = try reader["eventTypeName"].readIfPresent()
         value.format = try reader["format"].readIfPresent()
-        value.useEventVariables = try reader["useEventVariables"].readIfPresent()
+        value.useEventVariables = try reader["useEventVariables"].readIfPresent() ?? false
         value.jsonInputTemplate = try reader["jsonInputTemplate"].readIfPresent()
         value.csvInputTemplate = try reader["csvInputTemplate"].readIfPresent()
         return value
@@ -9606,7 +9606,7 @@ extension FraudDetectorClientTypes.AllowDenyList {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.AllowDenyList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.AllowDenyList()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.variableType = try reader["variableType"].readIfPresent()
         value.createdTime = try reader["createdTime"].readIfPresent()
@@ -9691,8 +9691,8 @@ extension FraudDetectorClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> FraudDetectorClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FraudDetectorClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

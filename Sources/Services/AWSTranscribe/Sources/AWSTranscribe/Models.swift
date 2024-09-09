@@ -6699,7 +6699,7 @@ extension TranscribeClientTypes.SentimentFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.SentimentFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.SentimentFilter()
-        value.sentiments = try reader["Sentiments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.SentimentValue>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sentiments = try reader["Sentiments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.SentimentValue>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.absoluteTimeRange = try reader["AbsoluteTimeRange"].readIfPresent(with: TranscribeClientTypes.AbsoluteTimeRange.read(from:))
         value.relativeTimeRange = try reader["RelativeTimeRange"].readIfPresent(with: TranscribeClientTypes.RelativeTimeRange.read(from:))
         value.participantRole = try reader["ParticipantRole"].readIfPresent()
@@ -6765,12 +6765,12 @@ extension TranscribeClientTypes.TranscriptFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.TranscriptFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.TranscriptFilter()
-        value.transcriptFilterType = try reader["TranscriptFilterType"].readIfPresent()
+        value.transcriptFilterType = try reader["TranscriptFilterType"].readIfPresent() ?? .sdkUnknown("")
         value.absoluteTimeRange = try reader["AbsoluteTimeRange"].readIfPresent(with: TranscribeClientTypes.AbsoluteTimeRange.read(from:))
         value.relativeTimeRange = try reader["RelativeTimeRange"].readIfPresent(with: TranscribeClientTypes.RelativeTimeRange.read(from:))
         value.participantRole = try reader["ParticipantRole"].readIfPresent()
         value.negate = try reader["Negate"].readIfPresent()
-        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6831,9 +6831,9 @@ extension TranscribeClientTypes.InputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.InputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.tuningDataS3Uri = try reader["TuningDataS3Uri"].readIfPresent()
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6937,7 +6937,7 @@ extension TranscribeClientTypes.Summarization {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Summarization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.Summarization()
-        value.generateAbstractiveSummary = try reader["GenerateAbstractiveSummary"].readIfPresent()
+        value.generateAbstractiveSummary = try reader["GenerateAbstractiveSummary"].readIfPresent() ?? false
         return value
     }
 }
@@ -6973,8 +6973,8 @@ extension TranscribeClientTypes.ContentRedaction {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ContentRedaction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.ContentRedaction()
-        value.redactionType = try reader["RedactionType"].readIfPresent()
-        value.redactionOutput = try reader["RedactionOutput"].readIfPresent()
+        value.redactionType = try reader["RedactionType"].readIfPresent() ?? .sdkUnknown("")
+        value.redactionOutput = try reader["RedactionOutput"].readIfPresent() ?? .sdkUnknown("")
         value.piiEntityTypes = try reader["PiiEntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.PiiEntityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7063,8 +7063,8 @@ extension TranscribeClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7081,7 +7081,7 @@ extension TranscribeClientTypes.MedicalScribeChannelDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.MedicalScribeChannelDefinition()
         value.channelId = try reader["ChannelId"].readIfPresent() ?? 0
-        value.participantRole = try reader["ParticipantRole"].readIfPresent()
+        value.participantRole = try reader["ParticipantRole"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7116,8 +7116,8 @@ extension TranscribeClientTypes.MedicalScribeOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.MedicalScribeOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.MedicalScribeOutput()
-        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent()
-        value.clinicalDocumentUri = try reader["ClinicalDocumentUri"].readIfPresent()
+        value.transcriptFileUri = try reader["TranscriptFileUri"].readIfPresent() ?? ""
+        value.clinicalDocumentUri = try reader["ClinicalDocumentUri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7225,7 +7225,7 @@ extension TranscribeClientTypes.ToxicityDetectionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ToxicityDetectionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeClientTypes.ToxicityDetectionSettings()
-        value.toxicityCategories = try reader["ToxicityCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.ToxicityCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.toxicityCategories = try reader["ToxicityCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TranscribeClientTypes.ToxicityCategory>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

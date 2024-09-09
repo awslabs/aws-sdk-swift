@@ -4880,7 +4880,7 @@ public struct ListBackupVaultsInput {
     public var nextToken: Swift.String?
 
     public init(
-        byShared: Swift.Bool? = nil,
+        byShared: Swift.Bool? = false,
         byVaultType: BackupClientTypes.VaultType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5612,7 +5612,7 @@ public struct ListRecoveryPointsByResourceInput {
     public var resourceArn: Swift.String?
 
     public init(
-        managedByAWSBackupOnly: Swift.Bool? = nil,
+        managedByAWSBackupOnly: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
@@ -6699,7 +6699,7 @@ public struct StartRestoreJobInput {
     public var resourceType: Swift.String?
 
     public init(
-        copySourceTagsToRestoredResource: Swift.Bool? = nil,
+        copySourceTagsToRestoredResource: Swift.Bool? = false,
         iamRoleArn: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
@@ -9146,9 +9146,9 @@ extension CreateRestoreTestingPlanOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRestoreTestingPlanOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9160,10 +9160,10 @@ extension CreateRestoreTestingSelectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRestoreTestingSelectionOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9651,7 +9651,7 @@ extension GetRestoreTestingInferredMetadataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRestoreTestingInferredMetadataOutput()
-        value.inferredMetadata = try reader["InferredMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.inferredMetadata = try reader["InferredMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -9976,7 +9976,7 @@ extension ListRestoreTestingPlansOutput {
         let reader = responseReader
         var value = ListRestoreTestingPlansOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.restoreTestingPlans = try reader["RestoreTestingPlans"].readListIfPresent(memberReadingClosure: BackupClientTypes.RestoreTestingPlanForList.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.restoreTestingPlans = try reader["RestoreTestingPlans"].readListIfPresent(memberReadingClosure: BackupClientTypes.RestoreTestingPlanForList.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9989,7 +9989,7 @@ extension ListRestoreTestingSelectionsOutput {
         let reader = responseReader
         var value = ListRestoreTestingSelectionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.restoreTestingSelections = try reader["RestoreTestingSelections"].readListIfPresent(memberReadingClosure: BackupClientTypes.RestoreTestingSelectionForList.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.restoreTestingSelections = try reader["RestoreTestingSelections"].readListIfPresent(memberReadingClosure: BackupClientTypes.RestoreTestingSelectionForList.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10189,10 +10189,10 @@ extension UpdateRestoreTestingPlanOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateRestoreTestingPlanOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10204,11 +10204,11 @@ extension UpdateRestoreTestingSelectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateRestoreTestingSelectionOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -11968,8 +11968,8 @@ extension BackupClientTypes.DateRange {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.DateRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.DateRange()
-        value.fromDate = try reader["FromDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.toDate = try reader["ToDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fromDate = try reader["FromDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.toDate = try reader["ToDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12030,7 +12030,7 @@ extension BackupClientTypes.FrameworkControl {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.FrameworkControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.FrameworkControl()
-        value.controlName = try reader["ControlName"].readIfPresent()
+        value.controlName = try reader["ControlName"].readIfPresent() ?? ""
         value.controlInputParameters = try reader["ControlInputParameters"].readListIfPresent(memberReadingClosure: BackupClientTypes.ControlInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.controlScope = try reader["ControlScope"].readIfPresent(with: BackupClientTypes.ControlScope.read(from:))
         return value
@@ -12161,7 +12161,7 @@ extension BackupClientTypes.ReportDeliveryChannel {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportDeliveryChannel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.ReportDeliveryChannel()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
         value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
         value.formats = try reader["Formats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -12183,7 +12183,7 @@ extension BackupClientTypes.ReportSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.ReportSetting()
-        value.reportTemplate = try reader["ReportTemplate"].readIfPresent()
+        value.reportTemplate = try reader["ReportTemplate"].readIfPresent() ?? ""
         value.frameworkArns = try reader["FrameworkArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.numberOfFrameworks = try reader["NumberOfFrameworks"].readIfPresent() ?? 0
         value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12208,8 +12208,8 @@ extension BackupClientTypes.BackupPlan {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupPlan()
-        value.backupPlanName = try reader["BackupPlanName"].readIfPresent()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: BackupClientTypes.BackupRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.backupPlanName = try reader["BackupPlanName"].readIfPresent() ?? ""
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: BackupClientTypes.BackupRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.advancedBackupSettings = try reader["AdvancedBackupSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.AdvancedBackupSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -12220,8 +12220,8 @@ extension BackupClientTypes.BackupRule {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupRule()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.targetBackupVaultName = try reader["TargetBackupVaultName"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
+        value.targetBackupVaultName = try reader["TargetBackupVaultName"].readIfPresent() ?? ""
         value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
         value.startWindowMinutes = try reader["StartWindowMinutes"].readIfPresent()
         value.completionWindowMinutes = try reader["CompletionWindowMinutes"].readIfPresent()
@@ -12247,7 +12247,7 @@ extension BackupClientTypes.CopyAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.CopyAction()
         value.lifecycle = try reader["Lifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
-        value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent()
+        value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12267,8 +12267,8 @@ extension BackupClientTypes.BackupSelection {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupSelection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.BackupSelection()
-        value.selectionName = try reader["SelectionName"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.selectionName = try reader["SelectionName"].readIfPresent() ?? ""
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
         value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.listOfTags = try reader["ListOfTags"].readListIfPresent(memberReadingClosure: BackupClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.notResources = try reader["NotResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12327,9 +12327,9 @@ extension BackupClientTypes.Condition {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Condition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.Condition()
-        value.conditionType = try reader["ConditionType"].readIfPresent()
-        value.conditionKey = try reader["ConditionKey"].readIfPresent()
-        value.conditionValue = try reader["ConditionValue"].readIfPresent()
+        value.conditionType = try reader["ConditionType"].readIfPresent() ?? .sdkUnknown("")
+        value.conditionKey = try reader["ConditionKey"].readIfPresent() ?? ""
+        value.conditionValue = try reader["ConditionValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12339,14 +12339,14 @@ extension BackupClientTypes.RestoreTestingPlanForGet {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForGet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreTestingPlanForGet()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.lastExecutionTime = try reader["LastExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.recoveryPointSelection = try reader["RecoveryPointSelection"].readIfPresent(with: BackupClientTypes.RestoreTestingRecoveryPointSelection.read(from:))
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
         value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
         value.startWindowHours = try reader["StartWindowHours"].readIfPresent() ?? 0
         return value
@@ -12381,15 +12381,15 @@ extension BackupClientTypes.RestoreTestingSelectionForGet {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForGet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreTestingSelectionForGet()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
         value.protectedResourceArns = try reader["ProtectedResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.protectedResourceConditions = try reader["ProtectedResourceConditions"].readIfPresent(with: BackupClientTypes.ProtectedResourceConditions.read(from:))
-        value.protectedResourceType = try reader["ProtectedResourceType"].readIfPresent()
+        value.protectedResourceType = try reader["ProtectedResourceType"].readIfPresent() ?? ""
         value.restoreMetadataOverrides = try reader["RestoreMetadataOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent()
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent() ?? ""
         value.validationWindowHours = try reader["ValidationWindowHours"].readIfPresent() ?? 0
         return value
     }
@@ -12423,8 +12423,8 @@ extension BackupClientTypes.KeyValue {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.KeyValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.KeyValue()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12722,12 +12722,12 @@ extension BackupClientTypes.RestoreTestingPlanForList {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreTestingPlanForList()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastExecutionTime = try reader["LastExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
         value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
         value.startWindowHours = try reader["StartWindowHours"].readIfPresent() ?? 0
         return value
@@ -12739,11 +12739,11 @@ extension BackupClientTypes.RestoreTestingSelectionForList {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupClientTypes.RestoreTestingSelectionForList()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.protectedResourceType = try reader["ProtectedResourceType"].readIfPresent()
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent()
-        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.protectedResourceType = try reader["ProtectedResourceType"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent() ?? ""
         value.validationWindowHours = try reader["ValidationWindowHours"].readIfPresent() ?? 0
         return value
     }

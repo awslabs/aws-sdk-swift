@@ -237,7 +237,7 @@ extension CognitoIdentityClientTypes {
         public init(
             clientId: Swift.String? = nil,
             providerName: Swift.String? = nil,
-            serverSideTokenCheck: Swift.Bool? = nil
+            serverSideTokenCheck: Swift.Bool? = false
         )
         {
             self.clientId = clientId
@@ -273,7 +273,7 @@ public struct CreateIdentityPoolInput {
 
     public init(
         allowClassicFlow: Swift.Bool? = nil,
-        allowUnauthenticatedIdentities: Swift.Bool? = nil,
+        allowUnauthenticatedIdentities: Swift.Bool? = false,
         cognitoIdentityProviders: [CognitoIdentityClientTypes.CognitoIdentityProvider]? = nil,
         developerProviderName: Swift.String? = nil,
         identityPoolName: Swift.String? = nil,
@@ -1068,7 +1068,7 @@ public struct ListIdentitiesInput {
     public var nextToken: Swift.String?
 
     public init(
-        hideDisabled: Swift.Bool? = nil,
+        hideDisabled: Swift.Bool? = false,
         identityPoolId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -2010,8 +2010,8 @@ extension CreateIdentityPoolOutput {
         value.allowUnauthenticatedIdentities = try reader["AllowUnauthenticatedIdentities"].readIfPresent() ?? false
         value.cognitoIdentityProviders = try reader["CognitoIdentityProviders"].readListIfPresent(memberReadingClosure: CognitoIdentityClientTypes.CognitoIdentityProvider.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.developerProviderName = try reader["DeveloperProviderName"].readIfPresent()
-        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent()
-        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent()
+        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent() ?? ""
+        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent() ?? ""
         value.identityPoolTags = try reader["IdentityPoolTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.openIdConnectProviderARNs = try reader["OpenIdConnectProviderARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.samlProviderARNs = try reader["SamlProviderARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -2065,8 +2065,8 @@ extension DescribeIdentityPoolOutput {
         value.allowUnauthenticatedIdentities = try reader["AllowUnauthenticatedIdentities"].readIfPresent() ?? false
         value.cognitoIdentityProviders = try reader["CognitoIdentityProviders"].readListIfPresent(memberReadingClosure: CognitoIdentityClientTypes.CognitoIdentityProvider.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.developerProviderName = try reader["DeveloperProviderName"].readIfPresent()
-        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent()
-        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent()
+        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent() ?? ""
+        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent() ?? ""
         value.identityPoolTags = try reader["IdentityPoolTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.openIdConnectProviderARNs = try reader["OpenIdConnectProviderARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.samlProviderARNs = try reader["SamlProviderARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -2281,8 +2281,8 @@ extension UpdateIdentityPoolOutput {
         value.allowUnauthenticatedIdentities = try reader["AllowUnauthenticatedIdentities"].readIfPresent() ?? false
         value.cognitoIdentityProviders = try reader["CognitoIdentityProviders"].readListIfPresent(memberReadingClosure: CognitoIdentityClientTypes.CognitoIdentityProvider.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.developerProviderName = try reader["DeveloperProviderName"].readIfPresent()
-        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent()
-        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent()
+        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent() ?? ""
+        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent() ?? ""
         value.identityPoolTags = try reader["IdentityPoolTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.openIdConnectProviderARNs = try reader["OpenIdConnectProviderARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.samlProviderARNs = try reader["SamlProviderARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -2923,7 +2923,7 @@ extension CognitoIdentityClientTypes.RoleMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.RoleMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityClientTypes.RoleMapping()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.ambiguousRoleResolution = try reader["AmbiguousRoleResolution"].readIfPresent()
         value.rulesConfiguration = try reader["RulesConfiguration"].readIfPresent(with: CognitoIdentityClientTypes.RulesConfigurationType.read(from:))
         return value
@@ -2940,7 +2940,7 @@ extension CognitoIdentityClientTypes.RulesConfigurationType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.RulesConfigurationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityClientTypes.RulesConfigurationType()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: CognitoIdentityClientTypes.MappingRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: CognitoIdentityClientTypes.MappingRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2958,10 +2958,10 @@ extension CognitoIdentityClientTypes.MappingRule {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.MappingRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityClientTypes.MappingRule()
-        value.claim = try reader["Claim"].readIfPresent()
-        value.matchType = try reader["MatchType"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.claim = try reader["Claim"].readIfPresent() ?? ""
+        value.matchType = try reader["MatchType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
         return value
     }
 }

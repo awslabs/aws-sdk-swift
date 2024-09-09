@@ -23,6 +23,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Activity already exists. EncryptionConfiguration may not be updated.
 public struct ActivityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -193,11 +194,11 @@ extension SFNClientTypes {
         public var timeoutInSeconds: Swift.Int?
 
         public init(
-            heartbeatInSeconds: Swift.Int? = nil,
+            heartbeatInSeconds: Swift.Int? = 0,
             input: Swift.String? = nil,
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
-            timeoutInSeconds: Swift.Int? = nil
+            timeoutInSeconds: Swift.Int? = 0
         )
         {
             self.heartbeatInSeconds = heartbeatInSeconds
@@ -1037,7 +1038,7 @@ public struct CreateStateMachineInput {
         encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
         name: Swift.String? = nil,
-        publish: Swift.Bool? = nil,
+        publish: Swift.Bool? = false,
         roleArn: Swift.String? = nil,
         tags: [SFNClientTypes.Tag]? = nil,
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
@@ -2284,9 +2285,9 @@ public struct GetExecutionHistoryInput {
     public init(
         executionArn: Swift.String? = nil,
         includeExecutionData: Swift.Bool? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = nil
+        reverseOrder: Swift.Bool? = false
     )
     {
         self.executionArn = executionArn
@@ -2511,7 +2512,7 @@ extension SFNClientTypes {
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
             taskCredentials: SFNClientTypes.TaskCredentials? = nil,
-            timeoutInSeconds: Swift.Int? = nil
+            timeoutInSeconds: Swift.Int? = 0
         )
         {
             self.input = input
@@ -2857,13 +2858,13 @@ extension SFNClientTypes {
         public var timeoutInSeconds: Swift.Int?
 
         public init(
-            heartbeatInSeconds: Swift.Int? = nil,
+            heartbeatInSeconds: Swift.Int? = 0,
             parameters: Swift.String? = nil,
             region: Swift.String? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             taskCredentials: SFNClientTypes.TaskCredentials? = nil,
-            timeoutInSeconds: Swift.Int? = nil
+            timeoutInSeconds: Swift.Int? = 0
         )
         {
             self.heartbeatInSeconds = heartbeatInSeconds
@@ -3485,7 +3486,7 @@ public struct ListActivitiesInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -3556,7 +3557,7 @@ public struct ListExecutionsInput {
 
     public init(
         mapRunArn: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         redriveFilter: SFNClientTypes.ExecutionRedriveFilter? = nil,
         stateMachineArn: Swift.String? = nil,
@@ -3620,7 +3621,7 @@ extension SFNClientTypes {
 
         public init(
             executionArn: Swift.String? = nil,
-            itemCount: Swift.Int? = nil,
+            itemCount: Swift.Int? = 0,
             mapRunArn: Swift.String? = nil,
             name: Swift.String? = nil,
             redriveCount: Swift.Int? = nil,
@@ -3678,7 +3679,7 @@ public struct ListMapRunsInput {
 
     public init(
         executionArn: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -3751,7 +3752,7 @@ public struct ListStateMachineAliasesInput {
     public var stateMachineArn: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil
     )
@@ -3808,7 +3809,7 @@ public struct ListStateMachinesInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -3888,7 +3889,7 @@ public struct ListStateMachineVersionsInput {
     public var stateMachineArn: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil
     )
@@ -4629,7 +4630,7 @@ public struct TestStateInput {
         definition: Swift.String? = nil,
         input: Swift.String? = nil,
         inspectionLevel: SFNClientTypes.InspectionLevel? = nil,
-        revealSecrets: Swift.Bool? = nil,
+        revealSecrets: Swift.Bool? = false,
         roleArn: Swift.String? = nil
     )
     {
@@ -4868,9 +4869,9 @@ public struct UpdateMapRunInput {
 
     public init(
         mapRunArn: Swift.String? = nil,
-        maxConcurrency: Swift.Int? = nil,
-        toleratedFailureCount: Swift.Int? = nil,
-        toleratedFailurePercentage: Swift.Float? = nil
+        maxConcurrency: Swift.Int? = 0,
+        toleratedFailureCount: Swift.Int? = 0,
+        toleratedFailurePercentage: Swift.Float? = 0.0
     )
     {
         self.mapRunArn = mapRunArn
@@ -4932,7 +4933,7 @@ public struct UpdateStateMachineInput {
         definition: Swift.String? = nil,
         encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         loggingConfiguration: SFNClientTypes.LoggingConfiguration? = nil,
-        publish: Swift.Bool? = nil,
+        publish: Swift.Bool? = false,
         roleArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
@@ -5057,7 +5058,7 @@ public struct ValidateStateMachineDefinitionInput {
 
     public init(
         definition: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity? = nil,
         type: SFNClientTypes.StateMachineType? = nil
     )
@@ -5788,8 +5789,8 @@ extension CreateActivityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateActivityOutput()
-        value.activityArn = try reader["activityArn"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activityArn = try reader["activityArn"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5801,8 +5802,8 @@ extension CreateStateMachineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateStateMachineOutput()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
         value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
         return value
     }
@@ -5815,8 +5816,8 @@ extension CreateStateMachineAliasOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateStateMachineAliasOutput()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5856,10 +5857,10 @@ extension DescribeActivityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeActivityOutput()
-        value.activityArn = try reader["activityArn"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activityArn = try reader["activityArn"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SFNClientTypes.EncryptionConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5873,7 +5874,7 @@ extension DescribeExecutionOutput {
         var value = DescribeExecutionOutput()
         value.cause = try reader["cause"].readIfPresent()
         value.error = try reader["error"].readIfPresent()
-        value.executionArn = try reader["executionArn"].readIfPresent()
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.CloudWatchEventsExecutionDataDetails.read(from:))
         value.mapRunArn = try reader["mapRunArn"].readIfPresent()
@@ -5884,11 +5885,11 @@ extension DescribeExecutionOutput {
         value.redriveDate = try reader["redriveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.redriveStatus = try reader["redriveStatus"].readIfPresent()
         value.redriveStatusReason = try reader["redriveStatusReason"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent()
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
         value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.traceHeader = try reader["traceHeader"].readIfPresent()
         return value
@@ -5902,15 +5903,15 @@ extension DescribeMapRunOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeMapRunOutput()
-        value.executionArn = try reader["executionArn"].readIfPresent()
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
         value.executionCounts = try reader["executionCounts"].readIfPresent(with: SFNClientTypes.MapRunExecutionCounts.read(from:))
         value.itemCounts = try reader["itemCounts"].readIfPresent(with: SFNClientTypes.MapRunItemCounts.read(from:))
-        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
+        value.mapRunArn = try reader["mapRunArn"].readIfPresent() ?? ""
         value.maxConcurrency = try reader["maxConcurrency"].readIfPresent() ?? 0
         value.redriveCount = try reader["redriveCount"].readIfPresent()
         value.redriveDate = try reader["redriveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.toleratedFailureCount = try reader["toleratedFailureCount"].readIfPresent() ?? 0
         value.toleratedFailurePercentage = try reader["toleratedFailurePercentage"].readIfPresent() ?? 0
@@ -5925,19 +5926,19 @@ extension DescribeStateMachineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeStateMachineOutput()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.definition = try reader["definition"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.definition = try reader["definition"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SFNClientTypes.EncryptionConfiguration.read(from:))
         value.label = try reader["label"].readIfPresent()
         value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: SFNClientTypes.LoggingConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.revisionId = try reader["revisionId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.tracingConfiguration = try reader["tracingConfiguration"].readIfPresent(with: SFNClientTypes.TracingConfiguration.read(from:))
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5966,17 +5967,17 @@ extension DescribeStateMachineForExecutionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeStateMachineForExecutionOutput()
-        value.definition = try reader["definition"].readIfPresent()
+        value.definition = try reader["definition"].readIfPresent() ?? ""
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: SFNClientTypes.EncryptionConfiguration.read(from:))
         value.label = try reader["label"].readIfPresent()
         value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: SFNClientTypes.LoggingConfiguration.read(from:))
         value.mapRunArn = try reader["mapRunArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.revisionId = try reader["revisionId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
         value.tracingConfiguration = try reader["tracingConfiguration"].readIfPresent(with: SFNClientTypes.TracingConfiguration.read(from:))
-        value.updateDate = try reader["updateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDate = try reader["updateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6001,7 +6002,7 @@ extension GetExecutionHistoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetExecutionHistoryOutput()
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SFNClientTypes.HistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SFNClientTypes.HistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6014,7 +6015,7 @@ extension ListActivitiesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListActivitiesOutput()
-        value.activities = try reader["activities"].readListIfPresent(memberReadingClosure: SFNClientTypes.ActivityListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.activities = try reader["activities"].readListIfPresent(memberReadingClosure: SFNClientTypes.ActivityListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6027,7 +6028,7 @@ extension ListExecutionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListExecutionsOutput()
-        value.executions = try reader["executions"].readListIfPresent(memberReadingClosure: SFNClientTypes.ExecutionListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executions = try reader["executions"].readListIfPresent(memberReadingClosure: SFNClientTypes.ExecutionListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6040,7 +6041,7 @@ extension ListMapRunsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMapRunsOutput()
-        value.mapRuns = try reader["mapRuns"].readListIfPresent(memberReadingClosure: SFNClientTypes.MapRunListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapRuns = try reader["mapRuns"].readListIfPresent(memberReadingClosure: SFNClientTypes.MapRunListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6054,7 +6055,7 @@ extension ListStateMachineAliasesOutput {
         let reader = responseReader
         var value = ListStateMachineAliasesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.stateMachineAliases = try reader["stateMachineAliases"].readListIfPresent(memberReadingClosure: SFNClientTypes.StateMachineAliasListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stateMachineAliases = try reader["stateMachineAliases"].readListIfPresent(memberReadingClosure: SFNClientTypes.StateMachineAliasListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6067,7 +6068,7 @@ extension ListStateMachinesOutput {
         let reader = responseReader
         var value = ListStateMachinesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.stateMachines = try reader["stateMachines"].readListIfPresent(memberReadingClosure: SFNClientTypes.StateMachineListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stateMachines = try reader["stateMachines"].readListIfPresent(memberReadingClosure: SFNClientTypes.StateMachineListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6080,7 +6081,7 @@ extension ListStateMachineVersionsOutput {
         let reader = responseReader
         var value = ListStateMachineVersionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.stateMachineVersions = try reader["stateMachineVersions"].readListIfPresent(memberReadingClosure: SFNClientTypes.StateMachineVersionListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stateMachineVersions = try reader["stateMachineVersions"].readListIfPresent(memberReadingClosure: SFNClientTypes.StateMachineVersionListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6104,8 +6105,8 @@ extension PublishStateMachineVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PublishStateMachineVersionOutput()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6117,7 +6118,7 @@ extension RedriveExecutionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RedriveExecutionOutput()
-        value.redriveDate = try reader["redriveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.redriveDate = try reader["redriveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6150,8 +6151,8 @@ extension StartExecutionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartExecutionOutput()
-        value.executionArn = try reader["executionArn"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6166,16 +6167,16 @@ extension StartSyncExecutionOutput {
         value.billingDetails = try reader["billingDetails"].readIfPresent(with: SFNClientTypes.BillingDetails.read(from:))
         value.cause = try reader["cause"].readIfPresent()
         value.error = try reader["error"].readIfPresent()
-        value.executionArn = try reader["executionArn"].readIfPresent()
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.CloudWatchEventsExecutionDataDetails.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.output = try reader["output"].readIfPresent()
         value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.CloudWatchEventsExecutionDataDetails.read(from:))
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.traceHeader = try reader["traceHeader"].readIfPresent()
         return value
     }
@@ -6188,7 +6189,7 @@ extension StopExecutionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StopExecutionOutput()
-        value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6240,7 +6241,7 @@ extension UpdateStateMachineOutput {
         var value = UpdateStateMachineOutput()
         value.revisionId = try reader["revisionId"].readIfPresent()
         value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
-        value.updateDate = try reader["updateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDate = try reader["updateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6252,7 +6253,7 @@ extension UpdateStateMachineAliasOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateStateMachineAliasOutput()
-        value.updateDate = try reader["updateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDate = try reader["updateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6264,8 +6265,8 @@ extension ValidateStateMachineDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ValidateStateMachineDefinitionOutput()
-        value.diagnostics = try reader["diagnostics"].readListIfPresent(memberReadingClosure: SFNClientTypes.ValidateStateMachineDefinitionDiagnostic.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.result = try reader["result"].readIfPresent()
+        value.diagnostics = try reader["diagnostics"].readListIfPresent(memberReadingClosure: SFNClientTypes.ValidateStateMachineDefinitionDiagnostic.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.result = try reader["result"].readIfPresent() ?? .sdkUnknown("")
         value.truncated = try reader["truncated"].readIfPresent()
         return value
     }
@@ -7377,7 +7378,7 @@ extension SFNClientTypes.EncryptionConfiguration {
         var value = SFNClientTypes.EncryptionConfiguration()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.kmsDataKeyReusePeriodSeconds = try reader["kmsDataKeyReusePeriodSeconds"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7505,7 +7506,7 @@ extension SFNClientTypes.RoutingConfigurationListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.RoutingConfigurationListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.RoutingConfigurationListItem()
-        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
+        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent() ?? 0
         return value
     }
@@ -7516,8 +7517,8 @@ extension SFNClientTypes.HistoryEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.HistoryEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.HistoryEvent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["type"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.id = try reader["id"].readIfPresent() ?? 0
         value.previousEventId = try reader["previousEventId"].readIfPresent() ?? 0
         value.activityFailedEventDetails = try reader["activityFailedEventDetails"].readIfPresent(with: SFNClientTypes.ActivityFailedEventDetails.read(from:))
@@ -7597,7 +7598,7 @@ extension SFNClientTypes.StateExitedEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateExitedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.StateExitedEventDetails()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.output = try reader["output"].readIfPresent()
         value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
         return value
@@ -7619,7 +7620,7 @@ extension SFNClientTypes.StateEnteredEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateEnteredEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.StateEnteredEventDetails()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
         return value
@@ -7664,7 +7665,7 @@ extension SFNClientTypes.LambdaFunctionScheduledEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.LambdaFunctionScheduledEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.LambdaFunctionScheduledEventDetails()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
         value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
@@ -7799,8 +7800,8 @@ extension SFNClientTypes.TaskTimedOutEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskTimedOutEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskTimedOutEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.cause = try reader["cause"].readIfPresent()
         return value
@@ -7812,8 +7813,8 @@ extension SFNClientTypes.TaskSucceededEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSucceededEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskSucceededEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.output = try reader["output"].readIfPresent()
         value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
         return value
@@ -7825,8 +7826,8 @@ extension SFNClientTypes.TaskSubmittedEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmittedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskSubmittedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.output = try reader["output"].readIfPresent()
         value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
         return value
@@ -7838,8 +7839,8 @@ extension SFNClientTypes.TaskSubmitFailedEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskSubmitFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskSubmitFailedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.cause = try reader["cause"].readIfPresent()
         return value
@@ -7851,8 +7852,8 @@ extension SFNClientTypes.TaskStartedEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskStartedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7862,8 +7863,8 @@ extension SFNClientTypes.TaskStartFailedEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskStartFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskStartFailedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.cause = try reader["cause"].readIfPresent()
         return value
@@ -7875,10 +7876,10 @@ extension SFNClientTypes.TaskScheduledEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskScheduledEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskScheduledEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        value.parameters = try reader["parameters"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readIfPresent() ?? ""
         value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
         value.heartbeatInSeconds = try reader["heartbeatInSeconds"].readIfPresent()
         value.taskCredentials = try reader["taskCredentials"].readIfPresent(with: SFNClientTypes.TaskCredentials.read(from:))
@@ -7891,8 +7892,8 @@ extension SFNClientTypes.TaskFailedEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.TaskFailedEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.TaskFailedEventDetails()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.cause = try reader["cause"].readIfPresent()
         return value
@@ -7936,7 +7937,7 @@ extension SFNClientTypes.ActivityScheduledEventDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityScheduledEventDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ActivityScheduledEventDetails()
-        value.resource = try reader["resource"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.inputDetails = try reader["inputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
         value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
@@ -7972,9 +7973,9 @@ extension SFNClientTypes.ActivityListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ActivityListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ActivityListItem()
-        value.activityArn = try reader["activityArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activityArn = try reader["activityArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7984,11 +7985,11 @@ extension SFNClientTypes.ExecutionListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ExecutionListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ExecutionListItem()
-        value.executionArn = try reader["executionArn"].readIfPresent()
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.mapRunArn = try reader["mapRunArn"].readIfPresent()
         value.itemCount = try reader["itemCount"].readIfPresent()
@@ -8005,10 +8006,10 @@ extension SFNClientTypes.MapRunListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.MapRunListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.MapRunListItem()
-        value.executionArn = try reader["executionArn"].readIfPresent()
-        value.mapRunArn = try reader["mapRunArn"].readIfPresent()
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
-        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
+        value.mapRunArn = try reader["mapRunArn"].readIfPresent() ?? ""
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.stopDate = try reader["stopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -8019,8 +8020,8 @@ extension SFNClientTypes.StateMachineAliasListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateMachineAliasListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.StateMachineAliasListItem()
-        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stateMachineAliasArn = try reader["stateMachineAliasArn"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8030,10 +8031,10 @@ extension SFNClientTypes.StateMachineListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateMachineListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.StateMachineListItem()
-        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8043,8 +8044,8 @@ extension SFNClientTypes.StateMachineVersionListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.StateMachineVersionListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.StateMachineVersionListItem()
-        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stateMachineVersionArn = try reader["stateMachineVersionArn"].readIfPresent() ?? ""
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8127,9 +8128,9 @@ extension SFNClientTypes.ValidateStateMachineDefinitionDiagnostic {
     static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.ValidateStateMachineDefinitionDiagnostic {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.ValidateStateMachineDefinitionDiagnostic()
-        value.severity = try reader["severity"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.severity = try reader["severity"].readIfPresent() ?? .sdkUnknown("")
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         value.location = try reader["location"].readIfPresent()
         return value
     }

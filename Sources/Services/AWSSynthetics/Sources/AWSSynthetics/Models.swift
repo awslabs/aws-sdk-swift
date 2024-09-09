@@ -1089,7 +1089,7 @@ public struct DeleteCanaryInput {
     public var name: Swift.String?
 
     public init(
-        deleteLambda: Swift.Bool? = nil,
+        deleteLambda: Swift.Bool? = false,
         name: Swift.String? = nil
     )
     {
@@ -2892,7 +2892,7 @@ extension SyntheticsClientTypes.BaseScreenshot {
     static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.BaseScreenshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.BaseScreenshot()
-        value.screenshotName = try reader["ScreenshotName"].readIfPresent()
+        value.screenshotName = try reader["ScreenshotName"].readIfPresent() ?? ""
         value.ignoreCoordinates = try reader["IgnoreCoordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteConfigurationManagerOutput {
 
@@ -1769,7 +1770,7 @@ extension CreateConfigurationManagerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateConfigurationManagerOutput()
-        value.managerArn = try reader["ManagerArn"].readIfPresent()
+        value.managerArn = try reader["ManagerArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1792,7 +1793,7 @@ extension GetConfigurationManagerOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["Description"].readIfPresent()
         value.lastModifiedAt = try reader["LastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.managerArn = try reader["ManagerArn"].readIfPresent()
+        value.managerArn = try reader["ManagerArn"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.statusSummaries = try reader["StatusSummaries"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.StatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2136,7 +2137,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2188,10 +2189,10 @@ extension SSMQuickSetupClientTypes.StatusSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.StatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMQuickSetupClientTypes.StatusSummary()
-        value.statusType = try reader["StatusType"].readIfPresent()
+        value.statusType = try reader["StatusType"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.statusDetails = try reader["StatusDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -2202,8 +2203,8 @@ extension SSMQuickSetupClientTypes.ConfigurationDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ConfigurationDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMQuickSetupClientTypes.ConfigurationDefinition()
-        value.type = try reader["Type"].readIfPresent()
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.typeVersion = try reader["TypeVersion"].readIfPresent()
         value.localDeploymentExecutionRoleName = try reader["LocalDeploymentExecutionRoleName"].readIfPresent()
         value.localDeploymentAdministrationRoleArn = try reader["LocalDeploymentAdministrationRoleArn"].readIfPresent()
@@ -2227,7 +2228,7 @@ extension SSMQuickSetupClientTypes.ConfigurationManagerSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ConfigurationManagerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMQuickSetupClientTypes.ConfigurationManagerSummary()
-        value.managerArn = try reader["ManagerArn"].readIfPresent()
+        value.managerArn = try reader["ManagerArn"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.statusSummaries = try reader["StatusSummaries"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.StatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)

@@ -30,6 +30,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -10975,7 +10976,7 @@ extension AssociateMemberOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateMemberOutput()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10987,7 +10988,7 @@ extension BatchGetAccountStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetAccountStatusOutput()
-        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.AccountState.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.AccountState.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.failedAccounts = try reader["failedAccounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FailedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -11026,8 +11027,8 @@ extension BatchGetFreeTrialInfoOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetFreeTrialInfoOutput()
-        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FreeTrialAccountInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failedAccounts = try reader["failedAccounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FreeTrialInfoError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FreeTrialAccountInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.failedAccounts = try reader["failedAccounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FreeTrialInfoError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11065,7 +11066,7 @@ extension CancelFindingsReportOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelFindingsReportOutput()
-        value.reportId = try reader["reportId"].readIfPresent()
+        value.reportId = try reader["reportId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11101,7 +11102,7 @@ extension CreateFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFilterOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11137,7 +11138,7 @@ extension DeleteCisScanConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteCisScanConfigurationOutput()
-        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11149,7 +11150,7 @@ extension DeleteFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteFilterOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11174,7 +11175,7 @@ extension DisableOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisableOutput()
-        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Account.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Account.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.failedAccounts = try reader["failedAccounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FailedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -11187,7 +11188,7 @@ extension DisableDelegatedAdminAccountOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisableDelegatedAdminAccountOutput()
-        value.delegatedAdminAccountId = try reader["delegatedAdminAccountId"].readIfPresent()
+        value.delegatedAdminAccountId = try reader["delegatedAdminAccountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11199,7 +11200,7 @@ extension DisassociateMemberOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisassociateMemberOutput()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11211,7 +11212,7 @@ extension EnableOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = EnableOutput()
-        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Account.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Account.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.failedAccounts = try reader["failedAccounts"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FailedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -11224,7 +11225,7 @@ extension EnableDelegatedAdminAccountOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = EnableDelegatedAdminAccountOutput()
-        value.delegatedAdminAccountId = try reader["delegatedAdminAccountId"].readIfPresent()
+        value.delegatedAdminAccountId = try reader["delegatedAdminAccountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11302,7 +11303,7 @@ extension GetEncryptionKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEncryptionKeyOutput()
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11362,7 +11363,7 @@ extension ListAccountPermissionsOutput {
         let reader = responseReader
         var value = ListAccountPermissionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Permission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Permission.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11441,7 +11442,7 @@ extension ListCoverageStatisticsOutput {
         var value = ListCoverageStatisticsOutput()
         value.countsByGroup = try reader["countsByGroup"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Counts.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.totalCounts = try reader["totalCounts"].readIfPresent()
+        value.totalCounts = try reader["totalCounts"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11466,7 +11467,7 @@ extension ListFiltersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFiltersOutput()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11479,7 +11480,7 @@ extension ListFindingAggregationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFindingAggregationsOutput()
-        value.aggregationType = try reader["aggregationType"].readIfPresent()
+        value.aggregationType = try reader["aggregationType"].readIfPresent() ?? .sdkUnknown("")
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.responses = try reader["responses"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.AggregationResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -11552,7 +11553,7 @@ extension SearchVulnerabilitiesOutput {
         let reader = responseReader
         var value = SearchVulnerabilitiesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.vulnerabilities = try reader["vulnerabilities"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Vulnerability.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vulnerabilities = try reader["vulnerabilities"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Vulnerability.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11606,7 +11607,7 @@ extension UpdateCisScanConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateCisScanConfigurationOutput()
-        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11647,7 +11648,7 @@ extension UpdateFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFilterOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12704,7 +12705,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12721,7 +12722,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12735,8 +12736,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12753,7 +12754,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12766,7 +12767,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12779,7 +12780,7 @@ extension BadRequestException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12792,8 +12793,8 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12806,9 +12807,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12821,7 +12822,7 @@ extension Inspector2ClientTypes.AccountState {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AccountState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AccountState()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent(with: Inspector2ClientTypes.State.read(from:))
         value.resourceState = try reader["resourceState"].readIfPresent(with: Inspector2ClientTypes.ResourceState.read(from:))
         return value
@@ -12846,9 +12847,9 @@ extension Inspector2ClientTypes.State {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.State {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.State()
-        value.status = try reader["status"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12858,11 +12859,11 @@ extension Inspector2ClientTypes.FailedAccount {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FailedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FailedAccount()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.resourceStatus = try reader["resourceStatus"].readIfPresent(with: Inspector2ClientTypes.ResourceStatus.read(from:))
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12872,8 +12873,8 @@ extension Inspector2ClientTypes.ResourceStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ResourceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ResourceStatus()
-        value.ec2 = try reader["ec2"].readIfPresent()
-        value.ecr = try reader["ecr"].readIfPresent()
+        value.ec2 = try reader["ec2"].readIfPresent() ?? .sdkUnknown("")
+        value.ecr = try reader["ecr"].readIfPresent() ?? .sdkUnknown("")
         value.lambda = try reader["lambda"].readIfPresent()
         value.lambdaCode = try reader["lambdaCode"].readIfPresent()
         return value
@@ -12910,8 +12911,8 @@ extension Inspector2ClientTypes.CodeLine {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeLine {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CodeLine()
-        value.content = try reader["content"].readIfPresent()
-        value.lineNumber = try reader["lineNumber"].readIfPresent()
+        value.content = try reader["content"].readIfPresent() ?? ""
+        value.lineNumber = try reader["lineNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -12921,9 +12922,9 @@ extension Inspector2ClientTypes.CodeSnippetError {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSnippetError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CodeSnippetError()
-        value.findingArn = try reader["findingArn"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.findingArn = try reader["findingArn"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12987,9 +12988,9 @@ extension Inspector2ClientTypes.FindingDetailsError {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FindingDetailsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FindingDetailsError()
-        value.findingArn = try reader["findingArn"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.findingArn = try reader["findingArn"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12999,8 +13000,8 @@ extension Inspector2ClientTypes.FreeTrialAccountInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FreeTrialAccountInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FreeTrialAccountInfo()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.freeTrialInfo = try reader["freeTrialInfo"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FreeTrialInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.freeTrialInfo = try reader["freeTrialInfo"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FreeTrialInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13010,10 +13011,10 @@ extension Inspector2ClientTypes.FreeTrialInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FreeTrialInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FreeTrialInfo()
-        value.type = try reader["type"].readIfPresent()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13023,9 +13024,9 @@ extension Inspector2ClientTypes.FreeTrialInfoError {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FreeTrialInfoError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FreeTrialInfoError()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13035,7 +13036,7 @@ extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
@@ -13047,7 +13048,7 @@ extension Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.ec2ScanStatus = try reader["ec2ScanStatus"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
@@ -13067,8 +13068,8 @@ extension Inspector2ClientTypes.AutoEnable {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AutoEnable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AutoEnable()
-        value.ec2 = try reader["ec2"].readIfPresent()
-        value.ecr = try reader["ecr"].readIfPresent()
+        value.ec2 = try reader["ec2"].readIfPresent() ?? false
+        value.ecr = try reader["ecr"].readIfPresent() ?? false
         value.lambda = try reader["lambda"].readIfPresent()
         value.lambdaCode = try reader["lambdaCode"].readIfPresent()
         return value
@@ -13080,8 +13081,8 @@ extension Inspector2ClientTypes.Account {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Account()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.resourceStatus = try reader["resourceStatus"].readIfPresent(with: Inspector2ClientTypes.ResourceStatus.read(from:))
         return value
     }
@@ -13092,7 +13093,7 @@ extension Inspector2ClientTypes.CisScanResultDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanResultDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CisScanResultDetails()
-        value.scanArn = try reader["scanArn"].readIfPresent()
+        value.scanArn = try reader["scanArn"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent()
         value.targetResourceId = try reader["targetResourceId"].readIfPresent()
         value.platform = try reader["platform"].readIfPresent()
@@ -13175,9 +13176,9 @@ extension Inspector2ClientTypes.Destination {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Destination()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13307,8 +13308,8 @@ extension Inspector2ClientTypes.StringFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.StringFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.StringFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13386,8 +13387,8 @@ extension Inspector2ClientTypes.MapFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.MapFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.MapFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
+        value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }
@@ -13447,8 +13448,8 @@ extension Inspector2ClientTypes.ResourceMapFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ResourceMapFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ResourceMapFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
+        value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }
@@ -13465,8 +13466,8 @@ extension Inspector2ClientTypes.ResourceStringFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ResourceStringFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ResourceStringFilter()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13476,8 +13477,8 @@ extension Inspector2ClientTypes.Permission {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Permission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Permission()
-        value.service = try reader["service"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
+        value.service = try reader["service"].readIfPresent() ?? .sdkUnknown("")
+        value.operation = try reader["operation"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13487,7 +13488,7 @@ extension Inspector2ClientTypes.CisScanConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScanConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CisScanConfiguration()
-        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
         value.ownerId = try reader["ownerId"].readIfPresent()
         value.scanName = try reader["scanName"].readIfPresent()
         value.securityLevel = try reader["securityLevel"].readIfPresent()
@@ -13557,7 +13558,7 @@ extension Inspector2ClientTypes.MonthlySchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.MonthlySchedule()
         value.startTime = try reader["startTime"].readIfPresent(with: Inspector2ClientTypes.Time.read(from:))
-        value.day = try reader["day"].readIfPresent()
+        value.day = try reader["day"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13573,8 +13574,8 @@ extension Inspector2ClientTypes.Time {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Time {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Time()
-        value.timeOfDay = try reader["timeOfDay"].readIfPresent()
-        value.timezone = try reader["timezone"].readIfPresent()
+        value.timeOfDay = try reader["timeOfDay"].readIfPresent() ?? ""
+        value.timezone = try reader["timezone"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13591,7 +13592,7 @@ extension Inspector2ClientTypes.WeeklySchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.WeeklySchedule()
         value.startTime = try reader["startTime"].readIfPresent(with: Inspector2ClientTypes.Time.read(from:))
-        value.days = try reader["days"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.Day>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.days = try reader["days"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.Day>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13629,7 +13630,7 @@ extension Inspector2ClientTypes.CisCheckAggregation {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisCheckAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CisCheckAggregation()
-        value.scanArn = try reader["scanArn"].readIfPresent()
+        value.scanArn = try reader["scanArn"].readIfPresent() ?? ""
         value.checkId = try reader["checkId"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.checkDescription = try reader["checkDescription"].readIfPresent()
@@ -13658,7 +13659,7 @@ extension Inspector2ClientTypes.CisTargetResourceAggregation {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisTargetResourceAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CisTargetResourceAggregation()
-        value.scanArn = try reader["scanArn"].readIfPresent()
+        value.scanArn = try reader["scanArn"].readIfPresent() ?? ""
         value.targetResourceId = try reader["targetResourceId"].readIfPresent()
         value.accountId = try reader["accountId"].readIfPresent()
         value.targetResourceTags = try reader["targetResourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13675,8 +13676,8 @@ extension Inspector2ClientTypes.CisScan {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CisScan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CisScan()
-        value.scanArn = try reader["scanArn"].readIfPresent()
-        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
+        value.scanArn = try reader["scanArn"].readIfPresent() ?? ""
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.scanName = try reader["scanName"].readIfPresent()
         value.scanDate = try reader["scanDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -13694,10 +13695,10 @@ extension Inspector2ClientTypes.CoveredResource {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CoveredResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CoveredResource()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.scanType = try reader["scanType"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.scanType = try reader["scanType"].readIfPresent() ?? .sdkUnknown("")
         value.scanStatus = try reader["scanStatus"].readIfPresent(with: Inspector2ClientTypes.ScanStatus.read(from:))
         value.resourceMetadata = try reader["resourceMetadata"].readIfPresent(with: Inspector2ClientTypes.ResourceScanMetadata.read(from:))
         value.lastScannedAt = try reader["lastScannedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -13771,8 +13772,8 @@ extension Inspector2ClientTypes.ScanStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ScanStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ScanStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13804,13 +13805,13 @@ extension Inspector2ClientTypes.Filter {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Filter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Filter()
-        value.arn = try reader["arn"].readIfPresent()
-        value.ownerId = try reader["ownerId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.ownerId = try reader["ownerId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.criteria = try reader["criteria"].readIfPresent(with: Inspector2ClientTypes.FilterCriteria.read(from:))
-        value.action = try reader["action"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13857,7 +13858,7 @@ extension Inspector2ClientTypes.LambdaFunctionAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaFunctionAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.LambdaFunctionAggregationResponse()
-        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.functionName = try reader["functionName"].readIfPresent()
         value.runtime = try reader["runtime"].readIfPresent()
         value.lambdaTags = try reader["lambdaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13886,10 +13887,10 @@ extension Inspector2ClientTypes.LambdaLayerAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.LambdaLayerAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.LambdaLayerAggregationResponse()
-        value.functionName = try reader["functionName"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.layerArn = try reader["layerArn"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.functionName = try reader["functionName"].readIfPresent() ?? ""
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.layerArn = try reader["layerArn"].readIfPresent() ?? ""
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         return value
     }
@@ -13900,7 +13901,7 @@ extension Inspector2ClientTypes.TitleAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.TitleAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.TitleAggregationResponse()
-        value.title = try reader["title"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
         value.vulnerabilityId = try reader["vulnerabilityId"].readIfPresent()
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
@@ -13913,7 +13914,7 @@ extension Inspector2ClientTypes.RepositoryAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.RepositoryAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.RepositoryAggregationResponse()
-        value.repository = try reader["repository"].readIfPresent()
+        value.repository = try reader["repository"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         value.affectedImages = try reader["affectedImages"].readIfPresent()
@@ -13926,7 +13927,7 @@ extension Inspector2ClientTypes.PackageAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PackageAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.PackageAggregationResponse()
-        value.packageName = try reader["packageName"].readIfPresent()
+        value.packageName = try reader["packageName"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         return value
@@ -13938,10 +13939,10 @@ extension Inspector2ClientTypes.ImageLayerAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ImageLayerAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ImageLayerAggregationResponse()
-        value.repository = try reader["repository"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.layerHash = try reader["layerHash"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.repository = try reader["repository"].readIfPresent() ?? ""
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.layerHash = try reader["layerHash"].readIfPresent() ?? ""
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         return value
     }
@@ -13965,7 +13966,7 @@ extension Inspector2ClientTypes.Ec2InstanceAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Ec2InstanceAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Ec2InstanceAggregationResponse()
-        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
         value.ami = try reader["ami"].readIfPresent()
         value.operatingSystem = try reader["operatingSystem"].readIfPresent()
         value.instanceTags = try reader["instanceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13981,7 +13982,7 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEcrContainerAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AwsEcrContainerAggregationResponse()
-        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.imageSha = try reader["imageSha"].readIfPresent()
         value.repository = try reader["repository"].readIfPresent()
         value.architecture = try reader["architecture"].readIfPresent()
@@ -13997,7 +13998,7 @@ extension Inspector2ClientTypes.AmiAggregationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AmiAggregationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AmiAggregationResponse()
-        value.ami = try reader["ami"].readIfPresent()
+        value.ami = try reader["ami"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         value.affectedInstances = try reader["affectedInstances"].readIfPresent()
@@ -14023,18 +14024,18 @@ extension Inspector2ClientTypes.Finding {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Finding()
-        value.findingArn = try reader["findingArn"].readIfPresent()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
+        value.findingArn = try reader["findingArn"].readIfPresent() ?? ""
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent() ?? ""
         value.title = try reader["title"].readIfPresent()
         value.remediation = try reader["remediation"].readIfPresent(with: Inspector2ClientTypes.Remediation.read(from:))
-        value.severity = try reader["severity"].readIfPresent()
-        value.firstObservedAt = try reader["firstObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastObservedAt = try reader["lastObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.severity = try reader["severity"].readIfPresent() ?? .sdkUnknown("")
+        value.firstObservedAt = try reader["firstObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastObservedAt = try reader["lastObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.inspectorScore = try reader["inspectorScore"].readIfPresent()
         value.inspectorScoreDetails = try reader["inspectorScoreDetails"].readIfPresent(with: Inspector2ClientTypes.InspectorScoreDetails.read(from:))
         value.networkReachabilityDetails = try reader["networkReachabilityDetails"].readIfPresent(with: Inspector2ClientTypes.NetworkReachabilityDetails.read(from:))
@@ -14068,9 +14069,9 @@ extension Inspector2ClientTypes.CodeVulnerabilityDetails {
         value.referenceUrls = try reader["referenceUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ruleId = try reader["ruleId"].readIfPresent()
         value.sourceLambdaLayerArn = try reader["sourceLambdaLayerArn"].readIfPresent()
-        value.detectorId = try reader["detectorId"].readIfPresent()
-        value.detectorName = try reader["detectorName"].readIfPresent()
-        value.cwes = try reader["cwes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.detectorId = try reader["detectorId"].readIfPresent() ?? ""
+        value.detectorName = try reader["detectorName"].readIfPresent() ?? ""
+        value.cwes = try reader["cwes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14080,8 +14081,8 @@ extension Inspector2ClientTypes.CodeFilePath {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeFilePath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CodeFilePath()
-        value.fileName = try reader["fileName"].readIfPresent()
-        value.filePath = try reader["filePath"].readIfPresent()
+        value.fileName = try reader["fileName"].readIfPresent() ?? ""
+        value.filePath = try reader["filePath"].readIfPresent() ?? ""
         value.startLine = try reader["startLine"].readIfPresent()
         value.endLine = try reader["endLine"].readIfPresent()
         return value
@@ -14103,9 +14104,9 @@ extension Inspector2ClientTypes.PackageVulnerabilityDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PackageVulnerabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.PackageVulnerabilityDetails()
-        value.vulnerabilityId = try reader["vulnerabilityId"].readIfPresent()
+        value.vulnerabilityId = try reader["vulnerabilityId"].readIfPresent() ?? ""
         value.vulnerablePackages = try reader["vulnerablePackages"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.VulnerablePackage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.source = try reader["source"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? ""
         value.cvss = try reader["cvss"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CvssScore.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.relatedVulnerabilities = try reader["relatedVulnerabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sourceUrl = try reader["sourceUrl"].readIfPresent()
@@ -14122,10 +14123,10 @@ extension Inspector2ClientTypes.CvssScore {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CvssScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CvssScore()
-        value.baseScore = try reader["baseScore"].readIfPresent()
-        value.scoringVector = try reader["scoringVector"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
+        value.baseScore = try reader["baseScore"].readIfPresent() ?? 0.0
+        value.scoringVector = try reader["scoringVector"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14135,8 +14136,8 @@ extension Inspector2ClientTypes.VulnerablePackage {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.VulnerablePackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.VulnerablePackage()
-        value.name = try reader["name"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         value.sourceLayerHash = try reader["sourceLayerHash"].readIfPresent()
         value.epoch = try reader["epoch"].readIfPresent() ?? 0
         value.release = try reader["release"].readIfPresent()
@@ -14156,7 +14157,7 @@ extension Inspector2ClientTypes.NetworkReachabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.NetworkReachabilityDetails()
         value.openPortRange = try reader["openPortRange"].readIfPresent(with: Inspector2ClientTypes.PortRange.read(from:))
-        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
         value.networkPath = try reader["networkPath"].readIfPresent(with: Inspector2ClientTypes.NetworkPath.read(from:))
         return value
     }
@@ -14177,8 +14178,8 @@ extension Inspector2ClientTypes.Step {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Step {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Step()
-        value.componentId = try reader["componentId"].readIfPresent()
-        value.componentType = try reader["componentType"].readIfPresent()
+        value.componentId = try reader["componentId"].readIfPresent() ?? ""
+        value.componentType = try reader["componentType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14188,8 +14189,8 @@ extension Inspector2ClientTypes.PortRange {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PortRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.PortRange()
-        value.begin = try reader["begin"].readIfPresent()
-        value.end = try reader["end"].readIfPresent()
+        value.begin = try reader["begin"].readIfPresent() ?? 0
+        value.end = try reader["end"].readIfPresent() ?? 0
         return value
     }
 }
@@ -14209,11 +14210,11 @@ extension Inspector2ClientTypes.CvssScoreDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CvssScoreDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CvssScoreDetails()
-        value.scoreSource = try reader["scoreSource"].readIfPresent()
+        value.scoreSource = try reader["scoreSource"].readIfPresent() ?? ""
         value.cvssSource = try reader["cvssSource"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.score = try reader["score"].readIfPresent()
-        value.scoringVector = try reader["scoringVector"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.score = try reader["score"].readIfPresent() ?? 0.0
+        value.scoringVector = try reader["scoringVector"].readIfPresent() ?? ""
         value.adjustments = try reader["adjustments"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CvssScoreAdjustment.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -14224,8 +14225,8 @@ extension Inspector2ClientTypes.CvssScoreAdjustment {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CvssScoreAdjustment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.CvssScoreAdjustment()
-        value.metric = try reader["metric"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
+        value.metric = try reader["metric"].readIfPresent() ?? ""
+        value.reason = try reader["reason"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14235,8 +14236,8 @@ extension Inspector2ClientTypes.Resource {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Resource()
-        value.type = try reader["type"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.partition = try reader["partition"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -14262,11 +14263,11 @@ extension Inspector2ClientTypes.AwsLambdaFunctionDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsLambdaFunctionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AwsLambdaFunctionDetails()
-        value.functionName = try reader["functionName"].readIfPresent()
-        value.runtime = try reader["runtime"].readIfPresent()
-        value.codeSha256 = try reader["codeSha256"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.functionName = try reader["functionName"].readIfPresent() ?? ""
+        value.runtime = try reader["runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.codeSha256 = try reader["codeSha256"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
         value.layers = try reader["layers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: Inspector2ClientTypes.LambdaVpcConfig.read(from:))
         value.packageType = try reader["packageType"].readIfPresent()
@@ -14293,13 +14294,13 @@ extension Inspector2ClientTypes.AwsEcrContainerImageDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEcrContainerImageDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.AwsEcrContainerImageDetails()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
         value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.pushedAt = try reader["pushedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.author = try reader["author"].readIfPresent()
         value.architecture = try reader["architecture"].readIfPresent()
-        value.imageHash = try reader["imageHash"].readIfPresent()
-        value.registry = try reader["registry"].readIfPresent()
+        value.imageHash = try reader["imageHash"].readIfPresent() ?? ""
+        value.registry = try reader["registry"].readIfPresent() ?? ""
         value.platform = try reader["platform"].readIfPresent()
         return value
     }
@@ -14374,7 +14375,7 @@ extension Inspector2ClientTypes.Vulnerability {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Vulnerability {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Vulnerability()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.cwes = try reader["cwes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.cisaData = try reader["cisaData"].readIfPresent(with: Inspector2ClientTypes.CisaData.read(from:))
         value.source = try reader["source"].readIfPresent()
@@ -14445,8 +14446,8 @@ extension Inspector2ClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The service is temporarily unavailable.
 public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -3072,10 +3073,10 @@ extension WorkLinkClientTypes.DomainSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkLinkClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkLinkClientTypes.DomainSummary()
-        value.domainName = try reader["DomainName"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
         value.displayName = try reader["DisplayName"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.domainStatus = try reader["DomainStatus"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainStatus = try reader["DomainStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3103,7 +3104,7 @@ extension WorkLinkClientTypes.WebsiteAuthorizationProviderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkLinkClientTypes.WebsiteAuthorizationProviderSummary()
         value.authorizationProviderId = try reader["AuthorizationProviderId"].readIfPresent()
-        value.authorizationProviderType = try reader["AuthorizationProviderType"].readIfPresent()
+        value.authorizationProviderType = try reader["AuthorizationProviderType"].readIfPresent() ?? .sdkUnknown("")
         value.domainName = try reader["DomainName"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value

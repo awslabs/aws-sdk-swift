@@ -521,7 +521,7 @@ extension CreateBillOfMaterialsImportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateBillOfMaterialsImportJobOutput()
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -545,7 +545,7 @@ extension SendDataIntegrationEventOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SendDataIntegrationEventOutput()
-        value.eventId = try reader["eventId"].readIfPresent()
+        value.eventId = try reader["eventId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -719,10 +719,10 @@ extension SupplyChainClientTypes.BillOfMaterialsImportJob {
     static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.BillOfMaterialsImportJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupplyChainClientTypes.BillOfMaterialsImportJob()
-        value.instanceId = try reader["instanceId"].readIfPresent()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.s3uri = try reader["s3uri"].readIfPresent()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.s3uri = try reader["s3uri"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
         return value
     }

@@ -339,7 +339,7 @@ public struct DescribeVoicesInput {
 
     public init(
         engine: PollyClientTypes.Engine? = nil,
-        includeAdditionalLanguageCodes: Swift.Bool? = nil,
+        includeAdditionalLanguageCodes: Swift.Bool? = false,
         languageCode: PollyClientTypes.LanguageCode? = nil,
         nextToken: Swift.String? = nil
     )
@@ -1754,7 +1754,7 @@ public struct SynthesizeSpeechOutput {
     public var requestCharacters: Swift.Int
 
     public init(
-        audioStream: Smithy.ByteStream? = nil,
+        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
         contentType: Swift.String? = nil,
         requestCharacters: Swift.Int = 0
     )

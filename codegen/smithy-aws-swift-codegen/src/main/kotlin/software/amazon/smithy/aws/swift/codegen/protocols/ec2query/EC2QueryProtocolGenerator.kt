@@ -27,7 +27,6 @@ class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustom
         "SDKAppliedContentEncoding_ec2Query",
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query"
     )
-    override val tagsToIgnore = setOf("defaults")
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)

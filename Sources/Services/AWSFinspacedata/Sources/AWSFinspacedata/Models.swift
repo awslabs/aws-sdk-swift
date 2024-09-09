@@ -811,8 +811,8 @@ public struct CreateDataViewInput {
     public var sortColumns: [Swift.String]?
 
     public init(
-        asOfTimestamp: Swift.Int? = nil,
-        autoUpdate: Swift.Bool? = nil,
+        asOfTimestamp: Swift.Int? = 0,
+        autoUpdate: Swift.Bool? = false,
         clientToken: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         destinationTypeParams: FinspacedataClientTypes.DataViewDestinationTypeParams? = nil,
@@ -1326,8 +1326,8 @@ public struct GetChangesetOutput {
     public var updatesChangesetId: Swift.String?
 
     public init(
-        activeFromTimestamp: Swift.Int? = nil,
-        activeUntilTimestamp: Swift.Int? = nil,
+        activeFromTimestamp: Swift.Int? = 0,
+        activeUntilTimestamp: Swift.Int? = 0,
         changeType: FinspacedataClientTypes.ChangeType? = nil,
         changesetArn: Swift.String? = nil,
         changesetId: Swift.String? = nil,
@@ -1615,7 +1615,7 @@ public struct GetDataViewOutput {
     public var status: FinspacedataClientTypes.DataViewStatus?
 
     public init(
-        asOfTimestamp: Swift.Int? = nil,
+        asOfTimestamp: Swift.Int? = 0,
         autoUpdate: Swift.Bool = false,
         createTime: Swift.Int = 0,
         dataViewArn: Swift.String? = nil,
@@ -2158,8 +2158,8 @@ extension FinspacedataClientTypes {
         public var updatesChangesetId: Swift.String?
 
         public init(
-            activeFromTimestamp: Swift.Int? = nil,
-            activeUntilTimestamp: Swift.Int? = nil,
+            activeFromTimestamp: Swift.Int? = 0,
+            activeUntilTimestamp: Swift.Int? = 0,
             changeType: FinspacedataClientTypes.ChangeType? = nil,
             changesetArn: Swift.String? = nil,
             changesetId: Swift.String? = nil,
@@ -2365,7 +2365,7 @@ extension FinspacedataClientTypes {
         public var status: FinspacedataClientTypes.DataViewStatus?
 
         public init(
-            asOfTimestamp: Swift.Int? = nil,
+            asOfTimestamp: Swift.Int? = 0,
             autoUpdate: Swift.Bool = false,
             createTime: Swift.Int = 0,
             dataViewArn: Swift.String? = nil,
@@ -4832,7 +4832,7 @@ extension FinspacedataClientTypes.DataViewDestinationTypeParams {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewDestinationTypeParams {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.DataViewDestinationTypeParams()
-        value.destinationType = try reader["destinationType"].readIfPresent()
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? ""
         value.s3DestinationExportFileFormat = try reader["s3DestinationExportFileFormat"].readIfPresent()
         value.s3DestinationExportFileFormatOptions = try reader["s3DestinationExportFileFormatOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -4857,8 +4857,8 @@ extension FinspacedataClientTypes.S3Location {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspacedataClientTypes.S3Location()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
         return value
     }
 }

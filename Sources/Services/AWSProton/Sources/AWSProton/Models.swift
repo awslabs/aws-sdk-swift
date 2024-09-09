@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// There isn't sufficient access for performing this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -8959,7 +8960,7 @@ extension ListComponentOutputsOutput {
         let reader = responseReader
         var value = ListComponentOutputsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8972,7 +8973,7 @@ extension ListComponentProvisionedResourcesOutput {
         let reader = responseReader
         var value = ListComponentProvisionedResourcesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8984,7 +8985,7 @@ extension ListComponentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListComponentsOutput()
-        value.components = try reader["components"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.components = try reader["components"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8997,7 +8998,7 @@ extension ListDeploymentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDeploymentsOutput()
-        value.deployments = try reader["deployments"].readListIfPresent(memberReadingClosure: ProtonClientTypes.DeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deployments = try reader["deployments"].readListIfPresent(memberReadingClosure: ProtonClientTypes.DeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9010,7 +9011,7 @@ extension ListEnvironmentAccountConnectionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnvironmentAccountConnectionsOutput()
-        value.environmentAccountConnections = try reader["environmentAccountConnections"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentAccountConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environmentAccountConnections = try reader["environmentAccountConnections"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentAccountConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9024,7 +9025,7 @@ extension ListEnvironmentOutputsOutput {
         let reader = responseReader
         var value = ListEnvironmentOutputsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9037,7 +9038,7 @@ extension ListEnvironmentProvisionedResourcesOutput {
         let reader = responseReader
         var value = ListEnvironmentProvisionedResourcesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9049,7 +9050,7 @@ extension ListEnvironmentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnvironmentsOutput()
-        value.environments = try reader["environments"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environments = try reader["environments"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9063,7 +9064,7 @@ extension ListEnvironmentTemplatesOutput {
         let reader = responseReader
         var value = ListEnvironmentTemplatesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.templates = try reader["templates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templates = try reader["templates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9076,7 +9077,7 @@ extension ListEnvironmentTemplateVersionsOutput {
         let reader = responseReader
         var value = ListEnvironmentTemplateVersionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.templateVersions = try reader["templateVersions"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentTemplateVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateVersions = try reader["templateVersions"].readListIfPresent(memberReadingClosure: ProtonClientTypes.EnvironmentTemplateVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9089,7 +9090,7 @@ extension ListRepositoriesOutput {
         let reader = responseReader
         var value = ListRepositoriesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.repositories = try reader["repositories"].readListIfPresent(memberReadingClosure: ProtonClientTypes.RepositorySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.repositories = try reader["repositories"].readListIfPresent(memberReadingClosure: ProtonClientTypes.RepositorySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9102,7 +9103,7 @@ extension ListRepositorySyncDefinitionsOutput {
         let reader = responseReader
         var value = ListRepositorySyncDefinitionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.syncDefinitions = try reader["syncDefinitions"].readListIfPresent(memberReadingClosure: ProtonClientTypes.RepositorySyncDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.syncDefinitions = try reader["syncDefinitions"].readListIfPresent(memberReadingClosure: ProtonClientTypes.RepositorySyncDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9115,7 +9116,7 @@ extension ListServiceInstanceOutputsOutput {
         let reader = responseReader
         var value = ListServiceInstanceOutputsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9128,7 +9129,7 @@ extension ListServiceInstanceProvisionedResourcesOutput {
         let reader = responseReader
         var value = ListServiceInstanceProvisionedResourcesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9141,7 +9142,7 @@ extension ListServiceInstancesOutput {
         let reader = responseReader
         var value = ListServiceInstancesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.serviceInstances = try reader["serviceInstances"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceInstanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceInstances = try reader["serviceInstances"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceInstanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9154,7 +9155,7 @@ extension ListServicePipelineOutputsOutput {
         let reader = responseReader
         var value = ListServicePipelineOutputsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9167,7 +9168,7 @@ extension ListServicePipelineProvisionedResourcesOutput {
         let reader = responseReader
         var value = ListServicePipelineProvisionedResourcesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ProvisionedResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9180,7 +9181,7 @@ extension ListServicesOutput {
         let reader = responseReader
         var value = ListServicesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.services = try reader["services"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.services = try reader["services"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9193,7 +9194,7 @@ extension ListServiceTemplatesOutput {
         let reader = responseReader
         var value = ListServiceTemplatesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.templates = try reader["templates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templates = try reader["templates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9206,7 +9207,7 @@ extension ListServiceTemplateVersionsOutput {
         let reader = responseReader
         var value = ListServiceTemplateVersionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.templateVersions = try reader["templateVersions"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceTemplateVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateVersions = try reader["templateVersions"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ServiceTemplateVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9219,7 +9220,7 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ProtonClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9373,7 +9374,7 @@ extension UpdateServiceSyncBlockerOutput {
         let reader = responseReader
         var value = UpdateServiceSyncBlockerOutput()
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
-        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
         value.serviceSyncBlocker = try reader["serviceSyncBlocker"].readIfPresent(with: ProtonClientTypes.SyncBlocker.read(from:))
         return value
     }
@@ -11044,7 +11045,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11057,7 +11058,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11070,7 +11071,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11083,7 +11084,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11096,7 +11097,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11109,7 +11110,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11122,7 +11123,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11135,15 +11136,15 @@ extension ProtonClientTypes.EnvironmentAccountConnection {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentAccountConnection()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.managementAccountId = try reader["managementAccountId"].readIfPresent()
-        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
-        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.managementAccountId = try reader["managementAccountId"].readIfPresent() ?? ""
+        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
         value.codebuildRoleArn = try reader["codebuildRoleArn"].readIfPresent()
         return value
@@ -11155,17 +11156,17 @@ extension ProtonClientTypes.Component {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Component {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Component()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
         value.serviceSpec = try reader["serviceSpec"].readIfPresent()
         value.lastClientRequestToken = try reader["lastClientRequestToken"].readIfPresent()
@@ -11180,16 +11181,16 @@ extension ProtonClientTypes.Environment {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Environment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Environment()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.arn = try reader["arn"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
         value.protonServiceRoleArn = try reader["protonServiceRoleArn"].readIfPresent()
         value.environmentAccountConnectionId = try reader["environmentAccountConnectionId"].readIfPresent()
@@ -11210,10 +11211,10 @@ extension ProtonClientTypes.RepositoryBranch {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositoryBranch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.RepositoryBranch()
-        value.arn = try reader["arn"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.branch = try reader["branch"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11223,17 +11224,17 @@ extension ProtonClientTypes.ServiceInstance {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceInstance()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
         value.spec = try reader["spec"].readIfPresent()
         value.lastClientRequestToken = try reader["lastClientRequestToken"].readIfPresent()
@@ -11248,14 +11249,14 @@ extension ProtonClientTypes.ServicePipeline {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServicePipeline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServicePipeline()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
         value.spec = try reader["spec"].readIfPresent()
         value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
@@ -11269,10 +11270,10 @@ extension ProtonClientTypes.EnvironmentTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentTemplate()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.displayName = try reader["displayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
@@ -11287,16 +11288,16 @@ extension ProtonClientTypes.EnvironmentTemplateVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentTemplateVersion()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.majorVersion = try reader["majorVersion"].readIfPresent()
-        value.minorVersion = try reader["minorVersion"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
         value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.schema = try reader["schema"].readIfPresent()
         return value
     }
@@ -11307,10 +11308,10 @@ extension ProtonClientTypes.Repository {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Repository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Repository()
-        value.arn = try reader["arn"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.connectionArn = try reader["connectionArn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.connectionArn = try reader["connectionArn"].readIfPresent() ?? ""
         value.encryptionKey = try reader["encryptionKey"].readIfPresent()
         return value
     }
@@ -11321,15 +11322,15 @@ extension ProtonClientTypes.Service {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Service()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.spec = try reader["spec"].readIfPresent()
+        value.spec = try reader["spec"].readIfPresent() ?? ""
         value.pipeline = try reader["pipeline"].readIfPresent(with: ProtonClientTypes.ServicePipeline.read(from:))
         value.repositoryConnectionArn = try reader["repositoryConnectionArn"].readIfPresent()
         value.repositoryId = try reader["repositoryId"].readIfPresent()
@@ -11343,11 +11344,11 @@ extension ProtonClientTypes.ServiceSyncConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSyncConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceSyncConfig()
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.branch = try reader["branch"].readIfPresent()
-        value.filePath = try reader["filePath"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
+        value.filePath = try reader["filePath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11357,10 +11358,10 @@ extension ProtonClientTypes.ServiceTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceTemplate()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.displayName = try reader["displayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
@@ -11375,17 +11376,17 @@ extension ProtonClientTypes.ServiceTemplateVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceTemplateVersion()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.majorVersion = try reader["majorVersion"].readIfPresent()
-        value.minorVersion = try reader["minorVersion"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
         value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.compatibleEnvironmentTemplates = try reader["compatibleEnvironmentTemplates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.CompatibleEnvironmentTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.compatibleEnvironmentTemplates = try reader["compatibleEnvironmentTemplates"].readListIfPresent(memberReadingClosure: ProtonClientTypes.CompatibleEnvironmentTemplate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.schema = try reader["schema"].readIfPresent()
         value.supportedComponentSources = try reader["supportedComponentSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ProtonClientTypes.ServiceTemplateSupportedComponentSourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -11397,8 +11398,8 @@ extension ProtonClientTypes.CompatibleEnvironmentTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.CompatibleEnvironmentTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.CompatibleEnvironmentTemplate()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.majorVersion = try reader["majorVersion"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11408,11 +11409,11 @@ extension ProtonClientTypes.TemplateSyncConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.TemplateSyncConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.TemplateSyncConfig()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateType = try reader["templateType"].readIfPresent()
-        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.branch = try reader["branch"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
         value.subdirectory = try reader["subdirectory"].readIfPresent()
         return value
     }
@@ -11423,19 +11424,19 @@ extension ProtonClientTypes.Deployment {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Deployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Deployment()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.targetArn = try reader["targetArn"].readIfPresent()
-        value.targetResourceCreatedAt = try reader["targetResourceCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetResourceType = try reader["targetResourceType"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
+        value.targetResourceCreatedAt = try reader["targetResourceCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
         value.componentName = try reader["componentName"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
         value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
@@ -11484,9 +11485,9 @@ extension ProtonClientTypes.ServicePipelineState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServicePipelineState()
         value.spec = try reader["spec"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11497,9 +11498,9 @@ extension ProtonClientTypes.EnvironmentState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentState()
         value.spec = try reader["spec"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11509,10 +11510,10 @@ extension ProtonClientTypes.ServiceInstanceState {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceInstanceState()
-        value.spec = try reader["spec"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
+        value.spec = try reader["spec"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
         value.lastSuccessfulComponentDeploymentIds = try reader["lastSuccessfulComponentDeploymentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastSuccessfulEnvironmentDeploymentId = try reader["lastSuccessfulEnvironmentDeploymentId"].readIfPresent()
         value.lastSuccessfulServicePipelineDeploymentId = try reader["lastSuccessfulServicePipelineDeploymentId"].readIfPresent()
@@ -11537,9 +11538,9 @@ extension ProtonClientTypes.RepositorySyncAttempt {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncAttempt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.RepositorySyncAttempt()
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ProtonClientTypes.RepositorySyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ProtonClientTypes.RepositorySyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11549,10 +11550,10 @@ extension ProtonClientTypes.RepositorySyncEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.RepositorySyncEvent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.externalId = try reader["externalId"].readIfPresent()
-        value.time = try reader["time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.event = try reader["event"].readIfPresent()
+        value.time = try reader["time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.event = try reader["event"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11578,7 +11579,7 @@ extension ProtonClientTypes.ResourceCountsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ResourceCountsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ResourceCountsSummary()
-        value.total = try reader["total"].readIfPresent()
+        value.total = try reader["total"].readIfPresent() ?? 0
         value.failed = try reader["failed"].readIfPresent()
         value.upToDate = try reader["upToDate"].readIfPresent()
         value.behindMajor = try reader["behindMajor"].readIfPresent()
@@ -11594,10 +11595,10 @@ extension ProtonClientTypes.ResourceSyncAttempt {
         var value = ProtonClientTypes.ResourceSyncAttempt()
         value.initialRevision = try reader["initialRevision"].readIfPresent(with: ProtonClientTypes.Revision.read(from:))
         value.targetRevision = try reader["targetRevision"].readIfPresent(with: ProtonClientTypes.Revision.read(from:))
-        value.target = try reader["target"].readIfPresent()
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ResourceSyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.target = try reader["target"].readIfPresent() ?? ""
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ProtonClientTypes.ResourceSyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11607,10 +11608,10 @@ extension ProtonClientTypes.ResourceSyncEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ResourceSyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ResourceSyncEvent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.externalId = try reader["externalId"].readIfPresent()
-        value.time = try reader["time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.event = try reader["event"].readIfPresent()
+        value.time = try reader["time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.event = try reader["event"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11620,11 +11621,11 @@ extension ProtonClientTypes.Revision {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Revision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Revision()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent()
-        value.sha = try reader["sha"].readIfPresent()
-        value.directory = try reader["directory"].readIfPresent()
-        value.branch = try reader["branch"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
+        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.sha = try reader["sha"].readIfPresent() ?? ""
+        value.directory = try reader["directory"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11634,7 +11635,7 @@ extension ProtonClientTypes.ServiceSyncBlockerSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSyncBlockerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceSyncBlockerSummary()
-        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
         value.latestBlockers = try reader["latestBlockers"].readListIfPresent(memberReadingClosure: ProtonClientTypes.SyncBlocker.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -11646,11 +11647,11 @@ extension ProtonClientTypes.SyncBlocker {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.SyncBlocker {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.SyncBlocker()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdReason = try reader["createdReason"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdReason = try reader["createdReason"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.contexts = try reader["contexts"].readListIfPresent(memberReadingClosure: ProtonClientTypes.SyncBlockerContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resolvedReason = try reader["resolvedReason"].readIfPresent()
         value.resolvedAt = try reader["resolvedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -11663,8 +11664,8 @@ extension ProtonClientTypes.SyncBlockerContext {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.SyncBlockerContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.SyncBlockerContext()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11703,16 +11704,16 @@ extension ProtonClientTypes.ComponentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ComponentSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
         value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
         value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
@@ -11725,21 +11726,21 @@ extension ProtonClientTypes.DeploymentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.DeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.DeploymentSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.targetArn = try reader["targetArn"].readIfPresent()
-        value.targetResourceCreatedAt = try reader["targetResourceCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetResourceType = try reader["targetResourceType"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
+        value.targetResourceCreatedAt = try reader["targetResourceCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.environmentName = try reader["environmentName"].readIfPresent()
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.serviceInstanceName = try reader["serviceInstanceName"].readIfPresent()
         value.componentName = try reader["componentName"].readIfPresent()
         value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
         value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11749,15 +11750,15 @@ extension ProtonClientTypes.EnvironmentAccountConnectionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentAccountConnectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentAccountConnectionSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.managementAccountId = try reader["managementAccountId"].readIfPresent()
-        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
-        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.managementAccountId = try reader["managementAccountId"].readIfPresent() ?? ""
+        value.environmentAccountId = try reader["environmentAccountId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.requestedAt = try reader["requestedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.componentRoleArn = try reader["componentRoleArn"].readIfPresent()
         return value
     }
@@ -11768,16 +11769,16 @@ extension ProtonClientTypes.EnvironmentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentSummary()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.arn = try reader["arn"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
         value.protonServiceRoleArn = try reader["protonServiceRoleArn"].readIfPresent()
         value.environmentAccountConnectionId = try reader["environmentAccountConnectionId"].readIfPresent()
@@ -11795,10 +11796,10 @@ extension ProtonClientTypes.EnvironmentTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentTemplateSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.displayName = try reader["displayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
@@ -11812,16 +11813,16 @@ extension ProtonClientTypes.EnvironmentTemplateVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.EnvironmentTemplateVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.EnvironmentTemplateVersionSummary()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.majorVersion = try reader["majorVersion"].readIfPresent()
-        value.minorVersion = try reader["minorVersion"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
         value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -11831,10 +11832,10 @@ extension ProtonClientTypes.RepositorySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.RepositorySummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.connectionArn = try reader["connectionArn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.connectionArn = try reader["connectionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11844,10 +11845,10 @@ extension ProtonClientTypes.RepositorySyncDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.RepositorySyncDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.RepositorySyncDefinition()
-        value.target = try reader["target"].readIfPresent()
-        value.parent = try reader["parent"].readIfPresent()
-        value.branch = try reader["branch"].readIfPresent()
-        value.directory = try reader["directory"].readIfPresent()
+        value.target = try reader["target"].readIfPresent() ?? ""
+        value.parent = try reader["parent"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent() ?? ""
+        value.directory = try reader["directory"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11857,17 +11858,17 @@ extension ProtonClientTypes.ServiceInstanceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceInstanceSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent()
-        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentAttemptedAt = try reader["lastDeploymentAttemptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastDeploymentSucceededAt = try reader["lastDeploymentSucceededAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateMajorVersion = try reader["templateMajorVersion"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["templateMinorVersion"].readIfPresent() ?? ""
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
         value.lastAttemptedDeploymentId = try reader["lastAttemptedDeploymentId"].readIfPresent()
         value.lastSucceededDeploymentId = try reader["lastSucceededDeploymentId"].readIfPresent()
@@ -11880,13 +11881,13 @@ extension ProtonClientTypes.ServiceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceSummary()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -11897,10 +11898,10 @@ extension ProtonClientTypes.ServiceTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceTemplateSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.displayName = try reader["displayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.recommendedVersion = try reader["recommendedVersion"].readIfPresent()
@@ -11914,16 +11915,16 @@ extension ProtonClientTypes.ServiceTemplateVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.ServiceTemplateVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.ServiceTemplateVersionSummary()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.majorVersion = try reader["majorVersion"].readIfPresent()
-        value.minorVersion = try reader["minorVersion"].readIfPresent()
+        value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.majorVersion = try reader["majorVersion"].readIfPresent() ?? ""
+        value.minorVersion = try reader["minorVersion"].readIfPresent() ?? ""
         value.recommendedMinorVersion = try reader["recommendedMinorVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -11939,8 +11940,8 @@ extension ProtonClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ProtonClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ProtonClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

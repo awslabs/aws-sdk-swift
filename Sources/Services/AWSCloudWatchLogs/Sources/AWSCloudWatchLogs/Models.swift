@@ -3202,7 +3202,7 @@ public struct FilterLogEventsInput {
         logStreamNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         startTime: Swift.Int? = nil,
-        unmask: Swift.Bool? = nil
+        unmask: Swift.Bool? = false
     )
     {
         self.endTime = endTime
@@ -3495,7 +3495,7 @@ public struct GetLogEventsInput {
         nextToken: Swift.String? = nil,
         startFromHead: Swift.Bool? = nil,
         startTime: Swift.Int? = nil,
-        unmask: Swift.Bool? = nil
+        unmask: Swift.Bool? = false
     )
     {
         self.endTime = endTime
@@ -3615,7 +3615,7 @@ public struct GetLogRecordInput {
 
     public init(
         logRecordPointer: Swift.String? = nil,
-        unmask: Swift.Bool? = nil
+        unmask: Swift.Bool? = false
     )
     {
         self.logRecordPointer = logRecordPointer
@@ -8923,7 +8923,7 @@ extension CloudWatchLogsClientTypes.DeliveryDestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.DeliveryDestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.DeliveryDestinationConfiguration()
-        value.destinationResourceArn = try reader["destinationResourceArn"].readIfPresent()
+        value.destinationResourceArn = try reader["destinationResourceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9064,9 +9064,9 @@ extension CloudWatchLogsClientTypes.MetricTransformation {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.MetricTransformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.MetricTransformation()
-        value.metricName = try reader["metricName"].readIfPresent()
-        value.metricNamespace = try reader["metricNamespace"].readIfPresent()
-        value.metricValue = try reader["metricValue"].readIfPresent()
+        value.metricName = try reader["metricName"].readIfPresent() ?? ""
+        value.metricNamespace = try reader["metricNamespace"].readIfPresent() ?? ""
+        value.metricValue = try reader["metricValue"].readIfPresent() ?? ""
         value.defaultValue = try reader["defaultValue"].readIfPresent()
         value.dimensions = try reader["dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.unit = try reader["unit"].readIfPresent()
@@ -9216,21 +9216,21 @@ extension CloudWatchLogsClientTypes.Anomaly {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.Anomaly()
-        value.anomalyId = try reader["anomalyId"].readIfPresent()
-        value.patternId = try reader["patternId"].readIfPresent()
-        value.anomalyDetectorArn = try reader["anomalyDetectorArn"].readIfPresent()
-        value.patternString = try reader["patternString"].readIfPresent()
+        value.anomalyId = try reader["anomalyId"].readIfPresent() ?? ""
+        value.patternId = try reader["patternId"].readIfPresent() ?? ""
+        value.anomalyDetectorArn = try reader["anomalyDetectorArn"].readIfPresent() ?? ""
+        value.patternString = try reader["patternString"].readIfPresent() ?? ""
         value.patternRegex = try reader["patternRegex"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
         value.firstSeen = try reader["firstSeen"].readIfPresent() ?? 0
         value.lastSeen = try reader["lastSeen"].readIfPresent() ?? 0
-        value.description = try reader["description"].readIfPresent()
-        value.active = try reader["active"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.histogram = try reader["histogram"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.logSamples = try reader["logSamples"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.LogEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.patternTokens = try reader["patternTokens"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.PatternToken.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logGroupArnList = try reader["logGroupArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.active = try reader["active"].readIfPresent() ?? false
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.histogram = try reader["histogram"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.logSamples = try reader["logSamples"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.LogEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.patternTokens = try reader["patternTokens"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.PatternToken.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logGroupArnList = try reader["logGroupArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.suppressed = try reader["suppressed"].readIfPresent()
         value.suppressedDate = try reader["suppressedDate"].readIfPresent() ?? 0
         value.suppressedUntil = try reader["suppressedUntil"].readIfPresent() ?? 0
@@ -9299,7 +9299,7 @@ extension CloudWatchLogsClientTypes.RejectedEntityInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.RejectedEntityInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.RejectedEntityInfo()
-        value.errorType = try reader["errorType"].readIfPresent()
+        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

@@ -1101,7 +1101,7 @@ public struct CreateClusterInput {
     public init(
         addressId: Swift.String? = nil,
         description: Swift.String? = nil,
-        forceCreateJobs: Swift.Bool? = nil,
+        forceCreateJobs: Swift.Bool? = false,
         forwardingAddressId: Swift.String? = nil,
         initialClusterSize: Swift.Int? = nil,
         jobType: SnowballClientTypes.JobType? = nil,
@@ -3581,8 +3581,8 @@ extension ListServiceVersionsOutput {
         var value = ListServiceVersionsOutput()
         value.dependentServices = try reader["DependentServices"].readListIfPresent(memberReadingClosure: SnowballClientTypes.DependentService.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.serviceVersions = try reader["ServiceVersions"].readListIfPresent(memberReadingClosure: SnowballClientTypes.ServiceVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? .sdkUnknown("")
+        value.serviceVersions = try reader["ServiceVersions"].readListIfPresent(memberReadingClosure: SnowballClientTypes.ServiceVersion.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4430,7 +4430,7 @@ extension SnowballClientTypes.Ec2AmiResource {
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Ec2AmiResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SnowballClientTypes.Ec2AmiResource()
-        value.amiId = try reader["AmiId"].readIfPresent()
+        value.amiId = try reader["AmiId"].readIfPresent() ?? ""
         value.snowballAmiId = try reader["SnowballAmiId"].readIfPresent()
         return value
     }
