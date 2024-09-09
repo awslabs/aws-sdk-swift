@@ -2455,7 +2455,7 @@ public struct PutAccountDedicatedIpWarmupAttributesInput {
     public var autoWarmupEnabled: Swift.Bool?
 
     public init(
-        autoWarmupEnabled: Swift.Bool? = nil
+        autoWarmupEnabled: Swift.Bool? = false
     )
     {
         self.autoWarmupEnabled = autoWarmupEnabled
@@ -2474,7 +2474,7 @@ public struct PutAccountSendingAttributesInput {
     public var sendingEnabled: Swift.Bool?
 
     public init(
-        sendingEnabled: Swift.Bool? = nil
+        sendingEnabled: Swift.Bool? = false
     )
     {
         self.sendingEnabled = sendingEnabled
@@ -2525,7 +2525,7 @@ public struct PutConfigurationSetReputationOptionsInput {
 
     public init(
         configurationSetName: Swift.String? = nil,
-        reputationMetricsEnabled: Swift.Bool? = nil
+        reputationMetricsEnabled: Swift.Bool? = false
     )
     {
         self.configurationSetName = configurationSetName
@@ -2549,7 +2549,7 @@ public struct PutConfigurationSetSendingOptionsInput {
 
     public init(
         configurationSetName: Swift.String? = nil,
-        sendingEnabled: Swift.Bool? = nil
+        sendingEnabled: Swift.Bool? = false
     )
     {
         self.configurationSetName = configurationSetName
@@ -2646,7 +2646,7 @@ public struct PutDeliverabilityDashboardOptionInput {
     public var subscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]?
 
     public init(
-        dashboardEnabled: Swift.Bool? = nil,
+        dashboardEnabled: Swift.Bool? = false,
         subscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]? = nil
     )
     {
@@ -2671,7 +2671,7 @@ public struct PutEmailIdentityDkimAttributesInput {
 
     public init(
         emailIdentity: Swift.String? = nil,
-        signingEnabled: Swift.Bool? = nil
+        signingEnabled: Swift.Bool? = false
     )
     {
         self.emailIdentity = emailIdentity
@@ -2694,7 +2694,7 @@ public struct PutEmailIdentityFeedbackAttributesInput {
     public var emailIdentity: Swift.String?
 
     public init(
-        emailForwardingEnabled: Swift.Bool? = nil,
+        emailForwardingEnabled: Swift.Bool? = false,
         emailIdentity: Swift.String? = nil
     )
     {
@@ -3687,8 +3687,8 @@ extension CreateDeliverabilityTestReportOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDeliverabilityTestReportOutput()
-        value.deliverabilityTestStatus = try reader["DeliverabilityTestStatus"].readIfPresent()
-        value.reportId = try reader["ReportId"].readIfPresent()
+        value.deliverabilityTestStatus = try reader["DeliverabilityTestStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.reportId = try reader["ReportId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3758,7 +3758,7 @@ extension GetBlacklistReportsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetBlacklistReportsOutput()
-        value.blacklistReport = try reader["BlacklistReport"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: PinpointEmailClientTypes.BlacklistEntry.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.blacklistReport = try reader["BlacklistReport"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: PinpointEmailClientTypes.BlacklistEntry.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -3841,7 +3841,7 @@ extension GetDeliverabilityTestReportOutput {
         let reader = responseReader
         var value = GetDeliverabilityTestReportOutput()
         value.deliverabilityTestReport = try reader["DeliverabilityTestReport"].readIfPresent(with: PinpointEmailClientTypes.DeliverabilityTestReport.read(from:))
-        value.ispPlacements = try reader["IspPlacements"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.IspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ispPlacements = try reader["IspPlacements"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.IspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.message = try reader["Message"].readIfPresent()
         value.overallPlacement = try reader["OverallPlacement"].readIfPresent(with: PinpointEmailClientTypes.PlacementStatistics.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3868,7 +3868,7 @@ extension GetDomainStatisticsReportOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDomainStatisticsReportOutput()
-        value.dailyVolumes = try reader["DailyVolumes"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DailyVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dailyVolumes = try reader["DailyVolumes"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DailyVolume.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.overallVolume = try reader["OverallVolume"].readIfPresent(with: PinpointEmailClientTypes.OverallVolume.read(from:))
         return value
     }
@@ -3924,7 +3924,7 @@ extension ListDeliverabilityTestReportsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDeliverabilityTestReportsOutput()
-        value.deliverabilityTestReports = try reader["DeliverabilityTestReports"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DeliverabilityTestReport.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deliverabilityTestReports = try reader["DeliverabilityTestReports"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DeliverabilityTestReport.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -3937,7 +3937,7 @@ extension ListDomainDeliverabilityCampaignsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDomainDeliverabilityCampaignsOutput()
-        value.domainDeliverabilityCampaigns = try reader["DomainDeliverabilityCampaigns"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DomainDeliverabilityCampaign.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainDeliverabilityCampaigns = try reader["DomainDeliverabilityCampaigns"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.DomainDeliverabilityCampaign.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -3963,7 +3963,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4953,7 +4953,7 @@ extension PinpointEmailClientTypes.TrackingOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.TrackingOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.TrackingOptions()
-        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent()
+        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5018,8 +5018,8 @@ extension PinpointEmailClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5029,9 +5029,9 @@ extension PinpointEmailClientTypes.EventDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.EventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.EventDestination()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointEmailClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointEmailClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointEmailClientTypes.KinesisFirehoseDestination.read(from:))
         value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: PinpointEmailClientTypes.CloudWatchDestination.read(from:))
         value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointEmailClientTypes.SnsDestination.read(from:))
@@ -5065,7 +5065,7 @@ extension PinpointEmailClientTypes.SnsDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.SnsDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.SnsDestination()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5080,7 +5080,7 @@ extension PinpointEmailClientTypes.CloudWatchDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.CloudWatchDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.CloudWatchDestination()
-        value.dimensionConfigurations = try reader["DimensionConfigurations"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.CloudWatchDimensionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dimensionConfigurations = try reader["DimensionConfigurations"].readListIfPresent(memberReadingClosure: PinpointEmailClientTypes.CloudWatchDimensionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5097,9 +5097,9 @@ extension PinpointEmailClientTypes.CloudWatchDimensionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.CloudWatchDimensionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.CloudWatchDimensionConfiguration()
-        value.dimensionName = try reader["DimensionName"].readIfPresent()
-        value.dimensionValueSource = try reader["DimensionValueSource"].readIfPresent()
-        value.defaultDimensionValue = try reader["DefaultDimensionValue"].readIfPresent()
+        value.dimensionName = try reader["DimensionName"].readIfPresent() ?? ""
+        value.dimensionValueSource = try reader["DimensionValueSource"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultDimensionValue = try reader["DefaultDimensionValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5115,8 +5115,8 @@ extension PinpointEmailClientTypes.KinesisFirehoseDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.KinesisFirehoseDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.KinesisFirehoseDestination()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5126,9 +5126,9 @@ extension PinpointEmailClientTypes.DedicatedIp {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.DedicatedIp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.DedicatedIp()
-        value.ip = try reader["Ip"].readIfPresent()
-        value.warmupStatus = try reader["WarmupStatus"].readIfPresent()
-        value.warmupPercentage = try reader["WarmupPercentage"].readIfPresent()
+        value.ip = try reader["Ip"].readIfPresent() ?? ""
+        value.warmupStatus = try reader["WarmupStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.warmupPercentage = try reader["WarmupPercentage"].readIfPresent() ?? 0
         value.poolName = try reader["PoolName"].readIfPresent()
         return value
     }
@@ -5289,9 +5289,9 @@ extension PinpointEmailClientTypes.MailFromAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointEmailClientTypes.MailFromAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointEmailClientTypes.MailFromAttributes()
-        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent()
-        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent()
-        value.behaviorOnMxFailure = try reader["BehaviorOnMxFailure"].readIfPresent()
+        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent() ?? ""
+        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.behaviorOnMxFailure = try reader["BehaviorOnMxFailure"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

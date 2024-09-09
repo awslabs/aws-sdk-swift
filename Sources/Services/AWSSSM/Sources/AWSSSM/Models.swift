@@ -30,6 +30,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension SSMClientTypes {
     /// Information includes the Amazon Web Services account ID where the current document is shared and the version shared with that account.
@@ -1293,7 +1294,7 @@ public struct CreateAssociationInput {
 
     public init(
         alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
-        applyOnlyAtCronInterval: Swift.Bool? = nil,
+        applyOnlyAtCronInterval: Swift.Bool? = false,
         associationName: Swift.String? = nil,
         automationTargetParameterName: Swift.String? = nil,
         calendarNames: [Swift.String]? = nil,
@@ -2615,9 +2616,9 @@ public struct CreateMaintenanceWindowInput {
     public var tags: [SSMClientTypes.Tag]?
 
     public init(
-        allowUnassociatedTargets: Swift.Bool? = nil,
+        allowUnassociatedTargets: Swift.Bool? = false,
         clientToken: Swift.String? = nil,
-        cutoff: Swift.Int? = nil,
+        cutoff: Swift.Int? = 0,
         description: Swift.String? = nil,
         duration: Swift.Int? = nil,
         endDate: Swift.String? = nil,
@@ -3216,10 +3217,10 @@ extension SSMClientTypes {
         public var patchFilterGroup: SSMClientTypes.PatchFilterGroup?
 
         public init(
-            approveAfterDays: Swift.Int? = nil,
+            approveAfterDays: Swift.Int? = 0,
             approveUntilDate: Swift.String? = nil,
             complianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-            enableNonSecurity: Swift.Bool? = nil,
+            enableNonSecurity: Swift.Bool? = false,
             patchFilterGroup: SSMClientTypes.PatchFilterGroup? = nil
         )
         {
@@ -3425,7 +3426,7 @@ public struct CreatePatchBaselineInput {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
@@ -3884,7 +3885,7 @@ public struct DeleteDocumentInput {
 
     public init(
         documentVersion: Swift.String? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil,
         versionName: Swift.String? = nil
     )
@@ -4039,7 +4040,7 @@ public struct DeleteInventoryInput {
 
     public init(
         clientToken: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         schemaDeleteOption: SSMClientTypes.InventorySchemaDeleteOption? = nil,
         typeName: Swift.String? = nil
     )
@@ -4614,7 +4615,7 @@ public struct DeregisterTargetFromMaintenanceWindowInput {
     public var windowTargetId: Swift.String?
 
     public init(
-        safe: Swift.Bool? = nil,
+        safe: Swift.Bool? = false,
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
     )
@@ -5880,7 +5881,7 @@ public struct DescribeAutomationStepExecutionsInput {
         filters: [SSMClientTypes.StepExecutionFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = nil
+        reverseOrder: Swift.Bool? = false
     )
     {
         self.automationExecutionId = automationExecutionId
@@ -5931,7 +5932,7 @@ extension SSMClientTypes {
 
         public init(
             action: Swift.String? = nil,
-            iteration: Swift.Int? = nil,
+            iteration: Swift.Int? = 0,
             iteratorValue: Swift.String? = nil,
             stepExecutionId: Swift.String? = nil,
             stepName: Swift.String? = nil
@@ -6006,9 +6007,9 @@ extension SSMClientTypes {
             failureDetails: SSMClientTypes.FailureDetails? = nil,
             failureMessage: Swift.String? = nil,
             inputs: [Swift.String: Swift.String]? = nil,
-            isCritical: Swift.Bool? = nil,
-            isEnd: Swift.Bool? = nil,
-            maxAttempts: Swift.Int? = nil,
+            isCritical: Swift.Bool? = false,
+            isEnd: Swift.Bool? = false,
+            maxAttempts: Swift.Int? = 0,
             nextStep: Swift.String? = nil,
             onFailure: Swift.String? = nil,
             outputs: [Swift.String: [Swift.String]]? = nil,
@@ -6021,7 +6022,7 @@ extension SSMClientTypes {
             stepStatus: SSMClientTypes.AutomationExecutionStatus? = nil,
             targetLocation: SSMClientTypes.TargetLocation? = nil,
             targets: [SSMClientTypes.Target]? = nil,
-            timeoutSeconds: Swift.Int? = nil,
+            timeoutSeconds: Swift.Int? = 0,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
             validNextSteps: [Swift.String]? = nil
         )
@@ -7058,7 +7059,7 @@ extension SSMClientTypes {
             iamRole: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
-            isLatestVersion: Swift.Bool? = nil,
+            isLatestVersion: Swift.Bool? = false,
             lastAssociationExecutionDate: Foundation.Date? = nil,
             lastPingDateTime: Foundation.Date? = nil,
             lastSuccessfulAssociationExecutionDate: Foundation.Date? = nil,
@@ -7416,13 +7417,13 @@ extension SSMClientTypes {
 
         public init(
             baselineId: Swift.String? = nil,
-            criticalNonCompliantCount: Swift.Int? = nil,
+            criticalNonCompliantCount: Swift.Int? = 0,
             failedCount: Swift.Int = 0,
             installOverrideList: Swift.String? = nil,
             installedCount: Swift.Int = 0,
             installedOtherCount: Swift.Int = 0,
-            installedPendingRebootCount: Swift.Int? = nil,
-            installedRejectedCount: Swift.Int? = nil,
+            installedPendingRebootCount: Swift.Int? = 0,
+            installedRejectedCount: Swift.Int? = 0,
             instanceId: Swift.String? = nil,
             lastNoRebootInstallOperationTime: Foundation.Date? = nil,
             missingCount: Swift.Int = 0,
@@ -7430,13 +7431,13 @@ extension SSMClientTypes {
             operation: SSMClientTypes.PatchOperationType? = nil,
             operationEndTime: Foundation.Date? = nil,
             operationStartTime: Foundation.Date? = nil,
-            otherNonCompliantCount: Swift.Int? = nil,
+            otherNonCompliantCount: Swift.Int? = 0,
             ownerInformation: Swift.String? = nil,
             patchGroup: Swift.String? = nil,
             rebootOption: SSMClientTypes.RebootOption? = nil,
-            securityNonCompliantCount: Swift.Int? = nil,
+            securityNonCompliantCount: Swift.Int? = 0,
             snapshotId: Swift.String? = nil,
-            unreportedNotApplicableCount: Swift.Int? = nil
+            unreportedNotApplicableCount: Swift.Int? = 0
         )
         {
             self.baselineId = baselineId
@@ -9535,7 +9536,7 @@ public struct DescribeParametersInput {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterFilters: [SSMClientTypes.ParameterStringFilter]? = nil,
-        shared: Swift.Bool? = nil
+        shared: Swift.Bool? = false
     )
     {
         self.filters = filters
@@ -9889,17 +9890,17 @@ public struct DescribePatchGroupStateOutput {
 
     public init(
         instances: Swift.Int = 0,
-        instancesWithCriticalNonCompliantPatches: Swift.Int? = nil,
+        instancesWithCriticalNonCompliantPatches: Swift.Int? = 0,
         instancesWithFailedPatches: Swift.Int = 0,
         instancesWithInstalledOtherPatches: Swift.Int = 0,
         instancesWithInstalledPatches: Swift.Int = 0,
-        instancesWithInstalledPendingRebootPatches: Swift.Int? = nil,
-        instancesWithInstalledRejectedPatches: Swift.Int? = nil,
+        instancesWithInstalledPendingRebootPatches: Swift.Int? = 0,
+        instancesWithInstalledRejectedPatches: Swift.Int? = 0,
         instancesWithMissingPatches: Swift.Int = 0,
         instancesWithNotApplicablePatches: Swift.Int = 0,
-        instancesWithOtherNonCompliantPatches: Swift.Int? = nil,
-        instancesWithSecurityNonCompliantPatches: Swift.Int? = nil,
-        instancesWithUnreportedNotApplicablePatches: Swift.Int? = nil
+        instancesWithOtherNonCompliantPatches: Swift.Int? = 0,
+        instancesWithSecurityNonCompliantPatches: Swift.Int? = 0,
+        instancesWithUnreportedNotApplicablePatches: Swift.Int? = 0
     )
     {
         self.instances = instances
@@ -11496,10 +11497,10 @@ public struct GetInventorySchemaInput {
     public var typeName: Swift.String?
 
     public init(
-        aggregator: Swift.Bool? = nil,
+        aggregator: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        subType: Swift.Bool? = nil,
+        subType: Swift.Bool? = false,
         typeName: Swift.String? = nil
     )
     {
@@ -12651,7 +12652,7 @@ public struct GetParameterInput {
 
     public init(
         name: Swift.String? = nil,
-        withDecryption: Swift.Bool? = nil
+        withDecryption: Swift.Bool? = false
     )
     {
         self.name = name
@@ -12739,7 +12740,7 @@ public struct GetParameterHistoryInput {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        withDecryption: Swift.Bool? = nil
+        withDecryption: Swift.Bool? = false
     )
     {
         self.maxResults = maxResults
@@ -12843,7 +12844,7 @@ public struct GetParametersInput {
 
     public init(
         names: [Swift.String]? = nil,
-        withDecryption: Swift.Bool? = nil
+        withDecryption: Swift.Bool? = false
     )
     {
         self.names = names
@@ -12887,8 +12888,8 @@ public struct GetParametersByPathInput {
         nextToken: Swift.String? = nil,
         parameterFilters: [SSMClientTypes.ParameterStringFilter]? = nil,
         path: Swift.String? = nil,
-        recursive: Swift.Bool? = nil,
-        withDecryption: Swift.Bool? = nil
+        recursive: Swift.Bool? = false,
+        withDecryption: Swift.Bool? = false
     )
     {
         self.maxResults = maxResults
@@ -12965,7 +12966,7 @@ public struct GetPatchBaselineOutput {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -13241,7 +13242,7 @@ public struct LabelParameterVersionInput {
     public init(
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
-        parameterVersion: Swift.Int? = nil
+        parameterVersion: Swift.Int? = 0
     )
     {
         self.labels = labels
@@ -13715,7 +13716,7 @@ public struct ListCommandInvocationsInput {
 
     public init(
         commandId: Swift.String? = nil,
-        details: Swift.Bool? = nil,
+        details: Swift.Bool? = false,
         filters: [SSMClientTypes.CommandFilter]? = nil,
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -16697,7 +16698,7 @@ public struct PutParameterInput {
         description: Swift.String? = nil,
         keyId: Swift.String? = nil,
         name: Swift.String? = nil,
-        overwrite: Swift.Bool? = nil,
+        overwrite: Swift.Bool? = false,
         policies: Swift.String? = nil,
         tags: [SSMClientTypes.Tag]? = nil,
         tier: SSMClientTypes.ParameterTier? = nil,
@@ -17008,7 +17009,7 @@ public struct RegisterTaskWithMaintenanceWindowInput {
         maxConcurrency: Swift.String? = nil,
         maxErrors: Swift.String? = nil,
         name: Swift.String? = nil,
-        priority: Swift.Int? = nil,
+        priority: Swift.Int? = 0,
         serviceRoleArn: Swift.String? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         taskArn: Swift.String? = nil,
@@ -17703,7 +17704,7 @@ public struct StartChangeRequestExecutionInput {
     public var tags: [SSMClientTypes.Tag]?
 
     public init(
-        autoApprove: Swift.Bool? = nil,
+        autoApprove: Swift.Bool? = false,
         changeDetails: Swift.String? = nil,
         changeRequestName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
@@ -17925,7 +17926,7 @@ public struct UnlabelParameterVersionInput {
     public init(
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
-        parameterVersion: Swift.Int? = nil
+        parameterVersion: Swift.Int? = 0
     )
     {
         self.labels = labels
@@ -18049,7 +18050,7 @@ public struct UpdateAssociationInput {
 
     public init(
         alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
-        applyOnlyAtCronInterval: Swift.Bool? = nil,
+        applyOnlyAtCronInterval: Swift.Bool? = false,
         associationId: Swift.String? = nil,
         associationName: Swift.String? = nil,
         associationVersion: Swift.String? = nil,
@@ -18453,14 +18454,14 @@ public struct UpdateMaintenanceWindowInput {
     public var windowId: Swift.String?
 
     public init(
-        allowUnassociatedTargets: Swift.Bool? = nil,
-        cutoff: Swift.Int? = nil,
+        allowUnassociatedTargets: Swift.Bool? = false,
+        cutoff: Swift.Int? = 0,
         description: Swift.String? = nil,
         duration: Swift.Int? = nil,
-        enabled: Swift.Bool? = nil,
+        enabled: Swift.Bool? = false,
         endDate: Swift.String? = nil,
         name: Swift.String? = nil,
-        replace: Swift.Bool? = nil,
+        replace: Swift.Bool? = false,
         schedule: Swift.String? = nil,
         scheduleOffset: Swift.Int? = nil,
         scheduleTimezone: Swift.String? = nil,
@@ -18572,7 +18573,7 @@ public struct UpdateMaintenanceWindowTargetInput {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         ownerInformation: Swift.String? = nil,
-        replace: Swift.Bool? = nil,
+        replace: Swift.Bool? = false,
         targets: [SSMClientTypes.Target]? = nil,
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
@@ -18685,8 +18686,8 @@ public struct UpdateMaintenanceWindowTaskInput {
         maxConcurrency: Swift.String? = nil,
         maxErrors: Swift.String? = nil,
         name: Swift.String? = nil,
-        priority: Swift.Int? = nil,
-        replace: Swift.Bool? = nil,
+        priority: Swift.Int? = 0,
+        replace: Swift.Bool? = false,
         serviceRoleArn: Swift.String? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         taskArn: Swift.String? = nil,
@@ -18982,14 +18983,14 @@ public struct UpdatePatchBaselineInput {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
         baselineId: Swift.String? = nil,
         description: Swift.String? = nil,
         globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
         name: Swift.String? = nil,
         rejectedPatches: [Swift.String]? = nil,
         rejectedPatchesAction: SSMClientTypes.PatchAction? = nil,
-        replace: Swift.Bool? = nil,
+        replace: Swift.Bool? = false,
         sources: [SSMClientTypes.PatchSource]? = nil
     )
     {
@@ -19042,7 +19043,7 @@ public struct UpdatePatchBaselineOutput {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -27789,8 +27790,8 @@ extension SSMClientTypes.AlarmStateInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.AlarmStateInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.AlarmStateInformation()
-        value.name = try reader["Name"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -27807,7 +27808,7 @@ extension SSMClientTypes.AlarmConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.AlarmConfiguration()
         value.ignorePollAlarmFailure = try reader["IgnorePollAlarmFailure"].readIfPresent() ?? false
-        value.alarms = try reader["Alarms"].readListIfPresent(memberReadingClosure: SSMClientTypes.Alarm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.alarms = try reader["Alarms"].readListIfPresent(memberReadingClosure: SSMClientTypes.Alarm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -27822,7 +27823,7 @@ extension SSMClientTypes.Alarm {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.Alarm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.Alarm()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27928,9 +27929,9 @@ extension SSMClientTypes.AssociationStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.AssociationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.AssociationStatus()
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
         value.additionalInfo = try reader["AdditionalInfo"].readIfPresent()
         return value
     }
@@ -27977,7 +27978,7 @@ extension SSMClientTypes.CreateAssociationBatchRequestEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.CreateAssociationBatchRequestEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.CreateAssociationBatchRequestEntry()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.instanceId = try reader["InstanceId"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.automationTargetParameterName = try reader["AutomationTargetParameterName"].readIfPresent()
@@ -28065,7 +28066,7 @@ extension SSMClientTypes.DocumentRequires {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.DocumentRequires {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.DocumentRequires()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
         value.requireType = try reader["RequireType"].readIfPresent()
         value.versionName = try reader["VersionName"].readIfPresent()
@@ -28094,8 +28095,8 @@ extension SSMClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28261,7 +28262,7 @@ extension SSMClientTypes.Runbook {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.Runbook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.Runbook()
-        value.documentName = try reader["DocumentName"].readIfPresent()
+        value.documentName = try reader["DocumentName"].readIfPresent() ?? ""
         value.documentVersion = try reader["DocumentVersion"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.targetParameterName = try reader["TargetParameterName"].readIfPresent()
@@ -28510,12 +28511,12 @@ extension SSMClientTypes.PatchComplianceData {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.PatchComplianceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.PatchComplianceData()
-        value.title = try reader["Title"].readIfPresent()
-        value.kbId = try reader["KBId"].readIfPresent()
-        value.classification = try reader["Classification"].readIfPresent()
-        value.severity = try reader["Severity"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.installedTime = try reader["InstalledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.kbId = try reader["KBId"].readIfPresent() ?? ""
+        value.classification = try reader["Classification"].readIfPresent() ?? ""
+        value.severity = try reader["Severity"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.installedTime = try reader["InstalledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.cveIds = try reader["CVEIds"].readIfPresent()
         return value
     }
@@ -28526,9 +28527,9 @@ extension SSMClientTypes.InstancePatchState {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.InstancePatchState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.InstancePatchState()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.patchGroup = try reader["PatchGroup"].readIfPresent()
-        value.baselineId = try reader["BaselineId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.patchGroup = try reader["PatchGroup"].readIfPresent() ?? ""
+        value.baselineId = try reader["BaselineId"].readIfPresent() ?? ""
         value.snapshotId = try reader["SnapshotId"].readIfPresent()
         value.installOverrideList = try reader["InstallOverrideList"].readIfPresent()
         value.ownerInformation = try reader["OwnerInformation"].readIfPresent()
@@ -28540,9 +28541,9 @@ extension SSMClientTypes.InstancePatchState {
         value.failedCount = try reader["FailedCount"].readIfPresent() ?? 0
         value.unreportedNotApplicableCount = try reader["UnreportedNotApplicableCount"].readIfPresent()
         value.notApplicableCount = try reader["NotApplicableCount"].readIfPresent() ?? 0
-        value.operationStartTime = try reader["OperationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.operationEndTime = try reader["OperationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.operation = try reader["Operation"].readIfPresent()
+        value.operationStartTime = try reader["OperationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.operationEndTime = try reader["OperationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
         value.lastNoRebootInstallOperationTime = try reader["LastNoRebootInstallOperationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.rebootOption = try reader["RebootOption"].readIfPresent()
         value.criticalNonCompliantCount = try reader["CriticalNonCompliantCount"].readIfPresent()
@@ -28754,9 +28755,9 @@ extension SSMClientTypes.LoggingInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.LoggingInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.LoggingInfo()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
         value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
-        value.s3Region = try reader["S3Region"].readIfPresent()
+        value.s3Region = try reader["S3Region"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29012,11 +29013,11 @@ extension SSMClientTypes.InventoryResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.InventoryResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.InventoryResultItem()
-        value.typeName = try reader["TypeName"].readIfPresent()
-        value.schemaVersion = try reader["SchemaVersion"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent() ?? ""
+        value.schemaVersion = try reader["SchemaVersion"].readIfPresent() ?? ""
         value.captureTime = try reader["CaptureTime"].readIfPresent()
         value.contentHash = try reader["ContentHash"].readIfPresent()
-        value.content = try reader["Content"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.content = try reader["Content"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -29026,9 +29027,9 @@ extension SSMClientTypes.InventoryItemSchema {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.InventoryItemSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.InventoryItemSchema()
-        value.typeName = try reader["TypeName"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: SSMClientTypes.InventoryItemAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: SSMClientTypes.InventoryItemAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.displayName = try reader["DisplayName"].readIfPresent()
         return value
     }
@@ -29039,8 +29040,8 @@ extension SSMClientTypes.InventoryItemAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.InventoryItemAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.InventoryItemAttribute()
-        value.name = try reader["Name"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.dataType = try reader["DataType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -29214,7 +29215,7 @@ extension SSMClientTypes.RelatedOpsItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.RelatedOpsItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.RelatedOpsItem()
-        value.opsItemId = try reader["OpsItemId"].readIfPresent()
+        value.opsItemId = try reader["OpsItemId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29321,7 +29322,7 @@ extension SSMClientTypes.PatchFilterGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.PatchFilterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.PatchFilterGroup()
-        value.patchFilters = try reader["PatchFilters"].readListIfPresent(memberReadingClosure: SSMClientTypes.PatchFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.patchFilters = try reader["PatchFilters"].readListIfPresent(memberReadingClosure: SSMClientTypes.PatchFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -29337,8 +29338,8 @@ extension SSMClientTypes.PatchFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.PatchFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.PatchFilter()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.key = try reader["Key"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -29353,7 +29354,7 @@ extension SSMClientTypes.PatchRuleGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.PatchRuleGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.PatchRuleGroup()
-        value.patchRules = try reader["PatchRules"].readListIfPresent(memberReadingClosure: SSMClientTypes.PatchRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.patchRules = try reader["PatchRules"].readListIfPresent(memberReadingClosure: SSMClientTypes.PatchRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -29393,9 +29394,9 @@ extension SSMClientTypes.PatchSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.PatchSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.PatchSource()
-        value.name = try reader["Name"].readIfPresent()
-        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.configuration = try reader["Configuration"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.configuration = try reader["Configuration"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29589,7 +29590,7 @@ extension SSMClientTypes.ComplianceExecutionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.ComplianceExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.ComplianceExecutionSummary()
-        value.executionTime = try reader["ExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionTime = try reader["ExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.executionId = try reader["ExecutionId"].readIfPresent()
         value.executionType = try reader["ExecutionType"].readIfPresent()
         return value
@@ -29838,10 +29839,10 @@ extension SSMClientTypes.ResourceDataSyncS3Destination {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.ResourceDataSyncS3Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.ResourceDataSyncS3Destination()
-        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.syncFormat = try reader["SyncFormat"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
+        value.syncFormat = try reader["SyncFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.region = try reader["Region"].readIfPresent() ?? ""
         value.awskmsKeyARN = try reader["AWSKMSKeyARN"].readIfPresent()
         value.destinationDataSharing = try reader["DestinationDataSharing"].readIfPresent(with: SSMClientTypes.ResourceDataSyncDestinationDataSharing.read(from:))
         return value
@@ -29889,7 +29890,7 @@ extension SSMClientTypes.ResourceDataSyncAwsOrganizationsSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.ResourceDataSyncAwsOrganizationsSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSMClientTypes.ResourceDataSyncAwsOrganizationsSource()
-        value.organizationSourceType = try reader["OrganizationSourceType"].readIfPresent()
+        value.organizationSourceType = try reader["OrganizationSourceType"].readIfPresent() ?? ""
         value.organizationalUnits = try reader["OrganizationalUnits"].readListIfPresent(memberReadingClosure: SSMClientTypes.ResourceDataSyncOrganizationalUnit.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

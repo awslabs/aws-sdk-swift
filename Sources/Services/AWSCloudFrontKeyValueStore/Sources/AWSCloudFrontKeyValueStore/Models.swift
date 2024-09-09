@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access denied.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -689,8 +690,8 @@ extension DeleteKeyOutput {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             value.eTag = eTagHeaderValue
         }
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent() ?? 0
+        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -705,13 +706,13 @@ extension DescribeKeyValueStoreOutput {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             value.eTag = eTagHeaderValue
         }
-        value.created = try reader["Created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.created = try reader["Created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.kvsARN = try reader["KvsARN"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent() ?? 0
+        value.kvsARN = try reader["KvsARN"].readIfPresent() ?? ""
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()
-        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent()
+        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -723,10 +724,10 @@ extension GetKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetKeyOutput()
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent() ?? 0
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent() ?? 0
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -754,8 +755,8 @@ extension PutKeyOutput {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             value.eTag = eTagHeaderValue
         }
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent() ?? 0
+        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -770,8 +771,8 @@ extension UpdateKeysOutput {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             value.eTag = eTagHeaderValue
         }
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent()
+        value.itemCount = try reader["ItemCount"].readIfPresent() ?? 0
+        value.totalSizeInBytes = try reader["TotalSizeInBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -968,8 +969,8 @@ extension CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

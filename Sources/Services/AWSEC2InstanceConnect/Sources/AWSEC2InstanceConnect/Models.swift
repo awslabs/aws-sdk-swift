@@ -320,7 +320,7 @@ public struct SendSerialConsoleSSHPublicKeyInput {
 
     public init(
         instanceId: Swift.String? = nil,
-        serialPort: Swift.Int? = nil,
+        serialPort: Swift.Int? = 0,
         sshPublicKey: Swift.String? = nil
     )
     {

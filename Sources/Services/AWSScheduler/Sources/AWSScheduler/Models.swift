@@ -1755,7 +1755,7 @@ extension CreateScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateScheduleOutput()
-        value.scheduleArn = try reader["ScheduleArn"].readIfPresent()
+        value.scheduleArn = try reader["ScheduleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1767,7 +1767,7 @@ extension CreateScheduleGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateScheduleGroupOutput()
-        value.scheduleGroupArn = try reader["ScheduleGroupArn"].readIfPresent()
+        value.scheduleGroupArn = try reader["ScheduleGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1836,7 +1836,7 @@ extension ListScheduleGroupsOutput {
         let reader = responseReader
         var value = ListScheduleGroupsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.scheduleGroups = try reader["ScheduleGroups"].readListIfPresent(memberReadingClosure: SchedulerClientTypes.ScheduleGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scheduleGroups = try reader["ScheduleGroups"].readListIfPresent(memberReadingClosure: SchedulerClientTypes.ScheduleGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1849,7 +1849,7 @@ extension ListSchedulesOutput {
         let reader = responseReader
         var value = ListSchedulesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.schedules = try reader["Schedules"].readListIfPresent(memberReadingClosure: SchedulerClientTypes.ScheduleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schedules = try reader["Schedules"].readListIfPresent(memberReadingClosure: SchedulerClientTypes.ScheduleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1887,7 +1887,7 @@ extension UpdateScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateScheduleOutput()
-        value.scheduleArn = try reader["ScheduleArn"].readIfPresent()
+        value.scheduleArn = try reader["ScheduleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2108,7 +2108,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2121,7 +2121,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2134,7 +2134,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2147,7 +2147,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2160,7 +2160,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2173,7 +2173,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2200,8 +2200,8 @@ extension SchedulerClientTypes.Target {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.Target {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.Target()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: SchedulerClientTypes.DeadLetterConfig.read(from:))
         value.retryPolicy = try reader["RetryPolicy"].readIfPresent(with: SchedulerClientTypes.RetryPolicy.read(from:))
         value.input = try reader["Input"].readIfPresent()
@@ -2255,8 +2255,8 @@ extension SchedulerClientTypes.SageMakerPipelineParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.SageMakerPipelineParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.SageMakerPipelineParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2271,7 +2271,7 @@ extension SchedulerClientTypes.KinesisParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.KinesisParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.KinesisParameters()
-        value.partitionKey = try reader["PartitionKey"].readIfPresent()
+        value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2287,8 +2287,8 @@ extension SchedulerClientTypes.EventBridgeParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.EventBridgeParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.EventBridgeParameters()
-        value.detailType = try reader["DetailType"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
+        value.detailType = try reader["DetailType"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2316,7 +2316,7 @@ extension SchedulerClientTypes.EcsParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.EcsParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.EcsParameters()
-        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent()
+        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
         value.taskCount = try reader["TaskCount"].readIfPresent()
         value.launchType = try reader["LaunchType"].readIfPresent()
         value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: SchedulerClientTypes.NetworkConfiguration.read(from:))
@@ -2380,7 +2380,7 @@ extension SchedulerClientTypes.CapacityProviderStrategyItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.CapacityProviderStrategyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.CapacityProviderStrategyItem()
-        value.capacityProvider = try reader["capacityProvider"].readIfPresent()
+        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent() ?? 0
         value.base = try reader["base"].readIfPresent() ?? 0
         return value
@@ -2414,7 +2414,7 @@ extension SchedulerClientTypes.AwsVpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.AwsVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.AwsVpcConfiguration()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
         return value
@@ -2464,7 +2464,7 @@ extension SchedulerClientTypes.FlexibleTimeWindow {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.FlexibleTimeWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.FlexibleTimeWindow()
-        value.mode = try reader["Mode"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
         value.maximumWindowInMinutes = try reader["MaximumWindowInMinutes"].readIfPresent()
         return value
     }
@@ -2505,7 +2505,7 @@ extension SchedulerClientTypes.TargetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.TargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.TargetSummary()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2521,8 +2521,8 @@ extension SchedulerClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SchedulerClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

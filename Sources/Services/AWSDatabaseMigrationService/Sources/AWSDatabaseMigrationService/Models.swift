@@ -9806,8 +9806,8 @@ public struct ModifyReplicationInstanceInput {
 
     public init(
         allocatedStorage: Swift.Int? = nil,
-        allowMajorVersionUpgrade: Swift.Bool? = nil,
-        applyImmediately: Swift.Bool? = nil,
+        allowMajorVersionUpgrade: Swift.Bool? = false,
+        applyImmediately: Swift.Bool? = false,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
@@ -10435,7 +10435,7 @@ public struct StartMetadataModelImportInput {
     public init(
         migrationProjectIdentifier: Swift.String? = nil,
         origin: DatabaseMigrationClientTypes.OriginTypeValue? = nil,
-        refresh: Swift.Bool? = nil,
+        refresh: Swift.Bool? = false,
         selectionRules: Swift.String? = nil
     )
     {
@@ -16454,9 +16454,9 @@ extension DatabaseMigrationClientTypes.TimestreamSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TimestreamSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.TimestreamSettings()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.memoryDuration = try reader["MemoryDuration"].readIfPresent()
-        value.magneticDuration = try reader["MagneticDuration"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.memoryDuration = try reader["MemoryDuration"].readIfPresent() ?? 0
+        value.magneticDuration = try reader["MagneticDuration"].readIfPresent() ?? 0
         value.cdcInsertsAndUpdates = try reader["CdcInsertsAndUpdates"].readIfPresent()
         value.enableMagneticStoreWrites = try reader["EnableMagneticStoreWrites"].readIfPresent()
         return value
@@ -16520,7 +16520,7 @@ extension DatabaseMigrationClientTypes.RedisSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RedisSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.RedisSettings()
-        value.serverName = try reader["ServerName"].readIfPresent()
+        value.serverName = try reader["ServerName"].readIfPresent() ?? ""
         value.port = try reader["Port"].readIfPresent() ?? 0
         value.sslSecurityProtocol = try reader["SslSecurityProtocol"].readIfPresent()
         value.authType = try reader["AuthType"].readIfPresent()
@@ -16980,8 +16980,8 @@ extension DatabaseMigrationClientTypes.NeptuneSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.NeptuneSettings()
         value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        value.s3BucketFolder = try reader["S3BucketFolder"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
+        value.s3BucketFolder = try reader["S3BucketFolder"].readIfPresent() ?? ""
         value.errorRetryDuration = try reader["ErrorRetryDuration"].readIfPresent()
         value.maxFileSize = try reader["MaxFileSize"].readIfPresent()
         value.maxRetryCount = try reader["MaxRetryCount"].readIfPresent()
@@ -17004,8 +17004,8 @@ extension DatabaseMigrationClientTypes.ElasticsearchSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ElasticsearchSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.ElasticsearchSettings()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
-        value.endpointUri = try reader["EndpointUri"].readIfPresent()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent() ?? ""
+        value.endpointUri = try reader["EndpointUri"].readIfPresent() ?? ""
         value.fullLoadErrorPercentage = try reader["FullLoadErrorPercentage"].readIfPresent()
         value.errorRetryDuration = try reader["ErrorRetryDuration"].readIfPresent()
         value.useNewMappingType = try reader["UseNewMappingType"].readIfPresent()
@@ -17266,7 +17266,7 @@ extension DatabaseMigrationClientTypes.DynamoDbSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DynamoDbSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.DynamoDbSettings()
-        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -18007,8 +18007,8 @@ extension DatabaseMigrationClientTypes.RecommendationSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.RecommendationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DatabaseMigrationClientTypes.RecommendationSettings()
-        value.instanceSizingType = try reader["InstanceSizingType"].readIfPresent()
-        value.workloadType = try reader["WorkloadType"].readIfPresent()
+        value.instanceSizingType = try reader["InstanceSizingType"].readIfPresent() ?? ""
+        value.workloadType = try reader["WorkloadType"].readIfPresent() ?? ""
         return value
     }
 }

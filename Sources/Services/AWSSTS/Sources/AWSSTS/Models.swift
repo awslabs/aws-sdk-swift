@@ -48,6 +48,7 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension STSClientTypes {
     /// The identifiers for the temporary security credentials that the operation returns.
@@ -1314,10 +1315,10 @@ extension STSClientTypes.Credentials {
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.Credentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = STSClientTypes.Credentials()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
-        value.sessionToken = try reader["SessionToken"].readIfPresent()
-        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent() ?? ""
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent() ?? ""
+        value.sessionToken = try reader["SessionToken"].readIfPresent() ?? ""
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -1327,8 +1328,8 @@ extension STSClientTypes.AssumedRoleUser {
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = STSClientTypes.AssumedRoleUser()
-        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1338,8 +1339,8 @@ extension STSClientTypes.FederatedUser {
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.FederatedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = STSClientTypes.FederatedUser()
-        value.federatedUserId = try reader["FederatedUserId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.federatedUserId = try reader["FederatedUserId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }

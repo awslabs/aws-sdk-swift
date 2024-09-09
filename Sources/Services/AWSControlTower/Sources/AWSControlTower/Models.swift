@@ -2542,8 +2542,8 @@ extension CreateLandingZoneOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateLandingZoneOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2555,7 +2555,7 @@ extension DeleteLandingZoneOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteLandingZoneOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2567,7 +2567,7 @@ extension DisableBaselineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisableBaselineOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2579,7 +2579,7 @@ extension DisableControlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisableControlOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2591,8 +2591,8 @@ extension EnableBaselineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = EnableBaselineOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2605,7 +2605,7 @@ extension EnableControlOutput {
         let reader = responseReader
         var value = EnableControlOutput()
         value.arn = try reader["arn"].readIfPresent()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2617,9 +2617,9 @@ extension GetBaselineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetBaselineOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2703,7 +2703,7 @@ extension ListBaselinesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListBaselinesOutput()
-        value.baselines = try reader["baselines"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.BaselineSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.baselines = try reader["baselines"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.BaselineSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2716,7 +2716,7 @@ extension ListControlOperationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListControlOperationsOutput()
-        value.controlOperations = try reader["controlOperations"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.ControlOperationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlOperations = try reader["controlOperations"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.ControlOperationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2729,7 +2729,7 @@ extension ListEnabledBaselinesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnabledBaselinesOutput()
-        value.enabledBaselines = try reader["enabledBaselines"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledBaselineSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabledBaselines = try reader["enabledBaselines"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledBaselineSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2742,7 +2742,7 @@ extension ListEnabledControlsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnabledControlsOutput()
-        value.enabledControls = try reader["enabledControls"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabledControls = try reader["enabledControls"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2755,7 +2755,7 @@ extension ListLandingZoneOperationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListLandingZoneOperationsOutput()
-        value.landingZoneOperations = try reader["landingZoneOperations"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.LandingZoneOperationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.landingZoneOperations = try reader["landingZoneOperations"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.LandingZoneOperationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2768,7 +2768,7 @@ extension ListLandingZonesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListLandingZonesOutput()
-        value.landingZones = try reader["landingZones"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.LandingZoneSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.landingZones = try reader["landingZones"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.LandingZoneSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2781,7 +2781,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2793,7 +2793,7 @@ extension ResetEnabledBaselineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ResetEnabledBaselineOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2805,7 +2805,7 @@ extension ResetLandingZoneOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ResetLandingZoneOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2831,7 +2831,7 @@ extension UpdateEnabledBaselineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEnabledBaselineOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2843,7 +2843,7 @@ extension UpdateEnabledControlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEnabledControlOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2855,7 +2855,7 @@ extension UpdateLandingZoneOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateLandingZoneOutput()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3361,7 +3361,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -3376,7 +3376,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3389,7 +3389,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3402,7 +3402,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3415,7 +3415,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3428,7 +3428,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3441,7 +3441,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3487,10 +3487,10 @@ extension ControlTowerClientTypes.EnabledBaselineDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledBaselineDetails()
-        value.arn = try reader["arn"].readIfPresent()
-        value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
-        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledBaselineParameterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3502,8 +3502,8 @@ extension ControlTowerClientTypes.EnabledBaselineParameterSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineParameterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledBaselineParameterSummary()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
@@ -3540,8 +3540,8 @@ extension ControlTowerClientTypes.EnabledControlParameterSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlParameterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledControlParameterSummary()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
@@ -3571,8 +3571,8 @@ extension ControlTowerClientTypes.LandingZoneDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.LandingZoneDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.LandingZoneDetail()
-        value.version = try reader["version"].readIfPresent()
-        value.manifest = try reader["manifest"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.manifest = try reader["manifest"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         value.arn = try reader["arn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.latestAvailableVersion = try reader["latestAvailableVersion"].readIfPresent()
@@ -3611,8 +3611,8 @@ extension ControlTowerClientTypes.BaselineSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.BaselineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.BaselineSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         return value
     }
@@ -3641,10 +3641,10 @@ extension ControlTowerClientTypes.EnabledBaselineSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledBaselineSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
-        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         return value
     }

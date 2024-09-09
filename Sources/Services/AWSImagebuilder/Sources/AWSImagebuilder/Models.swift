@@ -5345,7 +5345,7 @@ public struct ListComponentsInput {
     public var owner: ImagebuilderClientTypes.Ownership?
 
     public init(
-        byName: Swift.Bool? = nil,
+        byName: Swift.Bool? = false,
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -5882,7 +5882,7 @@ public struct ListImagesInput {
     public var owner: ImagebuilderClientTypes.Ownership?
 
     public init(
-        byName: Swift.Bool? = nil,
+        byName: Swift.Bool? = false,
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         includeDeprecated: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
@@ -7176,7 +7176,7 @@ public struct ListWorkflowsInput {
     public var owner: ImagebuilderClientTypes.Ownership?
 
     public init(
-        byName: Swift.Bool? = nil,
+        byName: Swift.Bool? = false,
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -12309,8 +12309,8 @@ extension ImagebuilderClientTypes.ComponentParameterDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ComponentParameterDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ComponentParameterDetail()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.defaultValue = try reader["defaultValue"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["description"].readIfPresent()
         return value
@@ -12365,8 +12365,8 @@ extension ImagebuilderClientTypes.TargetContainerRepository {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.TargetContainerRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.TargetContainerRepository()
-        value.service = try reader["service"].readIfPresent()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.service = try reader["service"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryName = try reader["repositoryName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12449,7 +12449,7 @@ extension ImagebuilderClientTypes.ComponentConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ComponentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ComponentConfiguration()
-        value.componentArn = try reader["componentArn"].readIfPresent()
+        value.componentArn = try reader["componentArn"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.ComponentParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -12466,8 +12466,8 @@ extension ImagebuilderClientTypes.ComponentParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ComponentParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.ComponentParameter()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12481,7 +12481,7 @@ extension ImagebuilderClientTypes.DistributionConfiguration {
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.distributions = try reader["distributions"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.Distribution.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 0
         value.dateCreated = try reader["dateCreated"].readIfPresent()
         value.dateUpdated = try reader["dateUpdated"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12505,7 +12505,7 @@ extension ImagebuilderClientTypes.Distribution {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Distribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.Distribution()
-        value.region = try reader["region"].readIfPresent()
+        value.region = try reader["region"].readIfPresent() ?? ""
         value.amiDistributionConfiguration = try reader["amiDistributionConfiguration"].readIfPresent(with: ImagebuilderClientTypes.AmiDistributionConfiguration.read(from:))
         value.containerDistributionConfiguration = try reader["containerDistributionConfiguration"].readIfPresent(with: ImagebuilderClientTypes.ContainerDistributionConfiguration.read(from:))
         value.licenseConfigurationArns = try reader["licenseConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12586,9 +12586,9 @@ extension ImagebuilderClientTypes.S3ExportConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.S3ExportConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.S3ExportConfiguration()
-        value.roleName = try reader["roleName"].readIfPresent()
-        value.diskImageFormat = try reader["diskImageFormat"].readIfPresent()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
+        value.roleName = try reader["roleName"].readIfPresent() ?? ""
+        value.diskImageFormat = try reader["diskImageFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent() ?? ""
         value.s3Prefix = try reader["s3Prefix"].readIfPresent()
         return value
     }
@@ -12606,7 +12606,7 @@ extension ImagebuilderClientTypes.LaunchTemplateConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LaunchTemplateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LaunchTemplateConfiguration()
-        value.launchTemplateId = try reader["launchTemplateId"].readIfPresent()
+        value.launchTemplateId = try reader["launchTemplateId"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent()
         value.setDefaultVersion = try reader["setDefaultVersion"].readIfPresent() ?? false
         return value
@@ -12726,7 +12726,7 @@ extension ImagebuilderClientTypes.WorkflowConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.WorkflowConfiguration()
-        value.workflowArn = try reader["workflowArn"].readIfPresent()
+        value.workflowArn = try reader["workflowArn"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.WorkflowParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parallelGroup = try reader["parallelGroup"].readIfPresent()
         value.onFailure = try reader["onFailure"].readIfPresent()
@@ -12745,8 +12745,8 @@ extension ImagebuilderClientTypes.WorkflowParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.WorkflowParameter()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13123,8 +13123,8 @@ extension ImagebuilderClientTypes.LifecyclePolicyResourceSelectionRecipe {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecyclePolicyResourceSelectionRecipe {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LifecyclePolicyResourceSelectionRecipe()
-        value.name = try reader["name"].readIfPresent()
-        value.semanticVersion = try reader["semanticVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.semanticVersion = try reader["semanticVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13199,8 +13199,8 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmisLastLau
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmisLastLaunched()
-        value.value = try reader["value"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13218,8 +13218,8 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecyclePolicyDetailFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LifecyclePolicyDetailFilter()
-        value.type = try reader["type"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
         value.unit = try reader["unit"].readIfPresent()
         value.retainAtLeast = try reader["retainAtLeast"].readIfPresent()
         return value
@@ -13237,7 +13237,7 @@ extension ImagebuilderClientTypes.LifecyclePolicyDetailAction {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LifecyclePolicyDetailAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.LifecyclePolicyDetailAction()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.includeResources = try reader["includeResources"].readIfPresent(with: ImagebuilderClientTypes.LifecyclePolicyDetailActionIncludeResources.read(from:))
         return value
     }
@@ -13289,8 +13289,8 @@ extension ImagebuilderClientTypes.WorkflowParameterDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.WorkflowParameterDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.WorkflowParameterDetail()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.defaultValue = try reader["defaultValue"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["description"].readIfPresent()
         return value
@@ -13550,7 +13550,7 @@ extension ImagebuilderClientTypes.PackageVulnerabilityDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.PackageVulnerabilityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ImagebuilderClientTypes.PackageVulnerabilityDetails()
-        value.vulnerabilityId = try reader["vulnerabilityId"].readIfPresent()
+        value.vulnerabilityId = try reader["vulnerabilityId"].readIfPresent() ?? ""
         value.vulnerablePackages = try reader["vulnerablePackages"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.VulnerablePackage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.source = try reader["source"].readIfPresent()
         value.cvss = try reader["cvss"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.CvssScore.read(from:), memberNodeInfo: "member", isFlattened: false)

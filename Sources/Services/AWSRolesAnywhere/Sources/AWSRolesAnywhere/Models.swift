@@ -3033,7 +3033,7 @@ extension RolesAnywhereClientTypes.MappingRule {
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.MappingRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RolesAnywhereClientTypes.MappingRule()
-        value.specifier = try reader["specifier"].readIfPresent()
+        value.specifier = try reader["specifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3060,8 +3060,8 @@ extension RolesAnywhereClientTypes.NotificationSettingDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.NotificationSettingDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RolesAnywhereClientTypes.NotificationSettingDetail()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.event = try reader["event"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.event = try reader["event"].readIfPresent() ?? .sdkUnknown("")
         value.threshold = try reader["threshold"].readIfPresent()
         value.channel = try reader["channel"].readIfPresent()
         value.configuredBy = try reader["configuredBy"].readIfPresent()
@@ -3203,8 +3203,8 @@ extension RolesAnywhereClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RolesAnywhereClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

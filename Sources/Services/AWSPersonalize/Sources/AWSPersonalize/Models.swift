@@ -1762,7 +1762,7 @@ public struct CreateSolutionInput {
         datasetGroupArn: Swift.String? = nil,
         eventType: Swift.String? = nil,
         name: Swift.String? = nil,
-        performAutoML: Swift.Bool? = nil,
+        performAutoML: Swift.Bool? = false,
         performAutoTraining: Swift.Bool? = nil,
         performHPO: Swift.Bool? = nil,
         recipeArn: Swift.String? = nil,
@@ -8656,7 +8656,7 @@ extension PersonalizeClientTypes.AlgorithmImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.AlgorithmImage()
         value.name = try reader["name"].readIfPresent()
-        value.dockerURI = try reader["dockerURI"].readIfPresent()
+        value.dockerURI = try reader["dockerURI"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8710,7 +8710,7 @@ extension PersonalizeClientTypes.FieldsForThemeGeneration {
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FieldsForThemeGeneration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.FieldsForThemeGeneration()
-        value.itemName = try reader["itemName"].readIfPresent()
+        value.itemName = try reader["itemName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8756,7 +8756,7 @@ extension PersonalizeClientTypes.S3DataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.S3DataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.S3DataConfig()
-        value.path = try reader["path"].readIfPresent()
+        value.path = try reader["path"].readIfPresent() ?? ""
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
     }
@@ -9099,7 +9099,7 @@ extension PersonalizeClientTypes.MetricAttributionOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.MetricAttributionOutput()
         value.s3DataDestination = try reader["s3DataDestination"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9698,9 +9698,9 @@ extension PersonalizeClientTypes.MetricAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.MetricAttribute()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.metricName = try reader["metricName"].readIfPresent()
-        value.expression = try reader["expression"].readIfPresent()
+        value.eventType = try reader["eventType"].readIfPresent() ?? ""
+        value.metricName = try reader["metricName"].readIfPresent() ?? ""
+        value.expression = try reader["expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9792,8 +9792,8 @@ extension PersonalizeClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.Tag()
-        value.tagKey = try reader["tagKey"].readIfPresent()
-        value.tagValue = try reader["tagValue"].readIfPresent()
+        value.tagKey = try reader["tagKey"].readIfPresent() ?? ""
+        value.tagValue = try reader["tagValue"].readIfPresent() ?? ""
         return value
     }
 }

@@ -2563,12 +2563,12 @@ extension BatchGetFrameMetricDataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetFrameMetricDataOutput()
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTimes = try reader["endTimes"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.TimestampStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.frameMetricData = try reader["frameMetricData"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.FrameMetricDatum.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resolution = try reader["resolution"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.unprocessedEndTimes = try reader["unprocessedEndTimes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CodeGuruProfilerClientTypes.TimestampStructure.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimes = try reader["endTimes"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.TimestampStructure.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.frameMetricData = try reader["frameMetricData"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.FrameMetricDatum.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resolution = try reader["resolution"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.unprocessedEndTimes = try reader["unprocessedEndTimes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CodeGuruProfilerClientTypes.TimestampStructure.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2624,7 +2624,7 @@ extension GetFindingsReportAccountSummaryOutput {
         let reader = responseReader
         var value = GetFindingsReportAccountSummaryOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.reportSummaries = try reader["reportSummaries"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.FindingsReportSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportSummaries = try reader["reportSummaries"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.FindingsReportSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2648,8 +2648,8 @@ extension GetPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPolicyOutput()
-        value.policy = try reader["policy"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2683,11 +2683,11 @@ extension GetRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRecommendationsOutput()
-        value.anomalies = try reader["anomalies"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Anomaly.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.profileEndTime = try reader["profileEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.profileStartTime = try reader["profileStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.profilingGroupName = try reader["profilingGroupName"].readIfPresent()
-        value.recommendations = try reader["recommendations"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Recommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.anomalies = try reader["anomalies"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Anomaly.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.profileEndTime = try reader["profileEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profileStartTime = try reader["profileStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profilingGroupName = try reader["profilingGroupName"].readIfPresent() ?? ""
+        value.recommendations = try reader["recommendations"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Recommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2699,7 +2699,7 @@ extension ListFindingsReportsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFindingsReportsOutput()
-        value.findingsReportSummaries = try reader["findingsReportSummaries"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.FindingsReportSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findingsReportSummaries = try reader["findingsReportSummaries"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.FindingsReportSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2713,7 +2713,7 @@ extension ListProfileTimesOutput {
         let reader = responseReader
         var value = ListProfileTimesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.profileTimes = try reader["profileTimes"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.ProfileTime.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profileTimes = try reader["profileTimes"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.ProfileTime.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2726,7 +2726,7 @@ extension ListProfilingGroupsOutput {
         let reader = responseReader
         var value = ListProfilingGroupsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.profilingGroupNames = try reader["profilingGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profilingGroupNames = try reader["profilingGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.profilingGroups = try reader["profilingGroups"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.ProfilingGroupDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -2758,8 +2758,8 @@ extension PutPermissionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutPermissionOutput()
-        value.policy = try reader["policy"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2783,8 +2783,8 @@ extension RemovePermissionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RemovePermissionOutput()
-        value.policy = try reader["policy"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3218,7 +3218,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3231,7 +3231,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3244,7 +3244,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3257,7 +3257,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3270,7 +3270,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3283,7 +3283,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3314,8 +3314,8 @@ extension CodeGuruProfilerClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.Channel()
         value.id = try reader["id"].readIfPresent()
-        value.uri = try reader["uri"].readIfPresent()
-        value.eventPublishers = try reader["eventPublishers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeGuruProfilerClientTypes.EventPublisher>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.uri = try reader["uri"].readIfPresent() ?? ""
+        value.eventPublishers = try reader["eventPublishers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeGuruProfilerClientTypes.EventPublisher>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3325,7 +3325,7 @@ extension CodeGuruProfilerClientTypes.TimestampStructure {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.TimestampStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.TimestampStructure()
-        value.value = try reader["value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.value = try reader["value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -3336,7 +3336,7 @@ extension CodeGuruProfilerClientTypes.FrameMetricDatum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.FrameMetricDatum()
         value.frameMetric = try reader["frameMetric"].readIfPresent(with: CodeGuruProfilerClientTypes.FrameMetric.read(from:))
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3353,9 +3353,9 @@ extension CodeGuruProfilerClientTypes.FrameMetric {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FrameMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.FrameMetric()
-        value.frameName = try reader["frameName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.frameName = try reader["frameName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3365,8 +3365,8 @@ extension CodeGuruProfilerClientTypes.AgentConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.AgentConfiguration()
-        value.shouldProfile = try reader["shouldProfile"].readIfPresent()
-        value.periodInSeconds = try reader["periodInSeconds"].readIfPresent()
+        value.shouldProfile = try reader["shouldProfile"].readIfPresent() ?? false
+        value.periodInSeconds = try reader["periodInSeconds"].readIfPresent() ?? 0
         value.agentParameters = try reader["agentParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3422,7 +3422,7 @@ extension CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.AgentOrchestrationConfig()
-        value.profilingEnabled = try reader["profilingEnabled"].readIfPresent()
+        value.profilingEnabled = try reader["profilingEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -3446,12 +3446,12 @@ extension CodeGuruProfilerClientTypes.Recommendation {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.Recommendation()
-        value.allMatchesCount = try reader["allMatchesCount"].readIfPresent()
-        value.allMatchesSum = try reader["allMatchesSum"].readIfPresent()
+        value.allMatchesCount = try reader["allMatchesCount"].readIfPresent() ?? 0
+        value.allMatchesSum = try reader["allMatchesSum"].readIfPresent() ?? 0.0
         value.pattern = try reader["pattern"].readIfPresent(with: CodeGuruProfilerClientTypes.Pattern.read(from:))
-        value.topMatches = try reader["topMatches"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Match.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.topMatches = try reader["topMatches"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Match.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -3490,8 +3490,8 @@ extension CodeGuruProfilerClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.Anomaly()
         value.metric = try reader["metric"].readIfPresent(with: CodeGuruProfilerClientTypes.Metric.read(from:))
-        value.reason = try reader["reason"].readIfPresent()
-        value.instances = try reader["instances"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.AnomalyInstance.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reason = try reader["reason"].readIfPresent() ?? ""
+        value.instances = try reader["instances"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.AnomalyInstance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3501,8 +3501,8 @@ extension CodeGuruProfilerClientTypes.AnomalyInstance {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AnomalyInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.AnomalyInstance()
-        value.id = try reader["id"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.userFeedback = try reader["userFeedback"].readIfPresent(with: CodeGuruProfilerClientTypes.UserFeedback.read(from:))
         return value
@@ -3514,7 +3514,7 @@ extension CodeGuruProfilerClientTypes.UserFeedback {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.UserFeedback {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.UserFeedback()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3524,9 +3524,9 @@ extension CodeGuruProfilerClientTypes.Metric {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Metric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.Metric()
-        value.frameName = try reader["frameName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.frameName = try reader["frameName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

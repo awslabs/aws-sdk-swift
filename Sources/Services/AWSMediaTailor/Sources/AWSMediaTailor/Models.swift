@@ -30,6 +30,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct TagResourceOutput {
 
@@ -6075,9 +6076,9 @@ extension MediaTailorClientTypes.ResponseOutputItem {
         var value = MediaTailorClientTypes.ResponseOutputItem()
         value.dashPlaylistSettings = try reader["DashPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.DashPlaylistSettings.read(from:))
         value.hlsPlaylistSettings = try reader["HlsPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.HlsPlaylistSettings.read(from:))
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.playbackUrl = try reader["PlaybackUrl"].readIfPresent()
-        value.sourceGroup = try reader["SourceGroup"].readIfPresent()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.playbackUrl = try reader["PlaybackUrl"].readIfPresent() ?? ""
+        value.sourceGroup = try reader["SourceGroup"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6130,7 +6131,7 @@ extension MediaTailorClientTypes.TimeShiftConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TimeShiftConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.TimeShiftConfiguration()
-        value.maxTimeDelaySeconds = try reader["MaxTimeDelaySeconds"].readIfPresent()
+        value.maxTimeDelaySeconds = try reader["MaxTimeDelaySeconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -6147,9 +6148,9 @@ extension MediaTailorClientTypes.HttpPackageConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpPackageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.HttpPackageConfiguration()
-        value.path = try reader["Path"].readIfPresent()
-        value.sourceGroup = try reader["SourceGroup"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.sourceGroup = try reader["SourceGroup"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6167,7 +6168,7 @@ extension MediaTailorClientTypes.PrefetchConsumption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.PrefetchConsumption()
         value.availMatchingCriteria = try reader["AvailMatchingCriteria"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AvailMatchingCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -6184,8 +6185,8 @@ extension MediaTailorClientTypes.AvailMatchingCriteria {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AvailMatchingCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.AvailMatchingCriteria()
-        value.dynamicVariable = try reader["DynamicVariable"].readIfPresent()
-        value.`operator` = try reader["Operator"].readIfPresent()
+        value.dynamicVariable = try reader["DynamicVariable"].readIfPresent() ?? ""
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6203,7 +6204,7 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.PrefetchRetrieval()
         value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -6245,8 +6246,8 @@ extension MediaTailorClientTypes.KeyValuePair {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.KeyValuePair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.KeyValuePair()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6438,7 +6439,7 @@ extension MediaTailorClientTypes.HttpConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.HttpConfiguration()
-        value.baseUrl = try reader["BaseUrl"].readIfPresent()
+        value.baseUrl = try reader["BaseUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6487,13 +6488,13 @@ extension MediaTailorClientTypes.ScheduleEntry {
         var value = MediaTailorClientTypes.ScheduleEntry()
         value.approximateDurationSeconds = try reader["ApproximateDurationSeconds"].readIfPresent()
         value.approximateStartTime = try reader["ApproximateStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
         value.liveSourceName = try reader["LiveSourceName"].readIfPresent()
-        value.programName = try reader["ProgramName"].readIfPresent()
+        value.programName = try reader["ProgramName"].readIfPresent() ?? ""
         value.scheduleAdBreaks = try reader["ScheduleAdBreaks"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.ScheduleAdBreak.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scheduleEntryType = try reader["ScheduleEntryType"].readIfPresent()
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
         value.vodSourceName = try reader["VodSourceName"].readIfPresent()
         value.audiences = try reader["Audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -6650,11 +6651,11 @@ extension MediaTailorClientTypes.Alert {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Alert {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.Alert()
-        value.alertCode = try reader["AlertCode"].readIfPresent()
-        value.alertMessage = try reader["AlertMessage"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.relatedResourceArns = try reader["RelatedResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.alertCode = try reader["AlertCode"].readIfPresent() ?? ""
+        value.alertMessage = try reader["AlertMessage"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.relatedResourceArns = try reader["RelatedResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         value.category = try reader["Category"].readIfPresent()
         return value
     }
@@ -6665,16 +6666,16 @@ extension MediaTailorClientTypes.Channel {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.Channel()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.channelState = try reader["ChannelState"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.channelState = try reader["ChannelState"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.fillerSlate = try reader["FillerSlate"].readIfPresent(with: MediaTailorClientTypes.SlateSource.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.ResponseOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.playbackMode = try reader["PlaybackMode"].readIfPresent()
+        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.ResponseOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.playbackMode = try reader["PlaybackMode"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tier = try reader["Tier"].readIfPresent()
+        value.tier = try reader["Tier"].readIfPresent() ?? ""
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfigurationForChannel.read(from:))
         value.audiences = try reader["Audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -6686,12 +6687,12 @@ extension MediaTailorClientTypes.LiveSource {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LiveSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.LiveSource()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.httpPackageConfigurations = try reader["HttpPackageConfigurations"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.HttpPackageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpPackageConfigurations = try reader["HttpPackageConfigurations"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.HttpPackageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.liveSourceName = try reader["LiveSourceName"].readIfPresent()
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.liveSourceName = try reader["LiveSourceName"].readIfPresent() ?? ""
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -6731,10 +6732,10 @@ extension MediaTailorClientTypes.PrefetchSchedule {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.PrefetchSchedule()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.consumption = try reader["Consumption"].readIfPresent(with: MediaTailorClientTypes.PrefetchConsumption.read(from:))
-        value.name = try reader["Name"].readIfPresent()
-        value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent() ?? ""
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
         value.streamId = try reader["StreamId"].readIfPresent()
         return value
@@ -6747,13 +6748,13 @@ extension MediaTailorClientTypes.SourceLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.SourceLocation()
         value.accessConfiguration = try reader["AccessConfiguration"].readIfPresent(with: MediaTailorClientTypes.AccessConfiguration.read(from:))
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultSegmentDeliveryConfiguration = try reader["DefaultSegmentDeliveryConfiguration"].readIfPresent(with: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration.read(from:))
         value.httpConfiguration = try reader["HttpConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpConfiguration.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.segmentDeliveryConfigurations = try reader["SegmentDeliveryConfigurations"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.SegmentDeliveryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -6764,13 +6765,13 @@ extension MediaTailorClientTypes.VodSource {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.VodSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.VodSource()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.httpPackageConfigurations = try reader["HttpPackageConfigurations"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.HttpPackageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpPackageConfigurations = try reader["HttpPackageConfigurations"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.HttpPackageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vodSourceName = try reader["VodSourceName"].readIfPresent()
+        value.vodSourceName = try reader["VodSourceName"].readIfPresent() ?? ""
         return value
     }
 }

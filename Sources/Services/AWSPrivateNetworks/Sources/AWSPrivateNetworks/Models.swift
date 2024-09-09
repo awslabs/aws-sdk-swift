@@ -3558,8 +3558,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: PrivateNetworksClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3576,7 +3576,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3589,9 +3589,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3604,7 +3604,7 @@ extension LimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3660,8 +3660,8 @@ extension PrivateNetworksClientTypes.OrderedResourceDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.OrderedResourceDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.OrderedResourceDefinition()
-        value.type = try reader["type"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.count = try reader["count"].readIfPresent() ?? 0
         value.commitmentConfiguration = try reader["commitmentConfiguration"].readIfPresent(with: PrivateNetworksClientTypes.CommitmentConfiguration.read(from:))
         return value
     }
@@ -3678,8 +3678,8 @@ extension PrivateNetworksClientTypes.CommitmentConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.CommitmentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.CommitmentConfiguration()
-        value.commitmentLength = try reader["commitmentLength"].readIfPresent()
-        value.automaticRenewal = try reader["automaticRenewal"].readIfPresent()
+        value.commitmentLength = try reader["commitmentLength"].readIfPresent() ?? .sdkUnknown("")
+        value.automaticRenewal = try reader["automaticRenewal"].readIfPresent() ?? false
         return value
     }
 }
@@ -3714,14 +3714,14 @@ extension PrivateNetworksClientTypes.Address {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.Address {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.Address()
-        value.city = try reader["city"].readIfPresent()
+        value.city = try reader["city"].readIfPresent() ?? ""
         value.company = try reader["company"].readIfPresent()
-        value.country = try reader["country"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.country = try reader["country"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.phoneNumber = try reader["phoneNumber"].readIfPresent()
-        value.postalCode = try reader["postalCode"].readIfPresent()
-        value.stateOrProvince = try reader["stateOrProvince"].readIfPresent()
-        value.street1 = try reader["street1"].readIfPresent()
+        value.postalCode = try reader["postalCode"].readIfPresent() ?? ""
+        value.stateOrProvince = try reader["stateOrProvince"].readIfPresent() ?? ""
+        value.street1 = try reader["street1"].readIfPresent() ?? ""
         value.street2 = try reader["street2"].readIfPresent()
         value.street3 = try reader["street3"].readIfPresent()
         value.emailAddress = try reader["emailAddress"].readIfPresent()
@@ -3752,12 +3752,12 @@ extension PrivateNetworksClientTypes.NetworkSite {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.NetworkSite {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.NetworkSite()
-        value.networkSiteArn = try reader["networkSiteArn"].readIfPresent()
-        value.networkSiteName = try reader["networkSiteName"].readIfPresent()
+        value.networkSiteArn = try reader["networkSiteArn"].readIfPresent() ?? ""
+        value.networkSiteName = try reader["networkSiteName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
-        value.networkArn = try reader["networkArn"].readIfPresent()
+        value.networkArn = try reader["networkArn"].readIfPresent() ?? ""
         value.pendingPlan = try reader["pendingPlan"].readIfPresent(with: PrivateNetworksClientTypes.SitePlan.read(from:))
         value.currentPlan = try reader["currentPlan"].readIfPresent(with: PrivateNetworksClientTypes.SitePlan.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -3795,7 +3795,7 @@ extension PrivateNetworksClientTypes.NameValuePair {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.NameValuePair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.NameValuePair()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }
@@ -3813,9 +3813,9 @@ extension PrivateNetworksClientTypes.NetworkResourceDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.NetworkResourceDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.NetworkResourceDefinition()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.options = try reader["options"].readListIfPresent(memberReadingClosure: PrivateNetworksClientTypes.NameValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.count = try reader["count"].readIfPresent()
+        value.count = try reader["count"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3899,10 +3899,10 @@ extension PrivateNetworksClientTypes.Network {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.Network {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.Network()
-        value.networkArn = try reader["networkArn"].readIfPresent()
-        value.networkName = try reader["networkName"].readIfPresent()
+        value.networkArn = try reader["networkArn"].readIfPresent() ?? ""
+        value.networkName = try reader["networkName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -3914,8 +3914,8 @@ extension PrivateNetworksClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> PrivateNetworksClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PrivateNetworksClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

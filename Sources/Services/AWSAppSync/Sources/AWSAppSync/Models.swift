@@ -1329,10 +1329,10 @@ public struct CreateApiCacheInput {
     public init(
         apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior? = nil,
         apiId: Swift.String? = nil,
-        atRestEncryptionEnabled: Swift.Bool? = nil,
+        atRestEncryptionEnabled: Swift.Bool? = false,
         healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig? = nil,
-        transitEncryptionEnabled: Swift.Bool? = nil,
-        ttl: Swift.Int? = nil,
+        transitEncryptionEnabled: Swift.Bool? = false,
+        ttl: Swift.Int? = 0,
         type: AppSyncClientTypes.ApiCacheType? = nil
     )
     {
@@ -1371,7 +1371,7 @@ public struct CreateApiKeyInput {
     public init(
         apiId: Swift.String? = nil,
         description: Swift.String? = nil,
-        expires: Swift.Int? = nil
+        expires: Swift.Int? = 0
     )
     {
         self.apiId = apiId
@@ -2072,7 +2072,7 @@ public struct CreateFunctionInput {
         dataSourceName: Swift.String? = nil,
         description: Swift.String? = nil,
         functionVersion: Swift.String? = nil,
-        maxBatchSize: Swift.Int? = nil,
+        maxBatchSize: Swift.Int? = 0,
         name: Swift.String? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -2668,12 +2668,12 @@ public struct CreateGraphqlApiInput {
         name: Swift.String? = nil,
         openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
         ownerContact: Swift.String? = nil,
-        queryDepthLimit: Swift.Int? = nil,
-        resolverCountLimit: Swift.Int? = nil,
+        queryDepthLimit: Swift.Int? = 0,
+        resolverCountLimit: Swift.Int? = 0,
         tags: [Swift.String: Swift.String]? = nil,
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
         visibility: AppSyncClientTypes.GraphQLApiVisibility? = nil,
-        xrayEnabled: Swift.Bool? = nil
+        xrayEnabled: Swift.Bool? = false
     )
     {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
@@ -2951,7 +2951,7 @@ public struct CreateResolverInput {
         dataSourceName: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
-        maxBatchSize: Swift.Int? = nil,
+        maxBatchSize: Swift.Int? = 0,
         metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig? = nil,
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
@@ -3647,9 +3647,9 @@ public struct GetDataSourceIntrospectionInput {
     public var nextToken: Swift.String?
 
     public init(
-        includeModelsSDL: Swift.Bool? = nil,
+        includeModelsSDL: Swift.Bool? = false,
         introspectionId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4085,7 +4085,7 @@ public struct ListApiKeysInput {
 
     public init(
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4122,7 +4122,7 @@ public struct ListDataSourcesInput {
 
     public init(
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4155,7 +4155,7 @@ public struct ListDomainNamesInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4191,7 +4191,7 @@ public struct ListFunctionsInput {
 
     public init(
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4258,7 +4258,7 @@ public struct ListGraphqlApisInput {
 
     public init(
         apiType: AppSyncClientTypes.GraphQLApiType? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         owner: AppSyncClientTypes.Ownership? = nil
     )
@@ -4300,7 +4300,7 @@ public struct ListResolversInput {
 
     public init(
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         typeName: Swift.String? = nil
     )
@@ -4343,7 +4343,7 @@ public struct ListResolversByFunctionInput {
     public init(
         apiId: Swift.String? = nil,
         functionId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4381,7 +4381,7 @@ public struct ListSourceApiAssociationsInput {
 
     public init(
         apiId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4487,7 +4487,7 @@ public struct ListTypesInput {
     public init(
         apiId: Swift.String? = nil,
         format: AppSyncClientTypes.TypeDefinitionFormat? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4532,7 +4532,7 @@ public struct ListTypesByAssociationInput {
     public init(
         associationId: Swift.String? = nil,
         format: AppSyncClientTypes.TypeDefinitionFormat? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         mergedApiIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4834,7 +4834,7 @@ public struct UpdateApiCacheInput {
         apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior? = nil,
         apiId: Swift.String? = nil,
         healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig? = nil,
-        ttl: Swift.Int? = nil,
+        ttl: Swift.Int? = 0,
         type: AppSyncClientTypes.ApiCacheType? = nil
     )
     {
@@ -4874,7 +4874,7 @@ public struct UpdateApiKeyInput {
     public init(
         apiId: Swift.String? = nil,
         description: Swift.String? = nil,
-        expires: Swift.Int? = nil,
+        expires: Swift.Int? = 0,
         id: Swift.String? = nil
     )
     {
@@ -5038,7 +5038,7 @@ public struct UpdateFunctionInput {
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
         functionVersion: Swift.String? = nil,
-        maxBatchSize: Swift.Int? = nil,
+        maxBatchSize: Swift.Int? = 0,
         name: Swift.String? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -5120,10 +5120,10 @@ public struct UpdateGraphqlApiInput {
         name: Swift.String? = nil,
         openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
         ownerContact: Swift.String? = nil,
-        queryDepthLimit: Swift.Int? = nil,
-        resolverCountLimit: Swift.Int? = nil,
+        queryDepthLimit: Swift.Int? = 0,
+        resolverCountLimit: Swift.Int? = 0,
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
-        xrayEnabled: Swift.Bool? = nil
+        xrayEnabled: Swift.Bool? = false
     )
     {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
@@ -5200,7 +5200,7 @@ public struct UpdateResolverInput {
         dataSourceName: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
-        maxBatchSize: Swift.Int? = nil,
+        maxBatchSize: Swift.Int? = 0,
         metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig? = nil,
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
@@ -8835,7 +8835,7 @@ extension AppSyncClientTypes.EventBridgeDataSourceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.EventBridgeDataSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.EventBridgeDataSourceConfig()
-        value.eventBusArn = try reader["eventBusArn"].readIfPresent()
+        value.eventBusArn = try reader["eventBusArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8908,7 +8908,7 @@ extension AppSyncClientTypes.AuthorizationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.AuthorizationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.AuthorizationConfig()
-        value.authorizationType = try reader["authorizationType"].readIfPresent()
+        value.authorizationType = try reader["authorizationType"].readIfPresent() ?? .sdkUnknown("")
         value.awsIamConfig = try reader["awsIamConfig"].readIfPresent(with: AppSyncClientTypes.AwsIamConfig.read(from:))
         return value
     }
@@ -8942,8 +8942,8 @@ extension AppSyncClientTypes.OpenSearchServiceDataSourceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.OpenSearchServiceDataSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.OpenSearchServiceDataSourceConfig()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.awsRegion = try reader["awsRegion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8959,8 +8959,8 @@ extension AppSyncClientTypes.ElasticsearchDataSourceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ElasticsearchDataSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.ElasticsearchDataSourceConfig()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.awsRegion = try reader["awsRegion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8975,7 +8975,7 @@ extension AppSyncClientTypes.LambdaDataSourceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.LambdaDataSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.LambdaDataSourceConfig()
-        value.lambdaFunctionArn = try reader["lambdaFunctionArn"].readIfPresent()
+        value.lambdaFunctionArn = try reader["lambdaFunctionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8994,8 +8994,8 @@ extension AppSyncClientTypes.DynamodbDataSourceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.DynamodbDataSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.DynamodbDataSourceConfig()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.awsRegion = try reader["awsRegion"].readIfPresent() ?? ""
         value.useCallerCredentials = try reader["useCallerCredentials"].readIfPresent() ?? false
         value.deltaSyncConfig = try reader["deltaSyncConfig"].readIfPresent(with: AppSyncClientTypes.DeltaSyncConfig.read(from:))
         value.versioned = try reader["versioned"].readIfPresent() ?? false
@@ -9068,8 +9068,8 @@ extension AppSyncClientTypes.AppSyncRuntime {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.AppSyncRuntime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.AppSyncRuntime()
-        value.name = try reader["name"].readIfPresent()
-        value.runtimeVersion = try reader["runtimeVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? .sdkUnknown("")
+        value.runtimeVersion = try reader["runtimeVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9152,9 +9152,9 @@ extension AppSyncClientTypes.EnhancedMetricsConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.EnhancedMetricsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.EnhancedMetricsConfig()
-        value.resolverLevelMetricsBehavior = try reader["resolverLevelMetricsBehavior"].readIfPresent()
-        value.dataSourceLevelMetricsBehavior = try reader["dataSourceLevelMetricsBehavior"].readIfPresent()
-        value.operationLevelMetricsConfig = try reader["operationLevelMetricsConfig"].readIfPresent()
+        value.resolverLevelMetricsBehavior = try reader["resolverLevelMetricsBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.dataSourceLevelMetricsBehavior = try reader["dataSourceLevelMetricsBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.operationLevelMetricsConfig = try reader["operationLevelMetricsConfig"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9172,7 +9172,7 @@ extension AppSyncClientTypes.LambdaAuthorizerConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.LambdaAuthorizerConfig()
         value.authorizerResultTtlInSeconds = try reader["authorizerResultTtlInSeconds"].readIfPresent() ?? 0
-        value.authorizerUri = try reader["authorizerUri"].readIfPresent()
+        value.authorizerUri = try reader["authorizerUri"].readIfPresent() ?? ""
         value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
         return value
     }
@@ -9211,8 +9211,8 @@ extension AppSyncClientTypes.CognitoUserPoolConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.CognitoUserPoolConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.CognitoUserPoolConfig()
-        value.userPoolId = try reader["userPoolId"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.userPoolId = try reader["userPoolId"].readIfPresent() ?? ""
+        value.awsRegion = try reader["awsRegion"].readIfPresent() ?? ""
         value.appIdClientRegex = try reader["appIdClientRegex"].readIfPresent()
         return value
     }
@@ -9231,7 +9231,7 @@ extension AppSyncClientTypes.OpenIDConnectConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.OpenIDConnectConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.OpenIDConnectConfig()
-        value.issuer = try reader["issuer"].readIfPresent()
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
         value.clientId = try reader["clientId"].readIfPresent()
         value.iatTTL = try reader["iatTTL"].readIfPresent() ?? 0
         value.authTTL = try reader["authTTL"].readIfPresent() ?? 0
@@ -9252,9 +9252,9 @@ extension AppSyncClientTypes.UserPoolConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.UserPoolConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.UserPoolConfig()
-        value.userPoolId = try reader["userPoolId"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
-        value.defaultAction = try reader["defaultAction"].readIfPresent()
+        value.userPoolId = try reader["userPoolId"].readIfPresent() ?? ""
+        value.awsRegion = try reader["awsRegion"].readIfPresent() ?? ""
+        value.defaultAction = try reader["defaultAction"].readIfPresent() ?? .sdkUnknown("")
         value.appIdClientRegex = try reader["appIdClientRegex"].readIfPresent()
         return value
     }
@@ -9272,8 +9272,8 @@ extension AppSyncClientTypes.LogConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.LogConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppSyncClientTypes.LogConfig()
-        value.fieldLogLevel = try reader["fieldLogLevel"].readIfPresent()
-        value.cloudWatchLogsRoleArn = try reader["cloudWatchLogsRoleArn"].readIfPresent()
+        value.fieldLogLevel = try reader["fieldLogLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.cloudWatchLogsRoleArn = try reader["cloudWatchLogsRoleArn"].readIfPresent() ?? ""
         value.excludeVerboseContent = try reader["excludeVerboseContent"].readIfPresent() ?? false
         return value
     }

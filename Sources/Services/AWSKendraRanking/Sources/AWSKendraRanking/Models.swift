@@ -846,8 +846,8 @@ extension CreateRescoreExecutionPlanOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRescoreExecutionPlanOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1218,7 +1218,7 @@ extension KendraRankingClientTypes.CapacityUnitsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.CapacityUnitsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KendraRankingClientTypes.CapacityUnitsConfiguration()
-        value.rescoreCapacityUnits = try reader["RescoreCapacityUnits"].readIfPresent()
+        value.rescoreCapacityUnits = try reader["RescoreCapacityUnits"].readIfPresent() ?? 0
         return value
     }
 }
@@ -1248,8 +1248,8 @@ extension KendraRankingClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KendraRankingClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

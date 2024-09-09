@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct AttachInstancesOutput {
 
@@ -7862,7 +7863,7 @@ extension DescribeAutoScalingGroupsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAutoScalingGroupsResult"]
         var value = DescribeAutoScalingGroupsOutput()
-        value.autoScalingGroups = try reader["AutoScalingGroups"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.AutoScalingGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoScalingGroups = try reader["AutoScalingGroups"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.AutoScalingGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7913,7 +7914,7 @@ extension DescribeLaunchConfigurationsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeLaunchConfigurationsResult"]
         var value = DescribeLaunchConfigurationsOutput()
-        value.launchConfigurations = try reader["LaunchConfigurations"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LaunchConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.launchConfigurations = try reader["LaunchConfigurations"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LaunchConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7990,7 +7991,7 @@ extension DescribeNotificationConfigurationsOutput {
         let reader = responseReader["DescribeNotificationConfigurationsResult"]
         var value = DescribeNotificationConfigurationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.notificationConfigurations = try reader["NotificationConfigurations"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.NotificationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notificationConfigurations = try reader["NotificationConfigurations"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.NotificationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8015,7 +8016,7 @@ extension DescribeScalingActivitiesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeScalingActivitiesResult"]
         var value = DescribeScalingActivitiesOutput()
-        value.activities = try reader["Activities"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.Activity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.activities = try reader["Activities"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.Activity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -8184,8 +8185,8 @@ extension GetPredictiveScalingForecastOutput {
         let reader = responseReader["GetPredictiveScalingForecastResult"]
         var value = GetPredictiveScalingForecastOutput()
         value.capacityForecast = try reader["CapacityForecast"].readIfPresent(with: AutoScalingClientTypes.CapacityForecast.read(from:))
-        value.loadForecast = try reader["LoadForecast"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LoadForecast.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.loadForecast = try reader["LoadForecast"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LoadForecast.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9421,7 +9422,7 @@ extension AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest()
-        value.scheduledActionName = try reader["ScheduledActionName"].readIfPresent()
+        value.scheduledActionName = try reader["ScheduledActionName"].readIfPresent() ?? ""
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
@@ -9443,23 +9444,23 @@ extension AutoScalingClientTypes.AutoScalingGroup {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AutoScalingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.AutoScalingGroup()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
         value.autoScalingGroupARN = try reader["AutoScalingGroupARN"].readIfPresent()
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
         value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
         value.mixedInstancesPolicy = try reader["MixedInstancesPolicy"].readIfPresent(with: AutoScalingClientTypes.MixedInstancesPolicy.read(from:))
-        value.minSize = try reader["MinSize"].readIfPresent()
-        value.maxSize = try reader["MaxSize"].readIfPresent()
-        value.desiredCapacity = try reader["DesiredCapacity"].readIfPresent()
+        value.minSize = try reader["MinSize"].readIfPresent() ?? 0
+        value.maxSize = try reader["MaxSize"].readIfPresent() ?? 0
+        value.desiredCapacity = try reader["DesiredCapacity"].readIfPresent() ?? 0
         value.predictedCapacity = try reader["PredictedCapacity"].readIfPresent()
-        value.defaultCooldown = try reader["DefaultCooldown"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultCooldown = try reader["DefaultCooldown"].readIfPresent() ?? 0
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.loadBalancerNames = try reader["LoadBalancerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetGroupARNs = try reader["TargetGroupARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.healthCheckType = try reader["HealthCheckType"].readIfPresent()
+        value.healthCheckType = try reader["HealthCheckType"].readIfPresent() ?? ""
         value.healthCheckGracePeriod = try reader["HealthCheckGracePeriod"].readIfPresent()
         value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.Instance.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.suspendedProcesses = try reader["SuspendedProcesses"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.SuspendedProcess.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.placementGroup = try reader["PlacementGroup"].readIfPresent()
         value.vpcZoneIdentifier = try reader["VPCZoneIdentifier"].readIfPresent()
@@ -9510,7 +9511,7 @@ extension AutoScalingClientTypes.TrafficSourceIdentifier {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TrafficSourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.TrafficSourceIdentifier()
-        value.identifier = try reader["Identifier"].readIfPresent()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent()
         return value
     }
@@ -9586,14 +9587,14 @@ extension AutoScalingClientTypes.Instance {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Instance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.Instance()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.lifecycleState = try reader["LifecycleState"].readIfPresent()
-        value.healthStatus = try reader["HealthStatus"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? .sdkUnknown("")
+        value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
         value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
-        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent()
+        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
         value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
     }
@@ -9889,7 +9890,7 @@ extension AutoScalingClientTypes.MemoryMiBRequest {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MemoryMiBRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.MemoryMiBRequest()
-        value.min = try reader["Min"].readIfPresent()
+        value.min = try reader["Min"].readIfPresent() ?? 0
         value.max = try reader["Max"].readIfPresent()
         return value
     }
@@ -9906,7 +9907,7 @@ extension AutoScalingClientTypes.VCpuCountRequest {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.VCpuCountRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.VCpuCountRequest()
-        value.min = try reader["Min"].readIfPresent()
+        value.min = try reader["Min"].readIfPresent() ?? 0
         value.max = try reader["Max"].readIfPresent()
         return value
     }
@@ -9917,15 +9918,15 @@ extension AutoScalingClientTypes.AutoScalingInstanceDetails {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AutoScalingInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.AutoScalingInstanceDetails()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.lifecycleState = try reader["LifecycleState"].readIfPresent()
-        value.healthStatus = try reader["HealthStatus"].readIfPresent()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? ""
+        value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
         value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
-        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent()
+        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
         value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
     }
@@ -10069,22 +10070,22 @@ extension AutoScalingClientTypes.LaunchConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.LaunchConfiguration()
-        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
+        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent() ?? ""
         value.launchConfigurationARN = try reader["LaunchConfigurationARN"].readIfPresent()
-        value.imageId = try reader["ImageId"].readIfPresent()
+        value.imageId = try reader["ImageId"].readIfPresent() ?? ""
         value.keyName = try reader["KeyName"].readIfPresent()
         value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.classicLinkVPCId = try reader["ClassicLinkVPCId"].readIfPresent()
         value.classicLinkVPCSecurityGroups = try reader["ClassicLinkVPCSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userData = try reader["UserData"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? ""
         value.kernelId = try reader["KernelId"].readIfPresent()
         value.ramdiskId = try reader["RamdiskId"].readIfPresent()
         value.blockDeviceMappings = try reader["BlockDeviceMappings"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.BlockDeviceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceMonitoring = try reader["InstanceMonitoring"].readIfPresent(with: AutoScalingClientTypes.InstanceMonitoring.read(from:))
         value.spotPrice = try reader["SpotPrice"].readIfPresent()
         value.iamInstanceProfile = try reader["IamInstanceProfile"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ebsOptimized = try reader["EbsOptimized"].readIfPresent()
         value.associatePublicIpAddress = try reader["AssociatePublicIpAddress"].readIfPresent()
         value.placementTenancy = try reader["PlacementTenancy"].readIfPresent()
@@ -10141,7 +10142,7 @@ extension AutoScalingClientTypes.BlockDeviceMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.BlockDeviceMapping()
         value.virtualName = try reader["VirtualName"].readIfPresent()
-        value.deviceName = try reader["DeviceName"].readIfPresent()
+        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
         value.ebs = try reader["Ebs"].readIfPresent(with: AutoScalingClientTypes.Ebs.read(from:))
         value.noDevice = try reader["NoDevice"].readIfPresent()
         return value
@@ -10286,7 +10287,7 @@ extension AutoScalingClientTypes.PredictiveScalingConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingConfiguration()
-        value.metricSpecifications = try reader["MetricSpecifications"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricSpecifications = try reader["MetricSpecifications"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.mode = try reader["Mode"].readIfPresent()
         value.schedulingBufferTime = try reader["SchedulingBufferTime"].readIfPresent()
         value.maxCapacityBreachBehavior = try reader["MaxCapacityBreachBehavior"].readIfPresent()
@@ -10311,7 +10312,7 @@ extension AutoScalingClientTypes.PredictiveScalingMetricSpecification {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingMetricSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingMetricSpecification()
-        value.targetValue = try reader["TargetValue"].readIfPresent()
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
         value.predefinedMetricPairSpecification = try reader["PredefinedMetricPairSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair.read(from:))
         value.predefinedScalingMetricSpecification = try reader["PredefinedScalingMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric.read(from:))
         value.predefinedLoadMetricSpecification = try reader["PredefinedLoadMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric.read(from:))
@@ -10332,7 +10333,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10351,7 +10352,7 @@ extension AutoScalingClientTypes.MetricDataQuery {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricDataQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.MetricDataQuery()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.expression = try reader["Expression"].readIfPresent()
         value.metricStat = try reader["MetricStat"].readIfPresent(with: AutoScalingClientTypes.MetricStat.read(from:))
         value.label = try reader["Label"].readIfPresent()
@@ -10373,7 +10374,7 @@ extension AutoScalingClientTypes.MetricStat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.MetricStat()
         value.metric = try reader["Metric"].readIfPresent(with: AutoScalingClientTypes.Metric.read(from:))
-        value.stat = try reader["Stat"].readIfPresent()
+        value.stat = try reader["Stat"].readIfPresent() ?? ""
         value.unit = try reader["Unit"].readIfPresent()
         return value
     }
@@ -10391,8 +10392,8 @@ extension AutoScalingClientTypes.Metric {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Metric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.Metric()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -10409,8 +10410,8 @@ extension AutoScalingClientTypes.MetricDimension {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.MetricDimension()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10425,7 +10426,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10440,7 +10441,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10456,7 +10457,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
         return value
     }
@@ -10473,7 +10474,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
         return value
     }
@@ -10490,7 +10491,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
         return value
     }
@@ -10511,7 +10512,7 @@ extension AutoScalingClientTypes.TargetTrackingConfiguration {
         var value = AutoScalingClientTypes.TargetTrackingConfiguration()
         value.predefinedMetricSpecification = try reader["PredefinedMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredefinedMetricSpecification.read(from:))
         value.customizedMetricSpecification = try reader["CustomizedMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.CustomizedMetricSpecification.read(from:))
-        value.targetValue = try reader["TargetValue"].readIfPresent()
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
         value.disableScaleIn = try reader["DisableScaleIn"].readIfPresent()
         return value
     }
@@ -10556,7 +10557,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricDataQuery {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TargetTrackingMetricDataQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.TargetTrackingMetricDataQuery()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.expression = try reader["Expression"].readIfPresent()
         value.metricStat = try reader["MetricStat"].readIfPresent(with: AutoScalingClientTypes.TargetTrackingMetricStat.read(from:))
         value.label = try reader["Label"].readIfPresent()
@@ -10578,7 +10579,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.TargetTrackingMetricStat()
         value.metric = try reader["Metric"].readIfPresent(with: AutoScalingClientTypes.Metric.read(from:))
-        value.stat = try reader["Stat"].readIfPresent()
+        value.stat = try reader["Stat"].readIfPresent() ?? ""
         value.unit = try reader["Unit"].readIfPresent()
         return value
     }
@@ -10595,7 +10596,7 @@ extension AutoScalingClientTypes.PredefinedMetricSpecification {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredefinedMetricSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.PredefinedMetricSpecification()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
         return value
     }
@@ -10626,7 +10627,7 @@ extension AutoScalingClientTypes.StepAdjustment {
         var value = AutoScalingClientTypes.StepAdjustment()
         value.metricIntervalLowerBound = try reader["MetricIntervalLowerBound"].readIfPresent()
         value.metricIntervalUpperBound = try reader["MetricIntervalUpperBound"].readIfPresent()
-        value.scalingAdjustment = try reader["ScalingAdjustment"].readIfPresent()
+        value.scalingAdjustment = try reader["ScalingAdjustment"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10636,13 +10637,13 @@ extension AutoScalingClientTypes.Activity {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Activity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.Activity()
-        value.activityId = try reader["ActivityId"].readIfPresent()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
+        value.activityId = try reader["ActivityId"].readIfPresent() ?? ""
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.cause = try reader["Cause"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.cause = try reader["Cause"].readIfPresent() ?? ""
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.progress = try reader["Progress"].readIfPresent()
         value.details = try reader["Details"].readIfPresent()
@@ -10657,7 +10658,7 @@ extension AutoScalingClientTypes.ProcessType {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.ProcessType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.ProcessType()
-        value.processName = try reader["ProcessName"].readIfPresent()
+        value.processName = try reader["ProcessName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10700,8 +10701,8 @@ extension AutoScalingClientTypes.LoadForecast {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LoadForecast {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.LoadForecast()
-        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.metricSpecification = try reader["MetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:))
         return value
     }
@@ -10712,8 +10713,8 @@ extension AutoScalingClientTypes.CapacityForecast {
     static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CapacityForecast {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.CapacityForecast()
-        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

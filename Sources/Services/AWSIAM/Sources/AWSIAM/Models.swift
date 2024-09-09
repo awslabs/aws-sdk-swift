@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct AddClientIDToOpenIDConnectProviderOutput {
 
@@ -1439,7 +1440,7 @@ public struct CreateLoginProfileInput {
 
     public init(
         password: Swift.String? = nil,
-        passwordResetRequired: Swift.Bool? = nil,
+        passwordResetRequired: Swift.Bool? = false,
         userName: Swift.String? = nil
     )
     {
@@ -1712,7 +1713,7 @@ public struct CreatePolicyVersionInput {
     public init(
         policyArn: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
-        setAsDefault: Swift.Bool? = nil
+        setAsDefault: Swift.Bool? = false
     )
     {
         self.policyArn = policyArn
@@ -5616,7 +5617,7 @@ public struct ListPoliciesInput {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
-        onlyAttached: Swift.Bool? = nil,
+        onlyAttached: Swift.Bool? = false,
         pathPrefix: Swift.String? = nil,
         policyUsageFilter: IAMClientTypes.PolicyUsageType? = nil,
         scope: IAMClientTypes.PolicyScopeType? = nil
@@ -7735,15 +7736,15 @@ public struct UpdateAccountPasswordPolicyInput {
     public var requireUppercaseCharacters: Swift.Bool?
 
     public init(
-        allowUsersToChangePassword: Swift.Bool? = nil,
+        allowUsersToChangePassword: Swift.Bool? = false,
         hardExpiry: Swift.Bool? = nil,
         maxPasswordAge: Swift.Int? = nil,
         minimumPasswordLength: Swift.Int? = nil,
         passwordReusePrevention: Swift.Int? = nil,
-        requireLowercaseCharacters: Swift.Bool? = nil,
-        requireNumbers: Swift.Bool? = nil,
-        requireSymbols: Swift.Bool? = nil,
-        requireUppercaseCharacters: Swift.Bool? = nil
+        requireLowercaseCharacters: Swift.Bool? = false,
+        requireNumbers: Swift.Bool? = false,
+        requireSymbols: Swift.Bool? = false,
+        requireUppercaseCharacters: Swift.Bool? = false
     )
     {
         self.allowUsersToChangePassword = allowUsersToChangePassword
@@ -11616,7 +11617,7 @@ extension DeleteServiceLinkedRoleOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteServiceLinkedRoleResult"]
         var value = DeleteServiceLinkedRoleOutput()
-        value.deletionTaskId = try reader["DeletionTaskId"].readIfPresent()
+        value.deletionTaskId = try reader["DeletionTaskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11837,7 +11838,7 @@ extension GetGroupOutput {
         value.group = try reader["Group"].readIfPresent(with: IAMClientTypes.Group.read(from:))
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: IAMClientTypes.User.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: IAMClientTypes.User.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11849,9 +11850,9 @@ extension GetGroupPolicyOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetGroupPolicyResult"]
         var value = GetGroupPolicyOutput()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
-        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent() ?? ""
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11889,7 +11890,7 @@ extension GetMFADeviceOutput {
         var value = GetMFADeviceOutput()
         value.certifications = try reader["Certifications"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.enableDate = try reader["EnableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serialNumber = try reader["SerialNumber"].readIfPresent()
+        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? ""
         value.userName = try reader["UserName"].readIfPresent()
         return value
     }
@@ -11922,8 +11923,8 @@ extension GetOrganizationsAccessReportOutput {
         value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: IAMClientTypes.ErrorDetails.read(from:))
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.jobCompletionDate = try reader["JobCompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobCreationDate = try reader["JobCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.jobCreationDate = try reader["JobCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.marker = try reader["Marker"].readIfPresent()
         value.numberOfServicesAccessible = try reader["NumberOfServicesAccessible"].readIfPresent()
         value.numberOfServicesNotAccessed = try reader["NumberOfServicesNotAccessed"].readIfPresent()
@@ -11974,9 +11975,9 @@ extension GetRolePolicyOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetRolePolicyResult"]
         var value = GetRolePolicyOutput()
-        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.roleName = try reader["RoleName"].readIfPresent()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent() ?? ""
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
+        value.roleName = try reader["RoleName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12017,12 +12018,12 @@ extension GetServiceLastAccessedDetailsOutput {
         var value = GetServiceLastAccessedDetailsOutput()
         value.error = try reader["Error"].readIfPresent(with: IAMClientTypes.ErrorDetails.read(from:))
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.jobCompletionDate = try reader["JobCompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobCreationDate = try reader["JobCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.jobCompletionDate = try reader["JobCompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobCreationDate = try reader["JobCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.jobType = try reader["JobType"].readIfPresent()
         value.marker = try reader["Marker"].readIfPresent()
-        value.servicesLastAccessed = try reader["ServicesLastAccessed"].readListIfPresent(memberReadingClosure: IAMClientTypes.ServiceLastAccessed.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.servicesLastAccessed = try reader["ServicesLastAccessed"].readListIfPresent(memberReadingClosure: IAMClientTypes.ServiceLastAccessed.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12034,12 +12035,12 @@ extension GetServiceLastAccessedDetailsWithEntitiesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetServiceLastAccessedDetailsWithEntitiesResult"]
         var value = GetServiceLastAccessedDetailsWithEntitiesOutput()
-        value.entityDetailsList = try reader["EntityDetailsList"].readListIfPresent(memberReadingClosure: IAMClientTypes.EntityDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entityDetailsList = try reader["EntityDetailsList"].readListIfPresent(memberReadingClosure: IAMClientTypes.EntityDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.error = try reader["Error"].readIfPresent(with: IAMClientTypes.ErrorDetails.read(from:))
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.jobCompletionDate = try reader["JobCompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobCreationDate = try reader["JobCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.jobCompletionDate = try reader["JobCompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobCreationDate = try reader["JobCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.marker = try reader["Marker"].readIfPresent()
         return value
     }
@@ -12053,7 +12054,7 @@ extension GetServiceLinkedRoleDeletionStatusOutput {
         let reader = responseReader["GetServiceLinkedRoleDeletionStatusResult"]
         var value = GetServiceLinkedRoleDeletionStatusOutput()
         value.reason = try reader["Reason"].readIfPresent(with: IAMClientTypes.DeletionTaskFailureReasonType.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12089,9 +12090,9 @@ extension GetUserPolicyOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetUserPolicyResult"]
         var value = GetUserPolicyOutput()
-        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent() ?? ""
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12103,7 +12104,7 @@ extension ListAccessKeysOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAccessKeysResult"]
         var value = ListAccessKeysOutput()
-        value.accessKeyMetadata = try reader["AccessKeyMetadata"].readListIfPresent(memberReadingClosure: IAMClientTypes.AccessKeyMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accessKeyMetadata = try reader["AccessKeyMetadata"].readListIfPresent(memberReadingClosure: IAMClientTypes.AccessKeyMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         return value
@@ -12117,7 +12118,7 @@ extension ListAccountAliasesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAccountAliasesResult"]
         var value = ListAccountAliasesOutput()
-        value.accountAliases = try reader["AccountAliases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountAliases = try reader["AccountAliases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         return value
@@ -12191,7 +12192,7 @@ extension ListGroupPoliciesOutput {
         var value = ListGroupPoliciesOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12203,7 +12204,7 @@ extension ListGroupsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListGroupsResult"]
         var value = ListGroupsOutput()
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: IAMClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: IAMClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         return value
@@ -12217,7 +12218,7 @@ extension ListGroupsForUserOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListGroupsForUserResult"]
         var value = ListGroupsForUserOutput()
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: IAMClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: IAMClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         return value
@@ -12231,7 +12232,7 @@ extension ListInstanceProfilesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListInstanceProfilesResult"]
         var value = ListInstanceProfilesOutput()
-        value.instanceProfiles = try reader["InstanceProfiles"].readListIfPresent(memberReadingClosure: IAMClientTypes.InstanceProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceProfiles = try reader["InstanceProfiles"].readListIfPresent(memberReadingClosure: IAMClientTypes.InstanceProfile.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         return value
@@ -12245,7 +12246,7 @@ extension ListInstanceProfilesForRoleOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListInstanceProfilesForRoleResult"]
         var value = ListInstanceProfilesForRoleOutput()
-        value.instanceProfiles = try reader["InstanceProfiles"].readListIfPresent(memberReadingClosure: IAMClientTypes.InstanceProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceProfiles = try reader["InstanceProfiles"].readListIfPresent(memberReadingClosure: IAMClientTypes.InstanceProfile.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         return value
@@ -12261,7 +12262,7 @@ extension ListInstanceProfileTagsOutput {
         var value = ListInstanceProfileTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12274,7 +12275,7 @@ extension ListMFADevicesOutput {
         let reader = responseReader["ListMFADevicesResult"]
         var value = ListMFADevicesOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
-        value.mfaDevices = try reader["MFADevices"].readListIfPresent(memberReadingClosure: IAMClientTypes.MFADevice.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mfaDevices = try reader["MFADevices"].readListIfPresent(memberReadingClosure: IAMClientTypes.MFADevice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.marker = try reader["Marker"].readIfPresent()
         return value
     }
@@ -12289,7 +12290,7 @@ extension ListMFADeviceTagsOutput {
         var value = ListMFADeviceTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12315,7 +12316,7 @@ extension ListOpenIDConnectProviderTagsOutput {
         var value = ListOpenIDConnectProviderTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12343,7 +12344,7 @@ extension ListPoliciesGrantingServiceAccessOutput {
         var value = ListPoliciesGrantingServiceAccessOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.policiesGrantingServiceAccess = try reader["PoliciesGrantingServiceAccess"].readListIfPresent(memberReadingClosure: IAMClientTypes.ListPoliciesGrantingServiceAccessEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policiesGrantingServiceAccess = try reader["PoliciesGrantingServiceAccess"].readListIfPresent(memberReadingClosure: IAMClientTypes.ListPoliciesGrantingServiceAccessEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12357,7 +12358,7 @@ extension ListPolicyTagsOutput {
         var value = ListPolicyTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12385,7 +12386,7 @@ extension ListRolePoliciesOutput {
         var value = ListRolePoliciesOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12399,7 +12400,7 @@ extension ListRolesOutput {
         var value = ListRolesOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IAMClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IAMClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12413,7 +12414,7 @@ extension ListRoleTagsOutput {
         var value = ListRoleTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12439,7 +12440,7 @@ extension ListSAMLProviderTagsOutput {
         var value = ListSAMLProviderTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12453,7 +12454,7 @@ extension ListServerCertificatesOutput {
         var value = ListServerCertificatesOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.serverCertificateMetadataList = try reader["ServerCertificateMetadataList"].readListIfPresent(memberReadingClosure: IAMClientTypes.ServerCertificateMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serverCertificateMetadataList = try reader["ServerCertificateMetadataList"].readListIfPresent(memberReadingClosure: IAMClientTypes.ServerCertificateMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12467,7 +12468,7 @@ extension ListServerCertificateTagsOutput {
         var value = ListServerCertificateTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12491,7 +12492,7 @@ extension ListSigningCertificatesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListSigningCertificatesResult"]
         var value = ListSigningCertificatesOutput()
-        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: IAMClientTypes.SigningCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: IAMClientTypes.SigningCertificate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         return value
@@ -12521,7 +12522,7 @@ extension ListUserPoliciesOutput {
         var value = ListUserPoliciesOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policyNames = try reader["PolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12535,7 +12536,7 @@ extension ListUsersOutput {
         var value = ListUsersOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: IAMClientTypes.User.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: IAMClientTypes.User.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12549,7 +12550,7 @@ extension ListUserTagsOutput {
         var value = ListUserTagsOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12563,7 +12564,7 @@ extension ListVirtualMFADevicesOutput {
         var value = ListVirtualMFADevicesOutput()
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
-        value.virtualMFADevices = try reader["VirtualMFADevices"].readListIfPresent(memberReadingClosure: IAMClientTypes.VirtualMFADevice.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.virtualMFADevices = try reader["VirtualMFADevices"].readListIfPresent(memberReadingClosure: IAMClientTypes.VirtualMFADevice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15897,10 +15898,10 @@ extension IAMClientTypes.AccessKey {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.AccessKey()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent() ?? ""
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -15911,11 +15912,11 @@ extension IAMClientTypes.Group {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.Group()
-        value.path = try reader["Path"].readIfPresent()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -15925,12 +15926,12 @@ extension IAMClientTypes.InstanceProfile {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.InstanceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.InstanceProfile()
-        value.path = try reader["Path"].readIfPresent()
-        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent()
-        value.instanceProfileId = try reader["InstanceProfileId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IAMClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.instanceProfileName = try reader["InstanceProfileName"].readIfPresent() ?? ""
+        value.instanceProfileId = try reader["InstanceProfileId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.roles = try reader["Roles"].readListIfPresent(memberReadingClosure: IAMClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -15947,8 +15948,8 @@ extension IAMClientTypes.Tag {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15958,11 +15959,11 @@ extension IAMClientTypes.Role {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Role {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.Role()
-        value.path = try reader["Path"].readIfPresent()
-        value.roleName = try reader["RoleName"].readIfPresent()
-        value.roleId = try reader["RoleId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.roleName = try reader["RoleName"].readIfPresent() ?? ""
+        value.roleId = try reader["RoleId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.assumeRolePolicyDocument = try reader["AssumeRolePolicyDocument"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.maxSessionDuration = try reader["MaxSessionDuration"].readIfPresent()
@@ -16000,8 +16001,8 @@ extension IAMClientTypes.LoginProfile {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.LoginProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.LoginProfile()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.passwordResetRequired = try reader["PasswordResetRequired"].readIfPresent() ?? false
         return value
     }
@@ -16046,13 +16047,13 @@ extension IAMClientTypes.ServiceSpecificCredential {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceSpecificCredential {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServiceSpecificCredential()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.serviceUserName = try reader["ServiceUserName"].readIfPresent()
-        value.servicePassword = try reader["ServicePassword"].readIfPresent()
-        value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.serviceUserName = try reader["ServiceUserName"].readIfPresent() ?? ""
+        value.servicePassword = try reader["ServicePassword"].readIfPresent() ?? ""
+        value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16062,11 +16063,11 @@ extension IAMClientTypes.User {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.User()
-        value.path = try reader["Path"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.passwordLastUsed = try reader["PasswordLastUsed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -16079,7 +16080,7 @@ extension IAMClientTypes.VirtualMFADevice {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.VirtualMFADevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.VirtualMFADevice()
-        value.serialNumber = try reader["SerialNumber"].readIfPresent()
+        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? ""
         value.base32StringSeed = try reader["Base32StringSeed"].readIfPresent()
         value.qrCodePNG = try reader["QRCodePNG"].readIfPresent()
         value.user = try reader["User"].readIfPresent(with: IAMClientTypes.User.read(from:))
@@ -16095,8 +16096,8 @@ extension IAMClientTypes.AccessKeyLastUsed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.AccessKeyLastUsed()
         value.lastUsedDate = try reader["LastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16224,8 +16225,8 @@ extension IAMClientTypes.AccessDetail {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.AccessDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.AccessDetail()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent() ?? ""
         value.region = try reader["Region"].readIfPresent()
         value.entityPath = try reader["EntityPath"].readIfPresent()
         value.lastAuthenticatedTime = try reader["LastAuthenticatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -16239,8 +16240,8 @@ extension IAMClientTypes.ErrorDetails {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ErrorDetails()
-        value.message = try reader["Message"].readIfPresent()
-        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.code = try reader["Code"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16251,7 +16252,7 @@ extension IAMClientTypes.ServerCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServerCertificate()
         value.serverCertificateMetadata = try reader["ServerCertificateMetadata"].readIfPresent(with: IAMClientTypes.ServerCertificateMetadata.read(from:))
-        value.certificateBody = try reader["CertificateBody"].readIfPresent()
+        value.certificateBody = try reader["CertificateBody"].readIfPresent() ?? ""
         value.certificateChain = try reader["CertificateChain"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -16263,10 +16264,10 @@ extension IAMClientTypes.ServerCertificateMetadata {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServerCertificateMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServerCertificateMetadata()
-        value.path = try reader["Path"].readIfPresent()
-        value.serverCertificateName = try reader["ServerCertificateName"].readIfPresent()
-        value.serverCertificateId = try reader["ServerCertificateId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.serverCertificateName = try reader["ServerCertificateName"].readIfPresent() ?? ""
+        value.serverCertificateId = try reader["ServerCertificateId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -16278,9 +16279,9 @@ extension IAMClientTypes.ServiceLastAccessed {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceLastAccessed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServiceLastAccessed()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
         value.lastAuthenticated = try reader["LastAuthenticated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent()
+        value.serviceNamespace = try reader["ServiceNamespace"].readIfPresent() ?? ""
         value.lastAuthenticatedEntity = try reader["LastAuthenticatedEntity"].readIfPresent()
         value.lastAuthenticatedRegion = try reader["LastAuthenticatedRegion"].readIfPresent()
         value.totalAuthenticatedEntities = try reader["TotalAuthenticatedEntities"].readIfPresent()
@@ -16318,10 +16319,10 @@ extension IAMClientTypes.EntityInfo {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EntityInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.EntityInfo()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.path = try reader["Path"].readIfPresent()
         return value
     }
@@ -16354,11 +16355,11 @@ extension IAMClientTypes.SSHPublicKey {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.SSHPublicKey()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.sshPublicKeyId = try reader["SSHPublicKeyId"].readIfPresent()
-        value.fingerprint = try reader["Fingerprint"].readIfPresent()
-        value.sshPublicKeyBody = try reader["SSHPublicKeyBody"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.sshPublicKeyId = try reader["SSHPublicKeyId"].readIfPresent() ?? ""
+        value.fingerprint = try reader["Fingerprint"].readIfPresent() ?? ""
+        value.sshPublicKeyBody = try reader["SSHPublicKeyBody"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -16415,9 +16416,9 @@ extension IAMClientTypes.MFADevice {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.MFADevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.MFADevice()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.serialNumber = try reader["SerialNumber"].readIfPresent()
-        value.enableDate = try reader["EnableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? ""
+        value.enableDate = try reader["EnableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -16448,8 +16449,8 @@ extension IAMClientTypes.PolicyGrantingServiceAccess {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.PolicyGrantingServiceAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.PolicyGrantingServiceAccess()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.policyType = try reader["PolicyType"].readIfPresent()
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
+        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
         value.policyArn = try reader["PolicyArn"].readIfPresent()
         value.entityType = try reader["EntityType"].readIfPresent()
         value.entityName = try reader["EntityName"].readIfPresent()
@@ -16474,12 +16475,12 @@ extension IAMClientTypes.ServiceSpecificCredentialMetadata {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ServiceSpecificCredentialMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServiceSpecificCredentialMetadata()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.serviceUserName = try reader["ServiceUserName"].readIfPresent()
-        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.serviceUserName = try reader["ServiceUserName"].readIfPresent() ?? ""
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent() ?? ""
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16489,10 +16490,10 @@ extension IAMClientTypes.SigningCertificate {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SigningCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.SigningCertificate()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.certificateId = try reader["CertificateId"].readIfPresent()
-        value.certificateBody = try reader["CertificateBody"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.certificateId = try reader["CertificateId"].readIfPresent() ?? ""
+        value.certificateBody = try reader["CertificateBody"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -16503,10 +16504,10 @@ extension IAMClientTypes.SSHPublicKeyMetadata {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKeyMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.SSHPublicKeyMetadata()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.sshPublicKeyId = try reader["SSHPublicKeyId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.sshPublicKeyId = try reader["SSHPublicKeyId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.uploadDate = try reader["UploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -16516,9 +16517,9 @@ extension IAMClientTypes.EvaluationResult {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.EvaluationResult()
-        value.evalActionName = try reader["EvalActionName"].readIfPresent()
+        value.evalActionName = try reader["EvalActionName"].readIfPresent() ?? ""
         value.evalResourceName = try reader["EvalResourceName"].readIfPresent()
-        value.evalDecision = try reader["EvalDecision"].readIfPresent()
+        value.evalDecision = try reader["EvalDecision"].readIfPresent() ?? .sdkUnknown("")
         value.matchedStatements = try reader["MatchedStatements"].readListIfPresent(memberReadingClosure: IAMClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.missingContextValues = try reader["MissingContextValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.organizationsDecisionDetail = try reader["OrganizationsDecisionDetail"].readIfPresent(with: IAMClientTypes.OrganizationsDecisionDetail.read(from:))
@@ -16534,8 +16535,8 @@ extension IAMClientTypes.ResourceSpecificResult {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ResourceSpecificResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ResourceSpecificResult()
-        value.evalResourceName = try reader["EvalResourceName"].readIfPresent()
-        value.evalResourceDecision = try reader["EvalResourceDecision"].readIfPresent()
+        value.evalResourceName = try reader["EvalResourceName"].readIfPresent() ?? ""
+        value.evalResourceDecision = try reader["EvalResourceDecision"].readIfPresent() ?? .sdkUnknown("")
         value.matchedStatements = try reader["MatchedStatements"].readListIfPresent(memberReadingClosure: IAMClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.missingContextValues = try reader["MissingContextValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.evalDecisionDetails = try reader["EvalDecisionDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.PolicyEvaluationDecisionType>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

@@ -588,7 +588,7 @@ public struct AssignTapePoolInput {
     public var tapeARN: Swift.String?
 
     public init(
-        bypassGovernanceRetention: Swift.Bool? = nil,
+        bypassGovernanceRetention: Swift.Bool? = false,
         poolId: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -1179,7 +1179,7 @@ public struct CreateCachediSCSIVolumeInput {
         sourceVolumeARN: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         targetName: Swift.String? = nil,
-        volumeSizeInBytes: Swift.Int? = nil
+        volumeSizeInBytes: Swift.Int? = 0
     )
     {
         self.clientToken = clientToken
@@ -1687,7 +1687,7 @@ public struct CreateStorediSCSIVolumeInput {
         kmsEncrypted: Swift.Bool? = nil,
         kmsKey: Swift.String? = nil,
         networkInterfaceId: Swift.String? = nil,
-        preserveExistingData: Swift.Bool? = nil,
+        preserveExistingData: Swift.Bool? = false,
         snapshotId: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         targetName: Swift.String? = nil
@@ -1867,7 +1867,7 @@ public struct CreateTapesInput {
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         tapeBarcodePrefix: Swift.String? = nil,
         tapeSizeInBytes: Swift.Int? = nil,
-        worm: Swift.Bool? = nil
+        worm: Swift.Bool? = false
     )
     {
         self.clientToken = clientToken
@@ -1926,7 +1926,7 @@ public struct CreateTapeWithBarcodeInput {
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         tapeBarcode: Swift.String? = nil,
         tapeSizeInBytes: Swift.Int? = nil,
-        worm: Swift.Bool? = nil
+        worm: Swift.Bool? = false
     )
     {
         self.gatewayARN = gatewayARN
@@ -2062,7 +2062,7 @@ public struct DeleteFileShareInput {
 
     public init(
         fileShareARN: Swift.String? = nil,
-        forceDelete: Swift.Bool? = nil
+        forceDelete: Swift.Bool? = false
     )
     {
         self.fileShareARN = fileShareARN
@@ -2147,7 +2147,7 @@ public struct DeleteTapeInput {
     public var tapeARN: Swift.String?
 
     public init(
-        bypassGovernanceRetention: Swift.Bool? = nil,
+        bypassGovernanceRetention: Swift.Bool? = false,
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -2180,7 +2180,7 @@ public struct DeleteTapeArchiveInput {
     public var tapeARN: Swift.String?
 
     public init(
-        bypassGovernanceRetention: Swift.Bool? = nil,
+        bypassGovernanceRetention: Swift.Bool? = false,
         tapeARN: Swift.String? = nil
     )
     {
@@ -3972,7 +3972,7 @@ public struct DisassociateFileSystemInput {
 
     public init(
         fileSystemAssociationARN: Swift.String? = nil,
-        forceDelete: Swift.Bool? = nil
+        forceDelete: Swift.Bool? = false
     )
     {
         self.fileSystemAssociationARN = fileSystemAssociationARN
@@ -10023,11 +10023,11 @@ extension StorageGatewayClientTypes.BandwidthRateLimitInterval {
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.BandwidthRateLimitInterval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.BandwidthRateLimitInterval()
-        value.startHourOfDay = try reader["StartHourOfDay"].readIfPresent()
-        value.startMinuteOfHour = try reader["StartMinuteOfHour"].readIfPresent()
-        value.endHourOfDay = try reader["EndHourOfDay"].readIfPresent()
-        value.endMinuteOfHour = try reader["EndMinuteOfHour"].readIfPresent()
-        value.daysOfWeek = try reader["DaysOfWeek"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startHourOfDay = try reader["StartHourOfDay"].readIfPresent() ?? 0
+        value.startMinuteOfHour = try reader["StartMinuteOfHour"].readIfPresent() ?? 0
+        value.endHourOfDay = try reader["EndHourOfDay"].readIfPresent() ?? 0
+        value.endMinuteOfHour = try reader["EndMinuteOfHour"].readIfPresent() ?? 0
+        value.daysOfWeek = try reader["DaysOfWeek"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.averageUploadRateLimitInBitsPerSec = try reader["AverageUploadRateLimitInBitsPerSec"].readIfPresent()
         value.averageDownloadRateLimitInBitsPerSec = try reader["AverageDownloadRateLimitInBitsPerSec"].readIfPresent()
         return value
@@ -10152,8 +10152,8 @@ extension StorageGatewayClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10425,10 +10425,10 @@ extension StorageGatewayClientTypes.AutomaticTapeCreationRule {
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.AutomaticTapeCreationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.AutomaticTapeCreationRule()
-        value.tapeBarcodePrefix = try reader["TapeBarcodePrefix"].readIfPresent()
-        value.poolId = try reader["PoolId"].readIfPresent()
-        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent()
-        value.minimumNumTapes = try reader["MinimumNumTapes"].readIfPresent()
+        value.tapeBarcodePrefix = try reader["TapeBarcodePrefix"].readIfPresent() ?? ""
+        value.poolId = try reader["PoolId"].readIfPresent() ?? ""
+        value.tapeSizeInBytes = try reader["TapeSizeInBytes"].readIfPresent() ?? 0
+        value.minimumNumTapes = try reader["MinimumNumTapes"].readIfPresent() ?? 0
         value.worm = try reader["Worm"].readIfPresent() ?? false
         return value
     }

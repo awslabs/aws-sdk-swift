@@ -1495,7 +1495,7 @@ public struct CreateAlertInput {
         alertDescription: Swift.String? = nil,
         alertFilters: LookoutMetricsClientTypes.AlertFilters? = nil,
         alertName: Swift.String? = nil,
-        alertSensitivityThreshold: Swift.Int? = nil,
+        alertSensitivityThreshold: Swift.Int? = 0,
         anomalyDetectorArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -2023,7 +2023,7 @@ public struct CreateMetricSetInput {
         metricSetFrequency: LookoutMetricsClientTypes.Frequency? = nil,
         metricSetName: Swift.String? = nil,
         metricSource: LookoutMetricsClientTypes.MetricSource? = nil,
-        offset: Swift.Int? = nil,
+        offset: Swift.Int? = 0,
         tags: [Swift.String: Swift.String]? = nil,
         timestampColumn: LookoutMetricsClientTypes.TimestampColumn? = nil,
         timezone: Swift.String? = nil
@@ -2316,7 +2316,7 @@ public struct DescribeMetricSetOutput {
         metricSetFrequency: LookoutMetricsClientTypes.Frequency? = nil,
         metricSetName: Swift.String? = nil,
         metricSource: LookoutMetricsClientTypes.MetricSource? = nil,
-        offset: Swift.Int? = nil,
+        offset: Swift.Int? = 0,
         timestampColumn: LookoutMetricsClientTypes.TimestampColumn? = nil,
         timezone: Swift.String? = nil
     )
@@ -2912,7 +2912,7 @@ public struct ListAnomalyGroupSummariesInput {
         anomalyDetectorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        sensitivityThreshold: Swift.Int? = nil
+        sensitivityThreshold: Swift.Int? = 0
     )
     {
         self.anomalyDetectorArn = anomalyDetectorArn
@@ -3216,7 +3216,7 @@ public struct UpdateAlertInput {
         alertArn: Swift.String? = nil,
         alertDescription: Swift.String? = nil,
         alertFilters: LookoutMetricsClientTypes.AlertFilters? = nil,
-        alertSensitivityThreshold: Swift.Int? = nil
+        alertSensitivityThreshold: Swift.Int? = 0
     )
     {
         self.action = action
@@ -3305,7 +3305,7 @@ public struct UpdateMetricSetInput {
         metricSetDescription: Swift.String? = nil,
         metricSetFrequency: LookoutMetricsClientTypes.Frequency? = nil,
         metricSource: LookoutMetricsClientTypes.MetricSource? = nil,
-        offset: Swift.Int? = nil,
+        offset: Swift.Int? = 0,
         timestampColumn: LookoutMetricsClientTypes.TimestampColumn? = nil
     )
     {
@@ -4757,7 +4757,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4770,7 +4770,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4785,7 +4785,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4800,7 +4800,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4813,7 +4813,7 @@ extension TooManyRequestsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4827,7 +4827,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: LookoutMetricsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4841,7 +4841,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
@@ -4935,8 +4935,8 @@ extension LookoutMetricsClientTypes.LambdaConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.LambdaConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.LambdaConfiguration()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4953,8 +4953,8 @@ extension LookoutMetricsClientTypes.SNSConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.SNSConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.SNSConfiguration()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent() ?? ""
         value.snsFormat = try reader["SnsFormat"].readIfPresent()
         return value
     }
@@ -4994,8 +4994,8 @@ extension LookoutMetricsClientTypes.Metric {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.Metric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.Metric()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
+        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent() ?? .sdkUnknown("")
         value.namespace = try reader["Namespace"].readIfPresent()
         return value
     }
@@ -5080,7 +5080,7 @@ extension LookoutMetricsClientTypes.BackTestConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.BackTestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.BackTestConfiguration()
-        value.runBackTestMode = try reader["RunBackTestMode"].readIfPresent()
+        value.runBackTestMode = try reader["RunBackTestMode"].readIfPresent() ?? false
         return value
     }
 }
@@ -5125,8 +5125,8 @@ extension LookoutMetricsClientTypes.VpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.VpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.VpcConfiguration()
-        value.subnetIdList = try reader["SubnetIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIdList = try reader["SecurityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIdList = try reader["SubnetIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIdList = try reader["SecurityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5598,9 +5598,9 @@ extension LookoutMetricsClientTypes.TimeSeries {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.TimeSeries {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.TimeSeries()
-        value.timeSeriesId = try reader["TimeSeriesId"].readIfPresent()
-        value.dimensionList = try reader["DimensionList"].readListIfPresent(memberReadingClosure: LookoutMetricsClientTypes.DimensionNameValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metricValueList = try reader["MetricValueList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeSeriesId = try reader["TimeSeriesId"].readIfPresent() ?? ""
+        value.dimensionList = try reader["DimensionList"].readListIfPresent(memberReadingClosure: LookoutMetricsClientTypes.DimensionNameValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.metricValueList = try reader["MetricValueList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5610,8 +5610,8 @@ extension LookoutMetricsClientTypes.DimensionNameValue {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.DimensionNameValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.DimensionNameValue()
-        value.dimensionName = try reader["DimensionName"].readIfPresent()
-        value.dimensionValue = try reader["DimensionValue"].readIfPresent()
+        value.dimensionName = try reader["DimensionName"].readIfPresent() ?? ""
+        value.dimensionValue = try reader["DimensionValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5637,8 +5637,8 @@ extension LookoutMetricsClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutMetricsClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutMetricsClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }

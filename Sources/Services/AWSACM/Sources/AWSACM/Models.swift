@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct AddTagsToCertificateOutput {
 
@@ -2886,10 +2887,10 @@ extension ACMClientTypes.RenewalSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.RenewalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.RenewalSummary()
-        value.renewalStatus = try reader["RenewalStatus"].readIfPresent()
-        value.domainValidationOptions = try reader["DomainValidationOptions"].readListIfPresent(memberReadingClosure: ACMClientTypes.DomainValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.renewalStatus = try reader["RenewalStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.domainValidationOptions = try reader["DomainValidationOptions"].readListIfPresent(memberReadingClosure: ACMClientTypes.DomainValidation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.renewalStatusReason = try reader["RenewalStatusReason"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2899,7 +2900,7 @@ extension ACMClientTypes.DomainValidation {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.DomainValidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.DomainValidation()
-        value.domainName = try reader["DomainName"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
         value.validationEmails = try reader["ValidationEmails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.validationDomain = try reader["ValidationDomain"].readIfPresent()
         value.validationStatus = try reader["ValidationStatus"].readIfPresent()
@@ -2914,9 +2915,9 @@ extension ACMClientTypes.ResourceRecord {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ResourceRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.ResourceRecord()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2974,7 +2975,7 @@ extension ACMClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }

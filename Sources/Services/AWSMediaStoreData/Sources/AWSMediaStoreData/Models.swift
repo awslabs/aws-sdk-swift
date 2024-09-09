@@ -220,7 +220,7 @@ public struct GetObjectOutput {
     public var statusCode: Swift.Int
 
     public init(
-        body: Smithy.ByteStream? = nil,
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
         cacheControl: Swift.String? = nil,
         contentLength: Swift.Int? = nil,
         contentRange: Swift.String? = nil,

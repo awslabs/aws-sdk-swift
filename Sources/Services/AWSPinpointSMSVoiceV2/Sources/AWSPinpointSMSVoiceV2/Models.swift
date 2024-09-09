@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension PinpointSMSVoiceV2ClientTypes {
 
@@ -6982,7 +6983,7 @@ public struct SendMediaMessageInput {
         configurationSetName: Swift.String? = nil,
         context: [Swift.String: Swift.String]? = nil,
         destinationPhoneNumber: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         maxPrice: Swift.String? = nil,
         mediaUrls: [Swift.String]? = nil,
         messageBody: Swift.String? = nil,
@@ -7048,7 +7049,7 @@ public struct SendTextMessageInput {
         context: [Swift.String: Swift.String]? = nil,
         destinationCountryParameters: [Swift.String: Swift.String]? = nil,
         destinationPhoneNumber: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         keyword: Swift.String? = nil,
         maxPrice: Swift.String? = nil,
         messageBody: Swift.String? = nil,
@@ -7348,7 +7349,7 @@ public struct SendVoiceMessageInput {
         configurationSetName: Swift.String? = nil,
         context: [Swift.String: Swift.String]? = nil,
         destinationPhoneNumber: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         maxPricePerMinute: Swift.String? = nil,
         messageBody: Swift.String? = nil,
         messageBodyTextType: PinpointSMSVoiceV2ClientTypes.VoiceMessageBodyTextType? = nil,
@@ -9605,10 +9606,10 @@ extension AssociateProtectConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateProtectConfigurationOutput()
-        value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent()
-        value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent() ?? ""
+        value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent() ?? ""
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9689,10 +9690,10 @@ extension CreateProtectConfigurationOutput {
         let reader = responseReader
         var value = CreateProtectConfigurationOutput()
         value.accountDefault = try reader["AccountDefault"].readIfPresent() ?? false
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9706,12 +9707,12 @@ extension CreateRegistrationOutput {
         let reader = responseReader
         var value = CreateRegistrationOutput()
         value.additionalAttributes = try reader["AdditionalAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.currentVersionNumber = try reader["CurrentVersionNumber"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationStatus = try reader["RegistrationStatus"].readIfPresent()
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.currentVersionNumber = try reader["CurrentVersionNumber"].readIfPresent() ?? 0
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationStatus = try reader["RegistrationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9726,12 +9727,12 @@ extension CreateRegistrationAssociationOutput {
         var value = CreateRegistrationAssociationOutput()
         value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
         value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9743,10 +9744,10 @@ extension CreateRegistrationAttachmentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRegistrationAttachmentOutput()
-        value.attachmentStatus = try reader["AttachmentStatus"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.registrationAttachmentArn = try reader["RegistrationAttachmentArn"].readIfPresent()
-        value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent()
+        value.attachmentStatus = try reader["AttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.registrationAttachmentArn = try reader["RegistrationAttachmentArn"].readIfPresent() ?? ""
+        value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9759,11 +9760,11 @@ extension CreateRegistrationVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRegistrationVersionOutput()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.registrationVersionStatusHistory = try reader["RegistrationVersionStatusHistory"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.read(from:))
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -9775,12 +9776,12 @@ extension CreateVerifiedDestinationNumberOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateVerifiedDestinationNumberOutput()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent()
-        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent()
+        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent() ?? ""
+        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9792,8 +9793,8 @@ extension DeleteAccountDefaultProtectConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAccountDefaultProtectConfigurationOutput()
-        value.defaultProtectConfigurationArn = try reader["DefaultProtectConfigurationArn"].readIfPresent()
-        value.defaultProtectConfigurationId = try reader["DefaultProtectConfigurationId"].readIfPresent()
+        value.defaultProtectConfigurationArn = try reader["DefaultProtectConfigurationArn"].readIfPresent() ?? ""
+        value.defaultProtectConfigurationId = try reader["DefaultProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9945,10 +9946,10 @@ extension DeleteProtectConfigurationOutput {
         let reader = responseReader
         var value = DeleteProtectConfigurationOutput()
         value.accountDefault = try reader["AccountDefault"].readIfPresent() ?? false
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9962,13 +9963,13 @@ extension DeleteRegistrationOutput {
         var value = DeleteRegistrationOutput()
         value.additionalAttributes = try reader["AdditionalAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.approvedVersionNumber = try reader["ApprovedVersionNumber"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.currentVersionNumber = try reader["CurrentVersionNumber"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.currentVersionNumber = try reader["CurrentVersionNumber"].readIfPresent() ?? 0
         value.latestDeniedVersionNumber = try reader["LatestDeniedVersionNumber"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationStatus = try reader["RegistrationStatus"].readIfPresent()
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationStatus = try reader["RegistrationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9980,11 +9981,11 @@ extension DeleteRegistrationAttachmentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteRegistrationAttachmentOutput()
-        value.attachmentStatus = try reader["AttachmentStatus"].readIfPresent()
+        value.attachmentStatus = try reader["AttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.attachmentUploadErrorReason = try reader["AttachmentUploadErrorReason"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.registrationAttachmentArn = try reader["RegistrationAttachmentArn"].readIfPresent()
-        value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.registrationAttachmentArn = try reader["RegistrationAttachmentArn"].readIfPresent() ?? ""
+        value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9996,13 +9997,13 @@ extension DeleteRegistrationFieldValueOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteRegistrationFieldValueOutput()
-        value.fieldPath = try reader["FieldPath"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
+        value.fieldPath = try reader["FieldPath"].readIfPresent() ?? ""
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
         value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
         value.selectChoices = try reader["SelectChoices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.textValue = try reader["TextValue"].readIfPresent()
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10026,10 +10027,10 @@ extension DeleteVerifiedDestinationNumberOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteVerifiedDestinationNumberOutput()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent()
-        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent()
-        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent() ?? ""
+        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10175,7 +10176,7 @@ extension DescribeRegistrationAttachmentsOutput {
         let reader = responseReader
         var value = DescribeRegistrationAttachmentsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationAttachments = try reader["RegistrationAttachments"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.registrationAttachments = try reader["RegistrationAttachments"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10188,8 +10189,8 @@ extension DescribeRegistrationFieldDefinitionsOutput {
         let reader = responseReader
         var value = DescribeRegistrationFieldDefinitionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationFieldDefinitions = try reader["RegistrationFieldDefinitions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
+        value.registrationFieldDefinitions = try reader["RegistrationFieldDefinitions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10202,10 +10203,10 @@ extension DescribeRegistrationFieldValuesOutput {
         let reader = responseReader
         var value = DescribeRegistrationFieldValuesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationFieldValues = try reader["RegistrationFieldValues"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationFieldValues = try reader["RegistrationFieldValues"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10218,7 +10219,7 @@ extension DescribeRegistrationsOutput {
         let reader = responseReader
         var value = DescribeRegistrationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrations = try reader["Registrations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.registrations = try reader["Registrations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10231,8 +10232,8 @@ extension DescribeRegistrationSectionDefinitionsOutput {
         let reader = responseReader
         var value = DescribeRegistrationSectionDefinitionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationSectionDefinitions = try reader["RegistrationSectionDefinitions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
+        value.registrationSectionDefinitions = try reader["RegistrationSectionDefinitions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10245,7 +10246,7 @@ extension DescribeRegistrationTypeDefinitionsOutput {
         let reader = responseReader
         var value = DescribeRegistrationTypeDefinitionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationTypeDefinitions = try reader["RegistrationTypeDefinitions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.registrationTypeDefinitions = try reader["RegistrationTypeDefinitions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10258,9 +10259,9 @@ extension DescribeRegistrationVersionsOutput {
         let reader = responseReader
         var value = DescribeRegistrationVersionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationVersions = try reader["RegistrationVersions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationVersions = try reader["RegistrationVersions"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10299,7 +10300,7 @@ extension DescribeVerifiedDestinationNumbersOutput {
         let reader = responseReader
         var value = DescribeVerifiedDestinationNumbersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.verifiedDestinationNumbers = try reader["VerifiedDestinationNumbers"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.verifiedDestinationNumbers = try reader["VerifiedDestinationNumbers"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10327,10 +10328,10 @@ extension DisassociateProtectConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisassociateProtectConfigurationOutput()
-        value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent()
-        value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent() ?? ""
+        value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent() ?? ""
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10342,11 +10343,11 @@ extension DiscardRegistrationVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DiscardRegistrationVersionOutput()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.registrationVersionStatusHistory = try reader["RegistrationVersionStatusHistory"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.read(from:))
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10358,10 +10359,10 @@ extension GetProtectConfigurationCountryRuleSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetProtectConfigurationCountryRuleSetOutput()
-        value.countryRuleSet = try reader["CountryRuleSet"].readMapIfPresent(valueReadingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.numberCapability = try reader["NumberCapability"].readIfPresent()
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        value.countryRuleSet = try reader["CountryRuleSet"].readMapIfPresent(valueReadingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.numberCapability = try reader["NumberCapability"].readIfPresent() ?? .sdkUnknown("")
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10389,10 +10390,10 @@ extension ListRegistrationAssociationsOutput {
         let reader = responseReader
         var value = ListRegistrationAssociationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationAssociations = try reader["RegistrationAssociations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationAssociations = try reader["RegistrationAssociations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10449,13 +10450,13 @@ extension PutRegistrationFieldValueOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutRegistrationFieldValueOutput()
-        value.fieldPath = try reader["FieldPath"].readIfPresent()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
+        value.fieldPath = try reader["FieldPath"].readIfPresent() ?? ""
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
         value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
         value.selectChoices = try reader["SelectChoices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.textValue = try reader["TextValue"].readIfPresent()
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10494,13 +10495,13 @@ extension ReleaseSenderIdOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ReleaseSenderIdOutput()
-        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent()
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent() ?? ""
         value.registered = try reader["Registered"].readIfPresent() ?? false
         value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.senderId = try reader["SenderId"].readIfPresent()
-        value.senderIdArn = try reader["SenderIdArn"].readIfPresent()
+        value.senderId = try reader["SenderId"].readIfPresent() ?? ""
+        value.senderIdArn = try reader["SenderIdArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10543,12 +10544,12 @@ extension RequestSenderIdOutput {
         let reader = responseReader
         var value = RequestSenderIdOutput()
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
-        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent()
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent() ?? ""
         value.registered = try reader["Registered"].readIfPresent() ?? false
-        value.senderId = try reader["SenderId"].readIfPresent()
-        value.senderIdArn = try reader["SenderIdArn"].readIfPresent()
+        value.senderId = try reader["SenderId"].readIfPresent() ?? ""
+        value.senderIdArn = try reader["SenderIdArn"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -10561,7 +10562,7 @@ extension SendDestinationNumberVerificationCodeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SendDestinationNumberVerificationCodeOutput()
-        value.messageId = try reader["MessageId"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10609,8 +10610,8 @@ extension SetAccountDefaultProtectConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SetAccountDefaultProtectConfigurationOutput()
-        value.defaultProtectConfigurationArn = try reader["DefaultProtectConfigurationArn"].readIfPresent()
-        value.defaultProtectConfigurationId = try reader["DefaultProtectConfigurationId"].readIfPresent()
+        value.defaultProtectConfigurationArn = try reader["DefaultProtectConfigurationArn"].readIfPresent() ?? ""
+        value.defaultProtectConfigurationId = try reader["DefaultProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10686,11 +10687,11 @@ extension SubmitRegistrationVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SubmitRegistrationVersionOutput()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.registrationVersionStatusHistory = try reader["RegistrationVersionStatusHistory"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.read(from:))
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10782,10 +10783,10 @@ extension UpdateProtectConfigurationOutput {
         let reader = responseReader
         var value = UpdateProtectConfigurationOutput()
         value.accountDefault = try reader["AccountDefault"].readIfPresent() ?? false
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10797,10 +10798,10 @@ extension UpdateProtectConfigurationCountryRuleSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateProtectConfigurationCountryRuleSetOutput()
-        value.countryRuleSet = try reader["CountryRuleSet"].readMapIfPresent(valueReadingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.numberCapability = try reader["NumberCapability"].readIfPresent()
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
+        value.countryRuleSet = try reader["CountryRuleSet"].readMapIfPresent(valueReadingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.numberCapability = try reader["NumberCapability"].readIfPresent() ?? .sdkUnknown("")
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10813,13 +10814,13 @@ extension UpdateSenderIdOutput {
         let reader = responseReader
         var value = UpdateSenderIdOutput()
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
-        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent()
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent() ?? ""
         value.registered = try reader["Registered"].readIfPresent() ?? false
         value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.senderId = try reader["SenderId"].readIfPresent()
-        value.senderIdArn = try reader["SenderIdArn"].readIfPresent()
+        value.senderId = try reader["SenderId"].readIfPresent() ?? ""
+        value.senderIdArn = try reader["SenderIdArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10831,11 +10832,11 @@ extension VerifyDestinationNumberOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = VerifyDestinationNumberOutput()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent()
-        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent() ?? ""
+        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12466,8 +12467,8 @@ extension PinpointSMSVoiceV2ClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12477,9 +12478,9 @@ extension PinpointSMSVoiceV2ClientTypes.EventDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.EventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.EventDestination()
-        value.eventDestinationName = try reader["EventDestinationName"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventDestinationName = try reader["EventDestinationName"].readIfPresent() ?? ""
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.cloudWatchLogsDestination = try reader["CloudWatchLogsDestination"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination.read(from:))
         value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination.read(from:))
         value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.SnsDestination.read(from:))
@@ -12497,7 +12498,7 @@ extension PinpointSMSVoiceV2ClientTypes.SnsDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.SnsDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.SnsDestination()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12513,8 +12514,8 @@ extension PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12530,8 +12531,8 @@ extension PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.logGroupArn = try reader["LogGroupArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.logGroupArn = try reader["LogGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12541,7 +12542,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory()
-        value.draftTimestamp = try reader["DraftTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.draftTimestamp = try reader["DraftTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.submittedTimestamp = try reader["SubmittedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.reviewingTimestamp = try reader["ReviewingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.approvedTimestamp = try reader["ApprovedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -12558,8 +12559,8 @@ extension PinpointSMSVoiceV2ClientTypes.AccountAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.AccountAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.AccountAttribute()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12569,7 +12570,7 @@ extension PinpointSMSVoiceV2ClientTypes.AccountLimit {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.AccountLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.AccountLimit()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
         value.used = try reader["Used"].readIfPresent() ?? 0
         value.max = try reader["Max"].readIfPresent() ?? 0
         return value
@@ -12581,12 +12582,12 @@ extension PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation()
-        value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent()
-        value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
-        value.eventDestinations = try reader["EventDestinations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.EventDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent() ?? ""
+        value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent() ?? ""
+        value.eventDestinations = try reader["EventDestinations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.EventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.defaultMessageType = try reader["DefaultMessageType"].readIfPresent()
         value.defaultSenderId = try reader["DefaultSenderId"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
         return value
     }
@@ -12597,9 +12598,9 @@ extension PinpointSMSVoiceV2ClientTypes.KeywordInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.KeywordInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.KeywordInformation()
-        value.keyword = try reader["Keyword"].readIfPresent()
-        value.keywordMessage = try reader["KeywordMessage"].readIfPresent()
-        value.keywordAction = try reader["KeywordAction"].readIfPresent()
+        value.keyword = try reader["Keyword"].readIfPresent() ?? ""
+        value.keywordMessage = try reader["KeywordMessage"].readIfPresent() ?? ""
+        value.keywordAction = try reader["KeywordAction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12609,8 +12610,8 @@ extension PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation()
-        value.optedOutNumber = try reader["OptedOutNumber"].readIfPresent()
-        value.optedOutTimestamp = try reader["OptedOutTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.optedOutNumber = try reader["OptedOutNumber"].readIfPresent() ?? ""
+        value.optedOutTimestamp = try reader["OptedOutTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endUserOptedOut = try reader["EndUserOptedOut"].readIfPresent() ?? false
         return value
     }
@@ -12621,9 +12622,9 @@ extension PinpointSMSVoiceV2ClientTypes.OptOutListInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.OptOutListInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.OptOutListInformation()
-        value.optOutListArn = try reader["OptOutListArn"].readIfPresent()
-        value.optOutListName = try reader["OptOutListName"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.optOutListArn = try reader["OptOutListArn"].readIfPresent() ?? ""
+        value.optOutListName = try reader["OptOutListName"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12633,24 +12634,24 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation()
-        value.phoneNumberArn = try reader["PhoneNumberArn"].readIfPresent()
+        value.phoneNumberArn = try reader["PhoneNumberArn"].readIfPresent() ?? ""
         value.phoneNumberId = try reader["PhoneNumberId"].readIfPresent()
-        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.messageType = try reader["MessageType"].readIfPresent()
-        value.numberCapabilities = try reader["NumberCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.numberType = try reader["NumberType"].readIfPresent()
-        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent()
+        value.phoneNumber = try reader["PhoneNumber"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.messageType = try reader["MessageType"].readIfPresent() ?? .sdkUnknown("")
+        value.numberCapabilities = try reader["NumberCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.numberType = try reader["NumberType"].readIfPresent() ?? .sdkUnknown("")
+        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent() ?? ""
         value.twoWayEnabled = try reader["TwoWayEnabled"].readIfPresent() ?? false
         value.twoWayChannelArn = try reader["TwoWayChannelArn"].readIfPresent()
         value.twoWayChannelRole = try reader["TwoWayChannelRole"].readIfPresent()
         value.selfManagedOptOutsEnabled = try reader["SelfManagedOptOutsEnabled"].readIfPresent() ?? false
-        value.optOutListName = try reader["OptOutListName"].readIfPresent()
+        value.optOutListName = try reader["OptOutListName"].readIfPresent() ?? ""
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
         value.poolId = try reader["PoolId"].readIfPresent()
         value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12660,18 +12661,18 @@ extension PinpointSMSVoiceV2ClientTypes.PoolInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.PoolInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.PoolInformation()
-        value.poolArn = try reader["PoolArn"].readIfPresent()
-        value.poolId = try reader["PoolId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.messageType = try reader["MessageType"].readIfPresent()
+        value.poolArn = try reader["PoolArn"].readIfPresent() ?? ""
+        value.poolId = try reader["PoolId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.messageType = try reader["MessageType"].readIfPresent() ?? .sdkUnknown("")
         value.twoWayEnabled = try reader["TwoWayEnabled"].readIfPresent() ?? false
         value.twoWayChannelArn = try reader["TwoWayChannelArn"].readIfPresent()
         value.twoWayChannelRole = try reader["TwoWayChannelRole"].readIfPresent()
         value.selfManagedOptOutsEnabled = try reader["SelfManagedOptOutsEnabled"].readIfPresent() ?? false
-        value.optOutListName = try reader["OptOutListName"].readIfPresent()
+        value.optOutListName = try reader["OptOutListName"].readIfPresent() ?? ""
         value.sharedRoutesEnabled = try reader["SharedRoutesEnabled"].readIfPresent() ?? false
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12681,9 +12682,9 @@ extension PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation()
-        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent()
-        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.accountDefault = try reader["AccountDefault"].readIfPresent() ?? false
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
         return value
@@ -12695,11 +12696,11 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation()
-        value.registrationAttachmentArn = try reader["RegistrationAttachmentArn"].readIfPresent()
-        value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent()
-        value.attachmentStatus = try reader["AttachmentStatus"].readIfPresent()
+        value.registrationAttachmentArn = try reader["RegistrationAttachmentArn"].readIfPresent() ?? ""
+        value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent() ?? ""
+        value.attachmentStatus = try reader["AttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.attachmentUploadErrorReason = try reader["AttachmentUploadErrorReason"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12709,10 +12710,10 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition()
-        value.sectionPath = try reader["SectionPath"].readIfPresent()
-        value.fieldPath = try reader["FieldPath"].readIfPresent()
-        value.fieldType = try reader["FieldType"].readIfPresent()
-        value.fieldRequirement = try reader["FieldRequirement"].readIfPresent()
+        value.sectionPath = try reader["SectionPath"].readIfPresent() ?? ""
+        value.fieldPath = try reader["FieldPath"].readIfPresent() ?? ""
+        value.fieldType = try reader["FieldType"].readIfPresent() ?? .sdkUnknown("")
+        value.fieldRequirement = try reader["FieldRequirement"].readIfPresent() ?? .sdkUnknown("")
         value.selectValidation = try reader["SelectValidation"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.SelectValidation.read(from:))
         value.textValidation = try reader["TextValidation"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.TextValidation.read(from:))
         value.displayHints = try reader["DisplayHints"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints.read(from:))
@@ -12725,8 +12726,8 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints()
-        value.title = try reader["Title"].readIfPresent()
-        value.shortDescription = try reader["ShortDescription"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.shortDescription = try reader["ShortDescription"].readIfPresent() ?? ""
         value.longDescription = try reader["LongDescription"].readIfPresent()
         value.documentationTitle = try reader["DocumentationTitle"].readIfPresent()
         value.documentationLink = try reader["DocumentationLink"].readIfPresent()
@@ -12742,7 +12743,7 @@ extension PinpointSMSVoiceV2ClientTypes.SelectOptionDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.SelectOptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.SelectOptionDescription()
-        value.option = try reader["Option"].readIfPresent()
+        value.option = try reader["Option"].readIfPresent() ?? ""
         value.title = try reader["Title"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         return value
@@ -12754,9 +12755,9 @@ extension PinpointSMSVoiceV2ClientTypes.TextValidation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.TextValidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.TextValidation()
-        value.minLength = try reader["MinLength"].readIfPresent()
-        value.maxLength = try reader["MaxLength"].readIfPresent()
-        value.pattern = try reader["Pattern"].readIfPresent()
+        value.minLength = try reader["MinLength"].readIfPresent() ?? 0
+        value.maxLength = try reader["MaxLength"].readIfPresent() ?? 0
+        value.pattern = try reader["Pattern"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12766,9 +12767,9 @@ extension PinpointSMSVoiceV2ClientTypes.SelectValidation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.SelectValidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.SelectValidation()
-        value.minChoices = try reader["MinChoices"].readIfPresent()
-        value.maxChoices = try reader["MaxChoices"].readIfPresent()
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minChoices = try reader["MinChoices"].readIfPresent() ?? 0
+        value.maxChoices = try reader["MaxChoices"].readIfPresent() ?? 0
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12778,7 +12779,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation()
-        value.fieldPath = try reader["FieldPath"].readIfPresent()
+        value.fieldPath = try reader["FieldPath"].readIfPresent() ?? ""
         value.selectChoices = try reader["SelectChoices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.textValue = try reader["TextValue"].readIfPresent()
         value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent()
@@ -12792,15 +12793,15 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationInformation()
-        value.registrationArn = try reader["RegistrationArn"].readIfPresent()
-        value.registrationId = try reader["RegistrationId"].readIfPresent()
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
-        value.registrationStatus = try reader["RegistrationStatus"].readIfPresent()
-        value.currentVersionNumber = try reader["CurrentVersionNumber"].readIfPresent()
+        value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
+        value.registrationStatus = try reader["RegistrationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.currentVersionNumber = try reader["CurrentVersionNumber"].readIfPresent() ?? 0
         value.approvedVersionNumber = try reader["ApprovedVersionNumber"].readIfPresent()
         value.latestDeniedVersionNumber = try reader["LatestDeniedVersionNumber"].readIfPresent()
         value.additionalAttributes = try reader["AdditionalAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12810,7 +12811,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition()
-        value.sectionPath = try reader["SectionPath"].readIfPresent()
+        value.sectionPath = try reader["SectionPath"].readIfPresent() ?? ""
         value.displayHints = try reader["DisplayHints"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints.read(from:))
         return value
     }
@@ -12821,8 +12822,8 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints()
-        value.title = try reader["Title"].readIfPresent()
-        value.shortDescription = try reader["ShortDescription"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.shortDescription = try reader["ShortDescription"].readIfPresent() ?? ""
         value.longDescription = try reader["LongDescription"].readIfPresent()
         value.documentationTitle = try reader["DocumentationTitle"].readIfPresent()
         value.documentationLink = try reader["DocumentationLink"].readIfPresent()
@@ -12835,7 +12836,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition()
-        value.registrationType = try reader["RegistrationType"].readIfPresent()
+        value.registrationType = try reader["RegistrationType"].readIfPresent() ?? ""
         value.supportedAssociations = try reader["SupportedAssociations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.SupportedAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.displayHints = try reader["DisplayHints"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints.read(from:))
         return value
@@ -12847,7 +12848,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints()
-        value.title = try reader["Title"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent() ?? ""
         value.shortDescription = try reader["ShortDescription"].readIfPresent()
         value.longDescription = try reader["LongDescription"].readIfPresent()
         value.documentationTitle = try reader["DocumentationTitle"].readIfPresent()
@@ -12861,10 +12862,10 @@ extension PinpointSMSVoiceV2ClientTypes.SupportedAssociation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.SupportedAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.SupportedAssociation()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.associationBehavior = try reader["AssociationBehavior"].readIfPresent()
-        value.disassociationBehavior = try reader["DisassociationBehavior"].readIfPresent()
+        value.associationBehavior = try reader["AssociationBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.disassociationBehavior = try reader["DisassociationBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12874,8 +12875,8 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation()
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
-        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
+        value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.registrationVersionStatusHistory = try reader["RegistrationVersionStatusHistory"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.read(from:))
         value.deniedReasons = try reader["DeniedReasons"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -12887,8 +12888,8 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.shortDescription = try reader["ShortDescription"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent() ?? ""
+        value.shortDescription = try reader["ShortDescription"].readIfPresent() ?? ""
         value.longDescription = try reader["LongDescription"].readIfPresent()
         value.documentationTitle = try reader["DocumentationTitle"].readIfPresent()
         value.documentationLink = try reader["DocumentationLink"].readIfPresent()
@@ -12901,11 +12902,11 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.SenderIdInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.SenderIdInformation()
-        value.senderIdArn = try reader["SenderIdArn"].readIfPresent()
-        value.senderId = try reader["SenderId"].readIfPresent()
-        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent()
+        value.senderIdArn = try reader["SenderIdArn"].readIfPresent() ?? ""
+        value.senderId = try reader["SenderId"].readIfPresent() ?? ""
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.messageTypes = try reader["MessageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.MessageType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent() ?? ""
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
         value.registered = try reader["Registered"].readIfPresent() ?? false
         value.registrationId = try reader["RegistrationId"].readIfPresent()
@@ -12918,7 +12919,7 @@ extension PinpointSMSVoiceV2ClientTypes.SpendLimit {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.SpendLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.SpendLimit()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
         value.enforcedLimit = try reader["EnforcedLimit"].readIfPresent() ?? 0
         value.maxLimit = try reader["MaxLimit"].readIfPresent() ?? 0
         value.overridden = try reader["Overridden"].readIfPresent() ?? false
@@ -12931,11 +12932,11 @@ extension PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation()
-        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent()
-        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent()
-        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.verifiedDestinationNumberArn = try reader["VerifiedDestinationNumberArn"].readIfPresent() ?? ""
+        value.verifiedDestinationNumberId = try reader["VerifiedDestinationNumberId"].readIfPresent() ?? ""
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12950,7 +12951,7 @@ extension PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInform
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation()
-        value.protectStatus = try reader["ProtectStatus"].readIfPresent()
+        value.protectStatus = try reader["ProtectStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12960,10 +12961,10 @@ extension PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata()
-        value.originationIdentityArn = try reader["OriginationIdentityArn"].readIfPresent()
-        value.originationIdentity = try reader["OriginationIdentity"].readIfPresent()
-        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
-        value.numberCapabilities = try reader["NumberCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.originationIdentityArn = try reader["OriginationIdentityArn"].readIfPresent() ?? ""
+        value.originationIdentity = try reader["OriginationIdentity"].readIfPresent() ?? ""
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent() ?? ""
+        value.numberCapabilities = try reader["NumberCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
         return value
     }
@@ -12974,9 +12975,9 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
         value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
         return value
@@ -12988,8 +12989,8 @@ extension PinpointSMSVoiceV2ClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PinpointSMSVoiceV2ClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }

@@ -849,7 +849,7 @@ extension ListSlackChannelConfigurationsOutput {
         let reader = responseReader
         var value = ListSlackChannelConfigurationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.slackChannelConfigurations = try reader["slackChannelConfigurations"].readListIfPresent(memberReadingClosure: SupportAppClientTypes.SlackChannelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.slackChannelConfigurations = try reader["slackChannelConfigurations"].readListIfPresent(memberReadingClosure: SupportAppClientTypes.SlackChannelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1156,8 +1156,8 @@ extension SupportAppClientTypes.SlackChannelConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SupportAppClientTypes.SlackChannelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportAppClientTypes.SlackChannelConfiguration()
-        value.teamId = try reader["teamId"].readIfPresent()
-        value.channelId = try reader["channelId"].readIfPresent()
+        value.teamId = try reader["teamId"].readIfPresent() ?? ""
+        value.channelId = try reader["channelId"].readIfPresent() ?? ""
         value.channelName = try reader["channelName"].readIfPresent()
         value.notifyOnCreateOrReopenCase = try reader["notifyOnCreateOrReopenCase"].readIfPresent()
         value.notifyOnAddCorrespondenceToCase = try reader["notifyOnAddCorrespondenceToCase"].readIfPresent()
@@ -1173,7 +1173,7 @@ extension SupportAppClientTypes.SlackWorkspaceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SupportAppClientTypes.SlackWorkspaceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportAppClientTypes.SlackWorkspaceConfiguration()
-        value.teamId = try reader["teamId"].readIfPresent()
+        value.teamId = try reader["teamId"].readIfPresent() ?? ""
         value.teamName = try reader["teamName"].readIfPresent()
         value.allowOrganizationMemberAccount = try reader["allowOrganizationMemberAccount"].readIfPresent()
         return value

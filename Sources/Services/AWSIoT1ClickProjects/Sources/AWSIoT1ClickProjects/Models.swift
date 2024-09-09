@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 ///
 public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1153,7 +1154,7 @@ extension GetDevicesInPlacementOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDevicesInPlacementOutput()
-        value.devices = try reader["devices"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.devices = try reader["devices"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -1166,7 +1167,7 @@ extension ListPlacementsOutput {
         let reader = responseReader
         var value = ListPlacementsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.placements = try reader["placements"].readListIfPresent(memberReadingClosure: IoT1ClickProjectsClientTypes.PlacementSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.placements = try reader["placements"].readListIfPresent(memberReadingClosure: IoT1ClickProjectsClientTypes.PlacementSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1179,7 +1180,7 @@ extension ListProjectsOutput {
         let reader = responseReader
         var value = ListProjectsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.projects = try reader["projects"].readListIfPresent(memberReadingClosure: IoT1ClickProjectsClientTypes.ProjectSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projects = try reader["projects"].readListIfPresent(memberReadingClosure: IoT1ClickProjectsClientTypes.ProjectSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1491,8 +1492,8 @@ extension ResourceConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
         var value = ResourceConflictException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1505,8 +1506,8 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1519,8 +1520,8 @@ extension InternalFailureException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1533,8 +1534,8 @@ extension InvalidRequestException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1547,8 +1548,8 @@ extension TooManyRequestsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1561,11 +1562,11 @@ extension IoT1ClickProjectsClientTypes.PlacementDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickProjectsClientTypes.PlacementDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoT1ClickProjectsClientTypes.PlacementDescription()
-        value.projectName = try reader["projectName"].readIfPresent()
-        value.placementName = try reader["placementName"].readIfPresent()
-        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.projectName = try reader["projectName"].readIfPresent() ?? ""
+        value.placementName = try reader["placementName"].readIfPresent() ?? ""
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -1576,10 +1577,10 @@ extension IoT1ClickProjectsClientTypes.ProjectDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoT1ClickProjectsClientTypes.ProjectDescription()
         value.arn = try reader["arn"].readIfPresent()
-        value.projectName = try reader["projectName"].readIfPresent()
+        value.projectName = try reader["projectName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.placementTemplate = try reader["placementTemplate"].readIfPresent(with: IoT1ClickProjectsClientTypes.PlacementTemplate.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -1625,10 +1626,10 @@ extension IoT1ClickProjectsClientTypes.PlacementSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoT1ClickProjectsClientTypes.PlacementSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoT1ClickProjectsClientTypes.PlacementSummary()
-        value.projectName = try reader["projectName"].readIfPresent()
-        value.placementName = try reader["placementName"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.projectName = try reader["projectName"].readIfPresent() ?? ""
+        value.placementName = try reader["placementName"].readIfPresent() ?? ""
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -1639,9 +1640,9 @@ extension IoT1ClickProjectsClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoT1ClickProjectsClientTypes.ProjectSummary()
         value.arn = try reader["arn"].readIfPresent()
-        value.projectName = try reader["projectName"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.projectName = try reader["projectName"].readIfPresent() ?? ""
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedDate = try reader["updatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }

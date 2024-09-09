@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -800,10 +801,10 @@ extension GetControlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetControlOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.behavior = try reader["Behavior"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.regionConfiguration = try reader["RegionConfiguration"].readIfPresent(with: ControlCatalogClientTypes.RegionConfiguration.read(from:))
         return value
     }
@@ -816,7 +817,7 @@ extension ListCommonControlsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCommonControlsOutput()
-        value.commonControls = try reader["CommonControls"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.CommonControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.commonControls = try reader["CommonControls"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.CommonControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -829,7 +830,7 @@ extension ListControlsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListControlsOutput()
-        value.controls = try reader["Controls"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controls = try reader["Controls"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -842,7 +843,7 @@ extension ListDomainsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDomainsOutput()
-        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.DomainSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.DomainSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -856,7 +857,7 @@ extension ListObjectivesOutput {
         let reader = responseReader
         var value = ListObjectivesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.objectives = try reader["Objectives"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ObjectiveSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.objectives = try reader["Objectives"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ObjectiveSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1017,7 +1018,7 @@ extension ControlCatalogClientTypes.RegionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.RegionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.RegionConfiguration()
-        value.scope = try reader["Scope"].readIfPresent()
+        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
         value.deployableRegions = try reader["DeployableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -1028,13 +1029,13 @@ extension ControlCatalogClientTypes.CommonControlSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.CommonControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.CommonControlSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.domain = try reader["Domain"].readIfPresent(with: ControlCatalogClientTypes.AssociatedDomainSummary.read(from:))
         value.objective = try reader["Objective"].readIfPresent(with: ControlCatalogClientTypes.AssociatedObjectiveSummary.read(from:))
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -1066,9 +1067,9 @@ extension ControlCatalogClientTypes.ControlSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.ControlSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1078,11 +1079,11 @@ extension ControlCatalogClientTypes.DomainSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.DomainSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -1092,12 +1093,12 @@ extension ControlCatalogClientTypes.ObjectiveSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ObjectiveSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.ObjectiveSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.domain = try reader["Domain"].readIfPresent(with: ControlCatalogClientTypes.AssociatedDomainSummary.read(from:))
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

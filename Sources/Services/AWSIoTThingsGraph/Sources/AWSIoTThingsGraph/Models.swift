@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 ///
 public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -2215,9 +2216,9 @@ public struct UploadEntityDefinitionsInput {
     public var syncWithPublicNamespace: Swift.Bool?
 
     public init(
-        deprecateExistingEntities: Swift.Bool? = nil,
+        deprecateExistingEntities: Swift.Bool? = false,
         document: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
-        syncWithPublicNamespace: Swift.Bool? = nil
+        syncWithPublicNamespace: Swift.Bool? = false
     )
     {
         self.deprecateExistingEntities = deprecateExistingEntities
@@ -3036,13 +3037,13 @@ extension GetUploadStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetUploadStatusOutput()
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["failureReason"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.namespaceArn = try reader["namespaceArn"].readIfPresent()
         value.namespaceName = try reader["namespaceName"].readIfPresent()
         value.namespaceVersion = try reader["namespaceVersion"].readIfPresent()
-        value.uploadId = try reader["uploadId"].readIfPresent()
-        value.uploadStatus = try reader["uploadStatus"].readIfPresent()
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.uploadStatus = try reader["uploadStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3208,7 +3209,7 @@ extension UploadEntityDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UploadEntityDefinitionsOutput()
-        value.uploadId = try reader["uploadId"].readIfPresent()
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3964,8 +3965,8 @@ extension IoTThingsGraphClientTypes.DefinitionDocument {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.DefinitionDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTThingsGraphClientTypes.DefinitionDocument()
-        value.language = try reader["language"].readIfPresent()
-        value.text = try reader["text"].readIfPresent()
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.text = try reader["text"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4062,8 +4063,8 @@ extension IoTThingsGraphClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTThingsGraphClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

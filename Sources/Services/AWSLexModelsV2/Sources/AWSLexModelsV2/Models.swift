@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteIntentOutput {
 
@@ -7600,7 +7601,7 @@ public struct DeleteBotInput {
 
     public init(
         botId: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool? = nil
+        skipResourceInUseCheck: Swift.Bool? = false
     )
     {
         self.botId = botId
@@ -7637,7 +7638,7 @@ public struct DeleteBotAliasInput {
     public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool? = nil
+        skipResourceInUseCheck: Swift.Bool? = false
     )
     {
         self.botAliasId = botAliasId
@@ -7764,7 +7765,7 @@ public struct DeleteBotVersionInput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool? = nil
+        skipResourceInUseCheck: Swift.Bool? = false
     )
     {
         self.botId = botId
@@ -8085,7 +8086,7 @@ public struct DeleteSlotTypeInput {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil,
-        skipResourceInUseCheck: Swift.Bool? = nil,
+        skipResourceInUseCheck: Swift.Bool? = false,
         slotTypeId: Swift.String? = nil
     )
     {
@@ -22464,8 +22465,8 @@ extension LexModelsV2ClientTypes.CustomVocabularyItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.CustomVocabularyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.CustomVocabularyItem()
-        value.itemId = try reader["itemId"].readIfPresent()
-        value.phrase = try reader["phrase"].readIfPresent()
+        value.itemId = try reader["itemId"].readIfPresent() ?? ""
+        value.phrase = try reader["phrase"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent()
         value.displayAs = try reader["displayAs"].readIfPresent()
         return value
@@ -22501,11 +22502,11 @@ extension LexModelsV2ClientTypes.BotMember {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotMember()
-        value.botMemberId = try reader["botMemberId"].readIfPresent()
-        value.botMemberName = try reader["botMemberName"].readIfPresent()
-        value.botMemberAliasId = try reader["botMemberAliasId"].readIfPresent()
-        value.botMemberAliasName = try reader["botMemberAliasName"].readIfPresent()
-        value.botMemberVersion = try reader["botMemberVersion"].readIfPresent()
+        value.botMemberId = try reader["botMemberId"].readIfPresent() ?? ""
+        value.botMemberName = try reader["botMemberName"].readIfPresent() ?? ""
+        value.botMemberAliasId = try reader["botMemberAliasId"].readIfPresent() ?? ""
+        value.botMemberAliasName = try reader["botMemberAliasName"].readIfPresent() ?? ""
+        value.botMemberVersion = try reader["botMemberVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22553,8 +22554,8 @@ extension LexModelsV2ClientTypes.LambdaCodeHook {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.LambdaCodeHook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.LambdaCodeHook()
-        value.lambdaARN = try reader["lambdaARN"].readIfPresent()
-        value.codeHookInterfaceVersion = try reader["codeHookInterfaceVersion"].readIfPresent()
+        value.lambdaARN = try reader["lambdaARN"].readIfPresent() ?? ""
+        value.codeHookInterfaceVersion = try reader["codeHookInterfaceVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22623,8 +22624,8 @@ extension LexModelsV2ClientTypes.S3BucketLogDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.S3BucketLogDestination()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.s3BucketArn = try reader["s3BucketArn"].readIfPresent()
-        value.logPrefix = try reader["logPrefix"].readIfPresent()
+        value.s3BucketArn = try reader["s3BucketArn"].readIfPresent() ?? ""
+        value.logPrefix = try reader["logPrefix"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22674,8 +22675,8 @@ extension LexModelsV2ClientTypes.CloudWatchLogGroupLogDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.CloudWatchLogGroupLogDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.CloudWatchLogGroupLogDestination()
-        value.cloudWatchLogGroupArn = try reader["cloudWatchLogGroupArn"].readIfPresent()
-        value.logPrefix = try reader["logPrefix"].readIfPresent()
+        value.cloudWatchLogGroupArn = try reader["cloudWatchLogGroupArn"].readIfPresent() ?? ""
+        value.logPrefix = try reader["logPrefix"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22706,7 +22707,7 @@ extension LexModelsV2ClientTypes.VoiceSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.VoiceSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.VoiceSettings()
-        value.voiceId = try reader["voiceId"].readIfPresent()
+        value.voiceId = try reader["voiceId"].readIfPresent() ?? ""
         value.engine = try reader["engine"].readIfPresent()
         return value
     }
@@ -22773,7 +22774,7 @@ extension LexModelsV2ClientTypes.BedrockModelSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BedrockModelSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BedrockModelSpecification()
-        value.modelArn = try reader["modelArn"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22837,7 +22838,7 @@ extension LexModelsV2ClientTypes.BotVersionLocaleDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotVersionLocaleDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotVersionLocaleDetails()
-        value.sourceBotVersion = try reader["sourceBotVersion"].readIfPresent()
+        value.sourceBotVersion = try reader["sourceBotVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22873,7 +22874,7 @@ extension LexModelsV2ClientTypes.TestSetExportSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetExportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetExportSpecification()
-        value.testSetId = try reader["testSetId"].readIfPresent()
+        value.testSetId = try reader["testSetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22890,9 +22891,9 @@ extension LexModelsV2ClientTypes.CustomVocabularyExportSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.CustomVocabularyExportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.CustomVocabularyExportSpecification()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botVersion = try reader["botVersion"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botVersion = try reader["botVersion"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22909,9 +22910,9 @@ extension LexModelsV2ClientTypes.BotLocaleExportSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotLocaleExportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotLocaleExportSpecification()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botVersion = try reader["botVersion"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botVersion = try reader["botVersion"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22927,8 +22928,8 @@ extension LexModelsV2ClientTypes.BotExportSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotExportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotExportSpecification()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botVersion = try reader["botVersion"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botVersion = try reader["botVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22943,7 +22944,7 @@ extension LexModelsV2ClientTypes.SampleUtterance {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SampleUtterance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SampleUtterance()
-        value.utterance = try reader["utterance"].readIfPresent()
+        value.utterance = try reader["utterance"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22997,7 +22998,7 @@ extension LexModelsV2ClientTypes.FulfillmentUpdatesSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.FulfillmentUpdatesSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.FulfillmentUpdatesSpecification()
-        value.active = try reader["active"].readIfPresent()
+        value.active = try reader["active"].readIfPresent() ?? false
         value.startResponse = try reader["startResponse"].readIfPresent(with: LexModelsV2ClientTypes.FulfillmentStartResponseSpecification.read(from:))
         value.updateResponse = try reader["updateResponse"].readIfPresent(with: LexModelsV2ClientTypes.FulfillmentUpdateResponseSpecification.read(from:))
         value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
@@ -23017,8 +23018,8 @@ extension LexModelsV2ClientTypes.FulfillmentUpdateResponseSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.FulfillmentUpdateResponseSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.FulfillmentUpdateResponseSpecification()
-        value.frequencyInSeconds = try reader["frequencyInSeconds"].readIfPresent()
-        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.frequencyInSeconds = try reader["frequencyInSeconds"].readIfPresent() ?? 0
+        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowInterrupt = try reader["allowInterrupt"].readIfPresent()
         return value
     }
@@ -23075,7 +23076,7 @@ extension LexModelsV2ClientTypes.ImageResponseCard {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ImageResponseCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ImageResponseCard()
-        value.title = try reader["title"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
         value.subtitle = try reader["subtitle"].readIfPresent()
         value.imageUrl = try reader["imageUrl"].readIfPresent()
         value.buttons = try reader["buttons"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.Button.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -23094,8 +23095,8 @@ extension LexModelsV2ClientTypes.Button {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.Button {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.Button()
-        value.text = try reader["text"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23110,7 +23111,7 @@ extension LexModelsV2ClientTypes.SSMLMessage {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SSMLMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SSMLMessage()
-        value.value = try reader["value"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23125,7 +23126,7 @@ extension LexModelsV2ClientTypes.CustomPayload {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.CustomPayload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.CustomPayload()
-        value.value = try reader["value"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23140,7 +23141,7 @@ extension LexModelsV2ClientTypes.PlainTextMessage {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.PlainTextMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.PlainTextMessage()
-        value.value = try reader["value"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23157,8 +23158,8 @@ extension LexModelsV2ClientTypes.FulfillmentStartResponseSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.FulfillmentStartResponseSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.FulfillmentStartResponseSpecification()
-        value.delayInSeconds = try reader["delayInSeconds"].readIfPresent()
-        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.delayInSeconds = try reader["delayInSeconds"].readIfPresent() ?? 0
+        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowInterrupt = try reader["allowInterrupt"].readIfPresent()
         return value
     }
@@ -23207,8 +23208,8 @@ extension LexModelsV2ClientTypes.ConditionalSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConditionalSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConditionalSpecification()
-        value.active = try reader["active"].readIfPresent()
-        value.conditionalBranches = try reader["conditionalBranches"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConditionalBranch.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.active = try reader["active"].readIfPresent() ?? false
+        value.conditionalBranches = try reader["conditionalBranches"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConditionalBranch.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.defaultBranch = try reader["defaultBranch"].readIfPresent(with: LexModelsV2ClientTypes.DefaultConditionalBranch.read(from:))
         return value
     }
@@ -23242,7 +23243,7 @@ extension LexModelsV2ClientTypes.ResponseSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ResponseSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ResponseSpecification()
-        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowInterrupt = try reader["allowInterrupt"].readIfPresent()
         return value
     }
@@ -23330,7 +23331,7 @@ extension LexModelsV2ClientTypes.DialogAction {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.DialogAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.DialogAction()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.slotToElicit = try reader["slotToElicit"].readIfPresent()
         value.suppressNextMessage = try reader["suppressNextMessage"].readIfPresent()
         return value
@@ -23350,7 +23351,7 @@ extension LexModelsV2ClientTypes.ConditionalBranch {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConditionalBranch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConditionalBranch()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.condition = try reader["condition"].readIfPresent(with: LexModelsV2ClientTypes.Condition.read(from:))
         value.nextStep = try reader["nextStep"].readIfPresent(with: LexModelsV2ClientTypes.DialogState.read(from:))
         value.response = try reader["response"].readIfPresent(with: LexModelsV2ClientTypes.ResponseSpecification.read(from:))
@@ -23368,7 +23369,7 @@ extension LexModelsV2ClientTypes.Condition {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.Condition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.Condition()
-        value.expressionString = try reader["expressionString"].readIfPresent()
+        value.expressionString = try reader["expressionString"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23423,7 +23424,7 @@ extension LexModelsV2ClientTypes.ElicitationCodeHookInvocationSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ElicitationCodeHookInvocationSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ElicitationCodeHookInvocationSetting()
-        value.enableCodeHookInvocation = try reader["enableCodeHookInvocation"].readIfPresent()
+        value.enableCodeHookInvocation = try reader["enableCodeHookInvocation"].readIfPresent() ?? false
         value.invocationLabel = try reader["invocationLabel"].readIfPresent()
         return value
     }
@@ -23442,8 +23443,8 @@ extension LexModelsV2ClientTypes.DialogCodeHookInvocationSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.DialogCodeHookInvocationSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.DialogCodeHookInvocationSetting()
-        value.enableCodeHookInvocation = try reader["enableCodeHookInvocation"].readIfPresent()
-        value.active = try reader["active"].readIfPresent()
+        value.enableCodeHookInvocation = try reader["enableCodeHookInvocation"].readIfPresent() ?? false
+        value.active = try reader["active"].readIfPresent() ?? false
         value.invocationLabel = try reader["invocationLabel"].readIfPresent()
         value.postCodeHookSpecification = try reader["postCodeHookSpecification"].readIfPresent(with: LexModelsV2ClientTypes.PostDialogCodeHookInvocationSpecification.read(from:))
         return value
@@ -23495,8 +23496,8 @@ extension LexModelsV2ClientTypes.PromptSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.PromptSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.PromptSpecification()
-        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxRetries = try reader["maxRetries"].readIfPresent()
+        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.maxRetries = try reader["maxRetries"].readIfPresent() ?? 0
         value.allowInterrupt = try reader["allowInterrupt"].readIfPresent()
         value.messageSelectionStrategy = try reader["messageSelectionStrategy"].readIfPresent()
         value.promptAttemptsSpecification = try reader["promptAttemptsSpecification"].readMapIfPresent(valueReadingClosure: LexModelsV2ClientTypes.PromptAttemptSpecification.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -23535,7 +23536,7 @@ extension LexModelsV2ClientTypes.TextInputSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TextInputSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TextInputSpecification()
-        value.startTimeoutMs = try reader["startTimeoutMs"].readIfPresent()
+        value.startTimeoutMs = try reader["startTimeoutMs"].readIfPresent() ?? 0
         return value
     }
 }
@@ -23552,7 +23553,7 @@ extension LexModelsV2ClientTypes.AudioAndDTMFInputSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AudioAndDTMFInputSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AudioAndDTMFInputSpecification()
-        value.startTimeoutMs = try reader["startTimeoutMs"].readIfPresent()
+        value.startTimeoutMs = try reader["startTimeoutMs"].readIfPresent() ?? 0
         value.audioSpecification = try reader["audioSpecification"].readIfPresent(with: LexModelsV2ClientTypes.AudioSpecification.read(from:))
         value.dtmfSpecification = try reader["dtmfSpecification"].readIfPresent(with: LexModelsV2ClientTypes.DTMFSpecification.read(from:))
         return value
@@ -23572,10 +23573,10 @@ extension LexModelsV2ClientTypes.DTMFSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.DTMFSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.DTMFSpecification()
-        value.maxLength = try reader["maxLength"].readIfPresent()
-        value.endTimeoutMs = try reader["endTimeoutMs"].readIfPresent()
-        value.deletionCharacter = try reader["deletionCharacter"].readIfPresent()
-        value.endCharacter = try reader["endCharacter"].readIfPresent()
+        value.maxLength = try reader["maxLength"].readIfPresent() ?? 0
+        value.endTimeoutMs = try reader["endTimeoutMs"].readIfPresent() ?? 0
+        value.deletionCharacter = try reader["deletionCharacter"].readIfPresent() ?? ""
+        value.endCharacter = try reader["endCharacter"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23591,8 +23592,8 @@ extension LexModelsV2ClientTypes.AudioSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AudioSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AudioSpecification()
-        value.maxLengthMs = try reader["maxLengthMs"].readIfPresent()
-        value.endTimeoutMs = try reader["endTimeoutMs"].readIfPresent()
+        value.maxLengthMs = try reader["maxLengthMs"].readIfPresent() ?? 0
+        value.endTimeoutMs = try reader["endTimeoutMs"].readIfPresent() ?? 0
         return value
     }
 }
@@ -23608,8 +23609,8 @@ extension LexModelsV2ClientTypes.AllowedInputTypes {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AllowedInputTypes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AllowedInputTypes()
-        value.allowAudioInput = try reader["allowAudioInput"].readIfPresent()
-        value.allowDTMFInput = try reader["allowDTMFInput"].readIfPresent()
+        value.allowAudioInput = try reader["allowAudioInput"].readIfPresent() ?? false
+        value.allowDTMFInput = try reader["allowDTMFInput"].readIfPresent() ?? false
         return value
     }
 }
@@ -23645,7 +23646,7 @@ extension LexModelsV2ClientTypes.InputContext {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.InputContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.InputContext()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23662,9 +23663,9 @@ extension LexModelsV2ClientTypes.OutputContext {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.OutputContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.OutputContext()
-        value.name = try reader["name"].readIfPresent()
-        value.timeToLiveInSeconds = try reader["timeToLiveInSeconds"].readIfPresent()
-        value.turnsToLive = try reader["turnsToLive"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.timeToLiveInSeconds = try reader["timeToLiveInSeconds"].readIfPresent() ?? 0
+        value.turnsToLive = try reader["turnsToLive"].readIfPresent() ?? 0
         return value
     }
 }
@@ -23681,7 +23682,7 @@ extension LexModelsV2ClientTypes.KendraConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.KendraConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.KendraConfiguration()
-        value.kendraIndex = try reader["kendraIndex"].readIfPresent()
+        value.kendraIndex = try reader["kendraIndex"].readIfPresent() ?? ""
         value.queryFilterStringEnabled = try reader["queryFilterStringEnabled"].readIfPresent() ?? false
         value.queryFilterString = try reader["queryFilterString"].readIfPresent()
         return value
@@ -23755,7 +23756,7 @@ extension LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration()
-        value.bedrockKnowledgeBaseArn = try reader["bedrockKnowledgeBaseArn"].readIfPresent()
+        value.bedrockKnowledgeBaseArn = try reader["bedrockKnowledgeBaseArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23773,7 +23774,7 @@ extension LexModelsV2ClientTypes.QnAKendraConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.QnAKendraConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.QnAKendraConfiguration()
-        value.kendraIndex = try reader["kendraIndex"].readIfPresent()
+        value.kendraIndex = try reader["kendraIndex"].readIfPresent() ?? ""
         value.queryFilterStringEnabled = try reader["queryFilterStringEnabled"].readIfPresent() ?? false
         value.queryFilterString = try reader["queryFilterString"].readIfPresent()
         value.exactResponse = try reader["exactResponse"].readIfPresent() ?? false
@@ -23795,8 +23796,8 @@ extension LexModelsV2ClientTypes.OpensearchConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.OpensearchConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.OpensearchConfiguration()
-        value.domainEndpoint = try reader["domainEndpoint"].readIfPresent()
-        value.indexName = try reader["indexName"].readIfPresent()
+        value.domainEndpoint = try reader["domainEndpoint"].readIfPresent() ?? ""
+        value.indexName = try reader["indexName"].readIfPresent() ?? ""
         value.exactResponse = try reader["exactResponse"].readIfPresent() ?? false
         value.exactResponseFields = try reader["exactResponseFields"].readIfPresent(with: LexModelsV2ClientTypes.ExactResponseFields.read(from:))
         value.includeFields = try reader["includeFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -23815,8 +23816,8 @@ extension LexModelsV2ClientTypes.ExactResponseFields {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ExactResponseFields {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ExactResponseFields()
-        value.questionField = try reader["questionField"].readIfPresent()
-        value.answerField = try reader["answerField"].readIfPresent()
+        value.questionField = try reader["questionField"].readIfPresent() ?? ""
+        value.answerField = try reader["answerField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23838,7 +23839,7 @@ extension LexModelsV2ClientTypes.SlotValueElicitationSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotValueElicitationSetting()
         value.defaultValueSpecification = try reader["defaultValueSpecification"].readIfPresent(with: LexModelsV2ClientTypes.SlotDefaultValueSpecification.read(from:))
-        value.slotConstraint = try reader["slotConstraint"].readIfPresent()
+        value.slotConstraint = try reader["slotConstraint"].readIfPresent() ?? .sdkUnknown("")
         value.promptSpecification = try reader["promptSpecification"].readIfPresent(with: LexModelsV2ClientTypes.PromptSpecification.read(from:))
         value.sampleUtterances = try reader["sampleUtterances"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SampleUtterance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.waitAndContinueSpecification = try reader["waitAndContinueSpecification"].readIfPresent(with: LexModelsV2ClientTypes.WaitAndContinueSpecification.read(from:))
@@ -23858,7 +23859,7 @@ extension LexModelsV2ClientTypes.SlotResolutionSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotResolutionSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotResolutionSetting()
-        value.slotResolutionStrategy = try reader["slotResolutionStrategy"].readIfPresent()
+        value.slotResolutionStrategy = try reader["slotResolutionStrategy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -23926,9 +23927,9 @@ extension LexModelsV2ClientTypes.StillWaitingResponseSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.StillWaitingResponseSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.StillWaitingResponseSpecification()
-        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.frequencyInSeconds = try reader["frequencyInSeconds"].readIfPresent()
-        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
+        value.messageGroups = try reader["messageGroups"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.MessageGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.frequencyInSeconds = try reader["frequencyInSeconds"].readIfPresent() ?? 0
+        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent() ?? 0
         value.allowInterrupt = try reader["allowInterrupt"].readIfPresent()
         return value
     }
@@ -23944,7 +23945,7 @@ extension LexModelsV2ClientTypes.SlotDefaultValueSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotDefaultValueSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotDefaultValueSpecification()
-        value.defaultValueList = try reader["defaultValueList"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SlotDefaultValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultValueList = try reader["defaultValueList"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SlotDefaultValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -23959,7 +23960,7 @@ extension LexModelsV2ClientTypes.SlotDefaultValue {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotDefaultValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotDefaultValue()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -23974,7 +23975,7 @@ extension LexModelsV2ClientTypes.ObfuscationSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ObfuscationSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ObfuscationSetting()
-        value.obfuscationSettingType = try reader["obfuscationSettingType"].readIfPresent()
+        value.obfuscationSettingType = try reader["obfuscationSettingType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -24022,7 +24023,7 @@ extension LexModelsV2ClientTypes.Specifications {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.Specifications {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.Specifications()
-        value.slotTypeId = try reader["slotTypeId"].readIfPresent()
+        value.slotTypeId = try reader["slotTypeId"].readIfPresent() ?? ""
         value.valueElicitationSetting = try reader["valueElicitationSetting"].readIfPresent(with: LexModelsV2ClientTypes.SubSlotValueElicitationSetting.read(from:))
         return value
     }
@@ -24076,7 +24077,7 @@ extension LexModelsV2ClientTypes.SampleValue {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SampleValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SampleValue()
-        value.value = try reader["value"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24093,7 +24094,7 @@ extension LexModelsV2ClientTypes.SlotValueSelectionSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotValueSelectionSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotValueSelectionSetting()
-        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
+        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.regexFilter = try reader["regexFilter"].readIfPresent(with: LexModelsV2ClientTypes.SlotValueRegexFilter.read(from:))
         value.advancedRecognitionSetting = try reader["advancedRecognitionSetting"].readIfPresent(with: LexModelsV2ClientTypes.AdvancedRecognitionSetting.read(from:))
         return value
@@ -24125,7 +24126,7 @@ extension LexModelsV2ClientTypes.SlotValueRegexFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotValueRegexFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotValueRegexFilter()
-        value.pattern = try reader["pattern"].readIfPresent()
+        value.pattern = try reader["pattern"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24172,8 +24173,8 @@ extension LexModelsV2ClientTypes.GrammarSlotTypeSource {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.GrammarSlotTypeSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.GrammarSlotTypeSource()
-        value.s3BucketName = try reader["s3BucketName"].readIfPresent()
-        value.s3ObjectKey = try reader["s3ObjectKey"].readIfPresent()
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
+        value.s3ObjectKey = try reader["s3ObjectKey"].readIfPresent() ?? ""
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
     }
@@ -24205,8 +24206,8 @@ extension LexModelsV2ClientTypes.SubSlotTypeComposition {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SubSlotTypeComposition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SubSlotTypeComposition()
-        value.name = try reader["name"].readIfPresent()
-        value.slotTypeId = try reader["slotTypeId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.slotTypeId = try reader["slotTypeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24238,9 +24239,9 @@ extension LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botAliasId = try reader["botAliasId"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botAliasId = try reader["botAliasId"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24262,8 +24263,8 @@ extension LexModelsV2ClientTypes.ParentBotNetwork {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ParentBotNetwork {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ParentBotNetwork()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botVersion = try reader["botVersion"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botVersion = try reader["botVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24273,8 +24274,8 @@ extension LexModelsV2ClientTypes.BotLocaleHistoryEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotLocaleHistoryEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotLocaleHistoryEvent()
-        value.event = try reader["event"].readIfPresent()
-        value.eventDate = try reader["eventDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.event = try reader["event"].readIfPresent() ?? ""
+        value.eventDate = try reader["eventDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -24308,9 +24309,9 @@ extension LexModelsV2ClientTypes.S3BucketTranscriptSource {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.S3BucketTranscriptSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.S3BucketTranscriptSource()
-        value.s3BucketName = try reader["s3BucketName"].readIfPresent()
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
         value.pathFormat = try reader["pathFormat"].readIfPresent(with: LexModelsV2ClientTypes.PathFormat.read(from:))
-        value.transcriptFormat = try reader["transcriptFormat"].readIfPresent()
+        value.transcriptFormat = try reader["transcriptFormat"].readIfPresent() ?? .sdkUnknown("")
         value.transcriptFilter = try reader["transcriptFilter"].readIfPresent(with: LexModelsV2ClientTypes.TranscriptFilter.read(from:))
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
@@ -24358,8 +24359,8 @@ extension LexModelsV2ClientTypes.DateRangeFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.DateRangeFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.DateRangeFilter()
-        value.startDateTime = try reader["startDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endDateTime = try reader["endDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startDateTime = try reader["startDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endDateTime = try reader["endDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -24478,12 +24479,12 @@ extension LexModelsV2ClientTypes.TestSetImportResourceSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetImportResourceSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetImportResourceSpecification()
-        value.testSetName = try reader["testSetName"].readIfPresent()
+        value.testSetName = try reader["testSetName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.storageLocation = try reader["storageLocation"].readIfPresent(with: LexModelsV2ClientTypes.TestSetStorageLocation.read(from:))
         value.importInputLocation = try reader["importInputLocation"].readIfPresent(with: LexModelsV2ClientTypes.TestSetImportInputLocation.read(from:))
-        value.modality = try reader["modality"].readIfPresent()
+        value.modality = try reader["modality"].readIfPresent() ?? .sdkUnknown("")
         value.testSetTags = try reader["testSetTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -24500,8 +24501,8 @@ extension LexModelsV2ClientTypes.TestSetImportInputLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetImportInputLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetImportInputLocation()
-        value.s3BucketName = try reader["s3BucketName"].readIfPresent()
-        value.s3Path = try reader["s3Path"].readIfPresent()
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
+        value.s3Path = try reader["s3Path"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24518,8 +24519,8 @@ extension LexModelsV2ClientTypes.TestSetStorageLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetStorageLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetStorageLocation()
-        value.s3BucketName = try reader["s3BucketName"].readIfPresent()
-        value.s3Path = try reader["s3Path"].readIfPresent()
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
+        value.s3Path = try reader["s3Path"].readIfPresent() ?? ""
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
     }
@@ -24537,9 +24538,9 @@ extension LexModelsV2ClientTypes.CustomVocabularyImportSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.CustomVocabularyImportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.CustomVocabularyImportSpecification()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botVersion = try reader["botVersion"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botVersion = try reader["botVersion"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24558,9 +24559,9 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotLocaleImportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotLocaleImportSpecification()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botVersion = try reader["botVersion"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botVersion = try reader["botVersion"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
         return value
@@ -24582,8 +24583,8 @@ extension LexModelsV2ClientTypes.BotImportSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotImportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotImportSpecification()
-        value.botName = try reader["botName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.botName = try reader["botName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.dataPrivacy = try reader["dataPrivacy"].readIfPresent(with: LexModelsV2ClientTypes.DataPrivacy.read(from:))
         value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent()
         value.botTags = try reader["botTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -24603,8 +24604,8 @@ extension LexModelsV2ClientTypes.SlotPriority {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotPriority {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotPriority()
-        value.priority = try reader["priority"].readIfPresent()
-        value.slotId = try reader["slotId"].readIfPresent()
+        value.priority = try reader["priority"].readIfPresent() ?? 0
+        value.slotId = try reader["slotId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24636,9 +24637,9 @@ extension LexModelsV2ClientTypes.BotAliasTestExecutionTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotAliasTestExecutionTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotAliasTestExecutionTarget()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botAliasId = try reader["botAliasId"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botAliasId = try reader["botAliasId"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24648,8 +24649,8 @@ extension LexModelsV2ClientTypes.TestSetDiscrepancyErrors {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetDiscrepancyErrors {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetDiscrepancyErrors()
-        value.intentDiscrepancies = try reader["intentDiscrepancies"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.slotDiscrepancies = try reader["slotDiscrepancies"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.intentDiscrepancies = try reader["intentDiscrepancies"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.slotDiscrepancies = try reader["slotDiscrepancies"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -24659,9 +24660,9 @@ extension LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem()
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.slotName = try reader["slotName"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.intentName = try reader["intentName"].readIfPresent() ?? ""
+        value.slotName = try reader["slotName"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24671,8 +24672,8 @@ extension LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem()
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.intentName = try reader["intentName"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24705,9 +24706,9 @@ extension LexModelsV2ClientTypes.ConversationLogsDataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLogsDataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLogsDataSource()
-        value.botId = try reader["botId"].readIfPresent()
-        value.botAliasId = try reader["botAliasId"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botAliasId = try reader["botAliasId"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         value.filter = try reader["filter"].readIfPresent(with: LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy.read(from:))
         return value
     }
@@ -24725,9 +24726,9 @@ extension LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inputMode = try reader["inputMode"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.inputMode = try reader["inputMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -24758,8 +24759,8 @@ extension LexModelsV2ClientTypes.RelativeAggregationDuration {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.RelativeAggregationDuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.RelativeAggregationDuration()
-        value.timeDimension = try reader["timeDimension"].readIfPresent()
-        value.timeValue = try reader["timeValue"].readIfPresent()
+        value.timeDimension = try reader["timeDimension"].readIfPresent() ?? .sdkUnknown("")
+        value.timeValue = try reader["timeValue"].readIfPresent() ?? 0
         return value
     }
 }
@@ -24830,8 +24831,8 @@ extension LexModelsV2ClientTypes.BotRecommendationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.BotRecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.BotRecommendationSummary()
-        value.botRecommendationStatus = try reader["botRecommendationStatus"].readIfPresent()
-        value.botRecommendationId = try reader["botRecommendationId"].readIfPresent()
+        value.botRecommendationStatus = try reader["botRecommendationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.botRecommendationId = try reader["botRecommendationId"].readIfPresent() ?? ""
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -25201,7 +25202,7 @@ extension LexModelsV2ClientTypes.UtteranceLevelTestResults {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceLevelTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UtteranceLevelTestResults()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.UtteranceLevelTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.UtteranceLevelTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25211,7 +25212,7 @@ extension LexModelsV2ClientTypes.UtteranceLevelTestResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceLevelTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UtteranceLevelTestResultItem()
-        value.recordNumber = try reader["recordNumber"].readIfPresent()
+        value.recordNumber = try reader["recordNumber"].readIfPresent() ?? 0
         value.conversationId = try reader["conversationId"].readIfPresent()
         value.turnResult = try reader["turnResult"].readIfPresent(with: LexModelsV2ClientTypes.TestSetTurnResult.read(from:))
         return value
@@ -25252,7 +25253,7 @@ extension LexModelsV2ClientTypes.ConversationLevelResultDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelResultDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelResultDetail()
-        value.endToEndResult = try reader["endToEndResult"].readIfPresent()
+        value.endToEndResult = try reader["endToEndResult"].readIfPresent() ?? .sdkUnknown("")
         value.speechTranscriptionResult = try reader["speechTranscriptionResult"].readIfPresent()
         return value
     }
@@ -25263,8 +25264,8 @@ extension LexModelsV2ClientTypes.ExecutionErrorDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ExecutionErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ExecutionErrorDetails()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25286,7 +25287,7 @@ extension LexModelsV2ClientTypes.ActiveContext {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ActiveContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ActiveContext()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25296,7 +25297,7 @@ extension LexModelsV2ClientTypes.UserTurnIntentOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UserTurnIntentOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UserTurnIntentOutput()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: LexModelsV2ClientTypes.UserTurnSlotOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -25364,7 +25365,7 @@ extension LexModelsV2ClientTypes.RuntimeHintValue {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.RuntimeHintValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.RuntimeHintValue()
-        value.phrase = try reader["phrase"].readIfPresent()
+        value.phrase = try reader["phrase"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25385,7 +25386,7 @@ extension LexModelsV2ClientTypes.UtteranceAudioInputSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UtteranceAudioInputSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.UtteranceAudioInputSpecification()
-        value.audioFileS3Location = try reader["audioFileS3Location"].readIfPresent()
+        value.audioFileS3Location = try reader["audioFileS3Location"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25395,7 +25396,7 @@ extension LexModelsV2ClientTypes.AgentTurnResult {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AgentTurnResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AgentTurnResult()
-        value.expectedAgentPrompt = try reader["expectedAgentPrompt"].readIfPresent()
+        value.expectedAgentPrompt = try reader["expectedAgentPrompt"].readIfPresent() ?? ""
         value.actualAgentPrompt = try reader["actualAgentPrompt"].readIfPresent()
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: LexModelsV2ClientTypes.ExecutionErrorDetails.read(from:))
         value.actualElicitedSlot = try reader["actualElicitedSlot"].readIfPresent()
@@ -25409,7 +25410,7 @@ extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25419,9 +25420,9 @@ extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem()
-        value.intentName = try reader["intentName"].readIfPresent()
+        value.intentName = try reader["intentName"].readIfPresent() ?? ""
         value.multiTurnConversation = try reader["multiTurnConversation"].readIfPresent() ?? false
-        value.slotResolutionResults = try reader["slotResolutionResults"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SlotResolutionTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.slotResolutionResults = try reader["slotResolutionResults"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SlotResolutionTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25431,7 +25432,7 @@ extension LexModelsV2ClientTypes.SlotResolutionTestResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotResolutionTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotResolutionTestResultItem()
-        value.slotName = try reader["slotName"].readIfPresent()
+        value.slotName = try reader["slotName"].readIfPresent() ?? ""
         value.resultCounts = try reader["resultCounts"].readIfPresent(with: LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts.read(from:))
         return value
     }
@@ -25442,9 +25443,9 @@ extension LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts()
-        value.totalResultCount = try reader["totalResultCount"].readIfPresent()
+        value.totalResultCount = try reader["totalResultCount"].readIfPresent() ?? 0
         value.speechTranscriptionResultCounts = try reader["speechTranscriptionResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.slotMatchResultCounts = try reader["slotMatchResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.slotMatchResultCounts = try reader["slotMatchResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -25454,7 +25455,7 @@ extension LexModelsV2ClientTypes.IntentClassificationTestResults {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentClassificationTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentClassificationTestResults()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.IntentClassificationTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.IntentClassificationTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25464,7 +25465,7 @@ extension LexModelsV2ClientTypes.IntentClassificationTestResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentClassificationTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentClassificationTestResultItem()
-        value.intentName = try reader["intentName"].readIfPresent()
+        value.intentName = try reader["intentName"].readIfPresent() ?? ""
         value.multiTurnConversation = try reader["multiTurnConversation"].readIfPresent() ?? false
         value.resultCounts = try reader["resultCounts"].readIfPresent(with: LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts.read(from:))
         return value
@@ -25476,9 +25477,9 @@ extension LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts()
-        value.totalResultCount = try reader["totalResultCount"].readIfPresent()
+        value.totalResultCount = try reader["totalResultCount"].readIfPresent() ?? 0
         value.speechTranscriptionResultCounts = try reader["speechTranscriptionResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.intentMatchResultCounts = try reader["intentMatchResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.intentMatchResultCounts = try reader["intentMatchResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -25488,7 +25489,7 @@ extension LexModelsV2ClientTypes.ConversationLevelTestResults {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelTestResults()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConversationLevelTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConversationLevelTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25498,11 +25499,11 @@ extension LexModelsV2ClientTypes.ConversationLevelTestResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelTestResultItem()
-        value.conversationId = try reader["conversationId"].readIfPresent()
-        value.endToEndResult = try reader["endToEndResult"].readIfPresent()
+        value.conversationId = try reader["conversationId"].readIfPresent() ?? ""
+        value.endToEndResult = try reader["endToEndResult"].readIfPresent() ?? .sdkUnknown("")
         value.speechTranscriptionResult = try reader["speechTranscriptionResult"].readIfPresent()
-        value.intentClassificationResults = try reader["intentClassificationResults"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.slotResolutionResults = try reader["slotResolutionResults"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.intentClassificationResults = try reader["intentClassificationResults"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.slotResolutionResults = try reader["slotResolutionResults"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25512,9 +25513,9 @@ extension LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem()
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.slotName = try reader["slotName"].readIfPresent()
-        value.matchResult = try reader["matchResult"].readIfPresent()
+        value.intentName = try reader["intentName"].readIfPresent() ?? ""
+        value.slotName = try reader["slotName"].readIfPresent() ?? ""
+        value.matchResult = try reader["matchResult"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -25524,8 +25525,8 @@ extension LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem()
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.matchResult = try reader["matchResult"].readIfPresent()
+        value.intentName = try reader["intentName"].readIfPresent() ?? ""
+        value.matchResult = try reader["matchResult"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -25535,7 +25536,7 @@ extension LexModelsV2ClientTypes.OverallTestResults {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.OverallTestResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.OverallTestResults()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.OverallTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.OverallTestResultItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25546,9 +25547,9 @@ extension LexModelsV2ClientTypes.OverallTestResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.OverallTestResultItem()
         value.multiTurnConversation = try reader["multiTurnConversation"].readIfPresent() ?? false
-        value.totalResultCount = try reader["totalResultCount"].readIfPresent()
+        value.totalResultCount = try reader["totalResultCount"].readIfPresent() ?? 0
         value.speechTranscriptionResultCounts = try reader["speechTranscriptionResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.endToEndResultCounts = try reader["endToEndResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.endToEndResultCounts = try reader["endToEndResultCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -25576,7 +25577,7 @@ extension LexModelsV2ClientTypes.TestSetTurnRecord {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.TestSetTurnRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.TestSetTurnRecord()
-        value.recordNumber = try reader["recordNumber"].readIfPresent()
+        value.recordNumber = try reader["recordNumber"].readIfPresent() ?? 0
         value.conversationId = try reader["conversationId"].readIfPresent()
         value.turnNumber = try reader["turnNumber"].readIfPresent()
         value.turnSpecification = try reader["turnSpecification"].readIfPresent(with: LexModelsV2ClientTypes.TurnSpecification.read(from:))
@@ -25611,7 +25612,7 @@ extension LexModelsV2ClientTypes.AgentTurnSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AgentTurnSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.AgentTurnSpecification()
-        value.agentPrompt = try reader["agentPrompt"].readIfPresent()
+        value.agentPrompt = try reader["agentPrompt"].readIfPresent() ?? ""
         return value
     }
 }

@@ -372,7 +372,7 @@ public struct AllocateConnectionOnInterconnectInput {
         connectionName: Swift.String? = nil,
         interconnectId: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
-        vlan: Swift.Int? = nil
+        vlan: Swift.Int? = 0
     )
     {
         self.bandwidth = bandwidth
@@ -711,7 +711,7 @@ public struct AllocateHostedConnectionInput {
         connectionName: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
-        vlan: Swift.Int? = nil
+        vlan: Swift.Int? = 0
     )
     {
         self.bandwidth = bandwidth
@@ -3114,7 +3114,7 @@ public struct CreateLagInput {
         connectionsBandwidth: Swift.String? = nil,
         lagName: Swift.String? = nil,
         location: Swift.String? = nil,
-        numberOfConnections: Swift.Int? = nil,
+        numberOfConnections: Swift.Int? = 0,
         providerName: Swift.String? = nil,
         requestMACSec: Swift.Bool? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
@@ -3793,7 +3793,7 @@ public struct DeleteBGPPeerInput {
     public var virtualInterfaceId: Swift.String?
 
     public init(
-        asn: Swift.Int? = nil,
+        asn: Swift.Int? = 0,
         bgpPeerId: Swift.String? = nil,
         customerAddress: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
@@ -5853,7 +5853,7 @@ public struct UpdateLagInput {
         encryptionMode: Swift.String? = nil,
         lagId: Swift.String? = nil,
         lagName: Swift.String? = nil,
-        minimumLinks: Swift.Int? = nil
+        minimumLinks: Swift.Int? = 0
     )
     {
         self.encryptionMode = encryptionMode
@@ -9406,7 +9406,7 @@ extension DirectConnectClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectConnectClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }

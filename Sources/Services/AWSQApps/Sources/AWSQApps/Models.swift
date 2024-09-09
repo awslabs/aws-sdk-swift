@@ -30,6 +30,7 @@ import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct AssociateLibraryItemReviewOutput {
 
@@ -392,7 +393,7 @@ extension QAppsClientTypes {
             filename: Swift.String? = nil,
             id: Swift.String? = nil,
             title: Swift.String? = nil,
-            type: QAppsClientTypes.CardType? = nil
+            type: QAppsClientTypes.CardType? = .fileUpload
         )
         {
             self.allowOverride = allowOverride
@@ -430,7 +431,7 @@ extension QAppsClientTypes {
             pluginId: Swift.String? = nil,
             prompt: Swift.String? = nil,
             title: Swift.String? = nil,
-            type: QAppsClientTypes.CardType? = nil
+            type: QAppsClientTypes.CardType? = .qPlugin
         )
         {
             self.id = id
@@ -465,7 +466,7 @@ extension QAppsClientTypes {
             id: Swift.String? = nil,
             placeholder: Swift.String? = nil,
             title: Swift.String? = nil,
-            type: QAppsClientTypes.CardType? = nil
+            type: QAppsClientTypes.CardType? = .textInput
         )
         {
             self.defaultValue = defaultValue
@@ -2182,10 +2183,10 @@ extension QAppsClientTypes {
         public init(
             attributeFilter: QAppsClientTypes.AttributeFilter? = nil,
             id: Swift.String? = nil,
-            outputSource: QAppsClientTypes.CardOutputSource? = nil,
+            outputSource: QAppsClientTypes.CardOutputSource? = .approvedSources,
             prompt: Swift.String? = nil,
             title: Swift.String? = nil,
-            type: QAppsClientTypes.CardType? = nil
+            type: QAppsClientTypes.CardType? = .qQuery
         )
         {
             self.attributeFilter = attributeFilter
@@ -3136,12 +3137,12 @@ extension CreateLibraryItemOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateLibraryItemOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.isVerified = try reader["isVerified"].readIfPresent()
-        value.libraryItemId = try reader["libraryItemId"].readIfPresent()
-        value.ratingCount = try reader["ratingCount"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.libraryItemId = try reader["libraryItemId"].readIfPresent() ?? ""
+        value.ratingCount = try reader["ratingCount"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -3155,18 +3156,18 @@ extension CreateQAppOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateQAppOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appId = try reader["appId"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.initialPrompt = try reader["initialPrompt"].readIfPresent()
         value.requiredCapabilities = try reader["requiredCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QAppsClientTypes.AppRequiredCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedBy = try reader["updatedBy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3206,16 +3207,16 @@ extension GetLibraryItemOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetLibraryItemOutput()
-        value.appId = try reader["appId"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
+        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
         value.isVerified = try reader["isVerified"].readIfPresent()
-        value.libraryItemId = try reader["libraryItemId"].readIfPresent()
-        value.ratingCount = try reader["ratingCount"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.libraryItemId = try reader["libraryItemId"].readIfPresent() ?? ""
+        value.ratingCount = try reader["ratingCount"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.userCount = try reader["userCount"].readIfPresent()
@@ -3230,19 +3231,19 @@ extension GetQAppOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetQAppOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appDefinition = try reader["appDefinition"].readIfPresent(with: QAppsClientTypes.AppDefinition.read(from:))
-        value.appId = try reader["appId"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.initialPrompt = try reader["initialPrompt"].readIfPresent()
         value.requiredCapabilities = try reader["requiredCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QAppsClientTypes.AppRequiredCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedBy = try reader["updatedBy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3254,10 +3255,10 @@ extension GetQAppSessionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetQAppSessionOutput()
-        value.cardStatus = try reader["cardStatus"].readMapIfPresent(valueReadingClosure: QAppsClientTypes.CardStatus.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sessionArn = try reader["sessionArn"].readIfPresent()
-        value.sessionId = try reader["sessionId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.cardStatus = try reader["cardStatus"].readMapIfPresent(valueReadingClosure: QAppsClientTypes.CardStatus.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3294,7 +3295,7 @@ extension ListQAppsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListQAppsOutput()
-        value.apps = try reader["apps"].readListIfPresent(memberReadingClosure: QAppsClientTypes.UserAppItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.apps = try reader["apps"].readListIfPresent(memberReadingClosure: QAppsClientTypes.UserAppItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3320,7 +3321,7 @@ extension PredictQAppOutput {
         let reader = responseReader
         var value = PredictQAppOutput()
         value.app = try reader["app"].readIfPresent(with: QAppsClientTypes.PredictAppDefinition.read(from:))
-        value.problemStatement = try reader["problemStatement"].readIfPresent()
+        value.problemStatement = try reader["problemStatement"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3332,8 +3333,8 @@ extension StartQAppSessionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartQAppSessionOutput()
-        value.sessionArn = try reader["sessionArn"].readIfPresent()
-        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3366,16 +3367,16 @@ extension UpdateLibraryItemOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateLibraryItemOutput()
-        value.appId = try reader["appId"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
+        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
         value.isVerified = try reader["isVerified"].readIfPresent()
-        value.libraryItemId = try reader["libraryItemId"].readIfPresent()
-        value.ratingCount = try reader["ratingCount"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.libraryItemId = try reader["libraryItemId"].readIfPresent() ?? ""
+        value.ratingCount = try reader["ratingCount"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.userCount = try reader["userCount"].readIfPresent()
@@ -3397,18 +3398,18 @@ extension UpdateQAppOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateQAppOutput()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.appId = try reader["appId"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.initialPrompt = try reader["initialPrompt"].readIfPresent()
         value.requiredCapabilities = try reader["requiredCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QAppsClientTypes.AppRequiredCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedBy = try reader["updatedBy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3420,8 +3421,8 @@ extension UpdateQAppSessionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateQAppSessionOutput()
-        value.sessionArn = try reader["sessionArn"].readIfPresent()
-        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3901,11 +3902,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3918,7 +3919,7 @@ extension UnauthorizedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3935,7 +3936,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3948,7 +3949,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3961,9 +3962,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3976,7 +3977,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3989,9 +3990,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4008,9 +4009,9 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4023,9 +4024,9 @@ extension ContentTooLargeException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ContentTooLargeException {
         let reader = baseError.errorBodyReader
         var value = ContentTooLargeException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4038,8 +4039,8 @@ extension QAppsClientTypes.Category {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Category {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.Category()
-        value.id = try reader["id"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4049,8 +4050,8 @@ extension QAppsClientTypes.AppDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.AppDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.AppDefinition()
-        value.appDefinitionVersion = try reader["appDefinitionVersion"].readIfPresent()
-        value.cards = try reader["cards"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Card.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appDefinitionVersion = try reader["appDefinitionVersion"].readIfPresent() ?? ""
+        value.cards = try reader["cards"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Card.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.canEdit = try reader["canEdit"].readIfPresent()
         return value
     }
@@ -4081,10 +4082,10 @@ extension QAppsClientTypes.FileUploadCard {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FileUploadCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.FileUploadCard()
-        value.id = try reader["id"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.filename = try reader["filename"].readIfPresent()
         value.fileId = try reader["fileId"].readIfPresent()
         value.allowOverride = try reader["allowOverride"].readIfPresent()
@@ -4097,13 +4098,13 @@ extension QAppsClientTypes.QPluginCard {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QPluginCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.QPluginCard()
-        value.id = try reader["id"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
-        value.prompt = try reader["prompt"].readIfPresent()
-        value.pluginType = try reader["pluginType"].readIfPresent()
-        value.pluginId = try reader["pluginId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.prompt = try reader["prompt"].readIfPresent() ?? ""
+        value.pluginType = try reader["pluginType"].readIfPresent() ?? .sdkUnknown("")
+        value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4113,12 +4114,12 @@ extension QAppsClientTypes.QQueryCard {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QQueryCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.QQueryCard()
-        value.id = try reader["id"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
-        value.prompt = try reader["prompt"].readIfPresent()
-        value.outputSource = try reader["outputSource"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.prompt = try reader["prompt"].readIfPresent() ?? ""
+        value.outputSource = try reader["outputSource"].readIfPresent() ?? .sdkUnknown("")
         value.attributeFilter = try reader["attributeFilter"].readIfPresent(with: QAppsClientTypes.AttributeFilter.read(from:))
         return value
     }
@@ -4168,7 +4169,7 @@ extension QAppsClientTypes.DocumentAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.DocumentAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.DocumentAttribute()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent(with: QAppsClientTypes.DocumentAttributeValue.read(from:))
         return value
     }
@@ -4215,10 +4216,10 @@ extension QAppsClientTypes.TextInputCard {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.TextInputCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.TextInputCard()
-        value.id = try reader["id"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.placeholder = try reader["placeholder"].readIfPresent()
         value.defaultValue = try reader["defaultValue"].readIfPresent()
         return value
@@ -4230,8 +4231,8 @@ extension QAppsClientTypes.CardStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.CardStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.CardStatus()
-        value.currentState = try reader["currentState"].readIfPresent()
-        value.currentValue = try reader["currentValue"].readIfPresent()
+        value.currentState = try reader["currentState"].readIfPresent() ?? .sdkUnknown("")
+        value.currentValue = try reader["currentValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4241,16 +4242,16 @@ extension QAppsClientTypes.LibraryItemMember {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.LibraryItemMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.LibraryItemMember()
-        value.libraryItemId = try reader["libraryItemId"].readIfPresent()
-        value.appId = try reader["appId"].readIfPresent()
-        value.appVersion = try reader["appVersion"].readIfPresent()
-        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.libraryItemId = try reader["libraryItemId"].readIfPresent() ?? ""
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appVersion = try reader["appVersion"].readIfPresent() ?? 0
+        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.ratingCount = try reader["ratingCount"].readIfPresent()
+        value.ratingCount = try reader["ratingCount"].readIfPresent() ?? 0
         value.isRatedByUser = try reader["isRatedByUser"].readIfPresent()
         value.userCount = try reader["userCount"].readIfPresent()
         value.isVerified = try reader["isVerified"].readIfPresent()
@@ -4263,11 +4264,11 @@ extension QAppsClientTypes.UserAppItem {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.UserAppItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.UserAppItem()
-        value.appId = try reader["appId"].readIfPresent()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.canEdit = try reader["canEdit"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.isVerified = try reader["isVerified"].readIfPresent() ?? false
@@ -4280,7 +4281,7 @@ extension QAppsClientTypes.PredictAppDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PredictAppDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.PredictAppDefinition()
-        value.title = try reader["title"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.appDefinition = try reader["appDefinition"].readIfPresent(with: QAppsClientTypes.AppDefinitionInput.read(from:))
         return value
@@ -4298,7 +4299,7 @@ extension QAppsClientTypes.AppDefinitionInput {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.AppDefinitionInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.AppDefinitionInput()
-        value.cards = try reader["cards"].readListIfPresent(memberReadingClosure: QAppsClientTypes.CardInput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cards = try reader["cards"].readListIfPresent(memberReadingClosure: QAppsClientTypes.CardInput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.initialPrompt = try reader["initialPrompt"].readIfPresent()
         return value
     }
@@ -4355,8 +4356,8 @@ extension QAppsClientTypes.FileUploadCardInput {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FileUploadCardInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.FileUploadCardInput()
-        value.title = try reader["title"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .fileUpload
         value.filename = try reader["filename"].readIfPresent()
         value.fileId = try reader["fileId"].readIfPresent()
@@ -4379,11 +4380,11 @@ extension QAppsClientTypes.QPluginCardInput {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QPluginCardInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.QPluginCardInput()
-        value.title = try reader["title"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .qPlugin
-        value.prompt = try reader["prompt"].readIfPresent()
-        value.pluginId = try reader["pluginId"].readIfPresent()
+        value.prompt = try reader["prompt"].readIfPresent() ?? ""
+        value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4403,10 +4404,10 @@ extension QAppsClientTypes.QQueryCardInput {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QQueryCardInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.QQueryCardInput()
-        value.title = try reader["title"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .qQuery
-        value.prompt = try reader["prompt"].readIfPresent()
+        value.prompt = try reader["prompt"].readIfPresent() ?? ""
         value.outputSource = try reader["outputSource"].readIfPresent() ?? .approvedSources
         value.attributeFilter = try reader["attributeFilter"].readIfPresent(with: QAppsClientTypes.AttributeFilter.read(from:))
         return value
@@ -4427,8 +4428,8 @@ extension QAppsClientTypes.TextInputCardInput {
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.TextInputCardInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QAppsClientTypes.TextInputCardInput()
-        value.title = try reader["title"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .textInput
         value.placeholder = try reader["placeholder"].readIfPresent()
         value.defaultValue = try reader["defaultValue"].readIfPresent()

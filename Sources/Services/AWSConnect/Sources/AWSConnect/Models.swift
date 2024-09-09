@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct AssociateApprovedOriginOutput {
 
@@ -588,7 +589,7 @@ public struct ActivateEvaluationFormInput {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
     )
     {
@@ -2354,7 +2355,7 @@ extension ConnectClientTypes {
         public var queueReference: ConnectClientTypes.RoutingProfileQueueReference?
 
         public init(
-            delay: Swift.Int? = nil,
+            delay: Swift.Int? = 0,
             priority: Swift.Int? = nil,
             queueReference: ConnectClientTypes.RoutingProfileQueueReference? = nil
         )
@@ -2464,7 +2465,7 @@ extension ConnectClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil,
-            level: Swift.Float? = nil
+            level: Swift.Float? = 1.0
         )
         {
             self.attributeName = attributeName
@@ -4121,8 +4122,8 @@ extension ConnectClientTypes {
         public var minutes: Swift.Int?
 
         public init(
-            hours: Swift.Int? = nil,
-            minutes: Swift.Int? = nil
+            hours: Swift.Int? = 0,
+            minutes: Swift.Int? = 0
         )
         {
             self.hours = hours
@@ -4806,7 +4807,7 @@ public struct CreateQueueInput {
         description: Swift.String? = nil,
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
-        maxContacts: Swift.Int? = nil,
+        maxContacts: Swift.Int? = 0,
         name: Swift.String? = nil,
         outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
         quickConnectIds: [Swift.String]? = nil,
@@ -7041,7 +7042,7 @@ public struct DeactivateEvaluationFormInput {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
     )
     {
@@ -7180,7 +7181,7 @@ public struct DeleteEvaluationFormInput {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
     )
     {
@@ -7502,7 +7503,7 @@ public struct DeleteViewVersionInput {
     public init(
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil,
-        viewVersion: Swift.Int? = nil
+        viewVersion: Swift.Int? = 0
     )
     {
         self.instanceId = instanceId
@@ -8493,7 +8494,7 @@ public struct DescribeEvaluationFormInput {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
     )
     {
@@ -10114,7 +10115,7 @@ extension ConnectClientTypes {
             hoursOfOperationId: Swift.String? = nil,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            maxContacts: Swift.Int? = nil,
+            maxContacts: Swift.Int? = 0,
             name: Swift.String? = nil,
             outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
             queueArn: Swift.String? = nil,
@@ -14095,7 +14096,7 @@ extension ConnectClientTypes {
         public var title: Swift.String?
 
         public init(
-            activeVersion: Swift.Int? = nil,
+            activeVersion: Swift.Int? = 0,
             createdBy: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             evaluationFormArn: Swift.String? = nil,
@@ -16939,7 +16940,7 @@ public struct ListViewsInput {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         type: ConnectClientTypes.ViewType? = nil
     )
@@ -17022,7 +17023,7 @@ public struct ListViewVersionsInput {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         viewId: Swift.String? = nil
     )
@@ -20451,7 +20452,7 @@ public struct UpdateAgentStatusInput {
         displayOrder: Swift.Int? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
-        resetOrderNumber: Swift.Bool? = nil,
+        resetOrderNumber: Swift.Bool? = false,
         state: ConnectClientTypes.AgentStatusState? = nil
     )
     {
@@ -21276,7 +21277,7 @@ public struct UpdateQueueMaxContactsInput {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxContacts: Swift.Int? = nil,
+        maxContacts: Swift.Int? = 0,
         queueId: Swift.String? = nil
     )
     {
@@ -22613,10 +22614,10 @@ public struct UpdateEvaluationFormInput {
 
     public init(
         clientToken: Swift.String? = nil,
-        createNewVersion: Swift.Bool? = nil,
+        createNewVersion: Swift.Bool? = false,
         description: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil,
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
@@ -28642,8 +28643,8 @@ extension ActivateEvaluationFormOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ActivateEvaluationFormOutput()
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         return value
     }
@@ -28895,8 +28896,8 @@ extension CreateEvaluationFormOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEvaluationFormOutput()
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29031,8 +29032,8 @@ extension CreateRuleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRuleOutput()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
-        value.ruleId = try reader["RuleId"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent() ?? ""
+        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29057,8 +29058,8 @@ extension CreateTaskTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTaskTemplateOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29146,9 +29147,9 @@ extension CreateVocabularyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateVocabularyOutput()
-        value.state = try reader["State"].readIfPresent()
-        value.vocabularyArn = try reader["VocabularyArn"].readIfPresent()
-        value.vocabularyId = try reader["VocabularyId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.vocabularyArn = try reader["VocabularyArn"].readIfPresent() ?? ""
+        value.vocabularyId = try reader["VocabularyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29160,8 +29161,8 @@ extension DeactivateEvaluationFormOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeactivateEvaluationFormOutput()
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         return value
     }
@@ -29328,9 +29329,9 @@ extension DeleteVocabularyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteVocabularyOutput()
-        value.state = try reader["State"].readIfPresent()
-        value.vocabularyArn = try reader["VocabularyArn"].readIfPresent()
-        value.vocabularyId = try reader["VocabularyId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.vocabularyArn = try reader["VocabularyArn"].readIfPresent() ?? ""
+        value.vocabularyId = try reader["VocabularyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29749,7 +29750,7 @@ extension GetAttachedFileOutput {
         value.fileArn = try reader["FileArn"].readIfPresent()
         value.fileId = try reader["FileId"].readIfPresent()
         value.fileName = try reader["FileName"].readIfPresent()
-        value.fileSizeInBytes = try reader["FileSizeInBytes"].readIfPresent()
+        value.fileSizeInBytes = try reader["FileSizeInBytes"].readIfPresent() ?? 0
         value.fileStatus = try reader["FileStatus"].readIfPresent()
         value.fileUseCaseType = try reader["FileUseCaseType"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -29874,17 +29875,17 @@ extension GetTaskTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetTaskTemplateOutput()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.constraints = try reader["Constraints"].readIfPresent(with: ConnectClientTypes.TaskTemplateConstraints.read(from:))
         value.contactFlowId = try reader["ContactFlowId"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaults = try reader["Defaults"].readIfPresent(with: ConnectClientTypes.TaskTemplateDefaults.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.TaskTemplateField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.instanceId = try reader["InstanceId"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -29992,7 +29993,7 @@ extension ListContactEvaluationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListContactEvaluationsOutput()
-        value.evaluationSummaryList = try reader["EvaluationSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationSummaryList = try reader["EvaluationSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -30044,7 +30045,7 @@ extension ListDefaultVocabulariesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDefaultVocabulariesOutput()
-        value.defaultVocabularyList = try reader["DefaultVocabularyList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DefaultVocabulary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultVocabularyList = try reader["DefaultVocabularyList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.DefaultVocabulary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -30057,7 +30058,7 @@ extension ListEvaluationFormsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEvaluationFormsOutput()
-        value.evaluationFormSummaryList = try reader["EvaluationFormSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationFormSummaryList = try reader["EvaluationFormSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -30070,7 +30071,7 @@ extension ListEvaluationFormVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEvaluationFormVersionsOutput()
-        value.evaluationFormVersionSummaryList = try reader["EvaluationFormVersionSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationFormVersionSummaryList = try reader["EvaluationFormVersionSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -30280,10 +30281,10 @@ extension ListRealtimeContactAnalysisSegmentsV2Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListRealtimeContactAnalysisSegmentsV2Output()
-        value.channel = try reader["Channel"].readIfPresent()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.segments = try reader["Segments"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealtimeContactAnalysisSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
+        value.segments = try reader["Segments"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealtimeContactAnalysisSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -30324,7 +30325,7 @@ extension ListRulesOutput {
         let reader = responseReader
         var value = ListRulesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.ruleSummaryList = try reader["RuleSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleSummaryList = try reader["RuleSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -30639,7 +30640,7 @@ extension SearchContactsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchContactsOutput()
-        value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ContactSearchSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ContactSearchSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.totalCount = try reader["TotalCount"].readIfPresent()
         return value
@@ -30850,8 +30851,8 @@ extension StartContactEvaluationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartContactEvaluationOutput()
-        value.evaluationArn = try reader["EvaluationArn"].readIfPresent()
-        value.evaluationId = try reader["EvaluationId"].readIfPresent()
+        value.evaluationArn = try reader["EvaluationArn"].readIfPresent() ?? ""
+        value.evaluationId = try reader["EvaluationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -30870,7 +30871,7 @@ extension StartContactStreamingOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartContactStreamingOutput()
-        value.streamingId = try reader["StreamingId"].readIfPresent()
+        value.streamingId = try reader["StreamingId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -30942,8 +30943,8 @@ extension SubmitContactEvaluationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SubmitContactEvaluationOutput()
-        value.evaluationArn = try reader["EvaluationArn"].readIfPresent()
-        value.evaluationId = try reader["EvaluationId"].readIfPresent()
+        value.evaluationArn = try reader["EvaluationArn"].readIfPresent() ?? ""
+        value.evaluationId = try reader["EvaluationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31031,8 +31032,8 @@ extension UpdateContactEvaluationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateContactEvaluationOutput()
-        value.evaluationArn = try reader["EvaluationArn"].readIfPresent()
-        value.evaluationId = try reader["EvaluationId"].readIfPresent()
+        value.evaluationArn = try reader["EvaluationArn"].readIfPresent() ?? ""
+        value.evaluationId = try reader["EvaluationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31093,8 +31094,8 @@ extension UpdateEvaluationFormOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEvaluationFormOutput()
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         return value
     }
@@ -36242,7 +36243,7 @@ extension PropertyValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PropertyValidationException {
         let reader = baseError.errorBodyReader
         var value = PropertyValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.propertyList = try reader["PropertyList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PropertyValidationExceptionProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -36425,12 +36426,12 @@ extension ConnectClientTypes.AttachedFile {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttachedFile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.AttachedFile()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.fileArn = try reader["FileArn"].readIfPresent()
-        value.fileId = try reader["FileId"].readIfPresent()
-        value.fileName = try reader["FileName"].readIfPresent()
-        value.fileSizeInBytes = try reader["FileSizeInBytes"].readIfPresent()
-        value.fileStatus = try reader["FileStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? ""
+        value.fileArn = try reader["FileArn"].readIfPresent() ?? ""
+        value.fileId = try reader["FileId"].readIfPresent() ?? ""
+        value.fileName = try reader["FileName"].readIfPresent() ?? ""
+        value.fileSizeInBytes = try reader["FileSizeInBytes"].readIfPresent() ?? 0
+        value.fileStatus = try reader["FileStatus"].readIfPresent() ?? .sdkUnknown("")
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: ConnectClientTypes.CreatedByInfo.read(from:))
         value.fileUseCaseType = try reader["FileUseCaseType"].readIfPresent()
         value.associatedResourceArn = try reader["AssociatedResourceArn"].readIfPresent()
@@ -36943,15 +36944,15 @@ extension ConnectClientTypes.Evaluation {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Evaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.Evaluation()
-        value.evaluationId = try reader["EvaluationId"].readIfPresent()
-        value.evaluationArn = try reader["EvaluationArn"].readIfPresent()
+        value.evaluationId = try reader["EvaluationId"].readIfPresent() ?? ""
+        value.evaluationArn = try reader["EvaluationArn"].readIfPresent() ?? ""
         value.metadata = try reader["Metadata"].readIfPresent(with: ConnectClientTypes.EvaluationMetadata.read(from:))
-        value.answers = try reader["Answers"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.EvaluationAnswerOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.notes = try reader["Notes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.EvaluationNote.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
+        value.answers = try reader["Answers"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.EvaluationAnswerOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.notes = try reader["Notes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.EvaluationNote.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.scores = try reader["Scores"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.EvaluationScore.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -37032,8 +37033,8 @@ extension ConnectClientTypes.EvaluationMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationMetadata()
-        value.contactId = try reader["ContactId"].readIfPresent()
-        value.evaluatorArn = try reader["EvaluatorArn"].readIfPresent()
+        value.contactId = try reader["ContactId"].readIfPresent() ?? ""
+        value.evaluatorArn = try reader["EvaluatorArn"].readIfPresent() ?? ""
         value.contactAgentId = try reader["ContactAgentId"].readIfPresent()
         value.score = try reader["Score"].readIfPresent(with: ConnectClientTypes.EvaluationScore.read(from:))
         return value
@@ -37046,11 +37047,11 @@ extension ConnectClientTypes.EvaluationFormContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormContent()
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.scoringStrategy = try reader["ScoringStrategy"].readIfPresent(with: ConnectClientTypes.EvaluationFormScoringStrategy.read(from:))
         return value
     }
@@ -37067,8 +37068,8 @@ extension ConnectClientTypes.EvaluationFormScoringStrategy {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormScoringStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormScoringStrategy()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -37117,11 +37118,11 @@ extension ConnectClientTypes.EvaluationFormQuestion {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormQuestion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormQuestion()
-        value.title = try reader["Title"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent() ?? ""
         value.instructions = try reader["Instructions"].readIfPresent()
-        value.refId = try reader["RefId"].readIfPresent()
+        value.refId = try reader["RefId"].readIfPresent() ?? ""
         value.notApplicableEnabled = try reader["NotApplicableEnabled"].readIfPresent() ?? false
-        value.questionType = try reader["QuestionType"].readIfPresent()
+        value.questionType = try reader["QuestionType"].readIfPresent() ?? .sdkUnknown("")
         value.questionTypeProperties = try reader["QuestionTypeProperties"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionTypeProperties.read(from:))
         value.weight = try reader["Weight"].readIfPresent() ?? 0
         return value
@@ -37168,7 +37169,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties()
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormSingleSelectQuestionOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormSingleSelectQuestionOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.displayAs = try reader["DisplayAs"].readIfPresent()
         value.automation = try reader["Automation"].readIfPresent(with: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation.read(from:))
         return value
@@ -37186,7 +37187,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation()
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.defaultOptionRefId = try reader["DefaultOptionRefId"].readIfPresent()
         return value
     }
@@ -37228,9 +37229,9 @@ extension ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation()
-        value.category = try reader["Category"].readIfPresent()
-        value.condition = try reader["Condition"].readIfPresent()
-        value.optionRefId = try reader["OptionRefId"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent() ?? ""
+        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
+        value.optionRefId = try reader["OptionRefId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37248,8 +37249,8 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionOption {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormSingleSelectQuestionOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormSingleSelectQuestionOption()
-        value.refId = try reader["RefId"].readIfPresent()
-        value.text = try reader["Text"].readIfPresent()
+        value.refId = try reader["RefId"].readIfPresent() ?? ""
+        value.text = try reader["Text"].readIfPresent() ?? ""
         value.score = try reader["Score"].readIfPresent() ?? 0
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
         return value
@@ -37311,7 +37312,7 @@ extension ConnectClientTypes.NumericQuestionPropertyValueAutomation {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.NumericQuestionPropertyValueAutomation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.NumericQuestionPropertyValueAutomation()
-        value.label = try reader["Label"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -37351,10 +37352,10 @@ extension ConnectClientTypes.EvaluationFormSection {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormSection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormSection()
-        value.title = try reader["Title"].readIfPresent()
-        value.refId = try reader["RefId"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.refId = try reader["RefId"].readIfPresent() ?? ""
         value.instructions = try reader["Instructions"].readIfPresent()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.weight = try reader["Weight"].readIfPresent() ?? 0
         return value
     }
@@ -37400,19 +37401,19 @@ extension ConnectClientTypes.EvaluationForm {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationForm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationForm()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         value.locked = try reader["Locked"].readIfPresent() ?? false
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.scoringStrategy = try reader["ScoringStrategy"].readIfPresent(with: ConnectClientTypes.EvaluationFormScoringStrategy.read(from:))
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -37448,7 +37449,7 @@ extension ConnectClientTypes.HoursOfOperationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.HoursOfOperationConfig()
-        value.day = try reader["Day"].readIfPresent()
+        value.day = try reader["Day"].readIfPresent() ?? .sdkUnknown("")
         value.startTime = try reader["StartTime"].readIfPresent(with: ConnectClientTypes.HoursOfOperationTimeSlice.read(from:))
         value.endTime = try reader["EndTime"].readIfPresent(with: ConnectClientTypes.HoursOfOperationTimeSlice.read(from:))
         return value
@@ -37554,7 +37555,7 @@ extension ConnectClientTypes.InstanceStorageConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.InstanceStorageConfig()
         value.associationId = try reader["AssociationId"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent() ?? .sdkUnknown("")
         value.s3Config = try reader["S3Config"].readIfPresent(with: ConnectClientTypes.S3Config.read(from:))
         value.kinesisVideoStreamConfig = try reader["KinesisVideoStreamConfig"].readIfPresent(with: ConnectClientTypes.KinesisVideoStreamConfig.read(from:))
         value.kinesisStreamConfig = try reader["KinesisStreamConfig"].readIfPresent(with: ConnectClientTypes.KinesisStreamConfig.read(from:))
@@ -37573,7 +37574,7 @@ extension ConnectClientTypes.KinesisFirehoseConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.KinesisFirehoseConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.KinesisFirehoseConfig()
-        value.firehoseArn = try reader["FirehoseArn"].readIfPresent()
+        value.firehoseArn = try reader["FirehoseArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37588,7 +37589,7 @@ extension ConnectClientTypes.KinesisStreamConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.KinesisStreamConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.KinesisStreamConfig()
-        value.streamArn = try reader["StreamArn"].readIfPresent()
+        value.streamArn = try reader["StreamArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37605,7 +37606,7 @@ extension ConnectClientTypes.KinesisVideoStreamConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.KinesisVideoStreamConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.KinesisVideoStreamConfig()
-        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent() ?? ""
         value.retentionPeriodHours = try reader["RetentionPeriodHours"].readIfPresent() ?? 0
         value.encryptionConfig = try reader["EncryptionConfig"].readIfPresent(with: ConnectClientTypes.EncryptionConfig.read(from:))
         return value
@@ -37623,8 +37624,8 @@ extension ConnectClientTypes.EncryptionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EncryptionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EncryptionConfig()
-        value.encryptionType = try reader["EncryptionType"].readIfPresent()
-        value.keyId = try reader["KeyId"].readIfPresent()
+        value.encryptionType = try reader["EncryptionType"].readIfPresent() ?? .sdkUnknown("")
+        value.keyId = try reader["KeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37641,8 +37642,8 @@ extension ConnectClientTypes.S3Config {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.S3Config {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.S3Config()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent() ?? ""
         value.encryptionConfig = try reader["EncryptionConfig"].readIfPresent(with: ConnectClientTypes.EncryptionConfig.read(from:))
         return value
     }
@@ -37801,7 +37802,7 @@ extension ConnectClientTypes.QuickConnectConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QuickConnectConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.QuickConnectConfig()
-        value.quickConnectType = try reader["QuickConnectType"].readIfPresent()
+        value.quickConnectType = try reader["QuickConnectType"].readIfPresent() ?? .sdkUnknown("")
         value.userConfig = try reader["UserConfig"].readIfPresent(with: ConnectClientTypes.UserQuickConnectConfig.read(from:))
         value.queueConfig = try reader["QueueConfig"].readIfPresent(with: ConnectClientTypes.QueueQuickConnectConfig.read(from:))
         value.phoneConfig = try reader["PhoneConfig"].readIfPresent(with: ConnectClientTypes.PhoneNumberQuickConnectConfig.read(from:))
@@ -37819,7 +37820,7 @@ extension ConnectClientTypes.PhoneNumberQuickConnectConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PhoneNumberQuickConnectConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.PhoneNumberQuickConnectConfig()
-        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
+        value.phoneNumber = try reader["PhoneNumber"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37835,8 +37836,8 @@ extension ConnectClientTypes.QueueQuickConnectConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QueueQuickConnectConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.QueueQuickConnectConfig()
-        value.queueId = try reader["QueueId"].readIfPresent()
-        value.contactFlowId = try reader["ContactFlowId"].readIfPresent()
+        value.queueId = try reader["QueueId"].readIfPresent() ?? ""
+        value.contactFlowId = try reader["ContactFlowId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37852,8 +37853,8 @@ extension ConnectClientTypes.UserQuickConnectConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.UserQuickConnectConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.UserQuickConnectConfig()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.contactFlowId = try reader["ContactFlowId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
+        value.contactFlowId = try reader["ContactFlowId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37894,8 +37895,8 @@ extension ConnectClientTypes.MediaConcurrency {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MediaConcurrency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.MediaConcurrency()
-        value.channel = try reader["Channel"].readIfPresent()
-        value.concurrency = try reader["Concurrency"].readIfPresent()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
+        value.concurrency = try reader["Concurrency"].readIfPresent() ?? 0
         value.crossChannelBehavior = try reader["CrossChannelBehavior"].readIfPresent(with: ConnectClientTypes.CrossChannelBehavior.read(from:))
         return value
     }
@@ -37911,7 +37912,7 @@ extension ConnectClientTypes.CrossChannelBehavior {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CrossChannelBehavior {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.CrossChannelBehavior()
-        value.behaviorType = try reader["BehaviorType"].readIfPresent()
+        value.behaviorType = try reader["BehaviorType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -37921,16 +37922,16 @@ extension ConnectClientTypes.Rule {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.Rule()
-        value.name = try reader["Name"].readIfPresent()
-        value.ruleId = try reader["RuleId"].readIfPresent()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
+        value.ruleArn = try reader["RuleArn"].readIfPresent() ?? ""
         value.triggerEventSource = try reader["TriggerEventSource"].readIfPresent(with: ConnectClientTypes.RuleTriggerEventSource.read(from:))
-        value.function = try reader["Function"].readIfPresent()
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.publishStatus = try reader["PublishStatus"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
+        value.function = try reader["Function"].readIfPresent() ?? ""
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RuleAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.publishStatus = try reader["PublishStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -37954,7 +37955,7 @@ extension ConnectClientTypes.RuleAction {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RuleAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RuleAction()
-        value.actionType = try reader["ActionType"].readIfPresent()
+        value.actionType = try reader["ActionType"].readIfPresent() ?? .sdkUnknown("")
         value.taskAction = try reader["TaskAction"].readIfPresent(with: ConnectClientTypes.TaskActionDefinition.read(from:))
         value.eventBridgeAction = try reader["EventBridgeAction"].readIfPresent(with: ConnectClientTypes.EventBridgeActionDefinition.read(from:))
         value.assignContactCategoryAction = try reader["AssignContactCategoryAction"].readIfPresent(with: ConnectClientTypes.AssignContactCategoryActionDefinition.read(from:))
@@ -37977,7 +37978,7 @@ extension ConnectClientTypes.SubmitAutoEvaluationActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SubmitAutoEvaluationActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.SubmitAutoEvaluationActionDefinition()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -38005,7 +38006,7 @@ extension ConnectClientTypes.UpdateCaseActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.UpdateCaseActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.UpdateCaseActionDefinition()
-        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -38021,7 +38022,7 @@ extension ConnectClientTypes.FieldValue {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FieldValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.FieldValue()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent(with: ConnectClientTypes.FieldValueUnion.read(from:))
         return value
     }
@@ -38072,8 +38073,8 @@ extension ConnectClientTypes.CreateCaseActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CreateCaseActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.CreateCaseActionDefinition()
-        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.templateId = try reader["TemplateId"].readIfPresent()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.templateId = try reader["TemplateId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -38092,10 +38093,10 @@ extension ConnectClientTypes.SendNotificationActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SendNotificationActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.SendNotificationActionDefinition()
-        value.deliveryMethod = try reader["DeliveryMethod"].readIfPresent()
+        value.deliveryMethod = try reader["DeliveryMethod"].readIfPresent() ?? .sdkUnknown("")
         value.subject = try reader["Subject"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
-        value.contentType = try reader["ContentType"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent() ?? ""
+        value.contentType = try reader["ContentType"].readIfPresent() ?? .sdkUnknown("")
         value.recipient = try reader["Recipient"].readIfPresent(with: ConnectClientTypes.NotificationRecipientType.read(from:))
         return value
     }
@@ -38141,7 +38142,7 @@ extension ConnectClientTypes.EventBridgeActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EventBridgeActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EventBridgeActionDefinition()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -38159,9 +38160,9 @@ extension ConnectClientTypes.TaskActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TaskActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.TaskActionDefinition()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.contactFlowId = try reader["ContactFlowId"].readIfPresent()
+        value.contactFlowId = try reader["ContactFlowId"].readIfPresent() ?? ""
         value.references = try reader["References"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.Reference.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -38178,8 +38179,8 @@ extension ConnectClientTypes.Reference {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Reference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.Reference()
-        value.value = try reader["Value"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -38195,7 +38196,7 @@ extension ConnectClientTypes.RuleTriggerEventSource {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RuleTriggerEventSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RuleTriggerEventSource()
-        value.eventSourceName = try reader["EventSourceName"].readIfPresent()
+        value.eventSourceName = try reader["EventSourceName"].readIfPresent() ?? .sdkUnknown("")
         value.integrationAssociationId = try reader["IntegrationAssociationId"].readIfPresent()
         return value
     }
@@ -38273,7 +38274,7 @@ extension ConnectClientTypes.UserPhoneConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.UserPhoneConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.UserPhoneConfig()
-        value.phoneType = try reader["PhoneType"].readIfPresent()
+        value.phoneType = try reader["PhoneType"].readIfPresent() ?? .sdkUnknown("")
         value.autoAccept = try reader["AutoAccept"].readIfPresent() ?? false
         value.afterContactWorkTimeLimit = try reader["AfterContactWorkTimeLimit"].readIfPresent() ?? 0
         value.deskPhoneNumber = try reader["DeskPhoneNumber"].readIfPresent()
@@ -38382,12 +38383,12 @@ extension ConnectClientTypes.Vocabulary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Vocabulary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.Vocabulary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.languageCode = try reader["LanguageCode"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.content = try reader["Content"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -38867,7 +38868,7 @@ extension ConnectClientTypes.TelephonyConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TelephonyConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.TelephonyConfig()
-        value.distributions = try reader["Distributions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Distribution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distributions = try reader["Distributions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Distribution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -38883,7 +38884,7 @@ extension ConnectClientTypes.Distribution {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Distribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.Distribution()
-        value.region = try reader["Region"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent() ?? ""
         value.percentage = try reader["Percentage"].readIfPresent() ?? 0
         return value
     }
@@ -38899,7 +38900,7 @@ extension ConnectClientTypes.SignInConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SignInConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.SignInConfig()
-        value.distributions = try reader["Distributions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SignInDistribution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distributions = try reader["Distributions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SignInDistribution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -38915,7 +38916,7 @@ extension ConnectClientTypes.SignInDistribution {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SignInDistribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.SignInDistribution()
-        value.region = try reader["Region"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent() ?? ""
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
@@ -38931,7 +38932,7 @@ extension ConnectClientTypes.AgentConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AgentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.AgentConfig()
-        value.distributions = try reader["Distributions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Distribution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distributions = try reader["Distributions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Distribution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -39003,8 +39004,8 @@ extension ConnectClientTypes.LexBot {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.LexBot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.LexBot()
-        value.name = try reader["Name"].readIfPresent()
-        value.lexRegion = try reader["LexRegion"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.lexRegion = try reader["LexRegion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -39014,15 +39015,15 @@ extension ConnectClientTypes.EvaluationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationSummary()
-        value.evaluationId = try reader["EvaluationId"].readIfPresent()
-        value.evaluationArn = try reader["EvaluationArn"].readIfPresent()
-        value.evaluationFormTitle = try reader["EvaluationFormTitle"].readIfPresent()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.evaluatorArn = try reader["EvaluatorArn"].readIfPresent()
+        value.evaluationId = try reader["EvaluationId"].readIfPresent() ?? ""
+        value.evaluationArn = try reader["EvaluationArn"].readIfPresent() ?? ""
+        value.evaluationFormTitle = try reader["EvaluationFormTitle"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.evaluatorArn = try reader["EvaluatorArn"].readIfPresent() ?? ""
         value.score = try reader["Score"].readIfPresent(with: ConnectClientTypes.EvaluationScore.read(from:))
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -39151,10 +39152,10 @@ extension ConnectClientTypes.DefaultVocabulary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DefaultVocabulary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.DefaultVocabulary()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.vocabularyId = try reader["VocabularyId"].readIfPresent()
-        value.vocabularyName = try reader["VocabularyName"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.languageCode = try reader["LanguageCode"].readIfPresent() ?? .sdkUnknown("")
+        value.vocabularyId = try reader["VocabularyId"].readIfPresent() ?? ""
+        value.vocabularyName = try reader["VocabularyName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -39164,13 +39165,13 @@ extension ConnectClientTypes.EvaluationFormSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormSummary()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent() ?? ""
         value.lastActivatedTime = try reader["LastActivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastActivatedBy = try reader["LastActivatedBy"].readIfPresent()
         value.latestVersion = try reader["LatestVersion"].readIfPresent() ?? 0
@@ -39184,15 +39185,15 @@ extension ConnectClientTypes.EvaluationFormVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormVersionSummary()
-        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent()
-        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         value.locked = try reader["Locked"].readIfPresent() ?? false
-        value.status = try reader["Status"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -39365,7 +39366,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentPostContactSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisSegmentPostContactSummary()
         value.content = try reader["Content"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.failureCode = try reader["FailureCode"].readIfPresent()
         return value
     }
@@ -39376,11 +39377,11 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentAttachments {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisSegmentAttachments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisSegmentAttachments()
-        value.id = try reader["Id"].readIfPresent()
-        value.participantId = try reader["ParticipantId"].readIfPresent()
-        value.participantRole = try reader["ParticipantRole"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.participantId = try reader["ParticipantId"].readIfPresent() ?? ""
+        value.participantRole = try reader["ParticipantRole"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["DisplayName"].readIfPresent()
-        value.attachments = try reader["Attachments"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachments = try reader["Attachments"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisAttachment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.time = try reader["Time"].readIfPresent(with: ConnectClientTypes.RealTimeContactAnalysisTimeData.read(from:))
         return value
     }
@@ -39405,9 +39406,9 @@ extension ConnectClientTypes.RealTimeContactAnalysisAttachment {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisAttachment()
-        value.attachmentName = try reader["AttachmentName"].readIfPresent()
+        value.attachmentName = try reader["AttachmentName"].readIfPresent() ?? ""
         value.contentType = try reader["ContentType"].readIfPresent()
-        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent()
         return value
     }
@@ -39418,11 +39419,11 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisSegmentEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisSegmentEvent()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.participantId = try reader["ParticipantId"].readIfPresent()
         value.participantRole = try reader["ParticipantRole"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
-        value.eventType = try reader["EventType"].readIfPresent()
+        value.eventType = try reader["EventType"].readIfPresent() ?? ""
         value.time = try reader["Time"].readIfPresent(with: ConnectClientTypes.RealTimeContactAnalysisTimeData.read(from:))
         return value
     }
@@ -39433,7 +39434,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentIssues {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisSegmentIssues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisSegmentIssues()
-        value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisIssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisIssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -39443,7 +39444,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisIssueDetected {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisIssueDetected {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisIssueDetected()
-        value.transcriptItems = try reader["TranscriptItems"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transcriptItems = try reader["TranscriptItems"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -39454,7 +39455,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent()
         value.content = try reader["Content"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.characterOffsets = try reader["CharacterOffsets"].readIfPresent(with: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval.read(from:))
         return value
     }
@@ -39476,7 +39477,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentCategories {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisSegmentCategories {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisSegmentCategories()
-        value.matchedDetails = try reader["MatchedDetails"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.RealTimeContactAnalysisCategoryDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.matchedDetails = try reader["MatchedDetails"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.RealTimeContactAnalysisCategoryDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -39486,7 +39487,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisCategoryDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisCategoryDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisCategoryDetails()
-        value.pointsOfInterest = try reader["PointsOfInterest"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisPointOfInterest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pointsOfInterest = try reader["PointsOfInterest"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisPointOfInterest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -39506,7 +39507,7 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterO
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.characterOffsets = try reader["CharacterOffsets"].readIfPresent(with: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval.read(from:))
         return value
     }
@@ -39517,11 +39518,11 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentTranscript {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisSegmentTranscript {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RealTimeContactAnalysisSegmentTranscript()
-        value.id = try reader["Id"].readIfPresent()
-        value.participantId = try reader["ParticipantId"].readIfPresent()
-        value.participantRole = try reader["ParticipantRole"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.participantId = try reader["ParticipantId"].readIfPresent() ?? ""
+        value.participantRole = try reader["ParticipantRole"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["DisplayName"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent() ?? ""
         value.contentType = try reader["ContentType"].readIfPresent()
         value.time = try reader["Time"].readIfPresent(with: ConnectClientTypes.RealTimeContactAnalysisTimeData.read(from:))
         value.redaction = try reader["Redaction"].readIfPresent(with: ConnectClientTypes.RealTimeContactAnalysisTranscriptItemRedaction.read(from:))
@@ -39545,12 +39546,12 @@ extension ConnectClientTypes.RoutingProfileQueueConfigSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RoutingProfileQueueConfigSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RoutingProfileQueueConfigSummary()
-        value.queueId = try reader["QueueId"].readIfPresent()
-        value.queueArn = try reader["QueueArn"].readIfPresent()
-        value.queueName = try reader["QueueName"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
+        value.queueId = try reader["QueueId"].readIfPresent() ?? ""
+        value.queueArn = try reader["QueueArn"].readIfPresent() ?? ""
+        value.queueName = try reader["QueueName"].readIfPresent() ?? ""
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
         value.delay = try reader["Delay"].readIfPresent() ?? 0
-        value.channel = try reader["Channel"].readIfPresent()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -39574,14 +39575,14 @@ extension ConnectClientTypes.RuleSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RuleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RuleSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.ruleId = try reader["RuleId"].readIfPresent()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
-        value.eventSourceName = try reader["EventSourceName"].readIfPresent()
-        value.publishStatus = try reader["PublishStatus"].readIfPresent()
-        value.actionSummaries = try reader["ActionSummaries"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ActionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
+        value.ruleArn = try reader["RuleArn"].readIfPresent() ?? ""
+        value.eventSourceName = try reader["EventSourceName"].readIfPresent() ?? .sdkUnknown("")
+        value.publishStatus = try reader["PublishStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.actionSummaries = try reader["ActionSummaries"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ActionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -39591,7 +39592,7 @@ extension ConnectClientTypes.ActionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ActionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.ActionSummary()
-        value.actionType = try reader["ActionType"].readIfPresent()
+        value.actionType = try reader["ActionType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -39704,8 +39705,8 @@ extension ConnectClientTypes.UserProficiency {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.UserProficiency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.UserProficiency()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValue = try reader["AttributeValue"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.attributeValue = try reader["AttributeValue"].readIfPresent() ?? ""
         value.level = try reader["Level"].readIfPresent() ?? 1
         return value
     }
@@ -39871,12 +39872,12 @@ extension ConnectClientTypes.VocabularySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.VocabularySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.VocabularySummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.languageCode = try reader["LanguageCode"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
@@ -39992,9 +39993,9 @@ extension ConnectClientTypes.PropertyValidationExceptionProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PropertyValidationExceptionProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.PropertyValidationExceptionProperty()
-        value.propertyPath = try reader["PropertyPath"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.propertyPath = try reader["PropertyPath"].readIfPresent() ?? ""
+        value.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }

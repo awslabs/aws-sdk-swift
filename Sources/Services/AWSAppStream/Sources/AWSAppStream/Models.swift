@@ -10413,8 +10413,8 @@ extension AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.AppBlockBuilderAppBlockAssociation()
-        value.appBlockArn = try reader["AppBlockArn"].readIfPresent()
-        value.appBlockBuilderName = try reader["AppBlockBuilderName"].readIfPresent()
+        value.appBlockArn = try reader["AppBlockArn"].readIfPresent() ?? ""
+        value.appBlockBuilderName = try reader["AppBlockBuilderName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10424,8 +10424,8 @@ extension AppStreamClientTypes.ApplicationFleetAssociation {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationFleetAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ApplicationFleetAssociation()
-        value.fleetName = try reader["FleetName"].readIfPresent()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.fleetName = try reader["FleetName"].readIfPresent() ?? ""
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10455,9 +10455,9 @@ extension AppStreamClientTypes.UserStackAssociation {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserStackAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.UserStackAssociation()
-        value.stackName = try reader["StackName"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent() ?? .sdkUnknown("")
         value.sendEmailNotification = try reader["SendEmailNotification"].readIfPresent()
         return value
     }
@@ -10468,8 +10468,8 @@ extension AppStreamClientTypes.AppBlock {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.AppBlock()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.sourceS3Location = try reader["SourceS3Location"].readIfPresent(with: AppStreamClientTypes.S3Location.read(from:))
@@ -10508,9 +10508,9 @@ extension AppStreamClientTypes.ScriptDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ScriptDetails()
         value.scriptS3Location = try reader["ScriptS3Location"].readIfPresent(with: AppStreamClientTypes.S3Location.read(from:))
-        value.executablePath = try reader["ExecutablePath"].readIfPresent()
+        value.executablePath = try reader["ExecutablePath"].readIfPresent() ?? ""
         value.executableParameters = try reader["ExecutableParameters"].readIfPresent()
-        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
+        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10526,7 +10526,7 @@ extension AppStreamClientTypes.S3Location {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.S3Location()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
         value.s3Key = try reader["S3Key"].readIfPresent()
         return value
     }
@@ -10537,16 +10537,16 @@ extension AppStreamClientTypes.AppBlockBuilder {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.AppBlockBuilder()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? ""
         value.enableDefaultInternetAccess = try reader["EnableDefaultInternetAccess"].readIfPresent()
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: AppStreamClientTypes.VpcConfig.read(from:))
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.appBlockBuilderErrors = try reader["AppBlockBuilderErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.stateChangeReason = try reader["StateChangeReason"].readIfPresent(with: AppStreamClientTypes.AppBlockBuilderStateChangeReason.read(from:))
@@ -10566,7 +10566,7 @@ extension AppStreamClientTypes.AccessEndpoint {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AccessEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.AccessEndpoint()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent() ?? .sdkUnknown("")
         value.vpceId = try reader["VpceId"].readIfPresent()
         return value
     }
@@ -10641,7 +10641,7 @@ extension AppStreamClientTypes.DirectoryConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.DirectoryConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.DirectoryConfig()
-        value.directoryName = try reader["DirectoryName"].readIfPresent()
+        value.directoryName = try reader["DirectoryName"].readIfPresent() ?? ""
         value.organizationalUnitDistinguishedNames = try reader["OrganizationalUnitDistinguishedNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceAccountCredentials = try reader["ServiceAccountCredentials"].readIfPresent(with: AppStreamClientTypes.ServiceAccountCredentials.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -10678,8 +10678,8 @@ extension AppStreamClientTypes.ServiceAccountCredentials {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ServiceAccountCredentials {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ServiceAccountCredentials()
-        value.accountName = try reader["AccountName"].readIfPresent()
-        value.accountPassword = try reader["AccountPassword"].readIfPresent()
+        value.accountName = try reader["AccountName"].readIfPresent() ?? ""
+        value.accountPassword = try reader["AccountPassword"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10689,11 +10689,11 @@ extension AppStreamClientTypes.Entitlement {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Entitlement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.Entitlement()
-        value.name = try reader["Name"].readIfPresent()
-        value.stackName = try reader["StackName"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.appVisibility = try reader["AppVisibility"].readIfPresent()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.EntitlementAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appVisibility = try reader["AppVisibility"].readIfPresent() ?? .sdkUnknown("")
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.EntitlementAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -10711,8 +10711,8 @@ extension AppStreamClientTypes.EntitlementAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.EntitlementAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.EntitlementAttribute()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10722,18 +10722,18 @@ extension AppStreamClientTypes.Fleet {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Fleet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.Fleet()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.imageName = try reader["ImageName"].readIfPresent()
         value.imageArn = try reader["ImageArn"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? ""
         value.fleetType = try reader["FleetType"].readIfPresent()
         value.computeCapacityStatus = try reader["ComputeCapacityStatus"].readIfPresent(with: AppStreamClientTypes.ComputeCapacityStatus.read(from:))
         value.maxUserDurationInSeconds = try reader["MaxUserDurationInSeconds"].readIfPresent()
         value.disconnectTimeoutInSeconds = try reader["DisconnectTimeoutInSeconds"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: AppStreamClientTypes.VpcConfig.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.fleetErrors = try reader["FleetErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.FleetError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10784,7 +10784,7 @@ extension AppStreamClientTypes.ComputeCapacityStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ComputeCapacityStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ComputeCapacityStatus()
-        value.desired = try reader["Desired"].readIfPresent()
+        value.desired = try reader["Desired"].readIfPresent() ?? 0
         value.running = try reader["Running"].readIfPresent()
         value.inUse = try reader["InUse"].readIfPresent()
         value.available = try reader["Available"].readIfPresent()
@@ -10801,7 +10801,7 @@ extension AppStreamClientTypes.ImageBuilder {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ImageBuilder()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent()
         value.imageArn = try reader["ImageArn"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -10852,7 +10852,7 @@ extension AppStreamClientTypes.Stack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.Stack()
         value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -10908,8 +10908,8 @@ extension AppStreamClientTypes.UserSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.UserSetting()
-        value.action = try reader["Action"].readIfPresent()
-        value.permission = try reader["Permission"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.permission = try reader["Permission"].readIfPresent() ?? .sdkUnknown("")
         value.maximumLength = try reader["MaximumLength"].readIfPresent()
         return value
     }
@@ -10938,7 +10938,7 @@ extension AppStreamClientTypes.StorageConnector {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.StorageConnector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.StorageConnector()
-        value.connectorType = try reader["ConnectorType"].readIfPresent()
+        value.connectorType = try reader["ConnectorType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
         value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -10984,7 +10984,7 @@ extension AppStreamClientTypes.Image {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Image {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.Image()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent()
         value.baseImageArn = try reader["BaseImageArn"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
@@ -11042,7 +11042,7 @@ extension AppStreamClientTypes.SharedImagePermissions {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SharedImagePermissions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.SharedImagePermissions()
-        value.sharedAccountId = try reader["sharedAccountId"].readIfPresent()
+        value.sharedAccountId = try reader["sharedAccountId"].readIfPresent() ?? ""
         value.imagePermissions = try reader["imagePermissions"].readIfPresent(with: AppStreamClientTypes.ImagePermissions.read(from:))
         return value
     }
@@ -11053,11 +11053,11 @@ extension AppStreamClientTypes.Session {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Session {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.Session()
-        value.id = try reader["Id"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.stackName = try reader["StackName"].readIfPresent()
-        value.fleetName = try reader["FleetName"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.fleetName = try reader["FleetName"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.connectionState = try reader["ConnectionState"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.maxExpirationTime = try reader["MaxExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -11104,7 +11104,7 @@ extension AppStreamClientTypes.User {
         value.firstName = try reader["FirstName"].readIfPresent()
         value.lastName = try reader["LastName"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11114,7 +11114,7 @@ extension AppStreamClientTypes.EntitledApplication {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.EntitledApplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.EntitledApplication()
-        value.applicationIdentifier = try reader["ApplicationIdentifier"].readIfPresent()
+        value.applicationIdentifier = try reader["ApplicationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }

@@ -905,7 +905,7 @@ public struct CreateBatchLoadTaskInput {
         clientToken: Swift.String? = nil,
         dataModelConfiguration: TimestreamWriteClientTypes.DataModelConfiguration? = nil,
         dataSourceConfiguration: TimestreamWriteClientTypes.DataSourceConfiguration? = nil,
-        recordVersion: Swift.Int? = nil,
+        recordVersion: Swift.Int? = 0,
         reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration? = nil,
         targetDatabaseName: Swift.String? = nil,
         targetTableName: Swift.String? = nil
@@ -1734,7 +1734,7 @@ extension TimestreamWriteClientTypes {
             measureValues: [TimestreamWriteClientTypes.MeasureValue]? = nil,
             time: Swift.String? = nil,
             timeUnit: TimestreamWriteClientTypes.TimeUnit? = nil,
-            version: Swift.Int? = nil
+            version: Swift.Int? = 0
         )
         {
             self.dimensions = dimensions
@@ -1801,7 +1801,7 @@ extension TimestreamWriteClientTypes {
         public var recordIndex: Swift.Int
 
         public init(
-            existingVersion: Swift.Int? = nil,
+            existingVersion: Swift.Int? = 0,
             reason: Swift.String? = nil,
             recordIndex: Swift.Int = 0
         )
@@ -2363,7 +2363,7 @@ extension CreateBatchLoadTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateBatchLoadTaskOutput()
-        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskId = try reader["TaskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2437,7 +2437,7 @@ extension DescribeEndpointsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeEndpointsOutput()
-        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.Endpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.Endpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2925,7 +2925,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2951,7 +2951,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2964,7 +2964,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2977,7 +2977,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2990,7 +2990,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3098,7 +3098,7 @@ extension TimestreamWriteClientTypes.PartitionKey {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.PartitionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.PartitionKey()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.name = try reader["Name"].readIfPresent()
         value.enforcementInRecord = try reader["EnforcementInRecord"].readIfPresent()
         return value
@@ -3116,7 +3116,7 @@ extension TimestreamWriteClientTypes.MagneticStoreWriteProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.MagneticStoreWriteProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.MagneticStoreWriteProperties()
-        value.enableMagneticStoreWrites = try reader["EnableMagneticStoreWrites"].readIfPresent()
+        value.enableMagneticStoreWrites = try reader["EnableMagneticStoreWrites"].readIfPresent() ?? false
         value.magneticStoreRejectedDataLocation = try reader["MagneticStoreRejectedDataLocation"].readIfPresent(with: TimestreamWriteClientTypes.MagneticStoreRejectedDataLocation.read(from:))
         return value
     }
@@ -3169,8 +3169,8 @@ extension TimestreamWriteClientTypes.RetentionProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.RetentionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.RetentionProperties()
-        value.memoryStoreRetentionPeriodInHours = try reader["MemoryStoreRetentionPeriodInHours"].readIfPresent()
-        value.magneticStoreRetentionPeriodInDays = try reader["MagneticStoreRetentionPeriodInDays"].readIfPresent()
+        value.memoryStoreRetentionPeriodInHours = try reader["MemoryStoreRetentionPeriodInHours"].readIfPresent() ?? 0
+        value.magneticStoreRetentionPeriodInDays = try reader["MagneticStoreRetentionPeriodInDays"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3248,7 +3248,7 @@ extension TimestreamWriteClientTypes.DataModel {
         var value = TimestreamWriteClientTypes.DataModel()
         value.timeColumn = try reader["TimeColumn"].readIfPresent()
         value.timeUnit = try reader["TimeUnit"].readIfPresent()
-        value.dimensionMappings = try reader["DimensionMappings"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.DimensionMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dimensionMappings = try reader["DimensionMappings"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.DimensionMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.multiMeasureMappings = try reader["MultiMeasureMappings"].readIfPresent(with: TimestreamWriteClientTypes.MultiMeasureMappings.read(from:))
         value.mixedMeasureMappings = try reader["MixedMeasureMappings"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.MixedMeasureMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.measureNameColumn = try reader["MeasureNameColumn"].readIfPresent()
@@ -3273,7 +3273,7 @@ extension TimestreamWriteClientTypes.MixedMeasureMapping {
         value.measureName = try reader["MeasureName"].readIfPresent()
         value.sourceColumn = try reader["SourceColumn"].readIfPresent()
         value.targetMeasureName = try reader["TargetMeasureName"].readIfPresent()
-        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
+        value.measureValueType = try reader["MeasureValueType"].readIfPresent() ?? .sdkUnknown("")
         value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -3291,7 +3291,7 @@ extension TimestreamWriteClientTypes.MultiMeasureAttributeMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.MultiMeasureAttributeMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.MultiMeasureAttributeMapping()
-        value.sourceColumn = try reader["SourceColumn"].readIfPresent()
+        value.sourceColumn = try reader["SourceColumn"].readIfPresent() ?? ""
         value.targetMultiMeasureAttributeName = try reader["TargetMultiMeasureAttributeName"].readIfPresent()
         value.measureValueType = try reader["MeasureValueType"].readIfPresent()
         return value
@@ -3310,7 +3310,7 @@ extension TimestreamWriteClientTypes.MultiMeasureMappings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.MultiMeasureMappings()
         value.targetMultiMeasureName = try reader["TargetMultiMeasureName"].readIfPresent()
-        value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: TimestreamWriteClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3360,7 +3360,7 @@ extension TimestreamWriteClientTypes.ReportS3Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.ReportS3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.ReportS3Configuration()
-        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
         value.objectKeyPrefix = try reader["ObjectKeyPrefix"].readIfPresent()
         value.encryptionOption = try reader["EncryptionOption"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
@@ -3397,7 +3397,7 @@ extension TimestreamWriteClientTypes.DataSourceConfiguration {
         var value = TimestreamWriteClientTypes.DataSourceConfiguration()
         value.dataSourceS3Configuration = try reader["DataSourceS3Configuration"].readIfPresent(with: TimestreamWriteClientTypes.DataSourceS3Configuration.read(from:))
         value.csvConfiguration = try reader["CsvConfiguration"].readIfPresent(with: TimestreamWriteClientTypes.CsvConfiguration.read(from:))
-        value.dataFormat = try reader["DataFormat"].readIfPresent()
+        value.dataFormat = try reader["DataFormat"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3436,7 +3436,7 @@ extension TimestreamWriteClientTypes.DataSourceS3Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.DataSourceS3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.DataSourceS3Configuration()
-        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
         value.objectKeyPrefix = try reader["ObjectKeyPrefix"].readIfPresent()
         return value
     }
@@ -3447,7 +3447,7 @@ extension TimestreamWriteClientTypes.Endpoint {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent() ?? ""
         value.cachePeriodInMinutes = try reader["CachePeriodInMinutes"].readIfPresent() ?? 0
         return value
     }
@@ -3480,8 +3480,8 @@ extension TimestreamWriteClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamWriteClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamWriteClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

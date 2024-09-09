@@ -9803,9 +9803,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9818,7 +9818,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9832,8 +9832,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9846,7 +9846,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9859,9 +9859,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9874,7 +9874,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9887,9 +9887,9 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9902,7 +9902,7 @@ extension LicenseNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LicenseNotFoundException {
         let reader = baseError.errorBodyReader
         var value = LicenseNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -10032,7 +10032,7 @@ extension QBusinessClientTypes.AuthChallengeRequestEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AuthChallengeRequestEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AuthChallengeRequestEvent()
-        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10188,7 +10188,7 @@ extension QBusinessClientTypes.AuthChallengeRequest {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AuthChallengeRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AuthChallengeRequest()
-        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10228,7 +10228,7 @@ extension QBusinessClientTypes.QAppsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.QAppsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.QAppsConfiguration()
-        value.qAppsControlMode = try reader["qAppsControlMode"].readIfPresent()
+        value.qAppsControlMode = try reader["qAppsControlMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10243,7 +10243,7 @@ extension QBusinessClientTypes.PersonalizationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.PersonalizationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.PersonalizationConfiguration()
-        value.personalizationControlMode = try reader["personalizationControlMode"].readIfPresent()
+        value.personalizationControlMode = try reader["personalizationControlMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10259,7 +10259,7 @@ extension QBusinessClientTypes.AutoSubscriptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AutoSubscriptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AutoSubscriptionConfiguration()
-        value.autoSubscribe = try reader["autoSubscribe"].readIfPresent()
+        value.autoSubscribe = try reader["autoSubscribe"].readIfPresent() ?? .sdkUnknown("")
         value.defaultSubscriptionType = try reader["defaultSubscriptionType"].readIfPresent()
         return value
     }
@@ -10289,10 +10289,10 @@ extension QBusinessClientTypes.TopicConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.TopicConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.TopicConfiguration()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.exampleChatMessages = try reader["exampleChatMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10312,7 +10312,7 @@ extension QBusinessClientTypes.Rule {
         var value = QBusinessClientTypes.Rule()
         value.includedUsersAndGroups = try reader["includedUsersAndGroups"].readIfPresent(with: QBusinessClientTypes.UsersAndGroups.read(from:))
         value.excludedUsersAndGroups = try reader["excludedUsersAndGroups"].readIfPresent(with: QBusinessClientTypes.UsersAndGroups.read(from:))
-        value.ruleType = try reader["ruleType"].readIfPresent()
+        value.ruleType = try reader["ruleType"].readIfPresent() ?? .sdkUnknown("")
         value.ruleConfiguration = try reader["ruleConfiguration"].readIfPresent(with: QBusinessClientTypes.RuleConfiguration.read(from:))
         return value
     }
@@ -10415,7 +10415,7 @@ extension QBusinessClientTypes.AppliedCreatorModeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AppliedCreatorModeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AppliedCreatorModeConfiguration()
-        value.creatorModeControl = try reader["creatorModeControl"].readIfPresent()
+        value.creatorModeControl = try reader["creatorModeControl"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10431,8 +10431,8 @@ extension QBusinessClientTypes.DataSourceVpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DataSourceVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.DataSourceVpcConfiguration()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10489,8 +10489,8 @@ extension QBusinessClientTypes.DocumentAttributeCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAttributeCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.DocumentAttributeCondition()
-        value.key = try reader["key"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.`operator` = try reader["operator"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["value"].readIfPresent(with: QBusinessClientTypes.DocumentAttributeValue.read(from:))
         return value
     }
@@ -10563,7 +10563,7 @@ extension QBusinessClientTypes.DocumentAttributeTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAttributeTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.DocumentAttributeTarget()
-        value.key = try reader["key"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent(with: QBusinessClientTypes.DocumentAttributeValue.read(from:))
         value.attributeValueOperator = try reader["attributeValueOperator"].readIfPresent()
         return value
@@ -10693,8 +10693,8 @@ extension QBusinessClientTypes.OAuth2ClientCredentialConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.OAuth2ClientCredentialConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.OAuth2ClientCredentialConfiguration()
-        value.secretArn = try reader["secretArn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10710,8 +10710,8 @@ extension QBusinessClientTypes.BasicAuthConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.BasicAuthConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.BasicAuthConfiguration()
-        value.secretArn = try reader["secretArn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10728,8 +10728,8 @@ extension QBusinessClientTypes.CustomPluginConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.CustomPluginConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.CustomPluginConfiguration()
-        value.description = try reader["description"].readIfPresent()
-        value.apiSchemaType = try reader["apiSchemaType"].readIfPresent()
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.apiSchemaType = try reader["apiSchemaType"].readIfPresent() ?? .sdkUnknown("")
         value.apiSchema = try reader["apiSchema"].readIfPresent(with: QBusinessClientTypes.APISchema.read(from:))
         return value
     }
@@ -10774,8 +10774,8 @@ extension QBusinessClientTypes.S3 {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.S3 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.S3()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10818,7 +10818,7 @@ extension QBusinessClientTypes.KendraIndexConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.KendraIndexConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.KendraIndexConfiguration()
-        value.indexId = try reader["indexId"].readIfPresent()
+        value.indexId = try reader["indexId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10834,7 +10834,7 @@ extension QBusinessClientTypes.NativeIndexConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.NativeIndexConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.NativeIndexConfiguration()
-        value.indexId = try reader["indexId"].readIfPresent()
+        value.indexId = try reader["indexId"].readIfPresent() ?? ""
         value.boostingOverride = try reader["boostingOverride"].readMapIfPresent(valueReadingClosure: QBusinessClientTypes.DocumentAttributeBoostingConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -10886,7 +10886,7 @@ extension QBusinessClientTypes.StringListAttributeBoostingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.StringListAttributeBoostingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.StringListAttributeBoostingConfiguration()
-        value.boostingLevel = try reader["boostingLevel"].readIfPresent()
+        value.boostingLevel = try reader["boostingLevel"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10902,7 +10902,7 @@ extension QBusinessClientTypes.DateAttributeBoostingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DateAttributeBoostingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.DateAttributeBoostingConfiguration()
-        value.boostingLevel = try reader["boostingLevel"].readIfPresent()
+        value.boostingLevel = try reader["boostingLevel"].readIfPresent() ?? .sdkUnknown("")
         value.boostingDurationInSeconds = try reader["boostingDurationInSeconds"].readIfPresent()
         return value
     }
@@ -10919,7 +10919,7 @@ extension QBusinessClientTypes.StringAttributeBoostingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.StringAttributeBoostingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.StringAttributeBoostingConfiguration()
-        value.boostingLevel = try reader["boostingLevel"].readIfPresent()
+        value.boostingLevel = try reader["boostingLevel"].readIfPresent() ?? .sdkUnknown("")
         value.attributeValueBoosting = try reader["attributeValueBoosting"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<QBusinessClientTypes.StringAttributeValueBoostingLevel>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -10936,7 +10936,7 @@ extension QBusinessClientTypes.NumberAttributeBoostingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.NumberAttributeBoostingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.NumberAttributeBoostingConfiguration()
-        value.boostingLevel = try reader["boostingLevel"].readIfPresent()
+        value.boostingLevel = try reader["boostingLevel"].readIfPresent() ?? .sdkUnknown("")
         value.boostingType = try reader["boostingType"].readIfPresent()
         return value
     }
@@ -10956,7 +10956,7 @@ extension QBusinessClientTypes.UserAlias {
         var value = QBusinessClientTypes.UserAlias()
         value.indexId = try reader["indexId"].readIfPresent()
         value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
+        value.userId = try reader["userId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11000,8 +11000,8 @@ extension QBusinessClientTypes.OpenIDConnectProviderConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.OpenIDConnectProviderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.OpenIDConnectProviderConfiguration()
-        value.secretsArn = try reader["secretsArn"].readIfPresent()
-        value.secretsRole = try reader["secretsRole"].readIfPresent()
+        value.secretsArn = try reader["secretsArn"].readIfPresent() ?? ""
+        value.secretsRole = try reader["secretsRole"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11016,7 +11016,7 @@ extension QBusinessClientTypes.SamlProviderConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.SamlProviderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.SamlProviderConfiguration()
-        value.authenticationUrl = try reader["authenticationUrl"].readIfPresent()
+        value.authenticationUrl = try reader["authenticationUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11058,9 +11058,9 @@ extension QBusinessClientTypes.SamlConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.SamlConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.SamlConfiguration()
-        value.metadataXML = try reader["metadataXML"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.userIdAttribute = try reader["userIdAttribute"].readIfPresent()
+        value.metadataXML = try reader["metadataXML"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.userIdAttribute = try reader["userIdAttribute"].readIfPresent() ?? ""
         value.userGroupAttribute = try reader["userGroupAttribute"].readIfPresent()
         return value
     }
@@ -11205,9 +11205,9 @@ extension QBusinessClientTypes.ActionExecution {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ActionExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.ActionExecution()
-        value.pluginId = try reader["pluginId"].readIfPresent()
-        value.payload = try reader["payload"].readMapIfPresent(valueReadingClosure: QBusinessClientTypes.ActionExecutionPayloadField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.payloadFieldNameSeparator = try reader["payloadFieldNameSeparator"].readIfPresent()
+        value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
+        value.payload = try reader["payload"].readMapIfPresent(valueReadingClosure: QBusinessClientTypes.ActionExecutionPayloadField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.payloadFieldNameSeparator = try reader["payloadFieldNameSeparator"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11222,7 +11222,7 @@ extension QBusinessClientTypes.ActionExecutionPayloadField {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ActionExecutionPayloadField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.ActionExecutionPayloadField()
-        value.value = try reader["value"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
@@ -11269,8 +11269,8 @@ extension QBusinessClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11294,8 +11294,8 @@ extension QBusinessClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

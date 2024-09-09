@@ -917,7 +917,7 @@ public struct DeleteRepositoryInput {
     public var repositoryName: Swift.String?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
     )
@@ -1894,7 +1894,7 @@ public struct SetRepositoryPolicyInput {
     public var repositoryName: Swift.String?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
@@ -2536,7 +2536,7 @@ extension DescribeRegistriesOutput {
         let reader = responseReader
         var value = DescribeRegistriesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.registries = try reader["registries"].readListIfPresent(memberReadingClosure: ECRPUBLICClientTypes.Registry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.registries = try reader["registries"].readListIfPresent(memberReadingClosure: ECRPUBLICClientTypes.Registry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3573,11 +3573,11 @@ extension ECRPUBLICClientTypes.Registry {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.Registry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRPUBLICClientTypes.Registry()
-        value.registryId = try reader["registryId"].readIfPresent()
-        value.registryArn = try reader["registryArn"].readIfPresent()
-        value.registryUri = try reader["registryUri"].readIfPresent()
-        value.verified = try reader["verified"].readIfPresent()
-        value.aliases = try reader["aliases"].readListIfPresent(memberReadingClosure: ECRPUBLICClientTypes.RegistryAlias.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.registryId = try reader["registryId"].readIfPresent() ?? ""
+        value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
+        value.registryUri = try reader["registryUri"].readIfPresent() ?? ""
+        value.verified = try reader["verified"].readIfPresent() ?? false
+        value.aliases = try reader["aliases"].readListIfPresent(memberReadingClosure: ECRPUBLICClientTypes.RegistryAlias.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3587,8 +3587,8 @@ extension ECRPUBLICClientTypes.RegistryAlias {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.RegistryAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRPUBLICClientTypes.RegistryAlias()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.primaryRegistryAlias = try reader["primaryRegistryAlias"].readIfPresent() ?? false
         value.defaultRegistryAlias = try reader["defaultRegistryAlias"].readIfPresent() ?? false
         return value

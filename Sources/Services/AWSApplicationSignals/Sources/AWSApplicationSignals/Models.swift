@@ -2466,9 +2466,9 @@ extension BatchGetServiceLevelObjectiveBudgetReportOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetServiceLevelObjectiveBudgetReportOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.reports = try reader["Reports"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.reports = try reader["Reports"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2499,10 +2499,10 @@ extension GetServiceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetServiceOutput()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.logGroupReferences = try reader["LogGroupReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.service = try reader["Service"].readIfPresent(with: ApplicationSignalsClientTypes.Service.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2526,10 +2526,10 @@ extension ListServiceDependenciesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListServiceDependenciesOutput()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceDependencies = try reader["ServiceDependencies"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.serviceDependencies = try reader["ServiceDependencies"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceDependency.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2541,10 +2541,10 @@ extension ListServiceDependentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListServiceDependentsOutput()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceDependents = try reader["ServiceDependents"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceDependent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.serviceDependents = try reader["ServiceDependents"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceDependent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2569,10 +2569,10 @@ extension ListServiceOperationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListServiceOperationsOutput()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceOperations = try reader["ServiceOperations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceOperation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.serviceOperations = try reader["ServiceOperations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2584,10 +2584,10 @@ extension ListServicesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListServicesOutput()
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceSummaries = try reader["ServiceSummaries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.serviceSummaries = try reader["ServiceSummaries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2875,7 +2875,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2901,7 +2901,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2927,7 +2927,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2940,9 +2940,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2955,10 +2955,10 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
-        value.budgetStatus = try reader["BudgetStatus"].readIfPresent()
+        value.budgetStatus = try reader["BudgetStatus"].readIfPresent() ?? .sdkUnknown("")
         value.attainment = try reader["Attainment"].readIfPresent()
         value.totalBudgetSeconds = try reader["TotalBudgetSeconds"].readIfPresent()
         value.budgetSecondsRemaining = try reader["BudgetSecondsRemaining"].readIfPresent()
@@ -3030,9 +3030,9 @@ extension ApplicationSignalsClientTypes.CalendarInterval {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CalendarInterval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.CalendarInterval()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.durationUnit = try reader["DurationUnit"].readIfPresent()
-        value.duration = try reader["Duration"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3048,8 +3048,8 @@ extension ApplicationSignalsClientTypes.RollingInterval {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RollingInterval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.RollingInterval()
-        value.durationUnit = try reader["DurationUnit"].readIfPresent()
-        value.duration = try reader["Duration"].readIfPresent()
+        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3074,7 +3074,7 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric 
         value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.operationName = try reader["OperationName"].readIfPresent()
         value.metricType = try reader["MetricType"].readIfPresent()
-        value.totalRequestCountMetric = try reader["TotalRequestCountMetric"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalRequestCountMetric = try reader["TotalRequestCountMetric"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.monitoredRequestCountMetric = try reader["MonitoredRequestCountMetric"].readIfPresent(with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.read(from:))
         return value
     }
@@ -3124,7 +3124,7 @@ extension ApplicationSignalsClientTypes.MetricDataQuery {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricDataQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.MetricDataQuery()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.metricStat = try reader["MetricStat"].readIfPresent(with: ApplicationSignalsClientTypes.MetricStat.read(from:))
         value.expression = try reader["Expression"].readIfPresent()
         value.label = try reader["Label"].readIfPresent()
@@ -3149,8 +3149,8 @@ extension ApplicationSignalsClientTypes.MetricStat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.MetricStat()
         value.metric = try reader["Metric"].readIfPresent(with: ApplicationSignalsClientTypes.Metric.read(from:))
-        value.period = try reader["Period"].readIfPresent()
-        value.stat = try reader["Stat"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent() ?? 0
+        value.stat = try reader["Stat"].readIfPresent() ?? ""
         value.unit = try reader["Unit"].readIfPresent()
         return value
     }
@@ -3186,8 +3186,8 @@ extension ApplicationSignalsClientTypes.Dimension {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Dimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.Dimension()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3198,8 +3198,8 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceLevelIndicator()
         value.sliMetric = try reader["SliMetric"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric.read(from:))
-        value.metricThreshold = try reader["MetricThreshold"].readIfPresent()
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        value.metricThreshold = try reader["MetricThreshold"].readIfPresent() ?? 0.0
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3212,7 +3212,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
         value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.operationName = try reader["OperationName"].readIfPresent()
         value.metricType = try reader["MetricType"].readIfPresent()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3222,10 +3222,10 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3235,11 +3235,11 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjective {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjective {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceLevelObjective()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.sli = try reader["Sli"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicator.read(from:))
         value.requestBasedSli = try reader["RequestBasedSli"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator.read(from:))
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
@@ -3253,9 +3253,9 @@ extension ApplicationSignalsClientTypes.Service {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.Service()
-        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.logGroupReferences = try reader["LogGroupReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -3266,10 +3266,10 @@ extension ApplicationSignalsClientTypes.MetricReference {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.MetricReference()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.metricType = try reader["MetricType"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
+        value.metricType = try reader["MetricType"].readIfPresent() ?? ""
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metricName = try reader["MetricName"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3279,10 +3279,10 @@ extension ApplicationSignalsClientTypes.ServiceDependency {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceDependency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceDependency()
-        value.operationName = try reader["OperationName"].readIfPresent()
-        value.dependencyKeyAttributes = try reader["DependencyKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.dependencyOperationName = try reader["DependencyOperationName"].readIfPresent()
-        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.operationName = try reader["OperationName"].readIfPresent() ?? ""
+        value.dependencyKeyAttributes = try reader["DependencyKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.dependencyOperationName = try reader["DependencyOperationName"].readIfPresent() ?? ""
+        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3293,9 +3293,9 @@ extension ApplicationSignalsClientTypes.ServiceDependent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceDependent()
         value.operationName = try reader["OperationName"].readIfPresent()
-        value.dependentKeyAttributes = try reader["DependentKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.dependentKeyAttributes = try reader["DependentKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.dependentOperationName = try reader["DependentOperationName"].readIfPresent()
-        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3305,8 +3305,8 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.operationName = try reader["OperationName"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3319,8 +3319,8 @@ extension ApplicationSignalsClientTypes.ServiceOperation {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceOperation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceOperation()
-        value.name = try reader["Name"].readIfPresent()
-        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3330,9 +3330,9 @@ extension ApplicationSignalsClientTypes.ServiceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.ServiceSummary()
-        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3348,8 +3348,8 @@ extension ApplicationSignalsClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationSignalsClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

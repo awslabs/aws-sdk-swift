@@ -22760,7 +22760,7 @@ extension RedshiftClientTypes.LakeFormationQuery {
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.LakeFormationQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftClientTypes.LakeFormationQuery()
-        value.authorization = try reader["Authorization"].readIfPresent()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -22811,7 +22811,7 @@ extension RedshiftClientTypes.ResumeClusterMessage {
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResumeClusterMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftClientTypes.ResumeClusterMessage()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22826,7 +22826,7 @@ extension RedshiftClientTypes.PauseClusterMessage {
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.PauseClusterMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftClientTypes.PauseClusterMessage()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22847,7 +22847,7 @@ extension RedshiftClientTypes.ResizeClusterMessage {
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResizeClusterMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftClientTypes.ResizeClusterMessage()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
         value.clusterType = try reader["ClusterType"].readIfPresent()
         value.nodeType = try reader["NodeType"].readIfPresent()
         value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
@@ -23161,7 +23161,7 @@ extension RedshiftClientTypes.IntegrationError {
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.IntegrationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RedshiftClientTypes.IntegrationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }

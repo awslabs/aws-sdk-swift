@@ -1373,7 +1373,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: AccountClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1387,7 +1387,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1400,7 +1400,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1413,7 +1413,7 @@ extension TooManyRequestsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1426,7 +1426,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1439,7 +1439,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1482,16 +1482,16 @@ extension AccountClientTypes.ContactInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> AccountClientTypes.ContactInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccountClientTypes.ContactInformation()
-        value.fullName = try reader["FullName"].readIfPresent()
-        value.addressLine1 = try reader["AddressLine1"].readIfPresent()
+        value.fullName = try reader["FullName"].readIfPresent() ?? ""
+        value.addressLine1 = try reader["AddressLine1"].readIfPresent() ?? ""
         value.addressLine2 = try reader["AddressLine2"].readIfPresent()
         value.addressLine3 = try reader["AddressLine3"].readIfPresent()
-        value.city = try reader["City"].readIfPresent()
+        value.city = try reader["City"].readIfPresent() ?? ""
         value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
         value.districtOrCounty = try reader["DistrictOrCounty"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent() ?? ""
+        value.countryCode = try reader["CountryCode"].readIfPresent() ?? ""
+        value.phoneNumber = try reader["PhoneNumber"].readIfPresent() ?? ""
         value.companyName = try reader["CompanyName"].readIfPresent()
         value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
         return value
@@ -1514,8 +1514,8 @@ extension AccountClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> AccountClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccountClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

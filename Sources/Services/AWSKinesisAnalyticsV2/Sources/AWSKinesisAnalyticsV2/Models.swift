@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
 public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -5957,7 +5958,7 @@ extension ListApplicationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListApplicationsOutput()
-        value.applicationSummaries = try reader["ApplicationSummaries"].readListIfPresent(memberReadingClosure: KinesisAnalyticsV2ClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applicationSummaries = try reader["ApplicationSummaries"].readListIfPresent(memberReadingClosure: KinesisAnalyticsV2ClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6842,7 +6843,7 @@ extension KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription()
         value.cloudWatchLoggingOptionId = try reader["CloudWatchLoggingOptionId"].readIfPresent()
-        value.logStreamARN = try reader["LogStreamARN"].readIfPresent()
+        value.logStreamARN = try reader["LogStreamARN"].readIfPresent() ?? ""
         value.roleARN = try reader["RoleARN"].readIfPresent()
         return value
     }
@@ -6910,7 +6911,7 @@ extension KinesisAnalyticsV2ClientTypes.SourceSchema {
         var value = KinesisAnalyticsV2ClientTypes.SourceSchema()
         value.recordFormat = try reader["RecordFormat"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.RecordFormat.read(from:))
         value.recordEncoding = try reader["RecordEncoding"].readIfPresent()
-        value.recordColumns = try reader["RecordColumns"].readListIfPresent(memberReadingClosure: KinesisAnalyticsV2ClientTypes.RecordColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordColumns = try reader["RecordColumns"].readListIfPresent(memberReadingClosure: KinesisAnalyticsV2ClientTypes.RecordColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6927,9 +6928,9 @@ extension KinesisAnalyticsV2ClientTypes.RecordColumn {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.RecordColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.RecordColumn()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.mapping = try reader["Mapping"].readIfPresent()
-        value.sqlType = try reader["SqlType"].readIfPresent()
+        value.sqlType = try reader["SqlType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6945,7 +6946,7 @@ extension KinesisAnalyticsV2ClientTypes.RecordFormat {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.RecordFormat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.RecordFormat()
-        value.recordFormatType = try reader["RecordFormatType"].readIfPresent()
+        value.recordFormatType = try reader["RecordFormatType"].readIfPresent() ?? .sdkUnknown("")
         value.mappingParameters = try reader["MappingParameters"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.MappingParameters.read(from:))
         return value
     }
@@ -6979,8 +6980,8 @@ extension KinesisAnalyticsV2ClientTypes.CSVMappingParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.CSVMappingParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.CSVMappingParameters()
-        value.recordRowDelimiter = try reader["RecordRowDelimiter"].readIfPresent()
-        value.recordColumnDelimiter = try reader["RecordColumnDelimiter"].readIfPresent()
+        value.recordRowDelimiter = try reader["RecordRowDelimiter"].readIfPresent() ?? ""
+        value.recordColumnDelimiter = try reader["RecordColumnDelimiter"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6995,7 +6996,7 @@ extension KinesisAnalyticsV2ClientTypes.JSONMappingParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.JSONMappingParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.JSONMappingParameters()
-        value.recordRowPath = try reader["RecordRowPath"].readIfPresent()
+        value.recordRowPath = try reader["RecordRowPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7005,7 +7006,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseInputDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.KinesisFirehoseInputDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.KinesisFirehoseInputDescription()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.roleARN = try reader["RoleARN"].readIfPresent()
         return value
     }
@@ -7016,7 +7017,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsInputDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.KinesisStreamsInputDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.KinesisStreamsInputDescription()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.roleARN = try reader["RoleARN"].readIfPresent()
         return value
     }
@@ -7037,7 +7038,7 @@ extension KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.roleARN = try reader["RoleARN"].readIfPresent()
         return value
     }
@@ -7068,7 +7069,7 @@ extension KinesisAnalyticsV2ClientTypes.DestinationSchema {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.DestinationSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.DestinationSchema()
-        value.recordFormatType = try reader["RecordFormatType"].readIfPresent()
+        value.recordFormatType = try reader["RecordFormatType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7078,7 +7079,7 @@ extension KinesisAnalyticsV2ClientTypes.LambdaOutputDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.LambdaOutputDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.LambdaOutputDescription()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.roleARN = try reader["RoleARN"].readIfPresent()
         return value
     }
@@ -7089,7 +7090,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutputDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutputDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.KinesisFirehoseOutputDescription()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.roleARN = try reader["RoleARN"].readIfPresent()
         return value
     }
@@ -7100,7 +7101,7 @@ extension KinesisAnalyticsV2ClientTypes.KinesisStreamsOutputDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.KinesisStreamsOutputDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.KinesisStreamsOutputDescription()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent() ?? ""
         value.roleARN = try reader["RoleARN"].readIfPresent()
         return value
     }
@@ -7111,8 +7112,8 @@ extension KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
+        value.referenceId = try reader["ReferenceId"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
         value.s3ReferenceDataSourceDescription = try reader["S3ReferenceDataSourceDescription"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceDescription.read(from:))
         value.referenceSchema = try reader["ReferenceSchema"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.SourceSchema.read(from:))
         return value
@@ -7124,8 +7125,8 @@ extension KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceDescription()
-        value.bucketARN = try reader["BucketARN"].readIfPresent()
-        value.fileKey = try reader["FileKey"].readIfPresent()
+        value.bucketARN = try reader["BucketARN"].readIfPresent() ?? ""
+        value.fileKey = try reader["FileKey"].readIfPresent() ?? ""
         value.referenceRoleARN = try reader["ReferenceRoleARN"].readIfPresent()
         return value
     }
@@ -7136,10 +7137,10 @@ extension KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription()
-        value.vpcConfigurationId = try reader["VpcConfigurationId"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConfigurationId = try reader["VpcConfigurationId"].readIfPresent() ?? ""
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7149,13 +7150,13 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationDetail()
-        value.applicationARN = try reader["ApplicationARN"].readIfPresent()
+        value.applicationARN = try reader["ApplicationARN"].readIfPresent() ?? ""
         value.applicationDescription = try reader["ApplicationDescription"].readIfPresent()
-        value.applicationName = try reader["ApplicationName"].readIfPresent()
-        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent()
+        value.applicationName = try reader["ApplicationName"].readIfPresent() ?? ""
+        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent() ?? .sdkUnknown("")
         value.serviceExecutionRole = try reader["ServiceExecutionRole"].readIfPresent()
-        value.applicationStatus = try reader["ApplicationStatus"].readIfPresent()
-        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent()
+        value.applicationStatus = try reader["ApplicationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent() ?? 0
         value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateTimestamp = try reader["LastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.applicationConfigurationDescription = try reader["ApplicationConfigurationDescription"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.ApplicationConfigurationDescription.read(from:))
@@ -7176,8 +7177,8 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescr
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescription()
-        value.applicationMaintenanceWindowStartTime = try reader["ApplicationMaintenanceWindowStartTime"].readIfPresent()
-        value.applicationMaintenanceWindowEndTime = try reader["ApplicationMaintenanceWindowEndTime"].readIfPresent()
+        value.applicationMaintenanceWindowStartTime = try reader["ApplicationMaintenanceWindowStartTime"].readIfPresent() ?? ""
+        value.applicationMaintenanceWindowEndTime = try reader["ApplicationMaintenanceWindowEndTime"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7237,9 +7238,9 @@ extension KinesisAnalyticsV2ClientTypes.MavenReference {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.MavenReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.MavenReference()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.artifactId = try reader["ArtifactId"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.artifactId = try reader["ArtifactId"].readIfPresent() ?? ""
+        value.version = try reader["Version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7256,8 +7257,8 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentLocation {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.S3ContentLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.S3ContentLocation()
-        value.bucketARN = try reader["BucketARN"].readIfPresent()
-        value.fileKey = try reader["FileKey"].readIfPresent()
+        value.bucketARN = try reader["BucketARN"].readIfPresent() ?? ""
+        value.fileKey = try reader["FileKey"].readIfPresent() ?? ""
         value.objectVersion = try reader["ObjectVersion"].readIfPresent()
         return value
     }
@@ -7278,7 +7279,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription()
-        value.bucketARN = try reader["BucketARN"].readIfPresent()
+        value.bucketARN = try reader["BucketARN"].readIfPresent() ?? ""
         value.basePath = try reader["BasePath"].readIfPresent()
         return value
     }
@@ -7299,7 +7300,7 @@ extension KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription()
-        value.databaseARN = try reader["DatabaseARN"].readIfPresent()
+        value.databaseARN = try reader["DatabaseARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7319,7 +7320,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationDe
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationDescription()
-        value.rollbackEnabled = try reader["RollbackEnabled"].readIfPresent()
+        value.rollbackEnabled = try reader["RollbackEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -7329,7 +7330,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescript
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescription()
-        value.snapshotsEnabled = try reader["SnapshotsEnabled"].readIfPresent()
+        value.snapshotsEnabled = try reader["SnapshotsEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -7355,8 +7356,8 @@ extension KinesisAnalyticsV2ClientTypes.PropertyGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.PropertyGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.PropertyGroup()
-        value.propertyGroupId = try reader["PropertyGroupId"].readIfPresent()
-        value.propertyMap = try reader["PropertyMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.propertyGroupId = try reader["PropertyGroupId"].readIfPresent() ?? ""
+        value.propertyMap = try reader["PropertyMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -7450,7 +7451,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration()
-        value.applicationRestoreType = try reader["ApplicationRestoreType"].readIfPresent()
+        value.applicationRestoreType = try reader["ApplicationRestoreType"].readIfPresent() ?? .sdkUnknown("")
         value.snapshotName = try reader["SnapshotName"].readIfPresent()
         return value
     }
@@ -7461,7 +7462,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription()
-        value.codeContentType = try reader["CodeContentType"].readIfPresent()
+        value.codeContentType = try reader["CodeContentType"].readIfPresent() ?? .sdkUnknown("")
         value.codeContentDescription = try reader["CodeContentDescription"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.CodeContentDescription.read(from:))
         return value
     }
@@ -7485,8 +7486,8 @@ extension KinesisAnalyticsV2ClientTypes.S3ApplicationCodeLocationDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.S3ApplicationCodeLocationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.S3ApplicationCodeLocationDescription()
-        value.bucketARN = try reader["BucketARN"].readIfPresent()
-        value.fileKey = try reader["FileKey"].readIfPresent()
+        value.bucketARN = try reader["BucketARN"].readIfPresent() ?? ""
+        value.fileKey = try reader["FileKey"].readIfPresent() ?? ""
         value.objectVersion = try reader["ObjectVersion"].readIfPresent()
         return value
     }
@@ -7509,10 +7510,10 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationOperationInfoDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationOperationInfoDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationOperationInfoDetails()
-        value.operation = try reader["Operation"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.operationStatus = try reader["OperationStatus"].readIfPresent()
+        value.operation = try reader["Operation"].readIfPresent() ?? ""
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.operationStatus = try reader["OperationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.applicationVersionChangeDetails = try reader["ApplicationVersionChangeDetails"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.ApplicationVersionChangeDetails.read(from:))
         value.operationFailureDetails = try reader["OperationFailureDetails"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.OperationFailureDetails.read(from:))
         return value
@@ -7545,8 +7546,8 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationVersionChangeDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationVersionChangeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationVersionChangeDetails()
-        value.applicationVersionUpdatedFrom = try reader["ApplicationVersionUpdatedFrom"].readIfPresent()
-        value.applicationVersionUpdatedTo = try reader["ApplicationVersionUpdatedTo"].readIfPresent()
+        value.applicationVersionUpdatedFrom = try reader["ApplicationVersionUpdatedFrom"].readIfPresent() ?? 0
+        value.applicationVersionUpdatedTo = try reader["ApplicationVersionUpdatedTo"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7556,9 +7557,9 @@ extension KinesisAnalyticsV2ClientTypes.SnapshotDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.SnapshotDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.SnapshotDetails()
-        value.snapshotName = try reader["SnapshotName"].readIfPresent()
-        value.snapshotStatus = try reader["SnapshotStatus"].readIfPresent()
-        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent()
+        value.snapshotName = try reader["SnapshotName"].readIfPresent() ?? ""
+        value.snapshotStatus = try reader["SnapshotStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent() ?? 0
         value.snapshotCreationTimestamp = try reader["SnapshotCreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent()
         return value
@@ -7584,11 +7585,11 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationSummary()
-        value.applicationName = try reader["ApplicationName"].readIfPresent()
-        value.applicationARN = try reader["ApplicationARN"].readIfPresent()
-        value.applicationStatus = try reader["ApplicationStatus"].readIfPresent()
-        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent()
-        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent()
+        value.applicationName = try reader["ApplicationName"].readIfPresent() ?? ""
+        value.applicationARN = try reader["ApplicationARN"].readIfPresent() ?? ""
+        value.applicationStatus = try reader["ApplicationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent() ?? 0
+        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent() ?? .sdkUnknown("")
         value.applicationMode = try reader["ApplicationMode"].readIfPresent()
         return value
     }
@@ -7599,8 +7600,8 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary()
-        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent()
-        value.applicationStatus = try reader["ApplicationStatus"].readIfPresent()
+        value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent() ?? 0
+        value.applicationStatus = try reader["ApplicationStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7616,7 +7617,7 @@ extension KinesisAnalyticsV2ClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisAnalyticsV2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }

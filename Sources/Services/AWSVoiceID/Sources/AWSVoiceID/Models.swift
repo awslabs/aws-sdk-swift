@@ -4236,7 +4236,7 @@ extension VoiceIDClientTypes.WatchlistDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.WatchlistDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.WatchlistDetails()
-        value.defaultWatchlistId = try reader["DefaultWatchlistId"].readIfPresent()
+        value.defaultWatchlistId = try reader["DefaultWatchlistId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4263,7 +4263,7 @@ extension VoiceIDClientTypes.ServerSideEncryptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.ServerSideEncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.ServerSideEncryptionConfiguration()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4337,7 +4337,7 @@ extension VoiceIDClientTypes.OutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.OutputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -4353,7 +4353,7 @@ extension VoiceIDClientTypes.InputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.InputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4472,7 +4472,7 @@ extension VoiceIDClientTypes.AuthenticationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.AuthenticationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.AuthenticationConfiguration()
-        value.acceptanceThreshold = try reader["AcceptanceThreshold"].readIfPresent()
+        value.acceptanceThreshold = try reader["AcceptanceThreshold"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4509,7 +4509,7 @@ extension VoiceIDClientTypes.VoiceSpoofingRisk {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.VoiceSpoofingRisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.VoiceSpoofingRisk()
-        value.riskScore = try reader["RiskScore"].readIfPresent()
+        value.riskScore = try reader["RiskScore"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4519,7 +4519,7 @@ extension VoiceIDClientTypes.KnownFraudsterRisk {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.KnownFraudsterRisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.KnownFraudsterRisk()
-        value.riskScore = try reader["RiskScore"].readIfPresent()
+        value.riskScore = try reader["RiskScore"].readIfPresent() ?? 0
         value.generatedFraudsterId = try reader["GeneratedFraudsterId"].readIfPresent()
         return value
     }
@@ -4629,8 +4629,8 @@ extension VoiceIDClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> VoiceIDClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = VoiceIDClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

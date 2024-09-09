@@ -2543,7 +2543,7 @@ public struct DescribeEngineVersionsInput {
     public var parameterGroupFamily: Swift.String?
 
     public init(
-        defaultOnly: Swift.Bool? = nil,
+        defaultOnly: Swift.Bool? = false,
         engineVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -3647,7 +3647,7 @@ public struct ResetParameterGroupInput {
     public var parameterNames: [Swift.String]?
 
     public init(
-        allParameters: Swift.Bool? = nil,
+        allParameters: Swift.Bool? = false,
         parameterGroupName: Swift.String? = nil,
         parameterNames: [Swift.String]? = nil
     )

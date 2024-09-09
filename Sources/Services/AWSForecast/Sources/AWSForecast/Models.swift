@@ -1288,7 +1288,7 @@ public struct CreateDatasetImportJobInput {
         tags: [ForecastClientTypes.Tag]? = nil,
         timeZone: Swift.String? = nil,
         timestampFormat: Swift.String? = nil,
-        useGeolocationForTimeZone: Swift.Bool? = nil
+        useGeolocationForTimeZone: Swift.Bool? = false
     )
     {
         self.dataSource = dataSource
@@ -9245,7 +9245,7 @@ extension ForecastClientTypes.DataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.DataConfig()
-        value.datasetGroupArn = try reader["DatasetGroupArn"].readIfPresent()
+        value.datasetGroupArn = try reader["DatasetGroupArn"].readIfPresent() ?? ""
         value.attributeConfigs = try reader["AttributeConfigs"].readListIfPresent(memberReadingClosure: ForecastClientTypes.AttributeConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.additionalDatasets = try reader["AdditionalDatasets"].readListIfPresent(memberReadingClosure: ForecastClientTypes.AdditionalDataset.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9263,7 +9263,7 @@ extension ForecastClientTypes.AdditionalDataset {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.AdditionalDataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.AdditionalDataset()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.configuration = try reader["Configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9280,8 +9280,8 @@ extension ForecastClientTypes.AttributeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.AttributeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.AttributeConfig()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.transformations = try reader["Transformations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.transformations = try reader["Transformations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -9297,8 +9297,8 @@ extension ForecastClientTypes.EncryptionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EncryptionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.EncryptionConfig()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9416,8 +9416,8 @@ extension ForecastClientTypes.S3Config {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.S3Config {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.S3Config()
-        value.path = try reader["Path"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         return value
     }
@@ -9455,8 +9455,8 @@ extension ForecastClientTypes.ExplainabilityConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilityConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.ExplainabilityConfig()
-        value.timeSeriesGranularity = try reader["TimeSeriesGranularity"].readIfPresent()
-        value.timePointGranularity = try reader["TimePointGranularity"].readIfPresent()
+        value.timeSeriesGranularity = try reader["TimeSeriesGranularity"].readIfPresent() ?? .sdkUnknown("")
+        value.timePointGranularity = try reader["TimePointGranularity"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9605,9 +9605,9 @@ extension ForecastClientTypes.IntegerParameterRange {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.IntegerParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.IntegerParameterRange()
-        value.name = try reader["Name"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
-        value.minValue = try reader["MinValue"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.maxValue = try reader["MaxValue"].readIfPresent() ?? 0
+        value.minValue = try reader["MinValue"].readIfPresent() ?? 0
         value.scalingType = try reader["ScalingType"].readIfPresent()
         return value
     }
@@ -9626,9 +9626,9 @@ extension ForecastClientTypes.ContinuousParameterRange {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ContinuousParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.ContinuousParameterRange()
-        value.name = try reader["Name"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
-        value.minValue = try reader["MinValue"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.maxValue = try reader["MaxValue"].readIfPresent() ?? 0.0
+        value.minValue = try reader["MinValue"].readIfPresent() ?? 0.0
         value.scalingType = try reader["ScalingType"].readIfPresent()
         return value
     }
@@ -9645,8 +9645,8 @@ extension ForecastClientTypes.CategoricalParameterRange {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.CategoricalParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.CategoricalParameterRange()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9662,7 +9662,7 @@ extension ForecastClientTypes.InputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.InputDataConfig()
-        value.datasetGroupArn = try reader["DatasetGroupArn"].readIfPresent()
+        value.datasetGroupArn = try reader["DatasetGroupArn"].readIfPresent() ?? ""
         value.supplementaryFeatures = try reader["SupplementaryFeatures"].readListIfPresent(memberReadingClosure: ForecastClientTypes.SupplementaryFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9679,8 +9679,8 @@ extension ForecastClientTypes.SupplementaryFeature {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.SupplementaryFeature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.SupplementaryFeature()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9697,7 +9697,7 @@ extension ForecastClientTypes.FeaturizationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.FeaturizationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.FeaturizationConfig()
-        value.forecastFrequency = try reader["ForecastFrequency"].readIfPresent()
+        value.forecastFrequency = try reader["ForecastFrequency"].readIfPresent() ?? ""
         value.forecastDimensions = try reader["ForecastDimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.featurizations = try reader["Featurizations"].readListIfPresent(memberReadingClosure: ForecastClientTypes.Featurization.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9715,7 +9715,7 @@ extension ForecastClientTypes.Featurization {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Featurization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.Featurization()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
         value.featurizationPipeline = try reader["FeaturizationPipeline"].readListIfPresent(memberReadingClosure: ForecastClientTypes.FeaturizationMethod.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9732,7 +9732,7 @@ extension ForecastClientTypes.FeaturizationMethod {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.FeaturizationMethod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.FeaturizationMethod()
-        value.featurizationMethodName = try reader["FeaturizationMethodName"].readIfPresent()
+        value.featurizationMethodName = try reader["FeaturizationMethodName"].readIfPresent() ?? .sdkUnknown("")
         value.featurizationMethodParameters = try reader["FeaturizationMethodParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9801,9 +9801,9 @@ extension ForecastClientTypes.TimeSeriesCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.TimeSeriesCondition()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValue = try reader["AttributeValue"].readIfPresent()
-        value.condition = try reader["Condition"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.attributeValue = try reader["AttributeValue"].readIfPresent() ?? ""
+        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9820,9 +9820,9 @@ extension ForecastClientTypes.Action {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.Action()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.operation = try reader["Operation"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -10137,8 +10137,8 @@ extension ForecastClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

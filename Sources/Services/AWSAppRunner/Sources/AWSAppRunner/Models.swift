@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// An unexpected service exception occurred.
 public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1931,7 +1932,7 @@ public struct DeleteAutoScalingConfigurationInput {
 
     public init(
         autoScalingConfigurationArn: Swift.String? = nil,
-        deleteAllRevisions: Swift.Bool? = nil
+        deleteAllRevisions: Swift.Bool? = false
     )
     {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
@@ -2327,7 +2328,7 @@ public struct ListAutoScalingConfigurationsInput {
 
     public init(
         autoScalingConfigurationName: Swift.String? = nil,
-        latestOnly: Swift.Bool? = nil,
+        latestOnly: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2436,7 +2437,7 @@ public struct ListObservabilityConfigurationsInput {
     public var observabilityConfigurationName: Swift.String?
 
     public init(
-        latestOnly: Swift.Bool? = nil,
+        latestOnly: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         observabilityConfigurationName: Swift.String? = nil
@@ -3762,9 +3763,9 @@ extension AssociateCustomDomainOutput {
         let reader = responseReader
         var value = AssociateCustomDomainOutput()
         value.customDomain = try reader["CustomDomain"].readIfPresent(with: AppRunnerClientTypes.CustomDomain.read(from:))
-        value.dnsTarget = try reader["DNSTarget"].readIfPresent()
-        value.serviceArn = try reader["ServiceArn"].readIfPresent()
-        value.vpcDNSTargets = try reader["VpcDNSTargets"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcDNSTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsTarget = try reader["DNSTarget"].readIfPresent() ?? ""
+        value.serviceArn = try reader["ServiceArn"].readIfPresent() ?? ""
+        value.vpcDNSTargets = try reader["VpcDNSTargets"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcDNSTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3812,7 +3813,7 @@ extension CreateServiceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateServiceOutput()
-        value.operationId = try reader["OperationId"].readIfPresent()
+        value.operationId = try reader["OperationId"].readIfPresent() ?? ""
         value.service = try reader["Service"].readIfPresent(with: AppRunnerClientTypes.Service.read(from:))
         return value
     }
@@ -3885,7 +3886,7 @@ extension DeleteServiceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteServiceOutput()
-        value.operationId = try reader["OperationId"].readIfPresent()
+        value.operationId = try reader["OperationId"].readIfPresent() ?? ""
         value.service = try reader["Service"].readIfPresent(with: AppRunnerClientTypes.Service.read(from:))
         return value
     }
@@ -3934,11 +3935,11 @@ extension DescribeCustomDomainsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeCustomDomainsOutput()
-        value.customDomains = try reader["CustomDomains"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.CustomDomain.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dnsTarget = try reader["DNSTarget"].readIfPresent()
+        value.customDomains = try reader["CustomDomains"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.CustomDomain.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dnsTarget = try reader["DNSTarget"].readIfPresent() ?? ""
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceArn = try reader["ServiceArn"].readIfPresent()
-        value.vpcDNSTargets = try reader["VpcDNSTargets"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcDNSTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceArn = try reader["ServiceArn"].readIfPresent() ?? ""
+        value.vpcDNSTargets = try reader["VpcDNSTargets"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcDNSTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3999,9 +4000,9 @@ extension DisassociateCustomDomainOutput {
         let reader = responseReader
         var value = DisassociateCustomDomainOutput()
         value.customDomain = try reader["CustomDomain"].readIfPresent(with: AppRunnerClientTypes.CustomDomain.read(from:))
-        value.dnsTarget = try reader["DNSTarget"].readIfPresent()
-        value.serviceArn = try reader["ServiceArn"].readIfPresent()
-        value.vpcDNSTargets = try reader["VpcDNSTargets"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcDNSTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsTarget = try reader["DNSTarget"].readIfPresent() ?? ""
+        value.serviceArn = try reader["ServiceArn"].readIfPresent() ?? ""
+        value.vpcDNSTargets = try reader["VpcDNSTargets"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcDNSTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4013,7 +4014,7 @@ extension ListAutoScalingConfigurationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutoScalingConfigurationsOutput()
-        value.autoScalingConfigurationSummaryList = try reader["AutoScalingConfigurationSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.AutoScalingConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoScalingConfigurationSummaryList = try reader["AutoScalingConfigurationSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.AutoScalingConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -4026,7 +4027,7 @@ extension ListConnectionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListConnectionsOutput()
-        value.connectionSummaryList = try reader["ConnectionSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.ConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionSummaryList = try reader["ConnectionSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.ConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -4040,7 +4041,7 @@ extension ListObservabilityConfigurationsOutput {
         let reader = responseReader
         var value = ListObservabilityConfigurationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.observabilityConfigurationSummaryList = try reader["ObservabilityConfigurationSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.ObservabilityConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.observabilityConfigurationSummaryList = try reader["ObservabilityConfigurationSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.ObservabilityConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4066,7 +4067,7 @@ extension ListServicesOutput {
         let reader = responseReader
         var value = ListServicesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceSummaryList = try reader["ServiceSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.ServiceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceSummaryList = try reader["ServiceSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.ServiceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4079,7 +4080,7 @@ extension ListServicesForAutoScalingConfigurationOutput {
         let reader = responseReader
         var value = ListServicesForAutoScalingConfigurationOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serviceArnList = try reader["ServiceArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceArnList = try reader["ServiceArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4104,7 +4105,7 @@ extension ListVpcConnectorsOutput {
         let reader = responseReader
         var value = ListVpcConnectorsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.vpcConnectors = try reader["VpcConnectors"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcConnector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConnectors = try reader["VpcConnectors"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcConnector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4117,7 +4118,7 @@ extension ListVpcIngressConnectionsOutput {
         let reader = responseReader
         var value = ListVpcIngressConnectionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.vpcIngressConnectionSummaryList = try reader["VpcIngressConnectionSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcIngressConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcIngressConnectionSummaryList = try reader["VpcIngressConnectionSummaryList"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.VpcIngressConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4155,7 +4156,7 @@ extension StartDeploymentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartDeploymentOutput()
-        value.operationId = try reader["OperationId"].readIfPresent()
+        value.operationId = try reader["OperationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4193,7 +4194,7 @@ extension UpdateServiceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateServiceOutput()
-        value.operationId = try reader["OperationId"].readIfPresent()
+        value.operationId = try reader["OperationId"].readIfPresent() ?? ""
         value.service = try reader["Service"].readIfPresent(with: AppRunnerClientTypes.Service.read(from:))
         return value
     }
@@ -4878,10 +4879,10 @@ extension AppRunnerClientTypes.CustomDomain {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CustomDomain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.CustomDomain()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.enableWWWSubdomain = try reader["EnableWWWSubdomain"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.enableWWWSubdomain = try reader["EnableWWWSubdomain"].readIfPresent() ?? false
         value.certificateValidationRecords = try reader["CertificateValidationRecords"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.CertificateValidationRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4973,7 +4974,7 @@ extension AppRunnerClientTypes.TraceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.TraceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.TraceConfiguration()
-        value.vendor = try reader["Vendor"].readIfPresent()
+        value.vendor = try reader["Vendor"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4983,14 +4984,14 @@ extension AppRunnerClientTypes.Service {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.Service()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.serviceId = try reader["ServiceId"].readIfPresent()
-        value.serviceArn = try reader["ServiceArn"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.serviceId = try reader["ServiceId"].readIfPresent() ?? ""
+        value.serviceArn = try reader["ServiceArn"].readIfPresent() ?? ""
         value.serviceUrl = try reader["ServiceUrl"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.sourceConfiguration = try reader["SourceConfiguration"].readIfPresent(with: AppRunnerClientTypes.SourceConfiguration.read(from:))
         value.instanceConfiguration = try reader["InstanceConfiguration"].readIfPresent(with: AppRunnerClientTypes.InstanceConfiguration.read(from:))
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: AppRunnerClientTypes.EncryptionConfiguration.read(from:))
@@ -5121,7 +5122,7 @@ extension AppRunnerClientTypes.EncryptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.EncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.EncryptionConfiguration()
-        value.kmsKey = try reader["KmsKey"].readIfPresent()
+        value.kmsKey = try reader["KmsKey"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5195,9 +5196,9 @@ extension AppRunnerClientTypes.ImageRepository {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ImageRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.ImageRepository()
-        value.imageIdentifier = try reader["ImageIdentifier"].readIfPresent()
+        value.imageIdentifier = try reader["ImageIdentifier"].readIfPresent() ?? ""
         value.imageConfiguration = try reader["ImageConfiguration"].readIfPresent(with: AppRunnerClientTypes.ImageConfiguration.read(from:))
-        value.imageRepositoryType = try reader["ImageRepositoryType"].readIfPresent()
+        value.imageRepositoryType = try reader["ImageRepositoryType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5236,7 +5237,7 @@ extension AppRunnerClientTypes.CodeRepository {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CodeRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.CodeRepository()
-        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent()
+        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent() ?? ""
         value.sourceCodeVersion = try reader["SourceCodeVersion"].readIfPresent(with: AppRunnerClientTypes.SourceCodeVersion.read(from:))
         value.codeConfiguration = try reader["CodeConfiguration"].readIfPresent(with: AppRunnerClientTypes.CodeConfiguration.read(from:))
         value.sourceDirectory = try reader["SourceDirectory"].readIfPresent()
@@ -5255,7 +5256,7 @@ extension AppRunnerClientTypes.CodeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CodeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.CodeConfiguration()
-        value.configurationSource = try reader["ConfigurationSource"].readIfPresent()
+        value.configurationSource = try reader["ConfigurationSource"].readIfPresent() ?? .sdkUnknown("")
         value.codeConfigurationValues = try reader["CodeConfigurationValues"].readIfPresent(with: AppRunnerClientTypes.CodeConfigurationValues.read(from:))
         return value
     }
@@ -5276,7 +5277,7 @@ extension AppRunnerClientTypes.CodeConfigurationValues {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CodeConfigurationValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.CodeConfigurationValues()
-        value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
         value.buildCommand = try reader["BuildCommand"].readIfPresent()
         value.startCommand = try reader["StartCommand"].readIfPresent()
         value.port = try reader["Port"].readIfPresent()
@@ -5297,8 +5298,8 @@ extension AppRunnerClientTypes.SourceCodeVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.SourceCodeVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppRunnerClientTypes.SourceCodeVersion()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteActivityTypeOutput {
 
@@ -5030,9 +5031,9 @@ public struct GetWorkflowExecutionHistoryInput {
     public init(
         domain: Swift.String? = nil,
         execution: SWFClientTypes.WorkflowExecution? = nil,
-        maximumPageSize: Swift.Int? = nil,
+        maximumPageSize: Swift.Int? = 0,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = nil
+        reverseOrder: Swift.Bool? = false
     )
     {
         self.domain = domain
@@ -5104,11 +5105,11 @@ public struct ListActivityTypesInput {
 
     public init(
         domain: Swift.String? = nil,
-        maximumPageSize: Swift.Int? = nil,
+        maximumPageSize: Swift.Int? = 0,
         name: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
-        reverseOrder: Swift.Bool? = nil
+        reverseOrder: Swift.Bool? = false
     )
     {
         self.domain = domain
@@ -5166,9 +5167,9 @@ public struct ListClosedWorkflowExecutionsInput {
         closeTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         domain: Swift.String? = nil,
         executionFilter: SWFClientTypes.WorkflowExecutionFilter? = nil,
-        maximumPageSize: Swift.Int? = nil,
+        maximumPageSize: Swift.Int? = 0,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = nil,
+        reverseOrder: Swift.Bool? = false,
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
@@ -5217,10 +5218,10 @@ public struct ListDomainsInput {
     public var reverseOrder: Swift.Bool?
 
     public init(
-        maximumPageSize: Swift.Int? = nil,
+        maximumPageSize: Swift.Int? = 0,
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
-        reverseOrder: Swift.Bool? = nil
+        reverseOrder: Swift.Bool? = false
     )
     {
         self.maximumPageSize = maximumPageSize
@@ -5271,9 +5272,9 @@ public struct ListOpenWorkflowExecutionsInput {
     public init(
         domain: Swift.String? = nil,
         executionFilter: SWFClientTypes.WorkflowExecutionFilter? = nil,
-        maximumPageSize: Swift.Int? = nil,
+        maximumPageSize: Swift.Int? = 0,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = nil,
+        reverseOrder: Swift.Bool? = false,
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
@@ -5372,11 +5373,11 @@ public struct ListWorkflowTypesInput {
 
     public init(
         domain: Swift.String? = nil,
-        maximumPageSize: Swift.Int? = nil,
+        maximumPageSize: Swift.Int? = 0,
         name: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
-        reverseOrder: Swift.Bool? = nil
+        reverseOrder: Swift.Bool? = false
     )
     {
         self.domain = domain
@@ -5487,10 +5488,10 @@ public struct PollForDecisionTaskInput {
     public init(
         domain: Swift.String? = nil,
         identity: Swift.String? = nil,
-        maximumPageSize: Swift.Int? = nil,
+        maximumPageSize: Swift.Int? = 0,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = nil,
-        startAtPreviousStartedEvent: Swift.Bool? = nil,
+        reverseOrder: Swift.Bool? = false,
+        startAtPreviousStartedEvent: Swift.Bool? = false,
         taskList: SWFClientTypes.TaskList? = nil
     )
     {
@@ -6977,7 +6978,7 @@ extension GetWorkflowExecutionHistoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetWorkflowExecutionHistoryOutput()
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SWFClientTypes.HistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SWFClientTypes.HistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["nextPageToken"].readIfPresent()
         return value
     }
@@ -6991,7 +6992,7 @@ extension ListActivityTypesOutput {
         let reader = responseReader
         var value = ListActivityTypesOutput()
         value.nextPageToken = try reader["nextPageToken"].readIfPresent()
-        value.typeInfos = try reader["typeInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.ActivityTypeInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.typeInfos = try reader["typeInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.ActivityTypeInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7003,7 +7004,7 @@ extension ListClosedWorkflowExecutionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListClosedWorkflowExecutionsOutput()
-        value.executionInfos = try reader["executionInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.WorkflowExecutionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionInfos = try reader["executionInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.WorkflowExecutionInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["nextPageToken"].readIfPresent()
         return value
     }
@@ -7016,7 +7017,7 @@ extension ListDomainsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDomainsOutput()
-        value.domainInfos = try reader["domainInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.DomainInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainInfos = try reader["domainInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.DomainInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["nextPageToken"].readIfPresent()
         return value
     }
@@ -7029,7 +7030,7 @@ extension ListOpenWorkflowExecutionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListOpenWorkflowExecutionsOutput()
-        value.executionInfos = try reader["executionInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.WorkflowExecutionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionInfos = try reader["executionInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.WorkflowExecutionInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["nextPageToken"].readIfPresent()
         return value
     }
@@ -7055,7 +7056,7 @@ extension ListWorkflowTypesOutput {
         let reader = responseReader
         var value = ListWorkflowTypesOutput()
         value.nextPageToken = try reader["nextPageToken"].readIfPresent()
-        value.typeInfos = try reader["typeInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.WorkflowTypeInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.typeInfos = try reader["typeInfos"].readListIfPresent(memberReadingClosure: SWFClientTypes.WorkflowTypeInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7067,11 +7068,11 @@ extension PollForActivityTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PollForActivityTaskOutput()
-        value.activityId = try reader["activityId"].readIfPresent()
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
         value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
         value.input = try reader["input"].readIfPresent()
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        value.taskToken = try reader["taskToken"].readIfPresent()
+        value.taskToken = try reader["taskToken"].readIfPresent() ?? ""
         value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
         return value
     }
@@ -7084,11 +7085,11 @@ extension PollForDecisionTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PollForDecisionTaskOutput()
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SWFClientTypes.HistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SWFClientTypes.HistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["nextPageToken"].readIfPresent()
         value.previousStartedEventId = try reader["previousStartedEventId"].readIfPresent() ?? 0
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
-        value.taskToken = try reader["taskToken"].readIfPresent()
+        value.taskToken = try reader["taskToken"].readIfPresent() ?? ""
         value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
         return value
@@ -7981,9 +7982,9 @@ extension SWFClientTypes.ActivityTypeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ActivityTypeInfo()
         value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deprecationDate = try reader["deprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -8000,8 +8001,8 @@ extension SWFClientTypes.ActivityType {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ActivityType()
-        value.name = try reader["name"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8031,7 +8032,7 @@ extension SWFClientTypes.TaskList {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.TaskList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.TaskList()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8041,8 +8042,8 @@ extension SWFClientTypes.DomainInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DomainInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.DomainInfo()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
         return value
@@ -8054,7 +8055,7 @@ extension SWFClientTypes.DomainConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DomainConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.DomainConfiguration()
-        value.workflowExecutionRetentionPeriodInDays = try reader["workflowExecutionRetentionPeriodInDays"].readIfPresent()
+        value.workflowExecutionRetentionPeriodInDays = try reader["workflowExecutionRetentionPeriodInDays"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8066,9 +8067,9 @@ extension SWFClientTypes.WorkflowExecutionInfo {
         var value = SWFClientTypes.WorkflowExecutionInfo()
         value.execution = try reader["execution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.startTimestamp = try reader["startTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTimestamp = try reader["startTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.closeTimestamp = try reader["closeTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.closeStatus = try reader["closeStatus"].readIfPresent()
         value.parent = try reader["parent"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
         value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8088,8 +8089,8 @@ extension SWFClientTypes.WorkflowExecution {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.WorkflowExecution()
-        value.workflowId = try reader["workflowId"].readIfPresent()
-        value.runId = try reader["runId"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
+        value.runId = try reader["runId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8105,8 +8106,8 @@ extension SWFClientTypes.WorkflowType {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.WorkflowType()
-        value.name = try reader["name"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8116,11 +8117,11 @@ extension SWFClientTypes.WorkflowExecutionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.WorkflowExecutionConfiguration()
-        value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent()
-        value.executionStartToCloseTimeout = try reader["executionStartToCloseTimeout"].readIfPresent()
+        value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent() ?? ""
+        value.executionStartToCloseTimeout = try reader["executionStartToCloseTimeout"].readIfPresent() ?? ""
         value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
         value.taskPriority = try reader["taskPriority"].readIfPresent()
-        value.childPolicy = try reader["childPolicy"].readIfPresent()
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
         value.lambdaRole = try reader["lambdaRole"].readIfPresent()
         return value
     }
@@ -8146,9 +8147,9 @@ extension SWFClientTypes.WorkflowTypeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.WorkflowTypeInfo()
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deprecationDate = try reader["deprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -8174,8 +8175,8 @@ extension SWFClientTypes.HistoryEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.HistoryEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.HistoryEvent()
-        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.eventType = try reader["eventType"].readIfPresent()
+        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
         value.eventId = try reader["eventId"].readIfPresent() ?? 0
         value.workflowExecutionStartedEventAttributes = try reader["workflowExecutionStartedEventAttributes"].readIfPresent(with: SWFClientTypes.WorkflowExecutionStartedEventAttributes.read(from:))
         value.workflowExecutionCompletedEventAttributes = try reader["workflowExecutionCompletedEventAttributes"].readIfPresent(with: SWFClientTypes.WorkflowExecutionCompletedEventAttributes.read(from:))
@@ -8252,9 +8253,9 @@ extension SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ScheduleLambdaFunctionFailedEventAttributes()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8312,8 +8313,8 @@ extension SWFClientTypes.LambdaFunctionScheduledEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.LambdaFunctionScheduledEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.LambdaFunctionScheduledEventAttributes()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.control = try reader["control"].readIfPresent()
         value.input = try reader["input"].readIfPresent()
         value.startToCloseTimeout = try reader["startToCloseTimeout"].readIfPresent()
@@ -8328,8 +8329,8 @@ extension SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.StartChildWorkflowExecutionFailedEventAttributes()
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.cause = try reader["cause"].readIfPresent()
-        value.workflowId = try reader["workflowId"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
         value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         value.control = try reader["control"].readIfPresent()
@@ -8342,8 +8343,8 @@ extension SWFClientTypes.CancelTimerFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CancelTimerFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.CancelTimerFailedEventAttributes()
-        value.timerId = try reader["timerId"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.timerId = try reader["timerId"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8354,8 +8355,8 @@ extension SWFClientTypes.StartTimerFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartTimerFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.StartTimerFailedEventAttributes()
-        value.timerId = try reader["timerId"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.timerId = try reader["timerId"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8366,8 +8367,8 @@ extension SWFClientTypes.RequestCancelActivityTaskFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.RequestCancelActivityTaskFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.RequestCancelActivityTaskFailedEventAttributes()
-        value.activityId = try reader["activityId"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8379,8 +8380,8 @@ extension SWFClientTypes.ScheduleActivityTaskFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ScheduleActivityTaskFailedEventAttributes()
         value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
-        value.activityId = try reader["activityId"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8391,9 +8392,9 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionFailedEventAttrib
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.RequestCancelExternalWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.RequestCancelExternalWorkflowExecutionFailedEventAttributes()
-        value.workflowId = try reader["workflowId"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
         value.runId = try reader["runId"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         value.control = try reader["control"].readIfPresent()
@@ -8406,7 +8407,7 @@ extension SWFClientTypes.RequestCancelExternalWorkflowExecutionInitiatedEventAtt
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.RequestCancelExternalWorkflowExecutionInitiatedEventAttributes()
-        value.workflowId = try reader["workflowId"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
         value.runId = try reader["runId"].readIfPresent()
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         value.control = try reader["control"].readIfPresent()
@@ -8430,9 +8431,9 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.SignalExternalWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.SignalExternalWorkflowExecutionFailedEventAttributes()
-        value.workflowId = try reader["workflowId"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
         value.runId = try reader["runId"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         value.control = try reader["control"].readIfPresent()
@@ -8456,9 +8457,9 @@ extension SWFClientTypes.SignalExternalWorkflowExecutionInitiatedEventAttributes
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.SignalExternalWorkflowExecutionInitiatedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.SignalExternalWorkflowExecutionInitiatedEventAttributes()
-        value.workflowId = try reader["workflowId"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
         value.runId = try reader["runId"].readIfPresent()
-        value.signalName = try reader["signalName"].readIfPresent()
+        value.signalName = try reader["signalName"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         value.control = try reader["control"].readIfPresent()
@@ -8500,7 +8501,7 @@ extension SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes {
         var value = SWFClientTypes.ChildWorkflowExecutionTimedOutEventAttributes()
         value.workflowExecution = try reader["workflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
-        value.timeoutType = try reader["timeoutType"].readIfPresent()
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
         value.initiatedEventId = try reader["initiatedEventId"].readIfPresent() ?? 0
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
         return value
@@ -8553,7 +8554,7 @@ extension SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes()
-        value.workflowId = try reader["workflowId"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent() ?? ""
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
         value.control = try reader["control"].readIfPresent()
         value.input = try reader["input"].readIfPresent()
@@ -8561,7 +8562,7 @@ extension SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes {
         value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
         value.taskPriority = try reader["taskPriority"].readIfPresent()
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        value.childPolicy = try reader["childPolicy"].readIfPresent()
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
         value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent()
         value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.lambdaRole = try reader["lambdaRole"].readIfPresent()
@@ -8574,7 +8575,7 @@ extension SWFClientTypes.TimerCanceledEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.TimerCanceledEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.TimerCanceledEventAttributes()
-        value.timerId = try reader["timerId"].readIfPresent()
+        value.timerId = try reader["timerId"].readIfPresent() ?? ""
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
@@ -8586,7 +8587,7 @@ extension SWFClientTypes.TimerFiredEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.TimerFiredEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.TimerFiredEventAttributes()
-        value.timerId = try reader["timerId"].readIfPresent()
+        value.timerId = try reader["timerId"].readIfPresent() ?? ""
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8597,9 +8598,9 @@ extension SWFClientTypes.TimerStartedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.TimerStartedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.TimerStartedEventAttributes()
-        value.timerId = try reader["timerId"].readIfPresent()
+        value.timerId = try reader["timerId"].readIfPresent() ?? ""
         value.control = try reader["control"].readIfPresent()
-        value.startToFireTimeout = try reader["startToFireTimeout"].readIfPresent()
+        value.startToFireTimeout = try reader["startToFireTimeout"].readIfPresent() ?? ""
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8610,8 +8611,8 @@ extension SWFClientTypes.RecordMarkerFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.RecordMarkerFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.RecordMarkerFailedEventAttributes()
-        value.markerName = try reader["markerName"].readIfPresent()
-        value.cause = try reader["cause"].readIfPresent()
+        value.markerName = try reader["markerName"].readIfPresent() ?? ""
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8622,7 +8623,7 @@ extension SWFClientTypes.MarkerRecordedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.MarkerRecordedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.MarkerRecordedEventAttributes()
-        value.markerName = try reader["markerName"].readIfPresent()
+        value.markerName = try reader["markerName"].readIfPresent() ?? ""
         value.details = try reader["details"].readIfPresent()
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
@@ -8634,7 +8635,7 @@ extension SWFClientTypes.WorkflowExecutionSignaledEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionSignaledEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.WorkflowExecutionSignaledEventAttributes()
-        value.signalName = try reader["signalName"].readIfPresent()
+        value.signalName = try reader["signalName"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.externalWorkflowExecution = try reader["externalWorkflowExecution"].readIfPresent(with: SWFClientTypes.WorkflowExecution.read(from:))
         value.externalInitiatedEventId = try reader["externalInitiatedEventId"].readIfPresent() ?? 0
@@ -8648,7 +8649,7 @@ extension SWFClientTypes.ActivityTaskCancelRequestedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ActivityTaskCancelRequestedEventAttributes()
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        value.activityId = try reader["activityId"].readIfPresent()
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8671,7 +8672,7 @@ extension SWFClientTypes.ActivityTaskTimedOutEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ActivityTaskTimedOutEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ActivityTaskTimedOutEventAttributes()
-        value.timeoutType = try reader["timeoutType"].readIfPresent()
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
         value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
         value.details = try reader["details"].readIfPresent()
@@ -8721,7 +8722,7 @@ extension SWFClientTypes.ActivityTaskScheduledEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ActivityTaskScheduledEventAttributes()
         value.activityType = try reader["activityType"].readIfPresent(with: SWFClientTypes.ActivityType.read(from:))
-        value.activityId = try reader["activityId"].readIfPresent()
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent()
         value.control = try reader["control"].readIfPresent()
         value.scheduleToStartTimeout = try reader["scheduleToStartTimeout"].readIfPresent()
@@ -8740,7 +8741,7 @@ extension SWFClientTypes.DecisionTaskTimedOutEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.DecisionTaskTimedOutEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.DecisionTaskTimedOutEventAttributes()
-        value.timeoutType = try reader["timeoutType"].readIfPresent()
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
         value.scheduledEventId = try reader["scheduledEventId"].readIfPresent() ?? 0
         value.startedEventId = try reader["startedEventId"].readIfPresent() ?? 0
         return value
@@ -8804,7 +8805,7 @@ extension SWFClientTypes.WorkflowExecutionTerminatedEventAttributes {
         var value = SWFClientTypes.WorkflowExecutionTerminatedEventAttributes()
         value.reason = try reader["reason"].readIfPresent()
         value.details = try reader["details"].readIfPresent()
-        value.childPolicy = try reader["childPolicy"].readIfPresent()
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
         value.cause = try reader["cause"].readIfPresent()
         return value
     }
@@ -8815,7 +8816,7 @@ extension SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ContinueAsNewWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8828,12 +8829,12 @@ extension SWFClientTypes.WorkflowExecutionContinuedAsNewEventAttributes {
         var value = SWFClientTypes.WorkflowExecutionContinuedAsNewEventAttributes()
         value.input = try reader["input"].readIfPresent()
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
-        value.newExecutionRunId = try reader["newExecutionRunId"].readIfPresent()
+        value.newExecutionRunId = try reader["newExecutionRunId"].readIfPresent() ?? ""
         value.executionStartToCloseTimeout = try reader["executionStartToCloseTimeout"].readIfPresent()
         value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
         value.taskPriority = try reader["taskPriority"].readIfPresent()
         value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent()
-        value.childPolicy = try reader["childPolicy"].readIfPresent()
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
         value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
         value.lambdaRole = try reader["lambdaRole"].readIfPresent()
@@ -8846,7 +8847,7 @@ extension SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.CancelWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8868,8 +8869,8 @@ extension SWFClientTypes.WorkflowExecutionTimedOutEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.WorkflowExecutionTimedOutEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.WorkflowExecutionTimedOutEventAttributes()
-        value.timeoutType = try reader["timeoutType"].readIfPresent()
-        value.childPolicy = try reader["childPolicy"].readIfPresent()
+        value.timeoutType = try reader["timeoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8879,7 +8880,7 @@ extension SWFClientTypes.FailWorkflowExecutionFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.FailWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.FailWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8902,7 +8903,7 @@ extension SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.CompleteWorkflowExecutionFailedEventAttributes()
-        value.cause = try reader["cause"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent() ?? .sdkUnknown("")
         value.decisionTaskCompletedEventId = try reader["decisionTaskCompletedEventId"].readIfPresent() ?? 0
         return value
     }
@@ -8927,7 +8928,7 @@ extension SWFClientTypes.WorkflowExecutionStartedEventAttributes {
         value.input = try reader["input"].readIfPresent()
         value.executionStartToCloseTimeout = try reader["executionStartToCloseTimeout"].readIfPresent()
         value.taskStartToCloseTimeout = try reader["taskStartToCloseTimeout"].readIfPresent()
-        value.childPolicy = try reader["childPolicy"].readIfPresent()
+        value.childPolicy = try reader["childPolicy"].readIfPresent() ?? .sdkUnknown("")
         value.taskList = try reader["taskList"].readIfPresent(with: SWFClientTypes.TaskList.read(from:))
         value.taskPriority = try reader["taskPriority"].readIfPresent()
         value.workflowType = try reader["workflowType"].readIfPresent(with: SWFClientTypes.WorkflowType.read(from:))
@@ -8951,7 +8952,7 @@ extension SWFClientTypes.ResourceTag {
     static func read(from reader: SmithyJSON.Reader) throws -> SWFClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SWFClientTypes.ResourceTag()
-        value.key = try reader["key"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }

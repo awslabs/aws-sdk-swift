@@ -3570,7 +3570,7 @@ public struct CreateCommitInput {
         commitMessage: Swift.String? = nil,
         deleteFiles: [CodeCommitClientTypes.DeleteFileEntry]? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool? = nil,
+        keepEmptyFolders: Swift.Bool? = false,
         parentCommitId: Swift.String? = nil,
         putFiles: [CodeCommitClientTypes.PutFileEntry]? = nil,
         repositoryName: Swift.String? = nil,
@@ -5099,7 +5099,7 @@ public struct CreateUnreferencedMergeCommitInput {
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         destinationCommitSpecifier: Swift.String? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool? = nil,
+        keepEmptyFolders: Swift.Bool? = false,
         mergeOption: CodeCommitClientTypes.MergeOptionTypeEnum? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
@@ -5422,7 +5422,7 @@ public struct DeleteFileInput {
         commitMessage: Swift.String? = nil,
         email: Swift.String? = nil,
         filePath: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool? = nil,
+        keepEmptyFolders: Swift.Bool? = false,
         name: Swift.String? = nil,
         parentCommitId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
@@ -8157,7 +8157,7 @@ public struct MergeBranchesBySquashInput {
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         destinationCommitSpecifier: Swift.String? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool? = nil,
+        keepEmptyFolders: Swift.Bool? = false,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil,
         targetBranch: Swift.String? = nil
@@ -8228,7 +8228,7 @@ public struct MergeBranchesByThreeWayInput {
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         destinationCommitSpecifier: Swift.String? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool? = nil,
+        keepEmptyFolders: Swift.Bool? = false,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil,
         targetBranch: Swift.String? = nil
@@ -8379,7 +8379,7 @@ public struct MergePullRequestBySquashInput {
         conflictResolution: CodeCommitClientTypes.ConflictResolution? = nil,
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool? = nil,
+        keepEmptyFolders: Swift.Bool? = false,
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
@@ -8441,7 +8441,7 @@ public struct MergePullRequestByThreeWayInput {
         conflictResolution: CodeCommitClientTypes.ConflictResolution? = nil,
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool? = nil,
+        keepEmptyFolders: Swift.Bool? = false,
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
@@ -11623,8 +11623,8 @@ extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchAssociateApprovalRuleTemplateWithRepositoriesOutput()
-        value.associatedRepositoryNames = try reader["associatedRepositoryNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedRepositoryNames = try reader["associatedRepositoryNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11637,11 +11637,11 @@ extension BatchDescribeMergeConflictsOutput {
         let reader = responseReader
         var value = BatchDescribeMergeConflictsOutput()
         value.baseCommitId = try reader["baseCommitId"].readIfPresent()
-        value.conflicts = try reader["conflicts"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.Conflict.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent()
+        value.conflicts = try reader["conflicts"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.Conflict.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent() ?? ""
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.BatchDescribeMergeConflictsError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent()
+        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11653,8 +11653,8 @@ extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput()
-        value.disassociatedRepositoryNames = try reader["disassociatedRepositoryNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disassociatedRepositoryNames = try reader["disassociatedRepositoryNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11777,7 +11777,7 @@ extension DeleteApprovalRuleTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteApprovalRuleTemplateOutput()
-        value.approvalRuleTemplateId = try reader["approvalRuleTemplateId"].readIfPresent()
+        value.approvalRuleTemplateId = try reader["approvalRuleTemplateId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11813,10 +11813,10 @@ extension DeleteFileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteFileOutput()
-        value.blobId = try reader["blobId"].readIfPresent()
-        value.commitId = try reader["commitId"].readIfPresent()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.treeId = try reader["treeId"].readIfPresent()
+        value.blobId = try reader["blobId"].readIfPresent() ?? ""
+        value.commitId = try reader["commitId"].readIfPresent() ?? ""
+        value.filePath = try reader["filePath"].readIfPresent() ?? ""
+        value.treeId = try reader["treeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11828,7 +11828,7 @@ extension DeletePullRequestApprovalRuleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeletePullRequestApprovalRuleOutput()
-        value.approvalRuleId = try reader["approvalRuleId"].readIfPresent()
+        value.approvalRuleId = try reader["approvalRuleId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11854,10 +11854,10 @@ extension DescribeMergeConflictsOutput {
         var value = DescribeMergeConflictsOutput()
         value.baseCommitId = try reader["baseCommitId"].readIfPresent()
         value.conflictMetadata = try reader["conflictMetadata"].readIfPresent(with: CodeCommitClientTypes.ConflictMetadata.read(from:))
-        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent()
-        value.mergeHunks = try reader["mergeHunks"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.MergeHunk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent() ?? ""
+        value.mergeHunks = try reader["mergeHunks"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.MergeHunk.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent()
+        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11870,7 +11870,7 @@ extension DescribePullRequestEventsOutput {
         let reader = responseReader
         var value = DescribePullRequestEventsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.pullRequestEvents = try reader["pullRequestEvents"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.PullRequestEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pullRequestEvents = try reader["pullRequestEvents"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.PullRequestEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11913,7 +11913,7 @@ extension GetBlobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetBlobOutput()
-        value.content = try reader["content"].readIfPresent()
+        value.content = try reader["content"].readIfPresent() ?? Foundation.Data("".utf8)
         return value
     }
 }
@@ -11950,7 +11950,7 @@ extension GetCommentReactionsOutput {
         let reader = responseReader
         var value = GetCommentReactionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.reactionsForComment = try reader["reactionsForComment"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.ReactionForComment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reactionsForComment = try reader["reactionsForComment"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.ReactionForComment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12013,11 +12013,11 @@ extension GetFileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFileOutput()
-        value.blobId = try reader["blobId"].readIfPresent()
-        value.commitId = try reader["commitId"].readIfPresent()
-        value.fileContent = try reader["fileContent"].readIfPresent()
-        value.fileMode = try reader["fileMode"].readIfPresent()
-        value.filePath = try reader["filePath"].readIfPresent()
+        value.blobId = try reader["blobId"].readIfPresent() ?? ""
+        value.commitId = try reader["commitId"].readIfPresent() ?? ""
+        value.fileContent = try reader["fileContent"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.fileMode = try reader["fileMode"].readIfPresent() ?? .sdkUnknown("")
+        value.filePath = try reader["filePath"].readIfPresent() ?? ""
         value.fileSize = try reader["fileSize"].readIfPresent() ?? 0
         return value
     }
@@ -12030,9 +12030,9 @@ extension GetFolderOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFolderOutput()
-        value.commitId = try reader["commitId"].readIfPresent()
+        value.commitId = try reader["commitId"].readIfPresent() ?? ""
         value.files = try reader["files"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.File.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.folderPath = try reader["folderPath"].readIfPresent()
+        value.folderPath = try reader["folderPath"].readIfPresent() ?? ""
         value.subFolders = try reader["subFolders"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.Folder.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.subModules = try reader["subModules"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.SubModule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.symbolicLinks = try reader["symbolicLinks"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.SymbolicLink.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12064,11 +12064,11 @@ extension GetMergeConflictsOutput {
         let reader = responseReader
         var value = GetMergeConflictsOutput()
         value.baseCommitId = try reader["baseCommitId"].readIfPresent()
-        value.conflictMetadataList = try reader["conflictMetadataList"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.ConflictMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent()
+        value.conflictMetadataList = try reader["conflictMetadataList"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.ConflictMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent() ?? ""
         value.mergeable = try reader["mergeable"].readIfPresent() ?? false
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent()
+        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12080,10 +12080,10 @@ extension GetMergeOptionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetMergeOptionsOutput()
-        value.baseCommitId = try reader["baseCommitId"].readIfPresent()
-        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent()
-        value.mergeOptions = try reader["mergeOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeCommitClientTypes.MergeOptionTypeEnum>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent()
+        value.baseCommitId = try reader["baseCommitId"].readIfPresent() ?? ""
+        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent() ?? ""
+        value.mergeOptions = try reader["mergeOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeCommitClientTypes.MergeOptionTypeEnum>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12197,7 +12197,7 @@ extension ListFileCommitHistoryOutput {
         let reader = responseReader
         var value = ListFileCommitHistoryOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.revisionDag = try reader["revisionDag"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.FileVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.revisionDag = try reader["revisionDag"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.FileVersion.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12210,7 +12210,7 @@ extension ListPullRequestsOutput {
         let reader = responseReader
         var value = ListPullRequestsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.pullRequestIds = try reader["pullRequestIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pullRequestIds = try reader["pullRequestIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12399,9 +12399,9 @@ extension PutFileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutFileOutput()
-        value.blobId = try reader["blobId"].readIfPresent()
-        value.commitId = try reader["commitId"].readIfPresent()
-        value.treeId = try reader["treeId"].readIfPresent()
+        value.blobId = try reader["blobId"].readIfPresent() ?? ""
+        value.commitId = try reader["commitId"].readIfPresent() ?? ""
+        value.treeId = try reader["treeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17282,9 +17282,9 @@ extension CodeCommitClientTypes.BatchDescribeMergeConflictsError {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchDescribeMergeConflictsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.BatchDescribeMergeConflictsError()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.exceptionName = try reader["exceptionName"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.filePath = try reader["filePath"].readIfPresent() ?? ""
+        value.exceptionName = try reader["exceptionName"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17800,11 +17800,11 @@ extension CodeCommitClientTypes.RepositoryTrigger {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryTrigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeCommitClientTypes.RepositoryTrigger()
-        value.name = try reader["name"].readIfPresent()
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
         value.customData = try reader["customData"].readIfPresent()
         value.branches = try reader["branches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeCommitClientTypes.RepositoryTriggerEventEnum>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeCommitClientTypes.RepositoryTriggerEventEnum>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

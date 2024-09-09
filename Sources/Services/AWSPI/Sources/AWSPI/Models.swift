@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension PIClientTypes {
 
@@ -2423,7 +2424,7 @@ extension PIClientTypes.ResponsePartitionKey {
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponsePartitionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.ResponsePartitionKey()
-        value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2458,7 +2459,7 @@ extension PIClientTypes.AnalysisReport {
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.AnalysisReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.AnalysisReport()
-        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent() ?? ""
         value.identifier = try reader["Identifier"].readIfPresent()
         value.serviceType = try reader["ServiceType"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -2475,7 +2476,7 @@ extension PIClientTypes.Insight {
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.Insight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.Insight()
-        value.insightId = try reader["InsightId"].readIfPresent()
+        value.insightId = try reader["InsightId"].readIfPresent() ?? ""
         value.insightType = try reader["InsightType"].readIfPresent()
         value.context = try reader["Context"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -2550,8 +2551,8 @@ extension PIClientTypes.DataPoint {
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DataPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.DataPoint()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.value = try reader["Value"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -2561,7 +2562,7 @@ extension PIClientTypes.ResponseResourceMetricKey {
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponseResourceMetricKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.ResponseResourceMetricKey()
-        value.metric = try reader["Metric"].readIfPresent()
+        value.metric = try reader["Metric"].readIfPresent() ?? ""
         value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -2637,8 +2638,8 @@ extension PIClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PIClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

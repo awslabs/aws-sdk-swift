@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct ExportConfigurationsInput {
 
@@ -436,7 +437,7 @@ public struct BatchDeleteImportDataInput {
     public var importTaskIds: [Swift.String]?
 
     public init(
-        deleteHistory: Swift.Bool? = nil,
+        deleteHistory: Swift.Bool? = false,
         importTaskIds: [Swift.String]? = nil
     )
     {
@@ -691,7 +692,7 @@ public struct DescribeAgentsInput {
     public init(
         agentIds: [Swift.String]? = nil,
         filters: [ApplicationDiscoveryClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -1158,7 +1159,7 @@ public struct DescribeExportConfigurationsInput {
 
     public init(
         exportIds: [Swift.String]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -1306,7 +1307,7 @@ public struct DescribeExportTasksInput {
     public init(
         exportIds: [Swift.String]? = nil,
         filters: [ApplicationDiscoveryClientTypes.ExportFilter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -1573,7 +1574,7 @@ public struct DescribeTagsInput {
 
     public init(
         filters: [ApplicationDiscoveryClientTypes.TagFilter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -2000,7 +2001,7 @@ public struct ListConfigurationsInput {
     public init(
         configurationType: ApplicationDiscoveryClientTypes.ConfigurationItemType? = nil,
         filters: [ApplicationDiscoveryClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         orderBy: [ApplicationDiscoveryClientTypes.OrderByElement]? = nil
     )
@@ -2044,10 +2045,10 @@ public struct ListServerNeighborsInput {
 
     public init(
         configurationId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         neighborConfigurationIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
-        portInformationNeeded: Swift.Bool? = nil
+        portInformationNeeded: Swift.Bool? = false
     )
     {
         self.configurationId = configurationId
@@ -3354,7 +3355,7 @@ extension ListServerNeighborsOutput {
         let reader = responseReader
         var value = ListServerNeighborsOutput()
         value.knownDependencyCount = try reader["knownDependencyCount"].readIfPresent() ?? 0
-        value.neighbors = try reader["neighbors"].readListIfPresent(memberReadingClosure: ApplicationDiscoveryClientTypes.NeighborConnectionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.neighbors = try reader["neighbors"].readListIfPresent(memberReadingClosure: ApplicationDiscoveryClientTypes.NeighborConnectionDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4110,9 +4111,9 @@ extension ApplicationDiscoveryClientTypes.BatchDeleteAgentError {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.BatchDeleteAgentError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.BatchDeleteAgentError()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4223,11 +4224,11 @@ extension ApplicationDiscoveryClientTypes.ExportInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.ExportInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.ExportInfo()
-        value.exportId = try reader["exportId"].readIfPresent()
-        value.exportStatus = try reader["exportStatus"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.exportId = try reader["exportId"].readIfPresent() ?? ""
+        value.exportStatus = try reader["exportStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
         value.configurationsDownloadUrl = try reader["configurationsDownloadUrl"].readIfPresent()
-        value.exportRequestTime = try reader["exportRequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.exportRequestTime = try reader["exportRequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.isTruncated = try reader["isTruncated"].readIfPresent() ?? false
         value.requestedStartTime = try reader["requestedStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.requestedEndTime = try reader["requestedEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4340,8 +4341,8 @@ extension ApplicationDiscoveryClientTypes.NeighborConnectionDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationDiscoveryClientTypes.NeighborConnectionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationDiscoveryClientTypes.NeighborConnectionDetail()
-        value.sourceServerId = try reader["sourceServerId"].readIfPresent()
-        value.destinationServerId = try reader["destinationServerId"].readIfPresent()
+        value.sourceServerId = try reader["sourceServerId"].readIfPresent() ?? ""
+        value.destinationServerId = try reader["destinationServerId"].readIfPresent() ?? ""
         value.destinationPort = try reader["destinationPort"].readIfPresent()
         value.transportProtocol = try reader["transportProtocol"].readIfPresent()
         value.connectionsCount = try reader["connectionsCount"].readIfPresent() ?? 0

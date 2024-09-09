@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The request is denied because of missing access permissions.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -964,7 +965,7 @@ extension BedrockAgentClientTypes {
 
         public init(
             enabledMemoryTypes: [BedrockAgentClientTypes.MemoryType]? = nil,
-            storageDays: Swift.Int? = nil
+            storageDays: Swift.Int? = 30
         )
         {
             self.enabledMemoryTypes = enabledMemoryTypes
@@ -9259,17 +9260,17 @@ extension CreateFlowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFlowOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.definition = try reader["definition"].readIfPresent(with: BedrockAgentClientTypes.FlowDefinition.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.version = try reader["version"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9281,14 +9282,14 @@ extension CreateFlowAliasOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFlowAliasOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.flowId = try reader["flowId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9300,16 +9301,16 @@ extension CreateFlowVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFlowVersionOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.definition = try reader["definition"].readIfPresent(with: BedrockAgentClientTypes.FlowDefinition.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9333,16 +9334,16 @@ extension CreatePromptOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePromptOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.defaultVariant = try reader["defaultVariant"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9354,16 +9355,16 @@ extension CreatePromptVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePromptVersionOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.defaultVariant = try reader["defaultVariant"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9375,8 +9376,8 @@ extension DeleteAgentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAgentOutput()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9395,9 +9396,9 @@ extension DeleteAgentAliasOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAgentAliasOutput()
-        value.agentAliasId = try reader["agentAliasId"].readIfPresent()
-        value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent()
-        value.agentId = try reader["agentId"].readIfPresent()
+        value.agentAliasId = try reader["agentAliasId"].readIfPresent() ?? ""
+        value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9409,9 +9410,9 @@ extension DeleteAgentVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAgentVersionOutput()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9423,9 +9424,9 @@ extension DeleteDataSourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDataSourceOutput()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9437,7 +9438,7 @@ extension DeleteFlowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteFlowOutput()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9449,8 +9450,8 @@ extension DeleteFlowAliasOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteFlowAliasOutput()
-        value.flowId = try reader["flowId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9462,8 +9463,8 @@ extension DeleteFlowVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteFlowVersionOutput()
-        value.id = try reader["id"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9475,8 +9476,8 @@ extension DeleteKnowledgeBaseOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteKnowledgeBaseOutput()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9488,7 +9489,7 @@ extension DeletePromptOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeletePromptOutput()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.version = try reader["version"].readIfPresent()
         return value
     }
@@ -9580,18 +9581,18 @@ extension GetFlowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFlowOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.definition = try reader["definition"].readIfPresent(with: BedrockAgentClientTypes.FlowDefinition.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9603,14 +9604,14 @@ extension GetFlowAliasOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFlowAliasOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.flowId = try reader["flowId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9622,16 +9623,16 @@ extension GetFlowVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFlowVersionOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.definition = try reader["definition"].readIfPresent(with: BedrockAgentClientTypes.FlowDefinition.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9667,16 +9668,16 @@ extension GetPromptOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPromptOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.defaultVariant = try reader["defaultVariant"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9688,7 +9689,7 @@ extension ListAgentActionGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAgentActionGroupsOutput()
-        value.actionGroupSummaries = try reader["actionGroupSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.ActionGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actionGroupSummaries = try reader["actionGroupSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.ActionGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9701,7 +9702,7 @@ extension ListAgentAliasesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAgentAliasesOutput()
-        value.agentAliasSummaries = try reader["agentAliasSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.agentAliasSummaries = try reader["agentAliasSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9714,7 +9715,7 @@ extension ListAgentKnowledgeBasesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAgentKnowledgeBasesOutput()
-        value.agentKnowledgeBaseSummaries = try reader["agentKnowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentKnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.agentKnowledgeBaseSummaries = try reader["agentKnowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentKnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9727,7 +9728,7 @@ extension ListAgentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAgentsOutput()
-        value.agentSummaries = try reader["agentSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.agentSummaries = try reader["agentSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9740,7 +9741,7 @@ extension ListAgentVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAgentVersionsOutput()
-        value.agentVersionSummaries = try reader["agentVersionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.agentVersionSummaries = try reader["agentVersionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9753,7 +9754,7 @@ extension ListDataSourcesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataSourcesOutput()
-        value.dataSourceSummaries = try reader["dataSourceSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.DataSourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSourceSummaries = try reader["dataSourceSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.DataSourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9766,7 +9767,7 @@ extension ListFlowAliasesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFlowAliasesOutput()
-        value.flowAliasSummaries = try reader["flowAliasSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flowAliasSummaries = try reader["flowAliasSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9779,7 +9780,7 @@ extension ListFlowsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFlowsOutput()
-        value.flowSummaries = try reader["flowSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flowSummaries = try reader["flowSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9792,7 +9793,7 @@ extension ListFlowVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFlowVersionsOutput()
-        value.flowVersionSummaries = try reader["flowVersionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flowVersionSummaries = try reader["flowVersionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9805,7 +9806,7 @@ extension ListIngestionJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListIngestionJobsOutput()
-        value.ingestionJobSummaries = try reader["ingestionJobSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.IngestionJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ingestionJobSummaries = try reader["ingestionJobSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.IngestionJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9818,7 +9819,7 @@ extension ListKnowledgeBasesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListKnowledgeBasesOutput()
-        value.knowledgeBaseSummaries = try reader["knowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.KnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.knowledgeBaseSummaries = try reader["knowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.KnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -9832,7 +9833,7 @@ extension ListPromptsOutput {
         let reader = responseReader
         var value = ListPromptsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.promptSummaries = try reader["promptSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.promptSummaries = try reader["promptSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9856,10 +9857,10 @@ extension PrepareAgentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PrepareAgentOutput()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        value.preparedAt = try reader["preparedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
+        value.preparedAt = try reader["preparedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9871,8 +9872,8 @@ extension PrepareFlowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PrepareFlowOutput()
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9970,17 +9971,17 @@ extension UpdateFlowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFlowOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.definition = try reader["definition"].readIfPresent(with: BedrockAgentClientTypes.FlowDefinition.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.version = try reader["version"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9992,14 +9993,14 @@ extension UpdateFlowAliasOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFlowAliasOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.flowId = try reader["flowId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10023,16 +10024,16 @@ extension UpdatePromptOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdatePromptOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
         value.defaultVariant = try reader["defaultVariant"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11279,13 +11280,13 @@ extension BedrockAgentClientTypes.AgentKnowledgeBase {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentKnowledgeBase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentKnowledgeBase()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.knowledgeBaseState = try reader["knowledgeBaseState"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.knowledgeBaseState = try reader["knowledgeBaseState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11295,20 +11296,20 @@ extension BedrockAgentClientTypes.Agent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.Agent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.Agent()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentName = try reader["agentName"].readIfPresent()
-        value.agentArn = try reader["agentArn"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentName = try reader["agentName"].readIfPresent() ?? ""
+        value.agentArn = try reader["agentArn"].readIfPresent() ?? ""
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.instruction = try reader["instruction"].readIfPresent()
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.foundationModel = try reader["foundationModel"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent()
-        value.agentResourceRoleArn = try reader["agentResourceRoleArn"].readIfPresent()
+        value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent() ?? 0
+        value.agentResourceRoleArn = try reader["agentResourceRoleArn"].readIfPresent() ?? ""
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.preparedAt = try reader["preparedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11330,7 +11331,7 @@ extension BedrockAgentClientTypes.MemoryConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MemoryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.MemoryConfiguration()
-        value.enabledMemoryTypes = try reader["enabledMemoryTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentClientTypes.MemoryType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabledMemoryTypes = try reader["enabledMemoryTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentClientTypes.MemoryType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.storageDays = try reader["storageDays"].readIfPresent() ?? 30
         return value
     }
@@ -11364,7 +11365,7 @@ extension BedrockAgentClientTypes.PromptOverrideConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PromptOverrideConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PromptOverrideConfiguration()
-        value.promptConfigurations = try reader["promptConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.promptConfigurations = try reader["promptConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.overrideLambda = try reader["overrideLambda"].readIfPresent()
         return value
     }
@@ -11423,19 +11424,19 @@ extension BedrockAgentClientTypes.AgentActionGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentActionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentActionGroup()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        value.actionGroupId = try reader["actionGroupId"].readIfPresent()
-        value.actionGroupName = try reader["actionGroupName"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
+        value.actionGroupId = try reader["actionGroupId"].readIfPresent() ?? ""
+        value.actionGroupName = try reader["actionGroupName"].readIfPresent() ?? ""
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.parentActionSignature = try reader["parentActionSignature"].readIfPresent()
         value.actionGroupExecutor = try reader["actionGroupExecutor"].readIfPresent(with: BedrockAgentClientTypes.ActionGroupExecutor.read(from:))
         value.apiSchema = try reader["apiSchema"].readIfPresent(with: BedrockAgentClientTypes.APISchema.read(from:))
         value.functionSchema = try reader["functionSchema"].readIfPresent(with: BedrockAgentClientTypes.FunctionSchema.read(from:))
-        value.actionGroupState = try reader["actionGroupState"].readIfPresent()
+        value.actionGroupState = try reader["actionGroupState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11477,7 +11478,7 @@ extension BedrockAgentClientTypes.Function {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.Function {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.Function()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: BedrockAgentClientTypes.ParameterDetail.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requireConfirmation = try reader["requireConfirmation"].readIfPresent()
@@ -11498,7 +11499,7 @@ extension BedrockAgentClientTypes.ParameterDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ParameterDetail()
         value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.`required` = try reader["required"].readIfPresent()
         return value
     }
@@ -11582,17 +11583,17 @@ extension BedrockAgentClientTypes.AgentAlias {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentAlias()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentAliasId = try reader["agentAliasId"].readIfPresent()
-        value.agentAliasName = try reader["agentAliasName"].readIfPresent()
-        value.agentAliasArn = try reader["agentAliasArn"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentAliasId = try reader["agentAliasId"].readIfPresent() ?? ""
+        value.agentAliasName = try reader["agentAliasName"].readIfPresent() ?? ""
+        value.agentAliasArn = try reader["agentAliasArn"].readIfPresent() ?? ""
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.agentAliasHistoryEvents = try reader["agentAliasHistoryEvents"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasHistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent()
+        value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -11632,17 +11633,17 @@ extension BedrockAgentClientTypes.DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.DataSource()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.dataSourceConfiguration = try reader["dataSourceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.DataSourceConfiguration.read(from:))
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.vectorIngestionConfiguration = try reader["vectorIngestionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VectorIngestionConfiguration.read(from:))
         value.dataDeletionPolicy = try reader["dataDeletionPolicy"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -11678,7 +11679,7 @@ extension BedrockAgentClientTypes.ParsingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ParsingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ParsingConfiguration()
-        value.parsingStrategy = try reader["parsingStrategy"].readIfPresent()
+        value.parsingStrategy = try reader["parsingStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.bedrockFoundationModelConfiguration = try reader["bedrockFoundationModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.BedrockFoundationModelConfiguration.read(from:))
         return value
     }
@@ -11695,7 +11696,7 @@ extension BedrockAgentClientTypes.BedrockFoundationModelConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockFoundationModelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.BedrockFoundationModelConfiguration()
-        value.modelArn = try reader["modelArn"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         value.parsingPrompt = try reader["parsingPrompt"].readIfPresent(with: BedrockAgentClientTypes.ParsingPrompt.read(from:))
         return value
     }
@@ -11711,7 +11712,7 @@ extension BedrockAgentClientTypes.ParsingPrompt {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ParsingPrompt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ParsingPrompt()
-        value.parsingPromptText = try reader["parsingPromptText"].readIfPresent()
+        value.parsingPromptText = try reader["parsingPromptText"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11728,7 +11729,7 @@ extension BedrockAgentClientTypes.CustomTransformationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.CustomTransformationConfiguration()
         value.intermediateStorage = try reader["intermediateStorage"].readIfPresent(with: BedrockAgentClientTypes.IntermediateStorage.read(from:))
-        value.transformations = try reader["transformations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.Transformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transformations = try reader["transformations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.Transformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11745,7 +11746,7 @@ extension BedrockAgentClientTypes.Transformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.Transformation()
         value.transformationFunction = try reader["transformationFunction"].readIfPresent(with: BedrockAgentClientTypes.TransformationFunction.read(from:))
-        value.stepToApply = try reader["stepToApply"].readIfPresent()
+        value.stepToApply = try reader["stepToApply"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11775,7 +11776,7 @@ extension BedrockAgentClientTypes.TransformationLambdaConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.TransformationLambdaConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.TransformationLambdaConfiguration()
-        value.lambdaArn = try reader["lambdaArn"].readIfPresent()
+        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11805,7 +11806,7 @@ extension BedrockAgentClientTypes.S3Location {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.S3Location()
-        value.uri = try reader["uri"].readIfPresent()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11823,7 +11824,7 @@ extension BedrockAgentClientTypes.ChunkingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ChunkingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ChunkingConfiguration()
-        value.chunkingStrategy = try reader["chunkingStrategy"].readIfPresent()
+        value.chunkingStrategy = try reader["chunkingStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.fixedSizeChunkingConfiguration = try reader["fixedSizeChunkingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.FixedSizeChunkingConfiguration.read(from:))
         value.hierarchicalChunkingConfiguration = try reader["hierarchicalChunkingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.HierarchicalChunkingConfiguration.read(from:))
         value.semanticChunkingConfiguration = try reader["semanticChunkingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.SemanticChunkingConfiguration.read(from:))
@@ -11843,9 +11844,9 @@ extension BedrockAgentClientTypes.SemanticChunkingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.SemanticChunkingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.SemanticChunkingConfiguration()
-        value.maxTokens = try reader["maxTokens"].readIfPresent()
-        value.bufferSize = try reader["bufferSize"].readIfPresent()
-        value.breakpointPercentileThreshold = try reader["breakpointPercentileThreshold"].readIfPresent()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        value.bufferSize = try reader["bufferSize"].readIfPresent() ?? 0
+        value.breakpointPercentileThreshold = try reader["breakpointPercentileThreshold"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11861,8 +11862,8 @@ extension BedrockAgentClientTypes.HierarchicalChunkingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.HierarchicalChunkingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.HierarchicalChunkingConfiguration()
-        value.levelConfigurations = try reader["levelConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.HierarchicalChunkingLevelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.overlapTokens = try reader["overlapTokens"].readIfPresent()
+        value.levelConfigurations = try reader["levelConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.HierarchicalChunkingLevelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.overlapTokens = try reader["overlapTokens"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11877,7 +11878,7 @@ extension BedrockAgentClientTypes.HierarchicalChunkingLevelConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.HierarchicalChunkingLevelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.HierarchicalChunkingLevelConfiguration()
-        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11893,8 +11894,8 @@ extension BedrockAgentClientTypes.FixedSizeChunkingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FixedSizeChunkingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FixedSizeChunkingConfiguration()
-        value.maxTokens = try reader["maxTokens"].readIfPresent()
-        value.overlapPercentage = try reader["overlapPercentage"].readIfPresent()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        value.overlapPercentage = try reader["overlapPercentage"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11929,7 +11930,7 @@ extension BedrockAgentClientTypes.DataSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DataSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.DataSourceConfiguration()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: BedrockAgentClientTypes.S3DataSourceConfiguration.read(from:))
         value.webConfiguration = try reader["webConfiguration"].readIfPresent(with: BedrockAgentClientTypes.WebDataSourceConfiguration.read(from:))
         value.confluenceConfiguration = try reader["confluenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ConfluenceDataSourceConfiguration.read(from:))
@@ -11982,7 +11983,7 @@ extension BedrockAgentClientTypes.CrawlFilterConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.CrawlFilterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.CrawlFilterConfiguration()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.patternObjectFilter = try reader["patternObjectFilter"].readIfPresent(with: BedrockAgentClientTypes.PatternObjectFilterConfiguration.read(from:))
         return value
     }
@@ -11998,7 +11999,7 @@ extension BedrockAgentClientTypes.PatternObjectFilterConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PatternObjectFilterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PatternObjectFilterConfiguration()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PatternObjectFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PatternObjectFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12015,7 +12016,7 @@ extension BedrockAgentClientTypes.PatternObjectFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PatternObjectFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PatternObjectFilter()
-        value.objectType = try reader["objectType"].readIfPresent()
+        value.objectType = try reader["objectType"].readIfPresent() ?? ""
         value.inclusionFilters = try reader["inclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.exclusionFilters = try reader["exclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -12038,11 +12039,11 @@ extension BedrockAgentClientTypes.SharePointSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.SharePointSourceConfiguration()
         value.tenantId = try reader["tenantId"].readIfPresent()
-        value.domain = try reader["domain"].readIfPresent()
-        value.siteUrls = try reader["siteUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hostType = try reader["hostType"].readIfPresent()
-        value.authType = try reader["authType"].readIfPresent()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.siteUrls = try reader["siteUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.hostType = try reader["hostType"].readIfPresent() ?? .sdkUnknown("")
+        value.authType = try reader["authType"].readIfPresent() ?? .sdkUnknown("")
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12091,9 +12092,9 @@ extension BedrockAgentClientTypes.SalesforceSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.SalesforceSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.SalesforceSourceConfiguration()
-        value.hostUrl = try reader["hostUrl"].readIfPresent()
-        value.authType = try reader["authType"].readIfPresent()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.hostUrl = try reader["hostUrl"].readIfPresent() ?? ""
+        value.authType = try reader["authType"].readIfPresent() ?? .sdkUnknown("")
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12143,10 +12144,10 @@ extension BedrockAgentClientTypes.ConfluenceSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ConfluenceSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ConfluenceSourceConfiguration()
-        value.hostUrl = try reader["hostUrl"].readIfPresent()
-        value.hostType = try reader["hostType"].readIfPresent()
-        value.authType = try reader["authType"].readIfPresent()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.hostUrl = try reader["hostUrl"].readIfPresent() ?? ""
+        value.hostType = try reader["hostType"].readIfPresent() ?? .sdkUnknown("")
+        value.authType = try reader["authType"].readIfPresent() ?? .sdkUnknown("")
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12261,7 +12262,7 @@ extension BedrockAgentClientTypes.S3DataSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.S3DataSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.S3DataSourceConfiguration()
-        value.bucketArn = try reader["bucketArn"].readIfPresent()
+        value.bucketArn = try reader["bucketArn"].readIfPresent() ?? ""
         value.inclusionPrefixes = try reader["inclusionPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.bucketOwnerAccountId = try reader["bucketOwnerAccountId"].readIfPresent()
         return value
@@ -12299,10 +12300,10 @@ extension BedrockAgentClientTypes.FlowConnection {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowConnection()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.target = try reader["target"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.target = try reader["target"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: BedrockAgentClientTypes.FlowConnectionConfiguration.read(from:))
         return value
     }
@@ -12346,7 +12347,7 @@ extension BedrockAgentClientTypes.FlowConditionalConnectionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowConditionalConnectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowConditionalConnectionConfiguration()
-        value.condition = try reader["condition"].readIfPresent()
+        value.condition = try reader["condition"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12362,8 +12363,8 @@ extension BedrockAgentClientTypes.FlowDataConnectionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowDataConnectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowDataConnectionConfiguration()
-        value.sourceOutput = try reader["sourceOutput"].readIfPresent()
-        value.targetInput = try reader["targetInput"].readIfPresent()
+        value.sourceOutput = try reader["sourceOutput"].readIfPresent() ?? ""
+        value.targetInput = try reader["targetInput"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12382,8 +12383,8 @@ extension BedrockAgentClientTypes.FlowNode {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowNode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowNode()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.configuration = try reader["configuration"].readIfPresent(with: BedrockAgentClientTypes.FlowNodeConfiguration.read(from:))
         value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowNodeInput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowNodeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12402,8 +12403,8 @@ extension BedrockAgentClientTypes.FlowNodeOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowNodeOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowNodeOutput()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12420,9 +12421,9 @@ extension BedrockAgentClientTypes.FlowNodeInput {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowNodeInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowNodeInput()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.expression = try reader["expression"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.expression = try reader["expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12570,7 +12571,7 @@ extension BedrockAgentClientTypes.RetrievalFlowNodeS3Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RetrievalFlowNodeS3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.RetrievalFlowNodeS3Configuration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12585,7 +12586,7 @@ extension BedrockAgentClientTypes.AgentFlowNodeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentFlowNodeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentFlowNodeConfiguration()
-        value.agentAliasArn = try reader["agentAliasArn"].readIfPresent()
+        value.agentAliasArn = try reader["agentAliasArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12639,7 +12640,7 @@ extension BedrockAgentClientTypes.StorageFlowNodeS3Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.StorageFlowNodeS3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.StorageFlowNodeS3Configuration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12654,7 +12655,7 @@ extension BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration()
-        value.lambdaArn = try reader["lambdaArn"].readIfPresent()
+        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12715,9 +12716,9 @@ extension BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration()
-        value.templateType = try reader["templateType"].readIfPresent()
+        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
         value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptTemplateConfiguration.read(from:))
-        value.modelId = try reader["modelId"].readIfPresent()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptInferenceConfiguration.read(from:))
         return value
     }
@@ -12805,7 +12806,7 @@ extension BedrockAgentClientTypes.TextPromptTemplateConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.TextPromptTemplateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.TextPromptTemplateConfiguration()
-        value.text = try reader["text"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
         value.inputVariables = try reader["inputVariables"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptInputVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -12836,7 +12837,7 @@ extension BedrockAgentClientTypes.PromptFlowNodeResourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PromptFlowNodeResourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PromptFlowNodeResourceConfiguration()
-        value.promptArn = try reader["promptArn"].readIfPresent()
+        value.promptArn = try reader["promptArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12852,8 +12853,8 @@ extension BedrockAgentClientTypes.LexFlowNodeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.LexFlowNodeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.LexFlowNodeConfiguration()
-        value.botAliasArn = try reader["botAliasArn"].readIfPresent()
-        value.localeId = try reader["localeId"].readIfPresent()
+        value.botAliasArn = try reader["botAliasArn"].readIfPresent() ?? ""
+        value.localeId = try reader["localeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12868,7 +12869,7 @@ extension BedrockAgentClientTypes.ConditionFlowNodeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ConditionFlowNodeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ConditionFlowNodeConfiguration()
-        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12884,7 +12885,7 @@ extension BedrockAgentClientTypes.FlowCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowCondition()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.expression = try reader["expression"].readIfPresent()
         return value
     }
@@ -12901,7 +12902,7 @@ extension BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.modelId = try reader["modelId"].readIfPresent()
         return value
     }
@@ -12953,16 +12954,16 @@ extension BedrockAgentClientTypes.KnowledgeBase {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.KnowledgeBase()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.knowledgeBaseConfiguration = try reader["knowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.KnowledgeBaseConfiguration.read(from:))
         value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BedrockAgentClientTypes.StorageConfiguration.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -12983,7 +12984,7 @@ extension BedrockAgentClientTypes.StorageConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.StorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.StorageConfiguration()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.opensearchServerlessConfiguration = try reader["opensearchServerlessConfiguration"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchServerlessConfiguration.read(from:))
         value.pineconeConfiguration = try reader["pineconeConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PineconeConfiguration.read(from:))
         value.redisEnterpriseCloudConfiguration = try reader["redisEnterpriseCloudConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration.read(from:))
@@ -13009,11 +13010,11 @@ extension BedrockAgentClientTypes.MongoDbAtlasConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MongoDbAtlasConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.MongoDbAtlasConfiguration()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        value.collectionName = try reader["collectionName"].readIfPresent()
-        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.collectionName = try reader["collectionName"].readIfPresent() ?? ""
+        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent() ?? ""
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.MongoDbAtlasFieldMapping.read(from:))
         value.endpointServiceName = try reader["endpointServiceName"].readIfPresent()
         return value
@@ -13032,9 +13033,9 @@ extension BedrockAgentClientTypes.MongoDbAtlasFieldMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MongoDbAtlasFieldMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.MongoDbAtlasFieldMapping()
-        value.vectorField = try reader["vectorField"].readIfPresent()
-        value.textField = try reader["textField"].readIfPresent()
-        value.metadataField = try reader["metadataField"].readIfPresent()
+        value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13053,10 +13054,10 @@ extension BedrockAgentClientTypes.RdsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RdsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.RdsConfiguration()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        value.tableName = try reader["tableName"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
         value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.RdsFieldMapping.read(from:))
         return value
     }
@@ -13075,10 +13076,10 @@ extension BedrockAgentClientTypes.RdsFieldMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RdsFieldMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.RdsFieldMapping()
-        value.primaryKeyField = try reader["primaryKeyField"].readIfPresent()
-        value.vectorField = try reader["vectorField"].readIfPresent()
-        value.textField = try reader["textField"].readIfPresent()
-        value.metadataField = try reader["metadataField"].readIfPresent()
+        value.primaryKeyField = try reader["primaryKeyField"].readIfPresent() ?? ""
+        value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13096,9 +13097,9 @@ extension BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent() ?? ""
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.RedisEnterpriseCloudFieldMapping.read(from:))
         return value
     }
@@ -13116,9 +13117,9 @@ extension BedrockAgentClientTypes.RedisEnterpriseCloudFieldMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedisEnterpriseCloudFieldMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.RedisEnterpriseCloudFieldMapping()
-        value.vectorField = try reader["vectorField"].readIfPresent()
-        value.textField = try reader["textField"].readIfPresent()
-        value.metadataField = try reader["metadataField"].readIfPresent()
+        value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13136,8 +13137,8 @@ extension BedrockAgentClientTypes.PineconeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PineconeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PineconeConfiguration()
-        value.connectionString = try reader["connectionString"].readIfPresent()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.connectionString = try reader["connectionString"].readIfPresent() ?? ""
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         value.namespace = try reader["namespace"].readIfPresent()
         value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.PineconeFieldMapping.read(from:))
         return value
@@ -13155,8 +13156,8 @@ extension BedrockAgentClientTypes.PineconeFieldMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PineconeFieldMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PineconeFieldMapping()
-        value.textField = try reader["textField"].readIfPresent()
-        value.metadataField = try reader["metadataField"].readIfPresent()
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13173,8 +13174,8 @@ extension BedrockAgentClientTypes.OpenSearchServerlessConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.OpenSearchServerlessConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.OpenSearchServerlessConfiguration()
-        value.collectionArn = try reader["collectionArn"].readIfPresent()
-        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent()
+        value.collectionArn = try reader["collectionArn"].readIfPresent() ?? ""
+        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent() ?? ""
         value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchServerlessFieldMapping.read(from:))
         return value
     }
@@ -13192,9 +13193,9 @@ extension BedrockAgentClientTypes.OpenSearchServerlessFieldMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.OpenSearchServerlessFieldMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.OpenSearchServerlessFieldMapping()
-        value.vectorField = try reader["vectorField"].readIfPresent()
-        value.textField = try reader["textField"].readIfPresent()
-        value.metadataField = try reader["metadataField"].readIfPresent()
+        value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13210,7 +13211,7 @@ extension BedrockAgentClientTypes.KnowledgeBaseConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBaseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.KnowledgeBaseConfiguration()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.vectorKnowledgeBaseConfiguration = try reader["vectorKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration.read(from:))
         return value
     }
@@ -13227,7 +13228,7 @@ extension BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration()
-        value.embeddingModelArn = try reader["embeddingModelArn"].readIfPresent()
+        value.embeddingModelArn = try reader["embeddingModelArn"].readIfPresent() ?? ""
         value.embeddingModelConfiguration = try reader["embeddingModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.EmbeddingModelConfiguration.read(from:))
         return value
     }
@@ -13278,8 +13279,8 @@ extension BedrockAgentClientTypes.PromptVariant {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PromptVariant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PromptVariant()
-        value.name = try reader["name"].readIfPresent()
-        value.templateType = try reader["templateType"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
         value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptTemplateConfiguration.read(from:))
         value.modelId = try reader["modelId"].readIfPresent()
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptInferenceConfiguration.read(from:))
@@ -13299,8 +13300,8 @@ extension BedrockAgentClientTypes.PromptMetadataEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PromptMetadataEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PromptMetadataEntry()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13310,19 +13311,19 @@ extension BedrockAgentClientTypes.AgentVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentVersion()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentName = try reader["agentName"].readIfPresent()
-        value.agentArn = try reader["agentArn"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentName = try reader["agentName"].readIfPresent() ?? ""
+        value.agentArn = try reader["agentArn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         value.instruction = try reader["instruction"].readIfPresent()
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.foundationModel = try reader["foundationModel"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent()
-        value.agentResourceRoleArn = try reader["agentResourceRoleArn"].readIfPresent()
+        value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent() ?? 0
+        value.agentResourceRoleArn = try reader["agentResourceRoleArn"].readIfPresent() ?? ""
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.promptOverrideConfiguration = try reader["promptOverrideConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptOverrideConfiguration.read(from:))
@@ -13337,8 +13338,8 @@ extension BedrockAgentClientTypes.FlowValidation {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowValidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowValidation()
-        value.message = try reader["message"].readIfPresent()
-        value.severity = try reader["severity"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.severity = try reader["severity"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13348,15 +13349,15 @@ extension BedrockAgentClientTypes.IngestionJob {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IngestionJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.IngestionJob()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.ingestionJobId = try reader["ingestionJobId"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.ingestionJobId = try reader["ingestionJobId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statistics = try reader["statistics"].readIfPresent(with: BedrockAgentClientTypes.IngestionJobStatistics.read(from:))
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13382,11 +13383,11 @@ extension BedrockAgentClientTypes.ActionGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ActionGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ActionGroupSummary()
-        value.actionGroupId = try reader["actionGroupId"].readIfPresent()
-        value.actionGroupName = try reader["actionGroupName"].readIfPresent()
-        value.actionGroupState = try reader["actionGroupState"].readIfPresent()
+        value.actionGroupId = try reader["actionGroupId"].readIfPresent() ?? ""
+        value.actionGroupName = try reader["actionGroupName"].readIfPresent() ?? ""
+        value.actionGroupState = try reader["actionGroupState"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13396,13 +13397,13 @@ extension BedrockAgentClientTypes.AgentAliasSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentAliasSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentAliasSummary()
-        value.agentAliasId = try reader["agentAliasId"].readIfPresent()
-        value.agentAliasName = try reader["agentAliasName"].readIfPresent()
+        value.agentAliasId = try reader["agentAliasId"].readIfPresent() ?? ""
+        value.agentAliasName = try reader["agentAliasName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13412,10 +13413,10 @@ extension BedrockAgentClientTypes.AgentKnowledgeBaseSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentKnowledgeBaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentKnowledgeBaseSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.knowledgeBaseState = try reader["knowledgeBaseState"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.knowledgeBaseState = try reader["knowledgeBaseState"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13425,11 +13426,11 @@ extension BedrockAgentClientTypes.AgentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentSummary()
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentName = try reader["agentName"].readIfPresent()
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentName = try reader["agentName"].readIfPresent() ?? ""
+        value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.latestAgentVersion = try reader["latestAgentVersion"].readIfPresent()
         value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         return value
@@ -13441,11 +13442,11 @@ extension BedrockAgentClientTypes.AgentVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.AgentVersionSummary()
-        value.agentName = try reader["agentName"].readIfPresent()
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.agentName = try reader["agentName"].readIfPresent() ?? ""
+        value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         return value
@@ -13457,12 +13458,12 @@ extension BedrockAgentClientTypes.DataSourceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DataSourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.DataSourceSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13472,14 +13473,14 @@ extension BedrockAgentClientTypes.FlowAliasSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowAliasSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowAliasSummary()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.flowId = try reader["flowId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.flowId = try reader["flowId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13489,14 +13490,14 @@ extension BedrockAgentClientTypes.FlowSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowSummary()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.version = try reader["version"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13506,11 +13507,11 @@ extension BedrockAgentClientTypes.FlowVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.FlowVersionSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.version = try reader["version"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13520,13 +13521,13 @@ extension BedrockAgentClientTypes.IngestionJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IngestionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.IngestionJobSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.ingestionJobId = try reader["ingestionJobId"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.ingestionJobId = try reader["ingestionJobId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.statistics = try reader["statistics"].readIfPresent(with: BedrockAgentClientTypes.IngestionJobStatistics.read(from:))
         return value
     }
@@ -13537,11 +13538,11 @@ extension BedrockAgentClientTypes.KnowledgeBaseSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.KnowledgeBaseSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13551,13 +13552,13 @@ extension BedrockAgentClientTypes.PromptSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PromptSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PromptSummary()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -13567,8 +13568,8 @@ extension BedrockAgentClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

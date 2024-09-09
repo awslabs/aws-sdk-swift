@@ -1302,7 +1302,7 @@ extension DataZoneClientTypes {
 
         public init(
             domainUnit: Swift.String? = nil,
-            includeChildDomainUnits: Swift.Bool? = nil
+            includeChildDomainUnits: Swift.Bool? = false
         )
         {
             self.domainUnit = domainUnit
@@ -3589,7 +3589,7 @@ public struct CreateDataProductOutput {
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil,
-        status: DataZoneClientTypes.DataProductStatus? = nil
+        status: DataZoneClientTypes.DataProductStatus? = .created
     )
     {
         self.createdAt = createdAt
@@ -3712,7 +3712,7 @@ public struct CreateDataProductRevisionOutput {
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil,
-        status: DataZoneClientTypes.DataProductStatus? = nil
+        status: DataZoneClientTypes.DataProductStatus? = .created
     )
     {
         self.createdAt = createdAt
@@ -5367,7 +5367,7 @@ public struct CreateEnvironmentOutput {
         domainId: Swift.String? = nil,
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
-        environmentProfileId: Swift.String? = nil,
+        environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastDeployment: DataZoneClientTypes.Deployment? = nil,
@@ -7348,7 +7348,7 @@ public struct GetDataProductOutput {
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         revision: Swift.String? = nil,
-        status: DataZoneClientTypes.DataProductStatus? = nil
+        status: DataZoneClientTypes.DataProductStatus? = .created
     )
     {
         self.createdAt = createdAt
@@ -10134,7 +10134,7 @@ public struct GetEnvironmentOutput {
         domainId: Swift.String? = nil,
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
-        environmentProfileId: Swift.String? = nil,
+        environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastDeployment: DataZoneClientTypes.Deployment? = nil,
@@ -12274,7 +12274,7 @@ extension DataZoneClientTypes {
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
-            environmentProfileId: Swift.String? = nil,
+            environmentProfileId: Swift.String? = "",
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             projectId: Swift.String? = nil,
@@ -15662,7 +15662,7 @@ public struct UpdateEnvironmentOutput {
         domainId: Swift.String? = nil,
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
-        environmentProfileId: Swift.String? = nil,
+        environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastDeployment: DataZoneClientTypes.Deployment? = nil,
@@ -16461,7 +16461,7 @@ extension DataZoneClientTypes {
 
         public init(
             rowFilter: DataZoneClientTypes.RowFilter? = nil,
-            sensitive: Swift.Bool? = nil
+            sensitive: Swift.Bool? = true
         )
         {
             self.rowFilter = rowFilter
@@ -20205,9 +20205,9 @@ extension AcceptPredictionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AcceptPredictionsOutput()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20219,17 +20219,17 @@ extension AcceptSubscriptionRequestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AcceptSubscriptionRequestOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.requestReason = try reader["requestReason"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -20270,16 +20270,16 @@ extension CancelSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelSubscriptionOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.retainPermissions = try reader["retainPermissions"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.subscribedListing = try reader["subscribedListing"].readIfPresent(with: DataZoneClientTypes.SubscribedListing.read(from:))
         value.subscribedPrincipal = try reader["subscribedPrincipal"].readIfPresent(with: DataZoneClientTypes.SubscribedPrincipal.read(from:))
         value.subscriptionRequestId = try reader["subscriptionRequestId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -20295,22 +20295,22 @@ extension CreateAssetOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.externalIdentifier = try reader["externalIdentifier"].readIfPresent()
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.listing = try reader["listing"].readIfPresent(with: DataZoneClientTypes.AssetListingDetails.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.predictionConfiguration = try reader["predictionConfiguration"].readIfPresent(with: DataZoneClientTypes.PredictionConfiguration.read(from:))
         value.readOnlyFormsOutput = try reader["readOnlyFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.revision = try reader["revision"].readIfPresent()
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent()
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20322,16 +20322,16 @@ extension CreateAssetFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAssetFilterOutput()
-        value.assetId = try reader["assetId"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.AssetFilterConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.effectiveColumnNames = try reader["effectiveColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveRowFilter = try reader["effectiveRowFilter"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -20347,22 +20347,22 @@ extension CreateAssetRevisionOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.externalIdentifier = try reader["externalIdentifier"].readIfPresent()
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.listing = try reader["listing"].readIfPresent(with: DataZoneClientTypes.AssetListingDetails.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.predictionConfiguration = try reader["predictionConfiguration"].readIfPresent(with: DataZoneClientTypes.PredictionConfiguration.read(from:))
         value.readOnlyFormsOutput = try reader["readOnlyFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.revision = try reader["revision"].readIfPresent()
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent()
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20377,13 +20377,13 @@ extension CreateAssetTypeOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.originDomainId = try reader["originDomainId"].readIfPresent()
         value.originProjectId = try reader["originProjectId"].readIfPresent()
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -20400,16 +20400,16 @@ extension CreateDataProductOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataProductItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .created
         return value
     }
@@ -20425,16 +20425,16 @@ extension CreateDataProductRevisionOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataProductItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .created
         return value
     }
@@ -20451,16 +20451,16 @@ extension CreateDataSourceOutput {
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAt = try reader["lastRunAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastRunErrorMessage = try reader["lastRunErrorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.lastRunStatus = try reader["lastRunStatus"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.publishOnImport = try reader["publishOnImport"].readIfPresent()
         value.recommendation = try reader["recommendation"].readIfPresent(with: DataZoneClientTypes.RecommendationConfiguration.read(from:))
         value.schedule = try reader["schedule"].readIfPresent(with: DataZoneClientTypes.ScheduleConfiguration.read(from:))
@@ -20481,7 +20481,7 @@ extension CreateDomainOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.domainExecutionRole = try reader["domainExecutionRole"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.portalUrl = try reader["portalUrl"].readIfPresent()
@@ -20500,14 +20500,14 @@ extension CreateDomainUnitOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDomainUnitOutput()
-        value.ancestorDomainUnitIds = try reader["ancestorDomainUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ancestorDomainUnitIds = try reader["ancestorDomainUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.parentDomainUnitId = try reader["parentDomainUnitId"].readIfPresent()
         return value
     }
@@ -20523,19 +20523,19 @@ extension CreateEnvironmentOutput {
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
         value.lastDeployment = try reader["lastDeployment"].readIfPresent(with: DataZoneClientTypes.Deployment.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
         value.status = try reader["status"].readIfPresent()
@@ -20553,10 +20553,10 @@ extension CreateEnvironmentActionOutput {
         let reader = responseReader
         var value = CreateEnvironmentActionOutput()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readIfPresent(with: DataZoneClientTypes.ActionParameters.read(from:))
         return value
     }
@@ -20572,12 +20572,12 @@ extension CreateEnvironmentProfileOutput {
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CustomParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -20593,12 +20593,12 @@ extension CreateFormTypeOutput {
         let reader = responseReader
         var value = CreateFormTypeOutput()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.originDomainId = try reader["originDomainId"].readIfPresent()
         value.originProjectId = try reader["originProjectId"].readIfPresent()
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20611,10 +20611,10 @@ extension CreateGlossaryOutput {
         let reader = responseReader
         var value = CreateGlossaryOutput()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -20627,13 +20627,13 @@ extension CreateGlossaryTermOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGlossaryTermOutput()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.glossaryId = try reader["glossaryId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.glossaryId = try reader["glossaryId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.longDescription = try reader["longDescription"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.shortDescription = try reader["shortDescription"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
         return value
     }
@@ -20661,9 +20661,9 @@ extension CreateListingChangeSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateListingChangeSetOutput()
-        value.listingId = try reader["listingId"].readIfPresent()
-        value.listingRevision = try reader["listingRevision"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.listingId = try reader["listingId"].readIfPresent() ?? ""
+        value.listingRevision = try reader["listingRevision"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -20676,15 +20676,15 @@ extension CreateProjectOutput {
         let reader = responseReader
         var value = CreateProjectOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         return value
     }
@@ -20705,15 +20705,15 @@ extension CreateSubscriptionGrantOutput {
         let reader = responseReader
         var value = CreateSubscriptionGrantOutput()
         value.assets = try reader["assets"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedAsset.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.grantedEntity = try reader["grantedEntity"].readIfPresent(with: DataZoneClientTypes.GrantedEntity.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.subscriptionId = try reader["subscriptionId"].readIfPresent()
-        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -20726,17 +20726,17 @@ extension CreateSubscriptionRequestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSubscriptionRequestOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.requestReason = try reader["requestReason"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -20749,19 +20749,19 @@ extension CreateSubscriptionTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSubscriptionTargetOutput()
-        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
+        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -20823,16 +20823,16 @@ extension DeleteDataSourceOutput {
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAt = try reader["lastRunAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastRunErrorMessage = try reader["lastRunErrorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.lastRunStatus = try reader["lastRunStatus"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.publishOnImport = try reader["publishOnImport"].readIfPresent()
         value.retainPermissionsOnRevokeFailure = try reader["retainPermissionsOnRevokeFailure"].readIfPresent()
         value.schedule = try reader["schedule"].readIfPresent(with: DataZoneClientTypes.ScheduleConfiguration.read(from:))
@@ -20851,7 +20851,7 @@ extension DeleteDomainOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDomainOutput()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -20941,15 +20941,15 @@ extension DeleteSubscriptionGrantOutput {
         let reader = responseReader
         var value = DeleteSubscriptionGrantOutput()
         value.assets = try reader["assets"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedAsset.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.grantedEntity = try reader["grantedEntity"].readIfPresent(with: DataZoneClientTypes.GrantedEntity.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.subscriptionId = try reader["subscriptionId"].readIfPresent()
-        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -20993,21 +20993,21 @@ extension GetAssetOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.externalIdentifier = try reader["externalIdentifier"].readIfPresent()
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.listing = try reader["listing"].readIfPresent(with: DataZoneClientTypes.AssetListingDetails.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.readOnlyFormsOutput = try reader["readOnlyFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.revision = try reader["revision"].readIfPresent()
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent()
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21019,16 +21019,16 @@ extension GetAssetFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAssetFilterOutput()
-        value.assetId = try reader["assetId"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.AssetFilterConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.effectiveColumnNames = try reader["effectiveColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveRowFilter = try reader["effectiveRowFilter"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -21044,13 +21044,13 @@ extension GetAssetTypeOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.originDomainId = try reader["originDomainId"].readIfPresent()
         value.originProjectId = try reader["originProjectId"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -21067,16 +21067,16 @@ extension GetDataProductOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataProductItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .created
         return value
     }
@@ -21093,17 +21093,17 @@ extension GetDataSourceOutput {
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAssetCount = try reader["lastRunAssetCount"].readIfPresent()
         value.lastRunAt = try reader["lastRunAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastRunErrorMessage = try reader["lastRunErrorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.lastRunStatus = try reader["lastRunStatus"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.publishOnImport = try reader["publishOnImport"].readIfPresent()
         value.recommendation = try reader["recommendation"].readIfPresent(with: DataZoneClientTypes.RecommendationConfiguration.read(from:))
         value.schedule = try reader["schedule"].readIfPresent(with: DataZoneClientTypes.ScheduleConfiguration.read(from:))
@@ -21122,19 +21122,19 @@ extension GetDataSourceRunOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDataSourceRunOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataSourceConfigurationSnapshot = try reader["dataSourceConfigurationSnapshot"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.runStatisticsForAssets = try reader["runStatisticsForAssets"].readIfPresent(with: DataZoneClientTypes.RunStatisticsForAssets.read(from:))
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.type = try reader["type"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -21149,15 +21149,15 @@ extension GetDomainOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
-        value.domainExecutionRole = try reader["domainExecutionRole"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainExecutionRole = try reader["domainExecutionRole"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
         value.portalUrl = try reader["portalUrl"].readIfPresent()
         value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
         value.singleSignOn = try reader["singleSignOn"].readIfPresent(with: DataZoneClientTypes.SingleSignOn.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -21173,12 +21173,12 @@ extension GetDomainUnitOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.parentDomainUnitId = try reader["parentDomainUnitId"].readIfPresent()
         return value
     }
@@ -21194,19 +21194,19 @@ extension GetEnvironmentOutput {
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
         value.lastDeployment = try reader["lastDeployment"].readIfPresent(with: DataZoneClientTypes.Deployment.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
         value.status = try reader["status"].readIfPresent()
@@ -21224,10 +21224,10 @@ extension GetEnvironmentActionOutput {
         let reader = responseReader
         var value = GetEnvironmentActionOutput()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readIfPresent(with: DataZoneClientTypes.ActionParameters.read(from:))
         return value
     }
@@ -21244,9 +21244,9 @@ extension GetEnvironmentBlueprintOutput {
         value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CustomParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -21262,9 +21262,9 @@ extension GetEnvironmentBlueprintConfigurationOutput {
         let reader = responseReader
         var value = GetEnvironmentBlueprintConfigurationOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
         value.manageAccessRoleArn = try reader["manageAccessRoleArn"].readIfPresent()
         value.provisioningConfigurations = try reader["provisioningConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProvisioningConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
@@ -21299,12 +21299,12 @@ extension GetEnvironmentProfileOutput {
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CustomParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -21322,14 +21322,14 @@ extension GetFormTypeOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.imports = try reader["imports"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Import.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.model = try reader["model"].readIfPresent(with: DataZoneClientTypes.Model.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.originDomainId = try reader["originDomainId"].readIfPresent()
         value.originProjectId = try reader["originProjectId"].readIfPresent()
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -21345,11 +21345,11 @@ extension GetGlossaryOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -21365,13 +21365,13 @@ extension GetGlossaryTermOutput {
         var value = GetGlossaryTermOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.glossaryId = try reader["glossaryId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.glossaryId = try reader["glossaryId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.longDescription = try reader["longDescription"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.shortDescription = try reader["shortDescription"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
@@ -21402,7 +21402,7 @@ extension GetIamPortalLoginUrlOutput {
         let reader = responseReader
         var value = GetIamPortalLoginUrlOutput()
         value.authCodeUrl = try reader["authCodeUrl"].readIfPresent()
-        value.userProfileId = try reader["userProfileId"].readIfPresent()
+        value.userProfileId = try reader["userProfileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21417,14 +21417,14 @@ extension GetLineageNodeOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.downstreamNodes = try reader["downstreamNodes"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.LineageNodeReference.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.sourceIdentifier = try reader["sourceIdentifier"].readIfPresent()
-        value.typeName = try reader["typeName"].readIfPresent()
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
         value.typeRevision = try reader["typeRevision"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
@@ -21443,10 +21443,10 @@ extension GetListingOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.item = try reader["item"].readIfPresent(with: DataZoneClientTypes.ListingItem.read(from:))
-        value.listingRevision = try reader["listingRevision"].readIfPresent()
+        value.listingRevision = try reader["listingRevision"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -21464,9 +21464,9 @@ extension GetMetadataGenerationRunOutput {
         var value = GetMetadataGenerationRunOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.MetadataGenerationRunTarget.read(from:))
         value.type = try reader["type"].readIfPresent()
@@ -21482,15 +21482,15 @@ extension GetProjectOutput {
         let reader = responseReader
         var value = GetProjectOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         return value
     }
@@ -21503,16 +21503,16 @@ extension GetSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSubscriptionOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.retainPermissions = try reader["retainPermissions"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.subscribedListing = try reader["subscribedListing"].readIfPresent(with: DataZoneClientTypes.SubscribedListing.read(from:))
         value.subscribedPrincipal = try reader["subscribedPrincipal"].readIfPresent(with: DataZoneClientTypes.SubscribedPrincipal.read(from:))
         value.subscriptionRequestId = try reader["subscriptionRequestId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -21526,15 +21526,15 @@ extension GetSubscriptionGrantOutput {
         let reader = responseReader
         var value = GetSubscriptionGrantOutput()
         value.assets = try reader["assets"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedAsset.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.grantedEntity = try reader["grantedEntity"].readIfPresent(with: DataZoneClientTypes.GrantedEntity.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.subscriptionId = try reader["subscriptionId"].readIfPresent()
-        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -21547,17 +21547,17 @@ extension GetSubscriptionRequestDetailsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSubscriptionRequestDetailsOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.requestReason = try reader["requestReason"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -21570,19 +21570,19 @@ extension GetSubscriptionTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSubscriptionTargetOutput()
-        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
+        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -21628,7 +21628,7 @@ extension ListAssetFiltersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAssetFiltersOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AssetFilterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AssetFilterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21654,7 +21654,7 @@ extension ListDataProductRevisionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataProductRevisionsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataProductRevision.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataProductRevision.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21667,7 +21667,7 @@ extension ListDataSourceRunActivitiesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataSourceRunActivitiesOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataSourceRunActivity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataSourceRunActivity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21680,7 +21680,7 @@ extension ListDataSourceRunsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataSourceRunsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataSourceRunSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataSourceRunSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21693,7 +21693,7 @@ extension ListDataSourcesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataSourcesOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataSourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataSourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21706,7 +21706,7 @@ extension ListDomainsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDomainsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21719,7 +21719,7 @@ extension ListDomainUnitsForParentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDomainUnitsForParentOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21733,7 +21733,7 @@ extension ListEntityOwnersOutput {
         let reader = responseReader
         var value = ListEntityOwnersOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.OwnerPropertiesOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.OwnerPropertiesOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -21771,7 +21771,7 @@ extension ListEnvironmentBlueprintsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnvironmentBlueprintsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentBlueprintSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentBlueprintSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21784,7 +21784,7 @@ extension ListEnvironmentProfilesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnvironmentProfilesOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21797,7 +21797,7 @@ extension ListEnvironmentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnvironmentsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21849,7 +21849,7 @@ extension ListPolicyGrantsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListPolicyGrantsOutput()
-        value.grantList = try reader["grantList"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PolicyGrantMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.grantList = try reader["grantList"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PolicyGrantMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21862,7 +21862,7 @@ extension ListProjectMembershipsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListProjectMembershipsOutput()
-        value.members = try reader["members"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.members = try reader["members"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21888,7 +21888,7 @@ extension ListSubscriptionGrantsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListSubscriptionGrantsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionGrantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionGrantSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21901,7 +21901,7 @@ extension ListSubscriptionRequestsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListSubscriptionRequestsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionRequestSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionRequestSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21914,7 +21914,7 @@ extension ListSubscriptionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListSubscriptionsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21927,7 +21927,7 @@ extension ListSubscriptionTargetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListSubscriptionTargetsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -21988,9 +21988,9 @@ extension PutEnvironmentBlueprintConfigurationOutput {
         let reader = responseReader
         var value = PutEnvironmentBlueprintConfigurationOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
         value.manageAccessRoleArn = try reader["manageAccessRoleArn"].readIfPresent()
         value.provisioningConfigurations = try reader["provisioningConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProvisioningConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
@@ -22007,9 +22007,9 @@ extension RejectPredictionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RejectPredictionsOutput()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.assetRevision = try reader["assetRevision"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.assetRevision = try reader["assetRevision"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -22021,17 +22021,17 @@ extension RejectSubscriptionRequestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RejectSubscriptionRequestOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.requestReason = try reader["requestReason"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -22058,16 +22058,16 @@ extension RevokeSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RevokeSubscriptionOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.retainPermissions = try reader["retainPermissions"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.subscribedListing = try reader["subscribedListing"].readIfPresent(with: DataZoneClientTypes.SubscribedListing.read(from:))
         value.subscribedPrincipal = try reader["subscribedPrincipal"].readIfPresent(with: DataZoneClientTypes.SubscribedPrincipal.read(from:))
         value.subscriptionRequestId = try reader["subscriptionRequestId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -22148,19 +22148,19 @@ extension StartDataSourceRunOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartDataSourceRunOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataSourceConfigurationSnapshot = try reader["dataSourceConfigurationSnapshot"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.runStatisticsForAssets = try reader["runStatisticsForAssets"].readIfPresent(with: DataZoneClientTypes.RunStatisticsForAssets.read(from:))
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.type = try reader["type"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -22174,8 +22174,8 @@ extension StartMetadataGenerationRunOutput {
         var value = StartMetadataGenerationRunOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
@@ -22204,16 +22204,16 @@ extension UpdateAssetFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAssetFilterOutput()
-        value.assetId = try reader["assetId"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.AssetFilterConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.effectiveColumnNames = try reader["effectiveColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveRowFilter = try reader["effectiveRowFilter"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -22230,16 +22230,16 @@ extension UpdateDataSourceOutput {
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAt = try reader["lastRunAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastRunErrorMessage = try reader["lastRunErrorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.lastRunStatus = try reader["lastRunStatus"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.publishOnImport = try reader["publishOnImport"].readIfPresent()
         value.recommendation = try reader["recommendation"].readIfPresent(with: DataZoneClientTypes.RecommendationConfiguration.read(from:))
         value.retainPermissionsOnRevokeFailure = try reader["retainPermissionsOnRevokeFailure"].readIfPresent()
@@ -22261,7 +22261,7 @@ extension UpdateDomainOutput {
         var value = UpdateDomainOutput()
         value.description = try reader["description"].readIfPresent()
         value.domainExecutionRole = try reader["domainExecutionRole"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
         value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
@@ -22280,12 +22280,12 @@ extension UpdateDomainUnitOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owners = try reader["owners"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DomainUnitOwnerProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.parentDomainUnitId = try reader["parentDomainUnitId"].readIfPresent()
         return value
     }
@@ -22301,19 +22301,19 @@ extension UpdateEnvironmentOutput {
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
         value.lastDeployment = try reader["lastDeployment"].readIfPresent(with: DataZoneClientTypes.Deployment.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         value.provisionedResources = try reader["provisionedResources"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
         value.status = try reader["status"].readIfPresent()
@@ -22331,10 +22331,10 @@ extension UpdateEnvironmentActionOutput {
         let reader = responseReader
         var value = UpdateEnvironmentActionOutput()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readIfPresent(with: DataZoneClientTypes.ActionParameters.read(from:))
         return value
     }
@@ -22350,12 +22350,12 @@ extension UpdateEnvironmentProfileOutput {
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CustomParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -22371,10 +22371,10 @@ extension UpdateGlossaryOutput {
         let reader = responseReader
         var value = UpdateGlossaryOutput()
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -22387,13 +22387,13 @@ extension UpdateGlossaryTermOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateGlossaryTermOutput()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.glossaryId = try reader["glossaryId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.glossaryId = try reader["glossaryId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.longDescription = try reader["longDescription"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.shortDescription = try reader["shortDescription"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
         return value
     }
@@ -22422,15 +22422,15 @@ extension UpdateProjectOutput {
         let reader = responseReader
         var value = UpdateProjectOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         return value
     }
@@ -22444,15 +22444,15 @@ extension UpdateSubscriptionGrantStatusOutput {
         let reader = responseReader
         var value = UpdateSubscriptionGrantStatusOutput()
         value.assets = try reader["assets"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedAsset.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.grantedEntity = try reader["grantedEntity"].readIfPresent(with: DataZoneClientTypes.GrantedEntity.read(from:))
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.subscriptionId = try reader["subscriptionId"].readIfPresent()
-        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -22465,17 +22465,17 @@ extension UpdateSubscriptionRequestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateSubscriptionRequestOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.requestReason = try reader["requestReason"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -22488,19 +22488,19 @@ extension UpdateSubscriptionTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateSubscriptionTargetOutput()
-        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
-        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
+        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -25243,7 +25243,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25256,7 +25256,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25269,7 +25269,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25282,7 +25282,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25295,7 +25295,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25308,7 +25308,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25321,7 +25321,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25334,7 +25334,7 @@ extension UnauthorizedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -25372,12 +25372,12 @@ extension DataZoneClientTypes.SubscribedListing {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedListing {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SubscribedListing()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
         value.item = try reader["item"].readIfPresent(with: DataZoneClientTypes.SubscribedListingItem.read(from:))
-        value.ownerProjectId = try reader["ownerProjectId"].readIfPresent()
+        value.ownerProjectId = try reader["ownerProjectId"].readIfPresent() ?? ""
         value.ownerProjectName = try reader["ownerProjectName"].readIfPresent()
         return value
     }
@@ -25457,9 +25457,9 @@ extension DataZoneClientTypes.AssetScope {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetScope {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.AssetScope()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.filterIds = try reader["filterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.filterIds = try reader["filterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
@@ -25470,8 +25470,8 @@ extension DataZoneClientTypes.AssetListingDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.AssetListingDetails()
-        value.listingId = try reader["listingId"].readIfPresent()
-        value.listingStatus = try reader["listingStatus"].readIfPresent()
+        value.listingId = try reader["listingId"].readIfPresent() ?? ""
+        value.listingStatus = try reader["listingStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -25481,7 +25481,7 @@ extension DataZoneClientTypes.FormOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.FormOutput()
-        value.formName = try reader["formName"].readIfPresent()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
         value.typeName = try reader["typeName"].readIfPresent()
         value.typeRevision = try reader["typeRevision"].readIfPresent()
         value.content = try reader["content"].readIfPresent()
@@ -25494,10 +25494,10 @@ extension DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput()
-        value.formName = try reader["formName"].readIfPresent()
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
         value.typeRevision = try reader["typeRevision"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.contentSummary = try reader["contentSummary"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         return value
@@ -25690,8 +25690,8 @@ extension DataZoneClientTypes.NotLikeExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotLikeExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.NotLikeExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25707,8 +25707,8 @@ extension DataZoneClientTypes.LikeExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LikeExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.LikeExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25724,8 +25724,8 @@ extension DataZoneClientTypes.NotInExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotInExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.NotInExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25741,8 +25741,8 @@ extension DataZoneClientTypes.InExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.InExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.InExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -25757,7 +25757,7 @@ extension DataZoneClientTypes.IsNotNullExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IsNotNullExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.IsNotNullExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25772,7 +25772,7 @@ extension DataZoneClientTypes.IsNullExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IsNullExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.IsNullExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25788,8 +25788,8 @@ extension DataZoneClientTypes.LessThanOrEqualToExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LessThanOrEqualToExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.LessThanOrEqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25805,8 +25805,8 @@ extension DataZoneClientTypes.GreaterThanOrEqualToExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GreaterThanOrEqualToExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.GreaterThanOrEqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25822,8 +25822,8 @@ extension DataZoneClientTypes.LessThanExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LessThanExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.LessThanExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25839,8 +25839,8 @@ extension DataZoneClientTypes.GreaterThanExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GreaterThanExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.GreaterThanExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25856,8 +25856,8 @@ extension DataZoneClientTypes.NotEqualToExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotEqualToExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.NotEqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25873,8 +25873,8 @@ extension DataZoneClientTypes.EqualToExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EqualToExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -25899,8 +25899,8 @@ extension DataZoneClientTypes.FormEntryOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormEntryOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.FormEntryOutput()
-        value.typeName = try reader["typeName"].readIfPresent()
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
         value.`required` = try reader["required"].readIfPresent()
         return value
     }
@@ -25919,8 +25919,8 @@ extension DataZoneClientTypes.DataProductItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataProductItem()
-        value.itemType = try reader["itemType"].readIfPresent()
-        value.identifier = try reader["identifier"].readIfPresent()
+        value.itemType = try reader["itemType"].readIfPresent() ?? .sdkUnknown("")
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent()
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -25951,7 +25951,7 @@ extension DataZoneClientTypes.RedshiftRunConfigurationOutput {
         value.accountId = try reader["accountId"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         value.dataAccessRole = try reader["dataAccessRole"].readIfPresent()
-        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.redshiftCredentialConfiguration = try reader["redshiftCredentialConfiguration"].readIfPresent(with: DataZoneClientTypes.RedshiftCredentialConfiguration.read(from:))
         value.redshiftStorage = try reader["redshiftStorage"].readIfPresent(with: DataZoneClientTypes.RedshiftStorage.read(from:))
         return value
@@ -25996,7 +25996,7 @@ extension DataZoneClientTypes.RedshiftServerlessStorage {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftServerlessStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.RedshiftServerlessStorage()
-        value.workgroupName = try reader["workgroupName"].readIfPresent()
+        value.workgroupName = try reader["workgroupName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26011,7 +26011,7 @@ extension DataZoneClientTypes.RedshiftClusterStorage {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftClusterStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.RedshiftClusterStorage()
-        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26026,7 +26026,7 @@ extension DataZoneClientTypes.RedshiftCredentialConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftCredentialConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.RedshiftCredentialConfiguration()
-        value.secretManagerArn = try reader["secretManagerArn"].readIfPresent()
+        value.secretManagerArn = try reader["secretManagerArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26043,7 +26043,7 @@ extension DataZoneClientTypes.RelationalFilterConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RelationalFilterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.RelationalFilterConfiguration()
-        value.databaseName = try reader["databaseName"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         value.schemaName = try reader["schemaName"].readIfPresent()
         value.filterExpressions = try reader["filterExpressions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FilterExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -26061,8 +26061,8 @@ extension DataZoneClientTypes.FilterExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FilterExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.FilterExpression()
-        value.type = try reader["type"].readIfPresent()
-        value.expression = try reader["expression"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.expression = try reader["expression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26075,7 +26075,7 @@ extension DataZoneClientTypes.GlueRunConfigurationOutput {
         value.accountId = try reader["accountId"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         value.dataAccessRole = try reader["dataAccessRole"].readIfPresent()
-        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.autoImportDataQualityResult = try reader["autoImportDataQualityResult"].readIfPresent()
         return value
     }
@@ -26118,7 +26118,7 @@ extension DataZoneClientTypes.DataSourceErrorMessage {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceErrorMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataSourceErrorMessage()
-        value.errorType = try reader["errorType"].readIfPresent()
+        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
         value.errorDetail = try reader["errorDetail"].readIfPresent()
         return value
     }
@@ -26184,8 +26184,8 @@ extension DataZoneClientTypes.Resource {
         var value = DataZoneClientTypes.Resource()
         value.provider = try reader["provider"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26195,9 +26195,9 @@ extension DataZoneClientTypes.ConfigurableEnvironmentAction {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConfigurableEnvironmentAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.ConfigurableEnvironmentAction()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.auth = try reader["auth"].readIfPresent()
-        value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -26218,9 +26218,9 @@ extension DataZoneClientTypes.CustomParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CustomParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.CustomParameter()
-        value.keyName = try reader["keyName"].readIfPresent()
+        value.keyName = try reader["keyName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.fieldType = try reader["fieldType"].readIfPresent()
+        value.fieldType = try reader["fieldType"].readIfPresent() ?? ""
         value.defaultValue = try reader["defaultValue"].readIfPresent()
         value.isEditable = try reader["isEditable"].readIfPresent()
         value.isOptional = try reader["isOptional"].readIfPresent()
@@ -26249,7 +26249,7 @@ extension DataZoneClientTypes.EnvironmentError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentError()
         value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26273,7 +26273,7 @@ extension DataZoneClientTypes.CloudFormationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CloudFormationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.CloudFormationProperties()
-        value.templateUrl = try reader["templateUrl"].readIfPresent()
+        value.templateUrl = try reader["templateUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26375,8 +26375,8 @@ extension DataZoneClientTypes.ListingRevision {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.ListingRevision()
-        value.id = try reader["id"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26386,9 +26386,9 @@ extension DataZoneClientTypes.SubscribedAsset {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedAsset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SubscribedAsset()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.assetRevision = try reader["assetRevision"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.assetRevision = try reader["assetRevision"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.targetName = try reader["targetName"].readIfPresent()
         value.failureCause = try reader["failureCause"].readIfPresent(with: DataZoneClientTypes.FailureCause.read(from:))
         value.grantedTimestamp = try reader["grantedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -26424,8 +26424,8 @@ extension DataZoneClientTypes.SubscriptionTargetForm {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionTargetForm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SubscriptionTargetForm()
-        value.formName = try reader["formName"].readIfPresent()
-        value.content = try reader["content"].readIfPresent()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26489,7 +26489,7 @@ extension DataZoneClientTypes.RedshiftSelfGrantStatusOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftSelfGrantStatusOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.RedshiftSelfGrantStatusOutput()
-        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -26499,9 +26499,9 @@ extension DataZoneClientTypes.SelfGrantStatusDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SelfGrantStatusDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SelfGrantStatusDetail()
-        value.databaseName = try reader["databaseName"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         value.schemaName = try reader["schemaName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.failureCause = try reader["failureCause"].readIfPresent()
         return value
     }
@@ -26512,7 +26512,7 @@ extension DataZoneClientTypes.GlueSelfGrantStatusOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueSelfGrantStatusOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.GlueSelfGrantStatusOutput()
-        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -26601,8 +26601,8 @@ extension DataZoneClientTypes.Import {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Import {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.Import()
-        value.name = try reader["name"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26691,8 +26691,8 @@ extension DataZoneClientTypes.MetadataGenerationRunTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.MetadataGenerationRunTarget()
-        value.type = try reader["type"].readIfPresent()
-        value.identifier = try reader["identifier"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent()
         return value
     }
@@ -26703,10 +26703,10 @@ extension DataZoneClientTypes.TimeSeriesDataPointFormOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeSeriesDataPointFormOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.TimeSeriesDataPointFormOutput()
-        value.formName = try reader["formName"].readIfPresent()
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
         value.typeRevision = try reader["typeRevision"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.content = try reader["content"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         return value
@@ -26718,10 +26718,10 @@ extension DataZoneClientTypes.AssetFilterSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetFilterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.AssetFilterSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.effectiveColumnNames = try reader["effectiveColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -26765,16 +26765,16 @@ extension DataZoneClientTypes.DataSourceRunActivity {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceRunActivity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataSourceRunActivity()
-        value.database = try reader["database"].readIfPresent()
-        value.dataSourceRunId = try reader["dataSourceRunId"].readIfPresent()
-        value.technicalName = try reader["technicalName"].readIfPresent()
-        value.dataAssetStatus = try reader["dataAssetStatus"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.database = try reader["database"].readIfPresent() ?? ""
+        value.dataSourceRunId = try reader["dataSourceRunId"].readIfPresent() ?? ""
+        value.technicalName = try reader["technicalName"].readIfPresent() ?? ""
+        value.dataAssetStatus = try reader["dataAssetStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.dataAssetId = try reader["dataAssetId"].readIfPresent()
         value.technicalDescription = try reader["technicalDescription"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -26784,15 +26784,15 @@ extension DataZoneClientTypes.DataSourceRunSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceRunSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataSourceRunSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.runStatisticsForAssets = try reader["runStatisticsForAssets"].readIfPresent(with: DataZoneClientTypes.RunStatisticsForAssets.read(from:))
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -26804,12 +26804,12 @@ extension DataZoneClientTypes.DataSourceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataSourceSummary()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.dataSourceId = try reader["dataSourceId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.enableSetting = try reader["enableSetting"].readIfPresent()
         value.schedule = try reader["schedule"].readIfPresent(with: DataZoneClientTypes.ScheduleConfiguration.read(from:))
         value.lastRunStatus = try reader["lastRunStatus"].readIfPresent()
@@ -26827,14 +26827,14 @@ extension DataZoneClientTypes.DomainSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DomainSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.managedAccountId = try reader["managedAccountId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.managedAccountId = try reader["managedAccountId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.portalUrl = try reader["portalUrl"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -26845,8 +26845,8 @@ extension DataZoneClientTypes.DomainUnitSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DomainUnitSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26892,10 +26892,10 @@ extension DataZoneClientTypes.EnvironmentActionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentActionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentActionSummary()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readIfPresent(with: DataZoneClientTypes.ActionParameters.read(from:))
         value.description = try reader["description"].readIfPresent()
         return value
@@ -26907,8 +26907,8 @@ extension DataZoneClientTypes.EnvironmentBlueprintConfigurationItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentBlueprintConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentBlueprintConfigurationItem()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
         value.manageAccessRoleArn = try reader["manageAccessRoleArn"].readIfPresent()
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -26925,10 +26925,10 @@ extension DataZoneClientTypes.EnvironmentBlueprintSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentBlueprintSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentBlueprintSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -26941,16 +26941,16 @@ extension DataZoneClientTypes.EnvironmentProfileSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentProfileSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent()
         return value
     }
@@ -26961,18 +26961,18 @@ extension DataZoneClientTypes.EnvironmentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentSummary()
-        value.projectId = try reader["projectId"].readIfPresent()
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
-        value.provider = try reader["provider"].readIfPresent()
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -26983,15 +26983,15 @@ extension DataZoneClientTypes.LineageNodeSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageNodeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.LineageNodeSummary()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.typeName = try reader["typeName"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
         value.typeRevision = try reader["typeRevision"].readIfPresent()
         value.sourceIdentifier = try reader["sourceIdentifier"].readIfPresent()
         value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -27004,14 +27004,14 @@ extension DataZoneClientTypes.MetadataGenerationRunItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.MetadataGenerationRunItem()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.MetadataGenerationRunTarget.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27021,16 +27021,16 @@ extension DataZoneClientTypes.NotificationOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotificationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.NotificationOutput()
-        value.identifier = try reader["identifier"].readIfPresent()
-        value.domainIdentifier = try reader["domainIdentifier"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.domainIdentifier = try reader["domainIdentifier"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.topic = try reader["topic"].readIfPresent(with: DataZoneClientTypes.Topic.read(from:))
-        value.title = try reader["title"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
-        value.actionLink = try reader["actionLink"].readIfPresent()
-        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.actionLink = try reader["actionLink"].readIfPresent() ?? ""
+        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -27041,9 +27041,9 @@ extension DataZoneClientTypes.Topic {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Topic {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.Topic()
-        value.subject = try reader["subject"].readIfPresent()
+        value.subject = try reader["subject"].readIfPresent() ?? ""
         value.resource = try reader["resource"].readIfPresent(with: DataZoneClientTypes.NotificationResource.read(from:))
-        value.role = try reader["role"].readIfPresent()
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -27053,8 +27053,8 @@ extension DataZoneClientTypes.NotificationResource {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotificationResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.NotificationResource()
-        value.type = try reader["type"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         return value
     }
@@ -27333,7 +27333,7 @@ extension DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DomainUnitPolicyGrantPrincipal()
-        value.domainUnitDesignation = try reader["domainUnitDesignation"].readIfPresent()
+        value.domainUnitDesignation = try reader["domainUnitDesignation"].readIfPresent() ?? .sdkUnknown("")
         value.domainUnitIdentifier = try reader["domainUnitIdentifier"].readIfPresent()
         value.domainUnitGrantFilter = try reader["domainUnitGrantFilter"].readIfPresent(with: DataZoneClientTypes.DomainUnitGrantFilter.read(from:))
         return value
@@ -27389,7 +27389,7 @@ extension DataZoneClientTypes.ProjectPolicyGrantPrincipal {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectPolicyGrantPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.ProjectPolicyGrantPrincipal()
-        value.projectDesignation = try reader["projectDesignation"].readIfPresent()
+        value.projectDesignation = try reader["projectDesignation"].readIfPresent() ?? .sdkUnknown("")
         value.projectIdentifier = try reader["projectIdentifier"].readIfPresent()
         value.projectGrantFilter = try reader["projectGrantFilter"].readIfPresent(with: DataZoneClientTypes.ProjectGrantFilter.read(from:))
         return value
@@ -27431,7 +27431,7 @@ extension DataZoneClientTypes.DomainUnitFilterForProject {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitFilterForProject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DomainUnitFilterForProject()
-        value.domainUnit = try reader["domainUnit"].readIfPresent()
+        value.domainUnit = try reader["domainUnit"].readIfPresent() ?? ""
         value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent() ?? false
         return value
     }
@@ -27508,7 +27508,7 @@ extension DataZoneClientTypes.ProjectMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.ProjectMember()
         value.memberDetails = try reader["memberDetails"].readIfPresent(with: DataZoneClientTypes.MemberDetails.read(from:))
-        value.designation = try reader["designation"].readIfPresent()
+        value.designation = try reader["designation"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -27534,7 +27534,7 @@ extension DataZoneClientTypes.GroupDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.GroupDetails()
-        value.groupId = try reader["groupId"].readIfPresent()
+        value.groupId = try reader["groupId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27544,7 +27544,7 @@ extension DataZoneClientTypes.UserDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.UserDetails()
-        value.userId = try reader["userId"].readIfPresent()
+        value.userId = try reader["userId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27554,13 +27554,13 @@ extension DataZoneClientTypes.ProjectSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.ProjectSummary()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
@@ -27573,15 +27573,15 @@ extension DataZoneClientTypes.SubscriptionGrantSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionGrantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SubscriptionGrantSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.subscriptionTargetId = try reader["subscriptionTargetId"].readIfPresent() ?? ""
         value.grantedEntity = try reader["grantedEntity"].readIfPresent(with: DataZoneClientTypes.GrantedEntity.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.assets = try reader["assets"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedAsset.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.subscriptionId = try reader["subscriptionId"].readIfPresent()
         return value
@@ -27593,16 +27593,16 @@ extension DataZoneClientTypes.SubscriptionRequestSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionRequestSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SubscriptionRequestSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.requestReason = try reader["requestReason"].readIfPresent()
-        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
+        value.subscribedPrincipals = try reader["subscribedPrincipals"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.reviewerId = try reader["reviewerId"].readIfPresent()
         value.decisionComment = try reader["decisionComment"].readIfPresent()
         return value
@@ -27614,13 +27614,13 @@ extension DataZoneClientTypes.SubscriptionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SubscriptionSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.subscribedPrincipal = try reader["subscribedPrincipal"].readIfPresent(with: DataZoneClientTypes.SubscribedPrincipal.read(from:))
         value.subscribedListing = try reader["subscribedListing"].readIfPresent(with: DataZoneClientTypes.SubscribedListing.read(from:))
         value.subscriptionRequestId = try reader["subscriptionRequestId"].readIfPresent()
@@ -27634,21 +27634,21 @@ extension DataZoneClientTypes.SubscriptionTargetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionTargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.SubscriptionTargetSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.authorizedPrincipals = try reader["authorizedPrincipals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
-        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.provider = try reader["provider"].readIfPresent()
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27678,10 +27678,10 @@ extension DataZoneClientTypes.DataProductResultItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataProductResultItem()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -27697,11 +27697,11 @@ extension DataZoneClientTypes.AssetItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.AssetItem()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.identifier = try reader["identifier"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent()
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
         value.externalIdentifier = try reader["externalIdentifier"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -27709,7 +27709,7 @@ extension DataZoneClientTypes.AssetItem {
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.AssetItemAdditionalAttributes.read(from:))
         return value
     }
@@ -27732,14 +27732,14 @@ extension DataZoneClientTypes.GlossaryTermItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.GlossaryTermItem()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.glossaryId = try reader["glossaryId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.glossaryId = try reader["glossaryId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.shortDescription = try reader["shortDescription"].readIfPresent()
         value.longDescription = try reader["longDescription"].readIfPresent()
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -27753,12 +27753,12 @@ extension DataZoneClientTypes.GlossaryItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.GlossaryItem()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -27896,15 +27896,15 @@ extension DataZoneClientTypes.LineageNodeTypeItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageNodeTypeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.LineageNodeTypeItem()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -27914,9 +27914,9 @@ extension DataZoneClientTypes.FormTypeData {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormTypeData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.FormTypeData()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.model = try reader["model"].readIfPresent(with: DataZoneClientTypes.Model.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
@@ -27935,12 +27935,12 @@ extension DataZoneClientTypes.AssetTypeItem {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetTypeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.AssetTypeItem()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.originDomainId = try reader["originDomainId"].readIfPresent()
         value.originProjectId = try reader["originProjectId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct ApplyArchiveRuleOutput {
 
@@ -78,8 +79,8 @@ extension AccessAnalyzerClientTypes {
         public var resources: [Swift.String]?
 
         public init(
-            actions: [Swift.String]? = nil,
-            resources: [Swift.String]? = nil
+            actions: [Swift.String]? = [],
+            resources: [Swift.String]? = []
         )
         {
             self.actions = actions
@@ -5508,7 +5509,7 @@ extension CreateAccessPreviewOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAccessPreviewOutput()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5623,11 +5624,11 @@ extension GetFindingRecommendationOutput {
         value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.error = try reader["error"].readIfPresent(with: AccessAnalyzerClientTypes.RecommendationError.read(from:))
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.recommendationType = try reader["recommendationType"].readIfPresent()
+        value.recommendationType = try reader["recommendationType"].readIfPresent() ?? .sdkUnknown("")
         value.recommendedSteps = try reader["recommendedSteps"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.RecommendedStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5639,18 +5640,18 @@ extension GetFindingV2Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFindingV2Output()
-        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.error = try reader["error"].readIfPresent()
-        value.findingDetails = try reader["findingDetails"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findingDetails = try reader["findingDetails"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.findingType = try reader["findingType"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.resource = try reader["resource"].readIfPresent()
-        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5675,7 +5676,7 @@ extension ListAccessPreviewFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAccessPreviewFindingsOutput()
-        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AccessPreviewFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AccessPreviewFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5688,7 +5689,7 @@ extension ListAccessPreviewsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAccessPreviewsOutput()
-        value.accessPreviews = try reader["accessPreviews"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AccessPreviewSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accessPreviews = try reader["accessPreviews"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AccessPreviewSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5701,7 +5702,7 @@ extension ListAnalyzedResourcesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAnalyzedResourcesOutput()
-        value.analyzedResources = try reader["analyzedResources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AnalyzedResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analyzedResources = try reader["analyzedResources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AnalyzedResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5714,7 +5715,7 @@ extension ListAnalyzersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAnalyzersOutput()
-        value.analyzers = try reader["analyzers"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AnalyzerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analyzers = try reader["analyzers"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AnalyzerSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5727,7 +5728,7 @@ extension ListArchiveRulesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListArchiveRulesOutput()
-        value.archiveRules = try reader["archiveRules"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.ArchiveRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.archiveRules = try reader["archiveRules"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.ArchiveRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5740,7 +5741,7 @@ extension ListFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFindingsOutput()
-        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5753,7 +5754,7 @@ extension ListFindingsV2Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFindingsV2Output()
-        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSummaryV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSummaryV2.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5767,7 +5768,7 @@ extension ListPolicyGenerationsOutput {
         let reader = responseReader
         var value = ListPolicyGenerationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.policyGenerations = try reader["policyGenerations"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.PolicyGeneration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policyGenerations = try reader["policyGenerations"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.PolicyGeneration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5791,7 +5792,7 @@ extension StartPolicyGenerationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartPolicyGenerationOutput()
-        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5838,7 +5839,7 @@ extension ValidatePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ValidatePolicyOutput()
-        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.ValidatePolicyFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.ValidatePolicyFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6482,7 +6483,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6496,8 +6497,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6510,9 +6511,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6529,7 +6530,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6546,7 +6547,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6559,7 +6560,7 @@ extension InvalidParameterException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6572,7 +6573,7 @@ extension UnprocessableEntityException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
         let reader = baseError.errorBodyReader
         var value = UnprocessableEntityException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6585,9 +6586,9 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6600,9 +6601,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6627,11 +6628,11 @@ extension AccessAnalyzerClientTypes.AccessPreview {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AccessPreview()
-        value.id = try reader["id"].readIfPresent()
-        value.analyzerArn = try reader["analyzerArn"].readIfPresent()
-        value.configurations = try reader["configurations"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.Configuration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.analyzerArn = try reader["analyzerArn"].readIfPresent() ?? ""
+        value.configurations = try reader["configurations"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.Configuration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent(with: AccessAnalyzerClientTypes.AccessPreviewStatusReason.read(from:))
         return value
     }
@@ -6642,7 +6643,7 @@ extension AccessAnalyzerClientTypes.AccessPreviewStatusReason {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreviewStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AccessPreviewStatusReason()
-        value.code = try reader["code"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6889,7 +6890,7 @@ extension AccessAnalyzerClientTypes.VpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.VpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.VpcConfiguration()
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6905,8 +6906,8 @@ extension AccessAnalyzerClientTypes.S3PublicAccessBlockConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.S3PublicAccessBlockConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.S3PublicAccessBlockConfiguration()
-        value.ignorePublicAcls = try reader["ignorePublicAcls"].readIfPresent()
-        value.restrictPublicBuckets = try reader["restrictPublicBuckets"].readIfPresent()
+        value.ignorePublicAcls = try reader["ignorePublicAcls"].readIfPresent() ?? false
+        value.restrictPublicBuckets = try reader["restrictPublicBuckets"].readIfPresent() ?? false
         return value
     }
 }
@@ -6922,7 +6923,7 @@ extension AccessAnalyzerClientTypes.S3BucketAclGrantConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.S3BucketAclGrantConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.S3BucketAclGrantConfiguration()
-        value.permission = try reader["permission"].readIfPresent()
+        value.permission = try reader["permission"].readIfPresent() ?? .sdkUnknown("")
         value.grantee = try reader["grantee"].readIfPresent(with: AccessAnalyzerClientTypes.AclGrantee.read(from:))
         return value
     }
@@ -7086,11 +7087,11 @@ extension AccessAnalyzerClientTypes.KmsGrantConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.KmsGrantConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.KmsGrantConfiguration()
-        value.operations = try reader["operations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AccessAnalyzerClientTypes.KmsGrantOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.granteePrincipal = try reader["granteePrincipal"].readIfPresent()
+        value.operations = try reader["operations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AccessAnalyzerClientTypes.KmsGrantOperation>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.granteePrincipal = try reader["granteePrincipal"].readIfPresent() ?? ""
         value.retiringPrincipal = try reader["retiringPrincipal"].readIfPresent()
         value.constraints = try reader["constraints"].readIfPresent(with: AccessAnalyzerClientTypes.KmsGrantConstraints.read(from:))
-        value.issuingAccount = try reader["issuingAccount"].readIfPresent()
+        value.issuingAccount = try reader["issuingAccount"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7181,16 +7182,16 @@ extension AccessAnalyzerClientTypes.AnalyzedResource {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalyzedResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AnalyzedResource()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.isPublic = try reader["isPublic"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.isPublic = try reader["isPublic"].readIfPresent() ?? false
         value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sharedVia = try reader["sharedVia"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
-        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent()
+        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         return value
     }
@@ -7201,14 +7202,14 @@ extension AccessAnalyzerClientTypes.AnalyzerSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalyzerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AnalyzerSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastResourceAnalyzed = try reader["lastResourceAnalyzed"].readIfPresent()
         value.lastResourceAnalyzedAt = try reader["lastResourceAnalyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent(with: AccessAnalyzerClientTypes.StatusReason.read(from:))
         value.configuration = try reader["configuration"].readIfPresent(with: AccessAnalyzerClientTypes.AnalyzerConfiguration.read(from:))
         return value
@@ -7259,7 +7260,7 @@ extension AccessAnalyzerClientTypes.StatusReason {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.StatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.StatusReason()
-        value.code = try reader["code"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7269,10 +7270,10 @@ extension AccessAnalyzerClientTypes.ArchiveRuleSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ArchiveRuleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.ArchiveRuleSummary()
-        value.ruleName = try reader["ruleName"].readIfPresent()
-        value.filter = try reader["filter"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.Criterion.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.ruleName = try reader["ruleName"].readIfPresent() ?? ""
+        value.filter = try reader["filter"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.Criterion.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7303,18 +7304,18 @@ extension AccessAnalyzerClientTypes.Finding {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.Finding()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.principal = try reader["principal"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.action = try reader["action"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.resource = try reader["resource"].readIfPresent()
         value.isPublic = try reader["isPublic"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
-        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -7326,7 +7327,7 @@ extension AccessAnalyzerClientTypes.FindingSource {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.FindingSource()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.detail = try reader["detail"].readIfPresent(with: AccessAnalyzerClientTypes.FindingSourceDetail.read(from:))
         return value
     }
@@ -7348,8 +7349,8 @@ extension AccessAnalyzerClientTypes.RecommendationError {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.RecommendationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.RecommendationError()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7374,7 +7375,7 @@ extension AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep()
         value.policyUpdatedAt = try reader["policyUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.recommendedAction = try reader["recommendedAction"].readIfPresent()
+        value.recommendedAction = try reader["recommendedAction"].readIfPresent() ?? .sdkUnknown("")
         value.recommendedPolicy = try reader["recommendedPolicy"].readIfPresent()
         value.existingPolicyId = try reader["existingPolicyId"].readIfPresent()
         return value
@@ -7428,7 +7429,7 @@ extension AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedIamUserAccessKeyDetails()
-        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
+        value.accessKeyId = try reader["accessKeyId"].readIfPresent() ?? ""
         value.lastAccessed = try reader["lastAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -7440,7 +7441,7 @@ extension AccessAnalyzerClientTypes.UnusedPermissionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedPermissionDetails()
         value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.UnusedAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceNamespace = try reader["serviceNamespace"].readIfPresent()
+        value.serviceNamespace = try reader["serviceNamespace"].readIfPresent() ?? ""
         value.lastAccessed = try reader["lastAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -7451,7 +7452,7 @@ extension AccessAnalyzerClientTypes.UnusedAction {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedAction()
-        value.action = try reader["action"].readIfPresent()
+        value.action = try reader["action"].readIfPresent() ?? ""
         value.lastAccessed = try reader["lastAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -7463,7 +7464,7 @@ extension AccessAnalyzerClientTypes.ExternalAccessDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.ExternalAccessDetails()
         value.action = try reader["action"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.isPublic = try reader["isPublic"].readIfPresent()
         value.principal = try reader["principal"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7476,9 +7477,9 @@ extension AccessAnalyzerClientTypes.JobDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.JobDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.JobDetails()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startedOn = try reader["startedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedOn = try reader["startedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completedOn = try reader["completedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.jobError = try reader["jobError"].readIfPresent(with: AccessAnalyzerClientTypes.JobError.read(from:))
         return value
@@ -7490,8 +7491,8 @@ extension AccessAnalyzerClientTypes.JobError {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.JobError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.JobError()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7512,7 +7513,7 @@ extension AccessAnalyzerClientTypes.GeneratedPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.GeneratedPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.GeneratedPolicy()
-        value.policy = try reader["policy"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7523,7 +7524,7 @@ extension AccessAnalyzerClientTypes.GeneratedPolicyProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.GeneratedPolicyProperties()
         value.isComplete = try reader["isComplete"].readIfPresent()
-        value.principalArn = try reader["principalArn"].readIfPresent()
+        value.principalArn = try reader["principalArn"].readIfPresent() ?? ""
         value.cloudTrailProperties = try reader["cloudTrailProperties"].readIfPresent(with: AccessAnalyzerClientTypes.CloudTrailProperties.read(from:))
         return value
     }
@@ -7534,9 +7535,9 @@ extension AccessAnalyzerClientTypes.CloudTrailProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.CloudTrailProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.CloudTrailProperties()
-        value.trailProperties = try reader["trailProperties"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.TrailProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.trailProperties = try reader["trailProperties"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.TrailProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7546,7 +7547,7 @@ extension AccessAnalyzerClientTypes.TrailProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.TrailProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.TrailProperties()
-        value.cloudTrailArn = try reader["cloudTrailArn"].readIfPresent()
+        value.cloudTrailArn = try reader["cloudTrailArn"].readIfPresent() ?? ""
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allRegions = try reader["allRegions"].readIfPresent()
         return value
@@ -7558,7 +7559,7 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreviewFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AccessPreviewFinding()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.existingFindingId = try reader["existingFindingId"].readIfPresent()
         value.existingFindingStatus = try reader["existingFindingStatus"].readIfPresent()
         value.principal = try reader["principal"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7566,11 +7567,11 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding {
         value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.resource = try reader["resource"].readIfPresent()
         value.isPublic = try reader["isPublic"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.changeType = try reader["changeType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.changeType = try reader["changeType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -7582,10 +7583,10 @@ extension AccessAnalyzerClientTypes.AccessPreviewSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AccessPreviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AccessPreviewSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.analyzerArn = try reader["analyzerArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.analyzerArn = try reader["analyzerArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent(with: AccessAnalyzerClientTypes.AccessPreviewStatusReason.read(from:))
         return value
     }
@@ -7596,9 +7597,9 @@ extension AccessAnalyzerClientTypes.AnalyzedResourceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalyzedResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.AnalyzedResourceSummary()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7608,18 +7609,18 @@ extension AccessAnalyzerClientTypes.FindingSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.FindingSummary()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.principal = try reader["principal"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.action = try reader["action"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.resource = try reader["resource"].readIfPresent()
         value.isPublic = try reader["isPublic"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
-        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -7631,15 +7632,15 @@ extension AccessAnalyzerClientTypes.FindingSummaryV2 {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingSummaryV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.FindingSummaryV2()
-        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.analyzedAt = try reader["analyzedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.error = try reader["error"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.resource = try reader["resource"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.findingType = try reader["findingType"].readIfPresent()
         return value
     }
@@ -7650,10 +7651,10 @@ extension AccessAnalyzerClientTypes.PolicyGeneration {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.PolicyGeneration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.PolicyGeneration()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.principalArn = try reader["principalArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startedOn = try reader["startedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.principalArn = try reader["principalArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedOn = try reader["startedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completedOn = try reader["completedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -7664,11 +7665,11 @@ extension AccessAnalyzerClientTypes.ValidatePolicyFinding {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ValidatePolicyFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.ValidatePolicyFinding()
-        value.findingDetails = try reader["findingDetails"].readIfPresent()
-        value.findingType = try reader["findingType"].readIfPresent()
-        value.issueCode = try reader["issueCode"].readIfPresent()
-        value.learnMoreLink = try reader["learnMoreLink"].readIfPresent()
-        value.locations = try reader["locations"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.Location.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findingDetails = try reader["findingDetails"].readIfPresent() ?? ""
+        value.findingType = try reader["findingType"].readIfPresent() ?? .sdkUnknown("")
+        value.issueCode = try reader["issueCode"].readIfPresent() ?? ""
+        value.learnMoreLink = try reader["learnMoreLink"].readIfPresent() ?? ""
+        value.locations = try reader["locations"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.Location.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7678,7 +7679,7 @@ extension AccessAnalyzerClientTypes.Location {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.Location()
-        value.path = try reader["path"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.PathElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["path"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.PathElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.span = try reader["span"].readIfPresent(with: AccessAnalyzerClientTypes.Span.read(from:))
         return value
     }
@@ -7700,9 +7701,9 @@ extension AccessAnalyzerClientTypes.Position {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Position {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.Position()
-        value.line = try reader["line"].readIfPresent()
-        value.column = try reader["column"].readIfPresent()
-        value.offset = try reader["offset"].readIfPresent()
+        value.line = try reader["line"].readIfPresent() ?? 0
+        value.column = try reader["column"].readIfPresent() ?? 0
+        value.offset = try reader["offset"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7732,8 +7733,8 @@ extension AccessAnalyzerClientTypes.Substring {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.Substring {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.Substring()
-        value.start = try reader["start"].readIfPresent()
-        value.length = try reader["length"].readIfPresent()
+        value.start = try reader["start"].readIfPresent() ?? 0
+        value.length = try reader["length"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7743,8 +7744,8 @@ extension AccessAnalyzerClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

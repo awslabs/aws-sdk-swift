@@ -516,7 +516,7 @@ public struct CreateDataSourceFromRDSInput {
     public var roleARN: Swift.String?
 
     public init(
-        computeStatistics: Swift.Bool? = nil,
+        computeStatistics: Swift.Bool? = false,
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         rdsData: MachineLearningClientTypes.RDSDataSpec? = nil,
@@ -686,7 +686,7 @@ public struct CreateDataSourceFromRedshiftInput {
     public var roleARN: Swift.String?
 
     public init(
-        computeStatistics: Swift.Bool? = nil,
+        computeStatistics: Swift.Bool? = false,
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSpec: MachineLearningClientTypes.RedshiftDataSpec? = nil,
@@ -772,7 +772,7 @@ public struct CreateDataSourceFromS3Input {
     public var dataSpec: MachineLearningClientTypes.S3DataSpec?
 
     public init(
-        computeStatistics: Swift.Bool? = nil,
+        computeStatistics: Swift.Bool? = false,
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSpec: MachineLearningClientTypes.S3DataSpec? = nil
@@ -2527,7 +2527,7 @@ public struct GetDataSourceInput {
 
     public init(
         dataSourceId: Swift.String? = nil,
-        verbose: Swift.Bool? = nil
+        verbose: Swift.Bool? = false
     )
     {
         self.dataSourceId = dataSourceId
@@ -2744,7 +2744,7 @@ public struct GetMLModelInput {
 
     public init(
         mlModelId: Swift.String? = nil,
-        verbose: Swift.Bool? = nil
+        verbose: Swift.Bool? = false
     )
     {
         self.mlModelId = mlModelId
@@ -4723,8 +4723,8 @@ extension MachineLearningClientTypes.RDSDatabase {
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RDSDatabase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MachineLearningClientTypes.RDSDatabase()
-        value.instanceIdentifier = try reader["InstanceIdentifier"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.instanceIdentifier = try reader["InstanceIdentifier"].readIfPresent() ?? ""
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4752,8 +4752,8 @@ extension MachineLearningClientTypes.RedshiftDatabase {
     static func read(from reader: SmithyJSON.Reader) throws -> MachineLearningClientTypes.RedshiftDatabase {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MachineLearningClientTypes.RedshiftDatabase()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
         return value
     }
 }

@@ -474,7 +474,7 @@ public struct DescribeCasesInput {
         caseIdList: [Swift.String]? = nil,
         displayId: Swift.String? = nil,
         includeCommunications: Swift.Bool? = nil,
-        includeResolvedCases: Swift.Bool? = nil,
+        includeResolvedCases: Swift.Bool? = false,
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -1937,7 +1937,7 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeTrustedAdvisorCheckRefreshStatusesOutput()
-        value.statuses = try reader["statuses"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorCheckRefreshStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statuses = try reader["statuses"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorCheckRefreshStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1961,7 +1961,7 @@ extension DescribeTrustedAdvisorChecksOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeTrustedAdvisorChecksOutput()
-        value.checks = try reader["checks"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorCheckDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.checks = try reader["checks"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorCheckDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1973,7 +1973,7 @@ extension DescribeTrustedAdvisorCheckSummariesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeTrustedAdvisorCheckSummariesOutput()
-        value.summaries = try reader["summaries"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorCheckSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.summaries = try reader["summaries"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorCheckSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2537,8 +2537,8 @@ extension SupportClientTypes.TrustedAdvisorCheckRefreshStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckRefreshStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCheckRefreshStatus()
-        value.checkId = try reader["checkId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.checkId = try reader["checkId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.millisUntilNextRefreshable = try reader["millisUntilNextRefreshable"].readIfPresent() ?? 0
         return value
     }
@@ -2549,12 +2549,12 @@ extension SupportClientTypes.TrustedAdvisorCheckResult {
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCheckResult()
-        value.checkId = try reader["checkId"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.checkId = try reader["checkId"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.resourcesSummary = try reader["resourcesSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorResourcesSummary.read(from:))
         value.categorySpecificSummary = try reader["categorySpecificSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorCategorySpecificSummary.read(from:))
-        value.flaggedResources = try reader["flaggedResources"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorResourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flaggedResources = try reader["flaggedResources"].readListIfPresent(memberReadingClosure: SupportClientTypes.TrustedAdvisorResourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2564,11 +2564,11 @@ extension SupportClientTypes.TrustedAdvisorResourceDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorResourceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorResourceDetail()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.region = try reader["region"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.isSuppressed = try reader["isSuppressed"].readIfPresent() ?? false
-        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false)
+        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2612,11 +2612,11 @@ extension SupportClientTypes.TrustedAdvisorCheckDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCheckDescription()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.category = try reader["category"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2626,9 +2626,9 @@ extension SupportClientTypes.TrustedAdvisorCheckSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SupportClientTypes.TrustedAdvisorCheckSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupportClientTypes.TrustedAdvisorCheckSummary()
-        value.checkId = try reader["checkId"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.checkId = try reader["checkId"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? ""
         value.hasFlaggedResources = try reader["hasFlaggedResources"].readIfPresent() ?? false
         value.resourcesSummary = try reader["resourcesSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorResourcesSummary.read(from:))
         value.categorySpecificSummary = try reader["categorySpecificSummary"].readIfPresent(with: SupportClientTypes.TrustedAdvisorCategorySpecificSummary.read(from:))

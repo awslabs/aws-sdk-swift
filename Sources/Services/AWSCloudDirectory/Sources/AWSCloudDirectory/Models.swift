@@ -3371,7 +3371,7 @@ public struct CreateIndexInput {
 
     public init(
         directoryArn: Swift.String? = nil,
-        isUnique: Swift.Bool? = nil,
+        isUnique: Swift.Bool? = false,
         linkName: Swift.String? = nil,
         orderedIndexedAttributeList: [CloudDirectoryClientTypes.AttributeKey]? = nil,
         parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
@@ -4958,7 +4958,7 @@ public struct ListObjectParentsInput {
     public init(
         consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel? = nil,
         directoryArn: Swift.String? = nil,
-        includeAllLinksToEachParent: Swift.Bool? = nil,
+        includeAllLinksToEachParent: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
@@ -5826,7 +5826,7 @@ public struct UpgradeAppliedSchemaInput {
 
     public init(
         directoryArn: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         publishedSchemaArn: Swift.String? = nil
     )
     {
@@ -5867,7 +5867,7 @@ public struct UpgradePublishedSchemaInput {
 
     public init(
         developmentSchemaArn: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         minorVersion: Swift.String? = nil,
         publishedSchemaArn: Swift.String? = nil
     )
@@ -7641,10 +7641,10 @@ extension CreateDirectoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDirectoryOutput()
-        value.appliedSchemaArn = try reader["AppliedSchemaArn"].readIfPresent()
-        value.directoryArn = try reader["DirectoryArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        value.appliedSchemaArn = try reader["AppliedSchemaArn"].readIfPresent() ?? ""
+        value.directoryArn = try reader["DirectoryArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7706,7 +7706,7 @@ extension DeleteDirectoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDirectoryOutput()
-        value.directoryArn = try reader["DirectoryArn"].readIfPresent()
+        value.directoryArn = try reader["DirectoryArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7789,7 +7789,7 @@ extension DisableDirectoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisableDirectoryOutput()
-        value.directoryArn = try reader["DirectoryArn"].readIfPresent()
+        value.directoryArn = try reader["DirectoryArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7801,7 +7801,7 @@ extension EnableDirectoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = EnableDirectoryOutput()
-        value.directoryArn = try reader["DirectoryArn"].readIfPresent()
+        value.directoryArn = try reader["DirectoryArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7950,7 +7950,7 @@ extension ListDirectoriesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDirectoriesOutput()
-        value.directories = try reader["Directories"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.Directory.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.directories = try reader["Directories"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.Directory.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -10207,7 +10207,7 @@ extension CloudDirectoryClientTypes.TypedLinkSpecifier {
         value.typedLinkFacet = try reader["TypedLinkFacet"].readIfPresent(with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.read(from:))
         value.sourceObjectReference = try reader["SourceObjectReference"].readIfPresent(with: CloudDirectoryClientTypes.ObjectReference.read(from:))
         value.targetObjectReference = try reader["TargetObjectReference"].readIfPresent(with: CloudDirectoryClientTypes.ObjectReference.read(from:))
-        value.identityAttributeValues = try reader["IdentityAttributeValues"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.identityAttributeValues = try reader["IdentityAttributeValues"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10223,7 +10223,7 @@ extension CloudDirectoryClientTypes.AttributeNameAndValue {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.AttributeNameAndValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudDirectoryClientTypes.AttributeNameAndValue()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent(with: CloudDirectoryClientTypes.TypedAttributeValue.read(from:))
         return value
     }
@@ -10295,8 +10295,8 @@ extension CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName()
-        value.schemaArn = try reader["SchemaArn"].readIfPresent()
-        value.typedLinkName = try reader["TypedLinkName"].readIfPresent()
+        value.schemaArn = try reader["SchemaArn"].readIfPresent() ?? ""
+        value.typedLinkName = try reader["TypedLinkName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10407,9 +10407,9 @@ extension CloudDirectoryClientTypes.AttributeKey {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.AttributeKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudDirectoryClientTypes.AttributeKey()
-        value.schemaArn = try reader["SchemaArn"].readIfPresent()
-        value.facetName = try reader["FacetName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.schemaArn = try reader["SchemaArn"].readIfPresent() ?? ""
+        value.facetName = try reader["FacetName"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10805,7 +10805,7 @@ extension CloudDirectoryClientTypes.FacetAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.FacetAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudDirectoryClientTypes.FacetAttribute()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.attributeDefinition = try reader["AttributeDefinition"].readIfPresent(with: CloudDirectoryClientTypes.FacetAttributeDefinition.read(from:))
         value.attributeReference = try reader["AttributeReference"].readIfPresent(with: CloudDirectoryClientTypes.FacetAttributeReference.read(from:))
         value.requiredBehavior = try reader["RequiredBehavior"].readIfPresent()
@@ -10824,8 +10824,8 @@ extension CloudDirectoryClientTypes.FacetAttributeReference {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.FacetAttributeReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudDirectoryClientTypes.FacetAttributeReference()
-        value.targetFacetName = try reader["TargetFacetName"].readIfPresent()
-        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent()
+        value.targetFacetName = try reader["TargetFacetName"].readIfPresent() ?? ""
+        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10843,7 +10843,7 @@ extension CloudDirectoryClientTypes.FacetAttributeDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.FacetAttributeDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudDirectoryClientTypes.FacetAttributeDefinition()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.defaultValue = try reader["DefaultValue"].readIfPresent(with: CloudDirectoryClientTypes.TypedAttributeValue.read(from:))
         value.isImmutable = try reader["IsImmutable"].readIfPresent() ?? false
         value.rules = try reader["Rules"].readMapIfPresent(valueReadingClosure: CloudDirectoryClientTypes.Rule.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -10900,12 +10900,12 @@ extension CloudDirectoryClientTypes.TypedLinkAttributeDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedLinkAttributeDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudDirectoryClientTypes.TypedLinkAttributeDefinition()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.defaultValue = try reader["DefaultValue"].readIfPresent(with: CloudDirectoryClientTypes.TypedAttributeValue.read(from:))
         value.isImmutable = try reader["IsImmutable"].readIfPresent() ?? false
         value.rules = try reader["Rules"].readMapIfPresent(valueReadingClosure: CloudDirectoryClientTypes.Rule.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.requiredBehavior = try reader["RequiredBehavior"].readIfPresent()
+        value.requiredBehavior = try reader["RequiredBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

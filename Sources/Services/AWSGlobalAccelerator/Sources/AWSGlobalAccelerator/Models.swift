@@ -1015,7 +1015,7 @@ extension GlobalAcceleratorClientTypes {
 
         public init(
             cidr: Swift.String? = nil,
-            endpointId: Swift.String? = nil,
+            endpointId: Swift.String? = "",
             region: Swift.String? = nil
         )
         {
@@ -6590,8 +6590,8 @@ extension GlobalAcceleratorClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> GlobalAcceleratorClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlobalAcceleratorClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

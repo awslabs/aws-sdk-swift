@@ -2575,7 +2575,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2603,7 +2603,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2631,7 +2631,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2670,11 +2670,11 @@ extension BackupGatewayClientTypes.BandwidthRateLimitInterval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupGatewayClientTypes.BandwidthRateLimitInterval()
         value.averageUploadRateLimitInBitsPerSec = try reader["AverageUploadRateLimitInBitsPerSec"].readIfPresent()
-        value.startHourOfDay = try reader["StartHourOfDay"].readIfPresent()
-        value.endHourOfDay = try reader["EndHourOfDay"].readIfPresent()
-        value.startMinuteOfHour = try reader["StartMinuteOfHour"].readIfPresent()
-        value.endMinuteOfHour = try reader["EndMinuteOfHour"].readIfPresent()
-        value.daysOfWeek = try reader["DaysOfWeek"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startHourOfDay = try reader["StartHourOfDay"].readIfPresent() ?? 0
+        value.endHourOfDay = try reader["EndHourOfDay"].readIfPresent() ?? 0
+        value.startMinuteOfHour = try reader["StartMinuteOfHour"].readIfPresent() ?? 0
+        value.endMinuteOfHour = try reader["EndMinuteOfHour"].readIfPresent() ?? 0
+        value.daysOfWeek = try reader["DaysOfWeek"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2703,8 +2703,8 @@ extension BackupGatewayClientTypes.MaintenanceStartTime {
         var value = BackupGatewayClientTypes.MaintenanceStartTime()
         value.dayOfMonth = try reader["DayOfMonth"].readIfPresent()
         value.dayOfWeek = try reader["DayOfWeek"].readIfPresent()
-        value.hourOfDay = try reader["HourOfDay"].readIfPresent()
-        value.minuteOfHour = try reader["MinuteOfHour"].readIfPresent()
+        value.hourOfDay = try reader["HourOfDay"].readIfPresent() ?? 0
+        value.minuteOfHour = try reader["MinuteOfHour"].readIfPresent() ?? 0
         return value
     }
 }
@@ -2740,10 +2740,10 @@ extension BackupGatewayClientTypes.VmwareToAwsTagMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VmwareToAwsTagMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupGatewayClientTypes.VmwareToAwsTagMapping()
-        value.vmwareCategory = try reader["VmwareCategory"].readIfPresent()
-        value.vmwareTagName = try reader["VmwareTagName"].readIfPresent()
-        value.awsTagKey = try reader["AwsTagKey"].readIfPresent()
-        value.awsTagValue = try reader["AwsTagValue"].readIfPresent()
+        value.vmwareCategory = try reader["VmwareCategory"].readIfPresent() ?? ""
+        value.vmwareTagName = try reader["VmwareTagName"].readIfPresent() ?? ""
+        value.awsTagKey = try reader["AwsTagKey"].readIfPresent() ?? ""
+        value.awsTagValue = try reader["AwsTagValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2815,8 +2815,8 @@ extension BackupGatewayClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupGatewayClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

@@ -325,7 +325,7 @@ public struct DescribeObjectsInput {
     public var pipelineId: Swift.String?
 
     public init(
-        evaluateExpressions: Swift.Bool? = nil,
+        evaluateExpressions: Swift.Bool? = false,
         marker: Swift.String? = nil,
         objectIds: [Swift.String]? = nil,
         pipelineId: Swift.String? = nil
@@ -1604,7 +1604,7 @@ extension CreatePipelineOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePipelineOutput()
-        value.pipelineId = try reader["pipelineId"].readIfPresent()
+        value.pipelineId = try reader["pipelineId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1632,7 +1632,7 @@ extension DescribeObjectsOutput {
         var value = DescribeObjectsOutput()
         value.hasMoreResults = try reader["hasMoreResults"].readIfPresent() ?? false
         value.marker = try reader["marker"].readIfPresent()
-        value.pipelineObjects = try reader["pipelineObjects"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.PipelineObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pipelineObjects = try reader["pipelineObjects"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.PipelineObject.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1644,7 +1644,7 @@ extension DescribePipelinesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribePipelinesOutput()
-        value.pipelineDescriptionList = try reader["pipelineDescriptionList"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.PipelineDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pipelineDescriptionList = try reader["pipelineDescriptionList"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.PipelineDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1656,7 +1656,7 @@ extension EvaluateExpressionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = EvaluateExpressionOutput()
-        value.evaluatedExpression = try reader["evaluatedExpression"].readIfPresent()
+        value.evaluatedExpression = try reader["evaluatedExpression"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1684,7 +1684,7 @@ extension ListPipelinesOutput {
         var value = ListPipelinesOutput()
         value.hasMoreResults = try reader["hasMoreResults"].readIfPresent() ?? false
         value.marker = try reader["marker"].readIfPresent()
-        value.pipelineIdList = try reader["pipelineIdList"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.PipelineIdName.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pipelineIdList = try reader["pipelineIdList"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.PipelineIdName.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2183,9 +2183,9 @@ extension DataPipelineClientTypes.PipelineObject {
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.PipelineObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataPipelineClientTypes.PipelineObject()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2202,7 +2202,7 @@ extension DataPipelineClientTypes.Field {
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.Field {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataPipelineClientTypes.Field()
-        value.key = try reader["key"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.stringValue = try reader["stringValue"].readIfPresent()
         value.refValue = try reader["refValue"].readIfPresent()
         return value
@@ -2214,9 +2214,9 @@ extension DataPipelineClientTypes.PipelineDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.PipelineDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataPipelineClientTypes.PipelineDescription()
-        value.pipelineId = try reader["pipelineId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pipelineId = try reader["pipelineId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -2234,8 +2234,8 @@ extension DataPipelineClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataPipelineClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2251,8 +2251,8 @@ extension DataPipelineClientTypes.ParameterObject {
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.ParameterObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataPipelineClientTypes.ParameterObject()
-        value.id = try reader["id"].readIfPresent()
-        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.ParameterAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.ParameterAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2268,8 +2268,8 @@ extension DataPipelineClientTypes.ParameterAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.ParameterAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataPipelineClientTypes.ParameterAttribute()
-        value.key = try reader["key"].readIfPresent()
-        value.stringValue = try reader["stringValue"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.stringValue = try reader["stringValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2285,8 +2285,8 @@ extension DataPipelineClientTypes.ParameterValue {
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.ParameterValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataPipelineClientTypes.ParameterValue()
-        value.id = try reader["id"].readIfPresent()
-        value.stringValue = try reader["stringValue"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.stringValue = try reader["stringValue"].readIfPresent() ?? ""
         return value
     }
 }

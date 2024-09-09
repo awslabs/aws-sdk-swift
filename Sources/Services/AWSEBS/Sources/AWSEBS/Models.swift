@@ -641,7 +641,7 @@ public struct GetSnapshotBlockOutput {
     public var dataLength: Swift.Int?
 
     public init(
-        blockData: Smithy.ByteStream? = nil,
+        blockData: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
         checksum: Swift.String? = nil,
         checksumAlgorithm: EBSClientTypes.ChecksumAlgorithm? = nil,
         dataLength: Swift.Int? = nil
@@ -1442,7 +1442,7 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

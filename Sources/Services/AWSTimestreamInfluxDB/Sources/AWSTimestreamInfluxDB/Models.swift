@@ -1540,22 +1540,22 @@ extension CreateDbInstanceOutput {
         let reader = responseReader
         var value = CreateDbInstanceOutput()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.deploymentType = try reader["deploymentType"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1567,10 +1567,10 @@ extension CreateDbParameterGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDbParameterGroupOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readIfPresent(with: TimestreamInfluxDBClientTypes.Parameters.read(from:))
         return value
     }
@@ -1584,22 +1584,22 @@ extension DeleteDbInstanceOutput {
         let reader = responseReader
         var value = DeleteDbInstanceOutput()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.deploymentType = try reader["deploymentType"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1612,22 +1612,22 @@ extension GetDbInstanceOutput {
         let reader = responseReader
         var value = GetDbInstanceOutput()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.deploymentType = try reader["deploymentType"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1639,10 +1639,10 @@ extension GetDbParameterGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDbParameterGroupOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readIfPresent(with: TimestreamInfluxDBClientTypes.Parameters.read(from:))
         return value
     }
@@ -1655,7 +1655,7 @@ extension ListDbInstancesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDbInstancesOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: TimestreamInfluxDBClientTypes.DbInstanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: TimestreamInfluxDBClientTypes.DbInstanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1668,7 +1668,7 @@ extension ListDbParameterGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDbParameterGroupsOutput()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: TimestreamInfluxDBClientTypes.DbParameterGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: TimestreamInfluxDBClientTypes.DbParameterGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1708,22 +1708,22 @@ extension UpdateDbInstanceOutput {
         let reader = responseReader
         var value = UpdateDbInstanceOutput()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.deploymentType = try reader["deploymentType"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1925,8 +1925,8 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1939,7 +1939,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1952,9 +1952,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1971,7 +1971,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1984,7 +1984,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1997,9 +1997,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2012,7 +2012,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2046,8 +2046,8 @@ extension TimestreamInfluxDBClientTypes.S3Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.S3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamInfluxDBClientTypes.S3Configuration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -2108,9 +2108,9 @@ extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamInfluxDBClientTypes.DbInstanceSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
@@ -2126,9 +2126,9 @@ extension TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TimestreamInfluxDBClientTypes.DbParameterGroupSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         return value
     }

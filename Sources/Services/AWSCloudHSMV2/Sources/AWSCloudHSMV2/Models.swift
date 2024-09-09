@@ -1684,7 +1684,7 @@ extension ListTagsOutput {
         let reader = responseReader
         var value = ListTagsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2210,8 +2210,8 @@ extension CloudHSMV2ClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudHSMV2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2240,7 +2240,7 @@ extension CloudHSMV2ClientTypes.Hsm {
         value.subnetId = try reader["SubnetId"].readIfPresent()
         value.eniId = try reader["EniId"].readIfPresent()
         value.eniIp = try reader["EniIp"].readIfPresent()
-        value.hsmId = try reader["HsmId"].readIfPresent()
+        value.hsmId = try reader["HsmId"].readIfPresent() ?? ""
         value.state = try reader["State"].readIfPresent()
         value.stateMessage = try reader["StateMessage"].readIfPresent()
         return value
@@ -2269,7 +2269,7 @@ extension CloudHSMV2ClientTypes.Backup {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Backup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudHSMV2ClientTypes.Backup()
-        value.backupId = try reader["BackupId"].readIfPresent()
+        value.backupId = try reader["BackupId"].readIfPresent() ?? ""
         value.backupArn = try reader["BackupArn"].readIfPresent()
         value.backupState = try reader["BackupState"].readIfPresent()
         value.clusterId = try reader["ClusterId"].readIfPresent()

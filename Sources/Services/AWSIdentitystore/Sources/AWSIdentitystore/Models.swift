@@ -1910,8 +1910,8 @@ extension CreateGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGroupOutput()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1923,8 +1923,8 @@ extension CreateGroupMembershipOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGroupMembershipOutput()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
-        value.membershipId = try reader["MembershipId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        value.membershipId = try reader["MembershipId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1936,8 +1936,8 @@ extension CreateUserOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateUserOutput()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1973,8 +1973,8 @@ extension DescribeGroupOutput {
         value.description = try reader["Description"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1986,10 +1986,10 @@ extension DescribeGroupMembershipOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeGroupMembershipOutput()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
-        value.membershipId = try reader["MembershipId"].readIfPresent()
+        value.membershipId = try reader["MembershipId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2005,7 +2005,7 @@ extension DescribeUserOutput {
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.emails = try reader["Emails"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.Email.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         value.locale = try reader["Locale"].readIfPresent()
         value.name = try reader["Name"].readIfPresent(with: IdentitystoreClientTypes.Name.read(from:))
         value.nickName = try reader["NickName"].readIfPresent()
@@ -2014,7 +2014,7 @@ extension DescribeUserOutput {
         value.profileUrl = try reader["ProfileUrl"].readIfPresent()
         value.timezone = try reader["Timezone"].readIfPresent()
         value.title = try reader["Title"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
         value.userName = try reader["UserName"].readIfPresent()
         value.userType = try reader["UserType"].readIfPresent()
         return value
@@ -2028,8 +2028,8 @@ extension GetGroupIdOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGroupIdOutput()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2041,8 +2041,8 @@ extension GetGroupMembershipIdOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGroupMembershipIdOutput()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
-        value.membershipId = try reader["MembershipId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        value.membershipId = try reader["MembershipId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2054,8 +2054,8 @@ extension GetUserIdOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetUserIdOutput()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2067,7 +2067,7 @@ extension IsMemberInGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = IsMemberInGroupsOutput()
-        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.GroupMembershipExistenceResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.GroupMembershipExistenceResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2079,7 +2079,7 @@ extension ListGroupMembershipsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGroupMembershipsOutput()
-        value.groupMemberships = try reader["GroupMemberships"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.GroupMembership.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupMemberships = try reader["GroupMemberships"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.GroupMembership.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2092,7 +2092,7 @@ extension ListGroupMembershipsForMemberOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGroupMembershipsForMemberOutput()
-        value.groupMemberships = try reader["GroupMemberships"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.GroupMembership.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupMemberships = try reader["GroupMemberships"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.GroupMembership.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2105,7 +2105,7 @@ extension ListGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGroupsOutput()
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2119,7 +2119,7 @@ extension ListUsersOutput {
         let reader = responseReader
         var value = ListUsersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.User.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.User.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2584,8 +2584,8 @@ extension IdentitystoreClientTypes.ExternalId {
     static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.ExternalId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IdentitystoreClientTypes.ExternalId()
-        value.issuer = try reader["Issuer"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.issuer = try reader["Issuer"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2723,7 +2723,7 @@ extension IdentitystoreClientTypes.GroupMembership {
     static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IdentitystoreClientTypes.GroupMembership()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         value.membershipId = try reader["MembershipId"].readIfPresent()
         value.groupId = try reader["GroupId"].readIfPresent()
         value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
@@ -2736,11 +2736,11 @@ extension IdentitystoreClientTypes.Group {
     static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IdentitystoreClientTypes.Group()
-        value.groupId = try reader["GroupId"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2751,7 +2751,7 @@ extension IdentitystoreClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IdentitystoreClientTypes.User()
         value.userName = try reader["UserName"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
         value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent(with: IdentitystoreClientTypes.Name.read(from:))
         value.displayName = try reader["DisplayName"].readIfPresent()
@@ -2765,7 +2765,7 @@ extension IdentitystoreClientTypes.User {
         value.preferredLanguage = try reader["PreferredLanguage"].readIfPresent()
         value.locale = try reader["Locale"].readIfPresent()
         value.timezone = try reader["Timezone"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
         return value
     }
 }

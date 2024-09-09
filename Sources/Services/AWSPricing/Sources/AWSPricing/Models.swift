@@ -220,7 +220,7 @@ public struct DescribeServicesInput {
 
     public init(
         formatVersion: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     )
@@ -287,7 +287,7 @@ public struct GetAttributeValuesInput {
 
     public init(
         attributeName: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     )
@@ -438,7 +438,7 @@ public struct GetProductsInput {
     public init(
         filters: [PricingClientTypes.Filter]? = nil,
         formatVersion: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     )
@@ -491,7 +491,7 @@ public struct ListPriceListsInput {
     public init(
         currencyCode: Swift.String? = nil,
         effectiveDate: Foundation.Date? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         regionCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
@@ -913,7 +913,7 @@ extension PricingClientTypes.Service {
     static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.Service {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PricingClientTypes.Service()
-        value.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

@@ -8113,7 +8113,7 @@ extension ElasticLoadBalancingv2ClientTypes.Action {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.Action()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.targetGroupArn = try reader["TargetGroupArn"].readIfPresent()
         value.authenticateOidcConfig = try reader["AuthenticateOidcConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig.read(from:))
         value.authenticateCognitoConfig = try reader["AuthenticateCognitoConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.AuthenticateCognitoActionConfig.read(from:))
@@ -8189,7 +8189,7 @@ extension ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig()
         value.messageBody = try reader["MessageBody"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? ""
         value.contentType = try reader["ContentType"].readIfPresent()
         return value
     }
@@ -8215,7 +8215,7 @@ extension ElasticLoadBalancingv2ClientTypes.RedirectActionConfig {
         value.host = try reader["Host"].readIfPresent()
         value.path = try reader["Path"].readIfPresent()
         value.query = try reader["Query"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8237,9 +8237,9 @@ extension ElasticLoadBalancingv2ClientTypes.AuthenticateCognitoActionConfig {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AuthenticateCognitoActionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.AuthenticateCognitoActionConfig()
-        value.userPoolArn = try reader["UserPoolArn"].readIfPresent()
-        value.userPoolClientId = try reader["UserPoolClientId"].readIfPresent()
-        value.userPoolDomain = try reader["UserPoolDomain"].readIfPresent()
+        value.userPoolArn = try reader["UserPoolArn"].readIfPresent() ?? ""
+        value.userPoolClientId = try reader["UserPoolClientId"].readIfPresent() ?? ""
+        value.userPoolDomain = try reader["UserPoolDomain"].readIfPresent() ?? ""
         value.sessionCookieName = try reader["SessionCookieName"].readIfPresent()
         value.scope = try reader["Scope"].readIfPresent()
         value.sessionTimeout = try reader["SessionTimeout"].readIfPresent()
@@ -8270,11 +8270,11 @@ extension ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig()
-        value.issuer = try reader["Issuer"].readIfPresent()
-        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent()
-        value.tokenEndpoint = try reader["TokenEndpoint"].readIfPresent()
-        value.userInfoEndpoint = try reader["UserInfoEndpoint"].readIfPresent()
-        value.clientId = try reader["ClientId"].readIfPresent()
+        value.issuer = try reader["Issuer"].readIfPresent() ?? ""
+        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent() ?? ""
+        value.tokenEndpoint = try reader["TokenEndpoint"].readIfPresent() ?? ""
+        value.userInfoEndpoint = try reader["UserInfoEndpoint"].readIfPresent() ?? ""
+        value.clientId = try reader["ClientId"].readIfPresent() ?? ""
         value.clientSecret = try reader["ClientSecret"].readIfPresent()
         value.sessionCookieName = try reader["SessionCookieName"].readIfPresent()
         value.scope = try reader["Scope"].readIfPresent()
@@ -8647,7 +8647,7 @@ extension ElasticLoadBalancingv2ClientTypes.Tag {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -8718,7 +8718,7 @@ extension ElasticLoadBalancingv2ClientTypes.TargetDescription {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingv2ClientTypes.TargetDescription()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.port = try reader["Port"].readIfPresent()
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
         return value

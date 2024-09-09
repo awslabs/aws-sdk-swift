@@ -4077,7 +4077,7 @@ extension KinesisVideoClientTypes.EdgeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.EdgeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.EdgeConfig()
-        value.hubDeviceArn = try reader["HubDeviceArn"].readIfPresent()
+        value.hubDeviceArn = try reader["HubDeviceArn"].readIfPresent() ?? ""
         value.recorderConfig = try reader["RecorderConfig"].readIfPresent(with: KinesisVideoClientTypes.RecorderConfig.read(from:))
         value.uploaderConfig = try reader["UploaderConfig"].readIfPresent(with: KinesisVideoClientTypes.UploaderConfig.read(from:))
         value.deletionConfig = try reader["DeletionConfig"].readIfPresent(with: KinesisVideoClientTypes.DeletionConfig.read(from:))
@@ -4147,8 +4147,8 @@ extension KinesisVideoClientTypes.ScheduleConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ScheduleConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.ScheduleConfig()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4181,8 +4181,8 @@ extension KinesisVideoClientTypes.MediaSourceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.MediaSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.MediaSourceConfig()
-        value.mediaUriSecretArn = try reader["MediaUriSecretArn"].readIfPresent()
-        value.mediaUriType = try reader["MediaUriType"].readIfPresent()
+        value.mediaUriSecretArn = try reader["MediaUriSecretArn"].readIfPresent() ?? ""
+        value.mediaUriType = try reader["MediaUriType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4241,11 +4241,11 @@ extension KinesisVideoClientTypes.ImageGenerationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ImageGenerationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.ImageGenerationConfiguration()
-        value.status = try reader["Status"].readIfPresent()
-        value.imageSelectorType = try reader["ImageSelectorType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.imageSelectorType = try reader["ImageSelectorType"].readIfPresent() ?? .sdkUnknown("")
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: KinesisVideoClientTypes.ImageGenerationDestinationConfig.read(from:))
-        value.samplingInterval = try reader["SamplingInterval"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
+        value.samplingInterval = try reader["SamplingInterval"].readIfPresent() ?? 0
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
         value.formatConfig = try reader["FormatConfig"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.widthPixels = try reader["WidthPixels"].readIfPresent()
         value.heightPixels = try reader["HeightPixels"].readIfPresent()
@@ -4264,8 +4264,8 @@ extension KinesisVideoClientTypes.ImageGenerationDestinationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ImageGenerationDestinationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.ImageGenerationDestinationConfig()
-        value.uri = try reader["Uri"].readIfPresent()
-        value.destinationRegion = try reader["DestinationRegion"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent() ?? ""
+        value.destinationRegion = try reader["DestinationRegion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4293,7 +4293,7 @@ extension KinesisVideoClientTypes.MediaStorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.MediaStorageConfiguration()
         value.streamARN = try reader["StreamARN"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4309,7 +4309,7 @@ extension KinesisVideoClientTypes.NotificationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.NotificationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.NotificationConfiguration()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: KinesisVideoClientTypes.NotificationDestinationConfig.read(from:))
         return value
     }
@@ -4325,7 +4325,7 @@ extension KinesisVideoClientTypes.NotificationDestinationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.NotificationDestinationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KinesisVideoClientTypes.NotificationDestinationConfig()
-        value.uri = try reader["Uri"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent() ?? ""
         return value
     }
 }

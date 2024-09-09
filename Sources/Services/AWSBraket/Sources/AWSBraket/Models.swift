@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -2342,8 +2343,8 @@ extension CancelJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelJobOutput()
-        value.cancellationStatus = try reader["cancellationStatus"].readIfPresent()
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.cancellationStatus = try reader["cancellationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2355,8 +2356,8 @@ extension CancelQuantumTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelQuantumTaskOutput()
-        value.cancellationStatus = try reader["cancellationStatus"].readIfPresent()
-        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent()
+        value.cancellationStatus = try reader["cancellationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2368,7 +2369,7 @@ extension CreateJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateJobOutput()
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2380,7 +2381,7 @@ extension CreateQuantumTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateQuantumTaskOutput()
-        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent()
+        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2392,13 +2393,13 @@ extension GetDeviceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDeviceOutput()
-        value.deviceArn = try reader["deviceArn"].readIfPresent()
-        value.deviceCapabilities = try reader["deviceCapabilities"].readIfPresent()
-        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
+        value.deviceCapabilities = try reader["deviceCapabilities"].readIfPresent() ?? ""
+        value.deviceName = try reader["deviceName"].readIfPresent() ?? ""
         value.deviceQueueInfo = try reader["deviceQueueInfo"].readListIfPresent(memberReadingClosure: BraketClientTypes.DeviceQueueInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.deviceStatus = try reader["deviceStatus"].readIfPresent()
-        value.deviceType = try reader["deviceType"].readIfPresent()
-        value.providerName = try reader["providerName"].readIfPresent()
+        value.deviceStatus = try reader["deviceStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deviceType = try reader["deviceType"].readIfPresent() ?? .sdkUnknown("")
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2414,7 +2415,7 @@ extension GetJobOutput {
         value.associations = try reader["associations"].readListIfPresent(memberReadingClosure: BraketClientTypes.Association.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.billableDuration = try reader["billableDuration"].readIfPresent()
         value.checkpointConfig = try reader["checkpointConfig"].readIfPresent(with: BraketClientTypes.JobCheckpointConfig.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deviceConfig = try reader["deviceConfig"].readIfPresent(with: BraketClientTypes.DeviceConfig.read(from:))
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.events = try reader["events"].readListIfPresent(memberReadingClosure: BraketClientTypes.JobEventDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -2422,13 +2423,13 @@ extension GetJobOutput {
         value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.inputDataConfig = try reader["inputDataConfig"].readListIfPresent(memberReadingClosure: BraketClientTypes.InputFileConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceConfig = try reader["instanceConfig"].readIfPresent(with: BraketClientTypes.InstanceConfig.read(from:))
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BraketClientTypes.JobOutputDataConfig.read(from:))
         value.queueInfo = try reader["queueInfo"].readIfPresent(with: BraketClientTypes.HybridJobQueueInfo.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.stoppingCondition = try reader["stoppingCondition"].readIfPresent(with: BraketClientTypes.JobStoppingCondition.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -2443,18 +2444,18 @@ extension GetQuantumTaskOutput {
         let reader = responseReader
         var value = GetQuantumTaskOutput()
         value.associations = try reader["associations"].readListIfPresent(memberReadingClosure: BraketClientTypes.Association.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.deviceArn = try reader["deviceArn"].readIfPresent()
-        value.deviceParameters = try reader["deviceParameters"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
+        value.deviceParameters = try reader["deviceParameters"].readIfPresent() ?? ""
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
-        value.outputS3Bucket = try reader["outputS3Bucket"].readIfPresent()
-        value.outputS3Directory = try reader["outputS3Directory"].readIfPresent()
-        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent()
+        value.outputS3Bucket = try reader["outputS3Bucket"].readIfPresent() ?? ""
+        value.outputS3Directory = try reader["outputS3Directory"].readIfPresent() ?? ""
+        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent() ?? ""
         value.queueInfo = try reader["queueInfo"].readIfPresent(with: BraketClientTypes.QuantumTaskQueueInfo.read(from:))
-        value.shots = try reader["shots"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.shots = try reader["shots"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -2479,7 +2480,7 @@ extension SearchDevicesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchDevicesOutput()
-        value.devices = try reader["devices"].readListIfPresent(memberReadingClosure: BraketClientTypes.DeviceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.devices = try reader["devices"].readListIfPresent(memberReadingClosure: BraketClientTypes.DeviceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2492,7 +2493,7 @@ extension SearchJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchJobsOutput()
-        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BraketClientTypes.JobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BraketClientTypes.JobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2506,7 +2507,7 @@ extension SearchQuantumTasksOutput {
         let reader = responseReader
         var value = SearchQuantumTasksOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.quantumTasks = try reader["quantumTasks"].readListIfPresent(memberReadingClosure: BraketClientTypes.QuantumTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.quantumTasks = try reader["quantumTasks"].readListIfPresent(memberReadingClosure: BraketClientTypes.QuantumTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2879,8 +2880,8 @@ extension BraketClientTypes.DeviceQueueInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceQueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.DeviceQueueInfo()
-        value.queue = try reader["queue"].readIfPresent()
-        value.queueSize = try reader["queueSize"].readIfPresent()
+        value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
+        value.queueSize = try reader["queueSize"].readIfPresent() ?? ""
         value.queuePriority = try reader["queuePriority"].readIfPresent()
         return value
     }
@@ -2898,7 +2899,7 @@ extension BraketClientTypes.InputFileConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.InputFileConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.InputFileConfig()
-        value.channelName = try reader["channelName"].readIfPresent()
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
         value.contentType = try reader["contentType"].readIfPresent()
         value.dataSource = try reader["dataSource"].readIfPresent(with: BraketClientTypes.DataSource.read(from:))
         return value
@@ -2930,7 +2931,7 @@ extension BraketClientTypes.S3DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.S3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.S3DataSource()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2947,7 +2948,7 @@ extension BraketClientTypes.JobOutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.JobOutputDataConfig()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        value.s3Path = try reader["s3Path"].readIfPresent()
+        value.s3Path = try reader["s3Path"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2979,7 +2980,7 @@ extension BraketClientTypes.JobCheckpointConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.JobCheckpointConfig()
         value.localPath = try reader["localPath"].readIfPresent()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3011,7 +3012,7 @@ extension BraketClientTypes.ContainerImage {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ContainerImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.ContainerImage()
-        value.uri = try reader["uri"].readIfPresent()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3028,8 +3029,8 @@ extension BraketClientTypes.ScriptModeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ScriptModeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.ScriptModeConfig()
-        value.entryPoint = try reader["entryPoint"].readIfPresent()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         value.compressionType = try reader["compressionType"].readIfPresent()
         return value
     }
@@ -3047,8 +3048,8 @@ extension BraketClientTypes.InstanceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.InstanceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.InstanceConfig()
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.volumeSizeInGb = try reader["volumeSizeInGb"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.volumeSizeInGb = try reader["volumeSizeInGb"].readIfPresent() ?? 0
         value.instanceCount = try reader["instanceCount"].readIfPresent()
         return value
     }
@@ -3064,7 +3065,7 @@ extension BraketClientTypes.DeviceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.DeviceConfig()
-        value.device = try reader["device"].readIfPresent()
+        value.device = try reader["device"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3086,8 +3087,8 @@ extension BraketClientTypes.HybridJobQueueInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.HybridJobQueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.HybridJobQueueInfo()
-        value.queue = try reader["queue"].readIfPresent()
-        value.position = try reader["position"].readIfPresent()
+        value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
+        value.position = try reader["position"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
         return value
     }
@@ -3104,8 +3105,8 @@ extension BraketClientTypes.Association {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.Association {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.Association()
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3115,8 +3116,8 @@ extension BraketClientTypes.QuantumTaskQueueInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.QuantumTaskQueueInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.QuantumTaskQueueInfo()
-        value.queue = try reader["queue"].readIfPresent()
-        value.position = try reader["position"].readIfPresent()
+        value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
+        value.position = try reader["position"].readIfPresent() ?? ""
         value.queuePriority = try reader["queuePriority"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         return value
@@ -3128,11 +3129,11 @@ extension BraketClientTypes.DeviceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.DeviceSummary()
-        value.deviceArn = try reader["deviceArn"].readIfPresent()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.providerName = try reader["providerName"].readIfPresent()
-        value.deviceType = try reader["deviceType"].readIfPresent()
-        value.deviceStatus = try reader["deviceStatus"].readIfPresent()
+        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
+        value.deviceName = try reader["deviceName"].readIfPresent() ?? ""
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
+        value.deviceType = try reader["deviceType"].readIfPresent() ?? .sdkUnknown("")
+        value.deviceStatus = try reader["deviceStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3142,11 +3143,11 @@ extension BraketClientTypes.JobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.JobSummary()
-        value.status = try reader["status"].readIfPresent()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.device = try reader["device"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.device = try reader["device"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3159,13 +3160,13 @@ extension BraketClientTypes.QuantumTaskSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.QuantumTaskSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BraketClientTypes.QuantumTaskSummary()
-        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.deviceArn = try reader["deviceArn"].readIfPresent()
-        value.shots = try reader["shots"].readIfPresent()
-        value.outputS3Bucket = try reader["outputS3Bucket"].readIfPresent()
-        value.outputS3Directory = try reader["outputS3Directory"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
+        value.shots = try reader["shots"].readIfPresent() ?? 0
+        value.outputS3Bucket = try reader["outputS3Bucket"].readIfPresent() ?? ""
+        value.outputS3Directory = try reader["outputS3Directory"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value

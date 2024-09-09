@@ -2670,7 +2670,7 @@ public struct GetWorkUnitResultsInput {
 
     public init(
         queryId: Swift.String? = nil,
-        workUnitId: Swift.Int? = nil,
+        workUnitId: Swift.Int? = 0,
         workUnitToken: Swift.String? = nil
     )
     {
@@ -2691,7 +2691,7 @@ public struct GetWorkUnitResultsOutput {
     public var resultStream: Smithy.ByteStream?
 
     public init(
-        resultStream: Smithy.ByteStream? = nil
+        resultStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
     )
     {
         self.resultStream = resultStream
@@ -5245,7 +5245,7 @@ extension GetQueryStateOutput {
         let reader = responseReader
         var value = GetQueryStateOutput()
         value.error = try reader["Error"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5346,8 +5346,8 @@ extension GetWorkUnitsOutput {
         let reader = responseReader
         var value = GetWorkUnitsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.queryId = try reader["QueryId"].readIfPresent()
-        value.workUnitRanges = try reader["WorkUnitRanges"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.WorkUnitRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.queryId = try reader["QueryId"].readIfPresent() ?? ""
+        value.workUnitRanges = try reader["WorkUnitRanges"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.WorkUnitRange.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5516,7 +5516,7 @@ extension StartQueryPlanningOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartQueryPlanningOutput()
-        value.queryId = try reader["QueryId"].readIfPresent()
+        value.queryId = try reader["QueryId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6836,8 +6836,8 @@ extension LakeFormationClientTypes.LFTagPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.LFTagPair()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6867,7 +6867,7 @@ extension LakeFormationClientTypes.BatchPermissionsRequestEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.BatchPermissionsRequestEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.BatchPermissionsRequestEntry()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.principal = try reader["Principal"].readIfPresent(with: LakeFormationClientTypes.DataLakePrincipal.read(from:))
         value.resource = try reader["Resource"].readIfPresent(with: LakeFormationClientTypes.Resource.read(from:))
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LakeFormationClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -6918,8 +6918,8 @@ extension LakeFormationClientTypes.LFTagPolicyResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.LFTagPolicyResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6935,8 +6935,8 @@ extension LakeFormationClientTypes.LFTag {
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.LFTag()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6954,8 +6954,8 @@ extension LakeFormationClientTypes.LFTagKeyResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.LFTagKeyResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6993,7 +6993,7 @@ extension LakeFormationClientTypes.DataLocationResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.DataLocationResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7013,8 +7013,8 @@ extension LakeFormationClientTypes.TableWithColumnsResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.TableWithColumnsResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnWildcard = try reader["ColumnWildcard"].readIfPresent(with: LakeFormationClientTypes.ColumnWildcard.read(from:))
         return value
@@ -7050,7 +7050,7 @@ extension LakeFormationClientTypes.TableResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.TableResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.tableWildcard = try reader["TableWildcard"].readIfPresent(with: LakeFormationClientTypes.TableWildcard.read(from:))
         return value
@@ -7082,7 +7082,7 @@ extension LakeFormationClientTypes.DatabaseResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.DatabaseResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7126,8 +7126,8 @@ extension LakeFormationClientTypes.ExternalFilteringConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ExternalFilteringConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.ExternalFilteringConfiguration()
-        value.status = try reader["Status"].readIfPresent()
-        value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7176,10 +7176,10 @@ extension LakeFormationClientTypes.DataCellsFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DataCellsFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.DataCellsFilter()
-        value.tableCatalogId = try reader["TableCatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.tableCatalogId = try reader["TableCatalogId"].readIfPresent() ?? ""
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.rowFilter = try reader["RowFilter"].readIfPresent(with: LakeFormationClientTypes.RowFilter.read(from:))
         value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnWildcard = try reader["ColumnWildcard"].readIfPresent(with: LakeFormationClientTypes.ColumnWildcard.read(from:))
@@ -7360,7 +7360,7 @@ extension LakeFormationClientTypes.WorkUnitRange {
         var value = LakeFormationClientTypes.WorkUnitRange()
         value.workUnitIdMax = try reader["WorkUnitIdMax"].readIfPresent() ?? 0
         value.workUnitIdMin = try reader["WorkUnitIdMin"].readIfPresent() ?? 0
-        value.workUnitToken = try reader["WorkUnitToken"].readIfPresent()
+        value.workUnitToken = try reader["WorkUnitToken"].readIfPresent() ?? ""
         return value
     }
 }

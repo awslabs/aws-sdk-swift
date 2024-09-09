@@ -4332,7 +4332,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4345,9 +4345,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4360,9 +4360,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4375,7 +4375,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4390,7 +4390,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4403,7 +4403,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4417,11 +4417,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4457,7 +4457,7 @@ extension PcaConnectorAdClientTypes.VpcInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.VpcInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.VpcInformation()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4516,8 +4516,8 @@ extension PcaConnectorAdClientTypes.TemplateRevision {
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.TemplateRevision()
-        value.majorRevision = try reader["MajorRevision"].readIfPresent()
-        value.minorRevision = try reader["MinorRevision"].readIfPresent()
+        value.majorRevision = try reader["MajorRevision"].readIfPresent() ?? 0
+        value.minorRevision = try reader["MinorRevision"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4614,7 +4614,7 @@ extension PcaConnectorAdClientTypes.ApplicationPolicies {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.ApplicationPolicies()
         value.critical = try reader["Critical"].readIfPresent()
-        value.policies = try reader["Policies"].readListIfPresent(memberReadingClosure: PcaConnectorAdClientTypes.ApplicationPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policies = try reader["Policies"].readListIfPresent(memberReadingClosure: PcaConnectorAdClientTypes.ApplicationPolicy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4780,7 +4780,7 @@ extension PcaConnectorAdClientTypes.PrivateKeyFlagsV4 {
         value.requireAlternateSignatureAlgorithm = try reader["RequireAlternateSignatureAlgorithm"].readIfPresent()
         value.requireSameKeyRenewal = try reader["RequireSameKeyRenewal"].readIfPresent()
         value.useLegacyProvider = try reader["UseLegacyProvider"].readIfPresent()
-        value.clientVersion = try reader["ClientVersion"].readIfPresent()
+        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4799,8 +4799,8 @@ extension PcaConnectorAdClientTypes.PrivateKeyAttributesV4 {
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyAttributesV4 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.PrivateKeyAttributesV4()
-        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent()
-        value.keySpec = try reader["KeySpec"].readIfPresent()
+        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent() ?? 0
+        value.keySpec = try reader["KeySpec"].readIfPresent() ?? .sdkUnknown("")
         value.cryptoProviders = try reader["CryptoProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.keyUsageProperty = try reader["KeyUsageProperty"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsageProperty.read(from:))
         value.algorithm = try reader["Algorithm"].readIfPresent()
@@ -4883,8 +4883,8 @@ extension PcaConnectorAdClientTypes.ValidityPeriod {
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ValidityPeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.ValidityPeriod()
-        value.periodType = try reader["PeriodType"].readIfPresent()
-        value.period = try reader["Period"].readIfPresent()
+        value.periodType = try reader["PeriodType"].readIfPresent() ?? .sdkUnknown("")
+        value.period = try reader["Period"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4914,7 +4914,7 @@ extension PcaConnectorAdClientTypes.TemplateV3 {
         value.enrollmentFlags = try reader["EnrollmentFlags"].readIfPresent(with: PcaConnectorAdClientTypes.EnrollmentFlagsV3.read(from:))
         value.subjectNameFlags = try reader["SubjectNameFlags"].readIfPresent(with: PcaConnectorAdClientTypes.SubjectNameFlagsV3.read(from:))
         value.generalFlags = try reader["GeneralFlags"].readIfPresent(with: PcaConnectorAdClientTypes.GeneralFlagsV3.read(from:))
-        value.hashAlgorithm = try reader["HashAlgorithm"].readIfPresent()
+        value.hashAlgorithm = try reader["HashAlgorithm"].readIfPresent() ?? .sdkUnknown("")
         value.extensions = try reader["Extensions"].readIfPresent(with: PcaConnectorAdClientTypes.ExtensionsV3.read(from:))
         return value
     }
@@ -5026,7 +5026,7 @@ extension PcaConnectorAdClientTypes.PrivateKeyFlagsV3 {
         value.exportableKey = try reader["ExportableKey"].readIfPresent()
         value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
         value.requireAlternateSignatureAlgorithm = try reader["RequireAlternateSignatureAlgorithm"].readIfPresent()
-        value.clientVersion = try reader["ClientVersion"].readIfPresent()
+        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5045,11 +5045,11 @@ extension PcaConnectorAdClientTypes.PrivateKeyAttributesV3 {
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyAttributesV3 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.PrivateKeyAttributesV3()
-        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent()
-        value.keySpec = try reader["KeySpec"].readIfPresent()
+        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent() ?? 0
+        value.keySpec = try reader["KeySpec"].readIfPresent() ?? .sdkUnknown("")
         value.cryptoProviders = try reader["CryptoProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.keyUsageProperty = try reader["KeyUsageProperty"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsageProperty.read(from:))
-        value.algorithm = try reader["Algorithm"].readIfPresent()
+        value.algorithm = try reader["Algorithm"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5187,7 +5187,7 @@ extension PcaConnectorAdClientTypes.PrivateKeyFlagsV2 {
         var value = PcaConnectorAdClientTypes.PrivateKeyFlagsV2()
         value.exportableKey = try reader["ExportableKey"].readIfPresent()
         value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
-        value.clientVersion = try reader["ClientVersion"].readIfPresent()
+        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5204,8 +5204,8 @@ extension PcaConnectorAdClientTypes.PrivateKeyAttributesV2 {
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyAttributesV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.PrivateKeyAttributesV2()
-        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent()
-        value.keySpec = try reader["KeySpec"].readIfPresent()
+        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent() ?? 0
+        value.keySpec = try reader["KeySpec"].readIfPresent() ?? .sdkUnknown("")
         value.cryptoProviders = try reader["CryptoProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

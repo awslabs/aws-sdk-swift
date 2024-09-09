@@ -3299,8 +3299,8 @@ extension DetectEntitiesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DetectEntitiesOutput()
-        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.modelVersion = try reader["ModelVersion"].readIfPresent() ?? ""
         value.paginationToken = try reader["PaginationToken"].readIfPresent()
         value.unmappedAttributes = try reader["UnmappedAttributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.UnmappedAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3314,8 +3314,8 @@ extension DetectEntitiesV2Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DetectEntitiesV2Output()
-        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.modelVersion = try reader["ModelVersion"].readIfPresent() ?? ""
         value.paginationToken = try reader["PaginationToken"].readIfPresent()
         value.unmappedAttributes = try reader["UnmappedAttributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.UnmappedAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3329,8 +3329,8 @@ extension DetectPHIOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DetectPHIOutput()
-        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modelVersion = try reader["ModelVersion"].readIfPresent()
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.modelVersion = try reader["ModelVersion"].readIfPresent() ?? ""
         value.paginationToken = try reader["PaginationToken"].readIfPresent()
         return value
     }
@@ -3343,7 +3343,7 @@ extension InferICD10CMOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = InferICD10CMOutput()
-        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMEntity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.modelVersion = try reader["ModelVersion"].readIfPresent()
         value.paginationToken = try reader["PaginationToken"].readIfPresent()
         return value
@@ -3357,7 +3357,7 @@ extension InferRxNormOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = InferRxNormOutput()
-        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormEntity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.modelVersion = try reader["ModelVersion"].readIfPresent()
         value.paginationToken = try reader["PaginationToken"].readIfPresent()
         return value
@@ -3372,7 +3372,7 @@ extension InferSNOMEDCTOutput {
         let reader = responseReader
         var value = InferSNOMEDCTOutput()
         value.characters = try reader["Characters"].readIfPresent(with: ComprehendMedicalClientTypes.Characters.read(from:))
-        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTEntity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.modelVersion = try reader["ModelVersion"].readIfPresent()
         value.paginationToken = try reader["PaginationToken"].readIfPresent()
         value.snomedctDetails = try reader["SNOMEDCTDetails"].readIfPresent(with: ComprehendMedicalClientTypes.SNOMEDCTDetails.read(from:))
@@ -4153,7 +4153,7 @@ extension ComprehendMedicalClientTypes.OutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.OutputDataConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
         value.s3Key = try reader["S3Key"].readIfPresent()
         return value
     }
@@ -4170,7 +4170,7 @@ extension ComprehendMedicalClientTypes.InputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendMedicalClientTypes.InputDataConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
         value.s3Key = try reader["S3Key"].readIfPresent()
         return value
     }

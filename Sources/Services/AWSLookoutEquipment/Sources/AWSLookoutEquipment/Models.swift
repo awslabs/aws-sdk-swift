@@ -6821,7 +6821,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6834,7 +6834,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6847,7 +6847,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6860,7 +6860,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6873,7 +6873,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6886,7 +6886,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6899,7 +6899,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6934,7 +6934,7 @@ extension LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.IngestionS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         value.keyPattern = try reader["KeyPattern"].readIfPresent()
         return value
@@ -6960,7 +6960,7 @@ extension LookoutEquipmentClientTypes.DuplicateTimestamps {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DuplicateTimestamps {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.DuplicateTimestamps()
-        value.totalNumberOfDuplicateTimestamps = try reader["TotalNumberOfDuplicateTimestamps"].readIfPresent()
+        value.totalNumberOfDuplicateTimestamps = try reader["TotalNumberOfDuplicateTimestamps"].readIfPresent() ?? 0
         return value
     }
 }
@@ -6970,7 +6970,7 @@ extension LookoutEquipmentClientTypes.UnsupportedTimestamps {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.UnsupportedTimestamps {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.UnsupportedTimestamps()
-        value.totalNumberOfUnsupportedTimestamps = try reader["TotalNumberOfUnsupportedTimestamps"].readIfPresent()
+        value.totalNumberOfUnsupportedTimestamps = try reader["TotalNumberOfUnsupportedTimestamps"].readIfPresent() ?? 0
         return value
     }
 }
@@ -6980,8 +6980,8 @@ extension LookoutEquipmentClientTypes.InvalidSensorData {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InvalidSensorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.InvalidSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent()
-        value.totalNumberOfInvalidValues = try reader["TotalNumberOfInvalidValues"].readIfPresent()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        value.totalNumberOfInvalidValues = try reader["TotalNumberOfInvalidValues"].readIfPresent() ?? 0
         return value
     }
 }
@@ -6991,8 +6991,8 @@ extension LookoutEquipmentClientTypes.MissingSensorData {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingSensorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.MissingSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent()
-        value.totalNumberOfMissingValues = try reader["TotalNumberOfMissingValues"].readIfPresent()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        value.totalNumberOfMissingValues = try reader["TotalNumberOfMissingValues"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7013,7 +7013,7 @@ extension LookoutEquipmentClientTypes.SensorsWithShortDateRange {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.SensorsWithShortDateRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.SensorsWithShortDateRange()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7023,7 +7023,7 @@ extension LookoutEquipmentClientTypes.MissingCompleteSensorData {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingCompleteSensorData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.MissingCompleteSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7033,8 +7033,8 @@ extension LookoutEquipmentClientTypes.IngestedFilesSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestedFilesSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.IngestedFilesSummary()
-        value.totalNumberOfFiles = try reader["TotalNumberOfFiles"].readIfPresent()
-        value.ingestedNumberOfFiles = try reader["IngestedNumberOfFiles"].readIfPresent()
+        value.totalNumberOfFiles = try reader["TotalNumberOfFiles"].readIfPresent() ?? 0
+        value.ingestedNumberOfFiles = try reader["IngestedNumberOfFiles"].readIfPresent() ?? 0
         value.discardedFiles = try reader["DiscardedFiles"].readListIfPresent(memberReadingClosure: LookoutEquipmentClientTypes.S3Object.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7045,8 +7045,8 @@ extension LookoutEquipmentClientTypes.S3Object {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.S3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.S3Object()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7098,7 +7098,7 @@ extension LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.InferenceS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
@@ -7132,7 +7132,7 @@ extension LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.InferenceS3OutputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
@@ -7166,7 +7166,7 @@ extension LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.LabelsS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
@@ -7215,7 +7215,7 @@ extension LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
@@ -7417,7 +7417,7 @@ extension LookoutEquipmentClientTypes.MonotonicValues {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MonotonicValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.MonotonicValues()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.monotonicity = try reader["Monotonicity"].readIfPresent()
         return value
     }
@@ -7428,7 +7428,7 @@ extension LookoutEquipmentClientTypes.LargeTimestampGaps {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LargeTimestampGaps {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.LargeTimestampGaps()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.numberOfLargeTimestampGaps = try reader["NumberOfLargeTimestampGaps"].readIfPresent()
         value.maxTimestampGapInDays = try reader["MaxTimestampGapInDays"].readIfPresent()
         return value
@@ -7440,7 +7440,7 @@ extension LookoutEquipmentClientTypes.MultipleOperatingModes {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MultipleOperatingModes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.MultipleOperatingModes()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7450,7 +7450,7 @@ extension LookoutEquipmentClientTypes.CategoricalValues {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CategoricalValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.CategoricalValues()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.numberOfCategory = try reader["NumberOfCategory"].readIfPresent()
         return value
     }
@@ -7461,7 +7461,7 @@ extension LookoutEquipmentClientTypes.CountPercent {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CountPercent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.CountPercent()
-        value.count = try reader["Count"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent() ?? 0
         value.percentage = try reader["Percentage"].readIfPresent() ?? 0
         return value
     }
@@ -7478,8 +7478,8 @@ extension LookoutEquipmentClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LookoutEquipmentClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension AthenaClientTypes {
 
@@ -5926,9 +5927,9 @@ extension CreatePresignedNotebookUrlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePresignedNotebookUrlOutput()
-        value.authToken = try reader["AuthToken"].readIfPresent()
-        value.authTokenExpirationTime = try reader["AuthTokenExpirationTime"].readIfPresent()
-        value.notebookUrl = try reader["NotebookUrl"].readIfPresent()
+        value.authToken = try reader["AuthToken"].readIfPresent() ?? ""
+        value.authTokenExpirationTime = try reader["AuthTokenExpirationTime"].readIfPresent() ?? 0
+        value.notebookUrl = try reader["NotebookUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6262,7 +6263,7 @@ extension ListCapacityReservationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCapacityReservationsOutput()
-        value.capacityReservations = try reader["CapacityReservations"].readListIfPresent(memberReadingClosure: AthenaClientTypes.CapacityReservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityReservations = try reader["CapacityReservations"].readListIfPresent(memberReadingClosure: AthenaClientTypes.CapacityReservation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6316,7 +6317,7 @@ extension ListExecutorsOutput {
         var value = ListExecutorsOutput()
         value.executorsSummary = try reader["ExecutorsSummary"].readListIfPresent(memberReadingClosure: AthenaClientTypes.ExecutorsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.sessionId = try reader["SessionId"].readIfPresent()
+        value.sessionId = try reader["SessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6355,7 +6356,7 @@ extension ListNotebookSessionsOutput {
         let reader = responseReader
         var value = ListNotebookSessionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.notebookSessionsList = try reader["NotebookSessionsList"].readListIfPresent(memberReadingClosure: AthenaClientTypes.NotebookSessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notebookSessionsList = try reader["NotebookSessionsList"].readListIfPresent(memberReadingClosure: AthenaClientTypes.NotebookSessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7720,10 +7721,10 @@ extension AthenaClientTypes.NamedQuery {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.NamedQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.NamedQuery()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
-        value.queryString = try reader["QueryString"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.queryString = try reader["QueryString"].readIfPresent() ?? ""
         value.namedQueryId = try reader["NamedQueryId"].readIfPresent()
         value.workGroup = try reader["WorkGroup"].readIfPresent()
         return value
@@ -7802,9 +7803,9 @@ extension AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration()
-        value.enableS3AccessGrants = try reader["EnableS3AccessGrants"].readIfPresent()
+        value.enableS3AccessGrants = try reader["EnableS3AccessGrants"].readIfPresent() ?? false
         value.createUserLevelPrefix = try reader["CreateUserLevelPrefix"].readIfPresent()
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7961,7 +7962,7 @@ extension AthenaClientTypes.AclConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.AclConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.AclConfiguration()
-        value.s3AclOption = try reader["S3AclOption"].readIfPresent()
+        value.s3AclOption = try reader["S3AclOption"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7977,7 +7978,7 @@ extension AthenaClientTypes.EncryptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.EncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.EncryptionConfiguration()
-        value.encryptionOption = try reader["EncryptionOption"].readIfPresent()
+        value.encryptionOption = try reader["EncryptionOption"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKey = try reader["KmsKey"].readIfPresent()
         return value
     }
@@ -8078,13 +8079,13 @@ extension AthenaClientTypes.CapacityReservation {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CapacityReservation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.CapacityReservation()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.targetDpus = try reader["TargetDpus"].readIfPresent()
-        value.allocatedDpus = try reader["AllocatedDpus"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.targetDpus = try reader["TargetDpus"].readIfPresent() ?? 0
+        value.allocatedDpus = try reader["AllocatedDpus"].readIfPresent() ?? 0
         value.lastAllocation = try reader["LastAllocation"].readIfPresent(with: AthenaClientTypes.CapacityAllocation.read(from:))
         value.lastSuccessfulAllocationTime = try reader["LastSuccessfulAllocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8094,9 +8095,9 @@ extension AthenaClientTypes.CapacityAllocation {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CapacityAllocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.CapacityAllocation()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.requestCompletionTime = try reader["RequestCompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -8107,7 +8108,7 @@ extension AthenaClientTypes.Database {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.Database {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.Database()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -8119,9 +8120,9 @@ extension AthenaClientTypes.DataCatalog {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.DataCatalog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.DataCatalog()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -8156,9 +8157,9 @@ extension AthenaClientTypes.ColumnInfo {
         value.catalogName = try reader["CatalogName"].readIfPresent()
         value.schemaName = try reader["SchemaName"].readIfPresent()
         value.tableName = try reader["TableName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.label = try reader["Label"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
         value.precision = try reader["Precision"].readIfPresent() ?? 0
         value.scale = try reader["Scale"].readIfPresent() ?? 0
         value.nullable = try reader["Nullable"].readIfPresent()
@@ -8273,7 +8274,7 @@ extension AthenaClientTypes.EngineConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.EngineConfiguration()
         value.coordinatorDpuSize = try reader["CoordinatorDpuSize"].readIfPresent()
-        value.maxConcurrentDpus = try reader["MaxConcurrentDpus"].readIfPresent()
+        value.maxConcurrentDpus = try reader["MaxConcurrentDpus"].readIfPresent() ?? 0
         value.defaultExecutorDpuSize = try reader["DefaultExecutorDpuSize"].readIfPresent()
         value.additionalConfigs = try reader["AdditionalConfigs"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.sparkProperties = try reader["SparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8324,7 +8325,7 @@ extension AthenaClientTypes.TableMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.TableMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.TableMetadata()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastAccessTime = try reader["LastAccessTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tableType = try reader["TableType"].readIfPresent()
@@ -8340,7 +8341,7 @@ extension AthenaClientTypes.Column {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.Column {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.Column()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent()
         value.comment = try reader["Comment"].readIfPresent()
         return value
@@ -8352,7 +8353,7 @@ extension AthenaClientTypes.WorkGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.WorkGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.WorkGroup()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.state = try reader["State"].readIfPresent()
         value.configuration = try reader["Configuration"].readIfPresent(with: AthenaClientTypes.WorkGroupConfiguration.read(from:))
         value.description = try reader["Description"].readIfPresent()
@@ -8426,7 +8427,7 @@ extension AthenaClientTypes.CustomerContentEncryptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.CustomerContentEncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.CustomerContentEncryptionConfiguration()
-        value.kmsKey = try reader["KmsKey"].readIfPresent()
+        value.kmsKey = try reader["KmsKey"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8470,7 +8471,7 @@ extension AthenaClientTypes.ExecutorsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ExecutorsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.ExecutorsSummary()
-        value.executorId = try reader["ExecutorId"].readIfPresent()
+        value.executorId = try reader["ExecutorId"].readIfPresent() ?? ""
         value.executorType = try reader["ExecutorType"].readIfPresent()
         value.startDateTime = try reader["StartDateTime"].readIfPresent()
         value.terminationDateTime = try reader["TerminationDateTime"].readIfPresent()

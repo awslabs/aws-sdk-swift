@@ -2585,7 +2585,7 @@ public struct GetPackageVersionAssetOutput {
     public var packageVersionRevision: Swift.String?
 
     public init(
-        asset: Smithy.ByteStream? = nil,
+        asset: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
         assetName: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         packageVersionRevision: Swift.String? = nil
@@ -7757,7 +7757,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7770,7 +7770,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -7785,7 +7785,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7803,7 +7803,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7816,7 +7816,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7829,7 +7829,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -7844,7 +7844,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8032,8 +8032,8 @@ extension CodeartifactClientTypes.PackageOriginRestrictions {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageOriginRestrictions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageOriginRestrictions()
-        value.publish = try reader["publish"].readIfPresent()
-        value.upstream = try reader["upstream"].readIfPresent()
+        value.publish = try reader["publish"].readIfPresent() ?? .sdkUnknown("")
+        value.upstream = try reader["upstream"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8157,7 +8157,7 @@ extension CodeartifactClientTypes.AssetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.AssetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.AssetSummary()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.size = try reader["size"].readIfPresent()
         value.hashes = try reader["hashes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -8182,9 +8182,9 @@ extension CodeartifactClientTypes.PackageVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageVersionSummary()
-        value.version = try reader["version"].readIfPresent()
+        value.version = try reader["version"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.origin = try reader["origin"].readIfPresent(with: CodeartifactClientTypes.PackageVersionOrigin.read(from:))
         return value
     }
@@ -8217,8 +8217,8 @@ extension CodeartifactClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

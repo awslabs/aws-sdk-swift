@@ -803,7 +803,7 @@ public struct CreateLogPatternInput {
         pattern: Swift.String? = nil,
         patternName: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
-        rank: Swift.Int? = nil,
+        rank: Swift.Int? = 0,
         resourceGroupName: Swift.String? = nil
     )
     {
@@ -2435,7 +2435,7 @@ public struct UpdateLogPatternInput {
         pattern: Swift.String? = nil,
         patternName: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
-        rank: Swift.Int? = nil,
+        rank: Swift.Int? = 0,
         resourceGroupName: Swift.String? = nil
     )
     {
@@ -4340,8 +4340,8 @@ extension ApplicationInsightsClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationInsightsClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

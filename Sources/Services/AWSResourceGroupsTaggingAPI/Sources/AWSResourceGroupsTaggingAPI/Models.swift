@@ -1234,8 +1234,8 @@ extension ResourceGroupsTaggingAPIClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceGroupsTaggingAPIClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

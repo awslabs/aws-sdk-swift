@@ -2818,8 +2818,8 @@ extension ChangeMessageVisibilityBatchOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ChangeMessageVisibilityBatchOutput()
-        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SQSClientTypes.BatchResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: true)
-        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SQSClientTypes.ChangeMessageVisibilityBatchResultEntry.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SQSClientTypes.BatchResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: true) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SQSClientTypes.ChangeMessageVisibilityBatchResultEntry.read(from:), memberNodeInfo: "member", isFlattened: true) ?? []
         return value
     }
 }
@@ -2850,8 +2850,8 @@ extension DeleteMessageBatchOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteMessageBatchOutput()
-        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SQSClientTypes.BatchResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: true)
-        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SQSClientTypes.DeleteMessageBatchResultEntry.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SQSClientTypes.BatchResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: true) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SQSClientTypes.DeleteMessageBatchResultEntry.read(from:), memberNodeInfo: "member", isFlattened: true) ?? []
         return value
     }
 }
@@ -2895,7 +2895,7 @@ extension ListDeadLetterSourceQueuesOutput {
         let reader = responseReader
         var value = ListDeadLetterSourceQueuesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.queueUrls = try reader["queueUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: true)
+        value.queueUrls = try reader["queueUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: true) ?? []
         return value
     }
 }
@@ -2986,8 +2986,8 @@ extension SendMessageBatchOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SendMessageBatchOutput()
-        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SQSClientTypes.BatchResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: true)
-        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SQSClientTypes.SendMessageBatchResultEntry.read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SQSClientTypes.BatchResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: true) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SQSClientTypes.SendMessageBatchResultEntry.read(from:), memberNodeInfo: "member", isFlattened: true) ?? []
         return value
     }
 }
@@ -3852,7 +3852,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SQSClientTypes.ChangeMessageVisibilityBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3862,9 +3862,9 @@ extension SQSClientTypes.BatchResultErrorEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.BatchResultErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SQSClientTypes.BatchResultErrorEntry()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
-        value.code = try reader["Code"].readIfPresent()
+        value.code = try reader["Code"].readIfPresent() ?? ""
         value.message = try reader["Message"].readIfPresent()
         return value
     }
@@ -3875,7 +3875,7 @@ extension SQSClientTypes.DeleteMessageBatchResultEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.DeleteMessageBatchResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SQSClientTypes.DeleteMessageBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3932,7 +3932,7 @@ extension SQSClientTypes.MessageAttributeValue {
         value.binaryValue = try reader["BinaryValue"].readIfPresent()
         value.stringListValues = try reader["StringListValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: true)
         value.binaryListValues = try reader["BinaryListValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readData(from:), memberNodeInfo: "member", isFlattened: true)
-        value.dataType = try reader["DataType"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3942,9 +3942,9 @@ extension SQSClientTypes.SendMessageBatchResultEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.SendMessageBatchResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SQSClientTypes.SendMessageBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.md5OfMessageBody = try reader["MD5OfMessageBody"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
+        value.md5OfMessageBody = try reader["MD5OfMessageBody"].readIfPresent() ?? ""
         value.md5OfMessageAttributes = try reader["MD5OfMessageAttributes"].readIfPresent()
         value.md5OfMessageSystemAttributes = try reader["MD5OfMessageSystemAttributes"].readIfPresent()
         value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()

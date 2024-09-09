@@ -55,6 +55,38 @@ extension ListEncoderConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IVSRealTimeClient {
+    /// Paginate over `[ListIngestConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIngestConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIngestConfigurationsOutput`
+    public func listIngestConfigurationsPaginated(input: ListIngestConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListIngestConfigurationsInput, ListIngestConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListIngestConfigurationsInput, ListIngestConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIngestConfigurations(input:))
+    }
+}
+
+extension ListIngestConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListIngestConfigurationsInput {
+        return ListIngestConfigurationsInput(
+            filterByStageArn: self.filterByStageArn,
+            filterByState: self.filterByState,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListIngestConfigurationsInput, OperationStackOutput == ListIngestConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listIngestConfigurationsPaginated`
+    /// to access the nested member `[IVSRealTimeClientTypes.IngestConfigurationSummary]`
+    /// - Returns: `[IVSRealTimeClientTypes.IngestConfigurationSummary]`
+    public func ingestConfigurations() async throws -> [IVSRealTimeClientTypes.IngestConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.ingestConfigurations }
+    }
+}
+extension IVSRealTimeClient {
     /// Paginate over `[ListParticipantEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

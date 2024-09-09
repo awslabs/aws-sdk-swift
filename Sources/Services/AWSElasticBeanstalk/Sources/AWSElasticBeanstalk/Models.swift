@@ -7794,7 +7794,7 @@ extension ElasticBeanstalkClientTypes.MaxAgeRule {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.MaxAgeRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.MaxAgeRule()
-        value.enabled = try reader["Enabled"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.maxAgeInDays = try reader["MaxAgeInDays"].readIfPresent()
         value.deleteSourceFromS3 = try reader["DeleteSourceFromS3"].readIfPresent()
         return value
@@ -7813,7 +7813,7 @@ extension ElasticBeanstalkClientTypes.MaxCountRule {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.MaxCountRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.MaxCountRule()
-        value.enabled = try reader["Enabled"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.maxCount = try reader["MaxCount"].readIfPresent()
         value.deleteSourceFromS3 = try reader["DeleteSourceFromS3"].readIfPresent()
         return value
@@ -7868,9 +7868,9 @@ extension ElasticBeanstalkClientTypes.SourceBuildInformation {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SourceBuildInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.SourceBuildInformation()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceRepository = try reader["SourceRepository"].readIfPresent()
-        value.sourceLocation = try reader["SourceLocation"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceRepository = try reader["SourceRepository"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceLocation = try reader["SourceLocation"].readIfPresent() ?? ""
         return value
     }
 }

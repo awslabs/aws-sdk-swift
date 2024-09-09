@@ -9531,10 +9531,10 @@ extension ApiGatewayV2ClientTypes.ApiMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ApiMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.ApiMapping()
-        value.apiId = try reader["apiId"].readIfPresent()
+        value.apiId = try reader["apiId"].readIfPresent() ?? ""
         value.apiMappingId = try reader["apiMappingId"].readIfPresent()
         value.apiMappingKey = try reader["apiMappingKey"].readIfPresent()
-        value.stage = try reader["stage"].readIfPresent()
+        value.stage = try reader["stage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9554,9 +9554,9 @@ extension ApiGatewayV2ClientTypes.Api {
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.protocolType = try reader["protocolType"].readIfPresent()
-        value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.protocolType = try reader["protocolType"].readIfPresent() ?? .sdkUnknown("")
+        value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["version"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9579,7 +9579,7 @@ extension ApiGatewayV2ClientTypes.Authorizer {
         value.identitySource = try reader["identitySource"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
         value.jwtConfiguration = try reader["jwtConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.JWTConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9605,7 +9605,7 @@ extension ApiGatewayV2ClientTypes.DomainName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.DomainName()
         value.apiMappingSelectionExpression = try reader["apiMappingSelectionExpression"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
         value.domainNameConfigurations = try reader["domainNameConfigurations"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9620,7 +9620,7 @@ extension ApiGatewayV2ClientTypes.IntegrationResponse {
         var value = ApiGatewayV2ClientTypes.IntegrationResponse()
         value.contentHandlingStrategy = try reader["contentHandlingStrategy"].readIfPresent()
         value.integrationResponseId = try reader["integrationResponseId"].readIfPresent()
-        value.integrationResponseKey = try reader["integrationResponseKey"].readIfPresent()
+        value.integrationResponseKey = try reader["integrationResponseKey"].readIfPresent() ?? ""
         value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.responseTemplates = try reader["responseTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateSelectionExpression = try reader["templateSelectionExpression"].readIfPresent()
@@ -9665,7 +9665,7 @@ extension ApiGatewayV2ClientTypes.Model {
         value.contentType = try reader["contentType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.modelId = try reader["modelId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.schema = try reader["schema"].readIfPresent()
         return value
     }
@@ -9680,7 +9680,7 @@ extension ApiGatewayV2ClientTypes.RouteResponse {
         value.responseModels = try reader["responseModels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.routeResponseId = try reader["routeResponseId"].readIfPresent()
-        value.routeResponseKey = try reader["routeResponseKey"].readIfPresent()
+        value.routeResponseKey = try reader["routeResponseKey"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9700,7 +9700,7 @@ extension ApiGatewayV2ClientTypes.Route {
         value.requestModels = try reader["requestModels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.routeId = try reader["routeId"].readIfPresent()
-        value.routeKey = try reader["routeKey"].readIfPresent()
+        value.routeKey = try reader["routeKey"].readIfPresent() ?? ""
         value.routeResponseSelectionExpression = try reader["routeResponseSelectionExpression"].readIfPresent()
         value.target = try reader["target"].readIfPresent()
         return value
@@ -9723,7 +9723,7 @@ extension ApiGatewayV2ClientTypes.Stage {
         value.lastDeploymentStatusMessage = try reader["lastDeploymentStatusMessage"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.routeSettings = try reader["routeSettings"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.RouteSettings.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.stageName = try reader["stageName"].readIfPresent()
+        value.stageName = try reader["stageName"].readIfPresent() ?? ""
         value.stageVariables = try reader["stageVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -9736,11 +9736,11 @@ extension ApiGatewayV2ClientTypes.VpcLink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.VpcLink()
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vpcLinkId = try reader["vpcLinkId"].readIfPresent()
+        value.vpcLinkId = try reader["vpcLinkId"].readIfPresent() ?? ""
         value.vpcLinkStatus = try reader["vpcLinkStatus"].readIfPresent()
         value.vpcLinkStatusMessage = try reader["vpcLinkStatusMessage"].readIfPresent()
         value.vpcLinkVersion = try reader["vpcLinkVersion"].readIfPresent()

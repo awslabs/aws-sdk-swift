@@ -3983,7 +3983,7 @@ extension MarketplaceCatalogClientTypes.Entity {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.Entity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.Entity()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
         value.identifier = try reader["Identifier"].readIfPresent()
         return value
     }
@@ -4119,8 +4119,8 @@ extension MarketplaceCatalogClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceCatalogClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

@@ -23,6 +23,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -2349,11 +2350,11 @@ extension GetParametersForExportOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetParametersForExportOutput()
-        value.exportToken = try reader["ExportToken"].readIfPresent()
-        value.parametersValidUntilTimestamp = try reader["ParametersValidUntilTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.signingKeyAlgorithm = try reader["SigningKeyAlgorithm"].readIfPresent()
-        value.signingKeyCertificate = try reader["SigningKeyCertificate"].readIfPresent()
-        value.signingKeyCertificateChain = try reader["SigningKeyCertificateChain"].readIfPresent()
+        value.exportToken = try reader["ExportToken"].readIfPresent() ?? ""
+        value.parametersValidUntilTimestamp = try reader["ParametersValidUntilTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.signingKeyAlgorithm = try reader["SigningKeyAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.signingKeyCertificate = try reader["SigningKeyCertificate"].readIfPresent() ?? ""
+        value.signingKeyCertificateChain = try reader["SigningKeyCertificateChain"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2365,11 +2366,11 @@ extension GetParametersForImportOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetParametersForImportOutput()
-        value.importToken = try reader["ImportToken"].readIfPresent()
-        value.parametersValidUntilTimestamp = try reader["ParametersValidUntilTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.wrappingKeyAlgorithm = try reader["WrappingKeyAlgorithm"].readIfPresent()
-        value.wrappingKeyCertificate = try reader["WrappingKeyCertificate"].readIfPresent()
-        value.wrappingKeyCertificateChain = try reader["WrappingKeyCertificateChain"].readIfPresent()
+        value.importToken = try reader["ImportToken"].readIfPresent() ?? ""
+        value.parametersValidUntilTimestamp = try reader["ParametersValidUntilTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.wrappingKeyAlgorithm = try reader["WrappingKeyAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.wrappingKeyCertificate = try reader["WrappingKeyCertificate"].readIfPresent() ?? ""
+        value.wrappingKeyCertificateChain = try reader["WrappingKeyCertificateChain"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2381,8 +2382,8 @@ extension GetPublicKeyCertificateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPublicKeyCertificateOutput()
-        value.keyCertificate = try reader["KeyCertificate"].readIfPresent()
-        value.keyCertificateChain = try reader["KeyCertificateChain"].readIfPresent()
+        value.keyCertificate = try reader["KeyCertificate"].readIfPresent() ?? ""
+        value.keyCertificateChain = try reader["KeyCertificateChain"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2406,7 +2407,7 @@ extension ListAliasesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAliasesOutput()
-        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: PaymentCryptographyClientTypes.Alias.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: PaymentCryptographyClientTypes.Alias.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2419,7 +2420,7 @@ extension ListKeysOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListKeysOutput()
-        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: PaymentCryptographyClientTypes.KeySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: PaymentCryptographyClientTypes.KeySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -2433,7 +2434,7 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PaymentCryptographyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PaymentCryptographyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3012,7 +3013,7 @@ extension PaymentCryptographyClientTypes.Alias {
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Alias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PaymentCryptographyClientTypes.Alias()
-        value.aliasName = try reader["AliasName"].readIfPresent()
+        value.aliasName = try reader["AliasName"].readIfPresent() ?? ""
         value.keyArn = try reader["KeyArn"].readIfPresent()
         return value
     }
@@ -3023,15 +3024,15 @@ extension PaymentCryptographyClientTypes.Key {
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Key {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PaymentCryptographyClientTypes.Key()
-        value.keyArn = try reader["KeyArn"].readIfPresent()
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
         value.keyAttributes = try reader["KeyAttributes"].readIfPresent(with: PaymentCryptographyClientTypes.KeyAttributes.read(from:))
-        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent()
-        value.keyCheckValueAlgorithm = try reader["KeyCheckValueAlgorithm"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.exportable = try reader["Exportable"].readIfPresent()
-        value.keyState = try reader["KeyState"].readIfPresent()
-        value.keyOrigin = try reader["KeyOrigin"].readIfPresent()
-        value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
+        value.keyCheckValueAlgorithm = try reader["KeyCheckValueAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.exportable = try reader["Exportable"].readIfPresent() ?? false
+        value.keyState = try reader["KeyState"].readIfPresent() ?? .sdkUnknown("")
+        value.keyOrigin = try reader["KeyOrigin"].readIfPresent() ?? .sdkUnknown("")
+        value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.usageStartTimestamp = try reader["UsageStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.usageStopTimestamp = try reader["UsageStopTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletePendingTimestamp = try reader["DeletePendingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3053,9 +3054,9 @@ extension PaymentCryptographyClientTypes.KeyAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.KeyAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PaymentCryptographyClientTypes.KeyAttributes()
-        value.keyUsage = try reader["KeyUsage"].readIfPresent()
-        value.keyClass = try reader["KeyClass"].readIfPresent()
-        value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent()
+        value.keyUsage = try reader["KeyUsage"].readIfPresent() ?? .sdkUnknown("")
+        value.keyClass = try reader["KeyClass"].readIfPresent() ?? .sdkUnknown("")
+        value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent() ?? .sdkUnknown("")
         value.keyModesOfUse = try reader["KeyModesOfUse"].readIfPresent(with: PaymentCryptographyClientTypes.KeyModesOfUse.read(from:))
         return value
     }
@@ -3097,9 +3098,9 @@ extension PaymentCryptographyClientTypes.WrappedKey {
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.WrappedKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PaymentCryptographyClientTypes.WrappedKey()
-        value.wrappingKeyArn = try reader["WrappingKeyArn"].readIfPresent()
-        value.wrappedKeyMaterialFormat = try reader["WrappedKeyMaterialFormat"].readIfPresent()
-        value.keyMaterial = try reader["KeyMaterial"].readIfPresent()
+        value.wrappingKeyArn = try reader["WrappingKeyArn"].readIfPresent() ?? ""
+        value.wrappedKeyMaterialFormat = try reader["WrappedKeyMaterialFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.keyMaterial = try reader["KeyMaterial"].readIfPresent() ?? ""
         value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent()
         value.keyCheckValueAlgorithm = try reader["KeyCheckValueAlgorithm"].readIfPresent()
         return value
@@ -3111,12 +3112,12 @@ extension PaymentCryptographyClientTypes.KeySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.KeySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PaymentCryptographyClientTypes.KeySummary()
-        value.keyArn = try reader["KeyArn"].readIfPresent()
-        value.keyState = try reader["KeyState"].readIfPresent()
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
+        value.keyState = try reader["KeyState"].readIfPresent() ?? .sdkUnknown("")
         value.keyAttributes = try reader["KeyAttributes"].readIfPresent(with: PaymentCryptographyClientTypes.KeyAttributes.read(from:))
-        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent()
-        value.exportable = try reader["Exportable"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent()
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
+        value.exportable = try reader["Exportable"].readIfPresent() ?? false
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -3132,7 +3133,7 @@ extension PaymentCryptographyClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PaymentCryptographyClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }

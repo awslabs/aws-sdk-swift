@@ -1621,7 +1621,7 @@ public struct CreateKxDataviewInput {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
-        autoUpdate: Swift.Bool? = nil,
+        autoUpdate: Swift.Bool? = false,
         availabilityZoneId: Swift.String? = nil,
         azMode: FinspaceClientTypes.KxAzMode? = nil,
         changesetId: Swift.String? = nil,
@@ -1630,7 +1630,7 @@ public struct CreateKxDataviewInput {
         dataviewName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        readWrite: Swift.Bool? = nil,
+        readWrite: Swift.Bool? = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -3719,7 +3719,7 @@ public struct ListEnvironmentsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -3759,7 +3759,7 @@ public struct ListKxChangesetsInput {
     public init(
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -3841,7 +3841,7 @@ public struct ListKxClusterNodesInput {
     public init(
         clusterName: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -3953,7 +3953,7 @@ public struct ListKxClustersInput {
     public init(
         clusterType: FinspaceClientTypes.KxClusterType? = nil,
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4085,7 +4085,7 @@ public struct ListKxDatabasesInput {
 
     public init(
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4150,7 +4150,7 @@ public struct ListKxDataviewsInput {
     public init(
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4390,7 +4390,7 @@ public struct ListKxScalingGroupsInput {
 
     public init(
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4489,7 +4489,7 @@ public struct ListKxUsersInput {
 
     public init(
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4560,7 +4560,7 @@ public struct ListKxVolumesInput {
 
     public init(
         environmentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         volumeType: FinspaceClientTypes.KxVolumeType? = nil
     )
@@ -8453,9 +8453,9 @@ extension FinspaceClientTypes.ChangeRequest {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.ChangeRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.ChangeRequest()
-        value.changeType = try reader["changeType"].readIfPresent()
+        value.changeType = try reader["changeType"].readIfPresent() ?? .sdkUnknown("")
         value.s3Path = try reader["s3Path"].readIfPresent()
-        value.dbPath = try reader["dbPath"].readIfPresent()
+        value.dbPath = try reader["dbPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8511,7 +8511,7 @@ extension FinspaceClientTypes.KxDatabaseConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxDatabaseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxDatabaseConfiguration()
-        value.databaseName = try reader["databaseName"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         value.cacheConfigurations = try reader["cacheConfigurations"].readListIfPresent(memberReadingClosure: FinspaceClientTypes.KxDatabaseCacheConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.changesetId = try reader["changesetId"].readIfPresent()
         value.dataviewName = try reader["dataviewName"].readIfPresent()
@@ -8553,8 +8553,8 @@ extension FinspaceClientTypes.KxDataviewSegmentConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxDataviewSegmentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxDataviewSegmentConfiguration()
-        value.dbPaths = try reader["dbPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.volumeName = try reader["volumeName"].readIfPresent()
+        value.dbPaths = try reader["dbPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.volumeName = try reader["volumeName"].readIfPresent() ?? ""
         value.onDemand = try reader["onDemand"].readIfPresent() ?? false
         return value
     }
@@ -8572,8 +8572,8 @@ extension FinspaceClientTypes.KxDatabaseCacheConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxDatabaseCacheConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxDatabaseCacheConfiguration()
-        value.cacheType = try reader["cacheType"].readIfPresent()
-        value.dbPaths = try reader["dbPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cacheType = try reader["cacheType"].readIfPresent() ?? ""
+        value.dbPaths = try reader["dbPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.dataviewName = try reader["dataviewName"].readIfPresent()
         return value
     }
@@ -8590,8 +8590,8 @@ extension FinspaceClientTypes.KxCacheStorageConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxCacheStorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxCacheStorageConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        value.size = try reader["size"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.size = try reader["size"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8728,10 +8728,10 @@ extension FinspaceClientTypes.KxScalingGroupConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.KxScalingGroupConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.KxScalingGroupConfiguration()
-        value.scalingGroupName = try reader["scalingGroupName"].readIfPresent()
+        value.scalingGroupName = try reader["scalingGroupName"].readIfPresent() ?? ""
         value.memoryLimit = try reader["memoryLimit"].readIfPresent()
-        value.memoryReservation = try reader["memoryReservation"].readIfPresent()
-        value.nodeCount = try reader["nodeCount"].readIfPresent()
+        value.memoryReservation = try reader["memoryReservation"].readIfPresent() ?? 0
+        value.nodeCount = try reader["nodeCount"].readIfPresent() ?? 0
         value.cpu = try reader["cpu"].readIfPresent()
         return value
     }
@@ -8826,8 +8826,8 @@ extension FinspaceClientTypes.TransitGatewayConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.TransitGatewayConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.TransitGatewayConfiguration()
-        value.transitGatewayID = try reader["transitGatewayID"].readIfPresent()
-        value.routableCIDRSpace = try reader["routableCIDRSpace"].readIfPresent()
+        value.transitGatewayID = try reader["transitGatewayID"].readIfPresent() ?? ""
+        value.routableCIDRSpace = try reader["routableCIDRSpace"].readIfPresent() ?? ""
         value.attachmentNetworkAclConfiguration = try reader["attachmentNetworkAclConfiguration"].readListIfPresent(memberReadingClosure: FinspaceClientTypes.NetworkACLEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8848,12 +8848,12 @@ extension FinspaceClientTypes.NetworkACLEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.NetworkACLEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.NetworkACLEntry()
-        value.ruleNumber = try reader["ruleNumber"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.ruleAction = try reader["ruleAction"].readIfPresent()
+        value.ruleNumber = try reader["ruleNumber"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? ""
+        value.ruleAction = try reader["ruleAction"].readIfPresent() ?? .sdkUnknown("")
         value.portRange = try reader["portRange"].readIfPresent(with: FinspaceClientTypes.PortRange.read(from:))
         value.icmpTypeCode = try reader["icmpTypeCode"].readIfPresent(with: FinspaceClientTypes.IcmpTypeCode.read(from:))
-        value.cidrBlock = try reader["cidrBlock"].readIfPresent()
+        value.cidrBlock = try reader["cidrBlock"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8903,8 +8903,8 @@ extension FinspaceClientTypes.CustomDNSServer {
     static func read(from reader: SmithyJSON.Reader) throws -> FinspaceClientTypes.CustomDNSServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FinspaceClientTypes.CustomDNSServer()
-        value.customDNSServerName = try reader["customDNSServerName"].readIfPresent()
-        value.customDNSServerIP = try reader["customDNSServerIP"].readIfPresent()
+        value.customDNSServerName = try reader["customDNSServerName"].readIfPresent() ?? ""
+        value.customDNSServerIP = try reader["customDNSServerIP"].readIfPresent() ?? ""
         return value
     }
 }

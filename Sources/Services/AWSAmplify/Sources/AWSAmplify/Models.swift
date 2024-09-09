@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// A request contains unexpected data.
 public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -2167,7 +2168,7 @@ public struct ListAppsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -2214,7 +2215,7 @@ public struct ListArtifactsInput {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         jobId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -2281,7 +2282,7 @@ public struct ListBackendEnvironmentsInput {
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -2322,7 +2323,7 @@ public struct ListBranchesInput {
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -2362,7 +2363,7 @@ public struct ListDomainAssociationsInput {
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -2406,7 +2407,7 @@ public struct ListJobsInput {
     public init(
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -2503,7 +2504,7 @@ public struct ListWebhooksInput {
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -3819,9 +3820,9 @@ extension CreateDeploymentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDeploymentOutput()
-        value.fileUploadUrls = try reader["fileUploadUrls"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.fileUploadUrls = try reader["fileUploadUrls"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.jobId = try reader["jobId"].readIfPresent()
-        value.zipUploadUrl = try reader["zipUploadUrl"].readIfPresent()
+        value.zipUploadUrl = try reader["zipUploadUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3953,8 +3954,8 @@ extension GetArtifactUrlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetArtifactUrlOutput()
-        value.artifactId = try reader["artifactId"].readIfPresent()
-        value.artifactUrl = try reader["artifactUrl"].readIfPresent()
+        value.artifactId = try reader["artifactId"].readIfPresent() ?? ""
+        value.artifactUrl = try reader["artifactUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4026,7 +4027,7 @@ extension ListAppsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAppsOutput()
-        value.apps = try reader["apps"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.App.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.apps = try reader["apps"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.App.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4039,7 +4040,7 @@ extension ListArtifactsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListArtifactsOutput()
-        value.artifacts = try reader["artifacts"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Artifact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.artifacts = try reader["artifacts"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Artifact.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4052,7 +4053,7 @@ extension ListBackendEnvironmentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListBackendEnvironmentsOutput()
-        value.backendEnvironments = try reader["backendEnvironments"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.BackendEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.backendEnvironments = try reader["backendEnvironments"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.BackendEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4065,7 +4066,7 @@ extension ListBranchesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListBranchesOutput()
-        value.branches = try reader["branches"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Branch.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.branches = try reader["branches"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Branch.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4078,7 +4079,7 @@ extension ListDomainAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDomainAssociationsOutput()
-        value.domainAssociations = try reader["domainAssociations"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.DomainAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainAssociations = try reader["domainAssociations"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.DomainAssociation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4091,7 +4092,7 @@ extension ListJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListJobsOutput()
-        value.jobSummaries = try reader["jobSummaries"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.JobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobSummaries = try reader["jobSummaries"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.JobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4117,7 +4118,7 @@ extension ListWebhooksOutput {
         let reader = responseReader
         var value = ListWebhooksOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.webhooks = try reader["webhooks"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Webhook.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.webhooks = try reader["webhooks"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Webhook.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4948,8 +4949,8 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4962,21 +4963,21 @@ extension AmplifyClientTypes.App {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.App {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.App()
-        value.appId = try reader["appId"].readIfPresent()
-        value.appArn = try reader["appArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appArn = try reader["appArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.description = try reader["description"].readIfPresent()
-        value.repository = try reader["repository"].readIfPresent()
-        value.platform = try reader["platform"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.repository = try reader["repository"].readIfPresent() ?? ""
+        value.platform = try reader["platform"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.iamServiceRoleArn = try reader["iamServiceRoleArn"].readIfPresent()
-        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.defaultDomain = try reader["defaultDomain"].readIfPresent()
-        value.enableBranchAutoBuild = try reader["enableBranchAutoBuild"].readIfPresent()
+        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.defaultDomain = try reader["defaultDomain"].readIfPresent() ?? ""
+        value.enableBranchAutoBuild = try reader["enableBranchAutoBuild"].readIfPresent() ?? false
         value.enableBranchAutoDeletion = try reader["enableBranchAutoDeletion"].readIfPresent()
-        value.enableBasicAuth = try reader["enableBasicAuth"].readIfPresent()
+        value.enableBasicAuth = try reader["enableBasicAuth"].readIfPresent() ?? false
         value.basicAuthCredentials = try reader["basicAuthCredentials"].readIfPresent()
         value.customRules = try reader["customRules"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.CustomRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.productionBranch = try reader["productionBranch"].readIfPresent(with: AmplifyClientTypes.ProductionBranch.read(from:))
@@ -5001,7 +5002,7 @@ extension AmplifyClientTypes.CacheConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.CacheConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.CacheConfig()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5065,8 +5066,8 @@ extension AmplifyClientTypes.CustomRule {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.CustomRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.CustomRule()
-        value.source = try reader["source"].readIfPresent()
-        value.target = try reader["target"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.target = try reader["target"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.condition = try reader["condition"].readIfPresent()
         return value
@@ -5078,12 +5079,12 @@ extension AmplifyClientTypes.BackendEnvironment {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.BackendEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.BackendEnvironment()
-        value.backendEnvironmentArn = try reader["backendEnvironmentArn"].readIfPresent()
-        value.environmentName = try reader["environmentName"].readIfPresent()
+        value.backendEnvironmentArn = try reader["backendEnvironmentArn"].readIfPresent() ?? ""
+        value.environmentName = try reader["environmentName"].readIfPresent() ?? ""
         value.stackName = try reader["stackName"].readIfPresent()
         value.deploymentArtifacts = try reader["deploymentArtifacts"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5093,29 +5094,29 @@ extension AmplifyClientTypes.Branch {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Branch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Branch()
-        value.branchArn = try reader["branchArn"].readIfPresent()
-        value.branchName = try reader["branchName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
+        value.branchArn = try reader["branchArn"].readIfPresent() ?? ""
+        value.branchName = try reader["branchName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.stage = try reader["stage"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.enableNotification = try reader["enableNotification"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.enableAutoBuild = try reader["enableAutoBuild"].readIfPresent()
-        value.customDomains = try reader["customDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.framework = try reader["framework"].readIfPresent()
-        value.activeJobId = try reader["activeJobId"].readIfPresent()
-        value.totalNumberOfJobs = try reader["totalNumberOfJobs"].readIfPresent()
-        value.enableBasicAuth = try reader["enableBasicAuth"].readIfPresent()
+        value.stage = try reader["stage"].readIfPresent() ?? .sdkUnknown("")
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.enableNotification = try reader["enableNotification"].readIfPresent() ?? false
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.enableAutoBuild = try reader["enableAutoBuild"].readIfPresent() ?? false
+        value.customDomains = try reader["customDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.framework = try reader["framework"].readIfPresent() ?? ""
+        value.activeJobId = try reader["activeJobId"].readIfPresent() ?? ""
+        value.totalNumberOfJobs = try reader["totalNumberOfJobs"].readIfPresent() ?? ""
+        value.enableBasicAuth = try reader["enableBasicAuth"].readIfPresent() ?? false
         value.enablePerformanceMode = try reader["enablePerformanceMode"].readIfPresent()
         value.thumbnailUrl = try reader["thumbnailUrl"].readIfPresent()
         value.basicAuthCredentials = try reader["basicAuthCredentials"].readIfPresent()
         value.buildSpec = try reader["buildSpec"].readIfPresent()
-        value.ttl = try reader["ttl"].readIfPresent()
+        value.ttl = try reader["ttl"].readIfPresent() ?? ""
         value.associatedResources = try reader["associatedResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enablePullRequestPreview = try reader["enablePullRequestPreview"].readIfPresent()
+        value.enablePullRequestPreview = try reader["enablePullRequestPreview"].readIfPresent() ?? false
         value.pullRequestEnvironmentName = try reader["pullRequestEnvironmentName"].readIfPresent()
         value.destinationBranch = try reader["destinationBranch"].readIfPresent()
         value.sourceBranch = try reader["sourceBranch"].readIfPresent()
@@ -5145,16 +5146,16 @@ extension AmplifyClientTypes.DomainAssociation {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.DomainAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.DomainAssociation()
-        value.domainAssociationArn = try reader["domainAssociationArn"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.enableAutoSubDomain = try reader["enableAutoSubDomain"].readIfPresent()
+        value.domainAssociationArn = try reader["domainAssociationArn"].readIfPresent() ?? ""
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.enableAutoSubDomain = try reader["enableAutoSubDomain"].readIfPresent() ?? false
         value.autoSubDomainCreationPatterns = try reader["autoSubDomainCreationPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.autoSubDomainIAMRole = try reader["autoSubDomainIAMRole"].readIfPresent()
-        value.domainStatus = try reader["domainStatus"].readIfPresent()
+        value.domainStatus = try reader["domainStatus"].readIfPresent() ?? .sdkUnknown("")
         value.updateStatus = try reader["updateStatus"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
         value.certificateVerificationDNSRecord = try reader["certificateVerificationDNSRecord"].readIfPresent()
-        value.subDomains = try reader["subDomains"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.SubDomain.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subDomains = try reader["subDomains"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.SubDomain.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.certificate = try reader["certificate"].readIfPresent(with: AmplifyClientTypes.Certificate.read(from:))
         return value
     }
@@ -5165,7 +5166,7 @@ extension AmplifyClientTypes.Certificate {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Certificate()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.customCertificateArn = try reader["customCertificateArn"].readIfPresent()
         value.certificateVerificationDNSRecord = try reader["certificateVerificationDNSRecord"].readIfPresent()
         return value
@@ -5178,8 +5179,8 @@ extension AmplifyClientTypes.SubDomain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.SubDomain()
         value.subDomainSetting = try reader["subDomainSetting"].readIfPresent(with: AmplifyClientTypes.SubDomainSetting.read(from:))
-        value.verified = try reader["verified"].readIfPresent()
-        value.dnsRecord = try reader["dnsRecord"].readIfPresent()
+        value.verified = try reader["verified"].readIfPresent() ?? false
+        value.dnsRecord = try reader["dnsRecord"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5195,8 +5196,8 @@ extension AmplifyClientTypes.SubDomainSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.SubDomainSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.SubDomainSetting()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        value.branchName = try reader["branchName"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.branchName = try reader["branchName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5206,13 +5207,13 @@ extension AmplifyClientTypes.Webhook {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Webhook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Webhook()
-        value.webhookArn = try reader["webhookArn"].readIfPresent()
-        value.webhookId = try reader["webhookId"].readIfPresent()
-        value.webhookUrl = try reader["webhookUrl"].readIfPresent()
-        value.branchName = try reader["branchName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.webhookArn = try reader["webhookArn"].readIfPresent() ?? ""
+        value.webhookId = try reader["webhookId"].readIfPresent() ?? ""
+        value.webhookUrl = try reader["webhookUrl"].readIfPresent() ?? ""
+        value.branchName = try reader["branchName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5222,15 +5223,15 @@ extension AmplifyClientTypes.JobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.JobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.JobSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.commitId = try reader["commitId"].readIfPresent()
-        value.commitMessage = try reader["commitMessage"].readIfPresent()
-        value.commitTime = try reader["commitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.commitId = try reader["commitId"].readIfPresent() ?? ""
+        value.commitMessage = try reader["commitMessage"].readIfPresent() ?? ""
+        value.commitTime = try reader["commitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobType = try reader["jobType"].readIfPresent()
+        value.jobType = try reader["jobType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5241,7 +5242,7 @@ extension AmplifyClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Job()
         value.summary = try reader["summary"].readIfPresent(with: AmplifyClientTypes.JobSummary.read(from:))
-        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: AmplifyClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5251,10 +5252,10 @@ extension AmplifyClientTypes.Step {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Step {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Step()
-        value.stepName = try reader["stepName"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stepName = try reader["stepName"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.logUrl = try reader["logUrl"].readIfPresent()
         value.artifactsUrl = try reader["artifactsUrl"].readIfPresent()
         value.testArtifactsUrl = try reader["testArtifactsUrl"].readIfPresent()
@@ -5271,8 +5272,8 @@ extension AmplifyClientTypes.Artifact {
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.Artifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyClientTypes.Artifact()
-        value.artifactFileName = try reader["artifactFileName"].readIfPresent()
-        value.artifactId = try reader["artifactId"].readIfPresent()
+        value.artifactFileName = try reader["artifactFileName"].readIfPresent() ?? ""
+        value.artifactId = try reader["artifactId"].readIfPresent() ?? ""
         return value
     }
 }

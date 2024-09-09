@@ -1924,7 +1924,7 @@ extension BatchCreateRumMetricDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchCreateRumMetricDefinitionsOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RUMClientTypes.BatchCreateRumMetricDefinitionsError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RUMClientTypes.BatchCreateRumMetricDefinitionsError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.metricDefinitions = try reader["MetricDefinitions"].readListIfPresent(memberReadingClosure: RUMClientTypes.MetricDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -1937,7 +1937,7 @@ extension BatchDeleteRumMetricDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDeleteRumMetricDefinitionsOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RUMClientTypes.BatchDeleteRumMetricDefinitionsError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RUMClientTypes.BatchDeleteRumMetricDefinitionsError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.metricDefinitionIds = try reader["MetricDefinitionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -2040,8 +2040,8 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2405,7 +2405,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -2420,8 +2420,8 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceName = try reader["resourceName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceName = try reader["resourceName"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2435,7 +2435,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2448,7 +2448,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2465,7 +2465,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2478,8 +2478,8 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceName = try reader["resourceName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceName = try reader["resourceName"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2493,7 +2493,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2507,8 +2507,8 @@ extension RUMClientTypes.BatchCreateRumMetricDefinitionsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RUMClientTypes.BatchCreateRumMetricDefinitionsError()
         value.metricDefinition = try reader["MetricDefinition"].readIfPresent(with: RUMClientTypes.MetricDefinitionRequest.read(from:))
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2528,7 +2528,7 @@ extension RUMClientTypes.MetricDefinitionRequest {
     static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.MetricDefinitionRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RUMClientTypes.MetricDefinitionRequest()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.valueKey = try reader["ValueKey"].readIfPresent()
         value.unitLabel = try reader["UnitLabel"].readIfPresent()
         value.dimensionKeys = try reader["DimensionKeys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2543,8 +2543,8 @@ extension RUMClientTypes.MetricDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.MetricDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RUMClientTypes.MetricDefinition()
-        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.valueKey = try reader["ValueKey"].readIfPresent()
         value.unitLabel = try reader["UnitLabel"].readIfPresent()
         value.dimensionKeys = try reader["DimensionKeys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2559,9 +2559,9 @@ extension RUMClientTypes.BatchDeleteRumMetricDefinitionsError {
     static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.BatchDeleteRumMetricDefinitionsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RUMClientTypes.BatchDeleteRumMetricDefinitionsError()
-        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
     }
 }

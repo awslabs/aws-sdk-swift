@@ -1867,7 +1867,7 @@ extension ListLoggingConfigurationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListLoggingConfigurationsOutput()
-        value.loggingConfigurations = try reader["loggingConfigurations"].readListIfPresent(memberReadingClosure: IvschatClientTypes.LoggingConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.loggingConfigurations = try reader["loggingConfigurations"].readListIfPresent(memberReadingClosure: IvschatClientTypes.LoggingConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1881,7 +1881,7 @@ extension ListRoomsOutput {
         let reader = responseReader
         var value = ListRoomsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.rooms = try reader["rooms"].readListIfPresent(memberReadingClosure: IvschatClientTypes.RoomSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rooms = try reader["rooms"].readListIfPresent(memberReadingClosure: IvschatClientTypes.RoomSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1893,7 +1893,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2259,7 +2259,7 @@ extension PendingVerification {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PendingVerification {
         let reader = baseError.errorBodyReader
         var value = PendingVerification()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2273,8 +2273,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: IvschatClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2287,7 +2287,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2300,9 +2300,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2316,9 +2316,9 @@ extension ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.limit = try reader["limit"].readIfPresent() ?? 0
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2331,9 +2331,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2347,9 +2347,9 @@ extension ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.limit = try reader["limit"].readIfPresent() ?? 0
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2362,7 +2362,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2412,7 +2412,7 @@ extension IvschatClientTypes.FirehoseDestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.FirehoseDestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvschatClientTypes.FirehoseDestinationConfiguration()
-        value.deliveryStreamName = try reader["deliveryStreamName"].readIfPresent()
+        value.deliveryStreamName = try reader["deliveryStreamName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2427,7 +2427,7 @@ extension IvschatClientTypes.CloudWatchLogsDestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.CloudWatchLogsDestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvschatClientTypes.CloudWatchLogsDestinationConfiguration()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2442,7 +2442,7 @@ extension IvschatClientTypes.S3DestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.S3DestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvschatClientTypes.S3DestinationConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2503,8 +2503,8 @@ extension IvschatClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvschatClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

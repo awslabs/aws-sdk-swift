@@ -3741,9 +3741,9 @@ extension MediaPackageClientTypes.S3Destination {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.S3Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.S3Destination()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.manifestKey = try reader["manifestKey"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.manifestKey = try reader["manifestKey"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3759,8 +3759,8 @@ extension MediaPackageClientTypes.Authorization {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.Authorization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.Authorization()
-        value.cdnIdentifierSecret = try reader["cdnIdentifierSecret"].readIfPresent()
-        value.secretsRoleArn = try reader["secretsRoleArn"].readIfPresent()
+        value.cdnIdentifierSecret = try reader["cdnIdentifierSecret"].readIfPresent() ?? ""
+        value.secretsRoleArn = try reader["secretsRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3804,7 +3804,7 @@ extension MediaPackageClientTypes.HlsManifest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.HlsManifest()
         value.adMarkers = try reader["adMarkers"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
         value.manifestName = try reader["manifestName"].readIfPresent()
         value.playlistType = try reader["playlistType"].readIfPresent()
@@ -3855,10 +3855,10 @@ extension MediaPackageClientTypes.SpekeKeyProvider {
         var value = MediaPackageClientTypes.SpekeKeyProvider()
         value.certificateArn = try reader["certificateArn"].readIfPresent()
         value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaPackageClientTypes.EncryptionContractConfiguration.read(from:))
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.url = try reader["url"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.url = try reader["url"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3874,8 +3874,8 @@ extension MediaPackageClientTypes.EncryptionContractConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageClientTypes.EncryptionContractConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageClientTypes.EncryptionContractConfiguration()
-        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent()
-        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent()
+        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
+        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

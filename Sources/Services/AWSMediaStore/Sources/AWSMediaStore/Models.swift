@@ -1278,7 +1278,7 @@ extension GetContainerPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetContainerPolicyOutput()
-        value.policy = try reader["Policy"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1290,7 +1290,7 @@ extension GetCorsPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetCorsPolicyOutput()
-        value.corsPolicy = try reader["CorsPolicy"].readListIfPresent(memberReadingClosure: MediaStoreClientTypes.CorsRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.corsPolicy = try reader["CorsPolicy"].readListIfPresent(memberReadingClosure: MediaStoreClientTypes.CorsRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1302,7 +1302,7 @@ extension GetLifecyclePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetLifecyclePolicyOutput()
-        value.lifecyclePolicy = try reader["LifecyclePolicy"].readIfPresent()
+        value.lifecyclePolicy = try reader["LifecyclePolicy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1326,7 +1326,7 @@ extension ListContainersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListContainersOutput()
-        value.containers = try reader["Containers"].readListIfPresent(memberReadingClosure: MediaStoreClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containers = try reader["Containers"].readListIfPresent(memberReadingClosure: MediaStoreClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1848,9 +1848,9 @@ extension MediaStoreClientTypes.CorsRule {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaStoreClientTypes.CorsRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaStoreClientTypes.CorsRule()
-        value.allowedOrigins = try reader["AllowedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedOrigins = try reader["AllowedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowedMethods = try reader["AllowedMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaStoreClientTypes.MethodName>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedHeaders = try reader["AllowedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedHeaders = try reader["AllowedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.maxAgeSeconds = try reader["MaxAgeSeconds"].readIfPresent() ?? 0
         value.exposeHeaders = try reader["ExposeHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -1868,7 +1868,7 @@ extension MediaStoreClientTypes.MetricPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaStoreClientTypes.MetricPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaStoreClientTypes.MetricPolicy()
-        value.containerLevelMetrics = try reader["ContainerLevelMetrics"].readIfPresent()
+        value.containerLevelMetrics = try reader["ContainerLevelMetrics"].readIfPresent() ?? .sdkUnknown("")
         value.metricPolicyRules = try reader["MetricPolicyRules"].readListIfPresent(memberReadingClosure: MediaStoreClientTypes.MetricPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -1885,8 +1885,8 @@ extension MediaStoreClientTypes.MetricPolicyRule {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaStoreClientTypes.MetricPolicyRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaStoreClientTypes.MetricPolicyRule()
-        value.objectGroup = try reader["ObjectGroup"].readIfPresent()
-        value.objectGroupName = try reader["ObjectGroupName"].readIfPresent()
+        value.objectGroup = try reader["ObjectGroup"].readIfPresent() ?? ""
+        value.objectGroupName = try reader["ObjectGroupName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1902,7 +1902,7 @@ extension MediaStoreClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaStoreClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaStoreClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }

@@ -24141,7 +24141,7 @@ extension MediaConvertClientTypes.Job {
         value.queue = try reader["queue"].readIfPresent()
         value.queueTransitions = try reader["queueTransitions"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.QueueTransition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.retryCount = try reader["retryCount"].readIfPresent()
-        value.role = try reader["role"].readIfPresent()
+        value.role = try reader["role"].readIfPresent() ?? ""
         value.settings = try reader["settings"].readIfPresent(with: MediaConvertClientTypes.JobSettings.read(from:))
         value.simulateReservedQueue = try reader["simulateReservedQueue"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -24158,8 +24158,8 @@ extension MediaConvertClientTypes.WarningGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.WarningGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.WarningGroup()
-        value.code = try reader["code"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? 0
+        value.count = try reader["count"].readIfPresent() ?? 0
         return value
     }
 }
@@ -28467,7 +28467,7 @@ extension MediaConvertClientTypes.AccelerationSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AccelerationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.AccelerationSettings()
-        value.mode = try reader["mode"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -28484,7 +28484,7 @@ extension MediaConvertClientTypes.JobTemplate {
         value.description = try reader["description"].readIfPresent()
         value.hopDestinations = try reader["hopDestinations"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HopDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.priority = try reader["priority"].readIfPresent()
         value.queue = try reader["queue"].readIfPresent()
         value.settings = try reader["settings"].readIfPresent(with: MediaConvertClientTypes.JobTemplateSettings.read(from:))
@@ -28600,7 +28600,7 @@ extension MediaConvertClientTypes.Preset {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.settings = try reader["settings"].readIfPresent(with: MediaConvertClientTypes.PresetSettings.read(from:))
         value.type = try reader["type"].readIfPresent()
         return value
@@ -28658,7 +28658,7 @@ extension MediaConvertClientTypes.Queue {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.pricingPlan = try reader["pricingPlan"].readIfPresent()
         value.progressingJobsCount = try reader["progressingJobsCount"].readIfPresent()
         value.reservationPlan = try reader["reservationPlan"].readIfPresent(with: MediaConvertClientTypes.ReservationPlan.read(from:))

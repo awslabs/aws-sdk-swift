@@ -30,6 +30,7 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct TagResourceOutput {
 
@@ -3595,15 +3596,15 @@ extension CreateChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateChannelOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputType = try reader["InputType"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3616,13 +3617,13 @@ extension CreateChannelGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateChannelGroupOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
-        value.egressDomain = try reader["EgressDomain"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.egressDomain = try reader["EgressDomain"].readIfPresent() ?? ""
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3635,19 +3636,19 @@ extension CreateOriginEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateOriginEndpointOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.containerType = try reader["ContainerType"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.containerType = try reader["ContainerType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3697,15 +3698,15 @@ extension GetChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetChannelOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputType = try reader["InputType"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3718,13 +3719,13 @@ extension GetChannelGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetChannelGroupOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
-        value.egressDomain = try reader["EgressDomain"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.egressDomain = try reader["EgressDomain"].readIfPresent() ?? ""
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3737,9 +3738,9 @@ extension GetChannelPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetChannelPolicyOutput()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.policy = try reader["Policy"].readIfPresent()
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.policy = try reader["Policy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3751,19 +3752,19 @@ extension GetOriginEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOriginEndpointOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.containerType = try reader["ContainerType"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.containerType = try reader["ContainerType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3778,10 +3779,10 @@ extension GetOriginEndpointPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOriginEndpointPolicyOutput()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent()
-        value.policy = try reader["Policy"].readIfPresent()
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
+        value.policy = try reader["Policy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3872,15 +3873,15 @@ extension UpdateChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateChannelOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputType = try reader["InputType"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3893,13 +3894,13 @@ extension UpdateChannelGroupOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateChannelGroupOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
-        value.egressDomain = try reader["EgressDomain"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.egressDomain = try reader["EgressDomain"].readIfPresent() ?? ""
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3912,19 +3913,19 @@ extension UpdateOriginEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateOriginEndpointOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.containerType = try reader["ContainerType"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.containerType = try reader["ContainerType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4530,10 +4531,10 @@ extension MediaPackageV2ClientTypes.SpekeKeyProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.SpekeKeyProvider()
         value.encryptionContractConfiguration = try reader["EncryptionContractConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.EncryptionContractConfiguration.read(from:))
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.drmSystems = try reader["DrmSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.drmSystems = try reader["DrmSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4549,8 +4550,8 @@ extension MediaPackageV2ClientTypes.EncryptionContractConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.EncryptionContractConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.EncryptionContractConfiguration()
-        value.presetSpeke20Audio = try reader["PresetSpeke20Audio"].readIfPresent()
-        value.presetSpeke20Video = try reader["PresetSpeke20Video"].readIfPresent()
+        value.presetSpeke20Audio = try reader["PresetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
+        value.presetSpeke20Video = try reader["PresetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4592,8 +4593,8 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.GetHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
         value.childManifestName = try reader["ChildManifestName"].readIfPresent()
         value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
         value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
@@ -4644,8 +4645,8 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
         value.childManifestName = try reader["ChildManifestName"].readIfPresent()
         value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
         value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
@@ -4660,8 +4661,8 @@ extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetDashManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.GetDashManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
         value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
         value.minUpdatePeriodSeconds = try reader["MinUpdatePeriodSeconds"].readIfPresent()
@@ -4728,10 +4729,10 @@ extension MediaPackageV2ClientTypes.ChannelGroupListConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ChannelGroupListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ChannelGroupListConfiguration()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         return value
     }
@@ -4742,11 +4743,11 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ChannelListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ChannelListConfiguration()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.inputType = try reader["InputType"].readIfPresent()
         return value
@@ -4758,11 +4759,11 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.OriginEndpointListConfiguration()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent()
-        value.containerType = try reader["ContainerType"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
+        value.containerType = try reader["ContainerType"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["Description"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4779,7 +4780,7 @@ extension MediaPackageV2ClientTypes.ListDashManifestConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListDashManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ListDashManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
         value.url = try reader["Url"].readIfPresent()
         return value
     }
@@ -4790,7 +4791,7 @@ extension MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
         value.childManifestName = try reader["ChildManifestName"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         return value
@@ -4802,7 +4803,7 @@ extension MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ListHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
         value.childManifestName = try reader["ChildManifestName"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         return value

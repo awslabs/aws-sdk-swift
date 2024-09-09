@@ -5045,7 +5045,7 @@ extension IdempotentParameterMismatchException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IdempotentParameterMismatchException {
         let reader = baseError.errorBodyReader
         var value = IdempotentParameterMismatchException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5058,7 +5058,7 @@ extension MalformedArnException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedArnException {
         let reader = baseError.errorBodyReader
         var value = MalformedArnException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5071,7 +5071,7 @@ extension ResourceShareInvitationAlreadyAcceptedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyAcceptedException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationAlreadyAcceptedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5084,7 +5084,7 @@ extension OperationNotPermittedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OperationNotPermittedException {
         let reader = baseError.errorBodyReader
         var value = OperationNotPermittedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5097,7 +5097,7 @@ extension ResourceShareInvitationArnNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationArnNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationArnNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5110,7 +5110,7 @@ extension ResourceShareInvitationAlreadyRejectedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyRejectedException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationAlreadyRejectedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5123,7 +5123,7 @@ extension ResourceShareInvitationExpiredException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationExpiredException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationExpiredException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5136,7 +5136,7 @@ extension ServerInternalException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServerInternalException {
         let reader = baseError.errorBodyReader
         var value = ServerInternalException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5149,7 +5149,7 @@ extension InvalidClientTokenException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidClientTokenException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5162,7 +5162,7 @@ extension ServiceUnavailableException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5175,7 +5175,7 @@ extension ResourceShareLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5188,7 +5188,7 @@ extension UnknownResourceException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnknownResourceException {
         let reader = baseError.errorBodyReader
         var value = UnknownResourceException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5201,7 +5201,7 @@ extension InvalidStateTransitionException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateTransitionException {
         let reader = baseError.errorBodyReader
         var value = InvalidStateTransitionException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5214,7 +5214,7 @@ extension InvalidParameterException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5227,7 +5227,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5240,7 +5240,7 @@ extension PermissionAlreadyExistsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = PermissionAlreadyExistsException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5253,7 +5253,7 @@ extension InvalidPolicyException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidPolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidPolicyException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5266,7 +5266,7 @@ extension PermissionLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = PermissionLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5279,7 +5279,7 @@ extension MalformedPolicyTemplateException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedPolicyTemplateException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyTemplateException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5292,7 +5292,7 @@ extension PermissionVersionsLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionVersionsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = PermissionVersionsLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5305,7 +5305,7 @@ extension TagPolicyViolationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagPolicyViolationException {
         let reader = baseError.errorBodyReader
         var value = TagPolicyViolationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5318,7 +5318,7 @@ extension TagLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TagLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5331,7 +5331,7 @@ extension InvalidNextTokenException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5344,7 +5344,7 @@ extension ResourceArnNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceArnNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceArnNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5357,7 +5357,7 @@ extension InvalidMaxResultsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidMaxResultsException {
         let reader = baseError.errorBodyReader
         var value = InvalidMaxResultsException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5370,7 +5370,7 @@ extension MissingRequiredParameterException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingRequiredParameterException {
         let reader = baseError.errorBodyReader
         var value = MissingRequiredParameterException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5383,7 +5383,7 @@ extension InvalidResourceTypeException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceTypeException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5396,7 +5396,7 @@ extension UnmatchedPolicyPermissionException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnmatchedPolicyPermissionException {
         let reader = baseError.errorBodyReader
         var value = UnmatchedPolicyPermissionException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

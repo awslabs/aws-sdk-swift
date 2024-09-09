@@ -2696,7 +2696,7 @@ public struct CreateWirelessGatewayTaskDefinitionInput {
     public var update: IoTWirelessClientTypes.UpdateWirelessGatewayTaskCreate?
 
     public init(
-        autoCreateTasks: Swift.Bool? = nil,
+        autoCreateTasks: Swift.Bool? = false,
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil,
@@ -6581,7 +6581,7 @@ public struct ListDestinationsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6616,7 +6616,7 @@ public struct ListDeviceProfilesInput {
 
     public init(
         deviceProfileType: IoTWirelessClientTypes.DeviceProfileType? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6655,7 +6655,7 @@ public struct ListDevicesForWirelessDeviceImportTaskInput {
 
     public init(
         id: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         status: IoTWirelessClientTypes.OnboardStatus? = nil
     )
@@ -6697,7 +6697,7 @@ public struct ListEventConfigurationsInput {
     public var resourceType: IoTWirelessClientTypes.EventNotificationResourceType?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.EventNotificationResourceType? = nil
     )
@@ -6731,7 +6731,7 @@ public struct ListFuotaTasksInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6763,7 +6763,7 @@ public struct ListMulticastGroupsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6823,7 +6823,7 @@ public struct ListMulticastGroupsByFuotaTaskInput {
 
     public init(
         id: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6872,7 +6872,7 @@ public struct ListNetworkAnalyzerConfigurationsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6924,7 +6924,7 @@ public struct ListPartnerAccountsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6959,7 +6959,7 @@ public struct ListPositionConfigurationsInput {
     public var resourceType: IoTWirelessClientTypes.PositionResourceType?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
     )
@@ -7028,7 +7028,7 @@ public struct ListQueuedMessagesInput {
 
     public init(
         id: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType? = nil
     )
@@ -7063,7 +7063,7 @@ public struct ListServiceProfilesInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7144,7 +7144,7 @@ public struct ListWirelessDeviceImportTasksInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7247,7 +7247,7 @@ public struct ListWirelessDevicesInput {
         destinationName: Swift.String? = nil,
         deviceProfileId: Swift.String? = nil,
         fuotaTaskId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         multicastGroupId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         serviceProfileId: Swift.String? = nil,
@@ -7396,7 +7396,7 @@ public struct ListWirelessGatewaysInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7492,7 +7492,7 @@ public struct ListWirelessGatewayTaskDefinitionsInput {
     public var taskDefinitionType: IoTWirelessClientTypes.WirelessGatewayTaskDefinitionType?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         taskDefinitionType: IoTWirelessClientTypes.WirelessGatewayTaskDefinitionType? = nil
     )
@@ -14354,7 +14354,7 @@ extension IoTWirelessClientTypes.DakCertificateMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.DakCertificateMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.DakCertificateMetadata()
-        value.certificateId = try reader["CertificateId"].readIfPresent()
+        value.certificateId = try reader["CertificateId"].readIfPresent() ?? ""
         value.maxAllowedSignature = try reader["MaxAllowedSignature"].readIfPresent()
         value.factorySupport = try reader["FactorySupport"].readIfPresent()
         value.apId = try reader["ApId"].readIfPresent()
@@ -14506,8 +14506,8 @@ extension IoTWirelessClientTypes.WirelessGatewayLogOption {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessGatewayLogOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.WirelessGatewayLogOption()
-        value.type = try reader["Type"].readIfPresent()
-        value.logLevel = try reader["LogLevel"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.logLevel = try reader["LogLevel"].readIfPresent() ?? .sdkUnknown("")
         value.events = try reader["Events"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.WirelessGatewayEventLogOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -14524,8 +14524,8 @@ extension IoTWirelessClientTypes.WirelessGatewayEventLogOption {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessGatewayEventLogOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.WirelessGatewayEventLogOption()
-        value.event = try reader["Event"].readIfPresent()
-        value.logLevel = try reader["LogLevel"].readIfPresent()
+        value.event = try reader["Event"].readIfPresent() ?? .sdkUnknown("")
+        value.logLevel = try reader["LogLevel"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14542,8 +14542,8 @@ extension IoTWirelessClientTypes.WirelessDeviceLogOption {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessDeviceLogOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.WirelessDeviceLogOption()
-        value.type = try reader["Type"].readIfPresent()
-        value.logLevel = try reader["LogLevel"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.logLevel = try reader["LogLevel"].readIfPresent() ?? .sdkUnknown("")
         value.events = try reader["Events"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.WirelessDeviceEventLogOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -14560,8 +14560,8 @@ extension IoTWirelessClientTypes.WirelessDeviceEventLogOption {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.WirelessDeviceEventLogOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.WirelessDeviceEventLogOption()
-        value.event = try reader["Event"].readIfPresent()
-        value.logLevel = try reader["LogLevel"].readIfPresent()
+        value.event = try reader["Event"].readIfPresent() ?? .sdkUnknown("")
+        value.logLevel = try reader["LogLevel"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15120,8 +15120,8 @@ extension IoTWirelessClientTypes.CertificateList {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.CertificateList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.CertificateList()
-        value.signingAlg = try reader["SigningAlg"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.signingAlg = try reader["SigningAlg"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15483,9 +15483,9 @@ extension IoTWirelessClientTypes.ParticipatingGateways {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.ParticipatingGateways {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.ParticipatingGateways()
-        value.downlinkMode = try reader["DownlinkMode"].readIfPresent()
-        value.gatewayList = try reader["GatewayList"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.GatewayListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.transmissionInterval = try reader["TransmissionInterval"].readIfPresent()
+        value.downlinkMode = try reader["DownlinkMode"].readIfPresent() ?? .sdkUnknown("")
+        value.gatewayList = try reader["GatewayList"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.GatewayListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.transmissionInterval = try reader["TransmissionInterval"].readIfPresent() ?? 0
         return value
     }
 }
@@ -15501,8 +15501,8 @@ extension IoTWirelessClientTypes.GatewayListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.GatewayListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.GatewayListItem()
-        value.gatewayId = try reader["GatewayId"].readIfPresent()
-        value.downlinkFrequency = try reader["DownlinkFrequency"].readIfPresent()
+        value.gatewayId = try reader["GatewayId"].readIfPresent() ?? ""
+        value.downlinkFrequency = try reader["DownlinkFrequency"].readIfPresent() ?? 0
         return value
     }
 }
@@ -15530,8 +15530,8 @@ extension IoTWirelessClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTWirelessClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

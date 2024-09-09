@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -6892,7 +6893,7 @@ extension BatchDeleteDevicePositionHistoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDeleteDevicePositionHistoryOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchDeleteDevicePositionHistoryError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchDeleteDevicePositionHistoryError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6904,7 +6905,7 @@ extension BatchDeleteGeofenceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDeleteGeofenceOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchDeleteGeofenceError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchDeleteGeofenceError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6916,7 +6917,7 @@ extension BatchEvaluateGeofencesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchEvaluateGeofencesOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchEvaluateGeofencesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchEvaluateGeofencesError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6928,8 +6929,8 @@ extension BatchGetDevicePositionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetDevicePositionOutput()
-        value.devicePositions = try reader["DevicePositions"].readListIfPresent(memberReadingClosure: LocationClientTypes.DevicePosition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchGetDevicePositionError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.devicePositions = try reader["DevicePositions"].readListIfPresent(memberReadingClosure: LocationClientTypes.DevicePosition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchGetDevicePositionError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6941,8 +6942,8 @@ extension BatchPutGeofenceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchPutGeofenceOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchPutGeofenceError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.successes = try reader["Successes"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchPutGeofenceSuccess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchPutGeofenceError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successes = try reader["Successes"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchPutGeofenceSuccess.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6954,7 +6955,7 @@ extension BatchUpdateDevicePositionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchUpdateDevicePositionOutput()
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchUpdateDevicePositionError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: LocationClientTypes.BatchUpdateDevicePositionError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6966,7 +6967,7 @@ extension CalculateRouteOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CalculateRouteOutput()
-        value.legs = try reader["Legs"].readListIfPresent(memberReadingClosure: LocationClientTypes.Leg.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.legs = try reader["Legs"].readListIfPresent(memberReadingClosure: LocationClientTypes.Leg.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.CalculateRouteSummary.read(from:))
         return value
     }
@@ -6979,7 +6980,7 @@ extension CalculateRouteMatrixOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CalculateRouteMatrixOutput()
-        value.routeMatrix = try reader["RouteMatrix"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: LocationClientTypes.RouteMatrixEntry.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.routeMatrix = try reader["RouteMatrix"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: LocationClientTypes.RouteMatrixEntry.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         value.snappedDeparturePositions = try reader["SnappedDeparturePositions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.snappedDestinationPositions = try reader["SnappedDestinationPositions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.CalculateRouteMatrixSummary.read(from:))
@@ -6994,9 +6995,9 @@ extension CreateGeofenceCollectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGeofenceCollectionOutput()
-        value.collectionArn = try reader["CollectionArn"].readIfPresent()
-        value.collectionName = try reader["CollectionName"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.collectionArn = try reader["CollectionArn"].readIfPresent() ?? ""
+        value.collectionName = try reader["CollectionName"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7008,10 +7009,10 @@ extension CreateKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateKeyOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.key = try reader["Key"].readIfPresent()
-        value.keyArn = try reader["KeyArn"].readIfPresent()
-        value.keyName = try reader["KeyName"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
+        value.keyName = try reader["KeyName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7023,9 +7024,9 @@ extension CreateMapOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateMapOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.mapArn = try reader["MapArn"].readIfPresent()
-        value.mapName = try reader["MapName"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.mapArn = try reader["MapArn"].readIfPresent() ?? ""
+        value.mapName = try reader["MapName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7037,9 +7038,9 @@ extension CreatePlaceIndexOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePlaceIndexOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.indexArn = try reader["IndexArn"].readIfPresent()
-        value.indexName = try reader["IndexName"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.indexArn = try reader["IndexArn"].readIfPresent() ?? ""
+        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7051,9 +7052,9 @@ extension CreateRouteCalculatorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRouteCalculatorOutput()
-        value.calculatorArn = try reader["CalculatorArn"].readIfPresent()
-        value.calculatorName = try reader["CalculatorName"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.calculatorArn = try reader["CalculatorArn"].readIfPresent() ?? ""
+        value.calculatorName = try reader["CalculatorName"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7065,9 +7066,9 @@ extension CreateTrackerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTrackerOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.trackerArn = try reader["TrackerArn"].readIfPresent()
-        value.trackerName = try reader["TrackerName"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.trackerArn = try reader["TrackerArn"].readIfPresent() ?? ""
+        value.trackerName = try reader["TrackerName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7121,14 +7122,14 @@ extension DescribeGeofenceCollectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeGeofenceCollectionOutput()
-        value.collectionArn = try reader["CollectionArn"].readIfPresent()
-        value.collectionName = try reader["CollectionName"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["Description"].readIfPresent()
+        value.collectionArn = try reader["CollectionArn"].readIfPresent() ?? ""
+        value.collectionName = try reader["CollectionName"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.geofenceCount = try reader["GeofenceCount"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7140,15 +7141,15 @@ extension DescribeKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeKeyOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
-        value.expireTime = try reader["ExpireTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.key = try reader["Key"].readIfPresent()
-        value.keyArn = try reader["KeyArn"].readIfPresent()
-        value.keyName = try reader["KeyName"].readIfPresent()
+        value.expireTime = try reader["ExpireTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
+        value.keyName = try reader["KeyName"].readIfPresent() ?? ""
         value.restrictions = try reader["Restrictions"].readIfPresent(with: LocationClientTypes.ApiKeyRestrictions.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7161,13 +7162,13 @@ extension DescribeMapOutput {
         let reader = responseReader
         var value = DescribeMapOutput()
         value.configuration = try reader["Configuration"].readIfPresent(with: LocationClientTypes.MapConfiguration.read(from:))
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.mapArn = try reader["MapArn"].readIfPresent()
-        value.mapName = try reader["MapName"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.mapArn = try reader["MapArn"].readIfPresent() ?? ""
+        value.mapName = try reader["MapName"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7179,14 +7180,14 @@ extension DescribePlaceIndexOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribePlaceIndexOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dataSource = try reader["DataSource"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
         value.dataSourceConfiguration = try reader["DataSourceConfiguration"].readIfPresent(with: LocationClientTypes.DataSourceConfiguration.read(from:))
-        value.description = try reader["Description"].readIfPresent()
-        value.indexArn = try reader["IndexArn"].readIfPresent()
-        value.indexName = try reader["IndexName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.indexArn = try reader["IndexArn"].readIfPresent() ?? ""
+        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7198,13 +7199,13 @@ extension DescribeRouteCalculatorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeRouteCalculatorOutput()
-        value.calculatorArn = try reader["CalculatorArn"].readIfPresent()
-        value.calculatorName = try reader["CalculatorName"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.calculatorArn = try reader["CalculatorArn"].readIfPresent() ?? ""
+        value.calculatorName = try reader["CalculatorName"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7216,16 +7217,16 @@ extension DescribeTrackerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeTrackerOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["Description"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.eventBridgeEnabled = try reader["EventBridgeEnabled"].readIfPresent()
         value.kmsKeyEnableGeospatialQueries = try reader["KmsKeyEnableGeospatialQueries"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.positionFiltering = try reader["PositionFiltering"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.trackerArn = try reader["TrackerArn"].readIfPresent()
-        value.trackerName = try reader["TrackerName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.trackerArn = try reader["TrackerArn"].readIfPresent() ?? ""
+        value.trackerName = try reader["TrackerName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7244,10 +7245,10 @@ extension ForecastGeofenceEventsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ForecastGeofenceEventsOutput()
-        value.distanceUnit = try reader["DistanceUnit"].readIfPresent()
-        value.forecastedEvents = try reader["ForecastedEvents"].readListIfPresent(memberReadingClosure: LocationClientTypes.ForecastedEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.forecastedEvents = try reader["ForecastedEvents"].readListIfPresent(memberReadingClosure: LocationClientTypes.ForecastedEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.speedUnit = try reader["SpeedUnit"].readIfPresent()
+        value.speedUnit = try reader["SpeedUnit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7261,10 +7262,10 @@ extension GetDevicePositionOutput {
         var value = GetDevicePositionOutput()
         value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
         value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.positionProperties = try reader["PositionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7276,7 +7277,7 @@ extension GetDevicePositionHistoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDevicePositionHistoryOutput()
-        value.devicePositions = try reader["DevicePositions"].readListIfPresent(memberReadingClosure: LocationClientTypes.DevicePosition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.devicePositions = try reader["DevicePositions"].readListIfPresent(memberReadingClosure: LocationClientTypes.DevicePosition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7289,12 +7290,12 @@ extension GetGeofenceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGeofenceOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
         value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.GeofenceGeometry.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7406,7 +7407,7 @@ extension ListDevicePositionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDevicePositionsOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListDevicePositionsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListDevicePositionsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7419,7 +7420,7 @@ extension ListGeofenceCollectionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGeofenceCollectionsOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListGeofenceCollectionsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListGeofenceCollectionsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7432,7 +7433,7 @@ extension ListGeofencesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGeofencesOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListGeofenceResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListGeofenceResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7445,7 +7446,7 @@ extension ListKeysOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListKeysOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListKeysResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListKeysResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7458,7 +7459,7 @@ extension ListMapsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMapsOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListMapsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListMapsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7471,7 +7472,7 @@ extension ListPlaceIndexesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListPlaceIndexesOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListPlaceIndexesResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListPlaceIndexesResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7484,7 +7485,7 @@ extension ListRouteCalculatorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListRouteCalculatorsOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListRouteCalculatorsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListRouteCalculatorsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7509,7 +7510,7 @@ extension ListTrackerConsumersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTrackerConsumersOutput()
-        value.consumerArns = try reader["ConsumerArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.consumerArns = try reader["ConsumerArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7522,7 +7523,7 @@ extension ListTrackersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTrackersOutput()
-        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListTrackersResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListTrackersResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7535,9 +7536,9 @@ extension PutGeofenceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutGeofenceOutput()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7549,7 +7550,7 @@ extension SearchPlaceIndexForPositionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchPlaceIndexForPositionOutput()
-        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: LocationClientTypes.SearchForPositionResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: LocationClientTypes.SearchForPositionResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.SearchPlaceIndexForPositionSummary.read(from:))
         return value
     }
@@ -7562,7 +7563,7 @@ extension SearchPlaceIndexForSuggestionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchPlaceIndexForSuggestionsOutput()
-        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: LocationClientTypes.SearchForSuggestionsResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: LocationClientTypes.SearchForSuggestionsResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.SearchPlaceIndexForSuggestionsSummary.read(from:))
         return value
     }
@@ -7575,7 +7576,7 @@ extension SearchPlaceIndexForTextOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchPlaceIndexForTextOutput()
-        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: LocationClientTypes.SearchForTextResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: LocationClientTypes.SearchForTextResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.SearchPlaceIndexForTextSummary.read(from:))
         return value
     }
@@ -7602,9 +7603,9 @@ extension UpdateGeofenceCollectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateGeofenceCollectionOutput()
-        value.collectionArn = try reader["CollectionArn"].readIfPresent()
-        value.collectionName = try reader["CollectionName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.collectionArn = try reader["CollectionArn"].readIfPresent() ?? ""
+        value.collectionName = try reader["CollectionName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7616,9 +7617,9 @@ extension UpdateKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateKeyOutput()
-        value.keyArn = try reader["KeyArn"].readIfPresent()
-        value.keyName = try reader["KeyName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
+        value.keyName = try reader["KeyName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7630,9 +7631,9 @@ extension UpdateMapOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateMapOutput()
-        value.mapArn = try reader["MapArn"].readIfPresent()
-        value.mapName = try reader["MapName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.mapArn = try reader["MapArn"].readIfPresent() ?? ""
+        value.mapName = try reader["MapName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7644,9 +7645,9 @@ extension UpdatePlaceIndexOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdatePlaceIndexOutput()
-        value.indexArn = try reader["IndexArn"].readIfPresent()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.indexArn = try reader["IndexArn"].readIfPresent() ?? ""
+        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7658,9 +7659,9 @@ extension UpdateRouteCalculatorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateRouteCalculatorOutput()
-        value.calculatorArn = try reader["CalculatorArn"].readIfPresent()
-        value.calculatorName = try reader["CalculatorName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.calculatorArn = try reader["CalculatorArn"].readIfPresent() ?? ""
+        value.calculatorName = try reader["CalculatorName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7672,9 +7673,9 @@ extension UpdateTrackerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateTrackerOutput()
-        value.trackerArn = try reader["TrackerArn"].readIfPresent()
-        value.trackerName = try reader["TrackerName"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.trackerArn = try reader["TrackerArn"].readIfPresent() ?? ""
+        value.trackerName = try reader["TrackerName"].readIfPresent() ?? ""
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7686,11 +7687,11 @@ extension VerifyDevicePositionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = VerifyDevicePositionOutput()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.distanceUnit = try reader["DistanceUnit"].readIfPresent()
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
         value.inferredState = try reader["InferredState"].readIfPresent(with: LocationClientTypes.InferredState.read(from:))
-        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8782,7 +8783,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8795,7 +8796,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8808,9 +8809,9 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: LocationClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: LocationClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8823,7 +8824,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8836,7 +8837,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8849,7 +8850,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8862,7 +8863,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8875,7 +8876,7 @@ extension LocationClientTypes.BatchDeleteDevicePositionHistoryError {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteDevicePositionHistoryError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchDeleteDevicePositionHistoryError()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
         value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
         return value
     }
@@ -8897,7 +8898,7 @@ extension LocationClientTypes.BatchDeleteGeofenceError {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteGeofenceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchDeleteGeofenceError()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
         value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
         return value
     }
@@ -8908,8 +8909,8 @@ extension LocationClientTypes.BatchEvaluateGeofencesError {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchEvaluateGeofencesError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchEvaluateGeofencesError()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
         return value
     }
@@ -8920,7 +8921,7 @@ extension LocationClientTypes.BatchGetDevicePositionError {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchGetDevicePositionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchGetDevicePositionError()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
         value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
         return value
     }
@@ -8932,9 +8933,9 @@ extension LocationClientTypes.DevicePosition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.DevicePosition()
         value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
         value.positionProperties = try reader["PositionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -8951,7 +8952,7 @@ extension LocationClientTypes.PositionalAccuracy {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.PositionalAccuracy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.PositionalAccuracy()
-        value.horizontal = try reader["Horizontal"].readIfPresent()
+        value.horizontal = try reader["Horizontal"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -8961,9 +8962,9 @@ extension LocationClientTypes.BatchPutGeofenceSuccess {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceSuccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchPutGeofenceSuccess()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8973,7 +8974,7 @@ extension LocationClientTypes.BatchPutGeofenceError {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchPutGeofenceError()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
         value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
         return value
     }
@@ -8984,8 +8985,8 @@ extension LocationClientTypes.BatchUpdateDevicePositionError {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchUpdateDevicePositionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.BatchUpdateDevicePositionError()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
         return value
     }
@@ -8996,12 +8997,12 @@ extension LocationClientTypes.Leg {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Leg {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.Leg()
-        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.distance = try reader["Distance"].readIfPresent()
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent()
+        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
         value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.LegGeometry.read(from:))
-        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: LocationClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: LocationClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9011,10 +9012,10 @@ extension LocationClientTypes.Step {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Step {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.Step()
-        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.distance = try reader["Distance"].readIfPresent()
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent()
+        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
         value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
         return value
     }
@@ -9035,11 +9036,11 @@ extension LocationClientTypes.CalculateRouteSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.CalculateRouteSummary()
-        value.routeBBox = try reader["RouteBBox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.distance = try reader["Distance"].readIfPresent()
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent()
-        value.distanceUnit = try reader["DistanceUnit"].readIfPresent()
+        value.routeBBox = try reader["RouteBBox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9061,7 +9062,7 @@ extension LocationClientTypes.RouteMatrixEntryError {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.RouteMatrixEntryError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.RouteMatrixEntryError()
-        value.code = try reader["Code"].readIfPresent()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["Message"].readIfPresent()
         return value
     }
@@ -9072,10 +9073,10 @@ extension LocationClientTypes.CalculateRouteMatrixSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteMatrixSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.CalculateRouteMatrixSummary()
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.routeCount = try reader["RouteCount"].readIfPresent()
-        value.errorCount = try reader["ErrorCount"].readIfPresent()
-        value.distanceUnit = try reader["DistanceUnit"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.routeCount = try reader["RouteCount"].readIfPresent() ?? 0
+        value.errorCount = try reader["ErrorCount"].readIfPresent() ?? 0
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9092,8 +9093,8 @@ extension LocationClientTypes.ApiKeyRestrictions {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ApiKeyRestrictions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ApiKeyRestrictions()
-        value.allowActions = try reader["AllowActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowResources = try reader["AllowResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowActions = try reader["AllowActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowResources = try reader["AllowResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowReferers = try reader["AllowReferers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9111,7 +9112,7 @@ extension LocationClientTypes.MapConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.MapConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.MapConfiguration()
-        value.style = try reader["Style"].readIfPresent()
+        value.style = try reader["Style"].readIfPresent() ?? ""
         value.politicalView = try reader["PoliticalView"].readIfPresent()
         value.customLayers = try reader["CustomLayers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9138,11 +9139,11 @@ extension LocationClientTypes.ForecastedEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ForecastedEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ForecastedEvent()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
-        value.isDeviceInGeofence = try reader["IsDeviceInGeofence"].readIfPresent()
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
+        value.isDeviceInGeofence = try reader["IsDeviceInGeofence"].readIfPresent() ?? false
         value.nearestDistance = try reader["NearestDistance"].readIfPresent() ?? 0
-        value.eventType = try reader["EventType"].readIfPresent()
+        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
         value.forecastedBreachTime = try reader["ForecastedBreachTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -9179,8 +9180,8 @@ extension LocationClientTypes.Circle {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Circle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.Circle()
-        value.center = try reader["Center"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.radius = try reader["Radius"].readIfPresent()
+        value.center = try reader["Center"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.radius = try reader["Radius"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -9216,7 +9217,7 @@ extension LocationClientTypes.TimeZone {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.TimeZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.TimeZone()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.offset = try reader["Offset"].readIfPresent()
         return value
     }
@@ -9237,9 +9238,9 @@ extension LocationClientTypes.ListDevicePositionsResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListDevicePositionsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListDevicePositionsResponseEntry()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
         value.positionProperties = try reader["PositionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -9251,10 +9252,10 @@ extension LocationClientTypes.ListGeofenceCollectionsResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListGeofenceCollectionsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListGeofenceCollectionsResponseEntry()
-        value.collectionName = try reader["CollectionName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.collectionName = try reader["CollectionName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9264,11 +9265,11 @@ extension LocationClientTypes.ListGeofenceResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListGeofenceResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListGeofenceResponseEntry()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent()
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
         value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.GeofenceGeometry.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9279,12 +9280,12 @@ extension LocationClientTypes.ListKeysResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListKeysResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListKeysResponseEntry()
-        value.keyName = try reader["KeyName"].readIfPresent()
-        value.expireTime = try reader["ExpireTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.keyName = try reader["KeyName"].readIfPresent() ?? ""
+        value.expireTime = try reader["ExpireTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.restrictions = try reader["Restrictions"].readIfPresent(with: LocationClientTypes.ApiKeyRestrictions.read(from:))
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9294,11 +9295,11 @@ extension LocationClientTypes.ListMapsResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListMapsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListMapsResponseEntry()
-        value.mapName = try reader["MapName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.mapName = try reader["MapName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9308,11 +9309,11 @@ extension LocationClientTypes.ListPlaceIndexesResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListPlaceIndexesResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListPlaceIndexesResponseEntry()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9322,11 +9323,11 @@ extension LocationClientTypes.ListRouteCalculatorsResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListRouteCalculatorsResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListRouteCalculatorsResponseEntry()
-        value.calculatorName = try reader["CalculatorName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.calculatorName = try reader["CalculatorName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9336,10 +9337,10 @@ extension LocationClientTypes.ListTrackersResponseEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListTrackersResponseEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ListTrackersResponseEntry()
-        value.trackerName = try reader["TrackerName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.trackerName = try reader["TrackerName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9349,9 +9350,9 @@ extension LocationClientTypes.SearchPlaceIndexForPositionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForPositionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.SearchPlaceIndexForPositionSummary()
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.maxResults = try reader["MaxResults"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
         value.language = try reader["Language"].readIfPresent()
         return value
     }
@@ -9363,7 +9364,7 @@ extension LocationClientTypes.SearchForPositionResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.SearchForPositionResult()
         value.place = try reader["Place"].readIfPresent(with: LocationClientTypes.Place.read(from:))
-        value.distance = try reader["Distance"].readIfPresent()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
         value.placeId = try reader["PlaceId"].readIfPresent()
         return value
     }
@@ -9374,12 +9375,12 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForSuggestionsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.SearchPlaceIndexForSuggestionsSummary()
-        value.text = try reader["Text"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
         value.biasPosition = try reader["BiasPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterBBox = try reader["FilterBBox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterCountries = try reader["FilterCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.maxResults = try reader["MaxResults"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
         value.language = try reader["Language"].readIfPresent()
         value.filterCategories = try reader["FilterCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9391,7 +9392,7 @@ extension LocationClientTypes.SearchForSuggestionsResult {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForSuggestionsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.SearchForSuggestionsResult()
-        value.text = try reader["Text"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
         value.placeId = try reader["PlaceId"].readIfPresent()
         value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supplementalCategories = try reader["SupplementalCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9404,13 +9405,13 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForTextSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.SearchPlaceIndexForTextSummary()
-        value.text = try reader["Text"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
         value.biasPosition = try reader["BiasPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterBBox = try reader["FilterBBox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterCountries = try reader["FilterCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.maxResults = try reader["MaxResults"].readIfPresent()
         value.resultBBox = try reader["ResultBBox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataSource = try reader["DataSource"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
         value.language = try reader["Language"].readIfPresent()
         value.filterCategories = try reader["FilterCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9438,7 +9439,7 @@ extension LocationClientTypes.InferredState {
         value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
         value.deviationDistance = try reader["DeviationDistance"].readIfPresent()
-        value.proxyDetected = try reader["ProxyDetected"].readIfPresent()
+        value.proxyDetected = try reader["ProxyDetected"].readIfPresent() ?? false
         return value
     }
 }
@@ -9448,8 +9449,8 @@ extension LocationClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LocationClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

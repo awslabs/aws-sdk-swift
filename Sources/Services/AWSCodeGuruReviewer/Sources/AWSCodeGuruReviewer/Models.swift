@@ -2828,7 +2828,7 @@ extension CodeGuruReviewerClientTypes.CodeArtifacts {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.CodeArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruReviewerClientTypes.CodeArtifacts()
-        value.sourceCodeArtifactsObjectKey = try reader["SourceCodeArtifactsObjectKey"].readIfPresent()
+        value.sourceCodeArtifactsObjectKey = try reader["SourceCodeArtifactsObjectKey"].readIfPresent() ?? ""
         value.buildArtifactsObjectKey = try reader["BuildArtifactsObjectKey"].readIfPresent()
         return value
     }
@@ -2960,7 +2960,7 @@ extension CodeGuruReviewerClientTypes.S3BucketRepository {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.S3BucketRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruReviewerClientTypes.S3BucketRepository()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.details = try reader["Details"].readIfPresent(with: CodeGuruReviewerClientTypes.S3RepositoryDetails.read(from:))
         return value
     }
@@ -2977,8 +2977,8 @@ extension CodeGuruReviewerClientTypes.BranchDiffSourceCodeType {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.BranchDiffSourceCodeType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruReviewerClientTypes.BranchDiffSourceCodeType()
-        value.sourceBranchName = try reader["SourceBranchName"].readIfPresent()
-        value.destinationBranchName = try reader["DestinationBranchName"].readIfPresent()
+        value.sourceBranchName = try reader["SourceBranchName"].readIfPresent() ?? ""
+        value.destinationBranchName = try reader["DestinationBranchName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2993,7 +2993,7 @@ extension CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType()
-        value.branchName = try reader["BranchName"].readIfPresent()
+        value.branchName = try reader["BranchName"].readIfPresent() ?? ""
         return value
     }
 }

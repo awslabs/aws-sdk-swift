@@ -2729,8 +2729,8 @@ extension MediaPackageVodClientTypes.Authorization {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.Authorization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.Authorization()
-        value.cdnIdentifierSecret = try reader["cdnIdentifierSecret"].readIfPresent()
-        value.secretsRoleArn = try reader["secretsRoleArn"].readIfPresent()
+        value.cdnIdentifierSecret = try reader["cdnIdentifierSecret"].readIfPresent() ?? ""
+        value.secretsRoleArn = try reader["secretsRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2776,7 +2776,7 @@ extension MediaPackageVodClientTypes.CmafPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.CmafPackage()
         value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.CmafEncryption.read(from:))
-        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.includeEncoderConfigurationInSegments = try reader["includeEncoderConfigurationInSegments"].readIfPresent()
         value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
         return value
@@ -2858,9 +2858,9 @@ extension MediaPackageVodClientTypes.SpekeKeyProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.SpekeKeyProvider()
         value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaPackageVodClientTypes.EncryptionContractConfiguration.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.url = try reader["url"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.url = try reader["url"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2876,8 +2876,8 @@ extension MediaPackageVodClientTypes.EncryptionContractConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EncryptionContractConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.EncryptionContractConfiguration()
-        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent()
-        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent()
+        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
+        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2898,7 +2898,7 @@ extension MediaPackageVodClientTypes.DashPackage {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.DashPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.DashPackage()
-        value.dashManifests = try reader["dashManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.DashManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dashManifests = try reader["dashManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.DashManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.DashEncryption.read(from:))
         value.includeEncoderConfigurationInSegments = try reader["includeEncoderConfigurationInSegments"].readIfPresent()
         value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
@@ -2964,7 +2964,7 @@ extension MediaPackageVodClientTypes.HlsPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.HlsPackage()
         value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.HlsEncryption.read(from:))
-        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.includeDvbSubtitles = try reader["includeDvbSubtitles"].readIfPresent()
         value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
         value.useAudioRenditionGroup = try reader["useAudioRenditionGroup"].readIfPresent()
@@ -3004,7 +3004,7 @@ extension MediaPackageVodClientTypes.MssPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageVodClientTypes.MssPackage()
         value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.MssEncryption.read(from:))
-        value.mssManifests = try reader["mssManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.MssManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mssManifests = try reader["mssManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.MssManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
         return value
     }

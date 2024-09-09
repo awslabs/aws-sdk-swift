@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteComponentOutput {
 
@@ -1193,7 +1194,7 @@ extension GreengrassV2ClientTypes {
         public var permission: GreengrassV2ClientTypes.LambdaFilesystemPermission?
 
         public init(
-            addGroupOwner: Swift.Bool? = nil,
+            addGroupOwner: Swift.Bool? = false,
             path: Swift.String? = nil,
             permission: GreengrassV2ClientTypes.LambdaFilesystemPermission? = nil
         )
@@ -1221,7 +1222,7 @@ extension GreengrassV2ClientTypes {
         public var sourcePath: Swift.String?
 
         public init(
-            addGroupOwner: Swift.Bool? = nil,
+            addGroupOwner: Swift.Bool? = false,
             destinationPath: Swift.String? = nil,
             permission: GreengrassV2ClientTypes.LambdaFilesystemPermission? = nil,
             sourcePath: Swift.String? = nil
@@ -1250,8 +1251,8 @@ extension GreengrassV2ClientTypes {
 
         public init(
             devices: [GreengrassV2ClientTypes.LambdaDeviceMount]? = nil,
-            memorySizeInKB: Swift.Int? = nil,
-            mountROSysfs: Swift.Bool? = nil,
+            memorySizeInKB: Swift.Int? = 0,
+            mountROSysfs: Swift.Bool? = false,
             volumes: [GreengrassV2ClientTypes.LambdaVolumeMount]? = nil
         )
         {
@@ -1352,12 +1353,12 @@ extension GreengrassV2ClientTypes {
             execArgs: [Swift.String]? = nil,
             inputPayloadEncodingType: GreengrassV2ClientTypes.LambdaInputPayloadEncodingType? = nil,
             linuxProcessParams: GreengrassV2ClientTypes.LambdaLinuxProcessParams? = nil,
-            maxIdleTimeInSeconds: Swift.Int? = nil,
-            maxInstancesCount: Swift.Int? = nil,
-            maxQueueSize: Swift.Int? = nil,
-            pinned: Swift.Bool? = nil,
-            statusTimeoutInSeconds: Swift.Int? = nil,
-            timeoutInSeconds: Swift.Int? = nil
+            maxIdleTimeInSeconds: Swift.Int? = 0,
+            maxInstancesCount: Swift.Int? = 0,
+            maxQueueSize: Swift.Int? = 0,
+            pinned: Swift.Bool? = false,
+            statusTimeoutInSeconds: Swift.Int? = 0,
+            timeoutInSeconds: Swift.Int? = 0
         )
         {
             self.environmentVariables = environmentVariables
@@ -1515,7 +1516,7 @@ extension GreengrassV2ClientTypes {
 
         public init(
             action: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicyAction? = nil,
-            timeoutInSeconds: Swift.Int? = nil
+            timeoutInSeconds: Swift.Int? = 0
         )
         {
             self.action = action
@@ -1532,7 +1533,7 @@ extension GreengrassV2ClientTypes {
         public var timeoutInSeconds: Swift.Int?
 
         public init(
-            timeoutInSeconds: Swift.Int? = nil
+            timeoutInSeconds: Swift.Int? = 0
         )
         {
             self.timeoutInSeconds = timeoutInSeconds
@@ -1782,7 +1783,7 @@ extension GreengrassV2ClientTypes {
         public var inProgressTimeoutInMinutes: Swift.Int?
 
         public init(
-            inProgressTimeoutInMinutes: Swift.Int? = nil
+            inProgressTimeoutInMinutes: Swift.Int? = 0
         )
         {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
@@ -3767,9 +3768,9 @@ extension CreateComponentVersionOutput {
         let reader = responseReader
         var value = CreateComponentVersionOutput()
         value.arn = try reader["arn"].readIfPresent()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.componentVersion = try reader["componentVersion"].readIfPresent()
-        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.componentName = try reader["componentName"].readIfPresent() ?? ""
+        value.componentVersion = try reader["componentVersion"].readIfPresent() ?? ""
+        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent(with: GreengrassV2ClientTypes.CloudComponentStatus.read(from:))
         return value
     }
@@ -3849,8 +3850,8 @@ extension GetComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetComponentOutput()
-        value.recipe = try reader["recipe"].readIfPresent()
-        value.recipeOutputFormat = try reader["recipeOutputFormat"].readIfPresent()
+        value.recipe = try reader["recipe"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.recipeOutputFormat = try reader["recipeOutputFormat"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3863,7 +3864,7 @@ extension GetComponentVersionArtifactOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetComponentVersionArtifactOutput()
-        value.preSignedUrl = try reader["preSignedUrl"].readIfPresent()
+        value.preSignedUrl = try reader["preSignedUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4594,7 +4595,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4608,7 +4609,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: GreengrassV2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4626,7 +4627,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4641,7 +4642,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4654,9 +4655,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4669,9 +4670,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4684,7 +4685,7 @@ extension RequestAlreadyInProgressException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestAlreadyInProgressException {
         let reader = baseError.errorBodyReader
         var value = RequestAlreadyInProgressException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4697,11 +4698,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4797,7 +4798,7 @@ extension GreengrassV2ClientTypes.ComponentDeploymentSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentDeploymentSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassV2ClientTypes.ComponentDeploymentSpecification()
-        value.componentVersion = try reader["componentVersion"].readIfPresent()
+        value.componentVersion = try reader["componentVersion"].readIfPresent() ?? ""
         value.configurationUpdate = try reader["configurationUpdate"].readIfPresent(with: GreengrassV2ClientTypes.ComponentConfigurationUpdate.read(from:))
         value.runWith = try reader["runWith"].readIfPresent(with: GreengrassV2ClientTypes.ComponentRunWith.read(from:))
         return value
@@ -4952,7 +4953,7 @@ extension GreengrassV2ClientTypes.IoTJobAbortConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.IoTJobAbortConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassV2ClientTypes.IoTJobAbortConfig()
-        value.criteriaList = try reader["criteriaList"].readListIfPresent(memberReadingClosure: GreengrassV2ClientTypes.IoTJobAbortCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.criteriaList = try reader["criteriaList"].readListIfPresent(memberReadingClosure: GreengrassV2ClientTypes.IoTJobAbortCriteria.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4970,10 +4971,10 @@ extension GreengrassV2ClientTypes.IoTJobAbortCriteria {
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.IoTJobAbortCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassV2ClientTypes.IoTJobAbortCriteria()
-        value.failureType = try reader["failureType"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.failureType = try reader["failureType"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         value.thresholdPercentage = try reader["thresholdPercentage"].readIfPresent() ?? 0
-        value.minNumberOfExecutedThings = try reader["minNumberOfExecutedThings"].readIfPresent()
+        value.minNumberOfExecutedThings = try reader["minNumberOfExecutedThings"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5007,8 +5008,8 @@ extension GreengrassV2ClientTypes.IoTJobExponentialRolloutRate {
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.IoTJobExponentialRolloutRate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassV2ClientTypes.IoTJobExponentialRolloutRate()
-        value.baseRatePerMinute = try reader["baseRatePerMinute"].readIfPresent()
-        value.incrementFactor = try reader["incrementFactor"].readIfPresent()
+        value.baseRatePerMinute = try reader["baseRatePerMinute"].readIfPresent() ?? 0
+        value.incrementFactor = try reader["incrementFactor"].readIfPresent() ?? 0.0
         value.rateIncreaseCriteria = try reader["rateIncreaseCriteria"].readIfPresent(with: GreengrassV2ClientTypes.IoTJobRateIncreaseCriteria.read(from:))
         return value
     }
@@ -5115,16 +5116,16 @@ extension GreengrassV2ClientTypes.EffectiveDeployment {
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.EffectiveDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassV2ClientTypes.EffectiveDeployment()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.deploymentName = try reader["deploymentName"].readIfPresent()
+        value.deploymentId = try reader["deploymentId"].readIfPresent() ?? ""
+        value.deploymentName = try reader["deploymentName"].readIfPresent() ?? ""
         value.iotJobId = try reader["iotJobId"].readIfPresent()
         value.iotJobArn = try reader["iotJobArn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.targetArn = try reader["targetArn"].readIfPresent()
-        value.coreDeviceExecutionStatus = try reader["coreDeviceExecutionStatus"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
+        value.coreDeviceExecutionStatus = try reader["coreDeviceExecutionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.reason = try reader["reason"].readIfPresent()
-        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedTimestamp = try reader["modifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedTimestamp = try reader["modifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.statusDetails = try reader["statusDetails"].readIfPresent(with: GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails.read(from:))
         return value
     }
@@ -5179,8 +5180,8 @@ extension GreengrassV2ClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GreengrassV2ClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

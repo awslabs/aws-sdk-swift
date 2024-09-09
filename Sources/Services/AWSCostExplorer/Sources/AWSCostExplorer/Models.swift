@@ -4853,7 +4853,7 @@ public struct ListSavingsPlansPurchaseRecommendationGenerationInput {
     public init(
         generationStatus: CostExplorerClientTypes.GenerationStatus? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         recommendationIds: [Swift.String]? = nil
     )
     {
@@ -6203,7 +6203,7 @@ public struct GetReservationPurchaseRecommendationInput {
         filter: CostExplorerClientTypes.Expression? = nil,
         lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
         service: Swift.String? = nil,
         serviceSpecification: CostExplorerClientTypes.ServiceSpecification? = nil,
@@ -6389,7 +6389,7 @@ public struct GetRightsizingRecommendationInput {
         configuration: CostExplorerClientTypes.RightsizingRecommendationConfiguration? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         service: Swift.String? = nil
     )
     {
@@ -6497,7 +6497,7 @@ public struct GetSavingsPlansPurchaseRecommendationInput {
         filter: CostExplorerClientTypes.Expression? = nil,
         lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
         nextPageToken: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
         savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
         termInYears: CostExplorerClientTypes.TermInYears? = nil
@@ -7863,7 +7863,7 @@ extension CreateAnomalyMonitorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAnomalyMonitorOutput()
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
+        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7875,7 +7875,7 @@ extension CreateAnomalySubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAnomalySubscriptionOutput()
-        value.subscriptionArn = try reader["SubscriptionArn"].readIfPresent()
+        value.subscriptionArn = try reader["SubscriptionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7939,7 +7939,7 @@ extension GetAnomaliesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAnomaliesOutput()
-        value.anomalies = try reader["Anomalies"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Anomaly.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.anomalies = try reader["Anomalies"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Anomaly.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
         return value
     }
@@ -7952,7 +7952,7 @@ extension GetAnomalyMonitorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAnomalyMonitorsOutput()
-        value.anomalyMonitors = try reader["AnomalyMonitors"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.AnomalyMonitor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.anomalyMonitors = try reader["AnomalyMonitors"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.AnomalyMonitor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
         return value
     }
@@ -7965,7 +7965,7 @@ extension GetAnomalySubscriptionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAnomalySubscriptionsOutput()
-        value.anomalySubscriptions = try reader["AnomalySubscriptions"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.AnomalySubscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.anomalySubscriptions = try reader["AnomalySubscriptions"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.AnomalySubscription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
         return value
     }
@@ -8025,8 +8025,8 @@ extension GetCostCategoriesOutput {
         value.costCategoryNames = try reader["CostCategoryNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.costCategoryValues = try reader["CostCategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
-        value.returnSize = try reader["ReturnSize"].readIfPresent()
-        value.totalSize = try reader["TotalSize"].readIfPresent()
+        value.returnSize = try reader["ReturnSize"].readIfPresent() ?? 0
+        value.totalSize = try reader["TotalSize"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8051,10 +8051,10 @@ extension GetDimensionValuesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDimensionValuesOutput()
-        value.dimensionValues = try reader["DimensionValues"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.DimensionValuesWithAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dimensionValues = try reader["DimensionValues"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.DimensionValuesWithAttributes.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
-        value.returnSize = try reader["ReturnSize"].readIfPresent()
-        value.totalSize = try reader["TotalSize"].readIfPresent()
+        value.returnSize = try reader["ReturnSize"].readIfPresent() ?? 0
+        value.totalSize = try reader["TotalSize"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8066,7 +8066,7 @@ extension GetReservationCoverageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetReservationCoverageOutput()
-        value.coveragesByTime = try reader["CoveragesByTime"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CoverageByTime.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.coveragesByTime = try reader["CoveragesByTime"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CoverageByTime.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
         value.total = try reader["Total"].readIfPresent(with: CostExplorerClientTypes.Coverage.read(from:))
         return value
@@ -8096,7 +8096,7 @@ extension GetReservationUtilizationOutput {
         var value = GetReservationUtilizationOutput()
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
         value.total = try reader["Total"].readIfPresent(with: CostExplorerClientTypes.ReservationAggregates.read(from:))
-        value.utilizationsByTime = try reader["UtilizationsByTime"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.UtilizationByTime.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.utilizationsByTime = try reader["UtilizationsByTime"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.UtilizationByTime.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8138,7 +8138,7 @@ extension GetSavingsPlansCoverageOutput {
         let reader = responseReader
         var value = GetSavingsPlansCoverageOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.savingsPlansCoverages = try reader["SavingsPlansCoverages"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlansCoverage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.savingsPlansCoverages = try reader["SavingsPlansCoverages"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlansCoverage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8178,7 +8178,7 @@ extension GetSavingsPlansUtilizationDetailsOutput {
         let reader = responseReader
         var value = GetSavingsPlansUtilizationDetailsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.savingsPlansUtilizationDetails = try reader["SavingsPlansUtilizationDetails"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlansUtilizationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.savingsPlansUtilizationDetails = try reader["SavingsPlansUtilizationDetails"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlansUtilizationDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
         value.total = try reader["Total"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansUtilizationAggregates.read(from:))
         return value
@@ -8193,9 +8193,9 @@ extension GetTagsOutput {
         let reader = responseReader
         var value = GetTagsOutput()
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
-        value.returnSize = try reader["ReturnSize"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalSize = try reader["TotalSize"].readIfPresent()
+        value.returnSize = try reader["ReturnSize"].readIfPresent() ?? 0
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.totalSize = try reader["TotalSize"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8284,7 +8284,7 @@ extension ProvideAnomalyFeedbackOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ProvideAnomalyFeedbackOutput()
-        value.anomalyId = try reader["AnomalyId"].readIfPresent()
+        value.anomalyId = try reader["AnomalyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8336,7 +8336,7 @@ extension UpdateAnomalyMonitorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAnomalyMonitorOutput()
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
+        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8348,7 +8348,7 @@ extension UpdateAnomalySubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAnomalySubscriptionOutput()
-        value.subscriptionArn = try reader["SubscriptionArn"].readIfPresent()
+        value.subscriptionArn = try reader["SubscriptionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9194,12 +9194,12 @@ extension CostExplorerClientTypes.CostCategory {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.CostCategory()
-        value.costCategoryArn = try reader["CostCategoryArn"].readIfPresent()
-        value.effectiveStart = try reader["EffectiveStart"].readIfPresent()
+        value.costCategoryArn = try reader["CostCategoryArn"].readIfPresent() ?? ""
+        value.effectiveStart = try reader["EffectiveStart"].readIfPresent() ?? ""
         value.effectiveEnd = try reader["EffectiveEnd"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.ruleVersion = try reader["RuleVersion"].readIfPresent()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.ruleVersion = try reader["RuleVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.splitChargeRules = try reader["SplitChargeRules"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategorySplitChargeRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.processingStatus = try reader["ProcessingStatus"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryProcessingStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.defaultValue = try reader["DefaultValue"].readIfPresent()
@@ -9231,9 +9231,9 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRule {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategorySplitChargeRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.CostCategorySplitChargeRule()
-        value.source = try reader["Source"].readIfPresent()
-        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.method = try reader["Method"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.method = try reader["Method"].readIfPresent() ?? .sdkUnknown("")
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategorySplitChargeRuleParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9250,8 +9250,8 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRuleParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategorySplitChargeRuleParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.CostCategorySplitChargeRuleParameter()
-        value.type = try reader["Type"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9381,14 +9381,14 @@ extension CostExplorerClientTypes.Anomaly {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.Anomaly()
-        value.anomalyId = try reader["AnomalyId"].readIfPresent()
+        value.anomalyId = try reader["AnomalyId"].readIfPresent() ?? ""
         value.anomalyStartDate = try reader["AnomalyStartDate"].readIfPresent()
         value.anomalyEndDate = try reader["AnomalyEndDate"].readIfPresent()
         value.dimensionValue = try reader["DimensionValue"].readIfPresent()
         value.rootCauses = try reader["RootCauses"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.RootCause.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.anomalyScore = try reader["AnomalyScore"].readIfPresent(with: CostExplorerClientTypes.AnomalyScore.read(from:))
         value.impact = try reader["Impact"].readIfPresent(with: CostExplorerClientTypes.Impact.read(from:))
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
+        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
         value.feedback = try reader["Feedback"].readIfPresent()
         return value
     }
@@ -9452,11 +9452,11 @@ extension CostExplorerClientTypes.AnomalyMonitor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.AnomalyMonitor()
         value.monitorArn = try reader["MonitorArn"].readIfPresent()
-        value.monitorName = try reader["MonitorName"].readIfPresent()
+        value.monitorName = try reader["MonitorName"].readIfPresent() ?? ""
         value.creationDate = try reader["CreationDate"].readIfPresent()
         value.lastUpdatedDate = try reader["LastUpdatedDate"].readIfPresent()
         value.lastEvaluatedDate = try reader["LastEvaluatedDate"].readIfPresent()
-        value.monitorType = try reader["MonitorType"].readIfPresent()
+        value.monitorType = try reader["MonitorType"].readIfPresent() ?? .sdkUnknown("")
         value.monitorDimension = try reader["MonitorDimension"].readIfPresent()
         value.monitorSpecification = try reader["MonitorSpecification"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
         value.dimensionalValueCount = try reader["DimensionalValueCount"].readIfPresent() ?? 0
@@ -9483,11 +9483,11 @@ extension CostExplorerClientTypes.AnomalySubscription {
         var value = CostExplorerClientTypes.AnomalySubscription()
         value.subscriptionArn = try reader["SubscriptionArn"].readIfPresent()
         value.accountId = try reader["AccountId"].readIfPresent()
-        value.monitorArnList = try reader["MonitorArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subscribers = try reader["Subscribers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Subscriber.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitorArnList = try reader["MonitorArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribers = try reader["Subscribers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Subscriber.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.threshold = try reader["Threshold"].readIfPresent()
-        value.frequency = try reader["Frequency"].readIfPresent()
-        value.subscriptionName = try reader["SubscriptionName"].readIfPresent()
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
+        value.subscriptionName = try reader["SubscriptionName"].readIfPresent() ?? ""
         value.thresholdExpression = try reader["ThresholdExpression"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
         return value
     }
@@ -9523,8 +9523,8 @@ extension CostExplorerClientTypes.DateInterval {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DateInterval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.DateInterval()
-        value.start = try reader["Start"].readIfPresent()
-        value.end = try reader["End"].readIfPresent()
+        value.start = try reader["Start"].readIfPresent() ?? ""
+        value.end = try reader["End"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10133,7 +10133,7 @@ extension CostExplorerClientTypes.RightsizingRecommendationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.RightsizingRecommendationConfiguration()
-        value.recommendationTarget = try reader["RecommendationTarget"].readIfPresent()
+        value.recommendationTarget = try reader["RecommendationTarget"].readIfPresent() ?? .sdkUnknown("")
         value.benefitsConsidered = try reader["BenefitsConsidered"].readIfPresent() ?? false
         return value
     }
@@ -10396,9 +10396,9 @@ extension CostExplorerClientTypes.CostAllocationTag {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.CostAllocationTag()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.lastUpdatedDate = try reader["LastUpdatedDate"].readIfPresent()
         value.lastUsedDate = try reader["LastUsedDate"].readIfPresent()
         return value
@@ -10447,8 +10447,8 @@ extension CostExplorerClientTypes.ResourceTag {
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostExplorerClientTypes.ResourceTag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

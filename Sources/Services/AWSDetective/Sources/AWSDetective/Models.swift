@@ -602,7 +602,7 @@ public struct CreateMembersInput {
 
     public init(
         accounts: [DetectiveClientTypes.Account]? = nil,
-        disableEmailNotification: Swift.Bool? = nil,
+        disableEmailNotification: Swift.Bool? = false,
         graphArn: Swift.String? = nil,
         message: Swift.String? = nil
     )
@@ -2229,7 +2229,7 @@ public struct UpdateOrganizationConfigurationInput {
     public var graphArn: Swift.String?
 
     public init(
-        autoEnable: Swift.Bool? = nil,
+        autoEnable: Swift.Bool? = false,
         graphArn: Swift.String? = nil
     )
     {

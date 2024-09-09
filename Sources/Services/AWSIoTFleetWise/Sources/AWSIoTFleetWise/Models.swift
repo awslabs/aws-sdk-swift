@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have sufficient permission to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -6082,8 +6083,8 @@ extension CreateDecoderManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDecoderManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6095,8 +6096,8 @@ extension CreateFleetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFleetOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6108,8 +6109,8 @@ extension CreateModelManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6121,8 +6122,8 @@ extension CreateSignalCatalogOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSignalCatalogOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6161,8 +6162,8 @@ extension DeleteDecoderManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDecoderManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6187,8 +6188,8 @@ extension DeleteModelManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteModelManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6200,8 +6201,8 @@ extension DeleteSignalCatalogOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteSignalCatalogOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6213,8 +6214,8 @@ extension DeleteVehicleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteVehicleOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.vehicleName = try reader["vehicleName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.vehicleName = try reader["vehicleName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6263,13 +6264,13 @@ extension GetDecoderManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDecoderManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.message = try reader["message"].readIfPresent()
         value.modelManifestArn = try reader["modelManifestArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -6283,8 +6284,8 @@ extension GetEncryptionConfigurationOutput {
         let reader = responseReader
         var value = GetEncryptionConfigurationOutput()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.encryptionStatus = try reader["encryptionStatus"].readIfPresent()
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionStatus = try reader["encryptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -6299,12 +6300,12 @@ extension GetFleetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFleetOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6328,11 +6329,11 @@ extension GetModelManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetModelManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["name"].readIfPresent()
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
@@ -6346,11 +6347,11 @@ extension GetRegisterAccountStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRegisterAccountStatusOutput()
-        value.accountStatus = try reader["accountStatus"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.customerAccountId = try reader["customerAccountId"].readIfPresent()
+        value.accountStatus = try reader["accountStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customerAccountId = try reader["customerAccountId"].readIfPresent() ?? ""
         value.iamRegistrationResponse = try reader["iamRegistrationResponse"].readIfPresent(with: IoTFleetWiseClientTypes.IamRegistrationResponse.read(from:))
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.timestreamRegistrationResponse = try reader["timestreamRegistrationResponse"].readIfPresent(with: IoTFleetWiseClientTypes.TimestreamRegistrationResponse.read(from:))
         return value
     }
@@ -6363,11 +6364,11 @@ extension GetSignalCatalogOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSignalCatalogOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["name"].readIfPresent()
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.nodeCounts = try reader["nodeCounts"].readIfPresent(with: IoTFleetWiseClientTypes.NodeCounts.read(from:))
         return value
     }
@@ -6411,8 +6412,8 @@ extension ImportDecoderManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportDecoderManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6424,8 +6425,8 @@ extension ImportSignalCatalogOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportSignalCatalogOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6605,8 +6606,8 @@ extension PutEncryptionConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutEncryptionConfigurationOutput()
-        value.encryptionStatus = try reader["encryptionStatus"].readIfPresent()
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionStatus = try reader["encryptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
@@ -6626,10 +6627,10 @@ extension RegisterAccountOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RegisterAccountOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.iamResources = try reader["iamResources"].readIfPresent(with: IoTFleetWiseClientTypes.IamResources.read(from:))
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.registerAccountStatus = try reader["registerAccountStatus"].readIfPresent()
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.registerAccountStatus = try reader["registerAccountStatus"].readIfPresent() ?? .sdkUnknown("")
         value.timestreamResources = try reader["timestreamResources"].readIfPresent(with: IoTFleetWiseClientTypes.TimestreamResources.read(from:))
         return value
     }
@@ -6670,8 +6671,8 @@ extension UpdateDecoderManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateDecoderManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6696,8 +6697,8 @@ extension UpdateModelManifestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateModelManifestOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6709,8 +6710,8 @@ extension UpdateSignalCatalogOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateSignalCatalogOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7745,7 +7746,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -7761,7 +7762,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7775,7 +7776,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7792,7 +7793,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7805,9 +7806,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7820,9 +7821,9 @@ extension LimitExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7835,9 +7836,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resource = try reader["resource"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resource = try reader["resource"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7948,7 +7949,7 @@ extension IoTFleetWiseClientTypes.SignalInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.SignalInformation()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.maxSampleCount = try reader["maxSampleCount"].readIfPresent()
         value.minimumSamplingIntervalMs = try reader["minimumSamplingIntervalMs"].readIfPresent()
         return value
@@ -7996,7 +7997,7 @@ extension IoTFleetWiseClientTypes.ConditionBasedCollectionScheme {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ConditionBasedCollectionScheme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.ConditionBasedCollectionScheme()
-        value.expression = try reader["expression"].readIfPresent()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
         value.minimumTriggerIntervalMs = try reader["minimumTriggerIntervalMs"].readIfPresent()
         value.triggerMode = try reader["triggerMode"].readIfPresent()
         value.conditionLanguageVersion = try reader["conditionLanguageVersion"].readIfPresent()
@@ -8014,7 +8015,7 @@ extension IoTFleetWiseClientTypes.TimeBasedCollectionScheme {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimeBasedCollectionScheme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.TimeBasedCollectionScheme()
-        value.periodMs = try reader["periodMs"].readIfPresent()
+        value.periodMs = try reader["periodMs"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8058,8 +8059,8 @@ extension IoTFleetWiseClientTypes.TimestreamConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimestreamConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.TimestreamConfig()
-        value.timestreamTableArn = try reader["timestreamTableArn"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.timestreamTableArn = try reader["timestreamTableArn"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8077,7 +8078,7 @@ extension IoTFleetWiseClientTypes.S3Config {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.S3Config {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.S3Config()
-        value.bucketArn = try reader["bucketArn"].readIfPresent()
+        value.bucketArn = try reader["bucketArn"].readIfPresent() ?? ""
         value.dataFormat = try reader["dataFormat"].readIfPresent()
         value.storageCompressionFormat = try reader["storageCompressionFormat"].readIfPresent()
         value.`prefix` = try reader["prefix"].readIfPresent()
@@ -8096,7 +8097,7 @@ extension IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions()
-        value.logType = try reader["logType"].readIfPresent()
+        value.logType = try reader["logType"].readIfPresent() ?? .sdkUnknown("")
         value.logGroupName = try reader["logGroupName"].readIfPresent()
         return value
     }
@@ -8107,11 +8108,11 @@ extension IoTFleetWiseClientTypes.TimestreamRegistrationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimestreamRegistrationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.TimestreamRegistrationResponse()
-        value.timestreamDatabaseName = try reader["timestreamDatabaseName"].readIfPresent()
-        value.timestreamTableName = try reader["timestreamTableName"].readIfPresent()
+        value.timestreamDatabaseName = try reader["timestreamDatabaseName"].readIfPresent() ?? ""
+        value.timestreamTableName = try reader["timestreamTableName"].readIfPresent() ?? ""
         value.timestreamDatabaseArn = try reader["timestreamDatabaseArn"].readIfPresent()
         value.timestreamTableArn = try reader["timestreamTableArn"].readIfPresent()
-        value.registrationStatus = try reader["registrationStatus"].readIfPresent()
+        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
@@ -8122,8 +8123,8 @@ extension IoTFleetWiseClientTypes.IamRegistrationResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.IamRegistrationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.IamRegistrationResponse()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.registrationStatus = try reader["registrationStatus"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
@@ -8168,8 +8169,8 @@ extension IoTFleetWiseClientTypes.CampaignSummary {
         value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
         value.targetArn = try reader["targetArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8188,8 +8189,8 @@ extension IoTFleetWiseClientTypes.NetworkInterface {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.NetworkInterface()
-        value.interfaceId = try reader["interfaceId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.interfaceId = try reader["interfaceId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.canInterface = try reader["canInterface"].readIfPresent(with: IoTFleetWiseClientTypes.CanInterface.read(from:))
         value.obdInterface = try reader["obdInterface"].readIfPresent(with: IoTFleetWiseClientTypes.ObdInterface.read(from:))
         value.vehicleMiddleware = try reader["vehicleMiddleware"].readIfPresent(with: IoTFleetWiseClientTypes.VehicleMiddleware.read(from:))
@@ -8208,8 +8209,8 @@ extension IoTFleetWiseClientTypes.VehicleMiddleware {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleMiddleware {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.VehicleMiddleware()
-        value.name = try reader["name"].readIfPresent()
-        value.protocolName = try reader["protocolName"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.protocolName = try reader["protocolName"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8230,7 +8231,7 @@ extension IoTFleetWiseClientTypes.ObdInterface {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ObdInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.ObdInterface()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.requestMessageId = try reader["requestMessageId"].readIfPresent() ?? 0
         value.obdStandard = try reader["obdStandard"].readIfPresent()
         value.pidRequestIntervalSeconds = try reader["pidRequestIntervalSeconds"].readIfPresent() ?? 0
@@ -8253,7 +8254,7 @@ extension IoTFleetWiseClientTypes.CanInterface {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CanInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.CanInterface()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.protocolName = try reader["protocolName"].readIfPresent()
         value.protocolVersion = try reader["protocolVersion"].readIfPresent()
         return value
@@ -8270,8 +8271,8 @@ extension IoTFleetWiseClientTypes.DecoderManifestSummary {
         value.modelManifestArn = try reader["modelManifestArn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.message = try reader["message"].readIfPresent()
         return value
     }
@@ -8292,9 +8293,9 @@ extension IoTFleetWiseClientTypes.SignalDecoder {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalDecoder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.SignalDecoder()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.interfaceId = try reader["interfaceId"].readIfPresent()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.interfaceId = try reader["interfaceId"].readIfPresent() ?? ""
         value.canSignal = try reader["canSignal"].readIfPresent(with: IoTFleetWiseClientTypes.CanSignal.read(from:))
         value.obdSignal = try reader["obdSignal"].readIfPresent(with: IoTFleetWiseClientTypes.ObdSignal.read(from:))
         value.messageSignal = try reader["messageSignal"].readIfPresent(with: IoTFleetWiseClientTypes.MessageSignal.read(from:))
@@ -8313,7 +8314,7 @@ extension IoTFleetWiseClientTypes.MessageSignal {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.MessageSignal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.MessageSignal()
-        value.topicName = try reader["topicName"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent() ?? ""
         value.structuredMessage = try reader["structuredMessage"].readIfPresent(with: IoTFleetWiseClientTypes.StructuredMessage.read(from:))
         return value
     }
@@ -8362,7 +8363,7 @@ extension IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair()
-        value.fieldName = try reader["fieldName"].readIfPresent()
+        value.fieldName = try reader["fieldName"].readIfPresent() ?? ""
         value.dataType = try reader["dataType"].readIfPresent(with: IoTFleetWiseClientTypes.StructuredMessage.read(from:))
         return value
     }
@@ -8381,9 +8382,9 @@ extension IoTFleetWiseClientTypes.StructuredMessageListDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StructuredMessageListDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.StructuredMessageListDefinition()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.memberType = try reader["memberType"].readIfPresent(with: IoTFleetWiseClientTypes.StructuredMessage.read(from:))
-        value.listType = try reader["listType"].readIfPresent()
+        value.listType = try reader["listType"].readIfPresent() ?? .sdkUnknown("")
         value.capacity = try reader["capacity"].readIfPresent() ?? 0
         return value
     }
@@ -8426,7 +8427,7 @@ extension IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition()
-        value.primitiveType = try reader["primitiveType"].readIfPresent()
+        value.primitiveType = try reader["primitiveType"].readIfPresent() ?? .sdkUnknown("")
         value.offset = try reader["offset"].readIfPresent()
         value.scaling = try reader["scaling"].readIfPresent()
         value.upperBound = try reader["upperBound"].readIfPresent()
@@ -8452,13 +8453,13 @@ extension IoTFleetWiseClientTypes.ObdSignal {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ObdSignal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.ObdSignal()
-        value.pidResponseLength = try reader["pidResponseLength"].readIfPresent()
+        value.pidResponseLength = try reader["pidResponseLength"].readIfPresent() ?? 0
         value.serviceMode = try reader["serviceMode"].readIfPresent() ?? 0
         value.pid = try reader["pid"].readIfPresent() ?? 0
-        value.scaling = try reader["scaling"].readIfPresent()
-        value.offset = try reader["offset"].readIfPresent()
+        value.scaling = try reader["scaling"].readIfPresent() ?? 0.0
+        value.offset = try reader["offset"].readIfPresent() ?? 0.0
         value.startByte = try reader["startByte"].readIfPresent() ?? 0
-        value.byteLength = try reader["byteLength"].readIfPresent()
+        value.byteLength = try reader["byteLength"].readIfPresent() ?? 0
         value.bitRightShift = try reader["bitRightShift"].readIfPresent() ?? 0
         value.bitMaskLength = try reader["bitMaskLength"].readIfPresent()
         return value
@@ -8486,8 +8487,8 @@ extension IoTFleetWiseClientTypes.CanSignal {
         value.isBigEndian = try reader["isBigEndian"].readIfPresent() ?? false
         value.isSigned = try reader["isSigned"].readIfPresent() ?? false
         value.startBit = try reader["startBit"].readIfPresent() ?? 0
-        value.offset = try reader["offset"].readIfPresent()
-        value.factor = try reader["factor"].readIfPresent()
+        value.offset = try reader["offset"].readIfPresent() ?? 0.0
+        value.factor = try reader["factor"].readIfPresent() ?? 0.0
         value.length = try reader["length"].readIfPresent() ?? 0
         value.name = try reader["name"].readIfPresent()
         return value
@@ -8499,11 +8500,11 @@ extension IoTFleetWiseClientTypes.FleetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.FleetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.FleetSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -8569,8 +8570,8 @@ extension IoTFleetWiseClientTypes.CustomProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.CustomProperty()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
         value.dataEncoding = try reader["dataEncoding"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
@@ -8593,7 +8594,7 @@ extension IoTFleetWiseClientTypes.CustomStruct {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomStruct {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.CustomStruct()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
         value.comment = try reader["comment"].readIfPresent()
@@ -8621,8 +8622,8 @@ extension IoTFleetWiseClientTypes.Attribute {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Attribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.Attribute()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
         value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8656,8 +8657,8 @@ extension IoTFleetWiseClientTypes.Actuator {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Actuator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.Actuator()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
         value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8690,8 +8691,8 @@ extension IoTFleetWiseClientTypes.Sensor {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Sensor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.Sensor()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent()
-        value.dataType = try reader["dataType"].readIfPresent()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
         value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8717,7 +8718,7 @@ extension IoTFleetWiseClientTypes.Branch {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Branch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.Branch()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
         value.comment = try reader["comment"].readIfPresent()
@@ -8735,8 +8736,8 @@ extension IoTFleetWiseClientTypes.ModelManifestSummary {
         value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8765,8 +8766,8 @@ extension IoTFleetWiseClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8776,12 +8777,12 @@ extension IoTFleetWiseClientTypes.VehicleSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.VehicleSummary()
-        value.vehicleName = try reader["vehicleName"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.modelManifestArn = try reader["modelManifestArn"].readIfPresent()
-        value.decoderManifestArn = try reader["decoderManifestArn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vehicleName = try reader["vehicleName"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.modelManifestArn = try reader["modelManifestArn"].readIfPresent() ?? ""
+        value.decoderManifestArn = try reader["decoderManifestArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -8798,8 +8799,8 @@ extension IoTFleetWiseClientTypes.TimestreamResources {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimestreamResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.TimestreamResources()
-        value.timestreamDatabaseName = try reader["timestreamDatabaseName"].readIfPresent()
-        value.timestreamTableName = try reader["timestreamTableName"].readIfPresent()
+        value.timestreamDatabaseName = try reader["timestreamDatabaseName"].readIfPresent() ?? ""
+        value.timestreamTableName = try reader["timestreamTableName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8814,7 +8815,7 @@ extension IoTFleetWiseClientTypes.IamResources {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.IamResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.IamResources()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8824,8 +8825,8 @@ extension IoTFleetWiseClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTFleetWiseClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

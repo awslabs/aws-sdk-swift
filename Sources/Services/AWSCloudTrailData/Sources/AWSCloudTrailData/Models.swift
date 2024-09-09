@@ -322,8 +322,8 @@ extension PutAuditEventsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutAuditEventsOutput()
-        value.failed = try reader["failed"].readListIfPresent(memberReadingClosure: CloudTrailDataClientTypes.ResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: CloudTrailDataClientTypes.AuditEventResultEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failed = try reader["failed"].readListIfPresent(memberReadingClosure: CloudTrailDataClientTypes.ResultErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: CloudTrailDataClientTypes.AuditEventResultEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -430,8 +430,8 @@ extension CloudTrailDataClientTypes.AuditEventResultEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailDataClientTypes.AuditEventResultEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailDataClientTypes.AuditEventResultEntry()
-        value.id = try reader["id"].readIfPresent()
-        value.eventID = try reader["eventID"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.eventID = try reader["eventID"].readIfPresent() ?? ""
         return value
     }
 }
@@ -441,9 +441,9 @@ extension CloudTrailDataClientTypes.ResultErrorEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailDataClientTypes.ResultErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailDataClientTypes.ResultErrorEntry()
-        value.id = try reader["id"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }

@@ -23,6 +23,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access is denied. Your account is not authorized to perform this operation.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1568,10 +1569,10 @@ extension CreateFHIRDatastoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFHIRDatastoreOutput()
-        value.datastoreArn = try reader["DatastoreArn"].readIfPresent()
-        value.datastoreEndpoint = try reader["DatastoreEndpoint"].readIfPresent()
-        value.datastoreId = try reader["DatastoreId"].readIfPresent()
-        value.datastoreStatus = try reader["DatastoreStatus"].readIfPresent()
+        value.datastoreArn = try reader["DatastoreArn"].readIfPresent() ?? ""
+        value.datastoreEndpoint = try reader["DatastoreEndpoint"].readIfPresent() ?? ""
+        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
+        value.datastoreStatus = try reader["DatastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1583,10 +1584,10 @@ extension DeleteFHIRDatastoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteFHIRDatastoreOutput()
-        value.datastoreArn = try reader["DatastoreArn"].readIfPresent()
-        value.datastoreEndpoint = try reader["DatastoreEndpoint"].readIfPresent()
-        value.datastoreId = try reader["DatastoreId"].readIfPresent()
-        value.datastoreStatus = try reader["DatastoreStatus"].readIfPresent()
+        value.datastoreArn = try reader["DatastoreArn"].readIfPresent() ?? ""
+        value.datastoreEndpoint = try reader["DatastoreEndpoint"].readIfPresent() ?? ""
+        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
+        value.datastoreStatus = try reader["DatastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1634,7 +1635,7 @@ extension ListFHIRDatastoresOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFHIRDatastoresOutput()
-        value.datastorePropertiesList = try reader["DatastorePropertiesList"].readListIfPresent(memberReadingClosure: HealthLakeClientTypes.DatastoreProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.datastorePropertiesList = try reader["DatastorePropertiesList"].readListIfPresent(memberReadingClosure: HealthLakeClientTypes.DatastoreProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1647,7 +1648,7 @@ extension ListFHIRExportJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFHIRExportJobsOutput()
-        value.exportJobPropertiesList = try reader["ExportJobPropertiesList"].readListIfPresent(memberReadingClosure: HealthLakeClientTypes.ExportJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exportJobPropertiesList = try reader["ExportJobPropertiesList"].readListIfPresent(memberReadingClosure: HealthLakeClientTypes.ExportJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1660,7 +1661,7 @@ extension ListFHIRImportJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFHIRImportJobsOutput()
-        value.importJobPropertiesList = try reader["ImportJobPropertiesList"].readListIfPresent(memberReadingClosure: HealthLakeClientTypes.ImportJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.importJobPropertiesList = try reader["ImportJobPropertiesList"].readListIfPresent(memberReadingClosure: HealthLakeClientTypes.ImportJobProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1686,8 +1687,8 @@ extension StartFHIRExportJobOutput {
         let reader = responseReader
         var value = StartFHIRExportJobOutput()
         value.datastoreId = try reader["DatastoreId"].readIfPresent()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1700,8 +1701,8 @@ extension StartFHIRImportJobOutput {
         let reader = responseReader
         var value = StartFHIRImportJobOutput()
         value.datastoreId = try reader["DatastoreId"].readIfPresent()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2023,13 +2024,13 @@ extension HealthLakeClientTypes.DatastoreProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.DatastoreProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.DatastoreProperties()
-        value.datastoreId = try reader["DatastoreId"].readIfPresent()
-        value.datastoreArn = try reader["DatastoreArn"].readIfPresent()
+        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
+        value.datastoreArn = try reader["DatastoreArn"].readIfPresent() ?? ""
         value.datastoreName = try reader["DatastoreName"].readIfPresent()
-        value.datastoreStatus = try reader["DatastoreStatus"].readIfPresent()
+        value.datastoreStatus = try reader["DatastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datastoreTypeVersion = try reader["DatastoreTypeVersion"].readIfPresent()
-        value.datastoreEndpoint = try reader["DatastoreEndpoint"].readIfPresent()
+        value.datastoreTypeVersion = try reader["DatastoreTypeVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.datastoreEndpoint = try reader["DatastoreEndpoint"].readIfPresent() ?? ""
         value.sseConfiguration = try reader["SseConfiguration"].readIfPresent(with: HealthLakeClientTypes.SseConfiguration.read(from:))
         value.preloadDataConfig = try reader["PreloadDataConfig"].readIfPresent(with: HealthLakeClientTypes.PreloadDataConfig.read(from:))
         value.identityProviderConfiguration = try reader["IdentityProviderConfiguration"].readIfPresent(with: HealthLakeClientTypes.IdentityProviderConfiguration.read(from:))
@@ -2062,7 +2063,7 @@ extension HealthLakeClientTypes.IdentityProviderConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.IdentityProviderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.IdentityProviderConfiguration()
-        value.authorizationStrategy = try reader["AuthorizationStrategy"].readIfPresent()
+        value.authorizationStrategy = try reader["AuthorizationStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.fineGrainedAuthorizationEnabled = try reader["FineGrainedAuthorizationEnabled"].readIfPresent() ?? false
         value.metadata = try reader["Metadata"].readIfPresent()
         value.idpLambdaArn = try reader["IdpLambdaArn"].readIfPresent()
@@ -2080,7 +2081,7 @@ extension HealthLakeClientTypes.PreloadDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.PreloadDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.PreloadDataConfig()
-        value.preloadDataType = try reader["PreloadDataType"].readIfPresent()
+        value.preloadDataType = try reader["PreloadDataType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2111,7 +2112,7 @@ extension HealthLakeClientTypes.KmsEncryptionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.KmsEncryptionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.KmsEncryptionConfig()
-        value.cmkType = try reader["CmkType"].readIfPresent()
+        value.cmkType = try reader["CmkType"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -2122,12 +2123,12 @@ extension HealthLakeClientTypes.ExportJobProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ExportJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.ExportJobProperties()
-        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datastoreId = try reader["DatastoreId"].readIfPresent()
+        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
         value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: HealthLakeClientTypes.OutputDataConfig.read(from:))
         value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
@@ -2170,8 +2171,8 @@ extension HealthLakeClientTypes.S3Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.S3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.S3Configuration()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2181,12 +2182,12 @@ extension HealthLakeClientTypes.ImportJobProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ImportJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.ImportJobProperties()
-        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datastoreId = try reader["DatastoreId"].readIfPresent()
+        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
         value.inputDataConfig = try reader["InputDataConfig"].readIfPresent(with: HealthLakeClientTypes.InputDataConfig.read(from:))
         value.jobOutputDataConfig = try reader["JobOutputDataConfig"].readIfPresent(with: HealthLakeClientTypes.OutputDataConfig.read(from:))
         value.jobProgressReport = try reader["JobProgressReport"].readIfPresent(with: HealthLakeClientTypes.JobProgressReport.read(from:))
@@ -2248,8 +2249,8 @@ extension HealthLakeClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = HealthLakeClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

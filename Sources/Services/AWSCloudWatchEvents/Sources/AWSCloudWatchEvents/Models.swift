@@ -1414,7 +1414,7 @@ public struct DeleteRuleInput {
 
     public init(
         eventBusName: Swift.String? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil
     )
     {
@@ -3866,7 +3866,7 @@ public struct RemovePermissionInput {
 
     public init(
         eventBusName: Swift.String? = nil,
-        removeAllPermissions: Swift.Bool? = nil,
+        removeAllPermissions: Swift.Bool? = false,
         statementId: Swift.String? = nil
     )
     {
@@ -3890,7 +3890,7 @@ public struct RemoveTargetsInput {
 
     public init(
         eventBusName: Swift.String? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         ids: [Swift.String]? = nil,
         rule: Swift.String? = nil
     )
@@ -7001,7 +7001,7 @@ extension CloudWatchEventsClientTypes.ReplayDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.ReplayDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.ReplayDestination()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.filterArns = try reader["FilterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7157,8 +7157,8 @@ extension CloudWatchEventsClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7188,8 +7188,8 @@ extension CloudWatchEventsClientTypes.Target {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.Target {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.Target()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.input = try reader["Input"].readIfPresent()
         value.inputPath = try reader["InputPath"].readIfPresent()
@@ -7266,8 +7266,8 @@ extension CloudWatchEventsClientTypes.SageMakerPipelineParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.SageMakerPipelineParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.SageMakerPipelineParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7288,9 +7288,9 @@ extension CloudWatchEventsClientTypes.RedshiftDataParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.RedshiftDataParameters()
         value.secretManagerArn = try reader["SecretManagerArn"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
         value.dbUser = try reader["DbUser"].readIfPresent()
-        value.sql = try reader["Sql"].readIfPresent()
+        value.sql = try reader["Sql"].readIfPresent() ?? ""
         value.statementName = try reader["StatementName"].readIfPresent()
         value.withEvent = try reader["WithEvent"].readIfPresent() ?? false
         return value
@@ -7344,8 +7344,8 @@ extension CloudWatchEventsClientTypes.BatchParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.BatchParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.BatchParameters()
-        value.jobDefinition = try reader["JobDefinition"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobDefinition = try reader["JobDefinition"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
         value.arrayProperties = try reader["ArrayProperties"].readIfPresent(with: CloudWatchEventsClientTypes.BatchArrayProperties.read(from:))
         value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: CloudWatchEventsClientTypes.BatchRetryStrategy.read(from:))
         return value
@@ -7405,7 +7405,7 @@ extension CloudWatchEventsClientTypes.EcsParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.EcsParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.EcsParameters()
-        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent()
+        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
         value.taskCount = try reader["TaskCount"].readIfPresent()
         value.launchType = try reader["LaunchType"].readIfPresent()
         value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: CloudWatchEventsClientTypes.NetworkConfiguration.read(from:))
@@ -7469,7 +7469,7 @@ extension CloudWatchEventsClientTypes.CapacityProviderStrategyItem {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.CapacityProviderStrategyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.CapacityProviderStrategyItem()
-        value.capacityProvider = try reader["capacityProvider"].readIfPresent()
+        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent() ?? 0
         value.base = try reader["base"].readIfPresent() ?? 0
         return value
@@ -7503,7 +7503,7 @@ extension CloudWatchEventsClientTypes.AwsVpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.AwsVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.AwsVpcConfiguration()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
         return value
@@ -7520,7 +7520,7 @@ extension CloudWatchEventsClientTypes.RunCommandParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RunCommandParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.RunCommandParameters()
-        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: CloudWatchEventsClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7536,8 +7536,8 @@ extension CloudWatchEventsClientTypes.RunCommandTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.RunCommandTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.RunCommandTarget()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7552,7 +7552,7 @@ extension CloudWatchEventsClientTypes.KinesisParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchEventsClientTypes.KinesisParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.KinesisParameters()
-        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent()
+        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7569,7 +7569,7 @@ extension CloudWatchEventsClientTypes.InputTransformer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchEventsClientTypes.InputTransformer()
         value.inputPathsMap = try reader["InputPathsMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.inputTemplate = try reader["InputTemplate"].readIfPresent()
+        value.inputTemplate = try reader["InputTemplate"].readIfPresent() ?? ""
         return value
     }
 }

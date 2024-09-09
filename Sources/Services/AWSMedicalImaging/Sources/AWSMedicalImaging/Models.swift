@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The user does not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -2277,7 +2278,7 @@ extension CopyImageSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CopyImageSetOutput()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
         value.destinationImageSetProperties = try reader["destinationImageSetProperties"].readIfPresent(with: MedicalImagingClientTypes.CopyDestinationImageSetProperties.read(from:))
         value.sourceImageSetProperties = try reader["sourceImageSetProperties"].readIfPresent(with: MedicalImagingClientTypes.CopySourceImageSetProperties.read(from:))
         return value
@@ -2291,8 +2292,8 @@ extension CreateDatastoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDatastoreOutput()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2304,8 +2305,8 @@ extension DeleteDatastoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDatastoreOutput()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2317,10 +2318,10 @@ extension DeleteImageSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteImageSetOutput()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
-        value.imageSetState = try reader["imageSetState"].readIfPresent()
-        value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
+        value.imageSetState = try reader["imageSetState"].readIfPresent() ?? .sdkUnknown("")
+        value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2376,15 +2377,15 @@ extension GetImageSetOutput {
         let reader = responseReader
         var value = GetImageSetOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
         value.deletedAt = try reader["deletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.imageSetArn = try reader["imageSetArn"].readIfPresent()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
-        value.imageSetState = try reader["imageSetState"].readIfPresent()
+        value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
+        value.imageSetState = try reader["imageSetState"].readIfPresent() ?? .sdkUnknown("")
         value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.versionId = try reader["versionId"].readIfPresent()
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2431,7 +2432,7 @@ extension ListDICOMImportJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDICOMImportJobsOutput()
-        value.jobSummaries = try reader["jobSummaries"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.DICOMImportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobSummaries = try reader["jobSummaries"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.DICOMImportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2444,7 +2445,7 @@ extension ListImageSetVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListImageSetVersionsOutput()
-        value.imageSetPropertiesList = try reader["imageSetPropertiesList"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.ImageSetProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageSetPropertiesList = try reader["imageSetPropertiesList"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.ImageSetProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -2457,7 +2458,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2469,7 +2470,7 @@ extension SearchImageSetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchImageSetsOutput()
-        value.imageSetsMetadataSummaries = try reader["imageSetsMetadataSummaries"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.ImageSetsMetadataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageSetsMetadataSummaries = try reader["imageSetsMetadataSummaries"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.ImageSetsMetadataSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.sort = try reader["sort"].readIfPresent(with: MedicalImagingClientTypes.Sort.read(from:))
         return value
@@ -2483,10 +2484,10 @@ extension StartDICOMImportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartDICOMImportJobOutput()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.jobStatus = try reader["jobStatus"].readIfPresent()
-        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2513,11 +2514,11 @@ extension UpdateImageSetMetadataOutput {
         let reader = responseReader
         var value = UpdateImageSetMetadataOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
-        value.imageSetState = try reader["imageSetState"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
+        value.imageSetState = try reader["imageSetState"].readIfPresent() ?? .sdkUnknown("")
         value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
-        value.latestVersionId = try reader["latestVersionId"].readIfPresent()
+        value.latestVersionId = try reader["latestVersionId"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -2868,7 +2869,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2881,7 +2882,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2894,7 +2895,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2907,7 +2908,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2920,7 +2921,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2933,7 +2934,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2946,7 +2947,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2959,8 +2960,8 @@ extension MedicalImagingClientTypes.CopySourceImageSetProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopySourceImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.CopySourceImageSetProperties()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
-        value.latestVersionId = try reader["latestVersionId"].readIfPresent()
+        value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
+        value.latestVersionId = try reader["latestVersionId"].readIfPresent() ?? ""
         value.imageSetState = try reader["imageSetState"].readIfPresent()
         value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -2975,8 +2976,8 @@ extension MedicalImagingClientTypes.CopyDestinationImageSetProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.CopyDestinationImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.CopyDestinationImageSetProperties()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
-        value.latestVersionId = try reader["latestVersionId"].readIfPresent()
+        value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
+        value.latestVersionId = try reader["latestVersionId"].readIfPresent() ?? ""
         value.imageSetState = try reader["imageSetState"].readIfPresent()
         value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -2991,9 +2992,9 @@ extension MedicalImagingClientTypes.DatastoreProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DatastoreProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.DatastoreProperties()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.datastoreName = try reader["datastoreName"].readIfPresent()
-        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.datastoreName = try reader["datastoreName"].readIfPresent() ?? ""
+        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.datastoreArn = try reader["datastoreArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3007,15 +3008,15 @@ extension MedicalImagingClientTypes.DICOMImportJobProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMImportJobProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.DICOMImportJobProperties()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.jobStatus = try reader["jobStatus"].readIfPresent()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.dataAccessRoleArn = try reader["dataAccessRoleArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.dataAccessRoleArn = try reader["dataAccessRoleArn"].readIfPresent() ?? ""
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inputS3Uri = try reader["inputS3Uri"].readIfPresent()
-        value.outputS3Uri = try reader["outputS3Uri"].readIfPresent()
+        value.inputS3Uri = try reader["inputS3Uri"].readIfPresent() ?? ""
+        value.outputS3Uri = try reader["outputS3Uri"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
         return value
     }
@@ -3026,9 +3027,9 @@ extension MedicalImagingClientTypes.DatastoreSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DatastoreSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.DatastoreSummary()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
-        value.datastoreName = try reader["datastoreName"].readIfPresent()
-        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent()
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
+        value.datastoreName = try reader["datastoreName"].readIfPresent() ?? ""
+        value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         value.datastoreArn = try reader["datastoreArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3041,10 +3042,10 @@ extension MedicalImagingClientTypes.DICOMImportJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DICOMImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.DICOMImportJobSummary()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.jobStatus = try reader["jobStatus"].readIfPresent()
-        value.datastoreId = try reader["datastoreId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.datastoreId = try reader["datastoreId"].readIfPresent() ?? ""
         value.dataAccessRoleArn = try reader["dataAccessRoleArn"].readIfPresent()
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3058,9 +3059,9 @@ extension MedicalImagingClientTypes.ImageSetProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.ImageSetProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.ImageSetProperties()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
-        value.versionId = try reader["versionId"].readIfPresent()
-        value.imageSetState = try reader["imageSetState"].readIfPresent()
+        value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        value.imageSetState = try reader["imageSetState"].readIfPresent() ?? .sdkUnknown("")
         value.imageSetWorkflowStatus = try reader["ImageSetWorkflowStatus"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3075,7 +3076,7 @@ extension MedicalImagingClientTypes.ImageSetsMetadataSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.ImageSetsMetadataSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.ImageSetsMetadataSummary()
-        value.imageSetId = try reader["imageSetId"].readIfPresent()
+        value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
         value.version = try reader["version"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3120,8 +3121,8 @@ extension MedicalImagingClientTypes.Sort {
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.Sort {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MedicalImagingClientTypes.Sort()
-        value.sortOrder = try reader["sortOrder"].readIfPresent()
-        value.sortField = try reader["sortField"].readIfPresent()
+        value.sortOrder = try reader["sortOrder"].readIfPresent() ?? .sdkUnknown("")
+        value.sortField = try reader["sortField"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

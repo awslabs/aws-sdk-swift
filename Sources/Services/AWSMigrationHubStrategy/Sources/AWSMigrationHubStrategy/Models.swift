@@ -5057,7 +5057,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5109,7 +5109,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5122,7 +5122,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5353,9 +5353,9 @@ extension MigrationHubStrategyClientTypes.AssessmentTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AssessmentTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.AssessmentTarget()
-        value.condition = try reader["condition"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.condition = try reader["condition"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5453,7 +5453,7 @@ extension MigrationHubStrategyClientTypes.NoManagementPreference {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NoManagementPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.NoManagementPreference()
-        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.NoPreferenceTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.NoPreferenceTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5468,7 +5468,7 @@ extension MigrationHubStrategyClientTypes.SelfManageResources {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SelfManageResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.SelfManageResources()
-        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.SelfManageTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.SelfManageTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5483,7 +5483,7 @@ extension MigrationHubStrategyClientTypes.AwsManagedResources {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AwsManagedResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.AwsManagedResources()
-        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.AwsManagedTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.AwsManagedTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5547,7 +5547,7 @@ extension MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference()
-        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.TargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.TargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5577,7 +5577,7 @@ extension MigrationHubStrategyClientTypes.Heterogeneous {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Heterogeneous {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.Heterogeneous()
-        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.HeterogeneousTargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.HeterogeneousTargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5723,10 +5723,10 @@ extension MigrationHubStrategyClientTypes.NetworkInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NetworkInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubStrategyClientTypes.NetworkInfo()
-        value.interfaceName = try reader["interfaceName"].readIfPresent()
-        value.ipAddress = try reader["ipAddress"].readIfPresent()
-        value.macAddress = try reader["macAddress"].readIfPresent()
-        value.netMask = try reader["netMask"].readIfPresent()
+        value.interfaceName = try reader["interfaceName"].readIfPresent() ?? ""
+        value.ipAddress = try reader["ipAddress"].readIfPresent() ?? ""
+        value.macAddress = try reader["macAddress"].readIfPresent() ?? ""
+        value.netMask = try reader["netMask"].readIfPresent() ?? ""
         return value
     }
 }

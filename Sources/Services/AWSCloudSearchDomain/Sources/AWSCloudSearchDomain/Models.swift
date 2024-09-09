@@ -168,14 +168,14 @@ public struct SearchInput {
         facet: Swift.String? = nil,
         filterQuery: Swift.String? = nil,
         highlight: Swift.String? = nil,
-        partial: Swift.Bool? = nil,
+        partial: Swift.Bool? = false,
         query: Swift.String? = nil,
         queryOptions: Swift.String? = nil,
         queryParser: CloudSearchDomainClientTypes.QueryParser? = nil,
         `return`: Swift.String? = nil,
-        size: Swift.Int? = nil,
+        size: Swift.Int? = 0,
         sort: Swift.String? = nil,
-        start: Swift.Int? = nil,
+        start: Swift.Int? = 0,
         stats: Swift.String? = nil
     )
     {
@@ -390,7 +390,7 @@ public struct SuggestInput {
 
     public init(
         query: Swift.String? = nil,
-        size: Swift.Int? = nil,
+        size: Swift.Int? = 0,
         suggester: Swift.String? = nil
     )
     {

@@ -569,11 +569,11 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             attributeDataType: CognitoIdentityProviderClientTypes.AttributeDataType? = nil,
-            developerOnlyAttribute: Swift.Bool? = nil,
-            mutable: Swift.Bool? = nil,
+            developerOnlyAttribute: Swift.Bool? = false,
+            mutable: Swift.Bool? = false,
             name: Swift.String? = nil,
             numberAttributeConstraints: CognitoIdentityProviderClientTypes.NumberAttributeConstraintsType? = nil,
-            `required`: Swift.Bool? = nil,
+            `required`: Swift.Bool? = false,
             stringAttributeConstraints: CognitoIdentityProviderClientTypes.StringAttributeConstraintsType? = nil
         )
         {
@@ -1133,7 +1133,7 @@ public struct AdminCreateUserInput {
     public init(
         clientMetadata: [Swift.String: Swift.String]? = nil,
         desiredDeliveryMediums: [CognitoIdentityProviderClientTypes.DeliveryMediumType]? = nil,
-        forceAliasCreation: Swift.Bool? = nil,
+        forceAliasCreation: Swift.Bool? = false,
         messageAction: CognitoIdentityProviderClientTypes.MessageActionType? = nil,
         temporaryPassword: Swift.String? = nil,
         userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]? = nil,
@@ -3195,7 +3195,7 @@ public struct AdminSetUserPasswordInput {
 
     public init(
         password: Swift.String? = nil,
-        permanent: Swift.Bool? = nil,
+        permanent: Swift.Bool? = false,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
     )
@@ -3916,7 +3916,7 @@ public struct ConfirmSignUpInput {
         clientId: Swift.String? = nil,
         clientMetadata: [Swift.String: Swift.String]? = nil,
         confirmationCode: Swift.String? = nil,
-        forceAliasCreation: Swift.Bool? = nil,
+        forceAliasCreation: Swift.Bool? = false,
         secretHash: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil,
         username: Swift.String? = nil
@@ -5650,7 +5650,7 @@ public struct CreateUserPoolClientInput {
     public init(
         accessTokenValidity: Swift.Int? = nil,
         allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
-        allowedOAuthFlowsUserPoolClient: Swift.Bool? = nil,
+        allowedOAuthFlowsUserPoolClient: Swift.Bool? = false,
         allowedOAuthScopes: [Swift.String]? = nil,
         analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType? = nil,
         authSessionValidity: Swift.Int? = nil,
@@ -5660,12 +5660,12 @@ public struct CreateUserPoolClientInput {
         enablePropagateAdditionalUserContextData: Swift.Bool? = nil,
         enableTokenRevocation: Swift.Bool? = nil,
         explicitAuthFlows: [CognitoIdentityProviderClientTypes.ExplicitAuthFlowsType]? = nil,
-        generateSecret: Swift.Bool? = nil,
+        generateSecret: Swift.Bool? = false,
         idTokenValidity: Swift.Int? = nil,
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
         readAttributes: [Swift.String]? = nil,
-        refreshTokenValidity: Swift.Int? = nil,
+        refreshTokenValidity: Swift.Int? = 0,
         supportedIdentityProviders: [Swift.String]? = nil,
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
         userPoolId: Swift.String? = nil,
@@ -5803,7 +5803,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             accessTokenValidity: Swift.Int? = nil,
             allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
-            allowedOAuthFlowsUserPoolClient: Swift.Bool? = nil,
+            allowedOAuthFlowsUserPoolClient: Swift.Bool? = false,
             allowedOAuthScopes: [Swift.String]? = nil,
             analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType? = nil,
             authSessionValidity: Swift.Int? = nil,
@@ -9081,7 +9081,7 @@ public struct UpdateUserPoolClientInput {
     public init(
         accessTokenValidity: Swift.Int? = nil,
         allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
-        allowedOAuthFlowsUserPoolClient: Swift.Bool? = nil,
+        allowedOAuthFlowsUserPoolClient: Swift.Bool? = false,
         allowedOAuthScopes: [Swift.String]? = nil,
         analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType? = nil,
         authSessionValidity: Swift.Int? = nil,
@@ -9096,7 +9096,7 @@ public struct UpdateUserPoolClientInput {
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
         readAttributes: [Swift.String]? = nil,
-        refreshTokenValidity: Swift.Int? = nil,
+        refreshTokenValidity: Swift.Int? = 0,
         supportedIdentityProviders: [Swift.String]? = nil,
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
         userPoolId: Swift.String? = nil,
@@ -11270,7 +11270,7 @@ extension AdminGetUserOutput {
         value.userLastModifiedDate = try reader["UserLastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.userMFASettingList = try reader["UserMFASettingList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userStatus = try reader["UserStatus"].readIfPresent()
-        value.username = try reader["Username"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11797,9 +11797,9 @@ extension GetUserOutput {
         var value = GetUserOutput()
         value.mfaOptions = try reader["MFAOptions"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.MFAOptionType.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.preferredMfaSetting = try reader["PreferredMfaSetting"].readIfPresent()
-        value.userAttributes = try reader["UserAttributes"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.AttributeType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userAttributes = try reader["UserAttributes"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.AttributeType.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.userMFASettingList = try reader["UserMFASettingList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.username = try reader["Username"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11886,7 +11886,7 @@ extension ListIdentityProvidersOutput {
         let reader = responseReader
         var value = ListIdentityProvidersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.providers = try reader["Providers"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.ProviderDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.providers = try reader["Providers"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.ProviderDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11899,7 +11899,7 @@ extension ListResourceServersOutput {
         let reader = responseReader
         var value = ListResourceServersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.resourceServers = try reader["ResourceServers"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.ResourceServerType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceServers = try reader["ResourceServers"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.ResourceServerType.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12088,7 +12088,7 @@ extension SignUpOutput {
         var value = SignUpOutput()
         value.codeDeliveryDetails = try reader["CodeDeliveryDetails"].readIfPresent(with: CognitoIdentityProviderClientTypes.CodeDeliveryDetailsType.read(from:))
         value.userConfirmed = try reader["UserConfirmed"].readIfPresent() ?? false
-        value.userSub = try reader["UserSub"].readIfPresent()
+        value.userSub = try reader["UserSub"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14995,7 +14995,7 @@ extension CognitoIdentityProviderClientTypes.AttributeType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.AttributeType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.AttributeType()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -15079,8 +15079,8 @@ extension CognitoIdentityProviderClientTypes.EventFeedbackType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.EventFeedbackType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.EventFeedbackType()
-        value.feedbackValue = try reader["FeedbackValue"].readIfPresent()
-        value.provider = try reader["Provider"].readIfPresent()
+        value.feedbackValue = try reader["FeedbackValue"].readIfPresent() ?? .sdkUnknown("")
+        value.provider = try reader["Provider"].readIfPresent() ?? ""
         value.feedbackDate = try reader["FeedbackDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -15164,8 +15164,8 @@ extension CognitoIdentityProviderClientTypes.ResourceServerScopeType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.ResourceServerScopeType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.ResourceServerScopeType()
-        value.scopeName = try reader["ScopeName"].readIfPresent()
-        value.scopeDescription = try reader["ScopeDescription"].readIfPresent()
+        value.scopeName = try reader["ScopeName"].readIfPresent() ?? ""
+        value.scopeDescription = try reader["ScopeDescription"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15260,8 +15260,8 @@ extension CognitoIdentityProviderClientTypes.RecoveryOptionType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.RecoveryOptionType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.RecoveryOptionType()
-        value.priority = try reader["Priority"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15276,7 +15276,7 @@ extension CognitoIdentityProviderClientTypes.UsernameConfigurationType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.UsernameConfigurationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.UsernameConfigurationType()
-        value.caseSensitive = try reader["CaseSensitive"].readIfPresent()
+        value.caseSensitive = try reader["CaseSensitive"].readIfPresent() ?? false
         return value
     }
 }
@@ -15292,7 +15292,7 @@ extension CognitoIdentityProviderClientTypes.UserPoolAddOnsType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.UserPoolAddOnsType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.UserPoolAddOnsType()
-        value.advancedSecurityMode = try reader["AdvancedSecurityMode"].readIfPresent()
+        value.advancedSecurityMode = try reader["AdvancedSecurityMode"].readIfPresent() ?? .sdkUnknown("")
         value.advancedSecurityAdditionalFlows = try reader["AdvancedSecurityAdditionalFlows"].readIfPresent(with: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType.read(from:))
         return value
     }
@@ -15363,7 +15363,7 @@ extension CognitoIdentityProviderClientTypes.SmsConfigurationType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.SmsConfigurationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.SmsConfigurationType()
-        value.snsCallerArn = try reader["SnsCallerArn"].readIfPresent()
+        value.snsCallerArn = try reader["SnsCallerArn"].readIfPresent() ?? ""
         value.externalId = try reader["ExternalId"].readIfPresent()
         value.snsRegion = try reader["SnsRegion"].readIfPresent()
         return value
@@ -15563,8 +15563,8 @@ extension CognitoIdentityProviderClientTypes.CustomEmailLambdaVersionConfigType 
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.CustomEmailLambdaVersionConfigType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.CustomEmailLambdaVersionConfigType()
-        value.lambdaVersion = try reader["LambdaVersion"].readIfPresent()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
+        value.lambdaVersion = try reader["LambdaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15580,8 +15580,8 @@ extension CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType()
-        value.lambdaVersion = try reader["LambdaVersion"].readIfPresent()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
+        value.lambdaVersion = try reader["LambdaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15597,8 +15597,8 @@ extension CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType()
-        value.lambdaVersion = try reader["LambdaVersion"].readIfPresent()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
+        value.lambdaVersion = try reader["LambdaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15801,7 +15801,7 @@ extension CognitoIdentityProviderClientTypes.AccountTakeoverActionType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.AccountTakeoverActionType()
         value.notify = try reader["Notify"].readIfPresent() ?? false
-        value.eventAction = try reader["EventAction"].readIfPresent()
+        value.eventAction = try reader["EventAction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15823,7 +15823,7 @@ extension CognitoIdentityProviderClientTypes.NotifyConfigurationType {
         var value = CognitoIdentityProviderClientTypes.NotifyConfigurationType()
         value.from = try reader["From"].readIfPresent()
         value.replyTo = try reader["ReplyTo"].readIfPresent()
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
         value.blockEmail = try reader["BlockEmail"].readIfPresent(with: CognitoIdentityProviderClientTypes.NotifyEmailType.read(from:))
         value.noActionEmail = try reader["NoActionEmail"].readIfPresent(with: CognitoIdentityProviderClientTypes.NotifyEmailType.read(from:))
         value.mfaEmail = try reader["MfaEmail"].readIfPresent(with: CognitoIdentityProviderClientTypes.NotifyEmailType.read(from:))
@@ -15843,7 +15843,7 @@ extension CognitoIdentityProviderClientTypes.NotifyEmailType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.NotifyEmailType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.NotifyEmailType()
-        value.subject = try reader["Subject"].readIfPresent()
+        value.subject = try reader["Subject"].readIfPresent() ?? ""
         value.htmlBody = try reader["HtmlBody"].readIfPresent()
         value.textBody = try reader["TextBody"].readIfPresent()
         return value
@@ -15877,7 +15877,7 @@ extension CognitoIdentityProviderClientTypes.CompromisedCredentialsActionsType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.CompromisedCredentialsActionsType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.CompromisedCredentialsActionsType()
-        value.eventAction = try reader["EventAction"].readIfPresent()
+        value.eventAction = try reader["EventAction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15909,7 +15909,7 @@ extension CognitoIdentityProviderClientTypes.CustomDomainConfigType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.CustomDomainConfigType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.CustomDomainConfigType()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15931,8 +15931,8 @@ extension CognitoIdentityProviderClientTypes.LogDeliveryConfigurationType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.LogDeliveryConfigurationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.LogDeliveryConfigurationType()
-        value.userPoolId = try reader["UserPoolId"].readIfPresent()
-        value.logConfigurations = try reader["LogConfigurations"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.LogConfigurationType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userPoolId = try reader["UserPoolId"].readIfPresent() ?? ""
+        value.logConfigurations = try reader["LogConfigurations"].readListIfPresent(memberReadingClosure: CognitoIdentityProviderClientTypes.LogConfigurationType.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15951,8 +15951,8 @@ extension CognitoIdentityProviderClientTypes.LogConfigurationType {
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.LogConfigurationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CognitoIdentityProviderClientTypes.LogConfigurationType()
-        value.logLevel = try reader["LogLevel"].readIfPresent()
-        value.eventSource = try reader["EventSource"].readIfPresent()
+        value.logLevel = try reader["LogLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.eventSource = try reader["EventSource"].readIfPresent() ?? .sdkUnknown("")
         value.cloudWatchLogsConfiguration = try reader["CloudWatchLogsConfiguration"].readIfPresent(with: CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType.read(from:))
         value.s3Configuration = try reader["S3Configuration"].readIfPresent(with: CognitoIdentityProviderClientTypes.S3ConfigurationType.read(from:))
         value.firehoseConfiguration = try reader["FirehoseConfiguration"].readIfPresent(with: CognitoIdentityProviderClientTypes.FirehoseConfigurationType.read(from:))

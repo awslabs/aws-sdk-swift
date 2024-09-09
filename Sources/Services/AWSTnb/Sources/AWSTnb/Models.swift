@@ -29,6 +29,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct CancelSolNetworkOperationOutput {
 
@@ -3542,12 +3543,12 @@ extension CreateSolFunctionPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSolFunctionPackageOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.onboardingState = try reader["onboardingState"].readIfPresent()
-        value.operationalState = try reader["operationalState"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.onboardingState = try reader["onboardingState"].readIfPresent() ?? .sdkUnknown("")
+        value.operationalState = try reader["operationalState"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.usageState = try reader["usageState"].readIfPresent()
+        value.usageState = try reader["usageState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3559,10 +3560,10 @@ extension CreateSolNetworkInstanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSolNetworkInstanceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.nsInstanceName = try reader["nsInstanceName"].readIfPresent()
-        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.nsInstanceName = try reader["nsInstanceName"].readIfPresent() ?? ""
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3575,11 +3576,11 @@ extension CreateSolNetworkPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSolNetworkPackageOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.nsdOnboardingState = try reader["nsdOnboardingState"].readIfPresent()
-        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent()
-        value.nsdUsageState = try reader["nsdUsageState"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.nsdOnboardingState = try reader["nsdOnboardingState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsdUsageState = try reader["nsdUsageState"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3613,17 +3614,17 @@ extension GetSolFunctionInstanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSolFunctionInstanceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.instantiatedVnfInfo = try reader["instantiatedVnfInfo"].readIfPresent(with: TnbClientTypes.GetSolVnfInfo.read(from:))
-        value.instantiationState = try reader["instantiationState"].readIfPresent()
+        value.instantiationState = try reader["instantiationState"].readIfPresent() ?? .sdkUnknown("")
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolFunctionInstanceMetadata.read(from:))
-        value.nsInstanceId = try reader["nsInstanceId"].readIfPresent()
+        value.nsInstanceId = try reader["nsInstanceId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vnfPkgId = try reader["vnfPkgId"].readIfPresent()
+        value.vnfPkgId = try reader["vnfPkgId"].readIfPresent() ?? ""
         value.vnfProductName = try reader["vnfProductName"].readIfPresent()
         value.vnfProvider = try reader["vnfProvider"].readIfPresent()
-        value.vnfdId = try reader["vnfdId"].readIfPresent()
+        value.vnfdId = try reader["vnfdId"].readIfPresent() ?? ""
         value.vnfdVersion = try reader["vnfdVersion"].readIfPresent()
         return value
     }
@@ -3636,13 +3637,13 @@ extension GetSolFunctionPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSolFunctionPackageOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolFunctionPackageMetadata.read(from:))
-        value.onboardingState = try reader["onboardingState"].readIfPresent()
-        value.operationalState = try reader["operationalState"].readIfPresent()
+        value.onboardingState = try reader["onboardingState"].readIfPresent() ?? .sdkUnknown("")
+        value.operationalState = try reader["operationalState"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.usageState = try reader["usageState"].readIfPresent()
+        value.usageState = try reader["usageState"].readIfPresent() ?? .sdkUnknown("")
         value.vnfProductName = try reader["vnfProductName"].readIfPresent()
         value.vnfProvider = try reader["vnfProvider"].readIfPresent()
         value.vnfdId = try reader["vnfdId"].readIfPresent()
@@ -3696,15 +3697,15 @@ extension GetSolNetworkInstanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSolNetworkInstanceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.lcmOpInfo = try reader["lcmOpInfo"].readIfPresent(with: TnbClientTypes.LcmOperationInfo.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolNetworkInstanceMetadata.read(from:))
-        value.nsInstanceDescription = try reader["nsInstanceDescription"].readIfPresent()
-        value.nsInstanceName = try reader["nsInstanceName"].readIfPresent()
+        value.nsInstanceDescription = try reader["nsInstanceDescription"].readIfPresent() ?? ""
+        value.nsInstanceName = try reader["nsInstanceName"].readIfPresent() ?? ""
         value.nsState = try reader["nsState"].readIfPresent()
-        value.nsdId = try reader["nsdId"].readIfPresent()
-        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent()
+        value.nsdId = try reader["nsdId"].readIfPresent() ?? ""
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3717,7 +3718,7 @@ extension GetSolNetworkOperationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSolNetworkOperationOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent(with: TnbClientTypes.ProblemDetails.read(from:))
         value.id = try reader["id"].readIfPresent()
         value.lcmOperationType = try reader["lcmOperationType"].readIfPresent()
@@ -3737,17 +3738,17 @@ extension GetSolNetworkPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSolNetworkPackageOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolNetworkPackageMetadata.read(from:))
-        value.nsdId = try reader["nsdId"].readIfPresent()
-        value.nsdName = try reader["nsdName"].readIfPresent()
-        value.nsdOnboardingState = try reader["nsdOnboardingState"].readIfPresent()
-        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent()
-        value.nsdUsageState = try reader["nsdUsageState"].readIfPresent()
-        value.nsdVersion = try reader["nsdVersion"].readIfPresent()
+        value.nsdId = try reader["nsdId"].readIfPresent() ?? ""
+        value.nsdName = try reader["nsdName"].readIfPresent() ?? ""
+        value.nsdOnboardingState = try reader["nsdOnboardingState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsdUsageState = try reader["nsdUsageState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsdVersion = try reader["nsdVersion"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vnfPkgIds = try reader["vnfPkgIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vnfPkgIds = try reader["vnfPkgIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3797,7 +3798,7 @@ extension InstantiateSolNetworkInstanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = InstantiateSolNetworkInstanceOutput()
-        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent()
+        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3823,7 +3824,7 @@ extension ListSolFunctionPackagesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListSolFunctionPackagesOutput()
-        value.functionPackages = try reader["functionPackages"].readListIfPresent(memberReadingClosure: TnbClientTypes.ListSolFunctionPackageInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.functionPackages = try reader["functionPackages"].readListIfPresent(memberReadingClosure: TnbClientTypes.ListSolFunctionPackageInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3862,7 +3863,7 @@ extension ListSolNetworkPackagesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListSolNetworkPackagesOutput()
-        value.networkPackages = try reader["networkPackages"].readListIfPresent(memberReadingClosure: TnbClientTypes.ListSolNetworkPackageInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkPackages = try reader["networkPackages"].readListIfPresent(memberReadingClosure: TnbClientTypes.ListSolNetworkPackageInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3875,7 +3876,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -3887,12 +3888,12 @@ extension PutSolFunctionPackageContentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutSolFunctionPackageContentOutput()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.PutSolFunctionPackageContentMetadata.read(from:))
-        value.vnfProductName = try reader["vnfProductName"].readIfPresent()
-        value.vnfProvider = try reader["vnfProvider"].readIfPresent()
-        value.vnfdId = try reader["vnfdId"].readIfPresent()
-        value.vnfdVersion = try reader["vnfdVersion"].readIfPresent()
+        value.vnfProductName = try reader["vnfProductName"].readIfPresent() ?? ""
+        value.vnfProvider = try reader["vnfProvider"].readIfPresent() ?? ""
+        value.vnfdId = try reader["vnfdId"].readIfPresent() ?? ""
+        value.vnfdVersion = try reader["vnfdVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3904,13 +3905,13 @@ extension PutSolNetworkPackageContentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutSolNetworkPackageContentOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.PutSolNetworkPackageContentMetadata.read(from:))
-        value.nsdId = try reader["nsdId"].readIfPresent()
-        value.nsdName = try reader["nsdName"].readIfPresent()
-        value.nsdVersion = try reader["nsdVersion"].readIfPresent()
-        value.vnfPkgIds = try reader["vnfPkgIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nsdId = try reader["nsdId"].readIfPresent() ?? ""
+        value.nsdName = try reader["nsdName"].readIfPresent() ?? ""
+        value.nsdVersion = try reader["nsdVersion"].readIfPresent() ?? ""
+        value.vnfPkgIds = try reader["vnfPkgIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3949,7 +3950,7 @@ extension UpdateSolFunctionPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateSolFunctionPackageOutput()
-        value.operationalState = try reader["operationalState"].readIfPresent()
+        value.operationalState = try reader["operationalState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3974,7 +3975,7 @@ extension UpdateSolNetworkPackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateSolNetworkPackageOutput()
-        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent()
+        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3986,12 +3987,12 @@ extension ValidateSolFunctionPackageContentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ValidateSolFunctionPackageContentOutput()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.ValidateSolFunctionPackageContentMetadata.read(from:))
-        value.vnfProductName = try reader["vnfProductName"].readIfPresent()
-        value.vnfProvider = try reader["vnfProvider"].readIfPresent()
-        value.vnfdId = try reader["vnfdId"].readIfPresent()
-        value.vnfdVersion = try reader["vnfdVersion"].readIfPresent()
+        value.vnfProductName = try reader["vnfProductName"].readIfPresent() ?? ""
+        value.vnfProvider = try reader["vnfProvider"].readIfPresent() ?? ""
+        value.vnfdId = try reader["vnfdId"].readIfPresent() ?? ""
+        value.vnfdVersion = try reader["vnfdVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4003,13 +4004,13 @@ extension ValidateSolNetworkPackageContentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ValidateSolNetworkPackageContentOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.ValidateSolNetworkPackageContentMetadata.read(from:))
-        value.nsdId = try reader["nsdId"].readIfPresent()
-        value.nsdName = try reader["nsdName"].readIfPresent()
-        value.nsdVersion = try reader["nsdVersion"].readIfPresent()
-        value.vnfPkgIds = try reader["vnfPkgIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nsdId = try reader["nsdId"].readIfPresent() ?? ""
+        value.nsdName = try reader["nsdName"].readIfPresent() ?? ""
+        value.nsdVersion = try reader["nsdVersion"].readIfPresent() ?? ""
+        value.vnfPkgIds = try reader["vnfPkgIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4612,7 +4613,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4625,7 +4626,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4638,7 +4639,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4651,7 +4652,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4664,7 +4665,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4677,7 +4678,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4723,8 +4724,8 @@ extension TnbClientTypes.GetSolFunctionInstanceMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolFunctionInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolFunctionInstanceMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4735,8 +4736,8 @@ extension TnbClientTypes.GetSolFunctionPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolFunctionPackageMetadata()
         value.vnfd = try reader["vnfd"].readIfPresent(with: TnbClientTypes.FunctionArtifactMeta.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4767,7 +4768,7 @@ extension TnbClientTypes.LcmOperationInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.LcmOperationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.LcmOperationInfo()
-        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent()
+        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4777,8 +4778,8 @@ extension TnbClientTypes.GetSolNetworkInstanceMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolNetworkInstanceMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4788,7 +4789,7 @@ extension TnbClientTypes.ProblemDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ProblemDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ProblemDetails()
-        value.detail = try reader["detail"].readIfPresent()
+        value.detail = try reader["detail"].readIfPresent() ?? ""
         value.title = try reader["title"].readIfPresent()
         return value
     }
@@ -4799,8 +4800,8 @@ extension TnbClientTypes.GetSolNetworkOperationMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkOperationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolNetworkOperationMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4837,8 +4838,8 @@ extension TnbClientTypes.GetSolNetworkPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolNetworkPackageMetadata()
         value.nsd = try reader["nsd"].readIfPresent(with: TnbClientTypes.NetworkArtifactMeta.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4858,12 +4859,12 @@ extension TnbClientTypes.ListSolFunctionInstanceInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionInstanceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolFunctionInstanceInfo()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.nsInstanceId = try reader["nsInstanceId"].readIfPresent()
-        value.vnfPkgId = try reader["vnfPkgId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.nsInstanceId = try reader["nsInstanceId"].readIfPresent() ?? ""
+        value.vnfPkgId = try reader["vnfPkgId"].readIfPresent() ?? ""
         value.vnfPkgName = try reader["vnfPkgName"].readIfPresent()
-        value.instantiationState = try reader["instantiationState"].readIfPresent()
+        value.instantiationState = try reader["instantiationState"].readIfPresent() ?? .sdkUnknown("")
         value.instantiatedVnfInfo = try reader["instantiatedVnfInfo"].readIfPresent(with: TnbClientTypes.GetSolInstantiatedVnfInfo.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.ListSolFunctionInstanceMetadata.read(from:))
         return value
@@ -4875,8 +4876,8 @@ extension TnbClientTypes.ListSolFunctionInstanceMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolFunctionInstanceMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4896,11 +4897,11 @@ extension TnbClientTypes.ListSolFunctionPackageInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionPackageInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolFunctionPackageInfo()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.onboardingState = try reader["onboardingState"].readIfPresent()
-        value.operationalState = try reader["operationalState"].readIfPresent()
-        value.usageState = try reader["usageState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.onboardingState = try reader["onboardingState"].readIfPresent() ?? .sdkUnknown("")
+        value.operationalState = try reader["operationalState"].readIfPresent() ?? .sdkUnknown("")
+        value.usageState = try reader["usageState"].readIfPresent() ?? .sdkUnknown("")
         value.vnfdId = try reader["vnfdId"].readIfPresent()
         value.vnfProvider = try reader["vnfProvider"].readIfPresent()
         value.vnfProductName = try reader["vnfProductName"].readIfPresent()
@@ -4915,8 +4916,8 @@ extension TnbClientTypes.ListSolFunctionPackageMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolFunctionPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolFunctionPackageMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4926,13 +4927,13 @@ extension TnbClientTypes.ListSolNetworkInstanceInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkInstanceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkInstanceInfo()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.nsInstanceName = try reader["nsInstanceName"].readIfPresent()
-        value.nsInstanceDescription = try reader["nsInstanceDescription"].readIfPresent()
-        value.nsdId = try reader["nsdId"].readIfPresent()
-        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent()
-        value.nsState = try reader["nsState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.nsInstanceName = try reader["nsInstanceName"].readIfPresent() ?? ""
+        value.nsInstanceDescription = try reader["nsInstanceDescription"].readIfPresent() ?? ""
+        value.nsdId = try reader["nsdId"].readIfPresent() ?? ""
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
+        value.nsState = try reader["nsState"].readIfPresent() ?? .sdkUnknown("")
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.ListSolNetworkInstanceMetadata.read(from:))
         return value
     }
@@ -4943,8 +4944,8 @@ extension TnbClientTypes.ListSolNetworkInstanceMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkInstanceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkInstanceMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4954,11 +4955,11 @@ extension TnbClientTypes.ListSolNetworkOperationsInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkOperationsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkOperationsInfo()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.operationState = try reader["operationState"].readIfPresent()
-        value.nsInstanceId = try reader["nsInstanceId"].readIfPresent()
-        value.lcmOperationType = try reader["lcmOperationType"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.operationState = try reader["operationState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsInstanceId = try reader["nsInstanceId"].readIfPresent() ?? ""
+        value.lcmOperationType = try reader["lcmOperationType"].readIfPresent() ?? .sdkUnknown("")
         value.error = try reader["error"].readIfPresent(with: TnbClientTypes.ProblemDetails.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.ListSolNetworkOperationsMetadata.read(from:))
         return value
@@ -4970,8 +4971,8 @@ extension TnbClientTypes.ListSolNetworkOperationsMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkOperationsMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkOperationsMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4981,11 +4982,11 @@ extension TnbClientTypes.ListSolNetworkPackageInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkPackageInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkPackageInfo()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.nsdOnboardingState = try reader["nsdOnboardingState"].readIfPresent()
-        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent()
-        value.nsdUsageState = try reader["nsdUsageState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.nsdOnboardingState = try reader["nsdOnboardingState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsdOperationalState = try reader["nsdOperationalState"].readIfPresent() ?? .sdkUnknown("")
+        value.nsdUsageState = try reader["nsdUsageState"].readIfPresent() ?? .sdkUnknown("")
         value.nsdId = try reader["nsdId"].readIfPresent()
         value.nsdName = try reader["nsdName"].readIfPresent()
         value.nsdVersion = try reader["nsdVersion"].readIfPresent()
@@ -5002,8 +5003,8 @@ extension TnbClientTypes.ListSolNetworkPackageMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkPackageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkPackageMetadata()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

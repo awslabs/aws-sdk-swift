@@ -10108,8 +10108,8 @@ extension BatchDetectDominantLanguageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDetectDominantLanguageOutput()
-        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectDominantLanguageItemResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectDominantLanguageItemResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10121,8 +10121,8 @@ extension BatchDetectEntitiesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDetectEntitiesOutput()
-        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectEntitiesItemResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectEntitiesItemResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10134,8 +10134,8 @@ extension BatchDetectKeyPhrasesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDetectKeyPhrasesOutput()
-        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectKeyPhrasesItemResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectKeyPhrasesItemResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10147,8 +10147,8 @@ extension BatchDetectSentimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDetectSentimentOutput()
-        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectSentimentItemResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectSentimentItemResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10160,8 +10160,8 @@ extension BatchDetectSyntaxOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDetectSyntaxOutput()
-        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectSyntaxItemResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectSyntaxItemResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10173,8 +10173,8 @@ extension BatchDetectTargetedSentimentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDetectTargetedSentimentOutput()
-        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectTargetedSentimentItemResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchItemError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resultList = try reader["ResultList"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.BatchDetectTargetedSentimentItemResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13217,8 +13217,8 @@ extension ComprehendClientTypes.VpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.VpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.VpcConfig()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13234,7 +13234,7 @@ extension ComprehendClientTypes.OutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.OutputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -13252,7 +13252,7 @@ extension ComprehendClientTypes.InputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.InputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.inputFormat = try reader["InputFormat"].readIfPresent()
         value.documentReaderConfig = try reader["DocumentReaderConfig"].readIfPresent(with: ComprehendClientTypes.DocumentReaderConfig.read(from:))
         return value
@@ -13271,7 +13271,7 @@ extension ComprehendClientTypes.DocumentReaderConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentReaderConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentReaderConfig()
-        value.documentReadAction = try reader["DocumentReadAction"].readIfPresent()
+        value.documentReadAction = try reader["DocumentReadAction"].readIfPresent() ?? .sdkUnknown("")
         value.documentReadMode = try reader["DocumentReadMode"].readIfPresent()
         value.featureTypes = try reader["FeatureTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComprehendClientTypes.DocumentReadFeatureTypes>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -13395,7 +13395,7 @@ extension ComprehendClientTypes.DocumentClassifierDocuments {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClassifierDocuments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentClassifierDocuments()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.testS3Uri = try reader["TestS3Uri"].readIfPresent()
         return value
     }
@@ -13416,9 +13416,9 @@ extension ComprehendClientTypes.AugmentedManifestsListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.AugmentedManifestsListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.AugmentedManifestsListItem()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.split = try reader["Split"].readIfPresent()
-        value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.annotationDataS3Uri = try reader["AnnotationDataS3Uri"].readIfPresent()
         value.sourceDocumentsS3Uri = try reader["SourceDocumentsS3Uri"].readIfPresent()
         value.documentType = try reader["DocumentType"].readIfPresent()
@@ -13594,7 +13594,7 @@ extension ComprehendClientTypes.EntityRecognizerInputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerInputDataConfig()
         value.dataFormat = try reader["DataFormat"].readIfPresent()
-        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.EntityTypesListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.EntityTypesListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.documents = try reader["Documents"].readIfPresent(with: ComprehendClientTypes.EntityRecognizerDocuments.read(from:))
         value.annotations = try reader["Annotations"].readIfPresent(with: ComprehendClientTypes.EntityRecognizerAnnotations.read(from:))
         value.entityList = try reader["EntityList"].readIfPresent(with: ComprehendClientTypes.EntityRecognizerEntityList.read(from:))
@@ -13613,7 +13613,7 @@ extension ComprehendClientTypes.EntityRecognizerEntityList {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerEntityList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerEntityList()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13629,7 +13629,7 @@ extension ComprehendClientTypes.EntityRecognizerAnnotations {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerAnnotations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerAnnotations()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.testS3Uri = try reader["TestS3Uri"].readIfPresent()
         return value
     }
@@ -13647,7 +13647,7 @@ extension ComprehendClientTypes.EntityRecognizerDocuments {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognizerDocuments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognizerDocuments()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.testS3Uri = try reader["TestS3Uri"].readIfPresent()
         value.inputFormat = try reader["InputFormat"].readIfPresent()
         return value
@@ -13664,7 +13664,7 @@ extension ComprehendClientTypes.EntityTypesListItem {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityTypesListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityTypesListItem()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13744,7 +13744,7 @@ extension ComprehendClientTypes.TaskConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.TaskConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.TaskConfig()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent() ?? .sdkUnknown("")
         value.documentClassificationConfig = try reader["DocumentClassificationConfig"].readIfPresent(with: ComprehendClientTypes.DocumentClassificationConfig.read(from:))
         value.entityRecognitionConfig = try reader["EntityRecognitionConfig"].readIfPresent(with: ComprehendClientTypes.EntityRecognitionConfig.read(from:))
         return value
@@ -13761,7 +13761,7 @@ extension ComprehendClientTypes.EntityRecognitionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.EntityRecognitionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.EntityRecognitionConfig()
-        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.EntityTypesListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: ComprehendClientTypes.EntityTypesListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13777,7 +13777,7 @@ extension ComprehendClientTypes.DocumentClassificationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.DocumentClassificationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.DocumentClassificationConfig()
-        value.mode = try reader["Mode"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
         value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -13884,7 +13884,7 @@ extension ComprehendClientTypes.PiiOutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.PiiOutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.PiiOutputDataConfig()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -14109,7 +14109,7 @@ extension ComprehendClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComprehendClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }
