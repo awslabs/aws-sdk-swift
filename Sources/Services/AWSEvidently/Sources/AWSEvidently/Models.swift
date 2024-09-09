@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient permissions to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -593,7 +594,7 @@ public struct CreateExperimentInput {
         onlineAbConfig: EvidentlyClientTypes.OnlineAbConfig? = nil,
         project: Swift.String? = nil,
         randomizationSalt: Swift.String? = nil,
-        samplingRate: Swift.Int? = nil,
+        samplingRate: Swift.Int? = 0,
         segment: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         treatments: [EvidentlyClientTypes.TreatmentConfig]? = nil
@@ -2738,7 +2739,7 @@ public struct UpdateExperimentInput {
         project: Swift.String? = nil,
         randomizationSalt: Swift.String? = nil,
         removeSegment: Swift.Bool = false,
-        samplingRate: Swift.Int? = nil,
+        samplingRate: Swift.Int? = 0,
         segment: Swift.String? = nil,
         treatments: [EvidentlyClientTypes.TreatmentConfig]? = nil
     )
@@ -4773,7 +4774,7 @@ extension TestSegmentPatternOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = TestSegmentPatternOutput()
-        value.match = try reader["match"].readIfPresent()
+        value.match = try reader["match"].readIfPresent() ?? false
         return value
     }
 }
@@ -5624,10 +5625,10 @@ extension EvidentlyClientTypes.EvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.EvaluationResult()
         value.project = try reader["project"].readIfPresent()
-        value.feature = try reader["feature"].readIfPresent()
+        value.feature = try reader["feature"].readIfPresent() ?? ""
         value.variation = try reader["variation"].readIfPresent()
         value.value = try reader["value"].readIfPresent(with: EvidentlyClientTypes.VariableValue.read(from:))
-        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
         value.reason = try reader["reason"].readIfPresent()
         value.details = try reader["details"].readIfPresent()
         return value
@@ -5675,14 +5676,14 @@ extension EvidentlyClientTypes.Experiment {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Experiment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Experiment()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.project = try reader["project"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.schedule = try reader["schedule"].readIfPresent(with: EvidentlyClientTypes.ExperimentSchedule.read(from:))
         value.execution = try reader["execution"].readIfPresent(with: EvidentlyClientTypes.ExperimentExecution.read(from:))
         value.treatments = try reader["treatments"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.Treatment.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5690,7 +5691,7 @@ extension EvidentlyClientTypes.Experiment {
         value.randomizationSalt = try reader["randomizationSalt"].readIfPresent()
         value.samplingRate = try reader["samplingRate"].readIfPresent() ?? 0
         value.segment = try reader["segment"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.onlineAbDefinition = try reader["onlineAbDefinition"].readIfPresent(with: EvidentlyClientTypes.OnlineAbDefinition.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -5738,7 +5739,7 @@ extension EvidentlyClientTypes.Treatment {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Treatment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Treatment()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.featureVariations = try reader["featureVariations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -5771,16 +5772,16 @@ extension EvidentlyClientTypes.Feature {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Feature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Feature()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.project = try reader["project"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.evaluationStrategy = try reader["evaluationStrategy"].readIfPresent()
-        value.valueType = try reader["valueType"].readIfPresent()
-        value.variations = try reader["variations"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.Variation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationStrategy = try reader["evaluationStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.valueType = try reader["valueType"].readIfPresent() ?? .sdkUnknown("")
+        value.variations = try reader["variations"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.Variation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.defaultVariation = try reader["defaultVariation"].readIfPresent()
         value.evaluationRules = try reader["evaluationRules"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.EvaluationRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5795,7 +5796,7 @@ extension EvidentlyClientTypes.EvaluationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.EvaluationRule()
         value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5816,19 +5817,19 @@ extension EvidentlyClientTypes.Launch {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Launch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Launch()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.project = try reader["project"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.execution = try reader["execution"].readIfPresent(with: EvidentlyClientTypes.LaunchExecution.read(from:))
         value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.LaunchGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metricMonitors = try reader["metricMonitors"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.MetricMonitor.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.randomizationSalt = try reader["randomizationSalt"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.scheduledSplitsDefinition = try reader["scheduledSplitsDefinition"].readIfPresent(with: EvidentlyClientTypes.ScheduledSplitsLaunchDefinition.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -5850,7 +5851,7 @@ extension EvidentlyClientTypes.ScheduledSplit {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ScheduledSplit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ScheduledSplit()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.groupWeights = try reader["groupWeights"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.segmentOverrides = try reader["segmentOverrides"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.SegmentOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -5869,9 +5870,9 @@ extension EvidentlyClientTypes.SegmentOverride {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.SegmentOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.SegmentOverride()
-        value.segment = try reader["segment"].readIfPresent()
-        value.evaluationOrder = try reader["evaluationOrder"].readIfPresent()
-        value.weights = try reader["weights"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.segment = try reader["segment"].readIfPresent() ?? ""
+        value.evaluationOrder = try reader["evaluationOrder"].readIfPresent() ?? 0
+        value.weights = try reader["weights"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -5891,9 +5892,9 @@ extension EvidentlyClientTypes.LaunchGroup {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.LaunchGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.LaunchGroup()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.featureVariations = try reader["featureVariations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.featureVariations = try reader["featureVariations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -5914,12 +5915,12 @@ extension EvidentlyClientTypes.Project {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Project {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Project()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.featureCount = try reader["featureCount"].readIfPresent()
         value.launchCount = try reader["launchCount"].readIfPresent()
         value.activeLaunchCount = try reader["activeLaunchCount"].readIfPresent()
@@ -5937,9 +5938,9 @@ extension EvidentlyClientTypes.ProjectAppConfigResource {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ProjectAppConfigResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ProjectAppConfigResource()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.configurationProfileId = try reader["configurationProfileId"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.configurationProfileId = try reader["configurationProfileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5981,11 +5982,11 @@ extension EvidentlyClientTypes.Segment {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.Segment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.Segment()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.pattern = try reader["pattern"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.pattern = try reader["pattern"].readIfPresent() ?? ""
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.experimentCount = try reader["experimentCount"].readIfPresent()
         value.launchCount = try reader["launchCount"].readIfPresent()
@@ -6025,13 +6026,13 @@ extension EvidentlyClientTypes.FeatureSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.FeatureSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.FeatureSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.project = try reader["project"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.evaluationStrategy = try reader["evaluationStrategy"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.evaluationStrategy = try reader["evaluationStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.evaluationRules = try reader["evaluationRules"].readListIfPresent(memberReadingClosure: EvidentlyClientTypes.EvaluationRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.defaultVariation = try reader["defaultVariation"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -6044,12 +6045,12 @@ extension EvidentlyClientTypes.ProjectSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ProjectSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ProjectSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.featureCount = try reader["featureCount"].readIfPresent()
         value.launchCount = try reader["launchCount"].readIfPresent()
         value.activeLaunchCount = try reader["activeLaunchCount"].readIfPresent()
@@ -6065,8 +6066,8 @@ extension EvidentlyClientTypes.RefResource {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.RefResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.RefResource()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.startTime = try reader["startTime"].readIfPresent()
@@ -6093,8 +6094,8 @@ extension EvidentlyClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> EvidentlyClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvidentlyClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

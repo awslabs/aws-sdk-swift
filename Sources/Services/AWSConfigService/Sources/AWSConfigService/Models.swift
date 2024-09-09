@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteAggregationAuthorizationOutput {
 
@@ -4958,7 +4959,7 @@ public struct DescribeAggregateComplianceByConfigRulesInput {
     public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ConfigRuleComplianceFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4999,7 +5000,7 @@ public struct DescribeAggregateComplianceByConformancePacksInput {
     public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.AggregateConformancePackComplianceFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5033,7 +5034,7 @@ public struct DescribeAggregationAuthorizationsInput {
     public var nextToken: Swift.String?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5111,7 +5112,7 @@ public struct DescribeComplianceByResourceInput {
 
     public init(
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
@@ -5153,7 +5154,7 @@ public struct DescribeConfigRuleEvaluationStatusInput {
 
     public init(
         configRuleNames: [Swift.String]? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5244,7 +5245,7 @@ public struct DescribeConfigurationAggregatorsInput {
 
     public init(
         configurationAggregatorNames: [Swift.String]? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5289,7 +5290,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusInput {
 
     public init(
         configurationAggregatorName: Swift.String? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         updateStatus: [ConfigClientTypes.AggregatedSourceStatusType]? = nil
     )
@@ -5408,7 +5409,7 @@ public struct DescribeConformancePackComplianceInput {
     public init(
         conformancePackName: Swift.String? = nil,
         filters: ConfigClientTypes.ConformancePackComplianceFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5451,7 +5452,7 @@ public struct DescribeConformancePacksInput {
 
     public init(
         conformancePackNames: [Swift.String]? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5487,7 +5488,7 @@ public struct DescribeConformancePackStatusInput {
 
     public init(
         conformancePackNames: [Swift.String]? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5574,7 +5575,7 @@ public struct DescribeOrganizationConfigRulesInput {
     public var organizationConfigRuleNames: [Swift.String]?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
     )
@@ -5870,7 +5871,7 @@ public struct DescribeOrganizationConfigRuleStatusesInput {
     public var organizationConfigRuleNames: [Swift.String]?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
     )
@@ -6008,7 +6009,7 @@ public struct DescribeOrganizationConformancePacksInput {
     public var organizationConformancePackNames: [Swift.String]?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
     )
@@ -6087,7 +6088,7 @@ public struct DescribeOrganizationConformancePackStatusesInput {
     public var organizationConformancePackNames: [Swift.String]?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
     )
@@ -6223,7 +6224,7 @@ public struct DescribePendingAggregationRequestsInput {
     public var nextToken: Swift.String?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -6511,7 +6512,7 @@ public struct DescribeRemediationExceptionsInput {
 
     public init(
         configRuleName: Swift.String? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil
     )
@@ -6587,7 +6588,7 @@ public struct DescribeRemediationExecutionStatusInput {
 
     public init(
         configRuleName: Swift.String? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.ResourceKey]? = nil
     )
@@ -7059,7 +7060,7 @@ public struct GetAggregateComplianceDetailsByConfigRuleInput {
         complianceType: ConfigClientTypes.ComplianceType? = nil,
         configRuleName: Swift.String? = nil,
         configurationAggregatorName: Swift.String? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7106,7 +7107,7 @@ public struct GetAggregateConfigRuleComplianceSummaryInput {
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ConfigRuleComplianceSummaryFilters? = nil,
         groupByKey: ConfigClientTypes.ConfigRuleComplianceSummaryGroupKey? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7155,7 +7156,7 @@ public struct GetAggregateConformancePackComplianceSummaryInput {
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters? = nil,
         groupByKey: ConfigClientTypes.AggregateConformancePackComplianceSummaryGroupKey? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7260,7 +7261,7 @@ public struct GetAggregateDiscoveredResourceCountsInput {
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ResourceCountFilters? = nil,
         groupByKey: ConfigClientTypes.ResourceCountGroupKey? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7414,7 +7415,7 @@ public struct GetComplianceDetailsByConfigRuleInput {
     public init(
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         configRuleName: Swift.String? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7541,7 +7542,7 @@ public struct GetConformancePackComplianceDetailsInput {
     public init(
         conformancePackName: Swift.String? = nil,
         filters: ConfigClientTypes.ConformancePackEvaluationFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7584,7 +7585,7 @@ public struct GetConformancePackComplianceSummaryInput {
 
     public init(
         conformancePackNames: [Swift.String]? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7643,7 +7644,7 @@ public struct GetDiscoveredResourceCountsInput {
     public var resourceTypes: [Swift.String]?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil
     )
@@ -7801,7 +7802,7 @@ public struct GetOrganizationConfigRuleDetailedStatusInput {
 
     public init(
         filters: ConfigClientTypes.StatusDetailFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConfigRuleName: Swift.String? = nil
     )
@@ -7987,7 +7988,7 @@ public struct GetOrganizationConformancePackDetailedStatusInput {
 
     public init(
         filters: ConfigClientTypes.OrganizationResourceDetailedStatusFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         organizationConformancePackName: Swift.String? = nil
     )
@@ -8145,7 +8146,7 @@ public struct GetResourceConfigHistoryInput {
         chronologicalOrder: ConfigClientTypes.ChronologicalOrder? = nil,
         earlierTime: Foundation.Date? = nil,
         laterTime: Foundation.Date? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConfigClientTypes.ResourceType? = nil
@@ -8701,7 +8702,7 @@ public struct ListAggregateDiscoveredResourcesInput {
     public init(
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ResourceFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceType: ConfigClientTypes.ResourceType? = nil
     )
@@ -8799,7 +8800,7 @@ public struct ListConformancePackComplianceScoresInput {
 
     public init(
         filters: ConfigClientTypes.ConformancePackComplianceScoresFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         sortBy: ConfigClientTypes.SortBy? = nil,
         sortOrder: ConfigClientTypes.SortOrder? = nil
@@ -8847,8 +8848,8 @@ public struct ListDiscoveredResourcesInput {
     public var resourceType: ConfigClientTypes.ResourceType?
 
     public init(
-        includeDeletedResources: Swift.Bool? = nil,
-        limit: Swift.Int? = nil,
+        includeDeletedResources: Swift.Bool? = false,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceName: Swift.String? = nil,
@@ -8963,7 +8964,7 @@ public struct ListResourceEvaluationsInput {
 
     public init(
         filters: ConfigClientTypes.ResourceEvaluationFilters? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -9020,7 +9021,7 @@ public struct ListStoredQueriesInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -9086,7 +9087,7 @@ public struct ListTagsForResourceInput {
     public var resourceArn: Swift.String?
 
     public init(
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -9698,7 +9699,7 @@ public struct PutEvaluationsInput {
     public init(
         evaluations: [ConfigClientTypes.Evaluation]? = nil,
         resultToken: Swift.String? = nil,
-        testMode: Swift.Bool? = nil
+        testMode: Swift.Bool? = false
     )
     {
         self.evaluations = evaluations
@@ -10068,8 +10069,8 @@ public struct SelectAggregateResourceConfigInput {
     public init(
         configurationAggregatorName: Swift.String? = nil,
         expression: Swift.String? = nil,
-        limit: Swift.Int? = nil,
-        maxResults: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -10112,7 +10113,7 @@ public struct SelectResourceConfigInput {
 
     public init(
         expression: Swift.String? = nil,
-        limit: Swift.Int? = nil,
+        limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -10227,7 +10228,7 @@ public struct StartResourceEvaluationInput {
         clientToken: Swift.String? = nil,
         evaluationContext: ConfigClientTypes.EvaluationContext? = nil,
         evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
-        evaluationTimeout: Swift.Int? = nil,
+        evaluationTimeout: Swift.Int? = 0,
         resourceDetails: ConfigClientTypes.ResourceDetails? = nil
     )
     {
@@ -12138,8 +12139,8 @@ extension DescribeConformancePackComplianceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeConformancePackComplianceOutput()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.conformancePackRuleComplianceList = try reader["ConformancePackRuleComplianceList"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackRuleCompliance.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.conformancePackRuleComplianceList = try reader["ConformancePackRuleComplianceList"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackRuleCompliance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -12436,7 +12437,7 @@ extension GetConformancePackComplianceDetailsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetConformancePackComplianceDetailsOutput()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
         value.conformancePackRuleEvaluationResults = try reader["ConformancePackRuleEvaluationResults"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackEvaluationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
@@ -12583,7 +12584,7 @@ extension ListConformancePackComplianceScoresOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListConformancePackComplianceScoresOutput()
-        value.conformancePackComplianceScores = try reader["ConformancePackComplianceScores"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackComplianceScore.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conformancePackComplianceScores = try reader["ConformancePackComplianceScores"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackComplianceScore.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -15094,10 +15095,10 @@ extension ConfigClientTypes.AggregateResourceIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateResourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.AggregateResourceIdentifier()
-        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent()
-        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent() ?? ""
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceName = try reader["ResourceName"].readIfPresent()
         return value
     }
@@ -15114,8 +15115,8 @@ extension ConfigClientTypes.ResourceKey {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ResourceKey()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15332,7 +15333,7 @@ extension ConfigClientTypes.Source {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Source {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.Source()
-        value.owner = try reader["Owner"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent() ?? .sdkUnknown("")
         value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
         value.sourceDetails = try reader["SourceDetails"].readListIfPresent(memberReadingClosure: ConfigClientTypes.SourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customPolicyDetails = try reader["CustomPolicyDetails"].readIfPresent(with: ConfigClientTypes.CustomPolicyDetails.read(from:))
@@ -15352,8 +15353,8 @@ extension ConfigClientTypes.CustomPolicyDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.CustomPolicyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.CustomPolicyDetails()
-        value.policyRuntime = try reader["PolicyRuntime"].readIfPresent()
-        value.policyText = try reader["PolicyText"].readIfPresent()
+        value.policyRuntime = try reader["PolicyRuntime"].readIfPresent() ?? ""
+        value.policyText = try reader["PolicyText"].readIfPresent() ?? ""
         value.enableDebugLogDelivery = try reader["EnableDebugLogDelivery"].readIfPresent() ?? false
         return value
     }
@@ -15427,7 +15428,7 @@ extension ConfigClientTypes.OrganizationAggregationSource {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationAggregationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationAggregationSource()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
         return value
@@ -15446,7 +15447,7 @@ extension ConfigClientTypes.AccountAggregationSource {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AccountAggregationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.AccountAggregationSource()
-        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
         value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -15501,7 +15502,7 @@ extension ConfigClientTypes.RecordingMode {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RecordingMode()
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent()
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
         value.recordingModeOverrides = try reader["recordingModeOverrides"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RecordingModeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -15520,8 +15521,8 @@ extension ConfigClientTypes.RecordingModeOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RecordingModeOverride()
         value.description = try reader["description"].readIfPresent()
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent()
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15613,9 +15614,9 @@ extension ConfigClientTypes.ConformancePackDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConformancePackDetail()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.conformancePackArn = try reader["ConformancePackArn"].readIfPresent()
-        value.conformancePackId = try reader["ConformancePackId"].readIfPresent()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.conformancePackArn = try reader["ConformancePackArn"].readIfPresent() ?? ""
+        value.conformancePackId = try reader["ConformancePackId"].readIfPresent() ?? ""
         value.deliveryS3Bucket = try reader["DeliveryS3Bucket"].readIfPresent()
         value.deliveryS3KeyPrefix = try reader["DeliveryS3KeyPrefix"].readIfPresent()
         value.conformancePackInputParameters = try reader["ConformancePackInputParameters"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15637,7 +15638,7 @@ extension ConfigClientTypes.TemplateSSMDocumentDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.TemplateSSMDocumentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.TemplateSSMDocumentDetails()
-        value.documentName = try reader["DocumentName"].readIfPresent()
+        value.documentName = try reader["DocumentName"].readIfPresent() ?? ""
         value.documentVersion = try reader["DocumentVersion"].readIfPresent()
         return value
     }
@@ -15654,8 +15655,8 @@ extension ConfigClientTypes.ConformancePackInputParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackInputParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConformancePackInputParameter()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
+        value.parameterName = try reader["ParameterName"].readIfPresent() ?? ""
+        value.parameterValue = try reader["ParameterValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15665,13 +15666,13 @@ extension ConfigClientTypes.ConformancePackStatusDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackStatusDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConformancePackStatusDetail()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.conformancePackId = try reader["ConformancePackId"].readIfPresent()
-        value.conformancePackArn = try reader["ConformancePackArn"].readIfPresent()
-        value.conformancePackState = try reader["ConformancePackState"].readIfPresent()
-        value.stackArn = try reader["StackArn"].readIfPresent()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.conformancePackId = try reader["ConformancePackId"].readIfPresent() ?? ""
+        value.conformancePackArn = try reader["ConformancePackArn"].readIfPresent() ?? ""
+        value.conformancePackState = try reader["ConformancePackState"].readIfPresent() ?? .sdkUnknown("")
+        value.stackArn = try reader["StackArn"].readIfPresent() ?? ""
         value.conformancePackStatusReason = try reader["ConformancePackStatusReason"].readIfPresent()
-        value.lastUpdateRequestedTime = try reader["LastUpdateRequestedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateRequestedTime = try reader["LastUpdateRequestedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdateCompletedTime = try reader["LastUpdateCompletedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -15763,8 +15764,8 @@ extension ConfigClientTypes.OrganizationConfigRule {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationConfigRule()
-        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent()
-        value.organizationConfigRuleArn = try reader["OrganizationConfigRuleArn"].readIfPresent()
+        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent() ?? ""
+        value.organizationConfigRuleArn = try reader["OrganizationConfigRuleArn"].readIfPresent() ?? ""
         value.organizationManagedRuleMetadata = try reader["OrganizationManagedRuleMetadata"].readIfPresent(with: ConfigClientTypes.OrganizationManagedRuleMetadata.read(from:))
         value.organizationCustomRuleMetadata = try reader["OrganizationCustomRuleMetadata"].readIfPresent(with: ConfigClientTypes.OrganizationCustomRuleMetadata.read(from:))
         value.excludedAccounts = try reader["ExcludedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15812,8 +15813,8 @@ extension ConfigClientTypes.OrganizationCustomRuleMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationCustomRuleMetadata()
         value.description = try reader["Description"].readIfPresent()
-        value.lambdaFunctionArn = try reader["LambdaFunctionArn"].readIfPresent()
-        value.organizationConfigRuleTriggerTypes = try reader["OrganizationConfigRuleTriggerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.OrganizationConfigRuleTriggerType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lambdaFunctionArn = try reader["LambdaFunctionArn"].readIfPresent() ?? ""
+        value.organizationConfigRuleTriggerTypes = try reader["OrganizationConfigRuleTriggerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.OrganizationConfigRuleTriggerType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.inputParameters = try reader["InputParameters"].readIfPresent()
         value.maximumExecutionFrequency = try reader["MaximumExecutionFrequency"].readIfPresent()
         value.resourceTypesScope = try reader["ResourceTypesScope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15842,7 +15843,7 @@ extension ConfigClientTypes.OrganizationManagedRuleMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationManagedRuleMetadata()
         value.description = try reader["Description"].readIfPresent()
-        value.ruleIdentifier = try reader["RuleIdentifier"].readIfPresent()
+        value.ruleIdentifier = try reader["RuleIdentifier"].readIfPresent() ?? ""
         value.inputParameters = try reader["InputParameters"].readIfPresent()
         value.maximumExecutionFrequency = try reader["MaximumExecutionFrequency"].readIfPresent()
         value.resourceTypesScope = try reader["ResourceTypesScope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15858,8 +15859,8 @@ extension ConfigClientTypes.OrganizationConfigRuleStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRuleStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationConfigRuleStatus()
-        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent()
-        value.organizationRuleStatus = try reader["OrganizationRuleStatus"].readIfPresent()
+        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent() ?? ""
+        value.organizationRuleStatus = try reader["OrganizationRuleStatus"].readIfPresent() ?? .sdkUnknown("")
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -15872,13 +15873,13 @@ extension ConfigClientTypes.OrganizationConformancePack {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationConformancePack()
-        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent()
-        value.organizationConformancePackArn = try reader["OrganizationConformancePackArn"].readIfPresent()
+        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
+        value.organizationConformancePackArn = try reader["OrganizationConformancePackArn"].readIfPresent() ?? ""
         value.deliveryS3Bucket = try reader["DeliveryS3Bucket"].readIfPresent()
         value.deliveryS3KeyPrefix = try reader["DeliveryS3KeyPrefix"].readIfPresent()
         value.conformancePackInputParameters = try reader["ConformancePackInputParameters"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.excludedAccounts = try reader["ExcludedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -15888,8 +15889,8 @@ extension ConfigClientTypes.OrganizationConformancePackStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationConformancePackStatus()
-        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -15929,9 +15930,9 @@ extension ConfigClientTypes.RemediationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RemediationConfiguration()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.targetType = try reader["TargetType"].readIfPresent()
-        value.targetId = try reader["TargetId"].readIfPresent()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent() ?? ""
+        value.targetType = try reader["TargetType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetId = try reader["TargetId"].readIfPresent() ?? ""
         value.targetVersion = try reader["TargetVersion"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: ConfigClientTypes.RemediationParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.resourceType = try reader["ResourceType"].readIfPresent()
@@ -16004,7 +16005,7 @@ extension ConfigClientTypes.StaticValue {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StaticValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.StaticValue()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -16019,7 +16020,7 @@ extension ConfigClientTypes.ResourceValue {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ResourceValue()
-        value.value = try reader["Value"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16029,9 +16030,9 @@ extension ConfigClientTypes.RemediationException {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RemediationException()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
         value.message = try reader["Message"].readIfPresent()
         value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -16071,8 +16072,8 @@ extension ConfigClientTypes.RetentionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RetentionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.RetentionConfiguration()
-        value.name = try reader["Name"].readIfPresent()
-        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent() ?? 0
         return value
     }
 }
@@ -16168,7 +16169,7 @@ extension ConfigClientTypes.GroupedResourceCount {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.GroupedResourceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.GroupedResourceCount()
-        value.groupName = try reader["GroupName"].readIfPresent()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
         value.resourceCount = try reader["ResourceCount"].readIfPresent() ?? 0
         return value
     }
@@ -16247,10 +16248,10 @@ extension ConfigClientTypes.ConformancePackEvaluationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackEvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConformancePackEvaluationResult()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
         value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
-        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.annotation = try reader["Annotation"].readIfPresent()
         return value
     }
@@ -16261,8 +16262,8 @@ extension ConfigClientTypes.ConformancePackComplianceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConformancePackComplianceSummary()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.conformancePackComplianceStatus = try reader["ConformancePackComplianceStatus"].readIfPresent()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.conformancePackComplianceStatus = try reader["ConformancePackComplianceStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16283,9 +16284,9 @@ extension ConfigClientTypes.MemberAccountStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.MemberAccountStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.MemberAccountStatus()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.memberAccountRuleStatus = try reader["MemberAccountRuleStatus"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent() ?? ""
+        value.memberAccountRuleStatus = try reader["MemberAccountRuleStatus"].readIfPresent() ?? .sdkUnknown("")
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -16298,9 +16299,9 @@ extension ConfigClientTypes.OrganizationConformancePackDetailedStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackDetailedStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.OrganizationConformancePackDetailedStatus()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -16313,7 +16314,7 @@ extension ConfigClientTypes.EvaluationStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.EvaluationStatus()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
@@ -16347,9 +16348,9 @@ extension ConfigClientTypes.ResourceDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ResourceDetails()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceConfiguration = try reader["ResourceConfiguration"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.resourceConfiguration = try reader["ResourceConfiguration"].readIfPresent() ?? ""
         value.resourceConfigurationSchemaType = try reader["ResourceConfigurationSchemaType"].readIfPresent()
         return value
     }
@@ -16371,7 +16372,7 @@ extension ConfigClientTypes.StoredQuery {
         var value = ConfigClientTypes.StoredQuery()
         value.queryId = try reader["QueryId"].readIfPresent()
         value.queryArn = try reader["QueryArn"].readIfPresent()
-        value.queryName = try reader["QueryName"].readIfPresent()
+        value.queryName = try reader["QueryName"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.expression = try reader["Expression"].readIfPresent()
         return value
@@ -16420,9 +16421,9 @@ extension ConfigClientTypes.StoredQueryMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StoredQueryMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.StoredQueryMetadata()
-        value.queryId = try reader["QueryId"].readIfPresent()
-        value.queryArn = try reader["QueryArn"].readIfPresent()
-        value.queryName = try reader["QueryName"].readIfPresent()
+        value.queryId = try reader["QueryId"].readIfPresent() ?? ""
+        value.queryArn = try reader["QueryArn"].readIfPresent() ?? ""
+        value.queryName = try reader["QueryName"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         return value
     }
@@ -16459,11 +16460,11 @@ extension ConfigClientTypes.Evaluation {
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Evaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.Evaluation()
-        value.complianceResourceType = try reader["ComplianceResourceType"].readIfPresent()
-        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.complianceResourceType = try reader["ComplianceResourceType"].readIfPresent() ?? ""
+        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent() ?? ""
+        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
         value.annotation = try reader["Annotation"].readIfPresent()
-        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

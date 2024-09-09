@@ -4158,11 +4158,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4175,7 +4175,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4188,7 +4188,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4201,7 +4201,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4214,9 +4214,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4229,9 +4229,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4248,7 +4248,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4263,7 +4263,7 @@ extension InvalidResourcePolicyException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourcePolicyException {
         let reader = baseError.errorBodyReader
         var value = InvalidResourcePolicyException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4302,8 +4302,8 @@ extension MigrationHubRefactorSpacesClientTypes.UriPathRouteInput {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UriPathRouteInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubRefactorSpacesClientTypes.UriPathRouteInput()
-        value.sourcePath = try reader["SourcePath"].readIfPresent()
-        value.activationState = try reader["ActivationState"].readIfPresent()
+        value.sourcePath = try reader["SourcePath"].readIfPresent() ?? ""
+        value.activationState = try reader["ActivationState"].readIfPresent() ?? .sdkUnknown("")
         value.methods = try reader["Methods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubRefactorSpacesClientTypes.HttpMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.includeChildPaths = try reader["IncludeChildPaths"].readIfPresent()
         value.appendSourcePath = try reader["AppendSourcePath"].readIfPresent()
@@ -4322,7 +4322,7 @@ extension MigrationHubRefactorSpacesClientTypes.UrlEndpointInput {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UrlEndpointInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubRefactorSpacesClientTypes.UrlEndpointInput()
-        value.url = try reader["Url"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent() ?? ""
         value.healthUrl = try reader["HealthUrl"].readIfPresent()
         return value
     }
@@ -4338,7 +4338,7 @@ extension MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }

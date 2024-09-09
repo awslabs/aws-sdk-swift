@@ -102,7 +102,7 @@ extension AppConfigClientTypes {
         public var protectionPeriodInMinutes: Swift.Int?
 
         public init(
-            enabled: Swift.Bool? = nil,
+            enabled: Swift.Bool? = false,
             protectionPeriodInMinutes: Swift.Int? = nil
         )
         {
@@ -702,9 +702,9 @@ public struct CreateDeploymentStrategyInput {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
-        deploymentDurationInMinutes: Swift.Int? = nil,
+        deploymentDurationInMinutes: Swift.Int? = 0,
         description: Swift.String? = nil,
-        finalBakeTimeInMinutes: Swift.Int? = nil,
+        finalBakeTimeInMinutes: Swift.Int? = 0,
         growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         name: Swift.String? = nil,
@@ -948,7 +948,7 @@ public struct CreateExtensionInput {
     public init(
         actions: [Swift.String: [AppConfigClientTypes.Action]]? = nil,
         description: Swift.String? = nil,
-        latestVersionNumber: Swift.Int? = nil,
+        latestVersionNumber: Swift.Int? = 0,
         name: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -1015,7 +1015,7 @@ public struct CreateExtensionAssociationInput {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        extensionVersionNumber: Swift.Int? = nil,
+        extensionVersionNumber: Swift.Int? = 0,
         parameters: [Swift.String: Swift.String]? = nil,
         resourceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -1146,7 +1146,7 @@ public struct CreateHostedConfigurationVersionInput {
         content: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         description: Swift.String? = nil,
-        latestVersionNumber: Swift.Int? = nil,
+        latestVersionNumber: Swift.Int? = 0,
         versionLabel: Swift.String? = nil
     )
     {
@@ -1333,7 +1333,7 @@ public struct DeleteExtensionInput {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.extensionIdentifier = extensionIdentifier
@@ -1368,7 +1368,7 @@ public struct DeleteHostedConfigurationVersionInput {
     public init(
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.applicationId = applicationId
@@ -1559,7 +1559,7 @@ public struct GetDeploymentInput {
 
     public init(
         applicationId: Swift.String? = nil,
-        deploymentNumber: Swift.Int? = nil,
+        deploymentNumber: Swift.Int? = 0,
         environmentId: Swift.String? = nil
     )
     {
@@ -1960,7 +1960,7 @@ public struct GetExtensionInput {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.extensionIdentifier = extensionIdentifier
@@ -2063,7 +2063,7 @@ public struct GetHostedConfigurationVersionInput {
     public init(
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.applicationId = applicationId
@@ -2513,7 +2513,7 @@ public struct ListExtensionAssociationsInput {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        extensionVersionNumber: Swift.Int? = nil,
+        extensionVersionNumber: Swift.Int? = 0,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
@@ -2904,7 +2904,7 @@ public struct StopDeploymentInput {
 
     public init(
         applicationId: Swift.String? = nil,
-        deploymentNumber: Swift.Int? = nil,
+        deploymentNumber: Swift.Int? = 0,
         environmentId: Swift.String? = nil
     )
     {
@@ -3217,10 +3217,10 @@ public struct UpdateDeploymentStrategyInput {
     public var growthType: AppConfigClientTypes.GrowthType?
 
     public init(
-        deploymentDurationInMinutes: Swift.Int? = nil,
+        deploymentDurationInMinutes: Swift.Int? = 0,
         deploymentStrategyId: Swift.String? = nil,
         description: Swift.String? = nil,
-        finalBakeTimeInMinutes: Swift.Int? = nil,
+        finalBakeTimeInMinutes: Swift.Int? = 0,
         growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil
     )
@@ -3354,7 +3354,7 @@ public struct UpdateExtensionInput {
         description: Swift.String? = nil,
         extensionIdentifier: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
-        versionNumber: Swift.Int? = nil
+        versionNumber: Swift.Int? = 0
     )
     {
         self.actions = actions
@@ -5951,8 +5951,8 @@ extension AppConfigClientTypes.Validator {
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Validator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.Validator()
-        value.type = try reader["Type"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["Content"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5968,7 +5968,7 @@ extension AppConfigClientTypes.Monitor {
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Monitor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppConfigClientTypes.Monitor()
-        value.alarmArn = try reader["AlarmArn"].readIfPresent()
+        value.alarmArn = try reader["AlarmArn"].readIfPresent() ?? ""
         value.alarmRoleArn = try reader["AlarmRoleArn"].readIfPresent()
         return value
     }

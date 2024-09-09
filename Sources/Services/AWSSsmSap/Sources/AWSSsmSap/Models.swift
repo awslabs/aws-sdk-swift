@@ -1630,7 +1630,7 @@ public struct ListApplicationsInput {
 
     public init(
         filters: [SsmSapClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
     )
     {
@@ -1666,7 +1666,7 @@ public struct ListComponentsInput {
 
     public init(
         applicationId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
     )
     {
@@ -1705,7 +1705,7 @@ public struct ListDatabasesInput {
     public init(
         applicationId: Swift.String? = nil,
         componentId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
     )
     {
@@ -1745,7 +1745,7 @@ public struct ListOperationEventsInput {
 
     public init(
         filters: [SsmSapClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil,
         operationId: Swift.String? = nil
     )
@@ -1884,7 +1884,7 @@ public struct ListOperationsInput {
     public init(
         applicationId: Swift.String? = nil,
         filters: [SsmSapClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 50,
         nextToken: Swift.String? = nil
     )
     {
@@ -1995,7 +1995,7 @@ public struct RegisterApplicationInput {
     public init(
         applicationId: Swift.String? = nil,
         applicationType: SsmSapClientTypes.ApplicationType? = nil,
-        credentials: [SsmSapClientTypes.ApplicationCredential]? = nil,
+        credentials: [SsmSapClientTypes.ApplicationCredential]? = [],
         databaseArn: Swift.String? = nil,
         instances: [Swift.String]? = nil,
         sapInstanceNumber: Swift.String? = nil,
@@ -3363,9 +3363,9 @@ extension SsmSapClientTypes.ApplicationCredential {
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ApplicationCredential {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SsmSapClientTypes.ApplicationCredential()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.credentialType = try reader["CredentialType"].readIfPresent()
-        value.secretId = try reader["SecretId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.credentialType = try reader["CredentialType"].readIfPresent() ?? .sdkUnknown("")
+        value.secretId = try reader["SecretId"].readIfPresent() ?? ""
         return value
     }
 }

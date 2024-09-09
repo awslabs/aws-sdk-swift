@@ -1520,8 +1520,8 @@ extension DescribeEnvironmentStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeEnvironmentStatusOutput()
-        value.message = try reader["message"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1959,10 +1959,10 @@ extension Cloud9ClientTypes.EnvironmentMember {
     static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.EnvironmentMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Cloud9ClientTypes.EnvironmentMember()
-        value.permissions = try reader["permissions"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.userArn = try reader["userArn"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.permissions = try reader["permissions"].readIfPresent() ?? .sdkUnknown("")
+        value.userId = try reader["userId"].readIfPresent() ?? ""
+        value.userArn = try reader["userArn"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.lastAccess = try reader["lastAccess"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -1976,10 +1976,10 @@ extension Cloud9ClientTypes.Environment {
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.connectionType = try reader["connectionType"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.ownerArn = try reader["ownerArn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.ownerArn = try reader["ownerArn"].readIfPresent() ?? ""
         value.lifecycle = try reader["lifecycle"].readIfPresent(with: Cloud9ClientTypes.EnvironmentLifecycle.read(from:))
         value.managedCredentialsStatus = try reader["managedCredentialsStatus"].readIfPresent()
         return value
@@ -2009,8 +2009,8 @@ extension Cloud9ClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Cloud9ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

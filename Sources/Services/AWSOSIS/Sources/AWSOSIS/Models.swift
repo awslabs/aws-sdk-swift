@@ -2140,8 +2140,8 @@ extension OSISClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2178,7 +2178,7 @@ extension OSISClientTypes.EncryptionAtRestOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.EncryptionAtRestOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.EncryptionAtRestOptions()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2193,7 +2193,7 @@ extension OSISClientTypes.BufferOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.BufferOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.BufferOptions()
-        value.persistentBufferEnabled = try reader["PersistentBufferEnabled"].readIfPresent()
+        value.persistentBufferEnabled = try reader["PersistentBufferEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -2223,7 +2223,7 @@ extension OSISClientTypes.VpcOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.VpcOptions()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcAttachmentOptions = try reader["VpcAttachmentOptions"].readIfPresent(with: OSISClientTypes.VpcAttachmentOptions.read(from:))
         value.vpcEndpointManagement = try reader["VpcEndpointManagement"].readIfPresent()
@@ -2242,7 +2242,7 @@ extension OSISClientTypes.VpcAttachmentOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcAttachmentOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.VpcAttachmentOptions()
-        value.attachToVpc = try reader["AttachToVpc"].readIfPresent()
+        value.attachToVpc = try reader["AttachToVpc"].readIfPresent() ?? false
         value.cidrBlock = try reader["CidrBlock"].readIfPresent()
         return value
     }
@@ -2275,7 +2275,7 @@ extension OSISClientTypes.CloudWatchLogDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.CloudWatchLogDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OSISClientTypes.CloudWatchLogDestination()
-        value.logGroup = try reader["LogGroup"].readIfPresent()
+        value.logGroup = try reader["LogGroup"].readIfPresent() ?? ""
         return value
     }
 }

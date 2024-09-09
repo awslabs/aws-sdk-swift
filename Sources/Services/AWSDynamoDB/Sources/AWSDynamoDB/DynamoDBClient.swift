@@ -195,7 +195,7 @@ extension DynamoDBClient {
 extension DynamoDBClient {
     /// Performs the `BatchExecuteStatement` operation on the `DynamoDB_20120810` service.
     ///
-    /// This operation allows you to perform batch reads or writes on data stored in DynamoDB, using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality condition on all key attributes. This enforces that each SELECT statement in a batch returns at most a single item. The entire batch must consist of either read statements or write statements, you cannot mix both in one batch. A HTTP 200 response does not mean that all statements in the BatchExecuteStatement succeeded. Error details for individual statements can be found under the [Error](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchStatementResponse.html#DDB-Type-BatchStatementResponse-Error) field of the BatchStatementResponse for each statement.
+    /// This operation allows you to perform batch reads or writes on data stored in DynamoDB, using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality condition on all key attributes. This enforces that each SELECT statement in a batch returns at most a single item. For more information, see [Running batch operations with PartiQL for DynamoDB ](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.multiplestatements.batching.html). The entire batch must consist of either read statements or write statements, you cannot mix both in one batch. A HTTP 200 response does not mean that all statements in the BatchExecuteStatement succeeded. Error details for individual statements can be found under the [Error](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchStatementResponse.html#DDB-Type-BatchStatementResponse-Error) field of the BatchStatementResponse for each statement.
     ///
     /// - Parameter BatchExecuteStatementInput : [no documentation found]
     ///
@@ -342,7 +342,7 @@ extension DynamoDBClient {
 
     /// Performs the `BatchWriteItem` operation on the `DynamoDB_20120810` service.
     ///
-    /// The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can transmit up to 16MB of data over the network, consisting of up to 25 item put or delete operations. While individual items can be up to 400 KB once stored, it's important to note that an item's representation might be greater than 400KB while being sent in DynamoDB's JSON format for the API call. For more details on this distinction, see [Naming Rules and Data Types](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html). BatchWriteItem cannot update items. If you perform a BatchWriteItem operation on an existing item, that item's values will be overwritten by the operation and it will appear like it was updated. To update items, we recommend you use the UpdateItem action. The individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any requested operations fail because the table's provisioned throughput is exceeded or an internal processing failure occurs, the failed operations are returned in the UnprocessedItems response parameter. You can investigate and optionally resend the requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem request with those unprocessed items until all items have been processed. If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchWriteItem returns a ProvisionedThroughputExceededException. If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see [Batch Operations and Error Handling](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#Programming.Errors.BatchOperations) in the Amazon DynamoDB Developer Guide. With BatchWriteItem, you can efficiently write or delete large amounts of data, such as from Amazon EMR, or copy data from another database into DynamoDB. In order to improve performance with these large-scale operations, BatchWriteItem does not behave in the same way as individual PutItem and DeleteItem calls would. For example, you cannot specify conditions on individual put and delete requests, and BatchWriteItem does not return deleted items in the response. If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application. Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit. If one or more of the following is true, DynamoDB rejects the entire batch write operation:
+    /// The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can transmit up to 16MB of data over the network, consisting of up to 25 item put or delete operations. While individual items can be up to 400 KB once stored, it's important to note that an item's representation might be greater than 400KB while being sent in DynamoDB's JSON format for the API call. For more details on this distinction, see [Naming Rules and Data Types](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html). BatchWriteItem cannot update items. If you perform a BatchWriteItem operation on an existing item, that item's values will be overwritten by the operation and it will appear like it was updated. To update items, we recommend you use the UpdateItem action. The individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any requested operations fail because the table's provisioned throughput is exceeded or an internal processing failure occurs, the failed operations are returned in the UnprocessedItems response parameter. You can investigate and optionally resend the requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem request with those unprocessed items until all items have been processed. For tables and indexes with provisioned capacity, if none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchWriteItem returns a ProvisionedThroughputExceededException. For all tables and indexes, if none of the items can be processed due to other throttling scenarios (such as exceeding partition level limits), then BatchWriteItem returns a ThrottlingException. If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see [Batch Operations and Error Handling](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#Programming.Errors.BatchOperations) in the Amazon DynamoDB Developer Guide. With BatchWriteItem, you can efficiently write or delete large amounts of data, such as from Amazon EMR, or copy data from another database into DynamoDB. In order to improve performance with these large-scale operations, BatchWriteItem does not behave in the same way as individual PutItem and DeleteItem calls would. For example, you cannot specify conditions on individual put and delete requests, and BatchWriteItem does not return deleted items in the response. If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application. Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit. If one or more of the following is true, DynamoDB rejects the entire batch write operation:
     ///
     /// * One or more tables specified in the BatchWriteItem request does not exist.
     ///
@@ -631,7 +631,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     public func createTable(input: CreateTableInput) async throws -> CreateTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -859,7 +868,16 @@ extension DynamoDBClient {
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
     /// - `PolicyNotFoundException` : The operation tried to access a nonexistent resource-based policy. If you specified an ExpectedRevisionId, it's possible that a policy is present for the resource but its revision ID didn't match the expected value.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -922,7 +940,7 @@ extension DynamoDBClient {
 
     /// Performs the `DeleteTable` operation on the `DynamoDB_20120810` service.
     ///
-    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
+    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see [TableStatus](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus). When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
     ///
     /// - Parameter DeleteTableInput : Represents the input of a DeleteTable operation.
     ///
@@ -934,7 +952,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput {
         let context = Smithy.ContextBuilder()
@@ -1968,7 +1995,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func disableKinesisStreamingDestination(input: DisableKinesisStreamingDestinationInput) async throws -> DisableKinesisStreamingDestinationOutput {
         let context = Smithy.ContextBuilder()
@@ -2043,7 +2079,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func enableKinesisStreamingDestination(input: EnableKinesisStreamingDestinationInput) async throws -> EnableKinesisStreamingDestinationOutput {
         let context = Smithy.ContextBuilder()
@@ -2661,7 +2706,16 @@ extension DynamoDBClient {
     /// __Possible Exceptions:__
     /// - `ImportConflictException` : There was a conflict when importing from the specified S3 source. This can occur when the current import conflicts with a previous import request that had the same client token.
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     public func importTable(input: ImportTableInput) async throws -> ImportTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3319,7 +3373,16 @@ extension DynamoDBClient {
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
     /// - `PolicyNotFoundException` : The operation tried to access a nonexistent resource-based policy. If you specified an ExpectedRevisionId, it's possible that a policy is present for the resource but its revision ID didn't match the expected value.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -3724,7 +3787,14 @@ extension DynamoDBClient {
 
     /// Performs the `TagResource` operation on the `DynamoDB_20120810` service.
     ///
-    /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account. For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
+    /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account.
+    ///
+    /// * TagResource is an asynchronous operation. If you issue a [ListTagsOfResource] request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that moment. Wait for a few seconds, and then try the ListTagsOfResource request again.
+    ///
+    /// * The application or removal of tags using TagResource and UntagResource APIs is eventually consistent. ListTagsOfResource API will only reflect the changes after a few seconds.
+    ///
+    ///
+    /// For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -3736,7 +3806,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -4260,7 +4339,14 @@ extension DynamoDBClient {
 
     /// Performs the `UntagResource` operation on the `DynamoDB_20120810` service.
     ///
-    /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account. For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
+    /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account.
+    ///
+    /// * UntagResource is an asynchronous operation. If you issue a [ListTagsOfResource] request immediately after an UntagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that moment. Wait for a few seconds, and then try the ListTagsOfResource request again.
+    ///
+    /// * The application or removal of tags using TagResource and UntagResource APIs is eventually consistent. ListTagsOfResource API will only reflect the changes after a few seconds.
+    ///
+    ///
+    /// For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -4272,7 +4358,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -4578,7 +4673,16 @@ extension DynamoDBClient {
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
     /// - `ReplicaNotFoundException` : The specified replica is no longer part of the global table.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     public func updateGlobalTableSettings(input: UpdateGlobalTableSettingsInput) async throws -> UpdateGlobalTableSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4730,7 +4834,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func updateKinesisStreamingDestination(input: UpdateKinesisStreamingDestinationInput) async throws -> UpdateKinesisStreamingDestinationOutput {
         let context = Smithy.ContextBuilder()
@@ -4814,7 +4927,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput {
         let context = Smithy.ContextBuilder()
@@ -4888,7 +5010,16 @@ extension DynamoDBClient {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func updateTableReplicaAutoScaling(input: UpdateTableReplicaAutoScalingInput) async throws -> UpdateTableReplicaAutoScalingOutput {
         let context = Smithy.ContextBuilder()
@@ -4963,7 +5094,16 @@ extension DynamoDBClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
-    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func updateTimeToLive(input: UpdateTimeToLiveInput) async throws -> UpdateTimeToLiveOutput {
         let context = Smithy.ContextBuilder()

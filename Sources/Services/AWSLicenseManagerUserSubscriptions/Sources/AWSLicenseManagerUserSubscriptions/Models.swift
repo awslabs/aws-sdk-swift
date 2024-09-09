@@ -1121,7 +1121,7 @@ extension ListIdentityProvidersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListIdentityProvidersOutput()
-        value.identityProviderSummaries = try reader["IdentityProviderSummaries"].readListIfPresent(memberReadingClosure: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.identityProviderSummaries = try reader["IdentityProviderSummaries"].readListIfPresent(memberReadingClosure: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1527,10 +1527,10 @@ extension LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary()
-        value.username = try reader["Username"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent() ?? ""
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
         value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.domain = try reader["Domain"].readIfPresent()
         value.associationDate = try reader["AssociationDate"].readIfPresent()
@@ -1585,8 +1585,8 @@ extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
         var value = LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary()
         value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
         value.settings = try reader["Settings"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.Settings.read(from:))
-        value.product = try reader["Product"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.product = try reader["Product"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
         value.failureMessage = try reader["FailureMessage"].readIfPresent()
         return value
     }
@@ -1603,8 +1603,8 @@ extension LicenseManagerUserSubscriptionsClientTypes.Settings {
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.Settings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerUserSubscriptionsClientTypes.Settings()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1614,9 +1614,9 @@ extension LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerUserSubscriptionsClientTypes.InstanceSummary()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastStatusCheckDate = try reader["LastStatusCheckDate"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
@@ -1628,10 +1628,10 @@ extension LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary()
-        value.username = try reader["Username"].readIfPresent()
-        value.product = try reader["Product"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent() ?? ""
+        value.product = try reader["Product"].readIfPresent() ?? ""
         value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.domain = try reader["Domain"].readIfPresent()
         value.subscriptionStartDate = try reader["SubscriptionStartDate"].readIfPresent()

@@ -883,7 +883,7 @@ public struct CreateGroupInput {
     public var organizationId: Swift.String?
 
     public init(
-        hiddenFromGlobalAddressList: Swift.Bool? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = false,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil
     )
@@ -1190,7 +1190,7 @@ public struct CreateOrganizationInput {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         domains: [WorkMailClientTypes.Domain]? = nil,
-        enableInteroperability: Swift.Bool? = nil,
+        enableInteroperability: Swift.Bool? = false,
         kmsKeyArn: Swift.String? = nil
     )
     {
@@ -1261,7 +1261,7 @@ public struct CreateResourceInput {
 
     public init(
         description: Swift.String? = nil,
-        hiddenFromGlobalAddressList: Swift.Bool? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = false,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         type: WorkMailClientTypes.ResourceType? = nil
@@ -1370,7 +1370,7 @@ public struct CreateUserInput {
     public init(
         displayName: Swift.String? = nil,
         firstName: Swift.String? = nil,
-        hiddenFromGlobalAddressList: Swift.Bool? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = false,
         lastName: Swift.String? = nil,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil,
@@ -1710,8 +1710,8 @@ public struct DeleteOrganizationInput {
 
     public init(
         clientToken: Swift.String? = nil,
-        deleteDirectory: Swift.Bool? = nil,
-        forceDelete: Swift.Bool? = nil,
+        deleteDirectory: Swift.Bool? = false,
+        forceDelete: Swift.Bool? = false,
         organizationId: Swift.String? = nil
     )
     {
@@ -9583,8 +9583,8 @@ extension WorkMailClientTypes.FolderConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.FolderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkMailClientTypes.FolderConfiguration()
-        value.name = try reader["Name"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
         value.period = try reader["Period"].readIfPresent()
         return value
     }
@@ -9605,10 +9605,10 @@ extension WorkMailClientTypes.ImpersonationRule {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.ImpersonationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkMailClientTypes.ImpersonationRule()
-        value.impersonationRuleId = try reader["ImpersonationRuleId"].readIfPresent()
+        value.impersonationRuleId = try reader["ImpersonationRuleId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.effect = try reader["Effect"].readIfPresent()
+        value.effect = try reader["Effect"].readIfPresent() ?? .sdkUnknown("")
         value.targetUsers = try reader["TargetUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.notTargetUsers = try reader["NotTargetUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9696,7 +9696,7 @@ extension WorkMailClientTypes.LambdaAvailabilityProvider {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.LambdaAvailabilityProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkMailClientTypes.LambdaAvailabilityProvider()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9790,9 +9790,9 @@ extension WorkMailClientTypes.Permission {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Permission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkMailClientTypes.Permission()
-        value.granteeId = try reader["GranteeId"].readIfPresent()
-        value.granteeType = try reader["GranteeType"].readIfPresent()
-        value.permissionValues = try reader["PermissionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkMailClientTypes.PermissionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.granteeId = try reader["GranteeId"].readIfPresent() ?? ""
+        value.granteeType = try reader["GranteeType"].readIfPresent() ?? .sdkUnknown("")
+        value.permissionValues = try reader["PermissionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkMailClientTypes.PermissionType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9865,8 +9865,8 @@ extension WorkMailClientTypes.Delegate {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Delegate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkMailClientTypes.Delegate()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9899,8 +9899,8 @@ extension WorkMailClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkMailClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

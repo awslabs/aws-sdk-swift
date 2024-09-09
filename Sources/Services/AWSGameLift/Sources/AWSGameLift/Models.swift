@@ -12556,7 +12556,7 @@ extension DescribeMatchmakingRuleSetsOutput {
         let reader = responseReader
         var value = DescribeMatchmakingRuleSetsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.ruleSets = try reader["RuleSets"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.MatchmakingRuleSet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleSets = try reader["RuleSets"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.MatchmakingRuleSet.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15423,8 +15423,8 @@ extension GameLiftClientTypes.ContainerDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ContainerDefinition()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.containerName = try reader["ContainerName"].readIfPresent() ?? ""
+        value.imageUri = try reader["ImageUri"].readIfPresent() ?? ""
         value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
         value.memoryLimits = try reader["MemoryLimits"].readIfPresent(with: GameLiftClientTypes.ContainerMemoryLimits.read(from:))
         value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
@@ -15451,8 +15451,8 @@ extension GameLiftClientTypes.ContainerDependency {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerDependency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ContainerDependency()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.condition = try reader["Condition"].readIfPresent()
+        value.containerName = try reader["ContainerName"].readIfPresent() ?? ""
+        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15468,8 +15468,8 @@ extension GameLiftClientTypes.ContainerEnvironment {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ContainerEnvironment()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15488,7 +15488,7 @@ extension GameLiftClientTypes.ContainerHealthCheck {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerHealthCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ContainerHealthCheck()
-        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.interval = try reader["Interval"].readIfPresent()
         value.timeout = try reader["Timeout"].readIfPresent()
         value.retries = try reader["Retries"].readIfPresent()
@@ -15507,7 +15507,7 @@ extension GameLiftClientTypes.ContainerPortConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerPortConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ContainerPortConfiguration()
-        value.containerPortRanges = try reader["ContainerPortRanges"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerPortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containerPortRanges = try reader["ContainerPortRanges"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerPortRange.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15524,9 +15524,9 @@ extension GameLiftClientTypes.ContainerPortRange {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerPortRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ContainerPortRange()
-        value.fromPort = try reader["FromPort"].readIfPresent()
-        value.toPort = try reader["ToPort"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15618,8 +15618,8 @@ extension GameLiftClientTypes.ConnectionPortRange {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ConnectionPortRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ConnectionPortRange()
-        value.fromPort = try reader["FromPort"].readIfPresent()
-        value.toPort = try reader["ToPort"].readIfPresent()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
         return value
     }
 }
@@ -15645,7 +15645,7 @@ extension GameLiftClientTypes.AnywhereConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AnywhereConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.AnywhereConfiguration()
-        value.cost = try reader["Cost"].readIfPresent()
+        value.cost = try reader["Cost"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15660,7 +15660,7 @@ extension GameLiftClientTypes.CertificateConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.CertificateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.CertificateConfiguration()
-        value.certificateType = try reader["CertificateType"].readIfPresent()
+        value.certificateType = try reader["CertificateType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -15725,7 +15725,7 @@ extension GameLiftClientTypes.InstanceDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.InstanceDefinition()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
     }
@@ -15770,8 +15770,8 @@ extension GameLiftClientTypes.GameProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.GameProperty()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15902,7 +15902,7 @@ extension GameLiftClientTypes.MatchmakingRuleSet {
         var value = GameLiftClientTypes.MatchmakingRuleSet()
         value.ruleSetName = try reader["RuleSetName"].readIfPresent()
         value.ruleSetArn = try reader["RuleSetArn"].readIfPresent()
-        value.ruleSetBody = try reader["RuleSetBody"].readIfPresent()
+        value.ruleSetBody = try reader["RuleSetBody"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -16119,10 +16119,10 @@ extension GameLiftClientTypes.IpPermission {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.IpPermission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.IpPermission()
-        value.fromPort = try reader["FromPort"].readIfPresent()
-        value.toPort = try reader["ToPort"].readIfPresent()
-        value.ipRange = try reader["IpRange"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        value.ipRange = try reader["IpRange"].readIfPresent() ?? ""
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16345,9 +16345,9 @@ extension GameLiftClientTypes.ServerProcess {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ServerProcess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ServerProcess()
-        value.launchPath = try reader["LaunchPath"].readIfPresent()
+        value.launchPath = try reader["LaunchPath"].readIfPresent() ?? ""
         value.parameters = try reader["Parameters"].readIfPresent()
-        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent()
+        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent() ?? 0
         return value
     }
 }
@@ -16385,7 +16385,7 @@ extension GameLiftClientTypes.TargetConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.TargetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.TargetConfiguration()
-        value.targetValue = try reader["TargetValue"].readIfPresent()
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -16453,8 +16453,8 @@ extension GameLiftClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

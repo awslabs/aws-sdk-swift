@@ -2346,7 +2346,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["FieldList"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2385,7 +2385,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2398,9 +2398,9 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.name = try reader["Name"].readIfPresent()
-        value.properties.value = try reader["Value"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.name = try reader["Name"].readIfPresent() ?? ""
+        value.properties.value = try reader["Value"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2433,7 +2433,7 @@ extension ResourceExplorer2ClientTypes.SearchFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.SearchFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.SearchFilter()
-        value.filterString = try reader["FilterString"].readIfPresent()
+        value.filterString = try reader["FilterString"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2448,7 +2448,7 @@ extension ResourceExplorer2ClientTypes.IncludedProperty {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.IncludedProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.IncludedProperty()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2458,8 +2458,8 @@ extension ResourceExplorer2ClientTypes.BatchGetViewError {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.BatchGetViewError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.BatchGetViewError()
-        value.viewArn = try reader["ViewArn"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.viewArn = try reader["ViewArn"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2469,7 +2469,7 @@ extension ResourceExplorer2ClientTypes.OrgConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.OrgConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.OrgConfiguration()
-        value.awsServiceAccessStatus = try reader["AWSServiceAccessStatus"].readIfPresent()
+        value.awsServiceAccessStatus = try reader["AWSServiceAccessStatus"].readIfPresent() ?? .sdkUnknown("")
         value.serviceLinkedRole = try reader["ServiceLinkedRole"].readIfPresent()
         return value
     }
@@ -2555,8 +2555,8 @@ extension ResourceExplorer2ClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent()
-        value.validationIssue = try reader["ValidationIssue"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.validationIssue = try reader["ValidationIssue"].readIfPresent() ?? ""
         return value
     }
 }

@@ -1623,8 +1623,8 @@ extension RbinClientTypes.RetentionPeriod {
     static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.RetentionPeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RbinClientTypes.RetentionPeriod()
-        value.retentionPeriodValue = try reader["RetentionPeriodValue"].readIfPresent()
-        value.retentionPeriodUnit = try reader["RetentionPeriodUnit"].readIfPresent()
+        value.retentionPeriodValue = try reader["RetentionPeriodValue"].readIfPresent() ?? 0
+        value.retentionPeriodUnit = try reader["RetentionPeriodUnit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1640,8 +1640,8 @@ extension RbinClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RbinClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1657,7 +1657,7 @@ extension RbinClientTypes.ResourceTag {
     static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RbinClientTypes.ResourceTag()
-        value.resourceTagKey = try reader["ResourceTagKey"].readIfPresent()
+        value.resourceTagKey = try reader["ResourceTagKey"].readIfPresent() ?? ""
         value.resourceTagValue = try reader["ResourceTagValue"].readIfPresent()
         return value
     }
@@ -1689,8 +1689,8 @@ extension RbinClientTypes.UnlockDelay {
     static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.UnlockDelay {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RbinClientTypes.UnlockDelay()
-        value.unlockDelayValue = try reader["UnlockDelayValue"].readIfPresent()
-        value.unlockDelayUnit = try reader["UnlockDelayUnit"].readIfPresent()
+        value.unlockDelayValue = try reader["UnlockDelayValue"].readIfPresent() ?? 0
+        value.unlockDelayUnit = try reader["UnlockDelayUnit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

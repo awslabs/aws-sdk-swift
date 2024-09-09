@@ -5040,9 +5040,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5055,10 +5055,10 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5072,7 +5072,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: BillingconductorClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5090,7 +5090,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5103,11 +5103,11 @@ extension ServiceLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceLimitExceededException()
-        value.properties.limitCode = try reader["LimitCode"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.limitCode = try reader["LimitCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5124,7 +5124,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5137,7 +5137,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5273,7 +5273,7 @@ extension BillingconductorClientTypes.ComputationPreference {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ComputationPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ComputationPreference()
-        value.pricingPlanArn = try reader["PricingPlanArn"].readIfPresent()
+        value.pricingPlanArn = try reader["PricingPlanArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5305,7 +5305,7 @@ extension BillingconductorClientTypes.ListCustomLineItemChargeDetails {
         var value = BillingconductorClientTypes.ListCustomLineItemChargeDetails()
         value.flat = try reader["Flat"].readIfPresent(with: BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails.read(from:))
         value.percentage = try reader["Percentage"].readIfPresent(with: BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails.read(from:))
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.lineItemFilters = try reader["LineItemFilters"].readListIfPresent(memberReadingClosure: BillingconductorClientTypes.LineItemFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -5323,9 +5323,9 @@ extension BillingconductorClientTypes.LineItemFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.LineItemFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.LineItemFilter()
-        value.attribute = try reader["Attribute"].readIfPresent()
-        value.matchOption = try reader["MatchOption"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BillingconductorClientTypes.LineItemFilterValue>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
+        value.matchOption = try reader["MatchOption"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BillingconductorClientTypes.LineItemFilterValue>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5335,7 +5335,7 @@ extension BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails()
-        value.percentageValue = try reader["PercentageValue"].readIfPresent()
+        value.percentageValue = try reader["PercentageValue"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -5345,7 +5345,7 @@ extension BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails()
-        value.chargeValue = try reader["ChargeValue"].readIfPresent()
+        value.chargeValue = try reader["ChargeValue"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -5426,7 +5426,7 @@ extension BillingconductorClientTypes.FreeTierConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.FreeTierConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.FreeTierConfig()
-        value.activated = try reader["Activated"].readIfPresent()
+        value.activated = try reader["Activated"].readIfPresent() ?? false
         return value
     }
 }
@@ -5483,7 +5483,7 @@ extension BillingconductorClientTypes.UpdateFreeTierConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.UpdateFreeTierConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.UpdateFreeTierConfig()
-        value.activated = try reader["Activated"].readIfPresent()
+        value.activated = try reader["Activated"].readIfPresent() ?? false
         return value
     }
 }
@@ -5493,8 +5493,8 @@ extension BillingconductorClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }

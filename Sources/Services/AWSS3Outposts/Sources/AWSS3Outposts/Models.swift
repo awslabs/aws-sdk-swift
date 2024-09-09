@@ -429,7 +429,7 @@ public struct ListEndpointsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -461,7 +461,7 @@ public struct ListOutpostsWithS3Input {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -534,7 +534,7 @@ public struct ListSharedEndpointsInput {
     public var outpostId: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
     )

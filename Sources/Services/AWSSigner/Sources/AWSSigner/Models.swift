@@ -1249,7 +1249,7 @@ public struct ListSigningJobsInput {
     public var status: SignerClientTypes.SigningStatus?
 
     public init(
-        isRevoked: Swift.Bool? = nil,
+        isRevoked: Swift.Bool? = false,
         jobInvoker: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -1461,7 +1461,7 @@ public struct ListSigningProfilesInput {
     public var statuses: [SignerClientTypes.SigningProfileStatus]?
 
     public init(
-        includeCanceled: Swift.Bool? = nil,
+        includeCanceled: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         platformId: Swift.String? = nil,
@@ -3117,9 +3117,9 @@ extension SignerClientTypes.S3Source {
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.S3Source {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.S3Source()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3134,7 +3134,7 @@ extension SignerClientTypes.SigningMaterial {
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningMaterial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.SigningMaterial()
-        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.certificateArn = try reader["certificateArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3222,8 +3222,8 @@ extension SignerClientTypes.HashAlgorithmOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.HashAlgorithmOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.HashAlgorithmOptions()
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SignerClientTypes.HashAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SignerClientTypes.HashAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3233,8 +3233,8 @@ extension SignerClientTypes.EncryptionAlgorithmOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.EncryptionAlgorithmOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.EncryptionAlgorithmOptions()
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SignerClientTypes.EncryptionAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SignerClientTypes.EncryptionAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3244,8 +3244,8 @@ extension SignerClientTypes.SigningImageFormat {
     static func read(from reader: SmithyJSON.Reader) throws -> SignerClientTypes.SigningImageFormat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SignerClientTypes.SigningImageFormat()
-        value.supportedFormats = try reader["supportedFormats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SignerClientTypes.ImageFormat>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultFormat = try reader["defaultFormat"].readIfPresent()
+        value.supportedFormats = try reader["supportedFormats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SignerClientTypes.ImageFormat>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.defaultFormat = try reader["defaultFormat"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension CleanRoomsClientTypes {
 
@@ -1932,7 +1933,7 @@ extension CleanRoomsClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             partitionKeys: [CleanRoomsClientTypes.Column]? = nil,
-            schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]? = nil,
+            schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]? = [],
             type: CleanRoomsClientTypes.SchemaType? = nil,
             updateTime: Foundation.Date? = nil
         )
@@ -7715,8 +7716,8 @@ extension BatchGetCollaborationAnalysisTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetCollaborationAnalysisTemplateOutput()
-        value.collaborationAnalysisTemplates = try reader["collaborationAnalysisTemplates"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationAnalysisTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.collaborationAnalysisTemplates = try reader["collaborationAnalysisTemplates"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationAnalysisTemplate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7728,8 +7729,8 @@ extension BatchGetSchemaOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetSchemaOutput()
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.BatchGetSchemaError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.schemas = try reader["schemas"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Schema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.BatchGetSchemaError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.schemas = try reader["schemas"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Schema.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7741,8 +7742,8 @@ extension BatchGetSchemaAnalysisRuleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetSchemaAnalysisRuleOutput()
-        value.analysisRules = try reader["analysisRules"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysisRules = try reader["analysisRules"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8081,7 +8082,7 @@ extension ListAnalysisTemplatesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAnalysisTemplatesOutput()
-        value.analysisTemplateSummaries = try reader["analysisTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysisTemplateSummaries = try reader["analysisTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8094,7 +8095,7 @@ extension ListCollaborationAnalysisTemplatesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCollaborationAnalysisTemplatesOutput()
-        value.collaborationAnalysisTemplateSummaries = try reader["collaborationAnalysisTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.collaborationAnalysisTemplateSummaries = try reader["collaborationAnalysisTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8107,7 +8108,7 @@ extension ListCollaborationConfiguredAudienceModelAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCollaborationConfiguredAudienceModelAssociationsOutput()
-        value.collaborationConfiguredAudienceModelAssociationSummaries = try reader["collaborationConfiguredAudienceModelAssociationSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.collaborationConfiguredAudienceModelAssociationSummaries = try reader["collaborationConfiguredAudienceModelAssociationSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8120,7 +8121,7 @@ extension ListCollaborationPrivacyBudgetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCollaborationPrivacyBudgetsOutput()
-        value.collaborationPrivacyBudgetSummaries = try reader["collaborationPrivacyBudgetSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.collaborationPrivacyBudgetSummaries = try reader["collaborationPrivacyBudgetSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8133,7 +8134,7 @@ extension ListCollaborationPrivacyBudgetTemplatesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCollaborationPrivacyBudgetTemplatesOutput()
-        value.collaborationPrivacyBudgetTemplateSummaries = try reader["collaborationPrivacyBudgetTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.collaborationPrivacyBudgetTemplateSummaries = try reader["collaborationPrivacyBudgetTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8146,7 +8147,7 @@ extension ListCollaborationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCollaborationsOutput()
-        value.collaborationList = try reader["collaborationList"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.collaborationList = try reader["collaborationList"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8159,7 +8160,7 @@ extension ListConfiguredAudienceModelAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListConfiguredAudienceModelAssociationsOutput()
-        value.configuredAudienceModelAssociationSummaries = try reader["configuredAudienceModelAssociationSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configuredAudienceModelAssociationSummaries = try reader["configuredAudienceModelAssociationSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8172,7 +8173,7 @@ extension ListConfiguredTableAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListConfiguredTableAssociationsOutput()
-        value.configuredTableAssociationSummaries = try reader["configuredTableAssociationSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ConfiguredTableAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configuredTableAssociationSummaries = try reader["configuredTableAssociationSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ConfiguredTableAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8185,7 +8186,7 @@ extension ListConfiguredTablesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListConfiguredTablesOutput()
-        value.configuredTableSummaries = try reader["configuredTableSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ConfiguredTableSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configuredTableSummaries = try reader["configuredTableSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ConfiguredTableSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8198,7 +8199,7 @@ extension ListMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMembersOutput()
-        value.memberSummaries = try reader["memberSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.MemberSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.memberSummaries = try reader["memberSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.MemberSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8211,7 +8212,7 @@ extension ListMembershipsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMembershipsOutput()
-        value.membershipSummaries = try reader["membershipSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.MembershipSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.membershipSummaries = try reader["membershipSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.MembershipSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8225,7 +8226,7 @@ extension ListPrivacyBudgetsOutput {
         let reader = responseReader
         var value = ListPrivacyBudgetsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.privacyBudgetSummaries = try reader["privacyBudgetSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.PrivacyBudgetSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privacyBudgetSummaries = try reader["privacyBudgetSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.PrivacyBudgetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8238,7 +8239,7 @@ extension ListPrivacyBudgetTemplatesOutput {
         let reader = responseReader
         var value = ListPrivacyBudgetTemplatesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.privacyBudgetTemplateSummaries = try reader["privacyBudgetTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.PrivacyBudgetTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privacyBudgetTemplateSummaries = try reader["privacyBudgetTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.PrivacyBudgetTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8251,7 +8252,7 @@ extension ListProtectedQueriesOutput {
         let reader = responseReader
         var value = ListProtectedQueriesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.protectedQueries = try reader["protectedQueries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedQuerySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.protectedQueries = try reader["protectedQueries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedQuerySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8264,7 +8265,7 @@ extension ListSchemasOutput {
         let reader = responseReader
         var value = ListSchemasOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.schemaSummaries = try reader["schemaSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.SchemaSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schemaSummaries = try reader["schemaSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.SchemaSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8276,7 +8277,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -9575,9 +9576,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9661,9 +9662,9 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaName = try reader["quotaName"].readIfPresent()
-        value.properties.quotaValue = try reader["quotaValue"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaName = try reader["quotaName"].readIfPresent() ?? ""
+        value.properties.quotaValue = try reader["quotaValue"].readIfPresent() ?? 0.0
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9676,17 +9677,17 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationAnalysisTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationAnalysisTemplate()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.schema = try reader["schema"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSchema.read(from:))
-        value.format = try reader["format"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.source = try reader["source"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSource.read(from:))
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9699,8 +9700,8 @@ extension CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail()
-        value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.reasons = try reader["reasons"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -9711,7 +9712,7 @@ extension CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason()
-        value.message = try reader["message"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9728,8 +9729,8 @@ extension CleanRoomsClientTypes.AnalysisParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisParameter()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.defaultValue = try reader["defaultValue"].readIfPresent()
         return value
     }
@@ -9774,9 +9775,9 @@ extension CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError()
-        value.arn = try reader["arn"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9786,19 +9787,19 @@ extension CleanRoomsClientTypes.Schema {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.Schema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.Schema()
-        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.partitionKeys = try reader["partitionKeys"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["partitionKeys"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisMethod = try reader["analysisMethod"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["type"].readIfPresent()
-        value.schemaStatusDetails = try reader["schemaStatusDetails"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.SchemaStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.schemaStatusDetails = try reader["schemaStatusDetails"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.SchemaStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9808,7 +9809,7 @@ extension CleanRoomsClientTypes.SchemaStatusDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SchemaStatusDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.SchemaStatusDetail()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.reasons = try reader["reasons"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.SchemaStatusReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analysisRuleType = try reader["analysisRuleType"].readIfPresent()
         value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SchemaConfiguration>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9821,8 +9822,8 @@ extension CleanRoomsClientTypes.SchemaStatusReason {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SchemaStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.SchemaStatusReason()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9832,8 +9833,8 @@ extension CleanRoomsClientTypes.Column {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.Column {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.Column()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9843,9 +9844,9 @@ extension CleanRoomsClientTypes.BatchGetSchemaError {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.BatchGetSchemaError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.BatchGetSchemaError()
-        value.name = try reader["name"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9855,11 +9856,11 @@ extension CleanRoomsClientTypes.AnalysisRule {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisRule()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policy = try reader["policy"].readIfPresent(with: CleanRoomsClientTypes.AnalysisRulePolicy.read(from:))
         return value
     }
@@ -9909,7 +9910,7 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisRuleCustom {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisRuleCustom()
-        value.allowedAnalyses = try reader["allowedAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAnalyses = try reader["allowedAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowedAnalysisProviders = try reader["allowedAnalysisProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.read(from:))
         return value
@@ -9926,7 +9927,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyConfiguration()
-        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9941,7 +9942,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyColumn {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyColumn()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9962,13 +9963,13 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisRuleAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisRuleAggregation()
-        value.aggregateColumns = try reader["aggregateColumns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregateColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.joinColumns = try reader["joinColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregateColumns = try reader["aggregateColumns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregateColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.joinColumns = try reader["joinColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.joinRequired = try reader["joinRequired"].readIfPresent()
         value.allowedJoinOperators = try reader["allowedJoinOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.JoinOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dimensionColumns = try reader["dimensionColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scalarFunctions = try reader["scalarFunctions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ScalarFunctions>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputConstraints = try reader["outputConstraints"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregationConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dimensionColumns = try reader["dimensionColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scalarFunctions = try reader["scalarFunctions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ScalarFunctions>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputConstraints = try reader["outputConstraints"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregationConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9985,9 +9986,9 @@ extension CleanRoomsClientTypes.AggregationConstraint {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AggregationConstraint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AggregationConstraint()
-        value.columnName = try reader["columnName"].readIfPresent()
-        value.minimum = try reader["minimum"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.minimum = try reader["minimum"].readIfPresent() ?? 0
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10003,8 +10004,8 @@ extension CleanRoomsClientTypes.AggregateColumn {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AggregateColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AggregateColumn()
-        value.columnNames = try reader["columnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.function = try reader["function"].readIfPresent()
+        value.columnNames = try reader["columnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.function = try reader["function"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10021,9 +10022,9 @@ extension CleanRoomsClientTypes.AnalysisRuleList {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisRuleList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisRuleList()
-        value.joinColumns = try reader["joinColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.joinColumns = try reader["joinColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowedJoinOperators = try reader["allowedJoinOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.JoinOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listColumns = try reader["listColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listColumns = try reader["listColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10033,10 +10034,10 @@ extension CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10046,18 +10047,18 @@ extension CleanRoomsClientTypes.AnalysisTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisTemplate()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.schema = try reader["schema"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSchema.read(from:))
-        value.format = try reader["format"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.source = try reader["source"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSource.read(from:))
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10070,19 +10071,19 @@ extension CleanRoomsClientTypes.Collaboration {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.Collaboration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.Collaboration()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.creatorDisplayName = try reader["creatorDisplayName"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.memberStatus = try reader["memberStatus"].readIfPresent()
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.creatorDisplayName = try reader["creatorDisplayName"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.memberStatus = try reader["memberStatus"].readIfPresent() ?? .sdkUnknown("")
         value.membershipId = try reader["membershipId"].readIfPresent()
         value.membershipArn = try reader["membershipArn"].readIfPresent()
         value.dataEncryptionMetadata = try reader["dataEncryptionMetadata"].readIfPresent(with: CleanRoomsClientTypes.DataEncryptionMetadata.read(from:))
-        value.queryLogStatus = try reader["queryLogStatus"].readIfPresent()
+        value.queryLogStatus = try reader["queryLogStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10100,10 +10101,10 @@ extension CleanRoomsClientTypes.DataEncryptionMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DataEncryptionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DataEncryptionMetadata()
-        value.allowCleartext = try reader["allowCleartext"].readIfPresent()
-        value.allowDuplicates = try reader["allowDuplicates"].readIfPresent()
-        value.allowJoinsOnColumnsWithDifferentNames = try reader["allowJoinsOnColumnsWithDifferentNames"].readIfPresent()
-        value.preserveNulls = try reader["preserveNulls"].readIfPresent()
+        value.allowCleartext = try reader["allowCleartext"].readIfPresent() ?? false
+        value.allowDuplicates = try reader["allowDuplicates"].readIfPresent() ?? false
+        value.allowJoinsOnColumnsWithDifferentNames = try reader["allowJoinsOnColumnsWithDifferentNames"].readIfPresent() ?? false
+        value.preserveNulls = try reader["preserveNulls"].readIfPresent() ?? false
         return value
     }
 }
@@ -10113,18 +10114,18 @@ extension CleanRoomsClientTypes.ConfiguredAudienceModelAssociation {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredAudienceModelAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ConfiguredAudienceModelAssociation()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.configuredAudienceModelArn = try reader["configuredAudienceModelArn"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.manageResourcePolicies = try reader["manageResourcePolicies"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.configuredAudienceModelArn = try reader["configuredAudienceModelArn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.manageResourcePolicies = try reader["manageResourcePolicies"].readIfPresent() ?? false
         value.description = try reader["description"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10134,16 +10135,16 @@ extension CleanRoomsClientTypes.ConfiguredTable {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ConfiguredTable()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.tableReference = try reader["tableReference"].readIfPresent(with: CleanRoomsClientTypes.TableReference.read(from:))
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.analysisMethod = try reader["analysisMethod"].readIfPresent()
-        value.allowedColumns = try reader["allowedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.analysisMethod = try reader["analysisMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.allowedColumns = try reader["allowedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10183,8 +10184,8 @@ extension CleanRoomsClientTypes.GlueTableReference {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.GlueTableReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.GlueTableReference()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10194,12 +10195,12 @@ extension CleanRoomsClientTypes.ConfiguredTableAnalysisRule {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAnalysisRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ConfiguredTableAnalysisRule()
-        value.configuredTableId = try reader["configuredTableId"].readIfPresent()
-        value.configuredTableArn = try reader["configuredTableArn"].readIfPresent()
+        value.configuredTableId = try reader["configuredTableId"].readIfPresent() ?? ""
+        value.configuredTableArn = try reader["configuredTableArn"].readIfPresent() ?? ""
         value.policy = try reader["policy"].readIfPresent(with: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy.read(from:))
-        value.type = try reader["type"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10265,17 +10266,17 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociation {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ConfiguredTableAssociation()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.configuredTableId = try reader["configuredTableId"].readIfPresent()
-        value.configuredTableArn = try reader["configuredTableArn"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.configuredTableId = try reader["configuredTableId"].readIfPresent() ?? ""
+        value.configuredTableArn = try reader["configuredTableArn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10285,18 +10286,18 @@ extension CleanRoomsClientTypes.Membership {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.Membership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.Membership()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationCreatorAccountId = try reader["collaborationCreatorAccountId"].readIfPresent()
-        value.collaborationCreatorDisplayName = try reader["collaborationCreatorDisplayName"].readIfPresent()
-        value.collaborationName = try reader["collaborationName"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.queryLogStatus = try reader["queryLogStatus"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationCreatorAccountId = try reader["collaborationCreatorAccountId"].readIfPresent() ?? ""
+        value.collaborationCreatorDisplayName = try reader["collaborationCreatorDisplayName"].readIfPresent() ?? ""
+        value.collaborationName = try reader["collaborationName"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.queryLogStatus = try reader["queryLogStatus"].readIfPresent() ?? .sdkUnknown("")
         value.defaultResultConfiguration = try reader["defaultResultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.read(from:))
         value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipPaymentConfiguration.read(from:))
         return value
@@ -10328,7 +10329,7 @@ extension CleanRoomsClientTypes.MembershipQueryComputePaymentConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipQueryComputePaymentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.MembershipQueryComputePaymentConfig()
-        value.isResponsible = try reader["isResponsible"].readIfPresent()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }
@@ -10386,8 +10387,8 @@ extension CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration()
-        value.resultFormat = try reader["resultFormat"].readIfPresent()
-        value.bucket = try reader["bucket"].readIfPresent()
+        value.resultFormat = try reader["resultFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         return value
     }
@@ -10398,16 +10399,16 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.PrivacyBudgetTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.PrivacyBudgetTemplate()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent()
-        value.autoRefresh = try reader["autoRefresh"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent() ?? .sdkUnknown("")
+        value.autoRefresh = try reader["autoRefresh"].readIfPresent() ?? .sdkUnknown("")
         value.parameters = try reader["parameters"].readIfPresent(with: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput.read(from:))
         return value
     }
@@ -10432,8 +10433,8 @@ extension CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput()
-        value.epsilon = try reader["epsilon"].readIfPresent()
-        value.usersNoisePerQuery = try reader["usersNoisePerQuery"].readIfPresent()
+        value.epsilon = try reader["epsilon"].readIfPresent() ?? 0
+        value.usersNoisePerQuery = try reader["usersNoisePerQuery"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10443,16 +10444,16 @@ extension CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.configuredAudienceModelArn = try reader["configuredAudienceModelArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.configuredAudienceModelArn = try reader["configuredAudienceModelArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10462,15 +10463,15 @@ extension CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent()
-        value.autoRefresh = try reader["autoRefresh"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent() ?? .sdkUnknown("")
+        value.autoRefresh = try reader["autoRefresh"].readIfPresent() ?? .sdkUnknown("")
         value.parameters = try reader["parameters"].readIfPresent(with: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput.read(from:))
         return value
     }
@@ -10481,12 +10482,12 @@ extension CleanRoomsClientTypes.ProtectedQuery {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedQuery()
-        value.id = try reader["id"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.sqlParameters = try reader["sqlParameters"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQuerySQLParameters.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.resultConfiguration = try reader["resultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryResultConfiguration.read(from:))
         value.statistics = try reader["statistics"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryStatistics.read(from:))
         value.result = try reader["result"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryResult.read(from:))
@@ -10501,7 +10502,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyParameters()
-        value.sensitivityParameters = try reader["sensitivityParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sensitivityParameters = try reader["sensitivityParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10511,9 +10512,9 @@ extension CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters()
-        value.aggregationType = try reader["aggregationType"].readIfPresent()
-        value.aggregationExpression = try reader["aggregationExpression"].readIfPresent()
-        value.userContributionLimit = try reader["userContributionLimit"].readIfPresent()
+        value.aggregationType = try reader["aggregationType"].readIfPresent() ?? .sdkUnknown("")
+        value.aggregationExpression = try reader["aggregationExpression"].readIfPresent() ?? ""
+        value.userContributionLimit = try reader["userContributionLimit"].readIfPresent() ?? 0
         value.minColumnValue = try reader["minColumnValue"].readIfPresent()
         value.maxColumnValue = try reader["maxColumnValue"].readIfPresent()
         return value
@@ -10525,8 +10526,8 @@ extension CleanRoomsClientTypes.ProtectedQueryError {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedQueryError()
-        value.message = try reader["message"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10562,7 +10563,7 @@ extension CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10572,7 +10573,7 @@ extension CleanRoomsClientTypes.ProtectedQueryS3Output {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryS3Output {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedQueryS3Output()
-        value.location = try reader["location"].readIfPresent()
+        value.location = try reader["location"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10650,15 +10651,15 @@ extension CleanRoomsClientTypes.AnalysisTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AnalysisTemplateSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         return value
     }
@@ -10669,14 +10670,14 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         return value
     }
@@ -10687,14 +10688,14 @@ extension CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationS
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         return value
     }
@@ -10705,15 +10706,15 @@ extension CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.privacyBudgetTemplateId = try reader["privacyBudgetTemplateId"].readIfPresent()
-        value.privacyBudgetTemplateArn = try reader["privacyBudgetTemplateArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.privacyBudgetTemplateId = try reader["privacyBudgetTemplateId"].readIfPresent() ?? ""
+        value.privacyBudgetTemplateArn = try reader["privacyBudgetTemplateArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.budget = try reader["budget"].readIfPresent(with: CleanRoomsClientTypes.PrivacyBudget.read(from:))
         return value
     }
@@ -10738,8 +10739,8 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget()
-        value.aggregations = try reader["aggregations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.epsilon = try reader["epsilon"].readIfPresent()
+        value.aggregations = try reader["aggregations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.epsilon = try reader["epsilon"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10749,9 +10750,9 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation()
-        value.type = try reader["type"].readIfPresent()
-        value.maxCount = try reader["maxCount"].readIfPresent()
-        value.remainingCount = try reader["remainingCount"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
+        value.remainingCount = try reader["remainingCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10761,14 +10762,14 @@ extension CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10778,14 +10779,14 @@ extension CleanRoomsClientTypes.CollaborationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.CollaborationSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.creatorDisplayName = try reader["creatorDisplayName"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.memberStatus = try reader["memberStatus"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.creatorDisplayName = try reader["creatorDisplayName"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.memberStatus = try reader["memberStatus"].readIfPresent() ?? .sdkUnknown("")
         value.membershipId = try reader["membershipId"].readIfPresent()
         value.membershipArn = try reader["membershipArn"].readIfPresent()
         return value
@@ -10797,16 +10798,16 @@ extension CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.configuredAudienceModelArn = try reader["configuredAudienceModelArn"].readIfPresent()
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.configuredAudienceModelArn = try reader["configuredAudienceModelArn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         return value
     }
@@ -10817,14 +10818,14 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ConfiguredTableAssociationSummary()
-        value.configuredTableId = try reader["configuredTableId"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.configuredTableId = try reader["configuredTableId"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10834,13 +10835,13 @@ extension CleanRoomsClientTypes.ConfiguredTableSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ConfiguredTableSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.analysisMethod = try reader["analysisMethod"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.analysisMethod = try reader["analysisMethod"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10850,12 +10851,12 @@ extension CleanRoomsClientTypes.MemberSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MemberSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.MemberSummary()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.abilities = try reader["abilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.abilities = try reader["abilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.membershipId = try reader["membershipId"].readIfPresent()
         value.membershipArn = try reader["membershipArn"].readIfPresent()
         value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.PaymentConfiguration.read(from:))
@@ -10888,7 +10889,7 @@ extension CleanRoomsClientTypes.QueryComputePaymentConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.QueryComputePaymentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.QueryComputePaymentConfig()
-        value.isResponsible = try reader["isResponsible"].readIfPresent()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }
@@ -10898,17 +10899,17 @@ extension CleanRoomsClientTypes.MembershipSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.MembershipSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationCreatorAccountId = try reader["collaborationCreatorAccountId"].readIfPresent()
-        value.collaborationCreatorDisplayName = try reader["collaborationCreatorDisplayName"].readIfPresent()
-        value.collaborationName = try reader["collaborationName"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationCreatorAccountId = try reader["collaborationCreatorAccountId"].readIfPresent() ?? ""
+        value.collaborationCreatorDisplayName = try reader["collaborationCreatorDisplayName"].readIfPresent() ?? ""
+        value.collaborationName = try reader["collaborationName"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipPaymentConfiguration.read(from:))
         return value
     }
@@ -10919,16 +10920,16 @@ extension CleanRoomsClientTypes.PrivacyBudgetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.PrivacyBudgetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.PrivacyBudgetSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.privacyBudgetTemplateId = try reader["privacyBudgetTemplateId"].readIfPresent()
-        value.privacyBudgetTemplateArn = try reader["privacyBudgetTemplateArn"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.privacyBudgetTemplateId = try reader["privacyBudgetTemplateId"].readIfPresent() ?? ""
+        value.privacyBudgetTemplateArn = try reader["privacyBudgetTemplateArn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.budget = try reader["budget"].readIfPresent(with: CleanRoomsClientTypes.PrivacyBudget.read(from:))
         return value
     }
@@ -10939,15 +10940,15 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.PrivacyBudgetTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.PrivacyBudgetTemplateSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.privacyBudgetType = try reader["privacyBudgetType"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10957,11 +10958,11 @@ extension CleanRoomsClientTypes.ProtectedQuerySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQuerySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedQuerySummary()
-        value.id = try reader["id"].readIfPresent()
-        value.membershipId = try reader["membershipId"].readIfPresent()
-        value.membershipArn = try reader["membershipArn"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10971,14 +10972,14 @@ extension CleanRoomsClientTypes.SchemaSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SchemaSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.SchemaSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.collaborationId = try reader["collaborationId"].readIfPresent()
-        value.collaborationArn = try reader["collaborationArn"].readIfPresent()
-        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisMethod = try reader["analysisMethod"].readIfPresent()
         return value
     }
@@ -11003,7 +11004,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact()
-        value.aggregations = try reader["aggregations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregations = try reader["aggregations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11013,8 +11014,8 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation()
-        value.type = try reader["type"].readIfPresent()
-        value.maxCount = try reader["maxCount"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11024,8 +11025,8 @@ extension CleanRoomsClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

@@ -15002,7 +15002,7 @@ extension ElastiCacheClientTypes.DataStorage {
         var value = ElastiCacheClientTypes.DataStorage()
         value.maximum = try reader["Maximum"].readIfPresent()
         value.minimum = try reader["Minimum"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

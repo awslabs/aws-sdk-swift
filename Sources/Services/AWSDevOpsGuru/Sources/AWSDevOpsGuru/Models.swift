@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -5340,7 +5341,7 @@ extension AddNotificationChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AddNotificationChannelOutput()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5363,7 +5364,7 @@ extension DescribeAccountHealthOutput {
         value.metricsAnalyzed = try reader["MetricsAnalyzed"].readIfPresent() ?? 0
         value.openProactiveInsights = try reader["OpenProactiveInsights"].readIfPresent() ?? 0
         value.openReactiveInsights = try reader["OpenReactiveInsights"].readIfPresent() ?? 0
-        value.resourceHours = try reader["ResourceHours"].readIfPresent()
+        value.resourceHours = try reader["ResourceHours"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5375,7 +5376,7 @@ extension DescribeAccountOverviewOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeAccountOverviewOutput()
-        value.meanTimeToRecoverInMilliseconds = try reader["MeanTimeToRecoverInMilliseconds"].readIfPresent()
+        value.meanTimeToRecoverInMilliseconds = try reader["MeanTimeToRecoverInMilliseconds"].readIfPresent() ?? 0
         value.proactiveInsights = try reader["ProactiveInsights"].readIfPresent() ?? 0
         value.reactiveInsights = try reader["ReactiveInsights"].readIfPresent() ?? 0
         return value
@@ -5442,7 +5443,7 @@ extension DescribeOrganizationHealthOutput {
         value.metricsAnalyzed = try reader["MetricsAnalyzed"].readIfPresent() ?? 0
         value.openProactiveInsights = try reader["OpenProactiveInsights"].readIfPresent() ?? 0
         value.openReactiveInsights = try reader["OpenReactiveInsights"].readIfPresent() ?? 0
-        value.resourceHours = try reader["ResourceHours"].readIfPresent()
+        value.resourceHours = try reader["ResourceHours"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5554,8 +5555,8 @@ extension ListAnomalousLogGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAnomalousLogGroupsOutput()
-        value.anomalousLogGroups = try reader["AnomalousLogGroups"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.AnomalousLogGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.insightId = try reader["InsightId"].readIfPresent()
+        value.anomalousLogGroups = try reader["AnomalousLogGroups"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.AnomalousLogGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.insightId = try reader["InsightId"].readIfPresent() ?? ""
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5568,7 +5569,7 @@ extension ListEventsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEventsOutput()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5595,7 +5596,7 @@ extension ListMonitoredResourcesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMonitoredResourcesOutput()
-        value.monitoredResourceIdentifiers = try reader["MonitoredResourceIdentifiers"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.MonitoredResourceIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoredResourceIdentifiers = try reader["MonitoredResourceIdentifiers"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.MonitoredResourceIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6267,7 +6268,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: DevOpsGuruClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6294,9 +6295,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6313,7 +6314,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6326,7 +6327,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6339,9 +6340,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6358,7 +6359,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -6442,8 +6443,8 @@ extension DevOpsGuruClientTypes.TagCollection {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.TagCollection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.TagCollection()
-        value.appBoundaryKey = try reader["AppBoundaryKey"].readIfPresent()
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appBoundaryKey = try reader["AppBoundaryKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6620,7 +6621,7 @@ extension DevOpsGuruClientTypes.PredictionTimeRange {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.PredictionTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.PredictionTimeRange()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -6631,7 +6632,7 @@ extension DevOpsGuruClientTypes.AnomalyReportedTimeRange {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalyReportedTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.AnomalyReportedTimeRange()
-        value.openTime = try reader["OpenTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.openTime = try reader["OpenTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.closeTime = try reader["CloseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -6642,7 +6643,7 @@ extension DevOpsGuruClientTypes.AnomalyTimeRange {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.AnomalyTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.AnomalyTimeRange()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -6740,7 +6741,7 @@ extension DevOpsGuruClientTypes.InsightTimeRange {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.InsightTimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.InsightTimeRange()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -6917,8 +6918,8 @@ extension DevOpsGuruClientTypes.TagCostEstimationResourceCollectionFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.TagCostEstimationResourceCollectionFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.TagCostEstimationResourceCollectionFilter()
-        value.appBoundaryKey = try reader["AppBoundaryKey"].readIfPresent()
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appBoundaryKey = try reader["AppBoundaryKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6979,8 +6980,8 @@ extension DevOpsGuruClientTypes.TagCollectionFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.TagCollectionFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.TagCollectionFilter()
-        value.appBoundaryKey = try reader["AppBoundaryKey"].readIfPresent()
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appBoundaryKey = try reader["AppBoundaryKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7357,8 +7358,8 @@ extension DevOpsGuruClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsGuruClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsGuruClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }

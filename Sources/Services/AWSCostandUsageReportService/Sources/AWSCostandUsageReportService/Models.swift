@@ -1145,14 +1145,14 @@ extension CostandUsageReportClientTypes.ReportDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> CostandUsageReportClientTypes.ReportDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostandUsageReportClientTypes.ReportDefinition()
-        value.reportName = try reader["ReportName"].readIfPresent()
-        value.timeUnit = try reader["TimeUnit"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.compression = try reader["Compression"].readIfPresent()
-        value.additionalSchemaElements = try reader["AdditionalSchemaElements"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostandUsageReportClientTypes.SchemaElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
-        value.s3Region = try reader["S3Region"].readIfPresent()
+        value.reportName = try reader["ReportName"].readIfPresent() ?? ""
+        value.timeUnit = try reader["TimeUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.additionalSchemaElements = try reader["AdditionalSchemaElements"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostandUsageReportClientTypes.SchemaElement>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3Prefix = try reader["S3Prefix"].readIfPresent() ?? ""
+        value.s3Region = try reader["S3Region"].readIfPresent() ?? .sdkUnknown("")
         value.additionalArtifacts = try reader["AdditionalArtifacts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostandUsageReportClientTypes.AdditionalArtifact>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.refreshClosedReports = try reader["RefreshClosedReports"].readIfPresent()
         value.reportVersioning = try reader["ReportVersioning"].readIfPresent()
@@ -1190,8 +1190,8 @@ extension CostandUsageReportClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CostandUsageReportClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostandUsageReportClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

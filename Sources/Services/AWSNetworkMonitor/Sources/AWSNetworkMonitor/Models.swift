@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1317,9 +1318,9 @@ extension CreateMonitorOutput {
         let reader = responseReader
         var value = CreateMonitorOutput()
         value.aggregationPeriod = try reader["aggregationPeriod"].readIfPresent()
-        value.monitorArn = try reader["monitorArn"].readIfPresent()
-        value.monitorName = try reader["monitorName"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -1334,14 +1335,14 @@ extension CreateProbeOutput {
         var value = CreateProbeOutput()
         value.addressFamily = try reader["addressFamily"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destination = try reader["destination"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent() ?? ""
         value.destinationPort = try reader["destinationPort"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.packetSize = try reader["packetSize"].readIfPresent()
         value.probeArn = try reader["probeArn"].readIfPresent()
         value.probeId = try reader["probeId"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceArn = try reader["sourceArn"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
@@ -1370,13 +1371,13 @@ extension GetMonitorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetMonitorOutput()
-        value.aggregationPeriod = try reader["aggregationPeriod"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.monitorArn = try reader["monitorArn"].readIfPresent()
-        value.monitorName = try reader["monitorName"].readIfPresent()
+        value.aggregationPeriod = try reader["aggregationPeriod"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
         value.probes = try reader["probes"].readListIfPresent(memberReadingClosure: NetworkMonitorClientTypes.Probe.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.state = try reader["state"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -1391,14 +1392,14 @@ extension GetProbeOutput {
         var value = GetProbeOutput()
         value.addressFamily = try reader["addressFamily"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destination = try reader["destination"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent() ?? ""
         value.destinationPort = try reader["destinationPort"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.packetSize = try reader["packetSize"].readIfPresent()
         value.probeArn = try reader["probeArn"].readIfPresent()
         value.probeId = try reader["probeId"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceArn = try reader["sourceArn"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
@@ -1413,7 +1414,7 @@ extension ListMonitorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMonitorsOutput()
-        value.monitors = try reader["monitors"].readListIfPresent(memberReadingClosure: NetworkMonitorClientTypes.MonitorSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitors = try reader["monitors"].readListIfPresent(memberReadingClosure: NetworkMonitorClientTypes.MonitorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1453,9 +1454,9 @@ extension UpdateMonitorOutput {
         let reader = responseReader
         var value = UpdateMonitorOutput()
         value.aggregationPeriod = try reader["aggregationPeriod"].readIfPresent()
-        value.monitorArn = try reader["monitorArn"].readIfPresent()
-        value.monitorName = try reader["monitorName"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -1470,14 +1471,14 @@ extension UpdateProbeOutput {
         var value = UpdateProbeOutput()
         value.addressFamily = try reader["addressFamily"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destination = try reader["destination"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent() ?? ""
         value.destinationPort = try reader["destinationPort"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.packetSize = try reader["packetSize"].readIfPresent()
         value.probeArn = try reader["probeArn"].readIfPresent()
         value.probeId = try reader["probeId"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceArn = try reader["sourceArn"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
@@ -1806,10 +1807,10 @@ extension NetworkMonitorClientTypes.Probe {
         var value = NetworkMonitorClientTypes.Probe()
         value.probeId = try reader["probeId"].readIfPresent()
         value.probeArn = try reader["probeArn"].readIfPresent()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
+        value.sourceArn = try reader["sourceArn"].readIfPresent() ?? ""
+        value.destination = try reader["destination"].readIfPresent() ?? ""
         value.destinationPort = try reader["destinationPort"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
         value.packetSize = try reader["packetSize"].readIfPresent()
         value.addressFamily = try reader["addressFamily"].readIfPresent()
         value.vpcId = try reader["vpcId"].readIfPresent()
@@ -1826,9 +1827,9 @@ extension NetworkMonitorClientTypes.MonitorSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.MonitorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkMonitorClientTypes.MonitorSummary()
-        value.monitorArn = try reader["monitorArn"].readIfPresent()
-        value.monitorName = try reader["monitorName"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.aggregationPeriod = try reader["aggregationPeriod"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value

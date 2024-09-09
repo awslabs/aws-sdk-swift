@@ -3442,8 +3442,8 @@ extension BadRequestException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3456,8 +3456,8 @@ extension ServiceUnavailableException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3470,8 +3470,8 @@ extension ForbiddenException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3484,8 +3484,8 @@ extension InternalServerErrorException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServerErrorException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3498,8 +3498,8 @@ extension UnauthorizedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3512,8 +3512,8 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3526,8 +3526,8 @@ extension NotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3540,8 +3540,8 @@ extension TooManyRequestsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3554,8 +3554,8 @@ extension GoneException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GoneException {
         let reader = baseError.errorBodyReader
         var value = GoneException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3568,8 +3568,8 @@ extension PreconditionFailedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionFailedException {
         let reader = baseError.errorBodyReader
         var value = PreconditionFailedException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.code = try reader["Code"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

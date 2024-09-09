@@ -1675,8 +1675,8 @@ extension M2ClientTypes {
 
         public init(
             alternateKeys: [M2ClientTypes.AlternateKey]? = nil,
-            cacheAtStartup: Swift.Bool? = nil,
-            compressed: Swift.Bool? = nil,
+            cacheAtStartup: Swift.Bool? = false,
+            compressed: Swift.Bool? = false,
             encoding: Swift.String? = nil,
             primaryKey: M2ClientTypes.PrimaryKey? = nil,
             recordFormat: Swift.String? = nil
@@ -1731,7 +1731,7 @@ public struct GetDataSetDetailsOutput {
     public var recordLength: Swift.Int?
 
     public init(
-        blocksize: Swift.Int? = nil,
+        blocksize: Swift.Int? = 0,
         creationTime: Foundation.Date? = nil,
         dataSetName: Swift.String? = nil,
         dataSetOrg: M2ClientTypes.DatasetDetailOrgAttributes? = nil,
@@ -1739,7 +1739,7 @@ public struct GetDataSetDetailsOutput {
         lastReferencedTime: Foundation.Date? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
-        recordLength: Swift.Int? = nil
+        recordLength: Swift.Int? = 0
     )
     {
         self.blocksize = blocksize
@@ -4064,9 +4064,9 @@ extension CreateApplicationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateApplicationOutput()
-        value.applicationArn = try reader["applicationArn"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
+        value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4078,7 +4078,7 @@ extension CreateDataSetImportTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDataSetImportTaskOutput()
-        value.taskId = try reader["taskId"].readIfPresent()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4090,7 +4090,7 @@ extension CreateDeploymentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDeploymentOutput()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.deploymentId = try reader["deploymentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4102,7 +4102,7 @@ extension CreateEnvironmentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEnvironmentOutput()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4135,12 +4135,12 @@ extension GetApplicationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetApplicationOutput()
-        value.applicationArn = try reader["applicationArn"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deployedVersion = try reader["deployedVersion"].readIfPresent(with: M2ClientTypes.DeployedVersionSummary.read(from:))
         value.description = try reader["description"].readIfPresent()
-        value.engineType = try reader["engineType"].readIfPresent()
+        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
         value.environmentId = try reader["environmentId"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.lastStartTime = try reader["lastStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4149,9 +4149,9 @@ extension GetApplicationOutput {
         value.listenerPorts = try reader["listenerPorts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.loadBalancerDnsName = try reader["loadBalancerDnsName"].readIfPresent()
         value.logGroups = try reader["logGroups"].readListIfPresent(memberReadingClosure: M2ClientTypes.LogGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.targetGroupArns = try reader["targetGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -4166,12 +4166,12 @@ extension GetApplicationVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetApplicationVersionOutput()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.definitionContent = try reader["definitionContent"].readIfPresent()
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.definitionContent = try reader["definitionContent"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -4184,18 +4184,18 @@ extension GetBatchJobExecutionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetBatchJobExecutionOutput()
-        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
         value.batchJobIdentifier = try reader["batchJobIdentifier"].readIfPresent(with: M2ClientTypes.BatchJobIdentifier.read(from:))
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.executionId = try reader["executionId"].readIfPresent()
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
         value.jobId = try reader["jobId"].readIfPresent()
         value.jobName = try reader["jobName"].readIfPresent()
         value.jobStepRestartMarker = try reader["jobStepRestartMarker"].readIfPresent(with: M2ClientTypes.JobStepRestartMarker.read(from:))
         value.jobType = try reader["jobType"].readIfPresent()
         value.jobUser = try reader["jobUser"].readIfPresent()
         value.returnCode = try reader["returnCode"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -4210,7 +4210,7 @@ extension GetDataSetDetailsOutput {
         var value = GetDataSetDetailsOutput()
         value.blocksize = try reader["blocksize"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.dataSetName = try reader["dataSetName"].readIfPresent()
+        value.dataSetName = try reader["dataSetName"].readIfPresent() ?? ""
         value.dataSetOrg = try reader["dataSetOrg"].readIfPresent(with: M2ClientTypes.DatasetDetailOrgAttributes.read(from:))
         value.fileSize = try reader["fileSize"].readIfPresent()
         value.lastReferencedTime = try reader["lastReferencedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4228,9 +4228,9 @@ extension GetDataSetImportTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDataSetImportTaskOutput()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.summary = try reader["summary"].readIfPresent(with: M2ClientTypes.DataSetImportSummary.read(from:))
-        value.taskId = try reader["taskId"].readIfPresent()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4242,12 +4242,12 @@ extension GetDeploymentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDeploymentOutput()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deploymentId = try reader["deploymentId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -4261,27 +4261,27 @@ extension GetEnvironmentOutput {
         let reader = responseReader
         var value = GetEnvironmentOutput()
         value.actualCapacity = try reader["actualCapacity"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.engineType = try reader["engineType"].readIfPresent()
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
-        value.environmentArn = try reader["environmentArn"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
+        value.engineVersion = try reader["engineVersion"].readIfPresent() ?? ""
+        value.environmentArn = try reader["environmentArn"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.highAvailabilityConfig = try reader["highAvailabilityConfig"].readIfPresent(with: M2ClientTypes.HighAvailabilityConfig.read(from:))
-        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.loadBalancerArn = try reader["loadBalancerArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.pendingMaintenance = try reader["pendingMaintenance"].readIfPresent(with: M2ClientTypes.PendingMaintenance.read(from:))
         value.preferredMaintenanceWindow = try reader["preferredMaintenanceWindow"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent() ?? false
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.storageConfigurations = try reader["storageConfigurations"].readListIfPresent(memberReadingClosure: M2ClientTypes.StorageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4293,7 +4293,7 @@ extension GetSignedBluinsightsUrlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSignedBluinsightsUrlOutput()
-        value.signedBiUrl = try reader["signedBiUrl"].readIfPresent()
+        value.signedBiUrl = try reader["signedBiUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4305,7 +4305,7 @@ extension ListApplicationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListApplicationsOutput()
-        value.applications = try reader["applications"].readListIfPresent(memberReadingClosure: M2ClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applications = try reader["applications"].readListIfPresent(memberReadingClosure: M2ClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4318,7 +4318,7 @@ extension ListApplicationVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListApplicationVersionsOutput()
-        value.applicationVersions = try reader["applicationVersions"].readListIfPresent(memberReadingClosure: M2ClientTypes.ApplicationVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applicationVersions = try reader["applicationVersions"].readListIfPresent(memberReadingClosure: M2ClientTypes.ApplicationVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4331,7 +4331,7 @@ extension ListBatchJobDefinitionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListBatchJobDefinitionsOutput()
-        value.batchJobDefinitions = try reader["batchJobDefinitions"].readListIfPresent(memberReadingClosure: M2ClientTypes.BatchJobDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.batchJobDefinitions = try reader["batchJobDefinitions"].readListIfPresent(memberReadingClosure: M2ClientTypes.BatchJobDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4344,7 +4344,7 @@ extension ListBatchJobExecutionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListBatchJobExecutionsOutput()
-        value.batchJobExecutions = try reader["batchJobExecutions"].readListIfPresent(memberReadingClosure: M2ClientTypes.BatchJobExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.batchJobExecutions = try reader["batchJobExecutions"].readListIfPresent(memberReadingClosure: M2ClientTypes.BatchJobExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4369,7 +4369,7 @@ extension ListDataSetImportHistoryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataSetImportHistoryOutput()
-        value.dataSetImportTasks = try reader["dataSetImportTasks"].readListIfPresent(memberReadingClosure: M2ClientTypes.DataSetImportTask.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSetImportTasks = try reader["dataSetImportTasks"].readListIfPresent(memberReadingClosure: M2ClientTypes.DataSetImportTask.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4382,7 +4382,7 @@ extension ListDataSetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDataSetsOutput()
-        value.dataSets = try reader["dataSets"].readListIfPresent(memberReadingClosure: M2ClientTypes.DataSetSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSets = try reader["dataSets"].readListIfPresent(memberReadingClosure: M2ClientTypes.DataSetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4395,7 +4395,7 @@ extension ListDeploymentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDeploymentsOutput()
-        value.deployments = try reader["deployments"].readListIfPresent(memberReadingClosure: M2ClientTypes.DeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deployments = try reader["deployments"].readListIfPresent(memberReadingClosure: M2ClientTypes.DeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4408,7 +4408,7 @@ extension ListEngineVersionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEngineVersionsOutput()
-        value.engineVersions = try reader["engineVersions"].readListIfPresent(memberReadingClosure: M2ClientTypes.EngineVersionsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.engineVersions = try reader["engineVersions"].readListIfPresent(memberReadingClosure: M2ClientTypes.EngineVersionsSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4421,7 +4421,7 @@ extension ListEnvironmentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEnvironmentsOutput()
-        value.environments = try reader["environments"].readListIfPresent(memberReadingClosure: M2ClientTypes.EnvironmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environments = try reader["environments"].readListIfPresent(memberReadingClosure: M2ClientTypes.EnvironmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4434,7 +4434,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -4453,7 +4453,7 @@ extension StartBatchJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartBatchJobOutput()
-        value.executionId = try reader["executionId"].readIfPresent()
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4486,7 +4486,7 @@ extension UpdateApplicationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateApplicationOutput()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4498,7 +4498,7 @@ extension UpdateEnvironmentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEnvironmentOutput()
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5137,7 +5137,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -5156,7 +5156,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -5172,7 +5172,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: M2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5190,7 +5190,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5203,7 +5203,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -5218,7 +5218,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5231,7 +5231,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
@@ -5248,7 +5248,7 @@ extension ExecutionTimeoutException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ExecutionTimeoutException {
         let reader = baseError.errorBodyReader
         var value = ExecutionTimeoutException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5261,7 +5261,7 @@ extension ServiceUnavailableException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5274,10 +5274,10 @@ extension M2ClientTypes.ApplicationVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ApplicationVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ApplicationVersionSummary()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5287,8 +5287,8 @@ extension M2ClientTypes.DeployedVersionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DeployedVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.DeployedVersionSummary()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -5299,8 +5299,8 @@ extension M2ClientTypes.LogGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.LogGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.LogGroupSummary()
-        value.logType = try reader["logType"].readIfPresent()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.logType = try reader["logType"].readIfPresent() ?? ""
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5352,7 +5352,7 @@ extension M2ClientTypes.RestartBatchJobIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.RestartBatchJobIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.RestartBatchJobIdentifier()
-        value.executionId = try reader["executionId"].readIfPresent()
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
         value.jobStepRestartMarker = try reader["jobStepRestartMarker"].readIfPresent(with: M2ClientTypes.JobStepRestartMarker.read(from:))
         return value
     }
@@ -5371,7 +5371,7 @@ extension M2ClientTypes.JobStepRestartMarker {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.JobStepRestartMarker {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.JobStepRestartMarker()
-        value.fromStep = try reader["fromStep"].readIfPresent()
+        value.fromStep = try reader["fromStep"].readIfPresent() ?? ""
         value.fromProcStep = try reader["fromProcStep"].readIfPresent()
         value.toStep = try reader["toStep"].readIfPresent()
         value.toProcStep = try reader["toProcStep"].readIfPresent()
@@ -5391,7 +5391,7 @@ extension M2ClientTypes.S3BatchJobIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.S3BatchJobIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.S3BatchJobIdentifier()
-        value.bucket = try reader["bucket"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         value.identifier = try reader["identifier"].readIfPresent(with: M2ClientTypes.JobIdentifier.read(from:))
         return value
@@ -5436,7 +5436,7 @@ extension M2ClientTypes.ScriptBatchJobIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ScriptBatchJobIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ScriptBatchJobIdentifier()
-        value.scriptName = try reader["scriptName"].readIfPresent()
+        value.scriptName = try reader["scriptName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5452,7 +5452,7 @@ extension M2ClientTypes.FileBatchJobIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FileBatchJobIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.FileBatchJobIdentifier()
-        value.fileName = try reader["fileName"].readIfPresent()
+        value.fileName = try reader["fileName"].readIfPresent() ?? ""
         value.folderPath = try reader["folderPath"].readIfPresent()
         return value
     }
@@ -5483,8 +5483,8 @@ extension M2ClientTypes.PsDetailAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PsDetailAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.PsDetailAttributes()
-        value.format = try reader["format"].readIfPresent()
-        value.encoding = try reader["encoding"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? ""
+        value.encoding = try reader["encoding"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5494,8 +5494,8 @@ extension M2ClientTypes.PoDetailAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.PoDetailAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.PoDetailAttributes()
-        value.format = try reader["format"].readIfPresent()
-        value.encoding = try reader["encoding"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? ""
+        value.encoding = try reader["encoding"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5619,8 +5619,8 @@ extension M2ClientTypes.FsxStorageConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FsxStorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.FsxStorageConfiguration()
-        value.fileSystemId = try reader["file-system-id"].readIfPresent()
-        value.mountPoint = try reader["mount-point"].readIfPresent()
+        value.fileSystemId = try reader["file-system-id"].readIfPresent() ?? ""
+        value.mountPoint = try reader["mount-point"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5636,8 +5636,8 @@ extension M2ClientTypes.EfsStorageConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.EfsStorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.EfsStorageConfiguration()
-        value.fileSystemId = try reader["file-system-id"].readIfPresent()
-        value.mountPoint = try reader["mount-point"].readIfPresent()
+        value.fileSystemId = try reader["file-system-id"].readIfPresent() ?? ""
+        value.mountPoint = try reader["mount-point"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5652,7 +5652,7 @@ extension M2ClientTypes.HighAvailabilityConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.HighAvailabilityConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.HighAvailabilityConfig()
-        value.desiredCapacity = try reader["desiredCapacity"].readIfPresent()
+        value.desiredCapacity = try reader["desiredCapacity"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5684,14 +5684,14 @@ extension M2ClientTypes.ApplicationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ApplicationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ApplicationSummary()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.applicationArn = try reader["applicationArn"].readIfPresent()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.engineType = try reader["engineType"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.environmentId = try reader["environmentId"].readIfPresent()
         value.lastStartTime = try reader["lastStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.versionStatus = try reader["versionStatus"].readIfPresent()
@@ -5722,7 +5722,7 @@ extension M2ClientTypes.ScriptBatchJobDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ScriptBatchJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ScriptBatchJobDefinition()
-        value.scriptName = try reader["scriptName"].readIfPresent()
+        value.scriptName = try reader["scriptName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5732,7 +5732,7 @@ extension M2ClientTypes.FileBatchJobDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.FileBatchJobDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.FileBatchJobDefinition()
-        value.fileName = try reader["fileName"].readIfPresent()
+        value.fileName = try reader["fileName"].readIfPresent() ?? ""
         value.folderPath = try reader["folderPath"].readIfPresent()
         return value
     }
@@ -5743,13 +5743,13 @@ extension M2ClientTypes.BatchJobExecutionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.BatchJobExecutionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.BatchJobExecutionSummary()
-        value.executionId = try reader["executionId"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
         value.jobId = try reader["jobId"].readIfPresent()
         value.jobName = try reader["jobName"].readIfPresent()
         value.jobType = try reader["jobType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.returnCode = try reader["returnCode"].readIfPresent()
         value.batchJobIdentifier = try reader["batchJobIdentifier"].readIfPresent(with: M2ClientTypes.BatchJobIdentifier.read(from:))
@@ -5777,8 +5777,8 @@ extension M2ClientTypes.DataSetImportTask {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetImportTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.DataSetImportTask()
-        value.taskId = try reader["taskId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.summary = try reader["summary"].readIfPresent(with: M2ClientTypes.DataSetImportSummary.read(from:))
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
@@ -5790,7 +5790,7 @@ extension M2ClientTypes.DataSetSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.DataSetSummary()
-        value.dataSetName = try reader["dataSetName"].readIfPresent()
+        value.dataSetName = try reader["dataSetName"].readIfPresent() ?? ""
         value.dataSetOrg = try reader["dataSetOrg"].readIfPresent()
         value.format = try reader["format"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5805,12 +5805,12 @@ extension M2ClientTypes.DeploymentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DeploymentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.DeploymentSummary()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deploymentId = try reader["deploymentId"].readIfPresent() ?? ""
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
@@ -5821,8 +5821,8 @@ extension M2ClientTypes.EngineVersionsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.EngineVersionsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.EngineVersionsSummary()
-        value.engineType = try reader["engineType"].readIfPresent()
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
+        value.engineType = try reader["engineType"].readIfPresent() ?? ""
+        value.engineVersion = try reader["engineVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5832,14 +5832,14 @@ extension M2ClientTypes.EnvironmentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.EnvironmentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.EnvironmentSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.environmentArn = try reader["environmentArn"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.engineType = try reader["engineType"].readIfPresent()
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.environmentArn = try reader["environmentArn"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
+        value.engineVersion = try reader["engineVersion"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5849,8 +5849,8 @@ extension M2ClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = M2ClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

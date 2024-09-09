@@ -427,7 +427,7 @@ extension SSOAdminClientTypes {
 
         public init(
             signInOptions: SSOAdminClientTypes.SignInOptions? = nil,
-            visibility: SSOAdminClientTypes.ApplicationVisibility? = nil
+            visibility: SSOAdminClientTypes.ApplicationVisibility? = .enabled
         )
         {
             self.signInOptions = signInOptions
@@ -2702,7 +2702,7 @@ public struct GetApplicationAssignmentConfigurationOutput {
     public var assignmentRequired: Swift.Bool?
 
     public init(
-        assignmentRequired: Swift.Bool? = nil
+        assignmentRequired: Swift.Bool? = true
     )
     {
         self.assignmentRequired = assignmentRequired
@@ -3773,7 +3773,7 @@ public struct PutApplicationAssignmentConfigurationInput {
 
     public init(
         applicationArn: Swift.String? = nil,
-        assignmentRequired: Swift.Bool? = nil
+        assignmentRequired: Swift.Bool? = true
     )
     {
         self.applicationArn = applicationArn
@@ -5543,7 +5543,7 @@ extension DescribeApplicationProviderOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeApplicationProviderOutput()
-        value.applicationProviderArn = try reader["ApplicationProviderArn"].readIfPresent()
+        value.applicationProviderArn = try reader["ApplicationProviderArn"].readIfPresent() ?? ""
         value.displayData = try reader["DisplayData"].readIfPresent(with: SSOAdminClientTypes.DisplayData.read(from:))
         value.federationProtocol = try reader["FederationProtocol"].readIfPresent()
         value.resourceServerConfig = try reader["ResourceServerConfig"].readIfPresent(with: SSOAdminClientTypes.ResourceServerConfig.read(from:))
@@ -5643,7 +5643,7 @@ extension GetApplicationAccessScopeOutput {
         let reader = responseReader
         var value = GetApplicationAccessScopeOutput()
         value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scope = try reader["Scope"].readIfPresent()
+        value.scope = try reader["Scope"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5781,7 +5781,7 @@ extension ListApplicationAccessScopesOutput {
         let reader = responseReader
         var value = ListApplicationAccessScopesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: SSOAdminClientTypes.ScopeDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: SSOAdminClientTypes.ScopeDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5832,7 +5832,7 @@ extension ListApplicationGrantsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListApplicationGrantsOutput()
-        value.grants = try reader["Grants"].readListIfPresent(memberReadingClosure: SSOAdminClientTypes.GrantItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.grants = try reader["Grants"].readListIfPresent(memberReadingClosure: SSOAdminClientTypes.GrantItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7575,7 +7575,7 @@ extension SSOAdminClientTypes.SignInOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.SignInOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.SignInOptions()
-        value.origin = try reader["Origin"].readIfPresent()
+        value.origin = try reader["Origin"].readIfPresent() ?? .sdkUnknown("")
         value.applicationUrl = try reader["ApplicationUrl"].readIfPresent()
         return value
     }
@@ -7624,7 +7624,7 @@ extension SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration()
-        value.accessControlAttributes = try reader["AccessControlAttributes"].readListIfPresent(memberReadingClosure: SSOAdminClientTypes.AccessControlAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accessControlAttributes = try reader["AccessControlAttributes"].readListIfPresent(memberReadingClosure: SSOAdminClientTypes.AccessControlAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7640,7 +7640,7 @@ extension SSOAdminClientTypes.AccessControlAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AccessControlAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.AccessControlAttribute()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent(with: SSOAdminClientTypes.AccessControlAttributeValue.read(from:))
         return value
     }
@@ -7656,7 +7656,7 @@ extension SSOAdminClientTypes.AccessControlAttributeValue {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.AccessControlAttributeValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.AccessControlAttributeValue()
-        value.source = try reader["Source"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.source = try reader["Source"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7713,10 +7713,10 @@ extension SSOAdminClientTypes.OidcJwtConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.OidcJwtConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.OidcJwtConfiguration()
-        value.issuerUrl = try reader["IssuerUrl"].readIfPresent()
-        value.claimAttributePath = try reader["ClaimAttributePath"].readIfPresent()
-        value.identityStoreAttributePath = try reader["IdentityStoreAttributePath"].readIfPresent()
-        value.jwksRetrievalOption = try reader["JwksRetrievalOption"].readIfPresent()
+        value.issuerUrl = try reader["IssuerUrl"].readIfPresent() ?? ""
+        value.claimAttributePath = try reader["ClaimAttributePath"].readIfPresent() ?? ""
+        value.identityStoreAttributePath = try reader["IdentityStoreAttributePath"].readIfPresent() ?? ""
+        value.jwksRetrievalOption = try reader["JwksRetrievalOption"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7755,7 +7755,7 @@ extension SSOAdminClientTypes.IamAuthenticationMethod {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.IamAuthenticationMethod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.IamAuthenticationMethod()
-        value.actorPolicy = try reader["ActorPolicy"].readIfPresent()
+        value.actorPolicy = try reader["ActorPolicy"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
@@ -7897,7 +7897,7 @@ extension SSOAdminClientTypes.CustomerManagedPolicyReference {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.CustomerManagedPolicyReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.CustomerManagedPolicyReference()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.path = try reader["Path"].readIfPresent()
         return value
     }
@@ -7946,7 +7946,7 @@ extension SSOAdminClientTypes.ScopeDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ScopeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.ScopeDetails()
-        value.scope = try reader["Scope"].readIfPresent()
+        value.scope = try reader["Scope"].readIfPresent() ?? ""
         value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7957,9 +7957,9 @@ extension SSOAdminClientTypes.ApplicationAssignment {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ApplicationAssignment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.ApplicationAssignment()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-        value.principalId = try reader["PrincipalId"].readIfPresent()
-        value.principalType = try reader["PrincipalType"].readIfPresent()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
+        value.principalId = try reader["PrincipalId"].readIfPresent() ?? ""
+        value.principalType = try reader["PrincipalType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7992,7 +7992,7 @@ extension SSOAdminClientTypes.GrantItem {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.GrantItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.GrantItem()
-        value.grantType = try reader["GrantType"].readIfPresent()
+        value.grantType = try reader["GrantType"].readIfPresent() ?? .sdkUnknown("")
         value.grant = try reader["Grant"].readIfPresent(with: SSOAdminClientTypes.Grant.read(from:))
         return value
     }
@@ -8003,7 +8003,7 @@ extension SSOAdminClientTypes.ApplicationProvider {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.ApplicationProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.ApplicationProvider()
-        value.applicationProviderArn = try reader["ApplicationProviderArn"].readIfPresent()
+        value.applicationProviderArn = try reader["ApplicationProviderArn"].readIfPresent() ?? ""
         value.federationProtocol = try reader["FederationProtocol"].readIfPresent()
         value.displayData = try reader["DisplayData"].readIfPresent(with: SSOAdminClientTypes.DisplayData.read(from:))
         value.resourceServerConfig = try reader["ResourceServerConfig"].readIfPresent(with: SSOAdminClientTypes.ResourceServerConfig.read(from:))
@@ -8078,8 +8078,8 @@ extension SSOAdminClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

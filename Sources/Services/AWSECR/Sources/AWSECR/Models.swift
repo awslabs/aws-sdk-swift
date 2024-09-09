@@ -1851,7 +1851,7 @@ public struct DeleteRepositoryInput {
     public var repositoryName: Swift.String?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
     )
@@ -4380,7 +4380,7 @@ public struct SetRepositoryPolicyInput {
     public var repositoryName: Swift.String?
 
     public init(
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
@@ -7832,8 +7832,8 @@ extension ECRClientTypes.ScanningRepositoryFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ScanningRepositoryFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ScanningRepositoryFilter()
-        value.filter = try reader["filter"].readIfPresent()
-        value.filterType = try reader["filterType"].readIfPresent()
+        value.filter = try reader["filter"].readIfPresent() ?? ""
+        value.filterType = try reader["filterType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7878,7 +7878,7 @@ extension ECRClientTypes.EncryptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.EncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.EncryptionConfiguration()
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKey = try reader["kmsKey"].readIfPresent()
         return value
     }
@@ -7930,8 +7930,8 @@ extension ECRClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7947,7 +7947,7 @@ extension ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate()
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKey = try reader["kmsKey"].readIfPresent()
         return value
     }
@@ -8211,7 +8211,7 @@ extension ECRClientTypes.Attribute {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.Attribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.Attribute()
-        value.key = try reader["key"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }
@@ -8243,7 +8243,7 @@ extension ECRClientTypes.ReplicationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ReplicationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ReplicationConfiguration()
-        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: ECRClientTypes.ReplicationRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: ECRClientTypes.ReplicationRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8259,7 +8259,7 @@ extension ECRClientTypes.ReplicationRule {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ReplicationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ReplicationRule()
-        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: ECRClientTypes.ReplicationDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: ECRClientTypes.ReplicationDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.repositoryFilters = try reader["repositoryFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.RepositoryFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8276,8 +8276,8 @@ extension ECRClientTypes.RepositoryFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.RepositoryFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.RepositoryFilter()
-        value.filter = try reader["filter"].readIfPresent()
-        value.filterType = try reader["filterType"].readIfPresent()
+        value.filter = try reader["filter"].readIfPresent() ?? ""
+        value.filterType = try reader["filterType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8293,8 +8293,8 @@ extension ECRClientTypes.ReplicationDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ReplicationDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.ReplicationDestination()
-        value.region = try reader["region"].readIfPresent()
-        value.registryId = try reader["registryId"].readIfPresent()
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.registryId = try reader["registryId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8367,8 +8367,8 @@ extension ECRClientTypes.RegistryScanningRule {
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.RegistryScanningRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.RegistryScanningRule()
-        value.scanFrequency = try reader["scanFrequency"].readIfPresent()
-        value.repositoryFilters = try reader["repositoryFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.ScanningRepositoryFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanFrequency = try reader["scanFrequency"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryFilters = try reader["repositoryFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.ScanningRepositoryFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

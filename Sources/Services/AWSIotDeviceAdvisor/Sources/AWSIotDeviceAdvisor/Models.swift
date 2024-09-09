@@ -1961,12 +1961,12 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration()
-        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
+        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent() ?? ""
         value.devices = try reader["devices"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.DeviceUnderTest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.intendedForQualification = try reader["intendedForQualification"].readIfPresent()
         value.isLongDurationTest = try reader["isLongDurationTest"].readIfPresent()
-        value.rootGroup = try reader["rootGroup"].readIfPresent()
-        value.devicePermissionRoleArn = try reader["devicePermissionRoleArn"].readIfPresent()
+        value.rootGroup = try reader["rootGroup"].readIfPresent() ?? ""
+        value.devicePermissionRoleArn = try reader["devicePermissionRoleArn"].readIfPresent() ?? ""
         value.`protocol` = try reader["protocol"].readIfPresent()
         return value
     }

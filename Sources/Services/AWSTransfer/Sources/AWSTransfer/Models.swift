@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteAccessOutput {
 
@@ -6568,8 +6569,8 @@ extension CreateAccessOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAccessOutput()
-        value.externalId = try reader["ExternalId"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.externalId = try reader["ExternalId"].readIfPresent() ?? ""
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6581,7 +6582,7 @@ extension CreateAgreementOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAgreementOutput()
-        value.agreementId = try reader["AgreementId"].readIfPresent()
+        value.agreementId = try reader["AgreementId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6593,7 +6594,7 @@ extension CreateConnectorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateConnectorOutput()
-        value.connectorId = try reader["ConnectorId"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6605,7 +6606,7 @@ extension CreateProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProfileOutput()
-        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6617,7 +6618,7 @@ extension CreateServerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateServerOutput()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6629,8 +6630,8 @@ extension CreateUserOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateUserOutput()
-        value.serverId = try reader["ServerId"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6642,7 +6643,7 @@ extension CreateWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateWorkflowOutput()
-        value.workflowId = try reader["WorkflowId"].readIfPresent()
+        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6725,7 +6726,7 @@ extension DescribeAccessOutput {
         let reader = responseReader
         var value = DescribeAccessOutput()
         value.access = try reader["Access"].readIfPresent(with: TransferClientTypes.DescribedAccess.read(from:))
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6774,7 +6775,7 @@ extension DescribeExecutionOutput {
         let reader = responseReader
         var value = DescribeExecutionOutput()
         value.execution = try reader["Execution"].readIfPresent(with: TransferClientTypes.DescribedExecution.read(from:))
-        value.workflowId = try reader["WorkflowId"].readIfPresent()
+        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6834,7 +6835,7 @@ extension DescribeUserOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeUserOutput()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         value.user = try reader["User"].readIfPresent(with: TransferClientTypes.DescribedUser.read(from:))
         return value
     }
@@ -6859,7 +6860,7 @@ extension ImportCertificateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportCertificateOutput()
-        value.certificateId = try reader["CertificateId"].readIfPresent()
+        value.certificateId = try reader["CertificateId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6871,8 +6872,8 @@ extension ImportHostKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportHostKeyOutput()
-        value.hostKeyId = try reader["HostKeyId"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.hostKeyId = try reader["HostKeyId"].readIfPresent() ?? ""
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6884,9 +6885,9 @@ extension ImportSshPublicKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportSshPublicKeyOutput()
-        value.serverId = try reader["ServerId"].readIfPresent()
-        value.sshPublicKeyId = try reader["SshPublicKeyId"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
+        value.sshPublicKeyId = try reader["SshPublicKeyId"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6898,9 +6899,9 @@ extension ListAccessesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAccessesOutput()
-        value.accesses = try reader["Accesses"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accesses = try reader["Accesses"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedAccess.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6912,7 +6913,7 @@ extension ListAgreementsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAgreementsOutput()
-        value.agreements = try reader["Agreements"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedAgreement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.agreements = try reader["Agreements"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedAgreement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6925,7 +6926,7 @@ extension ListCertificatesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCertificatesOutput()
-        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedCertificate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6938,7 +6939,7 @@ extension ListConnectorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListConnectorsOutput()
-        value.connectors = try reader["Connectors"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedConnector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectors = try reader["Connectors"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedConnector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6951,9 +6952,9 @@ extension ListExecutionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListExecutionsOutput()
-        value.executions = try reader["Executions"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedExecution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executions = try reader["Executions"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedExecution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.workflowId = try reader["WorkflowId"].readIfPresent()
+        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6965,9 +6966,9 @@ extension ListHostKeysOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHostKeysOutput()
-        value.hostKeys = try reader["HostKeys"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedHostKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hostKeys = try reader["HostKeys"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedHostKey.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6980,7 +6981,7 @@ extension ListProfilesOutput {
         let reader = responseReader
         var value = ListProfilesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedProfile.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6993,7 +6994,7 @@ extension ListSecurityPoliciesOutput {
         let reader = responseReader
         var value = ListSecurityPoliciesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.securityPolicyNames = try reader["SecurityPolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityPolicyNames = try reader["SecurityPolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7006,7 +7007,7 @@ extension ListServersOutput {
         let reader = responseReader
         var value = ListServersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.servers = try reader["Servers"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedServer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.servers = try reader["Servers"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedServer.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7033,8 +7034,8 @@ extension ListUsersOutput {
         let reader = responseReader
         var value = ListUsersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
-        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedUser.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
+        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedUser.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7047,7 +7048,7 @@ extension ListWorkflowsOutput {
         let reader = responseReader
         var value = ListWorkflowsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.workflows = try reader["Workflows"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedWorkflow.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workflows = try reader["Workflows"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedWorkflow.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7066,8 +7067,8 @@ extension StartDirectoryListingOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartDirectoryListingOutput()
-        value.listingId = try reader["ListingId"].readIfPresent()
-        value.outputFileName = try reader["OutputFileName"].readIfPresent()
+        value.listingId = try reader["ListingId"].readIfPresent() ?? ""
+        value.outputFileName = try reader["OutputFileName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7079,7 +7080,7 @@ extension StartFileTransferOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartFileTransferOutput()
-        value.transferId = try reader["TransferId"].readIfPresent()
+        value.transferId = try reader["TransferId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7129,7 +7130,7 @@ extension TestIdentityProviderOutput {
         value.message = try reader["Message"].readIfPresent()
         value.response = try reader["Response"].readIfPresent()
         value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
-        value.url = try reader["Url"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7148,8 +7149,8 @@ extension UpdateAccessOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAccessOutput()
-        value.externalId = try reader["ExternalId"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.externalId = try reader["ExternalId"].readIfPresent() ?? ""
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7161,7 +7162,7 @@ extension UpdateAgreementOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAgreementOutput()
-        value.agreementId = try reader["AgreementId"].readIfPresent()
+        value.agreementId = try reader["AgreementId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7173,7 +7174,7 @@ extension UpdateCertificateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateCertificateOutput()
-        value.certificateId = try reader["CertificateId"].readIfPresent()
+        value.certificateId = try reader["CertificateId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7185,7 +7186,7 @@ extension UpdateConnectorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateConnectorOutput()
-        value.connectorId = try reader["ConnectorId"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7197,8 +7198,8 @@ extension UpdateHostKeyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateHostKeyOutput()
-        value.hostKeyId = try reader["HostKeyId"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.hostKeyId = try reader["HostKeyId"].readIfPresent() ?? ""
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7210,7 +7211,7 @@ extension UpdateProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateProfileOutput()
-        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7222,7 +7223,7 @@ extension UpdateServerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateServerOutput()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7234,8 +7235,8 @@ extension UpdateUserOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateUserOutput()
-        value.serverId = try reader["ServerId"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8313,9 +8314,9 @@ extension ResourceExistsException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resource = try reader["Resource"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resource = try reader["Resource"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8328,7 +8329,7 @@ extension InvalidRequestException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8354,9 +8355,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resource = try reader["Resource"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resource = try reader["Resource"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8369,7 +8370,7 @@ extension InternalServiceError {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
         var value = InternalServiceError()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8410,7 +8411,7 @@ extension InvalidNextTokenException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8423,7 +8424,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8459,8 +8460,8 @@ extension TransferClientTypes.PosixProfile {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.PosixProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.PosixProfile()
-        value.uid = try reader["Uid"].readIfPresent()
-        value.gid = try reader["Gid"].readIfPresent()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
         value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8478,8 +8479,8 @@ extension TransferClientTypes.HomeDirectoryMapEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.HomeDirectoryMapEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.HomeDirectoryMapEntry()
-        value.entry = try reader["Entry"].readIfPresent()
-        value.target = try reader["Target"].readIfPresent()
+        value.entry = try reader["Entry"].readIfPresent() ?? ""
+        value.target = try reader["Target"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent()
         return value
     }
@@ -8490,7 +8491,7 @@ extension TransferClientTypes.DescribedAgreement {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedAgreement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedAgreement()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.agreementId = try reader["AgreementId"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
@@ -8515,8 +8516,8 @@ extension TransferClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8526,7 +8527,7 @@ extension TransferClientTypes.DescribedCertificate {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedCertificate()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.certificateId = try reader["CertificateId"].readIfPresent()
         value.usage = try reader["Usage"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
@@ -8549,7 +8550,7 @@ extension TransferClientTypes.DescribedConnector {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedConnector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedConnector()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.connectorId = try reader["ConnectorId"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         value.as2Config = try reader["As2Config"].readIfPresent(with: TransferClientTypes.As2ConnectorConfig.read(from:))
@@ -8656,8 +8657,8 @@ extension TransferClientTypes.ExecutionError {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ExecutionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.ExecutionError()
-        value.type = try reader["Type"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8688,8 +8689,8 @@ extension TransferClientTypes.UserDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.UserDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.UserDetails()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         value.sessionId = try reader["SessionId"].readIfPresent()
         return value
     }
@@ -8741,7 +8742,7 @@ extension TransferClientTypes.DescribedHostKey {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedHostKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedHostKey()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.hostKeyId = try reader["HostKeyId"].readIfPresent()
         value.hostKeyFingerprint = try reader["HostKeyFingerprint"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -8757,7 +8758,7 @@ extension TransferClientTypes.DescribedProfile {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedProfile()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.profileId = try reader["ProfileId"].readIfPresent()
         value.profileType = try reader["ProfileType"].readIfPresent()
         value.as2Id = try reader["As2Id"].readIfPresent()
@@ -8773,7 +8774,7 @@ extension TransferClientTypes.DescribedSecurityPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedSecurityPolicy()
         value.fips = try reader["Fips"].readIfPresent()
-        value.securityPolicyName = try reader["SecurityPolicyName"].readIfPresent()
+        value.securityPolicyName = try reader["SecurityPolicyName"].readIfPresent() ?? ""
         value.sshCiphers = try reader["SshCiphers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sshKexs = try reader["SshKexs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sshMacs = try reader["SshMacs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8790,7 +8791,7 @@ extension TransferClientTypes.DescribedServer {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedServer()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.certificate = try reader["Certificate"].readIfPresent()
         value.protocolDetails = try reader["ProtocolDetails"].readIfPresent(with: TransferClientTypes.ProtocolDetails.read(from:))
         value.domain = try reader["Domain"].readIfPresent()
@@ -8859,8 +8860,8 @@ extension TransferClientTypes.WorkflowDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WorkflowDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.WorkflowDetail()
-        value.workflowId = try reader["WorkflowId"].readIfPresent()
-        value.executionRole = try reader["ExecutionRole"].readIfPresent()
+        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
+        value.executionRole = try reader["ExecutionRole"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8937,7 +8938,7 @@ extension TransferClientTypes.DescribedUser {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedUser()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.homeDirectory = try reader["HomeDirectory"].readIfPresent()
         value.homeDirectoryMappings = try reader["HomeDirectoryMappings"].readListIfPresent(memberReadingClosure: TransferClientTypes.HomeDirectoryMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.homeDirectoryType = try reader["HomeDirectoryType"].readIfPresent()
@@ -8956,9 +8957,9 @@ extension TransferClientTypes.SshPublicKey {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SshPublicKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.SshPublicKey()
-        value.dateImported = try reader["DateImported"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sshPublicKeyBody = try reader["SshPublicKeyBody"].readIfPresent()
-        value.sshPublicKeyId = try reader["SshPublicKeyId"].readIfPresent()
+        value.dateImported = try reader["DateImported"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sshPublicKeyBody = try reader["SshPublicKeyBody"].readIfPresent() ?? ""
+        value.sshPublicKeyId = try reader["SshPublicKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8968,7 +8969,7 @@ extension TransferClientTypes.DescribedWorkflow {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWorkflow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DescribedWorkflow()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowStep.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.onExceptionSteps = try reader["OnExceptionSteps"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowStep.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9018,7 +9019,7 @@ extension TransferClientTypes.DecryptStepDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.DecryptStepDetails()
         value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
         value.overwriteExisting = try reader["OverwriteExisting"].readIfPresent()
         value.destinationFileLocation = try reader["DestinationFileLocation"].readIfPresent(with: TransferClientTypes.InputFileLocation.read(from:))
@@ -9090,8 +9091,8 @@ extension TransferClientTypes.S3Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.S3Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9231,7 +9232,7 @@ extension TransferClientTypes.ListedHostKey {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ListedHostKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.ListedHostKey()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.hostKeyId = try reader["HostKeyId"].readIfPresent()
         value.fingerprint = try reader["Fingerprint"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -9259,7 +9260,7 @@ extension TransferClientTypes.ListedServer {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ListedServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.ListedServer()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.domain = try reader["Domain"].readIfPresent()
         value.identityProviderType = try reader["IdentityProviderType"].readIfPresent()
         value.endpointType = try reader["EndpointType"].readIfPresent()
@@ -9276,7 +9277,7 @@ extension TransferClientTypes.ListedUser {
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ListedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TransferClientTypes.ListedUser()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.homeDirectory = try reader["HomeDirectory"].readIfPresent()
         value.homeDirectoryType = try reader["HomeDirectoryType"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()

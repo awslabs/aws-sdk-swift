@@ -4519,8 +4519,8 @@ extension AssociateBrowserSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateBrowserSettingsOutput()
-        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
-        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent() ?? ""
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4532,8 +4532,8 @@ extension AssociateIpAccessSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateIpAccessSettingsOutput()
-        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent()
-        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent() ?? ""
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4545,8 +4545,8 @@ extension AssociateNetworkSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateNetworkSettingsOutput()
-        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
-        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent() ?? ""
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4558,8 +4558,8 @@ extension AssociateTrustStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateTrustStoreOutput()
-        value.portalArn = try reader["portalArn"].readIfPresent()
-        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4571,8 +4571,8 @@ extension AssociateUserAccessLoggingSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateUserAccessLoggingSettingsOutput()
-        value.portalArn = try reader["portalArn"].readIfPresent()
-        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4584,8 +4584,8 @@ extension AssociateUserSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateUserSettingsOutput()
-        value.portalArn = try reader["portalArn"].readIfPresent()
-        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4597,7 +4597,7 @@ extension CreateBrowserSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateBrowserSettingsOutput()
-        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
+        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4609,7 +4609,7 @@ extension CreateIdentityProviderOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateIdentityProviderOutput()
-        value.identityProviderArn = try reader["identityProviderArn"].readIfPresent()
+        value.identityProviderArn = try reader["identityProviderArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4621,7 +4621,7 @@ extension CreateIpAccessSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateIpAccessSettingsOutput()
-        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent()
+        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4633,7 +4633,7 @@ extension CreateNetworkSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateNetworkSettingsOutput()
-        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
+        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4645,8 +4645,8 @@ extension CreatePortalOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePortalOutput()
-        value.portalArn = try reader["portalArn"].readIfPresent()
-        value.portalEndpoint = try reader["portalEndpoint"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        value.portalEndpoint = try reader["portalEndpoint"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4658,7 +4658,7 @@ extension CreateTrustStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTrustStoreOutput()
-        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
+        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4670,7 +4670,7 @@ extension CreateUserAccessLoggingSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateUserAccessLoggingSettingsOutput()
-        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent()
+        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4682,7 +4682,7 @@ extension CreateUserSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateUserSettingsOutput()
-        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
+        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4852,7 +4852,7 @@ extension GetPortalServiceProviderMetadataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPortalServiceProviderMetadataOutput()
-        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
         value.serviceProviderSamlMetadata = try reader["serviceProviderSamlMetadata"].readIfPresent()
         return value
     }
@@ -4878,7 +4878,7 @@ extension GetTrustStoreCertificateOutput {
         let reader = responseReader
         var value = GetTrustStoreCertificateOutput()
         value.certificate = try reader["certificate"].readIfPresent(with: WorkSpacesWebClientTypes.Certificate.read(from:))
-        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
+        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4993,7 +4993,7 @@ extension ListTrustStoreCertificatesOutput {
         var value = ListTrustStoreCertificatesOutput()
         value.certificateList = try reader["certificateList"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.CertificateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
+        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5118,7 +5118,7 @@ extension UpdateTrustStoreOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateTrustStoreOutput()
-        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
+        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6340,7 +6340,7 @@ extension WorkSpacesWebClientTypes.BrowserSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.BrowserSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.BrowserSettings()
-        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
+        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent() ?? ""
         value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.browserPolicy = try reader["browserPolicy"].readIfPresent()
         value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
@@ -6354,7 +6354,7 @@ extension WorkSpacesWebClientTypes.IdentityProvider {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.IdentityProvider()
-        value.identityProviderArn = try reader["identityProviderArn"].readIfPresent()
+        value.identityProviderArn = try reader["identityProviderArn"].readIfPresent() ?? ""
         value.identityProviderName = try reader["identityProviderName"].readIfPresent()
         value.identityProviderType = try reader["identityProviderType"].readIfPresent()
         value.identityProviderDetails = try reader["identityProviderDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -6367,7 +6367,7 @@ extension WorkSpacesWebClientTypes.IpAccessSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IpAccessSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.IpAccessSettings()
-        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent()
+        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent() ?? ""
         value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipRules = try reader["ipRules"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.IpRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.displayName = try reader["displayName"].readIfPresent()
@@ -6390,7 +6390,7 @@ extension WorkSpacesWebClientTypes.IpRule {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IpRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.IpRule()
-        value.ipRange = try reader["ipRange"].readIfPresent()
+        value.ipRange = try reader["ipRange"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         return value
     }
@@ -6401,7 +6401,7 @@ extension WorkSpacesWebClientTypes.NetworkSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.NetworkSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.NetworkSettings()
-        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
+        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent() ?? ""
         value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -6415,7 +6415,7 @@ extension WorkSpacesWebClientTypes.Portal {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.Portal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.Portal()
-        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
         value.rendererType = try reader["rendererType"].readIfPresent()
         value.browserType = try reader["browserType"].readIfPresent()
         value.portalStatus = try reader["portalStatus"].readIfPresent()
@@ -6444,7 +6444,7 @@ extension WorkSpacesWebClientTypes.TrustStore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.TrustStore()
         value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
+        value.trustStoreArn = try reader["trustStoreArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6469,7 +6469,7 @@ extension WorkSpacesWebClientTypes.UserAccessLoggingSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserAccessLoggingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.UserAccessLoggingSettings()
-        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent()
+        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent() ?? ""
         value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.kinesisStreamArn = try reader["kinesisStreamArn"].readIfPresent()
         return value
@@ -6481,7 +6481,7 @@ extension WorkSpacesWebClientTypes.UserSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.UserSettings()
-        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
+        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent() ?? ""
         value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.copyAllowed = try reader["copyAllowed"].readIfPresent()
         value.pasteAllowed = try reader["pasteAllowed"].readIfPresent()
@@ -6509,7 +6509,7 @@ extension WorkSpacesWebClientTypes.CookieSynchronizationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.CookieSynchronizationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.CookieSynchronizationConfiguration()
-        value.allowlist = try reader["allowlist"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.CookieSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowlist = try reader["allowlist"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.CookieSpecification.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.blocklist = try reader["blocklist"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.CookieSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -6527,7 +6527,7 @@ extension WorkSpacesWebClientTypes.CookieSpecification {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.CookieSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.CookieSpecification()
-        value.domain = try reader["domain"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.path = try reader["path"].readIfPresent()
         return value
@@ -6539,7 +6539,7 @@ extension WorkSpacesWebClientTypes.BrowserSettingsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.BrowserSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.BrowserSettingsSummary()
-        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
+        value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6549,7 +6549,7 @@ extension WorkSpacesWebClientTypes.IdentityProviderSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProviderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.IdentityProviderSummary()
-        value.identityProviderArn = try reader["identityProviderArn"].readIfPresent()
+        value.identityProviderArn = try reader["identityProviderArn"].readIfPresent() ?? ""
         value.identityProviderName = try reader["identityProviderName"].readIfPresent()
         value.identityProviderType = try reader["identityProviderType"].readIfPresent()
         return value
@@ -6561,7 +6561,7 @@ extension WorkSpacesWebClientTypes.IpAccessSettingsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IpAccessSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.IpAccessSettingsSummary()
-        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent()
+        value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent() ?? ""
         value.displayName = try reader["displayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -6574,7 +6574,7 @@ extension WorkSpacesWebClientTypes.NetworkSettingsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.NetworkSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.NetworkSettingsSummary()
-        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
+        value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent() ?? ""
         value.vpcId = try reader["vpcId"].readIfPresent()
         return value
     }
@@ -6585,7 +6585,7 @@ extension WorkSpacesWebClientTypes.PortalSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.PortalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.PortalSummary()
-        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
         value.rendererType = try reader["rendererType"].readIfPresent()
         value.browserType = try reader["browserType"].readIfPresent()
         value.portalStatus = try reader["portalStatus"].readIfPresent()
@@ -6616,8 +6616,8 @@ extension WorkSpacesWebClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6651,7 +6651,7 @@ extension WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary()
-        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent()
+        value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent() ?? ""
         value.kinesisStreamArn = try reader["kinesisStreamArn"].readIfPresent()
         return value
     }
@@ -6662,7 +6662,7 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.UserSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.UserSettingsSummary()
-        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
+        value.userSettingsArn = try reader["userSettingsArn"].readIfPresent() ?? ""
         value.copyAllowed = try reader["copyAllowed"].readIfPresent()
         value.pasteAllowed = try reader["pasteAllowed"].readIfPresent()
         value.downloadAllowed = try reader["downloadAllowed"].readIfPresent()
@@ -6681,8 +6681,8 @@ extension WorkSpacesWebClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesWebClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

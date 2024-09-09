@@ -4218,7 +4218,7 @@ public struct DeleteReportGroupInput {
 
     public init(
         arn: Swift.String? = nil,
-        deleteReports: Swift.Bool? = nil
+        deleteReports: Swift.Bool? = false
     )
     {
         self.arn = arn
@@ -6493,7 +6493,7 @@ public struct UpdateWebhookInput {
         buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
         projectName: Swift.String? = nil,
-        rotateSecret: Swift.Bool? = nil
+        rotateSecret: Swift.Bool? = false
     )
     {
         self.branchFilter = branchFilter
@@ -9045,7 +9045,7 @@ extension CodeBuildClientTypes.S3LogsConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.S3LogsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.S3LogsConfig()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent()
         value.encryptionDisabled = try reader["encryptionDisabled"].readIfPresent()
         value.bucketOwnerAccess = try reader["bucketOwnerAccess"].readIfPresent()
@@ -9065,7 +9065,7 @@ extension CodeBuildClientTypes.CloudWatchLogsConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.CloudWatchLogsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.CloudWatchLogsConfig()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.groupName = try reader["groupName"].readIfPresent()
         value.streamName = try reader["streamName"].readIfPresent()
         return value
@@ -9090,9 +9090,9 @@ extension CodeBuildClientTypes.ProjectEnvironment {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ProjectEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ProjectEnvironment()
-        value.type = try reader["type"].readIfPresent()
-        value.image = try reader["image"].readIfPresent()
-        value.computeType = try reader["computeType"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.computeType = try reader["computeType"].readIfPresent() ?? .sdkUnknown("")
         value.fleet = try reader["fleet"].readIfPresent(with: CodeBuildClientTypes.ProjectFleet.read(from:))
         value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privilegedMode = try reader["privilegedMode"].readIfPresent()
@@ -9114,8 +9114,8 @@ extension CodeBuildClientTypes.RegistryCredential {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.RegistryCredential {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.RegistryCredential()
-        value.credential = try reader["credential"].readIfPresent()
-        value.credentialProvider = try reader["credentialProvider"].readIfPresent()
+        value.credential = try reader["credential"].readIfPresent() ?? ""
+        value.credentialProvider = try reader["credentialProvider"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9132,8 +9132,8 @@ extension CodeBuildClientTypes.EnvironmentVariable {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.EnvironmentVariable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.EnvironmentVariable()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent()
         return value
     }
@@ -9166,7 +9166,7 @@ extension CodeBuildClientTypes.ProjectCache {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ProjectCache {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ProjectCache()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent()
         value.modes = try reader["modes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeBuildClientTypes.CacheMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -9200,8 +9200,8 @@ extension CodeBuildClientTypes.ProjectSourceVersion {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ProjectSourceVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ProjectSourceVersion()
-        value.sourceIdentifier = try reader["sourceIdentifier"].readIfPresent()
-        value.sourceVersion = try reader["sourceVersion"].readIfPresent()
+        value.sourceIdentifier = try reader["sourceIdentifier"].readIfPresent() ?? ""
+        value.sourceVersion = try reader["sourceVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9225,7 +9225,7 @@ extension CodeBuildClientTypes.ProjectSource {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ProjectSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ProjectSource()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent()
         value.gitCloneDepth = try reader["gitCloneDepth"].readIfPresent()
         value.gitSubmodulesConfig = try reader["gitSubmodulesConfig"].readIfPresent(with: CodeBuildClientTypes.GitSubmodulesConfig.read(from:))
@@ -9267,7 +9267,7 @@ extension CodeBuildClientTypes.SourceAuth {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.SourceAuth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.SourceAuth()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.resource = try reader["resource"].readIfPresent()
         return value
     }
@@ -9283,7 +9283,7 @@ extension CodeBuildClientTypes.GitSubmodulesConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.GitSubmodulesConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.GitSubmodulesConfig()
-        value.fetchSubmodules = try reader["fetchSubmodules"].readIfPresent()
+        value.fetchSubmodules = try reader["fetchSubmodules"].readIfPresent() ?? false
         return value
     }
 }
@@ -9581,9 +9581,9 @@ extension CodeBuildClientTypes.ScopeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ScopeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ScopeConfiguration()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.domain = try reader["domain"].readIfPresent()
-        value.scope = try reader["scope"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9600,8 +9600,8 @@ extension CodeBuildClientTypes.WebhookFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.WebhookFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.WebhookFilter()
-        value.type = try reader["type"].readIfPresent()
-        value.pattern = try reader["pattern"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.pattern = try reader["pattern"].readIfPresent() ?? ""
         value.excludeMatchedPattern = try reader["excludeMatchedPattern"].readIfPresent()
         return value
     }
@@ -9626,7 +9626,7 @@ extension CodeBuildClientTypes.ProjectArtifacts {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ProjectArtifacts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.ProjectArtifacts()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent()
         value.path = try reader["path"].readIfPresent()
         value.namespaceType = try reader["namespaceType"].readIfPresent()
@@ -9740,9 +9740,9 @@ extension CodeBuildClientTypes.TestReportSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.TestReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeBuildClientTypes.TestReportSummary()
-        value.total = try reader["total"].readIfPresent()
-        value.statusCounts = try reader["statusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.durationInNanoSeconds = try reader["durationInNanoSeconds"].readIfPresent()
+        value.total = try reader["total"].readIfPresent() ?? 0
+        value.statusCounts = try reader["statusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.durationInNanoSeconds = try reader["durationInNanoSeconds"].readIfPresent() ?? 0
         return value
     }
 }

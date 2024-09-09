@@ -322,7 +322,7 @@ public struct GetFreeTierUsageInput {
 
     public init(
         filter: FreeTierClientTypes.Expression? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
     )
     {
@@ -356,7 +356,7 @@ extension GetFreeTierUsageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFreeTierUsageOutput()
-        value.freeTierUsages = try reader["freeTierUsages"].readListIfPresent(memberReadingClosure: FreeTierClientTypes.FreeTierUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.freeTierUsages = try reader["freeTierUsages"].readListIfPresent(memberReadingClosure: FreeTierClientTypes.FreeTierUsage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -383,7 +383,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -396,7 +396,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -409,7 +409,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

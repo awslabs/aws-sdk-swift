@@ -1752,7 +1752,7 @@ public struct DeleteRuleInput {
 
     public init(
         eventBusName: Swift.String? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil
     )
     {
@@ -4453,7 +4453,7 @@ public struct RemovePermissionInput {
 
     public init(
         eventBusName: Swift.String? = nil,
-        removeAllPermissions: Swift.Bool? = nil,
+        removeAllPermissions: Swift.Bool? = false,
         statementId: Swift.String? = nil
     )
     {
@@ -4477,7 +4477,7 @@ public struct RemoveTargetsInput {
 
     public init(
         eventBusName: Swift.String? = nil,
-        force: Swift.Bool? = nil,
+        force: Swift.Bool? = false,
         ids: [Swift.String]? = nil,
         rule: Swift.String? = nil
     )
@@ -7936,7 +7936,7 @@ extension EventBridgeClientTypes.Secondary {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Secondary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.Secondary()
-        value.route = try reader["Route"].readIfPresent()
+        value.route = try reader["Route"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7951,7 +7951,7 @@ extension EventBridgeClientTypes.Primary {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Primary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.Primary()
-        value.healthCheck = try reader["HealthCheck"].readIfPresent()
+        value.healthCheck = try reader["HealthCheck"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7981,7 +7981,7 @@ extension EventBridgeClientTypes.EndpointEventBus {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.EndpointEventBus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.EndpointEventBus()
-        value.eventBusArn = try reader["EventBusArn"].readIfPresent()
+        value.eventBusArn = try reader["EventBusArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8144,7 +8144,7 @@ extension EventBridgeClientTypes.ReplayDestination {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ReplayDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.ReplayDestination()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.filterArns = try reader["FilterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8325,8 +8325,8 @@ extension EventBridgeClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8357,8 +8357,8 @@ extension EventBridgeClientTypes.Target {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Target {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.Target()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.input = try reader["Input"].readIfPresent()
         value.inputPath = try reader["InputPath"].readIfPresent()
@@ -8436,8 +8436,8 @@ extension EventBridgeClientTypes.SageMakerPipelineParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.SageMakerPipelineParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.SageMakerPipelineParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8459,7 +8459,7 @@ extension EventBridgeClientTypes.RedshiftDataParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.RedshiftDataParameters()
         value.secretManagerArn = try reader["SecretManagerArn"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
         value.dbUser = try reader["DbUser"].readIfPresent()
         value.sql = try reader["Sql"].readIfPresent()
         value.statementName = try reader["StatementName"].readIfPresent()
@@ -8516,8 +8516,8 @@ extension EventBridgeClientTypes.BatchParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.BatchParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.BatchParameters()
-        value.jobDefinition = try reader["JobDefinition"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobDefinition = try reader["JobDefinition"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
         value.arrayProperties = try reader["ArrayProperties"].readIfPresent(with: EventBridgeClientTypes.BatchArrayProperties.read(from:))
         value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: EventBridgeClientTypes.BatchRetryStrategy.read(from:))
         return value
@@ -8577,7 +8577,7 @@ extension EventBridgeClientTypes.EcsParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.EcsParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.EcsParameters()
-        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent()
+        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
         value.taskCount = try reader["TaskCount"].readIfPresent()
         value.launchType = try reader["LaunchType"].readIfPresent()
         value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: EventBridgeClientTypes.NetworkConfiguration.read(from:))
@@ -8641,7 +8641,7 @@ extension EventBridgeClientTypes.CapacityProviderStrategyItem {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.CapacityProviderStrategyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.CapacityProviderStrategyItem()
-        value.capacityProvider = try reader["capacityProvider"].readIfPresent()
+        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent() ?? 0
         value.base = try reader["base"].readIfPresent() ?? 0
         return value
@@ -8675,7 +8675,7 @@ extension EventBridgeClientTypes.AwsVpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.AwsVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.AwsVpcConfiguration()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
         return value
@@ -8692,7 +8692,7 @@ extension EventBridgeClientTypes.RunCommandParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RunCommandParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.RunCommandParameters()
-        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8708,8 +8708,8 @@ extension EventBridgeClientTypes.RunCommandTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RunCommandTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.RunCommandTarget()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8724,7 +8724,7 @@ extension EventBridgeClientTypes.KinesisParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.KinesisParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.KinesisParameters()
-        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent()
+        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8741,7 +8741,7 @@ extension EventBridgeClientTypes.InputTransformer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.InputTransformer()
         value.inputPathsMap = try reader["InputPathsMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.inputTemplate = try reader["InputTemplate"].readIfPresent()
+        value.inputTemplate = try reader["InputTemplate"].readIfPresent() ?? ""
         return value
     }
 }

@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct ListDomainNamesInput {
 
@@ -3009,7 +3010,7 @@ extension DescribeAnalysisSchemesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAnalysisSchemesResult"]
         var value = DescribeAnalysisSchemesOutput()
-        value.analysisSchemes = try reader["AnalysisSchemes"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.AnalysisSchemeStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysisSchemes = try reader["AnalysisSchemes"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.AnalysisSchemeStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3045,7 +3046,7 @@ extension DescribeDomainsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDomainsResult"]
         var value = DescribeDomainsOutput()
-        value.domainStatusList = try reader["DomainStatusList"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.DomainStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainStatusList = try reader["DomainStatusList"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.DomainStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3057,7 +3058,7 @@ extension DescribeExpressionsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeExpressionsResult"]
         var value = DescribeExpressionsOutput()
-        value.expressions = try reader["Expressions"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.ExpressionStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expressions = try reader["Expressions"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.ExpressionStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3069,7 +3070,7 @@ extension DescribeIndexFieldsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeIndexFieldsResult"]
         var value = DescribeIndexFieldsOutput()
-        value.indexFields = try reader["IndexFields"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.IndexFieldStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.indexFields = try reader["IndexFields"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.IndexFieldStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3105,7 +3106,7 @@ extension DescribeSuggestersOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeSuggestersResult"]
         var value = DescribeSuggestersOutput()
-        value.suggesters = try reader["Suggesters"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.SuggesterStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.suggesters = try reader["Suggesters"].readListIfPresent(memberReadingClosure: CloudSearchClientTypes.SuggesterStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3754,14 +3755,14 @@ extension CloudSearchClientTypes.DomainStatus {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.DomainStatus()
-        value.domainId = try reader["DomainId"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent() ?? ""
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
         value.arn = try reader["ARN"].readIfPresent()
         value.created = try reader["Created"].readIfPresent()
         value.deleted = try reader["Deleted"].readIfPresent()
         value.docService = try reader["DocService"].readIfPresent(with: CloudSearchClientTypes.ServiceEndpoint.read(from:))
         value.searchService = try reader["SearchService"].readIfPresent(with: CloudSearchClientTypes.ServiceEndpoint.read(from:))
-        value.requiresIndexDocuments = try reader["RequiresIndexDocuments"].readIfPresent()
+        value.requiresIndexDocuments = try reader["RequiresIndexDocuments"].readIfPresent() ?? false
         value.processing = try reader["Processing"].readIfPresent()
         value.searchInstanceType = try reader["SearchInstanceType"].readIfPresent()
         value.searchPartitionCount = try reader["SearchPartitionCount"].readIfPresent()
@@ -3776,8 +3777,8 @@ extension CloudSearchClientTypes.Limits {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Limits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.Limits()
-        value.maximumReplicationCount = try reader["MaximumReplicationCount"].readIfPresent()
-        value.maximumPartitionCount = try reader["MaximumPartitionCount"].readIfPresent()
+        value.maximumReplicationCount = try reader["MaximumReplicationCount"].readIfPresent() ?? 0
+        value.maximumPartitionCount = try reader["MaximumPartitionCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3808,10 +3809,10 @@ extension CloudSearchClientTypes.OptionStatus {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.OptionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.OptionStatus()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateVersion = try reader["UpdateVersion"].readIfPresent() ?? 0
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.pendingDeletion = try reader["PendingDeletion"].readIfPresent()
         return value
     }
@@ -3829,8 +3830,8 @@ extension CloudSearchClientTypes.AnalysisScheme {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AnalysisScheme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.AnalysisScheme()
-        value.analysisSchemeName = try reader["AnalysisSchemeName"].readIfPresent()
-        value.analysisSchemeLanguage = try reader["AnalysisSchemeLanguage"].readIfPresent()
+        value.analysisSchemeName = try reader["AnalysisSchemeName"].readIfPresent() ?? ""
+        value.analysisSchemeLanguage = try reader["AnalysisSchemeLanguage"].readIfPresent() ?? .sdkUnknown("")
         value.analysisOptions = try reader["AnalysisOptions"].readIfPresent(with: CloudSearchClientTypes.AnalysisOptions.read(from:))
         return value
     }
@@ -3881,8 +3882,8 @@ extension CloudSearchClientTypes.Expression {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Expression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.Expression()
-        value.expressionName = try reader["ExpressionName"].readIfPresent()
-        value.expressionValue = try reader["ExpressionValue"].readIfPresent()
+        value.expressionName = try reader["ExpressionName"].readIfPresent() ?? ""
+        value.expressionValue = try reader["ExpressionValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3920,8 +3921,8 @@ extension CloudSearchClientTypes.IndexField {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.IndexField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.IndexField()
-        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
-        value.indexFieldType = try reader["IndexFieldType"].readIfPresent()
+        value.indexFieldName = try reader["IndexFieldName"].readIfPresent() ?? ""
+        value.indexFieldType = try reader["IndexFieldType"].readIfPresent() ?? .sdkUnknown("")
         value.intOptions = try reader["IntOptions"].readIfPresent(with: CloudSearchClientTypes.IntOptions.read(from:))
         value.doubleOptions = try reader["DoubleOptions"].readIfPresent(with: CloudSearchClientTypes.DoubleOptions.read(from:))
         value.literalOptions = try reader["LiteralOptions"].readIfPresent(with: CloudSearchClientTypes.LiteralOptions.read(from:))
@@ -4224,7 +4225,7 @@ extension CloudSearchClientTypes.Suggester {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Suggester {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.Suggester()
-        value.suggesterName = try reader["SuggesterName"].readIfPresent()
+        value.suggesterName = try reader["SuggesterName"].readIfPresent() ?? ""
         value.documentSuggesterOptions = try reader["DocumentSuggesterOptions"].readIfPresent(with: CloudSearchClientTypes.DocumentSuggesterOptions.read(from:))
         return value
     }
@@ -4242,7 +4243,7 @@ extension CloudSearchClientTypes.DocumentSuggesterOptions {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DocumentSuggesterOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.DocumentSuggesterOptions()
-        value.sourceField = try reader["SourceField"].readIfPresent()
+        value.sourceField = try reader["SourceField"].readIfPresent() ?? ""
         value.fuzzyMatching = try reader["FuzzyMatching"].readIfPresent()
         value.sortExpression = try reader["SortExpression"].readIfPresent()
         return value
@@ -4323,7 +4324,7 @@ extension CloudSearchClientTypes.AccessPoliciesStatus {
     static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AccessPoliciesStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudSearchClientTypes.AccessPoliciesStatus()
-        value.options = try reader["Options"].readIfPresent()
+        value.options = try reader["Options"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
         return value
     }

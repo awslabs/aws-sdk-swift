@@ -4186,9 +4186,9 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4205,7 +4205,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4224,7 +4224,7 @@ extension InternalException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4251,11 +4251,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4323,7 +4323,7 @@ extension PipesClientTypes.PipeSourceSelfManagedKafkaParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeSourceSelfManagedKafkaParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeSourceSelfManagedKafkaParameters()
-        value.topicName = try reader["TopicName"].readIfPresent()
+        value.topicName = try reader["TopicName"].readIfPresent() ?? ""
         value.startingPosition = try reader["StartingPosition"].readIfPresent()
         value.additionalBootstrapServers = try reader["AdditionalBootstrapServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.batchSize = try reader["BatchSize"].readIfPresent()
@@ -4404,7 +4404,7 @@ extension PipesClientTypes.PipeSourceManagedStreamingKafkaParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeSourceManagedStreamingKafkaParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeSourceManagedStreamingKafkaParameters()
-        value.topicName = try reader["TopicName"].readIfPresent()
+        value.topicName = try reader["TopicName"].readIfPresent() ?? ""
         value.startingPosition = try reader["StartingPosition"].readIfPresent()
         value.batchSize = try reader["BatchSize"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -4457,7 +4457,7 @@ extension PipesClientTypes.PipeSourceRabbitMQBrokerParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeSourceRabbitMQBrokerParameters()
         value.credentials = try reader["Credentials"].readIfPresent(with: PipesClientTypes.MQBrokerAccessCredentials.read(from:))
-        value.queueName = try reader["QueueName"].readIfPresent()
+        value.queueName = try reader["QueueName"].readIfPresent() ?? ""
         value.virtualHost = try reader["VirtualHost"].readIfPresent()
         value.batchSize = try reader["BatchSize"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
@@ -4503,7 +4503,7 @@ extension PipesClientTypes.PipeSourceActiveMQBrokerParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeSourceActiveMQBrokerParameters()
         value.credentials = try reader["Credentials"].readIfPresent(with: PipesClientTypes.MQBrokerAccessCredentials.read(from:))
-        value.queueName = try reader["QueueName"].readIfPresent()
+        value.queueName = try reader["QueueName"].readIfPresent() ?? ""
         value.batchSize = try reader["BatchSize"].readIfPresent()
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         return value
@@ -4551,7 +4551,7 @@ extension PipesClientTypes.PipeSourceDynamoDBStreamParameters {
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
-        value.startingPosition = try reader["StartingPosition"].readIfPresent()
+        value.startingPosition = try reader["StartingPosition"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4596,7 +4596,7 @@ extension PipesClientTypes.PipeSourceKinesisStreamParameters {
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
-        value.startingPosition = try reader["StartingPosition"].readIfPresent()
+        value.startingPosition = try reader["StartingPosition"].readIfPresent() ?? .sdkUnknown("")
         value.startingPositionTimestamp = try reader["StartingPositionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -4724,12 +4724,12 @@ extension PipesClientTypes.PipeTargetTimestreamParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeTargetTimestreamParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeTargetTimestreamParameters()
-        value.timeValue = try reader["TimeValue"].readIfPresent()
+        value.timeValue = try reader["TimeValue"].readIfPresent() ?? ""
         value.epochTimeUnit = try reader["EpochTimeUnit"].readIfPresent()
         value.timeFieldType = try reader["TimeFieldType"].readIfPresent()
         value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
-        value.versionValue = try reader["VersionValue"].readIfPresent()
-        value.dimensionMappings = try reader["DimensionMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.DimensionMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.versionValue = try reader["VersionValue"].readIfPresent() ?? ""
+        value.dimensionMappings = try reader["DimensionMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.DimensionMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.singleMeasureMappings = try reader["SingleMeasureMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.SingleMeasureMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.multiMeasureMappings = try reader["MultiMeasureMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.MultiMeasureMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -4747,8 +4747,8 @@ extension PipesClientTypes.MultiMeasureMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.MultiMeasureMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.MultiMeasureMapping()
-        value.multiMeasureName = try reader["MultiMeasureName"].readIfPresent()
-        value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiMeasureName = try reader["MultiMeasureName"].readIfPresent() ?? ""
+        value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4765,9 +4765,9 @@ extension PipesClientTypes.MultiMeasureAttributeMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.MultiMeasureAttributeMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.MultiMeasureAttributeMapping()
-        value.measureValue = try reader["MeasureValue"].readIfPresent()
-        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
-        value.multiMeasureAttributeName = try reader["MultiMeasureAttributeName"].readIfPresent()
+        value.measureValue = try reader["MeasureValue"].readIfPresent() ?? ""
+        value.measureValueType = try reader["MeasureValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.multiMeasureAttributeName = try reader["MultiMeasureAttributeName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4784,9 +4784,9 @@ extension PipesClientTypes.SingleMeasureMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.SingleMeasureMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.SingleMeasureMapping()
-        value.measureValue = try reader["MeasureValue"].readIfPresent()
-        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
-        value.measureName = try reader["MeasureName"].readIfPresent()
+        value.measureValue = try reader["MeasureValue"].readIfPresent() ?? ""
+        value.measureValueType = try reader["MeasureValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.measureName = try reader["MeasureName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4803,9 +4803,9 @@ extension PipesClientTypes.DimensionMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.DimensionMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.DimensionMapping()
-        value.dimensionValue = try reader["DimensionValue"].readIfPresent()
-        value.dimensionValueType = try reader["DimensionValueType"].readIfPresent()
-        value.dimensionName = try reader["DimensionName"].readIfPresent()
+        value.dimensionValue = try reader["DimensionValue"].readIfPresent() ?? ""
+        value.dimensionValueType = try reader["DimensionValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.dimensionName = try reader["DimensionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4876,8 +4876,8 @@ extension PipesClientTypes.SageMakerPipelineParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.SageMakerPipelineParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.SageMakerPipelineParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4898,11 +4898,11 @@ extension PipesClientTypes.PipeTargetRedshiftDataParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeTargetRedshiftDataParameters()
         value.secretManagerArn = try reader["SecretManagerArn"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
         value.dbUser = try reader["DbUser"].readIfPresent()
         value.statementName = try reader["StatementName"].readIfPresent()
         value.withEvent = try reader["WithEvent"].readIfPresent() ?? false
-        value.sqls = try reader["Sqls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sqls = try reader["Sqls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4959,8 +4959,8 @@ extension PipesClientTypes.PipeTargetBatchJobParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeTargetBatchJobParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeTargetBatchJobParameters()
-        value.jobDefinition = try reader["JobDefinition"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobDefinition = try reader["JobDefinition"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
         value.arrayProperties = try reader["ArrayProperties"].readIfPresent(with: PipesClientTypes.BatchArrayProperties.read(from:))
         value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: PipesClientTypes.BatchRetryStrategy.read(from:))
         value.containerOverrides = try reader["ContainerOverrides"].readIfPresent(with: PipesClientTypes.BatchContainerOverrides.read(from:))
@@ -5019,8 +5019,8 @@ extension PipesClientTypes.BatchResourceRequirement {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.BatchResourceRequirement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.BatchResourceRequirement()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5096,7 +5096,7 @@ extension PipesClientTypes.PipeTargetEcsTaskParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeTargetEcsTaskParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeTargetEcsTaskParameters()
-        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent()
+        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
         value.taskCount = try reader["TaskCount"].readIfPresent()
         value.launchType = try reader["LaunchType"].readIfPresent()
         value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: PipesClientTypes.NetworkConfiguration.read(from:))
@@ -5126,8 +5126,8 @@ extension PipesClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5186,7 +5186,7 @@ extension PipesClientTypes.EcsEphemeralStorage {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.EcsEphemeralStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.EcsEphemeralStorage()
-        value.sizeInGiB = try reader["sizeInGiB"].readIfPresent()
+        value.sizeInGiB = try reader["sizeInGiB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5231,8 +5231,8 @@ extension PipesClientTypes.EcsResourceRequirement {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.EcsResourceRequirement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.EcsResourceRequirement()
-        value.type = try reader["type"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5248,8 +5248,8 @@ extension PipesClientTypes.EcsEnvironmentFile {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.EcsEnvironmentFile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.EcsEnvironmentFile()
-        value.type = try reader["type"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5317,7 +5317,7 @@ extension PipesClientTypes.CapacityProviderStrategyItem {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.CapacityProviderStrategyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.CapacityProviderStrategyItem()
-        value.capacityProvider = try reader["capacityProvider"].readIfPresent()
+        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent() ?? 0
         value.base = try reader["base"].readIfPresent() ?? 0
         return value
@@ -5351,7 +5351,7 @@ extension PipesClientTypes.AwsVpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.AwsVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.AwsVpcConfiguration()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
         return value
@@ -5368,7 +5368,7 @@ extension PipesClientTypes.PipeTargetKinesisStreamParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeTargetKinesisStreamParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.PipeTargetKinesisStreamParameters()
-        value.partitionKey = try reader["PartitionKey"].readIfPresent()
+        value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5474,8 +5474,8 @@ extension PipesClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PipesClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

@@ -559,7 +559,7 @@ extension NimbleClientTypes {
         public var mode: NimbleClientTypes.SessionBackupMode?
 
         public init(
-            maxBackupsToRetain: Swift.Int? = nil,
+            maxBackupsToRetain: Swift.Int? = 0,
             mode: NimbleClientTypes.SessionBackupMode? = nil
         )
         {
@@ -682,9 +682,9 @@ extension NimbleClientTypes {
         public var throughput: Swift.Int?
 
         public init(
-            iops: Swift.Int? = nil,
-            size: Swift.Int? = nil,
-            throughput: Swift.Int? = nil
+            iops: Swift.Int? = 3000,
+            size: Swift.Int? = 500,
+            throughput: Swift.Int? = 125
         )
         {
             self.iops = iops
@@ -733,8 +733,8 @@ extension NimbleClientTypes {
             automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode? = nil,
             clipboardMode: NimbleClientTypes.StreamingClipboardMode? = nil,
             ec2InstanceTypes: [NimbleClientTypes.StreamingInstanceType]? = nil,
-            maxSessionLengthInMinutes: Swift.Int? = nil,
-            maxStoppedSessionLengthInMinutes: Swift.Int? = nil,
+            maxSessionLengthInMinutes: Swift.Int? = 690,
+            maxStoppedSessionLengthInMinutes: Swift.Int? = 0,
             sessionBackup: NimbleClientTypes.StreamConfigurationSessionBackup? = nil,
             sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode? = nil,
             sessionStorage: NimbleClientTypes.StreamConfigurationSessionStorage? = nil,
@@ -965,8 +965,8 @@ extension NimbleClientTypes {
             automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode? = nil,
             clipboardMode: NimbleClientTypes.StreamingClipboardMode? = nil,
             ec2InstanceTypes: [NimbleClientTypes.StreamingInstanceType]? = nil,
-            maxSessionLengthInMinutes: Swift.Int? = nil,
-            maxStoppedSessionLengthInMinutes: Swift.Int? = nil,
+            maxSessionLengthInMinutes: Swift.Int? = 690,
+            maxStoppedSessionLengthInMinutes: Swift.Int? = 0,
             sessionBackup: NimbleClientTypes.StreamConfigurationSessionBackup? = nil,
             sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode? = nil,
             sessionStorage: NimbleClientTypes.StreamConfigurationSessionStorage? = nil,
@@ -1769,7 +1769,7 @@ extension NimbleClientTypes {
             createdBy: Swift.String? = nil,
             ec2InstanceType: Swift.String? = nil,
             launchProfileId: Swift.String? = nil,
-            maxBackupsToRetain: Swift.Int? = nil,
+            maxBackupsToRetain: Swift.Int? = 0,
             ownedBy: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode? = nil,
@@ -1849,7 +1849,7 @@ public struct CreateStreamingSessionStreamInput {
 
     public init(
         clientToken: Swift.String? = nil,
-        expirationInSeconds: Swift.Int? = nil,
+        expirationInSeconds: Swift.Int? = 120,
         sessionId: Swift.String? = nil,
         studioId: Swift.String? = nil
     )
@@ -3942,7 +3942,7 @@ public struct ListLaunchProfileMembersInput {
 
     public init(
         launchProfileId: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         studioId: Swift.String? = nil
     )
@@ -3984,7 +3984,7 @@ public struct ListLaunchProfilesInput {
     public var studioId: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         principalId: Swift.String? = nil,
         states: [NimbleClientTypes.LaunchProfileState]? = nil,
@@ -4310,7 +4310,7 @@ public struct ListStudioComponentsInput {
     public var types: [NimbleClientTypes.StudioComponentType]?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         states: [NimbleClientTypes.StudioComponentState]? = nil,
         studioId: Swift.String? = nil,
@@ -4351,7 +4351,7 @@ public struct ListStudioMembersInput {
     public var studioId: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         studioId: Swift.String? = nil
     )
@@ -6487,7 +6487,7 @@ extension ListStudiosOutput {
         let reader = responseReader
         var value = ListStudiosOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.studios = try reader["studios"].readListIfPresent(memberReadingClosure: NimbleClientTypes.Studio.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.studios = try reader["studios"].readListIfPresent(memberReadingClosure: NimbleClientTypes.Studio.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7756,10 +7756,10 @@ extension NimbleClientTypes.ValidationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.ValidationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.ValidationResult()
-        value.type = try reader["type"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.statusCode = try reader["statusCode"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7769,10 +7769,10 @@ extension NimbleClientTypes.StreamConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> NimbleClientTypes.StreamConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StreamConfiguration()
-        value.clipboardMode = try reader["clipboardMode"].readIfPresent()
-        value.ec2InstanceTypes = try reader["ec2InstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NimbleClientTypes.StreamingInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clipboardMode = try reader["clipboardMode"].readIfPresent() ?? .sdkUnknown("")
+        value.ec2InstanceTypes = try reader["ec2InstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NimbleClientTypes.StreamingInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.maxSessionLengthInMinutes = try reader["maxSessionLengthInMinutes"].readIfPresent() ?? 690
-        value.streamingImageIds = try reader["streamingImageIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamingImageIds = try reader["streamingImageIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.maxStoppedSessionLengthInMinutes = try reader["maxStoppedSessionLengthInMinutes"].readIfPresent() ?? 0
         value.sessionStorage = try reader["sessionStorage"].readIfPresent(with: NimbleClientTypes.StreamConfigurationSessionStorage.read(from:))
         value.sessionBackup = try reader["sessionBackup"].readIfPresent(with: NimbleClientTypes.StreamConfigurationSessionBackup.read(from:))
@@ -7831,7 +7831,7 @@ extension NimbleClientTypes.StreamConfigurationSessionStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StreamConfigurationSessionStorage()
         value.root = try reader["root"].readIfPresent(with: NimbleClientTypes.StreamingSessionStorageRoot.read(from:))
-        value.mode = try reader["mode"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NimbleClientTypes.StreamingSessionStorageMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mode = try reader["mode"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NimbleClientTypes.StreamingSessionStorageMode>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7881,7 +7881,7 @@ extension NimbleClientTypes.StreamingImageEncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StreamingImageEncryptionConfiguration()
         value.keyArn = try reader["keyArn"].readIfPresent()
-        value.keyType = try reader["keyType"].readIfPresent()
+        value.keyType = try reader["keyType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7976,7 +7976,7 @@ extension NimbleClientTypes.StudioEncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NimbleClientTypes.StudioEncryptionConfiguration()
         value.keyArn = try reader["keyArn"].readIfPresent()
-        value.keyType = try reader["keyType"].readIfPresent()
+        value.keyType = try reader["keyType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

@@ -1476,8 +1476,8 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscover
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings()
-        value.sourceRegions = try reader["SourceRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.organizationIntegration = try reader["OrganizationIntegration"].readIfPresent()
+        value.sourceRegions = try reader["SourceRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.organizationIntegration = try reader["OrganizationIntegration"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

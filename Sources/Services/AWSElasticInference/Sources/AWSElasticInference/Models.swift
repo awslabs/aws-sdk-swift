@@ -275,7 +275,7 @@ public struct DescribeAcceleratorsInput {
     public init(
         acceleratorIds: [Swift.String]? = nil,
         filters: [ElasticInferenceClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {

@@ -338,7 +338,7 @@ public struct AssociateCreatedArtifactInput {
 
     public init(
         createdArtifact: MigrationHubClientTypes.CreatedArtifact? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -415,7 +415,7 @@ public struct AssociateDiscoveredResourceInput {
 
     public init(
         discoveredResource: MigrationHubClientTypes.DiscoveredResource? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -440,7 +440,7 @@ public struct CreateProgressUpdateStreamInput {
     public var progressUpdateStreamName: Swift.String?
 
     public init(
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         progressUpdateStreamName: Swift.String? = nil
     )
     {
@@ -462,7 +462,7 @@ public struct DeleteProgressUpdateStreamInput {
     public var progressUpdateStreamName: Swift.String?
 
     public init(
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         progressUpdateStreamName: Swift.String? = nil
     )
     {
@@ -717,7 +717,7 @@ public struct DisassociateCreatedArtifactInput {
 
     public init(
         createdArtifactName: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -749,7 +749,7 @@ public struct DisassociateDiscoveredResourceInput {
 
     public init(
         configurationId: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -777,7 +777,7 @@ public struct ImportMigrationTaskInput {
     public var progressUpdateStream: Swift.String?
 
     public init(
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -1047,7 +1047,7 @@ public struct NotifyApplicationStateInput {
 
     public init(
         applicationId: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         status: MigrationHubClientTypes.ApplicationStatus? = nil,
         updateDateTime: Foundation.Date? = nil
     )
@@ -1084,9 +1084,9 @@ public struct NotifyMigrationTaskStateInput {
     public var updateDateTime: Foundation.Date?
 
     public init(
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
-        nextUpdateSeconds: Swift.Int? = nil,
+        nextUpdateSeconds: Swift.Int? = 0,
         progressUpdateStream: Swift.String? = nil,
         task: MigrationHubClientTypes.Task? = nil,
         updateDateTime: Foundation.Date? = nil
@@ -1124,7 +1124,7 @@ public struct PutResourceAttributesInput {
     public var resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]?
 
     public init(
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil,
         resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]? = nil
@@ -1992,7 +1992,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2116,8 +2116,8 @@ extension MigrationHubClientTypes.ResourceAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.ResourceAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubClientTypes.ResourceAttribute()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2134,7 +2134,7 @@ extension MigrationHubClientTypes.Task {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.Task {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubClientTypes.Task()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.statusDetail = try reader["StatusDetail"].readIfPresent()
         value.progressPercent = try reader["ProgressPercent"].readIfPresent()
         return value
@@ -2164,7 +2164,7 @@ extension MigrationHubClientTypes.CreatedArtifact {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.CreatedArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubClientTypes.CreatedArtifact()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         return value
     }
@@ -2181,7 +2181,7 @@ extension MigrationHubClientTypes.DiscoveredResource {
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.DiscoveredResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubClientTypes.DiscoveredResource()
-        value.configurationId = try reader["ConfigurationId"].readIfPresent()
+        value.configurationId = try reader["ConfigurationId"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         return value
     }

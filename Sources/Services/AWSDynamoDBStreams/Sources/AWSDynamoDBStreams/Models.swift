@@ -1088,8 +1088,8 @@ extension DynamoDBStreamsClientTypes.KeySchemaElement {
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.KeySchemaElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DynamoDBStreamsClientTypes.KeySchemaElement()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.keyType = try reader["KeyType"].readIfPresent()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.keyType = try reader["KeyType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

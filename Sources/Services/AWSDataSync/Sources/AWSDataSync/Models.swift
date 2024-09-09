@@ -6920,7 +6920,7 @@ extension AddStorageSystemOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AddStorageSystemOutput()
-        value.storageSystemArn = try reader["StorageSystemArn"].readIfPresent()
+        value.storageSystemArn = try reader["StorageSystemArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8631,8 +8631,8 @@ extension DataSyncClientTypes.Ec2Config {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Ec2Config {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.Ec2Config()
-        value.subnetArn = try reader["SubnetArn"].readIfPresent()
-        value.securityGroupArns = try reader["SecurityGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetArn = try reader["SubnetArn"].readIfPresent() ?? ""
+        value.securityGroupArns = try reader["SecurityGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8669,8 +8669,8 @@ extension DataSyncClientTypes.FsxProtocolSmb {
         var value = DataSyncClientTypes.FsxProtocolSmb()
         value.domain = try reader["Domain"].readIfPresent()
         value.mountOptions = try reader["MountOptions"].readIfPresent(with: DataSyncClientTypes.SmbMountOptions.read(from:))
-        value.password = try reader["Password"].readIfPresent()
-        value.user = try reader["User"].readIfPresent()
+        value.password = try reader["Password"].readIfPresent() ?? ""
+        value.user = try reader["User"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8731,8 +8731,8 @@ extension DataSyncClientTypes.HdfsNameNode {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.HdfsNameNode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.HdfsNameNode()
-        value.hostname = try reader["Hostname"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
+        value.hostname = try reader["Hostname"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8764,7 +8764,7 @@ extension DataSyncClientTypes.OnPremConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.OnPremConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.OnPremConfig()
-        value.agentArns = try reader["AgentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.agentArns = try reader["AgentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8779,7 +8779,7 @@ extension DataSyncClientTypes.S3Config {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.S3Config {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.S3Config()
-        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent()
+        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8795,7 +8795,7 @@ extension DataSyncClientTypes.DiscoveryServerConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.DiscoveryServerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.DiscoveryServerConfiguration()
-        value.serverHostname = try reader["ServerHostname"].readIfPresent()
+        value.serverHostname = try reader["ServerHostname"].readIfPresent() ?? ""
         value.serverPort = try reader["ServerPort"].readIfPresent()
         return value
     }
@@ -9061,7 +9061,7 @@ extension DataSyncClientTypes.TaskSchedule {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.TaskSchedule()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent()
         return value
     }
@@ -9114,9 +9114,9 @@ extension DataSyncClientTypes.S3ManifestConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.S3ManifestConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.S3ManifestConfig()
-        value.manifestObjectPath = try reader["ManifestObjectPath"].readIfPresent()
-        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent()
-        value.s3BucketArn = try reader["S3BucketArn"].readIfPresent()
+        value.manifestObjectPath = try reader["ManifestObjectPath"].readIfPresent() ?? ""
+        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
+        value.s3BucketArn = try reader["S3BucketArn"].readIfPresent() ?? ""
         value.manifestObjectVersionId = try reader["ManifestObjectVersionId"].readIfPresent()
         return value
     }
@@ -9209,8 +9209,8 @@ extension DataSyncClientTypes.ReportDestinationS3 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.ReportDestinationS3()
         value.subdirectory = try reader["Subdirectory"].readIfPresent()
-        value.s3BucketArn = try reader["S3BucketArn"].readIfPresent()
-        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent()
+        value.s3BucketArn = try reader["S3BucketArn"].readIfPresent() ?? ""
+        value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9314,7 +9314,7 @@ extension DataSyncClientTypes.TagListEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TagListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.TagListEntry()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }

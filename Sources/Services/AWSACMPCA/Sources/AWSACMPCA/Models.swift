@@ -681,7 +681,7 @@ extension ACMPCAClientTypes {
         public var omitExtension: Swift.Bool?
 
         public init(
-            omitExtension: Swift.Bool? = nil
+            omitExtension: Swift.Bool? = false
         )
         {
             self.omitExtension = omitExtension
@@ -781,7 +781,7 @@ extension ACMPCAClientTypes {
         public init(
             crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration? = nil,
             customCname: Swift.String? = nil,
-            enabled: Swift.Bool? = nil,
+            enabled: Swift.Bool? = false,
             expirationInDays: Swift.Int? = nil,
             s3BucketName: Swift.String? = nil,
             s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl? = nil
@@ -808,7 +808,7 @@ extension ACMPCAClientTypes {
         public var ocspCustomCname: Swift.String?
 
         public init(
-            enabled: Swift.Bool? = nil,
+            enabled: Swift.Bool? = false,
             ocspCustomCname: Swift.String? = nil
         )
         {
@@ -1898,7 +1898,7 @@ extension ACMPCAClientTypes {
         public var value: Swift.String?
 
         public init(
-            critical: Swift.Bool? = nil,
+            critical: Swift.Bool? = false,
             objectIdentifier: Swift.String? = nil,
             value: Swift.String? = nil
         )
@@ -3963,8 +3963,8 @@ extension ACMPCAClientTypes.CertificateAuthorityConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CertificateAuthorityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMPCAClientTypes.CertificateAuthorityConfiguration()
-        value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent()
-        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent()
+        value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent() ?? .sdkUnknown("")
         value.subject = try reader["Subject"].readIfPresent(with: ACMPCAClientTypes.ASN1Subject.read(from:))
         value.csrExtensions = try reader["CsrExtensions"].readIfPresent(with: ACMPCAClientTypes.CsrExtensions.read(from:))
         return value
@@ -4045,7 +4045,7 @@ extension ACMPCAClientTypes.EdiPartyName {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.EdiPartyName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMPCAClientTypes.EdiPartyName()
-        value.partyName = try reader["PartyName"].readIfPresent()
+        value.partyName = try reader["PartyName"].readIfPresent() ?? ""
         value.nameAssigner = try reader["NameAssigner"].readIfPresent()
         return value
     }
@@ -4105,8 +4105,8 @@ extension ACMPCAClientTypes.CustomAttribute {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.CustomAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMPCAClientTypes.CustomAttribute()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4122,8 +4122,8 @@ extension ACMPCAClientTypes.OtherName {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.OtherName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMPCAClientTypes.OtherName()
-        value.typeId = try reader["TypeId"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.typeId = try reader["TypeId"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4202,7 +4202,7 @@ extension ACMPCAClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ACMPCAClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMPCAClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }

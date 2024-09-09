@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The user is not authorized to access a resource.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -12021,9 +12022,9 @@ extension WorkSpacesClientTypes.StandbyWorkspace {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.StandbyWorkspace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.StandbyWorkspace()
-        value.primaryWorkspaceId = try reader["PrimaryWorkspaceId"].readIfPresent()
+        value.primaryWorkspaceId = try reader["PrimaryWorkspaceId"].readIfPresent() ?? ""
         value.volumeEncryptionKey = try reader["VolumeEncryptionKey"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataReplication = try reader["DataReplication"].readIfPresent()
         return value
@@ -12041,7 +12042,7 @@ extension WorkSpacesClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -12106,7 +12107,7 @@ extension WorkSpacesClientTypes.UserStorage {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.UserStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.UserStorage()
-        value.capacity = try reader["Capacity"].readIfPresent()
+        value.capacity = try reader["Capacity"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12121,7 +12122,7 @@ extension WorkSpacesClientTypes.RootStorage {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.RootStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.RootStorage()
-        value.capacity = try reader["Capacity"].readIfPresent()
+        value.capacity = try reader["Capacity"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12166,9 +12167,9 @@ extension WorkSpacesClientTypes.WorkspaceRequest {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspaceRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.WorkspaceRequest()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.bundleId = try reader["BundleId"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.bundleId = try reader["BundleId"].readIfPresent() ?? ""
         value.volumeEncryptionKey = try reader["VolumeEncryptionKey"].readIfPresent()
         value.userVolumeEncryptionEnabled = try reader["UserVolumeEncryptionEnabled"].readIfPresent()
         value.rootVolumeEncryptionEnabled = try reader["RootVolumeEncryptionEnabled"].readIfPresent()
@@ -12286,15 +12287,15 @@ extension WorkSpacesClientTypes.WorkspacesPool {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.WorkspacesPool {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.WorkspacesPool()
-        value.poolId = try reader["PoolId"].readIfPresent()
-        value.poolArn = try reader["PoolArn"].readIfPresent()
+        value.poolId = try reader["PoolId"].readIfPresent() ?? ""
+        value.poolArn = try reader["PoolArn"].readIfPresent() ?? ""
         value.capacityStatus = try reader["CapacityStatus"].readIfPresent(with: WorkSpacesClientTypes.CapacityStatus.read(from:))
-        value.poolName = try reader["PoolName"].readIfPresent()
+        value.poolName = try reader["PoolName"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.bundleId = try reader["BundleId"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.bundleId = try reader["BundleId"].readIfPresent() ?? ""
+        value.directoryId = try reader["DirectoryId"].readIfPresent() ?? ""
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.WorkspacesPoolError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationSettings = try reader["ApplicationSettings"].readIfPresent(with: WorkSpacesClientTypes.ApplicationSettingsResponse.read(from:))
         value.timeoutSettings = try reader["TimeoutSettings"].readIfPresent(with: WorkSpacesClientTypes.TimeoutSettings.read(from:))
@@ -12326,7 +12327,7 @@ extension WorkSpacesClientTypes.ApplicationSettingsResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ApplicationSettingsResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.ApplicationSettingsResponse()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.settingsGroup = try reader["SettingsGroup"].readIfPresent()
         value.s3BucketName = try reader["S3BucketName"].readIfPresent()
         return value
@@ -12349,10 +12350,10 @@ extension WorkSpacesClientTypes.CapacityStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.CapacityStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.CapacityStatus()
-        value.availableUserSessions = try reader["AvailableUserSessions"].readIfPresent()
-        value.desiredUserSessions = try reader["DesiredUserSessions"].readIfPresent()
-        value.actualUserSessions = try reader["ActualUserSessions"].readIfPresent()
-        value.activeUserSessions = try reader["ActiveUserSessions"].readIfPresent()
+        value.availableUserSessions = try reader["AvailableUserSessions"].readIfPresent() ?? 0
+        value.desiredUserSessions = try reader["DesiredUserSessions"].readIfPresent() ?? 0
+        value.actualUserSessions = try reader["ActualUserSessions"].readIfPresent() ?? 0
+        value.activeUserSessions = try reader["ActiveUserSessions"].readIfPresent() ?? 0
         return value
     }
 }
@@ -12541,8 +12542,8 @@ extension WorkSpacesClientTypes.ConnectionAliasPermission {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ConnectionAliasPermission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.ConnectionAliasPermission()
-        value.sharedAccountId = try reader["SharedAccountId"].readIfPresent()
-        value.allowAssociation = try reader["AllowAssociation"].readIfPresent()
+        value.sharedAccountId = try reader["SharedAccountId"].readIfPresent() ?? ""
+        value.allowAssociation = try reader["AllowAssociation"].readIfPresent() ?? false
         return value
     }
 }
@@ -12659,8 +12660,8 @@ extension WorkSpacesClientTypes.StorageConnector {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.StorageConnector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.StorageConnector()
-        value.connectorType = try reader["ConnectorType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.connectorType = try reader["ConnectorType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12677,8 +12678,8 @@ extension WorkSpacesClientTypes.UserSetting {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.UserSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.UserSetting()
-        value.action = try reader["Action"].readIfPresent()
-        value.permission = try reader["Permission"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.permission = try reader["Permission"].readIfPresent() ?? .sdkUnknown("")
         value.maximumLength = try reader["MaximumLength"].readIfPresent()
         return value
     }
@@ -12695,8 +12696,8 @@ extension WorkSpacesClientTypes.ActiveDirectoryConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ActiveDirectoryConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.ActiveDirectoryConfig()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.serviceAccountSecretArn = try reader["ServiceAccountSecretArn"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.serviceAccountSecretArn = try reader["ServiceAccountSecretArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12916,13 +12917,13 @@ extension WorkSpacesClientTypes.WorkspacesPoolSession {
         var value = WorkSpacesClientTypes.WorkspacesPoolSession()
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.connectionState = try reader["ConnectionState"].readIfPresent()
-        value.sessionId = try reader["SessionId"].readIfPresent()
+        value.sessionId = try reader["SessionId"].readIfPresent() ?? ""
         value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.poolId = try reader["PoolId"].readIfPresent()
+        value.poolId = try reader["PoolId"].readIfPresent() ?? ""
         value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: WorkSpacesClientTypes.NetworkAccessConfiguration.read(from:))
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.userId = try reader["UserId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
         return value
     }
 }

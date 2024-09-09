@@ -3483,7 +3483,7 @@ extension EMRcontainersClientTypes.RetryPolicyExecution {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.RetryPolicyExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.RetryPolicyExecution()
-        value.currentAttemptCount = try reader["currentAttemptCount"].readIfPresent()
+        value.currentAttemptCount = try reader["currentAttemptCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3498,7 +3498,7 @@ extension EMRcontainersClientTypes.RetryPolicyConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.RetryPolicyConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.RetryPolicyConfiguration()
-        value.maxAttempts = try reader["maxAttempts"].readIfPresent()
+        value.maxAttempts = try reader["maxAttempts"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3549,7 +3549,7 @@ extension EMRcontainersClientTypes.SparkSubmitJobDriver {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.SparkSubmitJobDriver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.SparkSubmitJobDriver()
-        value.entryPoint = try reader["entryPoint"].readIfPresent()
+        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
         value.entryPointArguments = try reader["entryPointArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sparkSubmitParameters = try reader["sparkSubmitParameters"].readIfPresent()
         return value
@@ -3605,8 +3605,8 @@ extension EMRcontainersClientTypes.ContainerLogRotationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerLogRotationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.ContainerLogRotationConfiguration()
-        value.rotationSize = try reader["rotationSize"].readIfPresent()
-        value.maxFilesToKeep = try reader["maxFilesToKeep"].readIfPresent()
+        value.rotationSize = try reader["rotationSize"].readIfPresent() ?? ""
+        value.maxFilesToKeep = try reader["maxFilesToKeep"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3621,7 +3621,7 @@ extension EMRcontainersClientTypes.S3MonitoringConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.S3MonitoringConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.S3MonitoringConfiguration()
-        value.logUri = try reader["logUri"].readIfPresent()
+        value.logUri = try reader["logUri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3637,7 +3637,7 @@ extension EMRcontainersClientTypes.CloudWatchMonitoringConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.CloudWatchMonitoringConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.CloudWatchMonitoringConfiguration()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         value.logStreamNamePrefix = try reader["logStreamNamePrefix"].readIfPresent()
         return value
     }
@@ -3655,7 +3655,7 @@ extension EMRcontainersClientTypes.Configuration {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.Configuration()
-        value.classification = try reader["classification"].readIfPresent()
+        value.classification = try reader["classification"].readIfPresent() ?? ""
         value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: EMRcontainersClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3695,8 +3695,8 @@ extension EMRcontainersClientTypes.JobTemplateData {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.JobTemplateData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.JobTemplateData()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.releaseLabel = try reader["releaseLabel"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
         value.configurationOverrides = try reader["configurationOverrides"].readIfPresent(with: EMRcontainersClientTypes.ParametricConfigurationOverrides.read(from:))
         value.jobDriver = try reader["jobDriver"].readIfPresent(with: EMRcontainersClientTypes.JobDriver.read(from:))
         value.parameterConfiguration = try reader["parameterConfiguration"].readMapIfPresent(valueReadingClosure: EMRcontainersClientTypes.TemplateParameterConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3990,8 +3990,8 @@ extension EMRcontainersClientTypes.ContainerProvider {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ContainerProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.ContainerProvider()
-        value.type = try reader["type"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.info = try reader["info"].readIfPresent(with: EMRcontainersClientTypes.ContainerInfo.read(from:))
         return value
     }

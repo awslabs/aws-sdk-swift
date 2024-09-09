@@ -1176,8 +1176,8 @@ public struct CreatePortfolioShareInput {
         accountId: Swift.String? = nil,
         organizationNode: ServiceCatalogClientTypes.OrganizationNode? = nil,
         portfolioId: Swift.String? = nil,
-        sharePrincipals: Swift.Bool? = nil,
-        shareTagOptions: Swift.Bool? = nil
+        sharePrincipals: Swift.Bool? = false,
+        shareTagOptions: Swift.Bool? = false
     )
     {
         self.acceptLanguage = acceptLanguage
@@ -2359,7 +2359,7 @@ public struct DeleteProvisionedProductPlanInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        ignoreErrors: Swift.Bool? = nil,
+        ignoreErrors: Swift.Bool? = false,
         planId: Swift.String? = nil
     )
     {
@@ -2676,7 +2676,7 @@ public struct DescribePortfolioSharesInput {
     public var type: ServiceCatalogClientTypes.DescribePortfolioShareType?
 
     public init(
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         type: ServiceCatalogClientTypes.DescribePortfolioShareType? = nil
@@ -3291,7 +3291,7 @@ public struct DescribeProvisionedProductPlanInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         planId: Swift.String? = nil
     )
@@ -3712,12 +3712,12 @@ public struct DescribeProvisioningArtifactInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        includeProvisioningArtifactParameters: Swift.Bool? = nil,
+        includeProvisioningArtifactParameters: Swift.Bool? = false,
         productId: Swift.String? = nil,
         productName: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
         provisioningArtifactName: Swift.String? = nil,
-        verbose: Swift.Bool? = nil
+        verbose: Swift.Bool? = false
     )
     {
         self.acceptLanguage = acceptLanguage
@@ -4033,7 +4033,7 @@ public struct DescribeRecordInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
     )
     {
@@ -4665,7 +4665,7 @@ public struct GetProvisionedProductOutputsInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         outputKeys: [Swift.String]? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil,
         provisionedProductName: Swift.String? = nil
@@ -4771,7 +4771,7 @@ public struct ListAcceptedPortfolioSharesInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType? = nil
     )
@@ -4816,7 +4816,7 @@ public struct ListBudgetsForResourceInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
@@ -4863,7 +4863,7 @@ public struct ListConstraintsForPortfolioInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         productId: Swift.String? = nil
@@ -4910,7 +4910,7 @@ public struct ListLaunchPathsInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil
     )
@@ -4993,7 +4993,7 @@ public struct ListOrganizationPortfolioAccessInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         organizationNodeType: ServiceCatalogClientTypes.OrganizationNodeType? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
     )
@@ -5042,7 +5042,7 @@ public struct ListPortfolioAccessInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         organizationParentId: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
     )
@@ -5085,7 +5085,7 @@ public struct ListPortfoliosInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
     )
     {
@@ -5128,7 +5128,7 @@ public struct ListPortfoliosForProductInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil
     )
@@ -5173,7 +5173,7 @@ public struct ListPrincipalsForPortfolioInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
     )
@@ -5240,7 +5240,7 @@ public struct ListProvisionedProductPlansInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         provisionProductId: Swift.String? = nil
     )
@@ -5359,7 +5359,7 @@ public struct ListProvisioningArtifactsForServiceActionInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
     )
@@ -5450,7 +5450,7 @@ public struct ListRecordHistoryInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         searchFilter: ServiceCatalogClientTypes.ListRecordHistorySearchFilter? = nil
     )
@@ -5495,7 +5495,7 @@ public struct ListResourcesForTagOptionInput {
     public var tagOptionId: Swift.String?
 
     public init(
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         tagOptionId: Swift.String? = nil
@@ -5570,7 +5570,7 @@ public struct ListServiceActionsInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
     )
     {
@@ -5616,7 +5616,7 @@ public struct ListServiceActionsForProvisioningArtifactInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil
@@ -5663,7 +5663,7 @@ public struct ListStackInstancesForProvisionedProductInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil
     )
@@ -5787,7 +5787,7 @@ public struct ListTagOptionsInput {
 
     public init(
         filters: ServiceCatalogClientTypes.ListTagOptionsFilters? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
     )
     {
@@ -6191,7 +6191,7 @@ public struct ScanProvisionedProductsInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
     )
     {
@@ -6335,7 +6335,7 @@ public struct SearchProductsInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         filters: [Swift.String: [Swift.String]]? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         sortBy: ServiceCatalogClientTypes.ProductViewSortBy? = nil,
         sortOrder: ServiceCatalogClientTypes.SortOrder? = nil
@@ -6441,7 +6441,7 @@ public struct SearchProductsAsAdminInput {
     public init(
         acceptLanguage: Swift.String? = nil,
         filters: [Swift.String: [Swift.String]]? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         productSource: ServiceCatalogClientTypes.ProductSource? = nil,
@@ -6526,7 +6526,7 @@ public struct SearchProvisionedProductsInput {
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
         filters: [Swift.String: [Swift.String]]? = nil,
-        pageSize: Swift.Int? = nil,
+        pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         sortBy: Swift.String? = nil,
         sortOrder: ServiceCatalogClientTypes.SortOrder? = nil
@@ -6697,10 +6697,10 @@ public struct TerminateProvisionedProductInput {
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        ignoreErrors: Swift.Bool? = nil,
+        ignoreErrors: Swift.Bool? = false,
         provisionedProductId: Swift.String? = nil,
         provisionedProductName: Swift.String? = nil,
-        retainPhysicalResources: Swift.Bool? = nil,
+        retainPhysicalResources: Swift.Bool? = false,
         terminateToken: Swift.String? = nil
     )
     {
@@ -11569,8 +11569,8 @@ extension ServiceCatalogClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11643,10 +11643,10 @@ extension ServiceCatalogClientTypes.CodeStarParameters {
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.CodeStarParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceCatalogClientTypes.CodeStarParameters()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
-        value.repository = try reader["Repository"].readIfPresent()
-        value.branch = try reader["Branch"].readIfPresent()
-        value.artifactPath = try reader["ArtifactPath"].readIfPresent()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent() ?? ""
+        value.repository = try reader["Repository"].readIfPresent() ?? ""
+        value.branch = try reader["Branch"].readIfPresent() ?? ""
+        value.artifactPath = try reader["ArtifactPath"].readIfPresent() ?? ""
         return value
     }
 }

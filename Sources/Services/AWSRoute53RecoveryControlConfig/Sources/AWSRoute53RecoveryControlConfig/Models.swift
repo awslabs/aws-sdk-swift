@@ -2464,7 +2464,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2477,7 +2477,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2490,7 +2490,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2503,7 +2503,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2516,7 +2516,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2529,7 +2529,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2542,7 +2542,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2610,13 +2610,13 @@ extension Route53RecoveryControlConfigClientTypes.AssertionRule {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.AssertionRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryControlConfigClientTypes.AssertionRule()
-        value.assertedControls = try reader["AssertedControls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.controlPanelArn = try reader["ControlPanelArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.assertedControls = try reader["AssertedControls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.controlPanelArn = try reader["ControlPanelArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.ruleConfig = try reader["RuleConfig"].readIfPresent(with: Route53RecoveryControlConfigClientTypes.RuleConfig.read(from:))
-        value.safetyRuleArn = try reader["SafetyRuleArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent()
+        value.safetyRuleArn = try reader["SafetyRuleArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent() ?? 0
         value.owner = try reader["Owner"].readIfPresent()
         return value
     }
@@ -2634,9 +2634,9 @@ extension Route53RecoveryControlConfigClientTypes.RuleConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.RuleConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryControlConfigClientTypes.RuleConfig()
-        value.inverted = try reader["Inverted"].readIfPresent()
-        value.threshold = try reader["Threshold"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.inverted = try reader["Inverted"].readIfPresent() ?? false
+        value.threshold = try reader["Threshold"].readIfPresent() ?? 0
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2646,14 +2646,14 @@ extension Route53RecoveryControlConfigClientTypes.GatingRule {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryControlConfigClientTypes.GatingRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53RecoveryControlConfigClientTypes.GatingRule()
-        value.controlPanelArn = try reader["ControlPanelArn"].readIfPresent()
-        value.gatingControls = try reader["GatingControls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
+        value.controlPanelArn = try reader["ControlPanelArn"].readIfPresent() ?? ""
+        value.gatingControls = try reader["GatingControls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.ruleConfig = try reader["RuleConfig"].readIfPresent(with: Route53RecoveryControlConfigClientTypes.RuleConfig.read(from:))
-        value.safetyRuleArn = try reader["SafetyRuleArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.targetControls = try reader["TargetControls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent()
+        value.safetyRuleArn = try reader["SafetyRuleArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.targetControls = try reader["TargetControls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.waitPeriodMs = try reader["WaitPeriodMs"].readIfPresent() ?? 0
         value.owner = try reader["Owner"].readIfPresent()
         return value
     }

@@ -3063,9 +3063,9 @@ extension ChimeSDKMeetingsClientTypes.AttendeeCapabilities {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.AttendeeCapabilities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMeetingsClientTypes.AttendeeCapabilities()
-        value.audio = try reader["Audio"].readIfPresent()
-        value.video = try reader["Video"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
+        value.audio = try reader["Audio"].readIfPresent() ?? .sdkUnknown("")
+        value.video = try reader["Video"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["Content"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3209,8 +3209,8 @@ extension ChimeSDKMeetingsClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMeetingsClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMeetingsClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

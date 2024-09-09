@@ -2730,7 +2730,7 @@ public struct GetDomainSuggestionsInput {
     public init(
         domainName: Swift.String? = nil,
         onlyAvailable: Swift.Bool? = nil,
-        suggestionCount: Swift.Int? = nil
+        suggestionCount: Swift.Int? = 0
     )
     {
         self.domainName = domainName
@@ -3350,7 +3350,7 @@ public struct RenewDomainInput {
     public var durationInYears: Swift.Int?
 
     public init(
-        currentExpiryYear: Swift.Int? = nil,
+        currentExpiryYear: Swift.Int? = 0,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil
     )
@@ -5449,7 +5449,7 @@ extension Route53DomainsClientTypes.Nameserver {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.Nameserver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.Nameserver()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.glueIps = try reader["GlueIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -5507,8 +5507,8 @@ extension Route53DomainsClientTypes.ExtraParam {
     static func read(from reader: SmithyJSON.Reader) throws -> Route53DomainsClientTypes.ExtraParam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.ExtraParam()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5591,7 +5591,7 @@ extension Route53DomainsClientTypes.PriceWithCurrency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53DomainsClientTypes.PriceWithCurrency()
         value.price = try reader["Price"].readIfPresent() ?? 0
-        value.currency = try reader["Currency"].readIfPresent()
+        value.currency = try reader["Currency"].readIfPresent() ?? ""
         return value
     }
 }

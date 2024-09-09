@@ -3584,10 +3584,10 @@ extension ChatbotClientTypes.ChimeWebhookConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.ChimeWebhookConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.ChimeWebhookConfiguration()
-        value.webhookDescription = try reader["WebhookDescription"].readIfPresent()
-        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.snsTopicArns = try reader["SnsTopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.webhookDescription = try reader["WebhookDescription"].readIfPresent() ?? ""
+        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent() ?? ""
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.snsTopicArns = try reader["SnsTopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.configurationName = try reader["ConfigurationName"].readIfPresent()
         value.loggingLevel = try reader["LoggingLevel"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3606,8 +3606,8 @@ extension ChatbotClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.Tag()
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.tagValue = try reader["TagValue"].readIfPresent()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValue = try reader["TagValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3617,14 +3617,14 @@ extension ChatbotClientTypes.TeamsChannelConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.TeamsChannelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.TeamsChannelConfiguration()
-        value.channelId = try reader["ChannelId"].readIfPresent()
+        value.channelId = try reader["ChannelId"].readIfPresent() ?? ""
         value.channelName = try reader["ChannelName"].readIfPresent()
-        value.teamId = try reader["TeamId"].readIfPresent()
+        value.teamId = try reader["TeamId"].readIfPresent() ?? ""
         value.teamName = try reader["TeamName"].readIfPresent()
-        value.tenantId = try reader["TenantId"].readIfPresent()
-        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.snsTopicArns = try reader["SnsTopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tenantId = try reader["TenantId"].readIfPresent() ?? ""
+        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent() ?? ""
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.snsTopicArns = try reader["SnsTopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.configurationName = try reader["ConfigurationName"].readIfPresent()
         value.loggingLevel = try reader["LoggingLevel"].readIfPresent()
         value.guardrailPolicyArns = try reader["GuardrailPolicyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3639,13 +3639,13 @@ extension ChatbotClientTypes.SlackChannelConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.SlackChannelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.SlackChannelConfiguration()
-        value.slackTeamName = try reader["SlackTeamName"].readIfPresent()
-        value.slackTeamId = try reader["SlackTeamId"].readIfPresent()
-        value.slackChannelId = try reader["SlackChannelId"].readIfPresent()
-        value.slackChannelName = try reader["SlackChannelName"].readIfPresent()
-        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.snsTopicArns = try reader["SnsTopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.slackTeamName = try reader["SlackTeamName"].readIfPresent() ?? ""
+        value.slackTeamId = try reader["SlackTeamId"].readIfPresent() ?? ""
+        value.slackChannelId = try reader["SlackChannelId"].readIfPresent() ?? ""
+        value.slackChannelName = try reader["SlackChannelName"].readIfPresent() ?? ""
+        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent() ?? ""
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.snsTopicArns = try reader["SnsTopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.configurationName = try reader["ConfigurationName"].readIfPresent()
         value.loggingLevel = try reader["LoggingLevel"].readIfPresent()
         value.guardrailPolicyArns = try reader["GuardrailPolicyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3660,10 +3660,10 @@ extension ChatbotClientTypes.SlackUserIdentity {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.SlackUserIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.SlackUserIdentity()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent()
-        value.slackTeamId = try reader["SlackTeamId"].readIfPresent()
-        value.slackUserId = try reader["SlackUserId"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent() ?? ""
+        value.slackTeamId = try reader["SlackTeamId"].readIfPresent() ?? ""
+        value.slackUserId = try reader["SlackUserId"].readIfPresent() ?? ""
         value.awsUserIdentity = try reader["AwsUserIdentity"].readIfPresent()
         return value
     }
@@ -3674,8 +3674,8 @@ extension ChatbotClientTypes.SlackWorkspace {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.SlackWorkspace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.SlackWorkspace()
-        value.slackTeamId = try reader["SlackTeamId"].readIfPresent()
-        value.slackTeamName = try reader["SlackTeamName"].readIfPresent()
+        value.slackTeamId = try reader["SlackTeamId"].readIfPresent() ?? ""
+        value.slackTeamName = try reader["SlackTeamName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3696,8 +3696,8 @@ extension ChatbotClientTypes.ConfiguredTeam {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.ConfiguredTeam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.ConfiguredTeam()
-        value.tenantId = try reader["TenantId"].readIfPresent()
-        value.teamId = try reader["TeamId"].readIfPresent()
+        value.tenantId = try reader["TenantId"].readIfPresent() ?? ""
+        value.teamId = try reader["TeamId"].readIfPresent() ?? ""
         value.teamName = try reader["TeamName"].readIfPresent()
         return value
     }
@@ -3708,9 +3708,9 @@ extension ChatbotClientTypes.TeamsUserIdentity {
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.TeamsUserIdentity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChatbotClientTypes.TeamsUserIdentity()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent()
-        value.teamId = try reader["TeamId"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.chatConfigurationArn = try reader["ChatConfigurationArn"].readIfPresent() ?? ""
+        value.teamId = try reader["TeamId"].readIfPresent() ?? ""
         value.userId = try reader["UserId"].readIfPresent()
         value.awsUserIdentity = try reader["AwsUserIdentity"].readIfPresent()
         value.teamsChannelId = try reader["TeamsChannelId"].readIfPresent()

@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You are not authorized to perform the action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -10367,7 +10368,7 @@ extension CreateFaceLivenessSessionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFaceLivenessSessionOutput()
-        value.sessionId = try reader["SessionId"].readIfPresent()
+        value.sessionId = try reader["SessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10758,8 +10759,8 @@ extension GetFaceLivenessSessionResultsOutput {
         value.auditImages = try reader["AuditImages"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.AuditImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.confidence = try reader["Confidence"].readIfPresent()
         value.referenceImage = try reader["ReferenceImage"].readIfPresent(with: RekognitionClientTypes.AuditImage.read(from:))
-        value.sessionId = try reader["SessionId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.sessionId = try reader["SessionId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10812,17 +10813,17 @@ extension GetMediaAnalysisJobOutput {
         let reader = responseReader
         var value = GetMediaAnalysisJobOutput()
         value.completionTimestamp = try reader["CompletionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureDetails = try reader["FailureDetails"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisJobFailureDetails.read(from:))
         value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisInput.read(from:))
-        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         value.jobName = try reader["JobName"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.manifestSummary = try reader["ManifestSummary"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisManifestSummary.read(from:))
         value.operationsConfig = try reader["OperationsConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOperationsConfig.read(from:))
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOutputConfig.read(from:))
         value.results = try reader["Results"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisResults.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10963,7 +10964,7 @@ extension ListMediaAnalysisJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMediaAnalysisJobsOutput()
-        value.mediaAnalysisJobs = try reader["MediaAnalysisJobs"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.MediaAnalysisJobDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mediaAnalysisJobs = try reader["MediaAnalysisJobs"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.MediaAnalysisJobDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -11172,7 +11173,7 @@ extension StartMediaAnalysisJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartMediaAnalysisJobOutput()
-        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13708,7 +13709,7 @@ extension RekognitionClientTypes.ConnectedHomeSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ConnectedHomeSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.ConnectedHomeSettings()
-        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.minConfidence = try reader["MinConfidence"].readIfPresent()
         return value
     }
@@ -13741,7 +13742,7 @@ extension RekognitionClientTypes.StreamProcessorNotificationChannel {
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorNotificationChannel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.StreamProcessorNotificationChannel()
-        value.snsTopicArn = try reader["SNSTopicArn"].readIfPresent()
+        value.snsTopicArn = try reader["SNSTopicArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14471,7 +14472,7 @@ extension RekognitionClientTypes.MediaAnalysisOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MediaAnalysisOutputConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
         value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
         return value
     }
@@ -14646,12 +14647,12 @@ extension RekognitionClientTypes.MediaAnalysisJobDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisJobDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MediaAnalysisJobDescription()
-        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         value.jobName = try reader["JobName"].readIfPresent()
         value.operationsConfig = try reader["OperationsConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOperationsConfig.read(from:))
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.failureDetails = try reader["FailureDetails"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisJobFailureDetails.read(from:))
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completionTimestamp = try reader["CompletionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisInput.read(from:))
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOutputConfig.read(from:))

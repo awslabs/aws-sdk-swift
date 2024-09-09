@@ -1289,7 +1289,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             guardrailIdentifier: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil,
-            trace: BedrockRuntimeClientTypes.GuardrailTrace? = nil
+            trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
         )
         {
             self.guardrailIdentifier = guardrailIdentifier
@@ -2133,8 +2133,8 @@ extension BedrockRuntimeClientTypes {
         public init(
             guardrailIdentifier: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil,
-            streamProcessingMode: BedrockRuntimeClientTypes.GuardrailStreamProcessingMode? = nil,
-            trace: BedrockRuntimeClientTypes.GuardrailTrace? = nil
+            streamProcessingMode: BedrockRuntimeClientTypes.GuardrailStreamProcessingMode? = .sync,
+            trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
         )
         {
             self.guardrailIdentifier = guardrailIdentifier
@@ -2857,9 +2857,9 @@ extension ApplyGuardrailOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ApplyGuardrailOutput()
-        value.action = try reader["action"].readIfPresent()
-        value.assessments = try reader["assessments"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailOutputContent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.assessments = try reader["assessments"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailOutputContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailUsage.read(from:))
         return value
     }
@@ -2875,7 +2875,7 @@ extension ConverseOutput {
         value.additionalModelResponseFields = try reader["additionalModelResponseFields"].readIfPresent()
         value.metrics = try reader["metrics"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseMetrics.read(from:))
         value.output = try reader["output"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseOutput.read(from:))
-        value.stopReason = try reader["stopReason"].readIfPresent()
+        value.stopReason = try reader["stopReason"].readIfPresent() ?? .sdkUnknown("")
         value.trace = try reader["trace"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseTrace.read(from:))
         value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.TokenUsage.read(from:))
         return value
@@ -3304,12 +3304,12 @@ extension BedrockRuntimeClientTypes.GuardrailUsage {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailUsage()
-        value.topicPolicyUnits = try reader["topicPolicyUnits"].readIfPresent()
-        value.contentPolicyUnits = try reader["contentPolicyUnits"].readIfPresent()
-        value.wordPolicyUnits = try reader["wordPolicyUnits"].readIfPresent()
-        value.sensitiveInformationPolicyUnits = try reader["sensitiveInformationPolicyUnits"].readIfPresent()
-        value.sensitiveInformationPolicyFreeUnits = try reader["sensitiveInformationPolicyFreeUnits"].readIfPresent()
-        value.contextualGroundingPolicyUnits = try reader["contextualGroundingPolicyUnits"].readIfPresent()
+        value.topicPolicyUnits = try reader["topicPolicyUnits"].readIfPresent() ?? 0
+        value.contentPolicyUnits = try reader["contentPolicyUnits"].readIfPresent() ?? 0
+        value.wordPolicyUnits = try reader["wordPolicyUnits"].readIfPresent() ?? 0
+        value.sensitiveInformationPolicyUnits = try reader["sensitiveInformationPolicyUnits"].readIfPresent() ?? 0
+        value.sensitiveInformationPolicyFreeUnits = try reader["sensitiveInformationPolicyFreeUnits"].readIfPresent() ?? 0
+        value.contextualGroundingPolicyUnits = try reader["contextualGroundingPolicyUnits"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3353,10 +3353,10 @@ extension BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter()
-        value.type = try reader["type"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        value.score = try reader["score"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
+        value.score = try reader["score"].readIfPresent() ?? 0.0
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3366,8 +3366,8 @@ extension BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessmen
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment()
-        value.piiEntities = try reader["piiEntities"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailPiiEntityFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.regexes = try reader["regexes"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailRegexFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.piiEntities = try reader["piiEntities"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailPiiEntityFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.regexes = try reader["regexes"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailRegexFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3380,7 +3380,7 @@ extension BedrockRuntimeClientTypes.GuardrailRegexFilter {
         value.name = try reader["name"].readIfPresent()
         value.match = try reader["match"].readIfPresent()
         value.regex = try reader["regex"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3390,9 +3390,9 @@ extension BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailPiiEntityFilter()
-        value.match = try reader["match"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.match = try reader["match"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3402,8 +3402,8 @@ extension BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment()
-        value.customWords = try reader["customWords"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailCustomWord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managedWordLists = try reader["managedWordLists"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailManagedWord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customWords = try reader["customWords"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailCustomWord.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.managedWordLists = try reader["managedWordLists"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailManagedWord.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3413,9 +3413,9 @@ extension BedrockRuntimeClientTypes.GuardrailManagedWord {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailManagedWord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailManagedWord()
-        value.match = try reader["match"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.match = try reader["match"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3425,8 +3425,8 @@ extension BedrockRuntimeClientTypes.GuardrailCustomWord {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailCustomWord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailCustomWord()
-        value.match = try reader["match"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.match = try reader["match"].readIfPresent() ?? ""
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3436,7 +3436,7 @@ extension BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailContentFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailContentFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3446,9 +3446,9 @@ extension BedrockRuntimeClientTypes.GuardrailContentFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContentFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailContentFilter()
-        value.type = try reader["type"].readIfPresent()
-        value.confidence = try reader["confidence"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.confidence = try reader["confidence"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3458,7 +3458,7 @@ extension BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment()
-        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3468,9 +3468,9 @@ extension BedrockRuntimeClientTypes.GuardrailTopic {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailTopic {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailTopic()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3500,8 +3500,8 @@ extension BedrockRuntimeClientTypes.Message {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.Message {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.Message()
-        value.role = try reader["role"].readIfPresent()
-        value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.ContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.ContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3585,7 +3585,7 @@ extension BedrockRuntimeClientTypes.GuardrailConverseTextBlock {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailConverseTextBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailConverseTextBlock()
-        value.text = try reader["text"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
         value.qualifiers = try reader["qualifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockRuntimeClientTypes.GuardrailConverseContentQualifier>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -3603,8 +3603,8 @@ extension BedrockRuntimeClientTypes.ToolResultBlock {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolResultBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ToolResultBlock()
-        value.toolUseId = try reader["toolUseId"].readIfPresent()
-        value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.ToolResultContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
+        value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.ToolResultContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -3658,8 +3658,8 @@ extension BedrockRuntimeClientTypes.DocumentBlock {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.DocumentBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.DocumentBlock()
-        value.format = try reader["format"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.DocumentSource.read(from:))
         return value
     }
@@ -3700,7 +3700,7 @@ extension BedrockRuntimeClientTypes.ImageBlock {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ImageBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ImageBlock()
-        value.format = try reader["format"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.ImageSource.read(from:))
         return value
     }
@@ -3742,9 +3742,9 @@ extension BedrockRuntimeClientTypes.ToolUseBlock {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolUseBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ToolUseBlock()
-        value.toolUseId = try reader["toolUseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.input = try reader["input"].readIfPresent()
+        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
@@ -3754,9 +3754,9 @@ extension BedrockRuntimeClientTypes.TokenUsage {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.TokenUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.TokenUsage()
-        value.inputTokens = try reader["inputTokens"].readIfPresent()
-        value.outputTokens = try reader["outputTokens"].readIfPresent()
-        value.totalTokens = try reader["totalTokens"].readIfPresent()
+        value.inputTokens = try reader["inputTokens"].readIfPresent() ?? 0
+        value.outputTokens = try reader["outputTokens"].readIfPresent() ?? 0
+        value.totalTokens = try reader["totalTokens"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3766,7 +3766,7 @@ extension BedrockRuntimeClientTypes.ConverseMetrics {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ConverseMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ConverseMetrics()
-        value.latencyMs = try reader["latencyMs"].readIfPresent()
+        value.latencyMs = try reader["latencyMs"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3872,7 +3872,7 @@ extension BedrockRuntimeClientTypes.ConverseStreamMetrics {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ConverseStreamMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ConverseStreamMetrics()
-        value.latencyMs = try reader["latencyMs"].readIfPresent()
+        value.latencyMs = try reader["latencyMs"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3882,7 +3882,7 @@ extension BedrockRuntimeClientTypes.MessageStopEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.MessageStopEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.MessageStopEvent()
-        value.stopReason = try reader["stopReason"].readIfPresent()
+        value.stopReason = try reader["stopReason"].readIfPresent() ?? .sdkUnknown("")
         value.additionalModelResponseFields = try reader["additionalModelResponseFields"].readIfPresent()
         return value
     }
@@ -3893,7 +3893,7 @@ extension BedrockRuntimeClientTypes.ContentBlockStopEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ContentBlockStopEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ContentBlockStopEvent()
-        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent()
+        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3904,7 +3904,7 @@ extension BedrockRuntimeClientTypes.ContentBlockDeltaEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ContentBlockDeltaEvent()
         value.delta = try reader["delta"].readIfPresent(with: BedrockRuntimeClientTypes.ContentBlockDelta.read(from:))
-        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent()
+        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3930,7 +3930,7 @@ extension BedrockRuntimeClientTypes.ToolUseBlockDelta {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolUseBlockDelta {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ToolUseBlockDelta()
-        value.input = try reader["input"].readIfPresent()
+        value.input = try reader["input"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3941,7 +3941,7 @@ extension BedrockRuntimeClientTypes.ContentBlockStartEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ContentBlockStartEvent()
         value.start = try reader["start"].readIfPresent(with: BedrockRuntimeClientTypes.ContentBlockStart.read(from:))
-        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent()
+        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3965,8 +3965,8 @@ extension BedrockRuntimeClientTypes.ToolUseBlockStart {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolUseBlockStart {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ToolUseBlockStart()
-        value.toolUseId = try reader["toolUseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3976,7 +3976,7 @@ extension BedrockRuntimeClientTypes.MessageStartEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.MessageStartEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.MessageStartEvent()
-        value.role = try reader["role"].readIfPresent()
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

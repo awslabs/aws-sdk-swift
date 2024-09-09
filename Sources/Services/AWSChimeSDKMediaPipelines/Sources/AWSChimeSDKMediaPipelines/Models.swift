@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteMediaCapturePipelineOutput {
 
@@ -6653,7 +6654,7 @@ extension ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration()
-        value.contentShareLayout = try reader["ContentShareLayout"].readIfPresent()
+        value.contentShareLayout = try reader["ContentShareLayout"].readIfPresent() ?? .sdkUnknown("")
         value.presenterOnlyConfiguration = try reader["PresenterOnlyConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration.read(from:))
         value.activeSpeakerOnlyConfiguration = try reader["ActiveSpeakerOnlyConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerOnlyConfiguration.read(from:))
         value.horizontalLayoutConfiguration = try reader["HorizontalLayoutConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.HorizontalLayoutConfiguration.read(from:))
@@ -6768,7 +6769,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ContentArtifactsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.ContentArtifactsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.ContentArtifactsConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.muxType = try reader["MuxType"].readIfPresent()
         return value
     }
@@ -6785,7 +6786,7 @@ extension ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.muxType = try reader["MuxType"].readIfPresent()
         return value
     }
@@ -6801,7 +6802,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConfiguration()
-        value.muxType = try reader["MuxType"].readIfPresent()
+        value.muxType = try reader["MuxType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6865,7 +6866,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ConcatenationSink {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.ConcatenationSink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.ConcatenationSink()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.s3BucketSinkConfiguration = try reader["S3BucketSinkConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.S3BucketSinkConfiguration.read(from:))
         return value
     }
@@ -6881,7 +6882,7 @@ extension ChimeSDKMediaPipelinesClientTypes.S3BucketSinkConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.S3BucketSinkConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.S3BucketSinkConfiguration()
-        value.destination = try reader["Destination"].readIfPresent()
+        value.destination = try reader["Destination"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6897,7 +6898,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ConcatenationSource {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.ConcatenationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.ConcatenationSource()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.mediaCapturePipelineSourceConfiguration = try reader["MediaCapturePipelineSourceConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSourceConfiguration.read(from:))
         return value
     }
@@ -6914,7 +6915,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSourceConfigurat
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSourceConfiguration()
-        value.mediaPipelineArn = try reader["MediaPipelineArn"].readIfPresent()
+        value.mediaPipelineArn = try reader["MediaPipelineArn"].readIfPresent() ?? ""
         value.chimeSdkMeetingConfiguration = try reader["ChimeSdkMeetingConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConcatenationConfiguration.read(from:))
         return value
     }
@@ -6972,7 +6973,7 @@ extension ChimeSDKMediaPipelinesClientTypes.CompositedVideoConcatenationConfigur
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.CompositedVideoConcatenationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.CompositedVideoConcatenationConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6987,7 +6988,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MeetingEventsConcatenationConfigurat
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MeetingEventsConcatenationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MeetingEventsConcatenationConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7002,7 +7003,7 @@ extension ChimeSDKMediaPipelinesClientTypes.TranscriptionMessagesConcatenationCo
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.TranscriptionMessagesConcatenationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.TranscriptionMessagesConcatenationConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7017,7 +7018,7 @@ extension ChimeSDKMediaPipelinesClientTypes.DataChannelConcatenationConfiguratio
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.DataChannelConcatenationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.DataChannelConcatenationConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7032,7 +7033,7 @@ extension ChimeSDKMediaPipelinesClientTypes.ContentConcatenationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.ContentConcatenationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.ContentConcatenationConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7047,7 +7048,7 @@ extension ChimeSDKMediaPipelinesClientTypes.VideoConcatenationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.VideoConcatenationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.VideoConcatenationConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7062,7 +7063,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AudioConcatenationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.AudioConcatenationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.AudioConcatenationConfiguration()
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7108,8 +7109,8 @@ extension ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration()
-        value.destination = try reader["Destination"].readIfPresent()
-        value.recordingFileFormat = try reader["RecordingFileFormat"].readIfPresent()
+        value.destination = try reader["Destination"].readIfPresent() ?? ""
+        value.recordingFileFormat = try reader["RecordingFileFormat"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7125,7 +7126,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRun
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRuntimeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRuntimeConfiguration()
-        value.streams = try reader["Streams"].readListIfPresent(memberReadingClosure: ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streams = try reader["Streams"].readListIfPresent(memberReadingClosure: ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.fragmentSelector = try reader["FragmentSelector"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.FragmentSelector.read(from:))
         return value
     }
@@ -7142,7 +7143,7 @@ extension ChimeSDKMediaPipelinesClientTypes.FragmentSelector {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.FragmentSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.FragmentSelector()
-        value.fragmentSelectorType = try reader["FragmentSelectorType"].readIfPresent()
+        value.fragmentSelectorType = try reader["FragmentSelectorType"].readIfPresent() ?? .sdkUnknown("")
         value.timestampRange = try reader["TimestampRange"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.TimestampRange.read(from:))
         return value
     }
@@ -7159,8 +7160,8 @@ extension ChimeSDKMediaPipelinesClientTypes.TimestampRange {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.TimestampRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.TimestampRange()
-        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7192,9 +7193,9 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfi
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfiguration()
-        value.streams = try reader["Streams"].readListIfPresent(memberReadingClosure: ChimeSDKMediaPipelinesClientTypes.StreamConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mediaEncoding = try reader["MediaEncoding"].readIfPresent()
-        value.mediaSampleRate = try reader["MediaSampleRate"].readIfPresent()
+        value.streams = try reader["Streams"].readListIfPresent(memberReadingClosure: ChimeSDKMediaPipelinesClientTypes.StreamConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mediaEncoding = try reader["MediaEncoding"].readIfPresent() ?? .sdkUnknown("")
+        value.mediaSampleRate = try reader["MediaSampleRate"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7211,7 +7212,7 @@ extension ChimeSDKMediaPipelinesClientTypes.StreamConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.StreamConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.StreamConfiguration()
-        value.streamArn = try reader["StreamArn"].readIfPresent()
+        value.streamArn = try reader["StreamArn"].readIfPresent() ?? ""
         value.fragmentNumber = try reader["FragmentNumber"].readIfPresent()
         value.streamChannelDefinition = try reader["StreamChannelDefinition"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition.read(from:))
         return value
@@ -7229,7 +7230,7 @@ extension ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition()
-        value.numberOfChannels = try reader["NumberOfChannels"].readIfPresent()
+        value.numberOfChannels = try reader["NumberOfChannels"].readIfPresent() ?? 0
         value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: ChimeSDKMediaPipelinesClientTypes.ChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7288,7 +7289,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationEl
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.amazonTranscribeCallAnalyticsProcessorConfiguration = try reader["AmazonTranscribeCallAnalyticsProcessorConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcessorConfiguration.read(from:))
         value.amazonTranscribeProcessorConfiguration = try reader["AmazonTranscribeProcessorConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfiguration.read(from:))
         value.kinesisDataStreamSinkConfiguration = try reader["KinesisDataStreamSinkConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.KinesisDataStreamSinkConfiguration.read(from:))
@@ -7482,7 +7483,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcess
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcessorConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeCallAnalyticsProcessorConfiguration()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent() ?? .sdkUnknown("")
         value.vocabularyName = try reader["VocabularyName"].readIfPresent()
         value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
         value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
@@ -7512,8 +7513,8 @@ extension ChimeSDKMediaPipelinesClientTypes.PostCallAnalyticsSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.PostCallAnalyticsSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.PostCallAnalyticsSettings()
-        value.outputLocation = try reader["OutputLocation"].readIfPresent()
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.outputLocation = try reader["OutputLocation"].readIfPresent() ?? ""
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent() ?? ""
         value.contentRedactionOutput = try reader["ContentRedactionOutput"].readIfPresent()
         value.outputEncryptionKMSKeyId = try reader["OutputEncryptionKMSKeyId"].readIfPresent()
         return value
@@ -7550,7 +7551,7 @@ extension ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRule {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRule()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.keywordMatchConfiguration = try reader["KeywordMatchConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.KeywordMatchConfiguration.read(from:))
         value.sentimentConfiguration = try reader["SentimentConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration.read(from:))
         value.issueDetectionConfiguration = try reader["IssueDetectionConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.IssueDetectionConfiguration.read(from:))
@@ -7568,7 +7569,7 @@ extension ChimeSDKMediaPipelinesClientTypes.IssueDetectionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.IssueDetectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.IssueDetectionConfiguration()
-        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7585,9 +7586,9 @@ extension ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.sentimentType = try reader["SentimentType"].readIfPresent()
-        value.timePeriod = try reader["TimePeriod"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
+        value.sentimentType = try reader["SentimentType"].readIfPresent() ?? .sdkUnknown("")
+        value.timePeriod = try reader["TimePeriod"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7604,8 +7605,8 @@ extension ChimeSDKMediaPipelinesClientTypes.KeywordMatchConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KeywordMatchConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.KeywordMatchConfiguration()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.keywords = try reader["Keywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
+        value.keywords = try reader["Keywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.negate = try reader["Negate"].readIfPresent() ?? false
         return value
     }
@@ -7638,7 +7639,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration()
-        value.sinkType = try reader["SinkType"].readIfPresent()
+        value.sinkType = try reader["SinkType"].readIfPresent() ?? .sdkUnknown("")
         value.rtmpConfiguration = try reader["RTMPConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.LiveConnectorRTMPConfiguration.read(from:))
         return value
     }
@@ -7656,7 +7657,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LiveConnectorRTMPConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.LiveConnectorRTMPConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.LiveConnectorRTMPConfiguration()
-        value.url = try reader["Url"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent() ?? ""
         value.audioChannels = try reader["AudioChannels"].readIfPresent()
         value.audioSampleRate = try reader["AudioSampleRate"].readIfPresent()
         return value
@@ -7674,7 +7675,7 @@ extension ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration()
-        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
         value.chimeSdkMeetingLiveConnectorConfiguration = try reader["ChimeSdkMeetingLiveConnectorConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingLiveConnectorConfiguration.read(from:))
         return value
     }
@@ -7693,8 +7694,8 @@ extension ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingLiveConnectorConfigur
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingLiveConnectorConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingLiveConnectorConfiguration()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.muxType = try reader["MuxType"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.muxType = try reader["MuxType"].readIfPresent() ?? .sdkUnknown("")
         value.compositedVideo = try reader["CompositedVideo"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.CompositedVideoArtifactsConfiguration.read(from:))
         value.sourceConfiguration = try reader["SourceConfiguration"].readIfPresent(with: ChimeSDKMediaPipelinesClientTypes.SourceConfiguration.read(from:))
         return value
@@ -7729,7 +7730,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration()
-        value.region = try reader["Region"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent() ?? ""
         value.dataRetentionInHours = try reader["DataRetentionInHours"].readIfPresent()
         return value
     }
@@ -7764,10 +7765,10 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaStreamSink {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaStreamSink {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaStreamSink()
-        value.sinkArn = try reader["SinkArn"].readIfPresent()
-        value.sinkType = try reader["SinkType"].readIfPresent()
-        value.reservedStreamCapacity = try reader["ReservedStreamCapacity"].readIfPresent()
-        value.mediaStreamType = try reader["MediaStreamType"].readIfPresent()
+        value.sinkArn = try reader["SinkArn"].readIfPresent() ?? ""
+        value.sinkType = try reader["SinkType"].readIfPresent() ?? .sdkUnknown("")
+        value.reservedStreamCapacity = try reader["ReservedStreamCapacity"].readIfPresent() ?? 0
+        value.mediaStreamType = try reader["MediaStreamType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7783,8 +7784,8 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaStreamSource {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.MediaStreamSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.MediaStreamSource()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7886,8 +7887,8 @@ extension ChimeSDKMediaPipelinesClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMediaPipelinesClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKMediaPipelinesClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

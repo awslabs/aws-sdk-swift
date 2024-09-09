@@ -1868,7 +1868,7 @@ public struct ListEnrollmentStatusesInput {
 
     public init(
         accountId: Swift.String? = nil,
-        includeOrganizationInfo: Swift.Bool? = nil,
+        includeOrganizationInfo: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2019,7 +2019,7 @@ public struct ListRecommendationsInput {
 
     public init(
         filter: CostOptimizationHubClientTypes.Filter? = nil,
-        includeAllRecommendations: Swift.Bool? = nil,
+        includeAllRecommendations: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         orderBy: CostOptimizationHubClientTypes.OrderBy? = nil
@@ -2705,7 +2705,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2718,7 +2718,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2732,7 +2732,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.ValidationExceptionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2746,8 +2746,8 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3432,8 +3432,8 @@ extension CostOptimizationHubClientTypes.ValidationExceptionDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ValidationExceptionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostOptimizationHubClientTypes.ValidationExceptionDetail()
-        value.fieldName = try reader["fieldName"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.fieldName = try reader["fieldName"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

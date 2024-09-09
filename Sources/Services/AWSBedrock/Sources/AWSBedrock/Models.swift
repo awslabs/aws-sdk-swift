@@ -6552,8 +6552,8 @@ extension BatchDeleteEvaluationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchDeleteEvaluationJobOutput()
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: BedrockClientTypes.BatchDeleteEvaluationJobError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.evaluationJobs = try reader["evaluationJobs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.BatchDeleteEvaluationJobItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: BedrockClientTypes.BatchDeleteEvaluationJobError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.evaluationJobs = try reader["evaluationJobs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.BatchDeleteEvaluationJobItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6565,7 +6565,7 @@ extension CreateEvaluationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEvaluationJobOutput()
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6577,10 +6577,10 @@ extension CreateGuardrailOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGuardrailOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
-        value.guardrailId = try reader["guardrailId"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent() ?? ""
+        value.guardrailId = try reader["guardrailId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6592,8 +6592,8 @@ extension CreateGuardrailVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateGuardrailVersionOutput()
-        value.guardrailId = try reader["guardrailId"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        value.guardrailId = try reader["guardrailId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6605,7 +6605,7 @@ extension CreateModelCopyJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelCopyJobOutput()
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6617,7 +6617,7 @@ extension CreateModelCustomizationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelCustomizationJobOutput()
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6629,7 +6629,7 @@ extension CreateModelImportJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelImportJobOutput()
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6641,7 +6641,7 @@ extension CreateModelInvocationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateModelInvocationJobOutput()
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6653,7 +6653,7 @@ extension CreateProvisionedModelThroughputOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProvisionedModelThroughputOutput()
-        value.provisionedModelArn = try reader["provisionedModelArn"].readIfPresent()
+        value.provisionedModelArn = try reader["provisionedModelArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6700,15 +6700,15 @@ extension GetCustomModelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetCustomModelOutput()
-        value.baseModelArn = try reader["baseModelArn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         value.jobName = try reader["jobName"].readIfPresent()
-        value.modelArn = try reader["modelArn"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         value.modelKmsKeyArn = try reader["modelKmsKeyArn"].readIfPresent()
-        value.modelName = try reader["modelName"].readIfPresent()
+        value.modelName = try reader["modelName"].readIfPresent() ?? ""
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockClientTypes.OutputDataConfig.read(from:))
         value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: BedrockClientTypes.TrainingDataConfig.read(from:))
         value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: BedrockClientTypes.TrainingMetrics.read(from:))
@@ -6725,19 +6725,19 @@ extension GetEvaluationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEvaluationJobOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerEncryptionKeyId = try reader["customerEncryptionKeyId"].readIfPresent()
         value.evaluationConfig = try reader["evaluationConfig"].readIfPresent(with: BedrockClientTypes.EvaluationConfig.read(from:))
         value.failureMessages = try reader["failureMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inferenceConfig = try reader["inferenceConfig"].readIfPresent(with: BedrockClientTypes.EvaluationInferenceConfig.read(from:))
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         value.jobDescription = try reader["jobDescription"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.jobType = try reader["jobType"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobType = try reader["jobType"].readIfPresent() ?? .sdkUnknown("")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockClientTypes.EvaluationOutputDataConfig.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6761,23 +6761,23 @@ extension GetGuardrailOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetGuardrailOutput()
-        value.blockedInputMessaging = try reader["blockedInputMessaging"].readIfPresent()
-        value.blockedOutputsMessaging = try reader["blockedOutputsMessaging"].readIfPresent()
+        value.blockedInputMessaging = try reader["blockedInputMessaging"].readIfPresent() ?? ""
+        value.blockedOutputsMessaging = try reader["blockedOutputsMessaging"].readIfPresent() ?? ""
         value.contentPolicy = try reader["contentPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContentPolicy.read(from:))
         value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContextualGroundingPolicy.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.failureRecommendations = try reader["failureRecommendations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
-        value.guardrailId = try reader["guardrailId"].readIfPresent()
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent() ?? ""
+        value.guardrailId = try reader["guardrailId"].readIfPresent() ?? ""
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.sensitiveInformationPolicy = try reader["sensitiveInformationPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailSensitiveInformationPolicy.read(from:))
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.topicPolicy = try reader["topicPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailTopicPolicy.read(from:))
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.version = try reader["version"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
         value.wordPolicy = try reader["wordPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailWordPolicy.read(from:))
         return value
     }
@@ -6811,12 +6811,12 @@ extension GetInferenceProfileOutput {
         var value = GetInferenceProfileOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
-        value.inferenceProfileArn = try reader["inferenceProfileArn"].readIfPresent()
-        value.inferenceProfileId = try reader["inferenceProfileId"].readIfPresent()
-        value.inferenceProfileName = try reader["inferenceProfileName"].readIfPresent()
-        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.InferenceProfileModel.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.inferenceProfileArn = try reader["inferenceProfileArn"].readIfPresent() ?? ""
+        value.inferenceProfileId = try reader["inferenceProfileId"].readIfPresent() ?? ""
+        value.inferenceProfileName = try reader["inferenceProfileName"].readIfPresent() ?? ""
+        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.InferenceProfileModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -6829,14 +6829,14 @@ extension GetModelCopyJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetModelCopyJobOutput()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureMessage = try reader["failureMessage"].readIfPresent()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
-        value.sourceModelArn = try reader["sourceModelArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent() ?? ""
+        value.sourceModelArn = try reader["sourceModelArn"].readIfPresent() ?? ""
         value.sourceModelName = try reader["sourceModelName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.targetModelArn = try reader["targetModelArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.targetModelArn = try reader["targetModelArn"].readIfPresent() ?? ""
         value.targetModelKmsKeyArn = try reader["targetModelKmsKeyArn"].readIfPresent()
         value.targetModelName = try reader["targetModelName"].readIfPresent()
         value.targetModelTags = try reader["targetModelTags"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -6851,21 +6851,21 @@ extension GetModelCustomizationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetModelCustomizationJobOutput()
-        value.baseModelArn = try reader["baseModelArn"].readIfPresent()
+        value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
-        value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
+        value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockClientTypes.OutputDataConfig.read(from:))
         value.outputModelArn = try reader["outputModelArn"].readIfPresent()
         value.outputModelKmsKeyArn = try reader["outputModelKmsKeyArn"].readIfPresent()
-        value.outputModelName = try reader["outputModelName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.outputModelName = try reader["outputModelName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: BedrockClientTypes.TrainingDataConfig.read(from:))
         value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: BedrockClientTypes.TrainingMetrics.read(from:))
@@ -6910,16 +6910,16 @@ extension GetModelInvocationJobOutput {
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.inputDataConfig = try reader["inputDataConfig"].readIfPresent(with: BedrockClientTypes.ModelInvocationJobInputDataConfig.read(from:))
-        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         value.jobExpirationTime = try reader["jobExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.jobName = try reader["jobName"].readIfPresent()
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.message = try reader["message"].readIfPresent()
-        value.modelId = try reader["modelId"].readIfPresent()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockClientTypes.ModelInvocationJobOutputDataConfig.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
-        value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.timeoutDurationInHours = try reader["timeoutDurationInHours"].readIfPresent()
         return value
     }
@@ -6946,17 +6946,17 @@ extension GetProvisionedModelThroughputOutput {
         var value = GetProvisionedModelThroughputOutput()
         value.commitmentDuration = try reader["commitmentDuration"].readIfPresent()
         value.commitmentExpirationTime = try reader["commitmentExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.desiredModelArn = try reader["desiredModelArn"].readIfPresent()
-        value.desiredModelUnits = try reader["desiredModelUnits"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.desiredModelArn = try reader["desiredModelArn"].readIfPresent() ?? ""
+        value.desiredModelUnits = try reader["desiredModelUnits"].readIfPresent() ?? 0
         value.failureMessage = try reader["failureMessage"].readIfPresent()
-        value.foundationModelArn = try reader["foundationModelArn"].readIfPresent()
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modelArn = try reader["modelArn"].readIfPresent()
-        value.modelUnits = try reader["modelUnits"].readIfPresent()
-        value.provisionedModelArn = try reader["provisionedModelArn"].readIfPresent()
-        value.provisionedModelName = try reader["provisionedModelName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.foundationModelArn = try reader["foundationModelArn"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.modelUnits = try reader["modelUnits"].readIfPresent() ?? 0
+        value.provisionedModelArn = try reader["provisionedModelArn"].readIfPresent() ?? ""
+        value.provisionedModelName = try reader["provisionedModelName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7006,7 +7006,7 @@ extension ListGuardrailsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListGuardrailsOutput()
-        value.guardrails = try reader["guardrails"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.guardrails = try reader["guardrails"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7164,10 +7164,10 @@ extension UpdateGuardrailOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateGuardrailOutput()
-        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
-        value.guardrailId = try reader["guardrailId"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.version = try reader["version"].readIfPresent()
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent() ?? ""
+        value.guardrailId = try reader["guardrailId"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8130,8 +8130,8 @@ extension BedrockClientTypes.BatchDeleteEvaluationJobError {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.BatchDeleteEvaluationJobError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.BatchDeleteEvaluationJobError()
-        value.jobIdentifier = try reader["jobIdentifier"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
+        value.jobIdentifier = try reader["jobIdentifier"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
         return value
     }
@@ -8142,8 +8142,8 @@ extension BedrockClientTypes.BatchDeleteEvaluationJobItem {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.BatchDeleteEvaluationJobItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.BatchDeleteEvaluationJobItem()
-        value.jobIdentifier = try reader["jobIdentifier"].readIfPresent()
-        value.jobStatus = try reader["jobStatus"].readIfPresent()
+        value.jobIdentifier = try reader["jobIdentifier"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8158,7 +8158,7 @@ extension BedrockClientTypes.TrainingDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrainingDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.TrainingDataConfig()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8173,7 +8173,7 @@ extension BedrockClientTypes.ValidationDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ValidationDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ValidationDataConfig()
-        value.validators = try reader["validators"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Validator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validators = try reader["validators"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Validator.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8188,7 +8188,7 @@ extension BedrockClientTypes.Validator {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.Validator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.Validator()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8203,7 +8203,7 @@ extension BedrockClientTypes.OutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.OutputDataConfig()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8270,7 +8270,7 @@ extension BedrockClientTypes.HumanEvaluationConfig {
         var value = BedrockClientTypes.HumanEvaluationConfig()
         value.humanWorkflowConfig = try reader["humanWorkflowConfig"].readIfPresent(with: BedrockClientTypes.HumanWorkflowConfig.read(from:))
         value.customMetrics = try reader["customMetrics"].readListIfPresent(memberReadingClosure: BedrockClientTypes.HumanEvaluationCustomMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.datasetMetricConfigs = try reader["datasetMetricConfigs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.datasetMetricConfigs = try reader["datasetMetricConfigs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8287,9 +8287,9 @@ extension BedrockClientTypes.EvaluationDatasetMetricConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationDatasetMetricConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.EvaluationDatasetMetricConfig()
-        value.taskType = try reader["taskType"].readIfPresent()
+        value.taskType = try reader["taskType"].readIfPresent() ?? .sdkUnknown("")
         value.dataset = try reader["dataset"].readIfPresent(with: BedrockClientTypes.EvaluationDataset.read(from:))
-        value.metricNames = try reader["metricNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricNames = try reader["metricNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8305,7 +8305,7 @@ extension BedrockClientTypes.EvaluationDataset {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationDataset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.EvaluationDataset()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.datasetLocation = try reader["datasetLocation"].readIfPresent(with: BedrockClientTypes.EvaluationDatasetLocation.read(from:))
         return value
     }
@@ -8347,9 +8347,9 @@ extension BedrockClientTypes.HumanEvaluationCustomMetric {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.HumanEvaluationCustomMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.HumanEvaluationCustomMetric()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.ratingMethod = try reader["ratingMethod"].readIfPresent()
+        value.ratingMethod = try reader["ratingMethod"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8365,7 +8365,7 @@ extension BedrockClientTypes.HumanWorkflowConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.HumanWorkflowConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.HumanWorkflowConfig()
-        value.flowDefinitionArn = try reader["flowDefinitionArn"].readIfPresent()
+        value.flowDefinitionArn = try reader["flowDefinitionArn"].readIfPresent() ?? ""
         value.instructions = try reader["instructions"].readIfPresent()
         return value
     }
@@ -8381,7 +8381,7 @@ extension BedrockClientTypes.AutomatedEvaluationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedEvaluationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.AutomatedEvaluationConfig()
-        value.datasetMetricConfigs = try reader["datasetMetricConfigs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.datasetMetricConfigs = try reader["datasetMetricConfigs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8445,8 +8445,8 @@ extension BedrockClientTypes.EvaluationBedrockModel {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationBedrockModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.EvaluationBedrockModel()
-        value.modelIdentifier = try reader["modelIdentifier"].readIfPresent()
-        value.inferenceParams = try reader["inferenceParams"].readIfPresent()
+        value.modelIdentifier = try reader["modelIdentifier"].readIfPresent() ?? ""
+        value.inferenceParams = try reader["inferenceParams"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8461,7 +8461,7 @@ extension BedrockClientTypes.EvaluationOutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationOutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.EvaluationOutputDataConfig()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8471,8 +8471,8 @@ extension BedrockClientTypes.FoundationModelDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.FoundationModelDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.FoundationModelDetails()
-        value.modelArn = try reader["modelArn"].readIfPresent()
-        value.modelId = try reader["modelId"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.modelName = try reader["modelName"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
         value.inputModalities = try reader["inputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.ModelModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8490,7 +8490,7 @@ extension BedrockClientTypes.FoundationModelLifecycle {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.FoundationModelLifecycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.FoundationModelLifecycle()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8500,7 +8500,7 @@ extension BedrockClientTypes.GuardrailTopicPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopicPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailTopicPolicy()
-        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8510,8 +8510,8 @@ extension BedrockClientTypes.GuardrailTopic {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopic {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailTopic()
-        value.name = try reader["name"].readIfPresent()
-        value.definition = try reader["definition"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.definition = try reader["definition"].readIfPresent() ?? ""
         value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
         return value
@@ -8533,9 +8533,9 @@ extension BedrockClientTypes.GuardrailContentFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContentFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailContentFilter()
-        value.type = try reader["type"].readIfPresent()
-        value.inputStrength = try reader["inputStrength"].readIfPresent()
-        value.outputStrength = try reader["outputStrength"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.inputStrength = try reader["inputStrength"].readIfPresent() ?? .sdkUnknown("")
+        value.outputStrength = try reader["outputStrength"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8556,7 +8556,7 @@ extension BedrockClientTypes.GuardrailManagedWords {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailManagedWords {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailManagedWords()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8566,7 +8566,7 @@ extension BedrockClientTypes.GuardrailWord {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailWord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailWord()
-        value.text = try reader["text"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8587,10 +8587,10 @@ extension BedrockClientTypes.GuardrailRegex {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailRegex {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailRegex()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.pattern = try reader["pattern"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.pattern = try reader["pattern"].readIfPresent() ?? ""
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8600,8 +8600,8 @@ extension BedrockClientTypes.GuardrailPiiEntity {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailPiiEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailPiiEntity()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8611,7 +8611,7 @@ extension BedrockClientTypes.GuardrailContextualGroundingPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContextualGroundingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailContextualGroundingPolicy()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailContextualGroundingFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailContextualGroundingFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8621,8 +8621,8 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContextualGroundingFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailContextualGroundingFilter()
-        value.type = try reader["type"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -8661,7 +8661,7 @@ extension BedrockClientTypes.S3DataSource {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.S3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.S3DataSource()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8687,8 +8687,8 @@ extension BedrockClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8704,8 +8704,8 @@ extension BedrockClientTypes.VpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.VpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.VpcConfig()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8746,7 +8746,7 @@ extension BedrockClientTypes.ModelInvocationJobS3InputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ModelInvocationJobS3InputDataConfig()
         value.s3InputFormat = try reader["s3InputFormat"].readIfPresent()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8786,7 +8786,7 @@ extension BedrockClientTypes.ModelInvocationJobS3OutputDataConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelInvocationJobS3OutputDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ModelInvocationJobS3OutputDataConfig()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         value.s3EncryptionKeyId = try reader["s3EncryptionKeyId"].readIfPresent()
         return value
     }
@@ -8826,7 +8826,7 @@ extension BedrockClientTypes.S3Config {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.S3Config {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.S3Config()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         return value
     }
@@ -8844,8 +8844,8 @@ extension BedrockClientTypes.CloudWatchConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CloudWatchConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.CloudWatchConfig()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.largeDataDeliveryS3Config = try reader["largeDataDeliveryS3Config"].readIfPresent(with: BedrockClientTypes.S3Config.read(from:))
         return value
     }
@@ -8856,11 +8856,11 @@ extension BedrockClientTypes.CustomModelSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.CustomModelSummary()
-        value.modelArn = try reader["modelArn"].readIfPresent()
-        value.modelName = try reader["modelName"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.baseModelArn = try reader["baseModelArn"].readIfPresent()
-        value.baseModelName = try reader["baseModelName"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.modelName = try reader["modelName"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
+        value.baseModelName = try reader["baseModelName"].readIfPresent() ?? ""
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
         return value
@@ -8872,13 +8872,13 @@ extension BedrockClientTypes.EvaluationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.EvaluationSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobType = try reader["jobType"].readIfPresent()
-        value.evaluationTaskTypes = try reader["evaluationTaskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.EvaluationTaskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.modelIdentifiers = try reader["modelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobType = try reader["jobType"].readIfPresent() ?? .sdkUnknown("")
+        value.evaluationTaskTypes = try reader["evaluationTaskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.EvaluationTaskType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.modelIdentifiers = try reader["modelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8888,8 +8888,8 @@ extension BedrockClientTypes.FoundationModelSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.FoundationModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.FoundationModelSummary()
-        value.modelArn = try reader["modelArn"].readIfPresent()
-        value.modelId = try reader["modelId"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.modelName = try reader["modelName"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
         value.inputModalities = try reader["inputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.ModelModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8907,14 +8907,14 @@ extension BedrockClientTypes.GuardrailSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8924,9 +8924,9 @@ extension BedrockClientTypes.ImportedModelSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ImportedModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ImportedModelSummary()
-        value.modelArn = try reader["modelArn"].readIfPresent()
-        value.modelName = try reader["modelName"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.modelName = try reader["modelName"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8936,15 +8936,15 @@ extension BedrockClientTypes.InferenceProfileSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InferenceProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.InferenceProfileSummary()
-        value.inferenceProfileName = try reader["inferenceProfileName"].readIfPresent()
-        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.InferenceProfileModel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferenceProfileName = try reader["inferenceProfileName"].readIfPresent() ?? ""
+        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.InferenceProfileModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.inferenceProfileArn = try reader["inferenceProfileArn"].readIfPresent()
-        value.inferenceProfileId = try reader["inferenceProfileId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.inferenceProfileArn = try reader["inferenceProfileArn"].readIfPresent() ?? ""
+        value.inferenceProfileId = try reader["inferenceProfileId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8954,13 +8954,13 @@ extension BedrockClientTypes.ModelCopyJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelCopyJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ModelCopyJobSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.targetModelArn = try reader["targetModelArn"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.targetModelArn = try reader["targetModelArn"].readIfPresent() ?? ""
         value.targetModelName = try reader["targetModelName"].readIfPresent()
-        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
-        value.sourceModelArn = try reader["sourceModelArn"].readIfPresent()
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent() ?? ""
+        value.sourceModelArn = try reader["sourceModelArn"].readIfPresent() ?? ""
         value.targetModelKmsKeyArn = try reader["targetModelKmsKeyArn"].readIfPresent()
         value.targetModelTags = try reader["targetModelTags"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
@@ -8974,12 +8974,12 @@ extension BedrockClientTypes.ModelCustomizationJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelCustomizationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ModelCustomizationJobSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.baseModelArn = try reader["baseModelArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customModelArn = try reader["customModelArn"].readIfPresent()
         value.customModelName = try reader["customModelName"].readIfPresent()
@@ -8993,11 +8993,11 @@ extension BedrockClientTypes.ModelImportJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ModelImportJobSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.importedModelArn = try reader["importedModelArn"].readIfPresent()
         value.importedModelName = try reader["importedModelName"].readIfPresent()
@@ -9010,14 +9010,14 @@ extension BedrockClientTypes.ModelInvocationJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelInvocationJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ModelInvocationJobSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.modelId = try reader["modelId"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
-        value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.inputDataConfig = try reader["inputDataConfig"].readIfPresent(with: BedrockClientTypes.ModelInvocationJobInputDataConfig.read(from:))
@@ -9033,18 +9033,18 @@ extension BedrockClientTypes.ProvisionedModelSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ProvisionedModelSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ProvisionedModelSummary()
-        value.provisionedModelName = try reader["provisionedModelName"].readIfPresent()
-        value.provisionedModelArn = try reader["provisionedModelArn"].readIfPresent()
-        value.modelArn = try reader["modelArn"].readIfPresent()
-        value.desiredModelArn = try reader["desiredModelArn"].readIfPresent()
-        value.foundationModelArn = try reader["foundationModelArn"].readIfPresent()
-        value.modelUnits = try reader["modelUnits"].readIfPresent()
-        value.desiredModelUnits = try reader["desiredModelUnits"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.provisionedModelName = try reader["provisionedModelName"].readIfPresent() ?? ""
+        value.provisionedModelArn = try reader["provisionedModelArn"].readIfPresent() ?? ""
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.desiredModelArn = try reader["desiredModelArn"].readIfPresent() ?? ""
+        value.foundationModelArn = try reader["foundationModelArn"].readIfPresent() ?? ""
+        value.modelUnits = try reader["modelUnits"].readIfPresent() ?? 0
+        value.desiredModelUnits = try reader["desiredModelUnits"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.commitmentDuration = try reader["commitmentDuration"].readIfPresent()
         value.commitmentExpirationTime = try reader["commitmentExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

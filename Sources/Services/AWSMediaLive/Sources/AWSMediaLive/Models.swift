@@ -28193,7 +28193,7 @@ extension MediaLiveClientTypes.BatchScheduleActionCreateResult {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.BatchScheduleActionCreateResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.BatchScheduleActionCreateResult()
-        value.scheduleActions = try reader["scheduleActions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ScheduleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scheduleActions = try reader["scheduleActions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ScheduleAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -28210,7 +28210,7 @@ extension MediaLiveClientTypes.ScheduleAction {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ScheduleAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.ScheduleAction()
-        value.actionName = try reader["actionName"].readIfPresent()
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
         value.scheduleActionSettings = try reader["scheduleActionSettings"].readIfPresent(with: MediaLiveClientTypes.ScheduleActionSettings.read(from:))
         value.scheduleActionStartSettings = try reader["scheduleActionStartSettings"].readIfPresent(with: MediaLiveClientTypes.ScheduleActionStartSettings.read(from:))
         return value
@@ -28260,8 +28260,8 @@ extension MediaLiveClientTypes.FollowModeScheduleActionStartSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.FollowModeScheduleActionStartSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.FollowModeScheduleActionStartSettings()
-        value.followPoint = try reader["followPoint"].readIfPresent()
-        value.referenceActionName = try reader["referenceActionName"].readIfPresent()
+        value.followPoint = try reader["followPoint"].readIfPresent() ?? .sdkUnknown("")
+        value.referenceActionName = try reader["referenceActionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28276,7 +28276,7 @@ extension MediaLiveClientTypes.FixedModeScheduleActionStartSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.FixedModeScheduleActionStartSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.FixedModeScheduleActionStartSettings()
-        value.time = try reader["time"].readIfPresent()
+        value.time = try reader["time"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28338,7 +28338,7 @@ extension MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings
         var value = MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings()
         value.fadeOut = try reader["fadeOut"].readIfPresent()
         value.layer = try reader["layer"].readIfPresent()
-        value.outputNames = try reader["outputNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputNames = try reader["outputNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -28372,7 +28372,7 @@ extension MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings {
         value.imagey = try reader["imageY"].readIfPresent()
         value.layer = try reader["layer"].readIfPresent()
         value.opacity = try reader["opacity"].readIfPresent()
-        value.outputNames = try reader["outputNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputNames = try reader["outputNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.width = try reader["width"].readIfPresent()
         return value
     }
@@ -28391,7 +28391,7 @@ extension MediaLiveClientTypes.InputLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.InputLocation()
         value.passwordParam = try reader["passwordParam"].readIfPresent()
-        value.uri = try reader["uri"].readIfPresent()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
         value.username = try reader["username"].readIfPresent()
         return value
     }
@@ -28457,7 +28457,7 @@ extension MediaLiveClientTypes.Scte35TimeSignalScheduleActionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Scte35TimeSignalScheduleActionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.Scte35TimeSignalScheduleActionSettings()
-        value.scte35Descriptors = try reader["scte35Descriptors"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Scte35Descriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scte35Descriptors = try reader["scte35Descriptors"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Scte35Descriptor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -28514,9 +28514,9 @@ extension MediaLiveClientTypes.Scte35SegmentationDescriptor {
         var value = MediaLiveClientTypes.Scte35SegmentationDescriptor()
         value.deliveryRestrictions = try reader["deliveryRestrictions"].readIfPresent(with: MediaLiveClientTypes.Scte35DeliveryRestrictions.read(from:))
         value.segmentNum = try reader["segmentNum"].readIfPresent()
-        value.segmentationCancelIndicator = try reader["segmentationCancelIndicator"].readIfPresent()
+        value.segmentationCancelIndicator = try reader["segmentationCancelIndicator"].readIfPresent() ?? .sdkUnknown("")
         value.segmentationDuration = try reader["segmentationDuration"].readIfPresent()
-        value.segmentationEventId = try reader["segmentationEventId"].readIfPresent()
+        value.segmentationEventId = try reader["segmentationEventId"].readIfPresent() ?? 0
         value.segmentationTypeId = try reader["segmentationTypeId"].readIfPresent()
         value.segmentationUpid = try reader["segmentationUpid"].readIfPresent()
         value.segmentationUpidType = try reader["segmentationUpidType"].readIfPresent()
@@ -28540,10 +28540,10 @@ extension MediaLiveClientTypes.Scte35DeliveryRestrictions {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Scte35DeliveryRestrictions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.Scte35DeliveryRestrictions()
-        value.archiveAllowedFlag = try reader["archiveAllowedFlag"].readIfPresent()
-        value.deviceRestrictions = try reader["deviceRestrictions"].readIfPresent()
-        value.noRegionalBlackoutFlag = try reader["noRegionalBlackoutFlag"].readIfPresent()
-        value.webDeliveryAllowedFlag = try reader["webDeliveryAllowedFlag"].readIfPresent()
+        value.archiveAllowedFlag = try reader["archiveAllowedFlag"].readIfPresent() ?? .sdkUnknown("")
+        value.deviceRestrictions = try reader["deviceRestrictions"].readIfPresent() ?? .sdkUnknown("")
+        value.noRegionalBlackoutFlag = try reader["noRegionalBlackoutFlag"].readIfPresent() ?? .sdkUnknown("")
+        value.webDeliveryAllowedFlag = try reader["webDeliveryAllowedFlag"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -28560,7 +28560,7 @@ extension MediaLiveClientTypes.Scte35SpliceInsertScheduleActionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.Scte35SpliceInsertScheduleActionSettings()
         value.duration = try reader["duration"].readIfPresent()
-        value.spliceEventId = try reader["spliceEventId"].readIfPresent()
+        value.spliceEventId = try reader["spliceEventId"].readIfPresent() ?? 0
         return value
     }
 }
@@ -28575,7 +28575,7 @@ extension MediaLiveClientTypes.Scte35ReturnToNetworkScheduleActionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Scte35ReturnToNetworkScheduleActionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.Scte35ReturnToNetworkScheduleActionSettings()
-        value.spliceEventId = try reader["spliceEventId"].readIfPresent()
+        value.spliceEventId = try reader["spliceEventId"].readIfPresent() ?? 0
         return value
     }
 }
@@ -28592,7 +28592,7 @@ extension MediaLiveClientTypes.Scte35InputScheduleActionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.Scte35InputScheduleActionSettings()
         value.inputAttachmentNameReference = try reader["inputAttachmentNameReference"].readIfPresent()
-        value.mode = try reader["mode"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -28622,7 +28622,7 @@ extension MediaLiveClientTypes.PipelinePauseStateSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.PipelinePauseStateSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.PipelinePauseStateSettings()
-        value.pipelineId = try reader["pipelineId"].readIfPresent()
+        value.pipelineId = try reader["pipelineId"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -28673,7 +28673,7 @@ extension MediaLiveClientTypes.InputSwitchScheduleActionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.InputSwitchScheduleActionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.InputSwitchScheduleActionSettings()
-        value.inputAttachmentNameReference = try reader["inputAttachmentNameReference"].readIfPresent()
+        value.inputAttachmentNameReference = try reader["inputAttachmentNameReference"].readIfPresent() ?? ""
         value.inputClippingSettings = try reader["inputClippingSettings"].readIfPresent(with: MediaLiveClientTypes.InputClippingSettings.read(from:))
         value.urlPath = try reader["urlPath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -28692,7 +28692,7 @@ extension MediaLiveClientTypes.InputClippingSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.InputClippingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.InputClippingSettings()
-        value.inputTimecodeSource = try reader["inputTimecodeSource"].readIfPresent()
+        value.inputTimecodeSource = try reader["inputTimecodeSource"].readIfPresent() ?? .sdkUnknown("")
         value.startTimecode = try reader["startTimecode"].readIfPresent(with: MediaLiveClientTypes.StartTimecode.read(from:))
         value.stopTimecode = try reader["stopTimecode"].readIfPresent(with: MediaLiveClientTypes.StopTimecode.read(from:))
         return value
@@ -28760,7 +28760,7 @@ extension MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings()
-        value.id3 = try reader["id3"].readIfPresent()
+        value.id3 = try reader["id3"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28787,7 +28787,7 @@ extension MediaLiveClientTypes.BatchScheduleActionDeleteResult {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.BatchScheduleActionDeleteResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.BatchScheduleActionDeleteResult()
-        value.scheduleActions = try reader["scheduleActions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ScheduleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scheduleActions = try reader["scheduleActions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ScheduleAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -29087,7 +29087,7 @@ extension MediaLiveClientTypes.CaptionSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.CaptionSelector()
         value.languageCode = try reader["languageCode"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.selectorSettings = try reader["selectorSettings"].readIfPresent(with: MediaLiveClientTypes.CaptionSelectorSettings.read(from:))
         return value
     }
@@ -29150,10 +29150,10 @@ extension MediaLiveClientTypes.CaptionRectangle {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CaptionRectangle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.CaptionRectangle()
-        value.height = try reader["height"].readIfPresent()
-        value.leftOffset = try reader["leftOffset"].readIfPresent()
-        value.topOffset = try reader["topOffset"].readIfPresent()
-        value.width = try reader["width"].readIfPresent()
+        value.height = try reader["height"].readIfPresent() ?? 0.0
+        value.leftOffset = try reader["leftOffset"].readIfPresent() ?? 0.0
+        value.topOffset = try reader["topOffset"].readIfPresent() ?? 0.0
+        value.width = try reader["width"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -29269,7 +29269,7 @@ extension MediaLiveClientTypes.AudioSelector {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioSelector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioSelector()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.selectorSettings = try reader["selectorSettings"].readIfPresent(with: MediaLiveClientTypes.AudioSelectorSettings.read(from:))
         return value
     }
@@ -29307,7 +29307,7 @@ extension MediaLiveClientTypes.AudioTrackSelection {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioTrackSelection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioTrackSelection()
-        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioTrack.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioTrack.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.dolbyEDecode = try reader["dolbyEDecode"].readIfPresent(with: MediaLiveClientTypes.AudioDolbyEDecode.read(from:))
         return value
     }
@@ -29323,7 +29323,7 @@ extension MediaLiveClientTypes.AudioDolbyEDecode {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioDolbyEDecode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioDolbyEDecode()
-        value.programSelection = try reader["programSelection"].readIfPresent()
+        value.programSelection = try reader["programSelection"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -29338,7 +29338,7 @@ extension MediaLiveClientTypes.AudioTrack {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioTrack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioTrack()
-        value.track = try reader["track"].readIfPresent()
+        value.track = try reader["track"].readIfPresent() ?? 0
         return value
     }
 }
@@ -29353,7 +29353,7 @@ extension MediaLiveClientTypes.AudioPidSelection {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioPidSelection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioPidSelection()
-        value.pid = try reader["pid"].readIfPresent()
+        value.pid = try reader["pid"].readIfPresent() ?? 0
         return value
     }
 }
@@ -29369,7 +29369,7 @@ extension MediaLiveClientTypes.AudioLanguageSelection {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioLanguageSelection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioLanguageSelection()
-        value.languageCode = try reader["languageCode"].readIfPresent()
+        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
         value.languageSelectionPolicy = try reader["languageSelectionPolicy"].readIfPresent()
         return value
     }
@@ -29386,8 +29386,8 @@ extension MediaLiveClientTypes.AudioHlsRenditionSelection {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioHlsRenditionSelection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioHlsRenditionSelection()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.groupId = try reader["groupId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29408,7 +29408,7 @@ extension MediaLiveClientTypes.AutomaticInputFailoverSettings {
         value.errorClearTimeMsec = try reader["errorClearTimeMsec"].readIfPresent()
         value.failoverConditions = try reader["failoverConditions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.FailoverCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputPreference = try reader["inputPreference"].readIfPresent()
-        value.secondaryInputId = try reader["secondaryInputId"].readIfPresent()
+        value.secondaryInputId = try reader["secondaryInputId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29490,7 +29490,7 @@ extension MediaLiveClientTypes.AudioSilenceFailoverSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioSilenceFailoverSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioSilenceFailoverSettings()
-        value.audioSelectorName = try reader["audioSelectorName"].readIfPresent()
+        value.audioSelectorName = try reader["audioSelectorName"].readIfPresent() ?? ""
         value.audioSilenceThresholdMsec = try reader["audioSilenceThresholdMsec"].readIfPresent()
         return value
     }
@@ -29519,7 +29519,7 @@ extension MediaLiveClientTypes.EncoderSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.EncoderSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.EncoderSettings()
-        value.audioDescriptions = try reader["audioDescriptions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.audioDescriptions = try reader["audioDescriptions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.availBlanking = try reader["availBlanking"].readIfPresent(with: MediaLiveClientTypes.AvailBlanking.read(from:))
         value.availConfiguration = try reader["availConfiguration"].readIfPresent(with: MediaLiveClientTypes.AvailConfiguration.read(from:))
         value.blackoutSlate = try reader["blackoutSlate"].readIfPresent(with: MediaLiveClientTypes.BlackoutSlate.read(from:))
@@ -29528,9 +29528,9 @@ extension MediaLiveClientTypes.EncoderSettings {
         value.globalConfiguration = try reader["globalConfiguration"].readIfPresent(with: MediaLiveClientTypes.GlobalConfiguration.read(from:))
         value.motionGraphicsConfiguration = try reader["motionGraphicsConfiguration"].readIfPresent(with: MediaLiveClientTypes.MotionGraphicsConfiguration.read(from:))
         value.nielsenConfiguration = try reader["nielsenConfiguration"].readIfPresent(with: MediaLiveClientTypes.NielsenConfiguration.read(from:))
-        value.outputGroups = try reader["outputGroups"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputGroups = try reader["outputGroups"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.timecodeConfig = try reader["timecodeConfig"].readIfPresent(with: MediaLiveClientTypes.TimecodeConfig.read(from:))
-        value.videoDescriptions = try reader["videoDescriptions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.VideoDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.videoDescriptions = try reader["videoDescriptions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.VideoDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: MediaLiveClientTypes.ThumbnailConfiguration.read(from:))
         value.colorCorrectionSettings = try reader["colorCorrectionSettings"].readIfPresent(with: MediaLiveClientTypes.ColorCorrectionSettings.read(from:))
         return value
@@ -29547,7 +29547,7 @@ extension MediaLiveClientTypes.ColorCorrectionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ColorCorrectionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.ColorCorrectionSettings()
-        value.globalColorCorrections = try reader["globalColorCorrections"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ColorCorrection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalColorCorrections = try reader["globalColorCorrections"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ColorCorrection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -29564,9 +29564,9 @@ extension MediaLiveClientTypes.ColorCorrection {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ColorCorrection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.ColorCorrection()
-        value.inputColorSpace = try reader["inputColorSpace"].readIfPresent()
-        value.outputColorSpace = try reader["outputColorSpace"].readIfPresent()
-        value.uri = try reader["uri"].readIfPresent()
+        value.inputColorSpace = try reader["inputColorSpace"].readIfPresent() ?? .sdkUnknown("")
+        value.outputColorSpace = try reader["outputColorSpace"].readIfPresent() ?? .sdkUnknown("")
+        value.uri = try reader["uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -29581,7 +29581,7 @@ extension MediaLiveClientTypes.ThumbnailConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ThumbnailConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.ThumbnailConfiguration()
-        value.state = try reader["state"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -29604,7 +29604,7 @@ extension MediaLiveClientTypes.VideoDescription {
         var value = MediaLiveClientTypes.VideoDescription()
         value.codecSettings = try reader["codecSettings"].readIfPresent(with: MediaLiveClientTypes.VideoCodecSettings.read(from:))
         value.height = try reader["height"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.respondToAfd = try reader["respondToAfd"].readIfPresent()
         value.scalingBehavior = try reader["scalingBehavior"].readIfPresent()
         value.sharpness = try reader["sharpness"].readIfPresent()
@@ -29667,8 +29667,8 @@ extension MediaLiveClientTypes.Mpeg2Settings {
         value.displayAspectRatio = try reader["displayAspectRatio"].readIfPresent()
         value.filterSettings = try reader["filterSettings"].readIfPresent(with: MediaLiveClientTypes.Mpeg2FilterSettings.read(from:))
         value.fixedAfd = try reader["fixedAfd"].readIfPresent()
-        value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
-        value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
+        value.framerateDenominator = try reader["framerateDenominator"].readIfPresent() ?? 0
+        value.framerateNumerator = try reader["framerateNumerator"].readIfPresent() ?? 0
         value.gopClosedCadence = try reader["gopClosedCadence"].readIfPresent()
         value.gopNumBFrames = try reader["gopNumBFrames"].readIfPresent()
         value.gopSize = try reader["gopSize"].readIfPresent()
@@ -29693,8 +29693,8 @@ extension MediaLiveClientTypes.TimecodeBurninSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.TimecodeBurninSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.TimecodeBurninSettings()
-        value.fontSize = try reader["fontSize"].readIfPresent()
-        value.position = try reader["position"].readIfPresent()
+        value.fontSize = try reader["fontSize"].readIfPresent() ?? .sdkUnknown("")
+        value.position = try reader["position"].readIfPresent() ?? .sdkUnknown("")
         value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
@@ -29788,8 +29788,8 @@ extension MediaLiveClientTypes.H265Settings {
         value.filterSettings = try reader["filterSettings"].readIfPresent(with: MediaLiveClientTypes.H265FilterSettings.read(from:))
         value.fixedAfd = try reader["fixedAfd"].readIfPresent()
         value.flickerAq = try reader["flickerAq"].readIfPresent()
-        value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
-        value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
+        value.framerateDenominator = try reader["framerateDenominator"].readIfPresent() ?? 0
+        value.framerateNumerator = try reader["framerateNumerator"].readIfPresent() ?? 0
         value.gopClosedCadence = try reader["gopClosedCadence"].readIfPresent()
         value.gopSize = try reader["gopSize"].readIfPresent()
         value.gopSizeUnits = try reader["gopSizeUnits"].readIfPresent()
@@ -30072,7 +30072,7 @@ extension MediaLiveClientTypes.TimecodeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.TimecodeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.TimecodeConfig()
-        value.source = try reader["source"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
         value.syncThreshold = try reader["syncThreshold"].readIfPresent()
         return value
     }
@@ -30092,7 +30092,7 @@ extension MediaLiveClientTypes.OutputGroup {
         var value = MediaLiveClientTypes.OutputGroup()
         value.name = try reader["name"].readIfPresent()
         value.outputGroupSettings = try reader["outputGroupSettings"].readIfPresent(with: MediaLiveClientTypes.OutputGroupSettings.read(from:))
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -30393,8 +30393,8 @@ extension MediaLiveClientTypes.DvbNitSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DvbNitSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.DvbNitSettings()
-        value.networkId = try reader["networkId"].readIfPresent()
-        value.networkName = try reader["networkName"].readIfPresent()
+        value.networkId = try reader["networkId"].readIfPresent() ?? 0
+        value.networkName = try reader["networkName"].readIfPresent() ?? ""
         value.repInterval = try reader["repInterval"].readIfPresent()
         return value
     }
@@ -31002,7 +31002,7 @@ extension MediaLiveClientTypes.StaticKeySettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.StaticKeySettings()
         value.keyProviderServer = try reader["keyProviderServer"].readIfPresent(with: MediaLiveClientTypes.InputLocation.read(from:))
-        value.staticKeyValue = try reader["staticKeyValue"].readIfPresent()
+        value.staticKeyValue = try reader["staticKeyValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31151,9 +31151,9 @@ extension MediaLiveClientTypes.CaptionLanguageMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CaptionLanguageMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.CaptionLanguageMapping()
-        value.captionChannel = try reader["captionChannel"].readIfPresent()
-        value.languageCode = try reader["languageCode"].readIfPresent()
-        value.languageDescription = try reader["languageDescription"].readIfPresent()
+        value.captionChannel = try reader["captionChannel"].readIfPresent() ?? 0
+        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
+        value.languageDescription = try reader["languageDescription"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31448,11 +31448,11 @@ extension MediaLiveClientTypes.CaptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.CaptionDescription()
         value.accessibility = try reader["accessibility"].readIfPresent()
-        value.captionSelectorName = try reader["captionSelectorName"].readIfPresent()
+        value.captionSelectorName = try reader["captionSelectorName"].readIfPresent() ?? ""
         value.destinationSettings = try reader["destinationSettings"].readIfPresent(with: MediaLiveClientTypes.CaptionDestinationSettings.read(from:))
         value.languageCode = try reader["languageCode"].readIfPresent()
         value.languageDescription = try reader["languageDescription"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.captionDashRoles = try reader["captionDashRoles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaLiveClientTypes.DashRoleCaption>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dvbDashAccessibility = try reader["dvbDashAccessibility"].readIfPresent()
         return value
@@ -31859,10 +31859,10 @@ extension MediaLiveClientTypes.Esam {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Esam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.Esam()
-        value.acquisitionPointId = try reader["acquisitionPointId"].readIfPresent()
+        value.acquisitionPointId = try reader["acquisitionPointId"].readIfPresent() ?? ""
         value.adAvailOffset = try reader["adAvailOffset"].readIfPresent()
         value.passwordParam = try reader["passwordParam"].readIfPresent()
-        value.poisEndpoint = try reader["poisEndpoint"].readIfPresent()
+        value.poisEndpoint = try reader["poisEndpoint"].readIfPresent() ?? ""
         value.username = try reader["username"].readIfPresent()
         value.zoneIdentity = try reader["zoneIdentity"].readIfPresent()
         return value
@@ -31909,14 +31909,14 @@ extension MediaLiveClientTypes.AudioDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioDescription()
         value.audioNormalizationSettings = try reader["audioNormalizationSettings"].readIfPresent(with: MediaLiveClientTypes.AudioNormalizationSettings.read(from:))
-        value.audioSelectorName = try reader["audioSelectorName"].readIfPresent()
+        value.audioSelectorName = try reader["audioSelectorName"].readIfPresent() ?? ""
         value.audioType = try reader["audioType"].readIfPresent()
         value.audioTypeControl = try reader["audioTypeControl"].readIfPresent()
         value.audioWatermarkingSettings = try reader["audioWatermarkingSettings"].readIfPresent(with: MediaLiveClientTypes.AudioWatermarkSettings.read(from:))
         value.codecSettings = try reader["codecSettings"].readIfPresent(with: MediaLiveClientTypes.AudioCodecSettings.read(from:))
         value.languageCode = try reader["languageCode"].readIfPresent()
         value.languageCodeControl = try reader["languageCodeControl"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaLiveClientTypes.RemixSettings.read(from:))
         value.streamName = try reader["streamName"].readIfPresent()
         value.audioDashRoles = try reader["audioDashRoles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaLiveClientTypes.DashRoleAudio>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31937,7 +31937,7 @@ extension MediaLiveClientTypes.RemixSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.RemixSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.RemixSettings()
-        value.channelMappings = try reader["channelMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioChannelMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.channelMappings = try reader["channelMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioChannelMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.channelsIn = try reader["channelsIn"].readIfPresent()
         value.channelsOut = try reader["channelsOut"].readIfPresent()
         return value
@@ -31955,8 +31955,8 @@ extension MediaLiveClientTypes.AudioChannelMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioChannelMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioChannelMapping()
-        value.inputChannelLevels = try reader["inputChannelLevels"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputChannelLevel.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputChannel = try reader["outputChannel"].readIfPresent()
+        value.inputChannelLevels = try reader["inputChannelLevels"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputChannelLevel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputChannel = try reader["outputChannel"].readIfPresent() ?? 0
         return value
     }
 }
@@ -31972,8 +31972,8 @@ extension MediaLiveClientTypes.InputChannelLevel {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.InputChannelLevel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.InputChannelLevel()
-        value.gain = try reader["gain"].readIfPresent()
-        value.inputChannel = try reader["inputChannel"].readIfPresent()
+        value.gain = try reader["gain"].readIfPresent() ?? 0
+        value.inputChannel = try reader["inputChannel"].readIfPresent() ?? 0
         return value
     }
 }
@@ -32242,8 +32242,8 @@ extension MediaLiveClientTypes.NielsenNaesIiNw {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.NielsenNaesIiNw {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.NielsenNaesIiNw()
-        value.checkDigitString = try reader["checkDigitString"].readIfPresent()
-        value.sid = try reader["sid"].readIfPresent()
+        value.checkDigitString = try reader["checkDigitString"].readIfPresent() ?? ""
+        value.sid = try reader["sid"].readIfPresent() ?? 0.0
         value.timezone = try reader["timezone"].readIfPresent()
         return value
     }
@@ -32261,9 +32261,9 @@ extension MediaLiveClientTypes.NielsenCBET {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.NielsenCBET {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.NielsenCBET()
-        value.cbetCheckDigitString = try reader["cbetCheckDigitString"].readIfPresent()
-        value.cbetStepaside = try reader["cbetStepaside"].readIfPresent()
-        value.csid = try reader["csid"].readIfPresent()
+        value.cbetCheckDigitString = try reader["cbetCheckDigitString"].readIfPresent() ?? ""
+        value.cbetStepaside = try reader["cbetStepaside"].readIfPresent() ?? .sdkUnknown("")
+        value.csid = try reader["csid"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32396,7 +32396,7 @@ extension MediaLiveClientTypes.EventBridgeRuleTemplateTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.EventBridgeRuleTemplateTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.EventBridgeRuleTemplateTarget()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32581,8 +32581,8 @@ extension MediaLiveClientTypes.MultiplexSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MultiplexSettings()
         value.maximumVideoBufferDelayMilliseconds = try reader["maximumVideoBufferDelayMilliseconds"].readIfPresent()
-        value.transportStreamBitrate = try reader["transportStreamBitrate"].readIfPresent()
-        value.transportStreamId = try reader["transportStreamId"].readIfPresent()
+        value.transportStreamBitrate = try reader["transportStreamBitrate"].readIfPresent() ?? 0
+        value.transportStreamId = try reader["transportStreamId"].readIfPresent() ?? 0
         value.transportStreamReservedBitrate = try reader["transportStreamReservedBitrate"].readIfPresent()
         return value
     }
@@ -32694,7 +32694,7 @@ extension MediaLiveClientTypes.MultiplexProgramSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MultiplexProgramSettings()
         value.preferredChannelPipeline = try reader["preferredChannelPipeline"].readIfPresent()
-        value.programNumber = try reader["programNumber"].readIfPresent()
+        value.programNumber = try reader["programNumber"].readIfPresent() ?? 0
         value.serviceDescriptor = try reader["serviceDescriptor"].readIfPresent(with: MediaLiveClientTypes.MultiplexProgramServiceDescriptor.read(from:))
         value.videoSettings = try reader["videoSettings"].readIfPresent(with: MediaLiveClientTypes.MultiplexVideoSettings.read(from:))
         return value
@@ -32748,8 +32748,8 @@ extension MediaLiveClientTypes.MultiplexProgramServiceDescriptor {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MultiplexProgramServiceDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MultiplexProgramServiceDescriptor()
-        value.providerName = try reader["providerName"].readIfPresent()
-        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32771,7 +32771,7 @@ extension MediaLiveClientTypes.MediaResourceNeighbor {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaResourceNeighbor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MediaResourceNeighbor()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         return value
     }
@@ -32782,8 +32782,8 @@ extension MediaLiveClientTypes.SuccessfulMonitorDeployment {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SuccessfulMonitorDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.SuccessfulMonitorDeployment()
-        value.detailsUri = try reader["detailsUri"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.detailsUri = try reader["detailsUri"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -32795,7 +32795,7 @@ extension MediaLiveClientTypes.MonitorDeployment {
         var value = MediaLiveClientTypes.MonitorDeployment()
         value.detailsUri = try reader["detailsUri"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -32980,14 +32980,14 @@ extension MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateCount = try reader["templateCount"].readIfPresent()
+        value.templateCount = try reader["templateCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -32997,23 +32997,23 @@ extension MediaLiveClientTypes.CloudWatchAlarmTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CloudWatchAlarmTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.CloudWatchAlarmTemplateSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.comparisonOperator = try reader["comparisonOperator"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.comparisonOperator = try reader["comparisonOperator"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.datapointsToAlarm = try reader["datapointsToAlarm"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.evaluationPeriods = try reader["evaluationPeriods"].readIfPresent()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.metricName = try reader["metricName"].readIfPresent()
+        value.evaluationPeriods = try reader["evaluationPeriods"].readIfPresent() ?? 0
+        value.groupId = try reader["groupId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.metricName = try reader["metricName"].readIfPresent() ?? ""
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
-        value.period = try reader["period"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.period = try reader["period"].readIfPresent() ?? 0
+        value.statistic = try reader["statistic"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.targetResourceType = try reader["targetResourceType"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        value.treatMissingData = try reader["treatMissingData"].readIfPresent()
+        value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
+        value.treatMissingData = try reader["treatMissingData"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -33023,14 +33023,14 @@ extension MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateCount = try reader["templateCount"].readIfPresent()
+        value.templateCount = try reader["templateCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -33040,15 +33040,15 @@ extension MediaLiveClientTypes.EventBridgeRuleTemplateSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.EventBridgeRuleTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.EventBridgeRuleTemplateSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.eventTargetCount = try reader["eventTargetCount"].readIfPresent()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.eventTargetCount = try reader["eventTargetCount"].readIfPresent() ?? 0
+        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
+        value.groupId = try reader["groupId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -33184,14 +33184,14 @@ extension MediaLiveClientTypes.SignalMapSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SignalMapSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.SignalMapSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.monitorDeploymentStatus = try reader["monitorDeploymentStatus"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.monitorDeploymentStatus = try reader["monitorDeploymentStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }

@@ -28043,7 +28043,7 @@ extension BatchGetSecurityControlsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetSecurityControlsOutput()
-        value.securityControls = try reader["SecurityControls"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SecurityControl.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityControls = try reader["SecurityControls"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SecurityControl.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.unprocessedIds = try reader["UnprocessedIds"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.UnprocessedSecurityControl.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -28056,7 +28056,7 @@ extension BatchGetStandardsControlAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetStandardsControlAssociationsOutput()
-        value.standardsControlAssociationDetails = try reader["StandardsControlAssociationDetails"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StandardsControlAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.standardsControlAssociationDetails = try reader["StandardsControlAssociationDetails"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StandardsControlAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.unprocessedAssociations = try reader["UnprocessedAssociations"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.UnprocessedStandardsControlAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -28069,9 +28069,9 @@ extension BatchImportFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchImportFindingsOutput()
-        value.failedCount = try reader["FailedCount"].readIfPresent()
+        value.failedCount = try reader["FailedCount"].readIfPresent() ?? 0
         value.failedFindings = try reader["FailedFindings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ImportFindingsError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.successCount = try reader["SuccessCount"].readIfPresent()
+        value.successCount = try reader["SuccessCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -28096,8 +28096,8 @@ extension BatchUpdateFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchUpdateFindingsOutput()
-        value.processedFindings = try reader["ProcessedFindings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AwsSecurityFindingIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.unprocessedFindings = try reader["UnprocessedFindings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.processedFindings = try reader["ProcessedFindings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AwsSecurityFindingIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unprocessedFindings = try reader["UnprocessedFindings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -28121,7 +28121,7 @@ extension CreateActionTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateActionTargetOutput()
-        value.actionTargetArn = try reader["ActionTargetArn"].readIfPresent()
+        value.actionTargetArn = try reader["ActionTargetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28178,7 +28178,7 @@ extension CreateInsightOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateInsightOutput()
-        value.insightArn = try reader["InsightArn"].readIfPresent()
+        value.insightArn = try reader["InsightArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28214,7 +28214,7 @@ extension DeleteActionTargetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteActionTargetOutput()
-        value.actionTargetArn = try reader["ActionTargetArn"].readIfPresent()
+        value.actionTargetArn = try reader["ActionTargetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28240,7 +28240,7 @@ extension DeleteInsightOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteInsightOutput()
-        value.insightArn = try reader["InsightArn"].readIfPresent()
+        value.insightArn = try reader["InsightArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28276,7 +28276,7 @@ extension DescribeActionTargetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeActionTargetsOutput()
-        value.actionTargets = try reader["ActionTargets"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ActionTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actionTargets = try reader["ActionTargets"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ActionTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -28320,7 +28320,7 @@ extension DescribeProductsOutput {
         let reader = responseReader
         var value = DescribeProductsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Product.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Product.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -28515,7 +28515,7 @@ extension GetFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFindingsOutput()
-        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AwsSecurityFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AwsSecurityFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -28540,7 +28540,7 @@ extension GetInsightsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetInsightsOutput()
-        value.insights = try reader["Insights"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.insights = try reader["Insights"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -28719,7 +28719,7 @@ extension ListSecurityControlDefinitionsOutput {
         let reader = responseReader
         var value = ListSecurityControlDefinitionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.securityControlDefinitions = try reader["SecurityControlDefinitions"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SecurityControlDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityControlDefinitions = try reader["SecurityControlDefinitions"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SecurityControlDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -28732,7 +28732,7 @@ extension ListStandardsControlAssociationsOutput {
         let reader = responseReader
         var value = ListStandardsControlAssociationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.standardsControlAssociationSummaries = try reader["StandardsControlAssociationSummaries"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StandardsControlAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.standardsControlAssociationSummaries = try reader["StandardsControlAssociationSummaries"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StandardsControlAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -30412,10 +30412,10 @@ extension SecurityHubClientTypes.StandardsSubscription {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsSubscription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsSubscription()
-        value.standardsSubscriptionArn = try reader["StandardsSubscriptionArn"].readIfPresent()
-        value.standardsArn = try reader["StandardsArn"].readIfPresent()
-        value.standardsInput = try reader["StandardsInput"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.standardsStatus = try reader["StandardsStatus"].readIfPresent()
+        value.standardsSubscriptionArn = try reader["StandardsSubscriptionArn"].readIfPresent() ?? ""
+        value.standardsArn = try reader["StandardsArn"].readIfPresent() ?? ""
+        value.standardsInput = try reader["StandardsInput"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.standardsStatus = try reader["StandardsStatus"].readIfPresent() ?? .sdkUnknown("")
         value.standardsStatusReason = try reader["StandardsStatusReason"].readIfPresent(with: SecurityHubClientTypes.StandardsStatusReason.read(from:))
         return value
     }
@@ -30426,7 +30426,7 @@ extension SecurityHubClientTypes.StandardsStatusReason {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsStatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsStatusReason()
-        value.statusReasonCode = try reader["StatusReasonCode"].readIfPresent()
+        value.statusReasonCode = try reader["StatusReasonCode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -30510,8 +30510,8 @@ extension SecurityHubClientTypes.RelatedFinding {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RelatedFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.RelatedFinding()
-        value.productArn = try reader["ProductArn"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.productArn = try reader["ProductArn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -30561,8 +30561,8 @@ extension SecurityHubClientTypes.NoteUpdate {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.NoteUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.NoteUpdate()
-        value.text = try reader["Text"].readIfPresent()
-        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        value.updatedBy = try reader["UpdatedBy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -30831,13 +30831,13 @@ extension SecurityHubClientTypes.SecurityControl {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SecurityControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.SecurityControl()
-        value.securityControlId = try reader["SecurityControlId"].readIfPresent()
-        value.securityControlArn = try reader["SecurityControlArn"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.remediationUrl = try reader["RemediationUrl"].readIfPresent()
-        value.severityRating = try reader["SeverityRating"].readIfPresent()
-        value.securityControlStatus = try reader["SecurityControlStatus"].readIfPresent()
+        value.securityControlId = try reader["SecurityControlId"].readIfPresent() ?? ""
+        value.securityControlArn = try reader["SecurityControlArn"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.remediationUrl = try reader["RemediationUrl"].readIfPresent() ?? ""
+        value.severityRating = try reader["SeverityRating"].readIfPresent() ?? .sdkUnknown("")
+        value.securityControlStatus = try reader["SecurityControlStatus"].readIfPresent() ?? .sdkUnknown("")
         value.updateStatus = try reader["UpdateStatus"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SecurityHubClientTypes.ParameterConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastUpdateReason = try reader["LastUpdateReason"].readIfPresent()
@@ -30856,7 +30856,7 @@ extension SecurityHubClientTypes.ParameterConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ParameterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ParameterConfiguration()
-        value.valueType = try reader["ValueType"].readIfPresent()
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["Value"].readIfPresent(with: SecurityHubClientTypes.ParameterValue.read(from:))
         return value
     }
@@ -30919,8 +30919,8 @@ extension SecurityHubClientTypes.UnprocessedSecurityControl {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnprocessedSecurityControl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.UnprocessedSecurityControl()
-        value.securityControlId = try reader["SecurityControlId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.securityControlId = try reader["SecurityControlId"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? .sdkUnknown("")
         value.errorReason = try reader["ErrorReason"].readIfPresent()
         return value
     }
@@ -30931,10 +30931,10 @@ extension SecurityHubClientTypes.StandardsControlAssociationDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsControlAssociationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsControlAssociationDetail()
-        value.standardsArn = try reader["StandardsArn"].readIfPresent()
-        value.securityControlId = try reader["SecurityControlId"].readIfPresent()
-        value.securityControlArn = try reader["SecurityControlArn"].readIfPresent()
-        value.associationStatus = try reader["AssociationStatus"].readIfPresent()
+        value.standardsArn = try reader["StandardsArn"].readIfPresent() ?? ""
+        value.securityControlId = try reader["SecurityControlId"].readIfPresent() ?? ""
+        value.securityControlArn = try reader["SecurityControlArn"].readIfPresent() ?? ""
+        value.associationStatus = try reader["AssociationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.relatedRequirements = try reader["RelatedRequirements"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedReason = try reader["UpdatedReason"].readIfPresent()
@@ -30951,7 +30951,7 @@ extension SecurityHubClientTypes.UnprocessedStandardsControlAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.UnprocessedStandardsControlAssociation()
         value.standardsControlAssociationId = try reader["StandardsControlAssociationId"].readIfPresent(with: SecurityHubClientTypes.StandardsControlAssociationId.read(from:))
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? .sdkUnknown("")
         value.errorReason = try reader["ErrorReason"].readIfPresent()
         return value
     }
@@ -30968,8 +30968,8 @@ extension SecurityHubClientTypes.StandardsControlAssociationId {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsControlAssociationId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsControlAssociationId()
-        value.securityControlId = try reader["SecurityControlId"].readIfPresent()
-        value.standardsArn = try reader["StandardsArn"].readIfPresent()
+        value.securityControlId = try reader["SecurityControlId"].readIfPresent() ?? ""
+        value.standardsArn = try reader["StandardsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -30979,9 +30979,9 @@ extension SecurityHubClientTypes.ImportFindingsError {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ImportFindingsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ImportFindingsError()
-        value.id = try reader["Id"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -30997,8 +30997,8 @@ extension SecurityHubClientTypes.AwsSecurityFindingIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AwsSecurityFindingIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.AwsSecurityFindingIdentifier()
-        value.id = try reader["Id"].readIfPresent()
-        value.productArn = try reader["ProductArn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.productArn = try reader["ProductArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31009,8 +31009,8 @@ extension SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding()
         value.findingIdentifier = try reader["FindingIdentifier"].readIfPresent(with: SecurityHubClientTypes.AwsSecurityFindingIdentifier.read(from:))
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31021,7 +31021,7 @@ extension SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate()
         value.standardsControlAssociationUpdate = try reader["StandardsControlAssociationUpdate"].readIfPresent(with: SecurityHubClientTypes.StandardsControlAssociationUpdate.read(from:))
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? .sdkUnknown("")
         value.errorReason = try reader["ErrorReason"].readIfPresent()
         return value
     }
@@ -31040,9 +31040,9 @@ extension SecurityHubClientTypes.StandardsControlAssociationUpdate {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsControlAssociationUpdate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsControlAssociationUpdate()
-        value.standardsArn = try reader["StandardsArn"].readIfPresent()
-        value.securityControlId = try reader["SecurityControlId"].readIfPresent()
-        value.associationStatus = try reader["AssociationStatus"].readIfPresent()
+        value.standardsArn = try reader["StandardsArn"].readIfPresent() ?? ""
+        value.securityControlId = try reader["SecurityControlId"].readIfPresent() ?? ""
+        value.associationStatus = try reader["AssociationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.updatedReason = try reader["UpdatedReason"].readIfPresent()
         return value
     }
@@ -31143,9 +31143,9 @@ extension SecurityHubClientTypes.ActionTarget {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ActionTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ActionTarget()
-        value.actionTargetArn = try reader["ActionTargetArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.actionTargetArn = try reader["ActionTargetArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31174,7 +31174,7 @@ extension SecurityHubClientTypes.Product {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Product {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Product()
-        value.productArn = try reader["ProductArn"].readIfPresent()
+        value.productArn = try reader["ProductArn"].readIfPresent() ?? ""
         value.productName = try reader["ProductName"].readIfPresent()
         value.companyName = try reader["CompanyName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -31335,24 +31335,24 @@ extension SecurityHubClientTypes.AwsSecurityFinding {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AwsSecurityFinding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.AwsSecurityFinding()
-        value.schemaVersion = try reader["SchemaVersion"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.productArn = try reader["ProductArn"].readIfPresent()
+        value.schemaVersion = try reader["SchemaVersion"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.productArn = try reader["ProductArn"].readIfPresent() ?? ""
         value.productName = try reader["ProductName"].readIfPresent()
         value.companyName = try reader["CompanyName"].readIfPresent()
         value.region = try reader["Region"].readIfPresent()
-        value.generatorId = try reader["GeneratorId"].readIfPresent()
-        value.awsAccountId = try reader["AwsAccountId"].readIfPresent()
+        value.generatorId = try reader["GeneratorId"].readIfPresent() ?? ""
+        value.awsAccountId = try reader["AwsAccountId"].readIfPresent() ?? ""
         value.types = try reader["Types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.firstObservedAt = try reader["FirstObservedAt"].readIfPresent()
         value.lastObservedAt = try reader["LastObservedAt"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readIfPresent() ?? ""
+        value.updatedAt = try reader["UpdatedAt"].readIfPresent() ?? ""
         value.severity = try reader["Severity"].readIfPresent(with: SecurityHubClientTypes.Severity.read(from:))
         value.confidence = try reader["Confidence"].readIfPresent()
         value.criticality = try reader["Criticality"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.remediation = try reader["Remediation"].readIfPresent(with: SecurityHubClientTypes.Remediation.read(from:))
         value.sourceUrl = try reader["SourceUrl"].readIfPresent()
         value.productFields = try reader["ProductFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -31363,7 +31363,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding {
         value.process = try reader["Process"].readIfPresent(with: SecurityHubClientTypes.ProcessDetails.read(from:))
         value.threats = try reader["Threats"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Threat.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.threatIntelIndicators = try reader["ThreatIntelIndicators"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ThreatIntelIndicator.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.compliance = try reader["Compliance"].readIfPresent(with: SecurityHubClientTypes.Compliance.read(from:))
         value.verificationState = try reader["VerificationState"].readIfPresent()
         value.workflowState = try reader["WorkflowState"].readIfPresent()
@@ -31751,7 +31751,7 @@ extension SecurityHubClientTypes.PatchSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.PatchSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.PatchSummary()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.installedCount = try reader["InstalledCount"].readIfPresent()
         value.missingCount = try reader["MissingCount"].readIfPresent()
         value.failedCount = try reader["FailedCount"].readIfPresent()
@@ -31786,7 +31786,7 @@ extension SecurityHubClientTypes.Vulnerability {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Vulnerability {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Vulnerability()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.vulnerablePackages = try reader["VulnerablePackages"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SoftwarePackage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.cvss = try reader["Cvss"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Cvss.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.relatedVulnerabilities = try reader["RelatedVulnerabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31855,7 +31855,7 @@ extension SecurityHubClientTypes.VulnerabilityVendor {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.VulnerabilityVendor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.VulnerabilityVendor()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.url = try reader["Url"].readIfPresent()
         value.vendorSeverity = try reader["VendorSeverity"].readIfPresent()
         value.vendorCreatedAt = try reader["VendorCreatedAt"].readIfPresent()
@@ -31951,9 +31951,9 @@ extension SecurityHubClientTypes.Note {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Note {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Note()
-        value.text = try reader["Text"].readIfPresent()
-        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        value.updatedBy = try reader["UpdatedBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["UpdatedAt"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32041,7 +32041,7 @@ extension SecurityHubClientTypes.StatusReason {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StatusReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StatusReason()
-        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         return value
     }
@@ -32066,8 +32066,8 @@ extension SecurityHubClientTypes.Resource {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Resource()
-        value.type = try reader["Type"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.partition = try reader["Partition"].readIfPresent()
         value.region = try reader["Region"].readIfPresent()
         value.resourceRole = try reader["ResourceRole"].readIfPresent()
@@ -44471,7 +44471,7 @@ extension SecurityHubClientTypes.Malware {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Malware {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Malware()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent()
         value.path = try reader["Path"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
@@ -44537,9 +44537,9 @@ extension SecurityHubClientTypes.InsightResults {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.InsightResults {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.InsightResults()
-        value.insightArn = try reader["InsightArn"].readIfPresent()
-        value.groupByAttribute = try reader["GroupByAttribute"].readIfPresent()
-        value.resultValues = try reader["ResultValues"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.InsightResultValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.insightArn = try reader["InsightArn"].readIfPresent() ?? ""
+        value.groupByAttribute = try reader["GroupByAttribute"].readIfPresent() ?? ""
+        value.resultValues = try reader["ResultValues"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.InsightResultValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -44549,8 +44549,8 @@ extension SecurityHubClientTypes.InsightResultValue {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.InsightResultValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.InsightResultValue()
-        value.groupByAttributeValue = try reader["GroupByAttributeValue"].readIfPresent()
-        value.count = try reader["Count"].readIfPresent()
+        value.groupByAttributeValue = try reader["GroupByAttributeValue"].readIfPresent() ?? ""
+        value.count = try reader["Count"].readIfPresent() ?? 0
         return value
     }
 }
@@ -44560,10 +44560,10 @@ extension SecurityHubClientTypes.Insight {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Insight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Insight()
-        value.insightArn = try reader["InsightArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.insightArn = try reader["InsightArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.filters = try reader["Filters"].readIfPresent(with: SecurityHubClientTypes.AwsSecurityFindingFilters.read(from:))
-        value.groupByAttribute = try reader["GroupByAttribute"].readIfPresent()
+        value.groupByAttribute = try reader["GroupByAttribute"].readIfPresent() ?? ""
         return value
     }
 }
@@ -44855,12 +44855,12 @@ extension SecurityHubClientTypes.SecurityControlDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SecurityControlDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.SecurityControlDefinition()
-        value.securityControlId = try reader["SecurityControlId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.remediationUrl = try reader["RemediationUrl"].readIfPresent()
-        value.severityRating = try reader["SeverityRating"].readIfPresent()
-        value.currentRegionAvailability = try reader["CurrentRegionAvailability"].readIfPresent()
+        value.securityControlId = try reader["SecurityControlId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.remediationUrl = try reader["RemediationUrl"].readIfPresent() ?? ""
+        value.severityRating = try reader["SeverityRating"].readIfPresent() ?? .sdkUnknown("")
+        value.currentRegionAvailability = try reader["CurrentRegionAvailability"].readIfPresent() ?? .sdkUnknown("")
         value.customizableProperties = try reader["CustomizableProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityHubClientTypes.SecurityControlProperty>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDefinitions = try reader["ParameterDefinitions"].readMapIfPresent(valueReadingClosure: SecurityHubClientTypes.ParameterDefinition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -44872,7 +44872,7 @@ extension SecurityHubClientTypes.ParameterDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ParameterDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ParameterDefinition()
-        value.description = try reader["Description"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.configurationOptions = try reader["ConfigurationOptions"].readIfPresent(with: SecurityHubClientTypes.ConfigurationOptions.read(from:))
         return value
     }
@@ -45060,10 +45060,10 @@ extension SecurityHubClientTypes.StandardsControlAssociationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.StandardsControlAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.StandardsControlAssociationSummary()
-        value.standardsArn = try reader["StandardsArn"].readIfPresent()
-        value.securityControlId = try reader["SecurityControlId"].readIfPresent()
-        value.securityControlArn = try reader["SecurityControlArn"].readIfPresent()
-        value.associationStatus = try reader["AssociationStatus"].readIfPresent()
+        value.standardsArn = try reader["StandardsArn"].readIfPresent() ?? ""
+        value.securityControlId = try reader["SecurityControlId"].readIfPresent() ?? ""
+        value.securityControlArn = try reader["SecurityControlArn"].readIfPresent() ?? ""
+        value.associationStatus = try reader["AssociationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.relatedRequirements = try reader["RelatedRequirements"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedReason = try reader["UpdatedReason"].readIfPresent()

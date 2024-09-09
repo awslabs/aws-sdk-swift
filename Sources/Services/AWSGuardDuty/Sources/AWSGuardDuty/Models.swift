@@ -10890,7 +10890,7 @@ extension CreateFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFilterOutput()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10902,7 +10902,7 @@ extension CreateIPSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateIPSetOutput()
-        value.ipSetId = try reader["ipSetId"].readIfPresent()
+        value.ipSetId = try reader["ipSetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10926,7 +10926,7 @@ extension CreateMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateMembersOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10938,7 +10938,7 @@ extension CreatePublishingDestinationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePublishingDestinationOutput()
-        value.destinationId = try reader["destinationId"].readIfPresent()
+        value.destinationId = try reader["destinationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10957,7 +10957,7 @@ extension CreateThreatIntelSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateThreatIntelSetOutput()
-        value.threatIntelSetId = try reader["threatIntelSetId"].readIfPresent()
+        value.threatIntelSetId = try reader["threatIntelSetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10969,7 +10969,7 @@ extension DeclineInvitationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeclineInvitationsOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10995,7 +10995,7 @@ extension DeleteInvitationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteInvitationsOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11021,7 +11021,7 @@ extension DeleteMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteMembersOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11048,7 +11048,7 @@ extension DescribeMalwareScansOutput {
         let reader = responseReader
         var value = DescribeMalwareScansOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.scans = try reader["scans"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Scan.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scans = try reader["scans"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Scan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11064,7 +11064,7 @@ extension DescribeOrganizationConfigurationOutput {
         value.autoEnableOrganizationMembers = try reader["autoEnableOrganizationMembers"].readIfPresent()
         value.dataSources = try reader["dataSources"].readIfPresent(with: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult.read(from:))
         value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationFeatureConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.memberAccountLimitReached = try reader["memberAccountLimitReached"].readIfPresent()
+        value.memberAccountLimitReached = try reader["memberAccountLimitReached"].readIfPresent() ?? false
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11077,11 +11077,11 @@ extension DescribePublishingDestinationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribePublishingDestinationOutput()
-        value.destinationId = try reader["destinationId"].readIfPresent()
+        value.destinationId = try reader["destinationId"].readIfPresent() ?? ""
         value.destinationProperties = try reader["destinationProperties"].readIfPresent(with: GuardDutyClientTypes.DestinationProperties.read(from:))
-        value.destinationType = try reader["destinationType"].readIfPresent()
-        value.publishingFailureStartTimestamp = try reader["publishingFailureStartTimestamp"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.publishingFailureStartTimestamp = try reader["publishingFailureStartTimestamp"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11114,7 +11114,7 @@ extension DisassociateMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DisassociateMembersOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11161,8 +11161,8 @@ extension GetDetectorOutput {
         value.dataSources = try reader["dataSources"].readIfPresent(with: GuardDutyClientTypes.DataSourceConfigurationsResult.read(from:))
         value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DetectorFeatureConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.findingPublishingFrequency = try reader["findingPublishingFrequency"].readIfPresent()
-        value.serviceRole = try reader["serviceRole"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.serviceRole = try reader["serviceRole"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readIfPresent()
         return value
@@ -11176,10 +11176,10 @@ extension GetFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFilterOutput()
-        value.action = try reader["action"].readIfPresent()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.findingCriteria = try reader["findingCriteria"].readIfPresent(with: GuardDutyClientTypes.FindingCriteria.read(from:))
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.rank = try reader["rank"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -11193,7 +11193,7 @@ extension GetFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFindingsOutput()
-        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Finding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Finding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11229,10 +11229,10 @@ extension GetIPSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetIPSetOutput()
-        value.format = try reader["format"].readIfPresent()
-        value.location = try reader["location"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -11289,8 +11289,8 @@ extension GetMemberDetectorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetMemberDetectorsOutput()
-        value.memberDataSourceConfigurations = try reader["members"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberDataSourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.memberDataSourceConfigurations = try reader["members"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberDataSourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11302,8 +11302,8 @@ extension GetMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetMembersOutput()
-        value.members = try reader["members"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Member.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.members = try reader["members"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Member.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11340,10 +11340,10 @@ extension GetThreatIntelSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetThreatIntelSetOutput()
-        value.format = try reader["format"].readIfPresent()
-        value.location = try reader["location"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -11369,7 +11369,7 @@ extension InviteMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = InviteMembersOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11382,7 +11382,7 @@ extension ListCoverageOutput {
         let reader = responseReader
         var value = ListCoverageOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.CoverageResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.CoverageResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11394,7 +11394,7 @@ extension ListDetectorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDetectorsOutput()
-        value.detectorIds = try reader["detectorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.detectorIds = try reader["detectorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11407,7 +11407,7 @@ extension ListFiltersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFiltersOutput()
-        value.filterNames = try reader["filterNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterNames = try reader["filterNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11420,7 +11420,7 @@ extension ListFindingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFindingsOutput()
-        value.findingIds = try reader["findingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findingIds = try reader["findingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11446,7 +11446,7 @@ extension ListIPSetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListIPSetsOutput()
-        value.ipSetIds = try reader["ipSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipSetIds = try reader["ipSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11498,7 +11498,7 @@ extension ListPublishingDestinationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListPublishingDestinationsOutput()
-        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11524,7 +11524,7 @@ extension ListThreatIntelSetsOutput {
         let reader = responseReader
         var value = ListThreatIntelSetsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.threatIntelSetIds = try reader["threatIntelSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threatIntelSetIds = try reader["threatIntelSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11548,7 +11548,7 @@ extension StartMonitoringMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartMonitoringMembersOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11560,7 +11560,7 @@ extension StopMonitoringMembersOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StopMonitoringMembersOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11600,7 +11600,7 @@ extension UpdateFilterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFilterOutput()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11640,7 +11640,7 @@ extension UpdateMemberDetectorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateMemberDetectorsOutput()
-        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12906,8 +12906,8 @@ extension GuardDutyClientTypes.UnprocessedAccount {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UnprocessedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.UnprocessedAccount()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.result = try reader["result"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.result = try reader["result"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13040,7 +13040,7 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResul
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
+        value.autoEnable = try reader["autoEnable"].readIfPresent() ?? false
         return value
     }
 }
@@ -13050,7 +13050,7 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.OrganizationS3LogsConfigurationResult()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
+        value.autoEnable = try reader["autoEnable"].readIfPresent() ?? false
         return value
     }
 }
@@ -13149,7 +13149,7 @@ extension GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13159,7 +13159,7 @@ extension GuardDutyClientTypes.S3LogsConfigurationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3LogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.S3LogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13169,7 +13169,7 @@ extension GuardDutyClientTypes.FlowLogsConfigurationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FlowLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.FlowLogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13179,7 +13179,7 @@ extension GuardDutyClientTypes.DNSLogsConfigurationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DNSLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.DNSLogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13189,7 +13189,7 @@ extension GuardDutyClientTypes.CloudTrailConfigurationResult {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CloudTrailConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.CloudTrailConfigurationResult()
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13276,21 +13276,21 @@ extension GuardDutyClientTypes.Finding {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Finding()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.confidence = try reader["confidence"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.partition = try reader["partition"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
+        value.region = try reader["region"].readIfPresent() ?? ""
         value.resource = try reader["resource"].readIfPresent(with: GuardDutyClientTypes.Resource.read(from:))
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
         value.service = try reader["service"].readIfPresent(with: GuardDutyClientTypes.Service.read(from:))
-        value.severity = try reader["severity"].readIfPresent()
+        value.severity = try reader["severity"].readIfPresent() ?? 0.0
         value.title = try reader["title"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14519,7 +14519,7 @@ extension GuardDutyClientTypes.ScanCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ScanCondition()
-        value.mapEquals = try reader["mapEquals"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanConditionPair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapEquals = try reader["mapEquals"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanConditionPair.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14535,7 +14535,7 @@ extension GuardDutyClientTypes.ScanConditionPair {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConditionPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ScanConditionPair()
-        value.key = try reader["key"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }
@@ -14559,7 +14559,7 @@ extension GuardDutyClientTypes.MemberDataSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberDataSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.MemberDataSourceConfiguration()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.dataSources = try reader["dataSources"].readIfPresent(with: GuardDutyClientTypes.DataSourceConfigurationsResult.read(from:))
         value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberFeaturesConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -14596,13 +14596,13 @@ extension GuardDutyClientTypes.Member {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Member()
-        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.detectorId = try reader["detectorId"].readIfPresent()
-        value.masterId = try reader["masterId"].readIfPresent()
-        value.email = try reader["email"].readIfPresent()
-        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent()
+        value.masterId = try reader["masterId"].readIfPresent() ?? ""
+        value.email = try reader["email"].readIfPresent() ?? ""
+        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent() ?? ""
         value.invitedAt = try reader["invitedAt"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
         value.administratorId = try reader["administratorId"].readIfPresent()
         return value
     }
@@ -14967,9 +14967,9 @@ extension GuardDutyClientTypes.Destination {
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Destination()
-        value.destinationId = try reader["destinationId"].readIfPresent()
-        value.destinationType = try reader["destinationType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.destinationId = try reader["destinationId"].readIfPresent() ?? ""
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

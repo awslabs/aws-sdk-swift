@@ -4206,11 +4206,11 @@ extension GetConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetConfigOutput()
-        value.configArn = try reader["configArn"].readIfPresent()
+        value.configArn = try reader["configArn"].readIfPresent() ?? ""
         value.configData = try reader["configData"].readIfPresent(with: GroundStationClientTypes.ConfigTypeData.read(from:))
-        value.configId = try reader["configId"].readIfPresent()
+        value.configId = try reader["configId"].readIfPresent() ?? ""
         value.configType = try reader["configType"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4436,7 +4436,7 @@ extension UpdateAgentStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAgentStatusOutput()
-        value.agentId = try reader["agentId"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5068,8 +5068,8 @@ extension GroundStationClientTypes.Elevation {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Elevation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.Elevation()
-        value.value = try reader["value"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5175,7 +5175,7 @@ extension GroundStationClientTypes.AwsGroundStationAgentEndpoint {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AwsGroundStationAgentEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.AwsGroundStationAgentEndpoint()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.egressAddress = try reader["egressAddress"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
         value.ingressAddress = try reader["ingressAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
         value.agentStatus = try reader["agentStatus"].readIfPresent()
@@ -5212,7 +5212,7 @@ extension GroundStationClientTypes.RangedSocketAddress {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.RangedSocketAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.RangedSocketAddress()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.portRange = try reader["portRange"].readIfPresent(with: GroundStationClientTypes.IntegerRange.read(from:))
         return value
     }
@@ -5229,8 +5229,8 @@ extension GroundStationClientTypes.IntegerRange {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.IntegerRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.IntegerRange()
-        value.minimum = try reader["minimum"].readIfPresent()
-        value.maximum = try reader["maximum"].readIfPresent()
+        value.minimum = try reader["minimum"].readIfPresent() ?? 0
+        value.maximum = try reader["maximum"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5263,8 +5263,8 @@ extension GroundStationClientTypes.SocketAddress {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SocketAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.SocketAddress()
-        value.name = try reader["name"].readIfPresent()
-        value.port = try reader["port"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5302,9 +5302,9 @@ extension GroundStationClientTypes.SecurityDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SecurityDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.SecurityDetails()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5428,8 +5428,8 @@ extension GroundStationClientTypes.S3RecordingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.S3RecordingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.S3RecordingConfig()
-        value.bucketArn = try reader["bucketArn"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.bucketArn = try reader["bucketArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
@@ -5446,8 +5446,8 @@ extension GroundStationClientTypes.UplinkEchoConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkEchoConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.UplinkEchoConfig()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.antennaUplinkConfigArn = try reader["antennaUplinkConfigArn"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.antennaUplinkConfigArn = try reader["antennaUplinkConfigArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5482,8 +5482,8 @@ extension GroundStationClientTypes.Eirp {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Eirp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.Eirp()
-        value.value = try reader["value"].readIfPresent()
-        value.units = try reader["units"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5516,8 +5516,8 @@ extension GroundStationClientTypes.Frequency {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Frequency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.Frequency()
-        value.value = try reader["value"].readIfPresent()
-        value.units = try reader["units"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5551,7 +5551,7 @@ extension GroundStationClientTypes.DecodeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DecodeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.DecodeConfig()
-        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent()
+        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5566,7 +5566,7 @@ extension GroundStationClientTypes.DemodulationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DemodulationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.DemodulationConfig()
-        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent()
+        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5601,8 +5601,8 @@ extension GroundStationClientTypes.FrequencyBandwidth {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.FrequencyBandwidth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.FrequencyBandwidth()
-        value.value = try reader["value"].readIfPresent()
-        value.units = try reader["units"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5618,7 +5618,7 @@ extension GroundStationClientTypes.DataflowEndpointConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowEndpointConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.DataflowEndpointConfig()
-        value.dataflowEndpointName = try reader["dataflowEndpointName"].readIfPresent()
+        value.dataflowEndpointName = try reader["dataflowEndpointName"].readIfPresent() ?? ""
         value.dataflowEndpointRegion = try reader["dataflowEndpointRegion"].readIfPresent()
         return value
     }
@@ -5634,7 +5634,7 @@ extension GroundStationClientTypes.TrackingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TrackingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.TrackingConfig()
-        value.autotrack = try reader["autotrack"].readIfPresent()
+        value.autotrack = try reader["autotrack"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5691,7 +5691,7 @@ extension GroundStationClientTypes.EphemerisMetaData {
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisMetaData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.EphemerisMetaData()
-        value.source = try reader["source"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
         value.ephemerisId = try reader["ephemerisId"].readIfPresent()
         value.epoch = try reader["epoch"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()

@@ -935,14 +935,14 @@ public struct CreateNetworkProfileInput {
         downlinkBandwidthBits: Swift.Int? = nil,
         downlinkDelayMs: Swift.Int? = nil,
         downlinkJitterMs: Swift.Int? = nil,
-        downlinkLossPercent: Swift.Int? = nil,
+        downlinkLossPercent: Swift.Int? = 0,
         name: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         type: DeviceFarmClientTypes.NetworkProfileType? = nil,
         uplinkBandwidthBits: Swift.Int? = nil,
         uplinkDelayMs: Swift.Int? = nil,
         uplinkJitterMs: Swift.Int? = nil,
-        uplinkLossPercent: Swift.Int? = nil
+        uplinkLossPercent: Swift.Int? = 0
     )
     {
         self.description = description
@@ -6574,13 +6574,13 @@ public struct UpdateNetworkProfileInput {
         downlinkBandwidthBits: Swift.Int? = nil,
         downlinkDelayMs: Swift.Int? = nil,
         downlinkJitterMs: Swift.Int? = nil,
-        downlinkLossPercent: Swift.Int? = nil,
+        downlinkLossPercent: Swift.Int? = 0,
         name: Swift.String? = nil,
         type: DeviceFarmClientTypes.NetworkProfileType? = nil,
         uplinkBandwidthBits: Swift.Int? = nil,
         uplinkDelayMs: Swift.Int? = nil,
         uplinkJitterMs: Swift.Int? = nil,
-        uplinkLossPercent: Swift.Int? = nil
+        uplinkLossPercent: Swift.Int? = 0
     )
     {
         self.arn = arn
@@ -10503,9 +10503,9 @@ extension DeviceFarmClientTypes.VpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.VpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.VpcConfig()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10647,9 +10647,9 @@ extension DeviceFarmClientTypes.TestGridVpcConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridVpcConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.TestGridVpcConfig()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10892,9 +10892,9 @@ extension DeviceFarmClientTypes.DeviceFilter {
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.DeviceFilter()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attribute = try reader["attribute"].readIfPresent() ?? .sdkUnknown("")
+        value.`operator` = try reader["operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10929,8 +10929,8 @@ extension DeviceFarmClientTypes.Location {
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Location()
-        value.latitude = try reader["latitude"].readIfPresent()
-        value.longitude = try reader["longitude"].readIfPresent()
+        value.latitude = try reader["latitude"].readIfPresent() ?? 0.0
+        value.longitude = try reader["longitude"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -11073,8 +11073,8 @@ extension DeviceFarmClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeviceFarmClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

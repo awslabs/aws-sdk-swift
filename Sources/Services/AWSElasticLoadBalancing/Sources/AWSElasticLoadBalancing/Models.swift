@@ -2049,7 +2049,7 @@ public struct SetLoadBalancerListenerSSLCertificateInput {
 
     public init(
         loadBalancerName: Swift.String? = nil,
-        loadBalancerPort: Swift.Int? = nil,
+        loadBalancerPort: Swift.Int? = 0,
         sslCertificateId: Swift.String? = nil
     )
     {
@@ -2109,7 +2109,7 @@ public struct SetLoadBalancerPoliciesOfListenerInput {
 
     public init(
         loadBalancerName: Swift.String? = nil,
-        loadBalancerPort: Swift.Int? = nil,
+        loadBalancerPort: Swift.Int? = 0,
         policyNames: [Swift.String]? = nil
     )
     {
@@ -3703,11 +3703,11 @@ extension ElasticLoadBalancingClientTypes.HealthCheck {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.HealthCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.HealthCheck()
-        value.target = try reader["Target"].readIfPresent()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.timeout = try reader["Timeout"].readIfPresent()
-        value.unhealthyThreshold = try reader["UnhealthyThreshold"].readIfPresent()
-        value.healthyThreshold = try reader["HealthyThreshold"].readIfPresent()
+        value.target = try reader["Target"].readIfPresent() ?? ""
+        value.interval = try reader["Interval"].readIfPresent() ?? 0
+        value.timeout = try reader["Timeout"].readIfPresent() ?? 0
+        value.unhealthyThreshold = try reader["UnhealthyThreshold"].readIfPresent() ?? 0
+        value.healthyThreshold = try reader["HealthyThreshold"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3801,7 +3801,7 @@ extension ElasticLoadBalancingClientTypes.ConnectionSettings {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.ConnectionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.ConnectionSettings()
-        value.idleTimeout = try reader["IdleTimeout"].readIfPresent()
+        value.idleTimeout = try reader["IdleTimeout"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4014,10 +4014,10 @@ extension ElasticLoadBalancingClientTypes.Listener {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.Listener {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.Listener()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? ""
         value.loadBalancerPort = try reader["LoadBalancerPort"].readIfPresent() ?? 0
         value.instanceProtocol = try reader["InstanceProtocol"].readIfPresent()
-        value.instancePort = try reader["InstancePort"].readIfPresent()
+        value.instancePort = try reader["InstancePort"].readIfPresent() ?? 0
         value.sslCertificateId = try reader["SSLCertificateId"].readIfPresent()
         return value
     }
@@ -4045,7 +4045,7 @@ extension ElasticLoadBalancingClientTypes.Tag {
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticLoadBalancingClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
         return value
     }

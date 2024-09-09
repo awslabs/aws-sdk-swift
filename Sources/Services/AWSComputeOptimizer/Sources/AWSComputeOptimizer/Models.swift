@@ -2209,7 +2209,7 @@ public struct ExportAutoScalingGroupRecommendationsInput {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.Filter]? = nil,
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
@@ -2434,7 +2434,7 @@ public struct ExportEBSVolumeRecommendationsInput {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableVolumeField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.EBSFilter]? = nil,
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
     {
@@ -2721,7 +2721,7 @@ public struct ExportEC2InstanceRecommendationsInput {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableInstanceField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.Filter]? = nil,
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
@@ -2932,7 +2932,7 @@ public struct ExportECSServiceRecommendationsInput {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]? = nil,
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
     {
@@ -3150,7 +3150,7 @@ public struct ExportLambdaFunctionRecommendationsInput {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableLambdaFunctionField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter]? = nil,
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
     {
@@ -3341,7 +3341,7 @@ public struct ExportLicenseRecommendationsInput {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil,
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
     {
@@ -3650,7 +3650,7 @@ public struct ExportRDSDatabaseRecommendationsInput {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableRDSDBField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.RDSDBRecommendationFilter]? = nil,
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
@@ -4815,7 +4815,7 @@ public struct GetEC2RecommendationProjectedMetricsInput {
     public init(
         endTime: Foundation.Date? = nil,
         instanceArn: Swift.String? = nil,
-        period: Swift.Int? = nil,
+        period: Swift.Int? = 0,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         startTime: Foundation.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
@@ -4917,7 +4917,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput {
 
     public init(
         endTime: Foundation.Date? = nil,
-        period: Swift.Int? = nil,
+        period: Swift.Int? = 0,
         serviceArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
@@ -6649,7 +6649,7 @@ public struct GetRDSDatabaseRecommendationProjectedMetricsInput {
 
     public init(
         endTime: Foundation.Date? = nil,
-        period: Swift.Int? = nil,
+        period: Swift.Int? = 0,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         resourceArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
@@ -7857,7 +7857,7 @@ public struct UpdateEnrollmentStatusInput {
     public var status: ComputeOptimizerClientTypes.Status?
 
     public init(
-        includeMemberAccounts: Swift.Bool? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
         status: ComputeOptimizerClientTypes.Status? = nil
     )
     {
@@ -9255,7 +9255,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

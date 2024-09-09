@@ -9,6 +9,6 @@
 	<key>clientRuntimeBranch</key>
 	<string>main</string>
 	<key>clientRuntimeVersion</key>
-	<string>0.64.0</string>
+	<string>0.65.0</string>
 </dict>
 </plist>

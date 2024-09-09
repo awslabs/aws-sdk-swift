@@ -31,6 +31,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -2038,7 +2039,7 @@ public struct GetTileOutput {
     public var binaryFile: Smithy.ByteStream?
 
     public init(
-        binaryFile: Smithy.ByteStream? = nil
+        binaryFile: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
     )
     {
         self.binaryFile = binaryFile
@@ -3848,11 +3849,11 @@ extension ExportEarthObservationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ExportEarthObservationJobOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
         value.exportSourceImages = try reader["ExportSourceImages"].readIfPresent()
-        value.exportStatus = try reader["ExportStatus"].readIfPresent()
+        value.exportStatus = try reader["ExportStatus"].readIfPresent() ?? .sdkUnknown("")
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.OutputConfigInput.read(from:))
         return value
     }
@@ -3865,10 +3866,10 @@ extension ExportVectorEnrichmentJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ExportVectorEnrichmentJobOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
-        value.exportStatus = try reader["ExportStatus"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
+        value.exportStatus = try reader["ExportStatus"].readIfPresent() ?? .sdkUnknown("")
         value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig.read(from:))
         return value
     }
@@ -3881,9 +3882,9 @@ extension GetEarthObservationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEarthObservationJobOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
         value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails.read(from:))
         value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
         value.exportErrorDetails = try reader["ExportErrorDetails"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportErrorDetails.read(from:))
@@ -3891,9 +3892,9 @@ extension GetEarthObservationJobOutput {
         value.inputConfig = try reader["InputConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.InputConfigOutput.read(from:))
         value.jobConfig = try reader["JobConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.JobConfigInput.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.outputBands = try reader["OutputBands"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.OutputBand.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3906,14 +3907,14 @@ extension GetRasterDataCollectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRasterDataCollectionOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.descriptionPageUrl = try reader["DescriptionPageUrl"].readIfPresent()
-        value.imageSourceBands = try reader["ImageSourceBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        value.supportedFilters = try reader["SupportedFilters"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.descriptionPageUrl = try reader["DescriptionPageUrl"].readIfPresent() ?? ""
+        value.imageSourceBands = try reader["ImageSourceBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.supportedFilters = try reader["SupportedFilters"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3941,20 +3942,20 @@ extension GetVectorEnrichmentJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetVectorEnrichmentJobOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
         value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobErrorDetails.read(from:))
-        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
         value.exportErrorDetails = try reader["ExportErrorDetails"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorDetails.read(from:))
         value.exportStatus = try reader["ExportStatus"].readIfPresent()
         value.inputConfig = try reader["InputConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig.read(from:))
         value.jobConfig = try reader["JobConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3966,7 +3967,7 @@ extension ListEarthObservationJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListEarthObservationJobsOutput()
-        value.earthObservationJobSummaries = try reader["EarthObservationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.earthObservationJobSummaries = try reader["EarthObservationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -3980,7 +3981,7 @@ extension ListRasterDataCollectionsOutput {
         let reader = responseReader
         var value = ListRasterDataCollectionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.rasterDataCollectionSummaries = try reader["RasterDataCollectionSummaries"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.RasterDataCollectionMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rasterDataCollectionSummaries = try reader["RasterDataCollectionSummaries"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.RasterDataCollectionMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4005,7 +4006,7 @@ extension ListVectorEnrichmentJobsOutput {
         let reader = responseReader
         var value = ListVectorEnrichmentJobsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.vectorEnrichmentJobSummaries = try reader["VectorEnrichmentJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vectorEnrichmentJobSummaries = try reader["VectorEnrichmentJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4017,7 +4018,7 @@ extension SearchRasterDataCollectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchRasterDataCollectionOutput()
-        value.approximateResultCount = try reader["ApproximateResultCount"].readIfPresent()
+        value.approximateResultCount = try reader["ApproximateResultCount"].readIfPresent() ?? 0
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.ItemSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
@@ -4031,15 +4032,15 @@ extension StartEarthObservationJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartEarthObservationJobOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
         value.inputConfig = try reader["InputConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.InputConfigOutput.read(from:))
         value.jobConfig = try reader["JobConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.JobConfigInput.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4052,17 +4053,17 @@ extension StartVectorEnrichmentJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartVectorEnrichmentJobOutput()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
         value.inputConfig = try reader["InputConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig.read(from:))
         value.jobConfig = try reader["JobConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4454,7 +4455,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4468,7 +4469,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4481,7 +4482,7 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4495,7 +4496,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4509,7 +4510,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4523,7 +4524,7 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4537,7 +4538,7 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4572,7 +4573,7 @@ extension SageMakerGeospatialClientTypes.ExportS3DataInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportS3DataInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ExportS3DataInput()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -4604,7 +4605,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
@@ -4626,8 +4627,8 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput()
-        value.rasterDataCollectionArn = try reader["RasterDataCollectionArn"].readIfPresent()
-        value.rasterDataCollectionName = try reader["RasterDataCollectionName"].readIfPresent()
+        value.rasterDataCollectionArn = try reader["RasterDataCollectionArn"].readIfPresent() ?? ""
+        value.rasterDataCollectionName = try reader["RasterDataCollectionName"].readIfPresent() ?? ""
         value.timeRangeFilter = try reader["TimeRangeFilter"].readIfPresent(with: SageMakerGeospatialClientTypes.TimeRangeFilterOutput.read(from:))
         value.areaOfInterest = try reader["AreaOfInterest"].readIfPresent(with: SageMakerGeospatialClientTypes.AreaOfInterest.read(from:))
         value.propertyFilters = try reader["PropertyFilters"].readIfPresent(with: SageMakerGeospatialClientTypes.PropertyFilters.read(from:))
@@ -4722,8 +4723,8 @@ extension SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent()
-        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -4739,7 +4740,7 @@ extension SageMakerGeospatialClientTypes.PlatformInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PlatformInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.PlatformInput()
-        value.value = try reader["Value"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
         value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
         return value
     }
@@ -4756,8 +4757,8 @@ extension SageMakerGeospatialClientTypes.ViewSunElevationInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewSunElevationInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ViewSunElevationInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent()
-        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -4773,8 +4774,8 @@ extension SageMakerGeospatialClientTypes.ViewSunAzimuthInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewSunAzimuthInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ViewSunAzimuthInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent()
-        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -4790,8 +4791,8 @@ extension SageMakerGeospatialClientTypes.ViewOffNadirInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewOffNadirInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ViewOffNadirInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent()
-        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -4807,8 +4808,8 @@ extension SageMakerGeospatialClientTypes.EoCloudCoverInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.EoCloudCoverInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.EoCloudCoverInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent()
-        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -4875,7 +4876,7 @@ extension SageMakerGeospatialClientTypes.MultiPolygonGeometryInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.MultiPolygonGeometryInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.MultiPolygonGeometryInput()
-        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4890,7 +4891,7 @@ extension SageMakerGeospatialClientTypes.PolygonGeometryInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PolygonGeometryInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.PolygonGeometryInput()
-        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4900,8 +4901,8 @@ extension SageMakerGeospatialClientTypes.TimeRangeFilterOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.TimeRangeFilterOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.TimeRangeFilterOutput()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5033,8 +5034,8 @@ extension SageMakerGeospatialClientTypes.UserDefined {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.UserDefined {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.UserDefined()
-        value.value = try reader["Value"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5069,8 +5070,8 @@ extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput()
-        value.zoneS3Path = try reader["ZoneS3Path"].readIfPresent()
-        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.ZonalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.zoneS3Path = try reader["ZoneS3Path"].readIfPresent() ?? ""
+        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.ZonalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.zoneS3PathKmsKeyId = try reader["ZoneS3PathKmsKeyId"].readIfPresent()
         return value
@@ -5109,7 +5110,7 @@ extension SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput()
         value.groupBy = try reader["GroupBy"].readIfPresent()
-        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.TemporalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.TemporalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -5193,8 +5194,8 @@ extension SageMakerGeospatialClientTypes.Operation {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Operation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.Operation()
-        value.name = try reader["Name"].readIfPresent()
-        value.equation = try reader["Equation"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.equation = try reader["Equation"].readIfPresent() ?? ""
         value.outputType = try reader["OutputType"].readIfPresent()
         return value
     }
@@ -5205,8 +5206,8 @@ extension SageMakerGeospatialClientTypes.OutputBand {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.OutputBand {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.OutputBand()
-        value.bandName = try reader["BandName"].readIfPresent()
-        value.outputDataType = try reader["OutputDataType"].readIfPresent()
+        value.bandName = try reader["BandName"].readIfPresent() ?? ""
+        value.outputDataType = try reader["OutputDataType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5249,8 +5250,8 @@ extension SageMakerGeospatialClientTypes.Filter {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Filter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? ""
         value.minimum = try reader["Minimum"].readIfPresent()
         value.maximum = try reader["Maximum"].readIfPresent()
         return value
@@ -5268,7 +5269,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig()
-        value.documentType = try reader["DocumentType"].readIfPresent()
+        value.documentType = try reader["DocumentType"].readIfPresent() ?? .sdkUnknown("")
         value.dataSourceConfig = try reader["DataSourceConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput.read(from:))
         return value
     }
@@ -5339,10 +5340,10 @@ extension SageMakerGeospatialClientTypes.MapMatchingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.MapMatchingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.MapMatchingConfig()
-        value.idAttributeName = try reader["IdAttributeName"].readIfPresent()
-        value.yAttributeName = try reader["YAttributeName"].readIfPresent()
-        value.xAttributeName = try reader["XAttributeName"].readIfPresent()
-        value.timestampAttributeName = try reader["TimestampAttributeName"].readIfPresent()
+        value.idAttributeName = try reader["IdAttributeName"].readIfPresent() ?? ""
+        value.yAttributeName = try reader["YAttributeName"].readIfPresent() ?? ""
+        value.xAttributeName = try reader["XAttributeName"].readIfPresent() ?? ""
+        value.timestampAttributeName = try reader["TimestampAttributeName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5358,8 +5359,8 @@ extension SageMakerGeospatialClientTypes.ReverseGeocodingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ReverseGeocodingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ReverseGeocodingConfig()
-        value.yAttributeName = try reader["YAttributeName"].readIfPresent()
-        value.xAttributeName = try reader["XAttributeName"].readIfPresent()
+        value.yAttributeName = try reader["YAttributeName"].readIfPresent() ?? ""
+        value.xAttributeName = try reader["XAttributeName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5391,12 +5392,12 @@ extension SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.operationType = try reader["OperationType"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.operationType = try reader["OperationType"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5407,12 +5408,12 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.RasterDataCollectionMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.RasterDataCollectionMetadata()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["Description"].readIfPresent() ?? ""
         value.descriptionPageUrl = try reader["DescriptionPageUrl"].readIfPresent()
-        value.supportedFilters = try reader["SupportedFilters"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedFilters = try reader["SupportedFilters"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5423,12 +5424,12 @@ extension SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5439,10 +5440,10 @@ extension SageMakerGeospatialClientTypes.ItemSource {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ItemSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.ItemSource()
-        value.id = try reader["Id"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.geometry = try reader["Geometry"].readIfPresent(with: SageMakerGeospatialClientTypes.Geometry.read(from:))
         value.assets = try reader["Assets"].readMapIfPresent(valueReadingClosure: SageMakerGeospatialClientTypes.AssetValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.dateTime = try reader["DateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dateTime = try reader["DateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.properties = try reader["Properties"].readIfPresent(with: SageMakerGeospatialClientTypes.Properties.read(from:))
         return value
     }
@@ -5478,8 +5479,8 @@ extension SageMakerGeospatialClientTypes.Geometry {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Geometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerGeospatialClientTypes.Geometry()
-        value.type = try reader["Type"].readIfPresent()
-        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

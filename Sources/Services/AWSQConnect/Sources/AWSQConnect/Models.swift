@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -6286,7 +6287,7 @@ extension GetRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRecommendationsOutput()
-        value.recommendations = try reader["recommendations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.RecommendationData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recommendations = try reader["recommendations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.RecommendationData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.triggers = try reader["triggers"].readListIfPresent(memberReadingClosure: QConnectClientTypes.RecommendationTrigger.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -6311,7 +6312,7 @@ extension ListAssistantAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAssistantAssociationsOutput()
-        value.assistantAssociationSummaries = try reader["assistantAssociationSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssistantAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assistantAssociationSummaries = try reader["assistantAssociationSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssistantAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6324,7 +6325,7 @@ extension ListAssistantsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAssistantsOutput()
-        value.assistantSummaries = try reader["assistantSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssistantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assistantSummaries = try reader["assistantSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssistantSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6337,7 +6338,7 @@ extension ListContentAssociationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListContentAssociationsOutput()
-        value.contentAssociationSummaries = try reader["contentAssociationSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ContentAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contentAssociationSummaries = try reader["contentAssociationSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ContentAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6350,7 +6351,7 @@ extension ListContentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListContentsOutput()
-        value.contentSummaries = try reader["contentSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ContentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contentSummaries = try reader["contentSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ContentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6363,7 +6364,7 @@ extension ListImportJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListImportJobsOutput()
-        value.importJobSummaries = try reader["importJobSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ImportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.importJobSummaries = try reader["importJobSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ImportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6376,7 +6377,7 @@ extension ListKnowledgeBasesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListKnowledgeBasesOutput()
-        value.knowledgeBaseSummaries = try reader["knowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.KnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.knowledgeBaseSummaries = try reader["knowledgeBaseSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.KnowledgeBaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6390,7 +6391,7 @@ extension ListQuickResponsesOutput {
         let reader = responseReader
         var value = ListQuickResponsesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.quickResponseSummaries = try reader["quickResponseSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.QuickResponseSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.quickResponseSummaries = try reader["quickResponseSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.QuickResponseSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6427,11 +6428,11 @@ extension PutFeedbackOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutFeedbackOutput()
-        value.assistantArn = try reader["assistantArn"].readIfPresent()
-        value.assistantId = try reader["assistantId"].readIfPresent()
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
         value.contentFeedback = try reader["contentFeedback"].readIfPresent(with: QConnectClientTypes.ContentFeedbackData.read(from:))
-        value.targetId = try reader["targetId"].readIfPresent()
-        value.targetType = try reader["targetType"].readIfPresent()
+        value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        value.targetType = try reader["targetType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6444,7 +6445,7 @@ extension QueryAssistantOutput {
         let reader = responseReader
         var value = QueryAssistantOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.results = try reader["results"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ResultData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.results = try reader["results"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ResultData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6463,7 +6464,7 @@ extension SearchContentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchContentOutput()
-        value.contentSummaries = try reader["contentSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ContentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contentSummaries = try reader["contentSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ContentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6477,7 +6478,7 @@ extension SearchQuickResponsesOutput {
         let reader = responseReader
         var value = SearchQuickResponsesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.results = try reader["results"].readListIfPresent(memberReadingClosure: QConnectClientTypes.QuickResponseSearchResultData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.results = try reader["results"].readListIfPresent(memberReadingClosure: QConnectClientTypes.QuickResponseSearchResultData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6490,7 +6491,7 @@ extension SearchSessionsOutput {
         let reader = responseReader
         var value = SearchSessionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.sessionSummaries = try reader["sessionSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionSummaries = try reader["sessionSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6502,10 +6503,10 @@ extension StartContentUploadOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartContentUploadOutput()
-        value.headersToInclude = try reader["headersToInclude"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.uploadId = try reader["uploadId"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.headersToInclude = try reader["headersToInclude"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7473,11 +7474,11 @@ extension QConnectClientTypes.AssistantData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AssistantData()
-        value.assistantId = try reader["assistantId"].readIfPresent()
-        value.assistantArn = try reader["assistantArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
@@ -7527,11 +7528,11 @@ extension QConnectClientTypes.AssistantAssociationData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AssistantAssociationData()
-        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent()
-        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent()
-        value.assistantId = try reader["assistantId"].readIfPresent()
-        value.assistantArn = try reader["assistantArn"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
+        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
+        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
         value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -7568,20 +7569,20 @@ extension QConnectClientTypes.ContentData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ContentData()
-        value.contentArn = try reader["contentArn"].readIfPresent()
-        value.contentId = try reader["contentId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.linkOutUri = try reader["linkOutUri"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7591,13 +7592,13 @@ extension QConnectClientTypes.ContentAssociationData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ContentAssociationData()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.contentId = try reader["contentId"].readIfPresent()
-        value.contentArn = try reader["contentArn"].readIfPresent()
-        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent()
-        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent() ?? ""
+        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
         value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -7648,11 +7649,11 @@ extension QConnectClientTypes.KnowledgeBaseData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.KnowledgeBaseData()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.lastContentModificationTime = try reader["lastContentModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
         value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
@@ -7713,7 +7714,7 @@ extension QConnectClientTypes.AppIntegrationsConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AppIntegrationsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AppIntegrationsConfiguration()
-        value.appIntegrationArn = try reader["appIntegrationArn"].readIfPresent()
+        value.appIntegrationArn = try reader["appIntegrationArn"].readIfPresent() ?? ""
         value.objectFields = try reader["objectFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7724,15 +7725,15 @@ extension QConnectClientTypes.QuickResponseData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.QuickResponseData()
-        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent()
-        value.quickResponseId = try reader["quickResponseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
+        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.contents = try reader["contents"].readIfPresent(with: QConnectClientTypes.QuickResponseContents.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
@@ -7793,9 +7794,9 @@ extension QConnectClientTypes.SessionData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.SessionData()
-        value.sessionArn = try reader["sessionArn"].readIfPresent()
-        value.sessionId = try reader["sessionId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.SessionIntegrationConfiguration.read(from:))
@@ -7875,7 +7876,7 @@ extension QConnectClientTypes.TagCondition {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.TagCondition()
-        value.key = try reader["key"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
         return value
     }
@@ -7896,16 +7897,16 @@ extension QConnectClientTypes.ContentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ContentSummary()
-        value.contentArn = try reader["contentArn"].readIfPresent()
-        value.contentId = try reader["contentId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -7916,17 +7917,17 @@ extension QConnectClientTypes.ImportJobData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ImportJobData()
-        value.importJobId = try reader["importJobId"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.uploadId = try reader["uploadId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.importJobType = try reader["importJobType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
+        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.url = try reader["url"].readIfPresent() ?? ""
         value.failedRecordReport = try reader["failedRecordReport"].readIfPresent()
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: QConnectClientTypes.ExternalSourceConfiguration.read(from:))
         return value
@@ -7944,7 +7945,7 @@ extension QConnectClientTypes.ExternalSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ExternalSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ExternalSourceConfiguration()
-        value.source = try reader["source"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
         value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.Configuration.read(from:))
         return value
     }
@@ -7994,7 +7995,7 @@ extension QConnectClientTypes.RecommendationData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.RecommendationData()
-        value.recommendationId = try reader["recommendationId"].readIfPresent()
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
         value.document = try reader["document"].readIfPresent(with: QConnectClientTypes.Document.read(from:))
         value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
         value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
@@ -8038,8 +8039,8 @@ extension QConnectClientTypes.SourceContentDataDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SourceContentDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.SourceContentDataDetails()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.textData = try reader["textData"].readIfPresent(with: QConnectClientTypes.TextData.read(from:))
         value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
         return value
@@ -8095,8 +8096,8 @@ extension QConnectClientTypes.GenerativeDataDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.GenerativeDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.completion = try reader["completion"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
         return value
     }
@@ -8170,11 +8171,11 @@ extension QConnectClientTypes.RecommendationTrigger {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationTrigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.RecommendationTrigger()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
         value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.RecommendationTriggerData.read(from:))
-        value.recommendationIds = try reader["recommendationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recommendationIds = try reader["recommendationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8208,11 +8209,11 @@ extension QConnectClientTypes.AssistantAssociationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AssistantAssociationSummary()
-        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent()
-        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent()
-        value.assistantId = try reader["assistantId"].readIfPresent()
-        value.assistantArn = try reader["assistantArn"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
+        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
+        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
         value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -8224,11 +8225,11 @@ extension QConnectClientTypes.AssistantSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AssistantSummary()
-        value.assistantId = try reader["assistantId"].readIfPresent()
-        value.assistantArn = try reader["assistantArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
@@ -8243,13 +8244,13 @@ extension QConnectClientTypes.ContentAssociationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ContentAssociationSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.contentId = try reader["contentId"].readIfPresent()
-        value.contentArn = try reader["contentArn"].readIfPresent()
-        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent()
-        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent() ?? ""
+        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
         value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -8261,14 +8262,14 @@ extension QConnectClientTypes.ImportJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ImportJobSummary()
-        value.importJobId = try reader["importJobId"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.uploadId = try reader["uploadId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.importJobType = try reader["importJobType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: QConnectClientTypes.ExternalSourceConfiguration.read(from:))
         return value
@@ -8280,11 +8281,11 @@ extension QConnectClientTypes.KnowledgeBaseSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.KnowledgeBaseSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
         value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
@@ -8299,15 +8300,15 @@ extension QConnectClientTypes.QuickResponseSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.QuickResponseSummary()
-        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent()
-        value.quickResponseId = try reader["quickResponseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
+        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
         value.isActive = try reader["isActive"].readIfPresent()
@@ -8362,7 +8363,7 @@ extension QConnectClientTypes.GenerativeContentFeedbackData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeContentFeedbackData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.GenerativeContentFeedbackData()
-        value.relevance = try reader["relevance"].readIfPresent()
+        value.relevance = try reader["relevance"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8372,7 +8373,7 @@ extension QConnectClientTypes.ResultData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ResultData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ResultData()
-        value.resultId = try reader["resultId"].readIfPresent()
+        value.resultId = try reader["resultId"].readIfPresent() ?? ""
         value.document = try reader["document"].readIfPresent(with: QConnectClientTypes.Document.read(from:))
         value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
         value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.DataSummary.read(from:))
@@ -8386,17 +8387,17 @@ extension QConnectClientTypes.QuickResponseSearchResultData {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSearchResultData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.QuickResponseSearchResultData()
-        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent()
-        value.quickResponseId = try reader["quickResponseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
+        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.contents = try reader["contents"].readIfPresent(with: QConnectClientTypes.QuickResponseContents.read(from:))
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isActive = try reader["isActive"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.isActive = try reader["isActive"].readIfPresent() ?? false
         value.description = try reader["description"].readIfPresent()
         value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
         value.shortcutKey = try reader["shortcutKey"].readIfPresent()
@@ -8415,10 +8416,10 @@ extension QConnectClientTypes.SessionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.SessionSummary()
-        value.sessionId = try reader["sessionId"].readIfPresent()
-        value.sessionArn = try reader["sessionArn"].readIfPresent()
-        value.assistantId = try reader["assistantId"].readIfPresent()
-        value.assistantArn = try reader["assistantArn"].readIfPresent()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
         return value
     }
 }

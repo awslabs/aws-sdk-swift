@@ -4774,7 +4774,7 @@ public struct ListTagsInput {
     public var resourceArn: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -8859,8 +8859,8 @@ extension OpsWorksClientTypes.EnvironmentVariable {
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksClientTypes.EnvironmentVariable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpsWorksClientTypes.EnvironmentVariable()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         value.secure = try reader["Secure"].readIfPresent()
         return value
     }
@@ -8878,8 +8878,8 @@ extension OpsWorksClientTypes.SslConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksClientTypes.SslConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpsWorksClientTypes.SslConfiguration()
-        value.certificate = try reader["Certificate"].readIfPresent()
-        value.privateKey = try reader["PrivateKey"].readIfPresent()
+        value.certificate = try reader["Certificate"].readIfPresent() ?? ""
+        value.privateKey = try reader["PrivateKey"].readIfPresent() ?? ""
         value.chain = try reader["Chain"].readIfPresent()
         return value
     }
@@ -8980,7 +8980,7 @@ extension OpsWorksClientTypes.DeploymentCommand {
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksClientTypes.DeploymentCommand {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpsWorksClientTypes.DeploymentCommand()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
         value.args = try reader["Args"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9240,10 +9240,10 @@ extension OpsWorksClientTypes.VolumeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> OpsWorksClientTypes.VolumeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpsWorksClientTypes.VolumeConfiguration()
-        value.mountPoint = try reader["MountPoint"].readIfPresent()
+        value.mountPoint = try reader["MountPoint"].readIfPresent() ?? ""
         value.raidLevel = try reader["RaidLevel"].readIfPresent()
-        value.numberOfDisks = try reader["NumberOfDisks"].readIfPresent()
-        value.size = try reader["Size"].readIfPresent()
+        value.numberOfDisks = try reader["NumberOfDisks"].readIfPresent() ?? 0
+        value.size = try reader["Size"].readIfPresent() ?? 0
         value.volumeType = try reader["VolumeType"].readIfPresent()
         value.iops = try reader["Iops"].readIfPresent()
         value.encrypted = try reader["Encrypted"].readIfPresent()

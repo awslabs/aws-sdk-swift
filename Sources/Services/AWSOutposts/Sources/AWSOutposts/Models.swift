@@ -2637,7 +2637,7 @@ public struct StartCapacityTaskInput {
     public var outpostIdentifier: Swift.String?
 
     public init(
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool? = false,
         instancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil,
         orderId: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil
@@ -2715,7 +2715,7 @@ public struct StartConnectionInput {
         assetId: Swift.String? = nil,
         clientPublicKey: Swift.String? = nil,
         deviceSerialNumber: Swift.String? = nil,
-        networkInterfaceDeviceIndex: Swift.Int? = nil
+        networkInterfaceDeviceIndex: Swift.Int? = 0
     )
     {
         self.assetId = assetId
@@ -4786,7 +4786,7 @@ extension OutpostsClientTypes.InstanceTypeCapacity {
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.InstanceTypeCapacity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.InstanceTypeCapacity()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? ""
         value.count = try reader["Count"].readIfPresent() ?? 0
         return value
     }
@@ -4797,7 +4797,7 @@ extension OutpostsClientTypes.CapacityTaskFailure {
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.CapacityTaskFailure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.CapacityTaskFailure()
-        value.reason = try reader["Reason"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent()
         return value
     }
@@ -4878,14 +4878,14 @@ extension OutpostsClientTypes.Address {
         var value = OutpostsClientTypes.Address()
         value.contactName = try reader["ContactName"].readIfPresent()
         value.contactPhoneNumber = try reader["ContactPhoneNumber"].readIfPresent()
-        value.addressLine1 = try reader["AddressLine1"].readIfPresent()
+        value.addressLine1 = try reader["AddressLine1"].readIfPresent() ?? ""
         value.addressLine2 = try reader["AddressLine2"].readIfPresent()
         value.addressLine3 = try reader["AddressLine3"].readIfPresent()
-        value.city = try reader["City"].readIfPresent()
-        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
+        value.city = try reader["City"].readIfPresent() ?? ""
+        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent() ?? ""
         value.districtOrCounty = try reader["DistrictOrCounty"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent() ?? ""
+        value.countryCode = try reader["CountryCode"].readIfPresent() ?? ""
         value.municipality = try reader["Municipality"].readIfPresent()
         return value
     }

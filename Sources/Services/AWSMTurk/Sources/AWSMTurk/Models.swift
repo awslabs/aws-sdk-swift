@@ -4323,8 +4323,8 @@ extension MTurkClientTypes.QualificationRequirement {
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.QualificationRequirement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.QualificationRequirement()
-        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
-        value.comparator = try reader["Comparator"].readIfPresent()
+        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent() ?? ""
+        value.comparator = try reader["Comparator"].readIfPresent() ?? .sdkUnknown("")
         value.integerValues = try reader["IntegerValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.localeValues = try reader["LocaleValues"].readListIfPresent(memberReadingClosure: MTurkClientTypes.Locale.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requiredToPreview = try reader["RequiredToPreview"].readIfPresent()
@@ -4344,7 +4344,7 @@ extension MTurkClientTypes.Locale {
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Locale {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.Locale()
-        value.country = try reader["Country"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent() ?? ""
         value.subdivision = try reader["Subdivision"].readIfPresent()
         return value
     }
@@ -4448,7 +4448,7 @@ extension MTurkClientTypes.ReviewPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MTurkClientTypes.ReviewPolicy()
-        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: MTurkClientTypes.PolicyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

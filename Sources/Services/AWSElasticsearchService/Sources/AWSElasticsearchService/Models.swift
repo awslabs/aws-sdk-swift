@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct AddTagsOutput {
 
@@ -3191,7 +3192,7 @@ public struct DescribeDomainAutoTunesInput {
 
     public init(
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4257,7 +4258,7 @@ public struct DescribeInboundCrossClusterSearchConnectionsInput {
 
     public init(
         filters: [ElasticsearchClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4305,7 +4306,7 @@ public struct DescribeOutboundCrossClusterSearchConnectionsInput {
 
     public init(
         filters: [ElasticsearchClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4395,7 +4396,7 @@ public struct DescribePackagesInput {
 
     public init(
         filters: [ElasticsearchClientTypes.DescribePackagesFilter]? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -4431,7 +4432,7 @@ public struct DescribeReservedElasticsearchInstanceOfferingsInput {
     public var reservedElasticsearchInstanceOfferingId: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstanceOfferingId: Swift.String? = nil
     )
@@ -4565,7 +4566,7 @@ public struct DescribeReservedElasticsearchInstancesInput {
     public var reservedElasticsearchInstanceId: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         reservedElasticsearchInstanceId: Swift.String? = nil
     )
@@ -4837,7 +4838,7 @@ public struct GetPackageVersionHistoryInput {
     public var packageID: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
     )
@@ -4903,7 +4904,7 @@ public struct GetUpgradeHistoryInput {
 
     public init(
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5209,7 +5210,7 @@ public struct ListDomainsForPackageInput {
     public var packageID: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
     )
@@ -5251,7 +5252,7 @@ public struct ListElasticsearchInstanceTypesInput {
     public init(
         domainName: Swift.String? = nil,
         elasticsearchVersion: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5287,7 +5288,7 @@ public struct ListElasticsearchVersionsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -5325,7 +5326,7 @@ public struct ListPackagesForDomainInput {
 
     public init(
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -7005,7 +7006,7 @@ extension DescribeElasticsearchDomainsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeElasticsearchDomainsOutput()
-        value.domainStatusList = try reader["DomainStatusList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ElasticsearchDomainStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainStatusList = try reader["DomainStatusList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ElasticsearchDomainStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7094,8 +7095,8 @@ extension DescribeVpcEndpointsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeVpcEndpointsOutput()
-        value.vpcEndpointErrors = try reader["VpcEndpointErrors"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpointError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcEndpoints = try reader["VpcEndpoints"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcEndpointErrors = try reader["VpcEndpointErrors"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpointError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.vpcEndpoints = try reader["VpcEndpoints"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7248,8 +7249,8 @@ extension ListVpcEndpointAccessOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListVpcEndpointAccessOutput()
-        value.authorizedPrincipalList = try reader["AuthorizedPrincipalList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.AuthorizedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.authorizedPrincipalList = try reader["AuthorizedPrincipalList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.AuthorizedPrincipal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7261,8 +7262,8 @@ extension ListVpcEndpointsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListVpcEndpointsOutput()
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        value.vpcEndpointSummaryList = try reader["VpcEndpointSummaryList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
+        value.vpcEndpointSummaryList = try reader["VpcEndpointSummaryList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7274,8 +7275,8 @@ extension ListVpcEndpointsForDomainOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListVpcEndpointsForDomainOutput()
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        value.vpcEndpointSummaryList = try reader["VpcEndpointSummaryList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
+        value.vpcEndpointSummaryList = try reader["VpcEndpointSummaryList"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.VpcEndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8450,7 +8451,7 @@ extension ElasticsearchClientTypes.DomainInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.DomainInformation()
         value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
         value.region = try reader["Region"].readIfPresent()
         return value
     }
@@ -8530,9 +8531,9 @@ extension ElasticsearchClientTypes.ElasticsearchDomainStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ElasticsearchDomainStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.ElasticsearchDomainStatus()
-        value.domainId = try reader["DomainId"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent() ?? ""
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
         value.created = try reader["Created"].readIfPresent()
         value.deleted = try reader["Deleted"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -8639,8 +8640,8 @@ extension ElasticsearchClientTypes.SAMLIdp {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.SAMLIdp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.SAMLIdp()
-        value.metadataContent = try reader["MetadataContent"].readIfPresent()
-        value.entityId = try reader["EntityId"].readIfPresent()
+        value.metadataContent = try reader["MetadataContent"].readIfPresent() ?? ""
+        value.entityId = try reader["EntityId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8834,7 +8835,7 @@ extension ElasticsearchClientTypes.ColdStorageOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ColdStorageOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.ColdStorageOptions()
-        value.enabled = try reader["Enabled"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -9032,10 +9033,10 @@ extension ElasticsearchClientTypes.AutoTuneStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.AutoTuneStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.AutoTuneStatus()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateVersion = try reader["UpdateVersion"].readIfPresent() ?? 0
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.pendingDeletion = try reader["PendingDeletion"].readIfPresent()
         return value
@@ -9113,10 +9114,10 @@ extension ElasticsearchClientTypes.OptionStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.OptionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.OptionStatus()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateVersion = try reader["UpdateVersion"].readIfPresent() ?? 0
-        value.state = try reader["State"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.pendingDeletion = try reader["PendingDeletion"].readIfPresent()
         return value
     }
@@ -9149,7 +9150,7 @@ extension ElasticsearchClientTypes.AdvancedOptionsStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.AdvancedOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.AdvancedOptionsStatus()
-        value.options = try reader["Options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.options = try reader["Options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
         return value
     }
@@ -9215,7 +9216,7 @@ extension ElasticsearchClientTypes.AccessPoliciesStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.AccessPoliciesStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.AccessPoliciesStatus()
-        value.options = try reader["Options"].readIfPresent()
+        value.options = try reader["Options"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
         return value
     }
@@ -9248,7 +9249,7 @@ extension ElasticsearchClientTypes.ElasticsearchVersionStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ElasticsearchVersionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.ElasticsearchVersionStatus()
-        value.options = try reader["Options"].readIfPresent()
+        value.options = try reader["Options"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
         return value
     }
@@ -9454,8 +9455,8 @@ extension ElasticsearchClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticsearchClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

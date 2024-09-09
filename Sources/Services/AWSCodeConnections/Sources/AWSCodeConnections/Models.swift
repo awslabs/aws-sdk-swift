@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1567,7 +1568,7 @@ public struct ListConnectionsInput {
 
     public init(
         hostArnFilter: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         providerTypeFilter: CodeConnectionsClientTypes.ProviderType? = nil
     )
@@ -1602,7 +1603,7 @@ public struct ListHostsInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -1674,7 +1675,7 @@ public struct ListRepositoryLinksInput {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     )
     {
@@ -1780,7 +1781,7 @@ public struct ListSyncConfigurationsInput {
     public var syncType: CodeConnectionsClientTypes.SyncConfigurationType?
 
     public init(
-        maxResults: Swift.Int? = nil,
+        maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         repositoryLinkId: Swift.String? = nil,
         syncType: CodeConnectionsClientTypes.SyncConfigurationType? = nil
@@ -2651,7 +2652,7 @@ extension CreateConnectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateConnectionOutput()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -2846,7 +2847,7 @@ extension ListRepositoryLinksOutput {
         let reader = responseReader
         var value = ListRepositoryLinksOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.repositoryLinks = try reader["RepositoryLinks"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.RepositoryLinkInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.repositoryLinks = try reader["RepositoryLinks"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.RepositoryLinkInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2859,7 +2860,7 @@ extension ListRepositorySyncDefinitionsOutput {
         let reader = responseReader
         var value = ListRepositorySyncDefinitionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.repositorySyncDefinitions = try reader["RepositorySyncDefinitions"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.RepositorySyncDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.repositorySyncDefinitions = try reader["RepositorySyncDefinitions"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.RepositorySyncDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2872,7 +2873,7 @@ extension ListSyncConfigurationsOutput {
         let reader = responseReader
         var value = ListSyncConfigurationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.syncConfigurations = try reader["SyncConfigurations"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.SyncConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.syncConfigurations = try reader["SyncConfigurations"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.SyncConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2930,7 +2931,7 @@ extension UpdateSyncBlockerOutput {
         let reader = responseReader
         var value = UpdateSyncBlockerOutput()
         value.parentResourceName = try reader["ParentResourceName"].readIfPresent()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent() ?? ""
         value.syncBlocker = try reader["SyncBlocker"].readIfPresent(with: CodeConnectionsClientTypes.SyncBlocker.read(from:))
         return value
     }
@@ -3642,8 +3643,8 @@ extension CodeConnectionsClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3653,13 +3654,13 @@ extension CodeConnectionsClientTypes.RepositoryLinkInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositoryLinkInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.RepositoryLinkInfo()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent() ?? ""
         value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.providerType = try reader["ProviderType"].readIfPresent()
-        value.repositoryLinkArn = try reader["RepositoryLinkArn"].readIfPresent()
-        value.repositoryLinkId = try reader["RepositoryLinkId"].readIfPresent()
-        value.repositoryName = try reader["RepositoryName"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent() ?? ""
+        value.providerType = try reader["ProviderType"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryLinkArn = try reader["RepositoryLinkArn"].readIfPresent() ?? ""
+        value.repositoryLinkId = try reader["RepositoryLinkId"].readIfPresent() ?? ""
+        value.repositoryName = try reader["RepositoryName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3669,15 +3670,15 @@ extension CodeConnectionsClientTypes.SyncConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.SyncConfiguration()
-        value.branch = try reader["Branch"].readIfPresent()
+        value.branch = try reader["Branch"].readIfPresent() ?? ""
         value.configFile = try reader["ConfigFile"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.providerType = try reader["ProviderType"].readIfPresent()
-        value.repositoryLinkId = try reader["RepositoryLinkId"].readIfPresent()
-        value.repositoryName = try reader["RepositoryName"].readIfPresent()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.syncType = try reader["SyncType"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent() ?? ""
+        value.providerType = try reader["ProviderType"].readIfPresent() ?? .sdkUnknown("")
+        value.repositoryLinkId = try reader["RepositoryLinkId"].readIfPresent() ?? ""
+        value.repositoryName = try reader["RepositoryName"].readIfPresent() ?? ""
+        value.resourceName = try reader["ResourceName"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.syncType = try reader["SyncType"].readIfPresent() ?? .sdkUnknown("")
         value.publishDeploymentStatus = try reader["PublishDeploymentStatus"].readIfPresent()
         value.triggerResourceUpdateOn = try reader["TriggerResourceUpdateOn"].readIfPresent()
         return value
@@ -3712,9 +3713,9 @@ extension CodeConnectionsClientTypes.VpcConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.VpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.VpcConfiguration()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tlsCertificate = try reader["TlsCertificate"].readIfPresent()
         return value
     }
@@ -3725,9 +3726,9 @@ extension CodeConnectionsClientTypes.RepositorySyncAttempt {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositorySyncAttempt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.RepositorySyncAttempt()
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.RepositorySyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.RepositorySyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3737,10 +3738,10 @@ extension CodeConnectionsClientTypes.RepositorySyncEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositorySyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.RepositorySyncEvent()
-        value.event = try reader["Event"].readIfPresent()
+        value.event = try reader["Event"].readIfPresent() ?? ""
         value.externalId = try reader["ExternalId"].readIfPresent()
-        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["Type"].readIfPresent()
+        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3750,12 +3751,12 @@ extension CodeConnectionsClientTypes.Revision {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.Revision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.Revision()
-        value.branch = try reader["Branch"].readIfPresent()
-        value.directory = try reader["Directory"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.repositoryName = try reader["RepositoryName"].readIfPresent()
-        value.providerType = try reader["ProviderType"].readIfPresent()
-        value.sha = try reader["Sha"].readIfPresent()
+        value.branch = try reader["Branch"].readIfPresent() ?? ""
+        value.directory = try reader["Directory"].readIfPresent() ?? ""
+        value.ownerId = try reader["OwnerId"].readIfPresent() ?? ""
+        value.repositoryName = try reader["RepositoryName"].readIfPresent() ?? ""
+        value.providerType = try reader["ProviderType"].readIfPresent() ?? .sdkUnknown("")
+        value.sha = try reader["Sha"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3765,12 +3766,12 @@ extension CodeConnectionsClientTypes.ResourceSyncAttempt {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.ResourceSyncAttempt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.ResourceSyncAttempt()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.ResourceSyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.ResourceSyncEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.initialRevision = try reader["InitialRevision"].readIfPresent(with: CodeConnectionsClientTypes.Revision.read(from:))
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.targetRevision = try reader["TargetRevision"].readIfPresent(with: CodeConnectionsClientTypes.Revision.read(from:))
-        value.target = try reader["Target"].readIfPresent()
+        value.target = try reader["Target"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3780,10 +3781,10 @@ extension CodeConnectionsClientTypes.ResourceSyncEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.ResourceSyncEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.ResourceSyncEvent()
-        value.event = try reader["Event"].readIfPresent()
+        value.event = try reader["Event"].readIfPresent() ?? ""
         value.externalId = try reader["ExternalId"].readIfPresent()
-        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["Type"].readIfPresent()
+        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3793,7 +3794,7 @@ extension CodeConnectionsClientTypes.SyncBlockerSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncBlockerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.SyncBlockerSummary()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent() ?? ""
         value.parentResourceName = try reader["ParentResourceName"].readIfPresent()
         value.latestBlockers = try reader["LatestBlockers"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.SyncBlocker.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3805,11 +3806,11 @@ extension CodeConnectionsClientTypes.SyncBlocker {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncBlocker {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.SyncBlocker()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdReason = try reader["CreatedReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdReason = try reader["CreatedReason"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.contexts = try reader["Contexts"].readListIfPresent(memberReadingClosure: CodeConnectionsClientTypes.SyncBlockerContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resolvedReason = try reader["ResolvedReason"].readIfPresent()
         value.resolvedAt = try reader["ResolvedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3822,8 +3823,8 @@ extension CodeConnectionsClientTypes.SyncBlockerContext {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.SyncBlockerContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.SyncBlockerContext()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3849,10 +3850,10 @@ extension CodeConnectionsClientTypes.RepositorySyncDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> CodeConnectionsClientTypes.RepositorySyncDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeConnectionsClientTypes.RepositorySyncDefinition()
-        value.branch = try reader["Branch"].readIfPresent()
-        value.directory = try reader["Directory"].readIfPresent()
-        value.parent = try reader["Parent"].readIfPresent()
-        value.target = try reader["Target"].readIfPresent()
+        value.branch = try reader["Branch"].readIfPresent() ?? ""
+        value.directory = try reader["Directory"].readIfPresent() ?? ""
+        value.parent = try reader["Parent"].readIfPresent() ?? ""
+        value.target = try reader["Target"].readIfPresent() ?? ""
         return value
     }
 }

@@ -30,6 +30,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access is denied.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -5707,7 +5708,7 @@ extension BatchPutPropertyValuesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchPutPropertyValuesOutput()
-        value.errorEntries = try reader["errorEntries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorEntries = try reader["errorEntries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5719,11 +5720,11 @@ extension CancelMetadataTransferJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelMetadataTransferJobOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent() ?? ""
         value.progress = try reader["progress"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobProgress.read(from:))
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobStatus.read(from:))
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5735,9 +5736,9 @@ extension CreateComponentTypeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateComponentTypeOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["state"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5749,10 +5750,10 @@ extension CreateEntityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEntityOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5764,9 +5765,9 @@ extension CreateMetadataTransferJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateMetadataTransferJobOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobStatus.read(from:))
         return value
     }
@@ -5779,8 +5780,8 @@ extension CreateSceneOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSceneOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5792,9 +5793,9 @@ extension CreateSyncJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSyncJobOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["state"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5806,8 +5807,8 @@ extension CreateWorkspaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateWorkspaceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5819,7 +5820,7 @@ extension DeleteComponentTypeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteComponentTypeOutput()
-        value.state = try reader["state"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5831,7 +5832,7 @@ extension DeleteEntityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteEntityOutput()
-        value.state = try reader["state"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5850,7 +5851,7 @@ extension DeleteSyncJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteSyncJobOutput()
-        value.state = try reader["state"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5888,11 +5889,11 @@ extension GetComponentTypeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetComponentTypeOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
         value.componentTypeName = try reader["componentTypeName"].readIfPresent()
         value.compositeComponentTypes = try reader["compositeComponentTypes"].readMapIfPresent(valueReadingClosure: IoTTwinMakerClientTypes.CompositeComponentTypeResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.extendsFrom = try reader["extendsFrom"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.functions = try reader["functions"].readMapIfPresent(valueReadingClosure: IoTTwinMakerClientTypes.FunctionResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5903,8 +5904,8 @@ extension GetComponentTypeOutput {
         value.propertyGroups = try reader["propertyGroups"].readMapIfPresent(valueReadingClosure: IoTTwinMakerClientTypes.PropertyGroupResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
         value.syncSource = try reader["syncSource"].readIfPresent()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5917,18 +5918,18 @@ extension GetEntityOutput {
         let reader = responseReader
         var value = GetEntityOutput()
         value.areAllComponentsReturned = try reader["areAllComponentsReturned"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.components = try reader["components"].readMapIfPresent(valueReadingClosure: IoTTwinMakerClientTypes.ComponentResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.entityName = try reader["entityName"].readIfPresent()
-        value.hasChildEntities = try reader["hasChildEntities"].readIfPresent()
-        value.parentEntityId = try reader["parentEntityId"].readIfPresent()
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
+        value.entityName = try reader["entityName"].readIfPresent() ?? ""
+        value.hasChildEntities = try reader["hasChildEntities"].readIfPresent() ?? false
+        value.parentEntityId = try reader["parentEntityId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
         value.syncSource = try reader["syncSource"].readIfPresent()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5940,17 +5941,17 @@ extension GetMetadataTransferJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetMetadataTransferJobOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.destination = try reader["destination"].readIfPresent(with: IoTTwinMakerClientTypes.DestinationConfiguration.read(from:))
-        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent()
-        value.metadataTransferJobRole = try reader["metadataTransferJobRole"].readIfPresent()
+        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent() ?? ""
+        value.metadataTransferJobRole = try reader["metadataTransferJobRole"].readIfPresent() ?? ""
         value.progress = try reader["progress"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobProgress.read(from:))
         value.reportUrl = try reader["reportUrl"].readIfPresent()
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.SourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.SourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobStatus.read(from:))
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5990,7 +5991,7 @@ extension GetPropertyValueHistoryOutput {
         let reader = responseReader
         var value = GetPropertyValueHistoryOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.propertyValues = try reader["propertyValues"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertyValueHistory.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propertyValues = try reader["propertyValues"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertyValueHistory.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6002,17 +6003,17 @@ extension GetSceneOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSceneOutput()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.contentLocation = try reader["contentLocation"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.contentLocation = try reader["contentLocation"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.SceneError.read(from:))
         value.generatedSceneMetadata = try reader["generatedSceneMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sceneId = try reader["sceneId"].readIfPresent()
+        value.sceneId = try reader["sceneId"].readIfPresent() ?? ""
         value.sceneMetadata = try reader["sceneMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6024,13 +6025,13 @@ extension GetSyncJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSyncJobOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.SyncJobStatus.read(from:))
-        value.syncRole = try reader["syncRole"].readIfPresent()
-        value.syncSource = try reader["syncSource"].readIfPresent()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.syncRole = try reader["syncRole"].readIfPresent() ?? ""
+        value.syncSource = try reader["syncSource"].readIfPresent() ?? ""
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6042,14 +6043,14 @@ extension GetWorkspaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetWorkspaceOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.linkedServices = try reader["linkedServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["role"].readIfPresent()
         value.s3Location = try reader["s3Location"].readIfPresent()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6061,7 +6062,7 @@ extension ListComponentsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListComponentsOutput()
-        value.componentSummaries = try reader["componentSummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.ComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.componentSummaries = try reader["componentSummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.ComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6074,10 +6075,10 @@ extension ListComponentTypesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListComponentTypesOutput()
-        value.componentTypeSummaries = try reader["componentTypeSummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.ComponentTypeSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.componentTypeSummaries = try reader["componentTypeSummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.ComponentTypeSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.maxResults = try reader["maxResults"].readIfPresent()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6102,7 +6103,7 @@ extension ListMetadataTransferJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListMetadataTransferJobsOutput()
-        value.metadataTransferJobSummaries = try reader["metadataTransferJobSummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.MetadataTransferJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metadataTransferJobSummaries = try reader["metadataTransferJobSummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.MetadataTransferJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6116,7 +6117,7 @@ extension ListPropertiesOutput {
         let reader = responseReader
         var value = ListPropertiesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.propertySummaries = try reader["propertySummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propertySummaries = try reader["propertySummaries"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6207,10 +6208,10 @@ extension UpdateComponentTypeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateComponentTypeOutput()
-        value.arn = try reader["arn"].readIfPresent()
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6222,8 +6223,8 @@ extension UpdateEntityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEntityOutput()
-        value.state = try reader["state"].readIfPresent()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6248,7 +6249,7 @@ extension UpdateSceneOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateSceneOutput()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6260,7 +6261,7 @@ extension UpdateWorkspaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateWorkspaceOutput()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7136,7 +7137,7 @@ extension IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry()
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.BatchPutPropertyError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.BatchPutPropertyError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7146,8 +7147,8 @@ extension IoTTwinMakerClientTypes.BatchPutPropertyError {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BatchPutPropertyError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.BatchPutPropertyError()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         value.entry = try reader["entry"].readIfPresent(with: IoTTwinMakerClientTypes.PropertyValueEntry.read(from:))
         return value
     }
@@ -7255,7 +7256,7 @@ extension IoTTwinMakerClientTypes.EntityPropertyReference {
         value.componentPath = try reader["componentPath"].readIfPresent()
         value.externalIdProperty = try reader["externalIdProperty"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.entityId = try reader["entityId"].readIfPresent()
-        value.propertyName = try reader["propertyName"].readIfPresent()
+        value.propertyName = try reader["propertyName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7323,13 +7324,13 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.PropertyDefinitionResponse()
         value.dataType = try reader["dataType"].readIfPresent(with: IoTTwinMakerClientTypes.DataType.read(from:))
-        value.isTimeSeries = try reader["isTimeSeries"].readIfPresent()
-        value.isRequiredInEntity = try reader["isRequiredInEntity"].readIfPresent()
-        value.isExternalId = try reader["isExternalId"].readIfPresent()
-        value.isStoredExternally = try reader["isStoredExternally"].readIfPresent()
-        value.isImported = try reader["isImported"].readIfPresent()
-        value.isFinal = try reader["isFinal"].readIfPresent()
-        value.isInherited = try reader["isInherited"].readIfPresent()
+        value.isTimeSeries = try reader["isTimeSeries"].readIfPresent() ?? false
+        value.isRequiredInEntity = try reader["isRequiredInEntity"].readIfPresent() ?? false
+        value.isExternalId = try reader["isExternalId"].readIfPresent() ?? false
+        value.isStoredExternally = try reader["isStoredExternally"].readIfPresent() ?? false
+        value.isImported = try reader["isImported"].readIfPresent() ?? false
+        value.isFinal = try reader["isFinal"].readIfPresent() ?? false
+        value.isInherited = try reader["isInherited"].readIfPresent() ?? false
         value.defaultValue = try reader["defaultValue"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
         value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.displayName = try reader["displayName"].readIfPresent()
@@ -7351,7 +7352,7 @@ extension IoTTwinMakerClientTypes.DataType {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DataType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.DataType()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.nestedType = try reader["nestedType"].readIfPresent(with: IoTTwinMakerClientTypes.DataType.read(from:))
         value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.DataValue.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.unitOfMeasure = try reader["unitOfMeasure"].readIfPresent()
@@ -7417,7 +7418,7 @@ extension IoTTwinMakerClientTypes.LambdaFunction {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.LambdaFunction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.LambdaFunction()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7438,9 +7439,9 @@ extension IoTTwinMakerClientTypes.PropertyGroupResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyGroupResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.PropertyGroupResponse()
-        value.groupType = try reader["groupType"].readIfPresent()
-        value.propertyNames = try reader["propertyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isInherited = try reader["isInherited"].readIfPresent()
+        value.groupType = try reader["groupType"].readIfPresent() ?? .sdkUnknown("")
+        value.propertyNames = try reader["propertyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.isInherited = try reader["isInherited"].readIfPresent() ?? false
         return value
     }
 }
@@ -7481,8 +7482,8 @@ extension IoTTwinMakerClientTypes.ComponentSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.ComponentSummary()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent()
+        value.componentName = try reader["componentName"].readIfPresent() ?? ""
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
         value.definedIn = try reader["definedIn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.propertyGroups = try reader["propertyGroups"].readMapIfPresent(valueReadingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7498,9 +7499,9 @@ extension IoTTwinMakerClientTypes.ComponentPropertyGroupResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ComponentPropertyGroupResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.ComponentPropertyGroupResponse()
-        value.groupType = try reader["groupType"].readIfPresent()
-        value.propertyNames = try reader["propertyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isInherited = try reader["isInherited"].readIfPresent()
+        value.groupType = try reader["groupType"].readIfPresent() ?? .sdkUnknown("")
+        value.propertyNames = try reader["propertyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.isInherited = try reader["isInherited"].readIfPresent() ?? false
         return value
     }
 }
@@ -7530,7 +7531,7 @@ extension IoTTwinMakerClientTypes.SourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.SourceConfiguration()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: IoTTwinMakerClientTypes.S3SourceConfiguration.read(from:))
         value.iotSiteWiseConfiguration = try reader["iotSiteWiseConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration.read(from:))
         value.iotTwinMakerConfiguration = try reader["iotTwinMakerConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration.read(from:))
@@ -7549,7 +7550,7 @@ extension IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration()
-        value.workspace = try reader["workspace"].readIfPresent()
+        value.workspace = try reader["workspace"].readIfPresent() ?? ""
         value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.IotTwinMakerSourceConfigurationFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7593,7 +7594,7 @@ extension IoTTwinMakerClientTypes.FilterByEntity {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.FilterByEntity()
-        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7608,7 +7609,7 @@ extension IoTTwinMakerClientTypes.FilterByComponentType {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByComponentType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.FilterByComponentType()
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent()
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7708,7 +7709,7 @@ extension IoTTwinMakerClientTypes.S3SourceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.S3SourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.S3SourceConfiguration()
-        value.location = try reader["location"].readIfPresent()
+        value.location = try reader["location"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7725,7 +7726,7 @@ extension IoTTwinMakerClientTypes.DestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.DestinationConfiguration()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: IoTTwinMakerClientTypes.S3DestinationConfiguration.read(from:))
         value.iotTwinMakerConfiguration = try reader["iotTwinMakerConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration.read(from:))
         return value
@@ -7742,7 +7743,7 @@ extension IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration()
-        value.workspace = try reader["workspace"].readIfPresent()
+        value.workspace = try reader["workspace"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7757,7 +7758,7 @@ extension IoTTwinMakerClientTypes.S3DestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.S3DestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.S3DestinationConfiguration()
-        value.location = try reader["location"].readIfPresent()
+        value.location = try reader["location"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7769,10 +7770,10 @@ extension IoTTwinMakerClientTypes.PricingPlan {
         var value = IoTTwinMakerClientTypes.PricingPlan()
         value.billableEntityCount = try reader["billableEntityCount"].readIfPresent()
         value.bundleInformation = try reader["bundleInformation"].readIfPresent(with: IoTTwinMakerClientTypes.BundleInformation.read(from:))
-        value.effectiveDateTime = try reader["effectiveDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.pricingMode = try reader["pricingMode"].readIfPresent()
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateReason = try reader["updateReason"].readIfPresent()
+        value.effectiveDateTime = try reader["effectiveDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.pricingMode = try reader["pricingMode"].readIfPresent() ?? .sdkUnknown("")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateReason = try reader["updateReason"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7782,7 +7783,7 @@ extension IoTTwinMakerClientTypes.BundleInformation {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BundleInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.BundleInformation()
-        value.bundleNames = try reader["bundleNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.bundleNames = try reader["bundleNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.pricingTier = try reader["pricingTier"].readIfPresent()
         return value
     }
@@ -7837,10 +7838,10 @@ extension IoTTwinMakerClientTypes.ComponentTypeSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ComponentTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.ComponentTypeSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
         value.componentTypeName = try reader["componentTypeName"].readIfPresent()
@@ -7853,15 +7854,15 @@ extension IoTTwinMakerClientTypes.EntitySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.EntitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.EntitySummary()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.entityName = try reader["entityName"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
+        value.entityName = try reader["entityName"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.parentEntityId = try reader["parentEntityId"].readIfPresent()
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.hasChildEntities = try reader["hasChildEntities"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7871,10 +7872,10 @@ extension IoTTwinMakerClientTypes.MetadataTransferJobSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.MetadataTransferJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.MetadataTransferJobSummary()
-        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobStatus.read(from:))
         value.progress = try reader["progress"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobProgress.read(from:))
         return value
@@ -7887,7 +7888,7 @@ extension IoTTwinMakerClientTypes.PropertySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.PropertySummary()
         value.definition = try reader["definition"].readIfPresent(with: IoTTwinMakerClientTypes.PropertyDefinitionResponse.read(from:))
-        value.propertyName = try reader["propertyName"].readIfPresent()
+        value.propertyName = try reader["propertyName"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
         value.areAllPropertyValuesReturned = try reader["areAllPropertyValuesReturned"].readIfPresent()
         return value
@@ -7899,11 +7900,11 @@ extension IoTTwinMakerClientTypes.SceneSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SceneSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.SceneSummary()
-        value.sceneId = try reader["sceneId"].readIfPresent()
-        value.contentLocation = try reader["contentLocation"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sceneId = try reader["sceneId"].readIfPresent() ?? ""
+        value.contentLocation = try reader["contentLocation"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         return value
     }
@@ -7954,12 +7955,12 @@ extension IoTTwinMakerClientTypes.WorkspaceSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.WorkspaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTTwinMakerClientTypes.WorkspaceSummary()
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.linkedServices = try reader["linkedServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

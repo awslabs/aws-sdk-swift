@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The Amazon Web Services account doesn’t have access to this resource.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -1862,8 +1863,8 @@ extension BatchGetTokenBalanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = BatchGetTokenBalanceOutput()
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tokenBalances = try reader["tokenBalances"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tokenBalances = try reader["tokenBalances"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1876,9 +1877,9 @@ extension GetAssetContractOutput {
         let reader = responseReader
         var value = GetAssetContractOutput()
         value.contractIdentifier = try reader["contractIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.ContractIdentifier.read(from:))
-        value.deployerAddress = try reader["deployerAddress"].readIfPresent()
+        value.deployerAddress = try reader["deployerAddress"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent(with: ManagedBlockchainQueryClientTypes.ContractMetadata.read(from:))
-        value.tokenStandard = try reader["tokenStandard"].readIfPresent()
+        value.tokenStandard = try reader["tokenStandard"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1891,7 +1892,7 @@ extension GetTokenBalanceOutput {
         let reader = responseReader
         var value = GetTokenBalanceOutput()
         value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
-        value.balance = try reader["balance"].readIfPresent()
+        value.balance = try reader["balance"].readIfPresent() ?? ""
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
         value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
         value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
@@ -1918,7 +1919,7 @@ extension ListAssetContractsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListAssetContractsOutput()
-        value.contracts = try reader["contracts"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.AssetContract.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contracts = try reader["contracts"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.AssetContract.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1931,7 +1932,7 @@ extension ListFilteredTransactionEventsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListFilteredTransactionEventsOutput()
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TransactionEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TransactionEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1945,7 +1946,7 @@ extension ListTokenBalancesOutput {
         let reader = responseReader
         var value = ListTokenBalancesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.tokenBalances = try reader["tokenBalances"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TokenBalance.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tokenBalances = try reader["tokenBalances"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TokenBalance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1957,7 +1958,7 @@ extension ListTransactionEventsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTransactionEventsOutput()
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TransactionEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TransactionEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1971,7 +1972,7 @@ extension ListTransactionsOutput {
         let reader = responseReader
         var value = ListTransactionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.transactions = try reader["transactions"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TransactionOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transactions = try reader["transactions"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.TransactionOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2147,9 +2148,9 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2162,7 +2163,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2179,9 +2180,9 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2195,8 +2196,8 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: ManagedBlockchainQueryClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2213,7 +2214,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2226,11 +2227,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2245,7 +2246,7 @@ extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem {
         var value = ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem()
         value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
         value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
-        value.balance = try reader["balance"].readIfPresent()
+        value.balance = try reader["balance"].readIfPresent() ?? ""
         value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
         return value
@@ -2279,7 +2280,7 @@ extension ManagedBlockchainQueryClientTypes.TokenIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TokenIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.TokenIdentifier()
-        value.network = try reader["network"].readIfPresent()
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
         value.contractAddress = try reader["contractAddress"].readIfPresent()
         value.tokenId = try reader["tokenId"].readIfPresent()
         return value
@@ -2296,7 +2297,7 @@ extension ManagedBlockchainQueryClientTypes.OwnerIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.OwnerIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.OwnerIdentifier()
-        value.address = try reader["address"].readIfPresent()
+        value.address = try reader["address"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2309,9 +2310,9 @@ extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem {
         value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
         value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
         value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.errorType = try reader["errorType"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2327,8 +2328,8 @@ extension ManagedBlockchainQueryClientTypes.ContractIdentifier {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.ContractIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.ContractIdentifier()
-        value.network = try reader["network"].readIfPresent()
-        value.contractAddress = try reader["contractAddress"].readIfPresent()
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
+        value.contractAddress = try reader["contractAddress"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2350,14 +2351,14 @@ extension ManagedBlockchainQueryClientTypes.Transaction {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.Transaction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.Transaction()
-        value.network = try reader["network"].readIfPresent()
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
         value.blockHash = try reader["blockHash"].readIfPresent()
-        value.transactionHash = try reader["transactionHash"].readIfPresent()
+        value.transactionHash = try reader["transactionHash"].readIfPresent() ?? ""
         value.blockNumber = try reader["blockNumber"].readIfPresent()
-        value.transactionTimestamp = try reader["transactionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.transactionIndex = try reader["transactionIndex"].readIfPresent()
-        value.numberOfTransactions = try reader["numberOfTransactions"].readIfPresent()
-        value.to = try reader["to"].readIfPresent()
+        value.transactionTimestamp = try reader["transactionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.transactionIndex = try reader["transactionIndex"].readIfPresent() ?? 0
+        value.numberOfTransactions = try reader["numberOfTransactions"].readIfPresent() ?? 0
+        value.to = try reader["to"].readIfPresent() ?? ""
         value.from = try reader["from"].readIfPresent()
         value.contractAddress = try reader["contractAddress"].readIfPresent()
         value.gasUsed = try reader["gasUsed"].readIfPresent()
@@ -2380,8 +2381,8 @@ extension ManagedBlockchainQueryClientTypes.AssetContract {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.AssetContract()
         value.contractIdentifier = try reader["contractIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.ContractIdentifier.read(from:))
-        value.tokenStandard = try reader["tokenStandard"].readIfPresent()
-        value.deployerAddress = try reader["deployerAddress"].readIfPresent()
+        value.tokenStandard = try reader["tokenStandard"].readIfPresent() ?? .sdkUnknown("")
+        value.deployerAddress = try reader["deployerAddress"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2391,9 +2392,9 @@ extension ManagedBlockchainQueryClientTypes.TransactionEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TransactionEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.TransactionEvent()
-        value.network = try reader["network"].readIfPresent()
-        value.transactionHash = try reader["transactionHash"].readIfPresent()
-        value.eventType = try reader["eventType"].readIfPresent()
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
+        value.transactionHash = try reader["transactionHash"].readIfPresent() ?? ""
+        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
         value.from = try reader["from"].readIfPresent()
         value.to = try reader["to"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
@@ -2418,7 +2419,7 @@ extension ManagedBlockchainQueryClientTypes.TokenBalance {
         var value = ManagedBlockchainQueryClientTypes.TokenBalance()
         value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
         value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
-        value.balance = try reader["balance"].readIfPresent()
+        value.balance = try reader["balance"].readIfPresent() ?? ""
         value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
         return value
@@ -2430,10 +2431,10 @@ extension ManagedBlockchainQueryClientTypes.TransactionOutputItem {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TransactionOutputItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.TransactionOutputItem()
-        value.transactionHash = try reader["transactionHash"].readIfPresent()
+        value.transactionHash = try reader["transactionHash"].readIfPresent() ?? ""
         value.transactionId = try reader["transactionId"].readIfPresent()
-        value.network = try reader["network"].readIfPresent()
-        value.transactionTimestamp = try reader["transactionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
+        value.transactionTimestamp = try reader["transactionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.confirmationStatus = try reader["confirmationStatus"].readIfPresent()
         return value
     }
@@ -2444,8 +2445,8 @@ extension ManagedBlockchainQueryClientTypes.ValidationExceptionField {
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ManagedBlockchainQueryClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

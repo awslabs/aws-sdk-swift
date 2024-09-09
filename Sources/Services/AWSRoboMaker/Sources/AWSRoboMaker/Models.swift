@@ -2373,7 +2373,7 @@ public struct CreateSimulationJobInput {
         failureBehavior: RoboMakerClientTypes.FailureBehavior? = nil,
         iamRole: Swift.String? = nil,
         loggingConfig: RoboMakerClientTypes.LoggingConfig? = nil,
-        maxJobDurationInSeconds: Swift.Int? = nil,
+        maxJobDurationInSeconds: Swift.Int? = 0,
         outputLocation: RoboMakerClientTypes.OutputLocation? = nil,
         robotApplications: [RoboMakerClientTypes.RobotApplicationConfig]? = nil,
         simulationApplications: [RoboMakerClientTypes.SimulationApplicationConfig]? = nil,
@@ -7083,7 +7083,7 @@ extension ListSimulationJobsOutput {
         let reader = responseReader
         var value = ListSimulationJobsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.simulationJobSummaries = try reader["simulationJobSummaries"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.SimulationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.simulationJobSummaries = try reader["simulationJobSummaries"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.SimulationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7108,7 +7108,7 @@ extension ListWorldExportJobsOutput {
         let reader = responseReader
         var value = ListWorldExportJobsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.worldExportJobSummaries = try reader["worldExportJobSummaries"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.WorldExportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.worldExportJobSummaries = try reader["worldExportJobSummaries"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.WorldExportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7121,7 +7121,7 @@ extension ListWorldGenerationJobsOutput {
         let reader = responseReader
         var value = ListWorldGenerationJobsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.worldGenerationJobSummaries = try reader["worldGenerationJobSummaries"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.WorldGenerationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.worldGenerationJobSummaries = try reader["worldGenerationJobSummaries"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.WorldGenerationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8490,7 +8490,7 @@ extension RoboMakerClientTypes.SimulationApplicationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.SimulationApplicationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.SimulationApplicationConfig()
-        value.application = try reader["application"].readIfPresent()
+        value.application = try reader["application"].readIfPresent() ?? ""
         value.applicationVersion = try reader["applicationVersion"].readIfPresent()
         value.launchConfig = try reader["launchConfig"].readIfPresent(with: RoboMakerClientTypes.LaunchConfig.read(from:))
         value.uploadConfigurations = try reader["uploadConfigurations"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.UploadConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8517,8 +8517,8 @@ extension RoboMakerClientTypes.Tool {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.Tool()
         value.streamUI = try reader["streamUI"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.command = try reader["command"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.command = try reader["command"].readIfPresent() ?? ""
         value.streamOutputToCloudWatch = try reader["streamOutputToCloudWatch"].readIfPresent()
         value.exitBehavior = try reader["exitBehavior"].readIfPresent()
         return value
@@ -8552,9 +8552,9 @@ extension RoboMakerClientTypes.UploadConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.UploadConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.UploadConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.uploadBehavior = try reader["uploadBehavior"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.uploadBehavior = try reader["uploadBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8611,8 +8611,8 @@ extension RoboMakerClientTypes.PortMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.PortMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.PortMapping()
-        value.jobPort = try reader["jobPort"].readIfPresent()
-        value.applicationPort = try reader["applicationPort"].readIfPresent()
+        value.jobPort = try reader["jobPort"].readIfPresent() ?? 0
+        value.applicationPort = try reader["applicationPort"].readIfPresent() ?? 0
         value.enableOnPublicIp = try reader["enableOnPublicIp"].readIfPresent() ?? false
         return value
     }
@@ -8634,7 +8634,7 @@ extension RoboMakerClientTypes.RobotApplicationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.RobotApplicationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.RobotApplicationConfig()
-        value.application = try reader["application"].readIfPresent()
+        value.application = try reader["application"].readIfPresent() ?? ""
         value.applicationVersion = try reader["applicationVersion"].readIfPresent()
         value.launchConfig = try reader["launchConfig"].readIfPresent(with: RoboMakerClientTypes.LaunchConfig.read(from:))
         value.uploadConfigurations = try reader["uploadConfigurations"].readListIfPresent(memberReadingClosure: RoboMakerClientTypes.UploadConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8689,8 +8689,8 @@ extension RoboMakerClientTypes.DeploymentApplicationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.DeploymentApplicationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.DeploymentApplicationConfig()
-        value.application = try reader["application"].readIfPresent()
-        value.applicationVersion = try reader["applicationVersion"].readIfPresent()
+        value.application = try reader["application"].readIfPresent() ?? ""
+        value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? ""
         value.launchConfig = try reader["launchConfig"].readIfPresent(with: RoboMakerClientTypes.DeploymentLaunchConfig.read(from:))
         return value
     }
@@ -8710,9 +8710,9 @@ extension RoboMakerClientTypes.DeploymentLaunchConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.DeploymentLaunchConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.DeploymentLaunchConfig()
-        value.packageName = try reader["packageName"].readIfPresent()
+        value.packageName = try reader["packageName"].readIfPresent() ?? ""
         value.preLaunchFile = try reader["preLaunchFile"].readIfPresent()
-        value.launchFile = try reader["launchFile"].readIfPresent()
+        value.launchFile = try reader["launchFile"].readIfPresent() ?? ""
         value.postLaunchFile = try reader["postLaunchFile"].readIfPresent()
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -8752,8 +8752,8 @@ extension RoboMakerClientTypes.S3Object {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.S3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.S3Object()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
         value.etag = try reader["etag"].readIfPresent()
         return value
     }
@@ -9000,7 +9000,7 @@ extension RoboMakerClientTypes.VPCConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.VPCConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.VPCConfig()
-        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.assignPublicIp = try reader["assignPublicIp"].readIfPresent() ?? false
         return value
@@ -9021,9 +9021,9 @@ extension RoboMakerClientTypes.DataSourceConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> RoboMakerClientTypes.DataSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RoboMakerClientTypes.DataSourceConfig()
-        value.name = try reader["name"].readIfPresent()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
-        value.s3Keys = try reader["s3Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent() ?? ""
+        value.s3Keys = try reader["s3Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.type = try reader["type"].readIfPresent()
         value.destination = try reader["destination"].readIfPresent()
         return value

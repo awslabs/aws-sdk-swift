@@ -3935,8 +3935,8 @@ extension ChimeSDKIdentityClientTypes.LexConfiguration {
         var value = ChimeSDKIdentityClientTypes.LexConfiguration()
         value.respondsTo = try reader["RespondsTo"].readIfPresent()
         value.invokedBy = try reader["InvokedBy"].readIfPresent(with: ChimeSDKIdentityClientTypes.InvokedBy.read(from:))
-        value.lexBotAliasArn = try reader["LexBotAliasArn"].readIfPresent()
-        value.localeId = try reader["LocaleId"].readIfPresent()
+        value.lexBotAliasArn = try reader["LexBotAliasArn"].readIfPresent() ?? ""
+        value.localeId = try reader["LocaleId"].readIfPresent() ?? ""
         value.welcomeIntent = try reader["WelcomeIntent"].readIfPresent()
         return value
     }
@@ -3953,8 +3953,8 @@ extension ChimeSDKIdentityClientTypes.InvokedBy {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKIdentityClientTypes.InvokedBy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKIdentityClientTypes.InvokedBy()
-        value.standardMessages = try reader["StandardMessages"].readIfPresent()
-        value.targetedMessages = try reader["TargetedMessages"].readIfPresent()
+        value.standardMessages = try reader["StandardMessages"].readIfPresent() ?? .sdkUnknown("")
+        value.targetedMessages = try reader["TargetedMessages"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3985,8 +3985,8 @@ extension ChimeSDKIdentityClientTypes.ExpirationSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKIdentityClientTypes.ExpirationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKIdentityClientTypes.ExpirationSettings()
-        value.expirationDays = try reader["ExpirationDays"].readIfPresent()
-        value.expirationCriterion = try reader["ExpirationCriterion"].readIfPresent()
+        value.expirationDays = try reader["ExpirationDays"].readIfPresent() ?? 0
+        value.expirationCriterion = try reader["ExpirationCriterion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4015,7 +4015,7 @@ extension ChimeSDKIdentityClientTypes.EndpointState {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKIdentityClientTypes.EndpointState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKIdentityClientTypes.EndpointState()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["StatusReason"].readIfPresent()
         return value
     }
@@ -4032,7 +4032,7 @@ extension ChimeSDKIdentityClientTypes.EndpointAttributes {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKIdentityClientTypes.EndpointAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKIdentityClientTypes.EndpointAttributes()
-        value.deviceToken = try reader["DeviceToken"].readIfPresent()
+        value.deviceToken = try reader["DeviceToken"].readIfPresent() ?? ""
         value.voipDeviceToken = try reader["VoipDeviceToken"].readIfPresent()
         return value
     }
@@ -4140,8 +4140,8 @@ extension ChimeSDKIdentityClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKIdentityClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKIdentityClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

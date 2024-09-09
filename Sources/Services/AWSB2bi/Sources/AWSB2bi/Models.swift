@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct DeleteCapabilityOutput {
 
@@ -2847,13 +2848,13 @@ extension CreateCapabilityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateCapabilityOutput()
-        value.capabilityArn = try reader["capabilityArn"].readIfPresent()
-        value.capabilityId = try reader["capabilityId"].readIfPresent()
+        value.capabilityArn = try reader["capabilityArn"].readIfPresent() ?? ""
+        value.capabilityId = try reader["capabilityId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: B2biClientTypes.CapabilityConfiguration.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.instructionsDocuments = try reader["instructionsDocuments"].readListIfPresent(memberReadingClosure: B2biClientTypes.S3Location.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2866,13 +2867,13 @@ extension CreatePartnershipOutput {
         let reader = responseReader
         var value = CreatePartnershipOutput()
         value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.email = try reader["email"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.partnershipArn = try reader["partnershipArn"].readIfPresent()
-        value.partnershipId = try reader["partnershipId"].readIfPresent()
+        value.partnershipArn = try reader["partnershipArn"].readIfPresent() ?? ""
+        value.partnershipId = try reader["partnershipId"].readIfPresent() ?? ""
         value.phone = try reader["phone"].readIfPresent()
-        value.profileId = try reader["profileId"].readIfPresent()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         value.tradingPartnerId = try reader["tradingPartnerId"].readIfPresent()
         return value
     }
@@ -2885,15 +2886,15 @@ extension CreateProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProfileOutput()
-        value.businessName = try reader["businessName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.businessName = try reader["businessName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.email = try reader["email"].readIfPresent()
         value.logGroupName = try reader["logGroupName"].readIfPresent()
         value.logging = try reader["logging"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.phone = try reader["phone"].readIfPresent()
-        value.profileArn = try reader["profileArn"].readIfPresent()
-        value.profileId = try reader["profileId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.phone = try reader["phone"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2905,15 +2906,15 @@ extension CreateTransformerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTransformerOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent()
-        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.sampleDocument = try reader["sampleDocument"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.transformerArn = try reader["transformerArn"].readIfPresent()
-        value.transformerId = try reader["transformerId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.transformerArn = try reader["transformerArn"].readIfPresent() ?? ""
+        value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2953,14 +2954,14 @@ extension GetCapabilityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetCapabilityOutput()
-        value.capabilityArn = try reader["capabilityArn"].readIfPresent()
-        value.capabilityId = try reader["capabilityId"].readIfPresent()
+        value.capabilityArn = try reader["capabilityArn"].readIfPresent() ?? ""
+        value.capabilityId = try reader["capabilityId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: B2biClientTypes.CapabilityConfiguration.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.instructionsDocuments = try reader["instructionsDocuments"].readListIfPresent(memberReadingClosure: B2biClientTypes.S3Location.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2973,14 +2974,14 @@ extension GetPartnershipOutput {
         let reader = responseReader
         var value = GetPartnershipOutput()
         value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.email = try reader["email"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
-        value.partnershipArn = try reader["partnershipArn"].readIfPresent()
-        value.partnershipId = try reader["partnershipId"].readIfPresent()
+        value.partnershipArn = try reader["partnershipArn"].readIfPresent() ?? ""
+        value.partnershipId = try reader["partnershipId"].readIfPresent() ?? ""
         value.phone = try reader["phone"].readIfPresent()
-        value.profileId = try reader["profileId"].readIfPresent()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         value.tradingPartnerId = try reader["tradingPartnerId"].readIfPresent()
         return value
     }
@@ -2993,16 +2994,16 @@ extension GetProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetProfileOutput()
-        value.businessName = try reader["businessName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.businessName = try reader["businessName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.email = try reader["email"].readIfPresent()
         value.logGroupName = try reader["logGroupName"].readIfPresent()
         value.logging = try reader["logging"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
-        value.phone = try reader["phone"].readIfPresent()
-        value.profileArn = try reader["profileArn"].readIfPresent()
-        value.profileId = try reader["profileId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.phone = try reader["phone"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3014,16 +3015,16 @@ extension GetTransformerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetTransformerOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent()
-        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent()
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? ""
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.sampleDocument = try reader["sampleDocument"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.transformerArn = try reader["transformerArn"].readIfPresent()
-        value.transformerId = try reader["transformerId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.transformerArn = try reader["transformerArn"].readIfPresent() ?? ""
+        value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3037,7 +3038,7 @@ extension GetTransformerJobOutput {
         var value = GetTransformerJobOutput()
         value.message = try reader["message"].readIfPresent()
         value.outputFiles = try reader["outputFiles"].readListIfPresent(memberReadingClosure: B2biClientTypes.S3Location.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3049,7 +3050,7 @@ extension ListCapabilitiesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListCapabilitiesOutput()
-        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: B2biClientTypes.CapabilitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: B2biClientTypes.CapabilitySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3063,7 +3064,7 @@ extension ListPartnershipsOutput {
         let reader = responseReader
         var value = ListPartnershipsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.partnerships = try reader["partnerships"].readListIfPresent(memberReadingClosure: B2biClientTypes.PartnershipSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.partnerships = try reader["partnerships"].readListIfPresent(memberReadingClosure: B2biClientTypes.PartnershipSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3076,7 +3077,7 @@ extension ListProfilesOutput {
         let reader = responseReader
         var value = ListProfilesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.profiles = try reader["profiles"].readListIfPresent(memberReadingClosure: B2biClientTypes.ProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profiles = try reader["profiles"].readListIfPresent(memberReadingClosure: B2biClientTypes.ProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3101,7 +3102,7 @@ extension ListTransformersOutput {
         let reader = responseReader
         var value = ListTransformersOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.transformers = try reader["transformers"].readListIfPresent(memberReadingClosure: B2biClientTypes.TransformerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transformers = try reader["transformers"].readListIfPresent(memberReadingClosure: B2biClientTypes.TransformerSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3113,7 +3114,7 @@ extension StartTransformerJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartTransformerJobOutput()
-        value.transformerJobId = try reader["transformerJobId"].readIfPresent()
+        value.transformerJobId = try reader["transformerJobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3132,7 +3133,7 @@ extension TestMappingOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = TestMappingOutput()
-        value.mappedFileContent = try reader["mappedFileContent"].readIfPresent()
+        value.mappedFileContent = try reader["mappedFileContent"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3144,7 +3145,7 @@ extension TestParsingOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = TestParsingOutput()
-        value.parsedFileContent = try reader["parsedFileContent"].readIfPresent()
+        value.parsedFileContent = try reader["parsedFileContent"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3163,14 +3164,14 @@ extension UpdateCapabilityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateCapabilityOutput()
-        value.capabilityArn = try reader["capabilityArn"].readIfPresent()
-        value.capabilityId = try reader["capabilityId"].readIfPresent()
+        value.capabilityArn = try reader["capabilityArn"].readIfPresent() ?? ""
+        value.capabilityId = try reader["capabilityId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: B2biClientTypes.CapabilityConfiguration.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.instructionsDocuments = try reader["instructionsDocuments"].readListIfPresent(memberReadingClosure: B2biClientTypes.S3Location.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3183,14 +3184,14 @@ extension UpdatePartnershipOutput {
         let reader = responseReader
         var value = UpdatePartnershipOutput()
         value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.email = try reader["email"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
-        value.partnershipArn = try reader["partnershipArn"].readIfPresent()
-        value.partnershipId = try reader["partnershipId"].readIfPresent()
+        value.partnershipArn = try reader["partnershipArn"].readIfPresent() ?? ""
+        value.partnershipId = try reader["partnershipId"].readIfPresent() ?? ""
         value.phone = try reader["phone"].readIfPresent()
-        value.profileId = try reader["profileId"].readIfPresent()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         value.tradingPartnerId = try reader["tradingPartnerId"].readIfPresent()
         return value
     }
@@ -3203,16 +3204,16 @@ extension UpdateProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateProfileOutput()
-        value.businessName = try reader["businessName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.businessName = try reader["businessName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.email = try reader["email"].readIfPresent()
         value.logGroupName = try reader["logGroupName"].readIfPresent()
         value.logging = try reader["logging"].readIfPresent()
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
-        value.phone = try reader["phone"].readIfPresent()
-        value.profileArn = try reader["profileArn"].readIfPresent()
-        value.profileId = try reader["profileId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.phone = try reader["phone"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3224,16 +3225,16 @@ extension UpdateTransformerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateTransformerOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent()
-        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent()
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? ""
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.sampleDocument = try reader["sampleDocument"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.transformerArn = try reader["transformerArn"].readIfPresent()
-        value.transformerId = try reader["transformerId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.transformerArn = try reader["transformerArn"].readIfPresent() ?? ""
+        value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3742,11 +3743,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3763,7 +3764,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3776,7 +3777,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3789,7 +3790,7 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3806,7 +3807,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3819,7 +3820,7 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3832,7 +3833,7 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3880,7 +3881,7 @@ extension B2biClientTypes.EdiConfiguration {
         value.type = try reader["type"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
         value.inputLocation = try reader["inputLocation"].readIfPresent(with: B2biClientTypes.S3Location.read(from:))
         value.outputLocation = try reader["outputLocation"].readIfPresent(with: B2biClientTypes.S3Location.read(from:))
-        value.transformerId = try reader["transformerId"].readIfPresent()
+        value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3948,10 +3949,10 @@ extension B2biClientTypes.CapabilitySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.CapabilitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.CapabilitySummary()
-        value.capabilityId = try reader["capabilityId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.capabilityId = try reader["capabilityId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -3962,12 +3963,12 @@ extension B2biClientTypes.PartnershipSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.PartnershipSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.PartnershipSummary()
-        value.profileId = try reader["profileId"].readIfPresent()
-        value.partnershipId = try reader["partnershipId"].readIfPresent()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.partnershipId = try reader["partnershipId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.tradingPartnerId = try reader["tradingPartnerId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -3978,12 +3979,12 @@ extension B2biClientTypes.ProfileSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.ProfileSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.ProfileSummary()
-        value.profileId = try reader["profileId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.businessName = try reader["businessName"].readIfPresent()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.businessName = try reader["businessName"].readIfPresent() ?? ""
         value.logging = try reader["logging"].readIfPresent()
         value.logGroupName = try reader["logGroupName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -4000,8 +4001,8 @@ extension B2biClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4011,14 +4012,14 @@ extension B2biClientTypes.TransformerSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.TransformerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.TransformerSummary()
-        value.transformerId = try reader["transformerId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.fileFormat = try reader["fileFormat"].readIfPresent()
-        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        value.transformerId = try reader["transformerId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
         value.sampleDocument = try reader["sampleDocument"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }

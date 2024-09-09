@@ -1142,13 +1142,13 @@ public struct CreateProfileJobInput {
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         jobSample: DataBrewClientTypes.JobSample? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int? = nil,
-        maxRetries: Swift.Int? = nil,
+        maxCapacity: Swift.Int? = 0,
+        maxRetries: Swift.Int? = 0,
         name: Swift.String? = nil,
         outputLocation: DataBrewClientTypes.S3Location? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        timeout: Swift.Int? = nil,
+        timeout: Swift.Int? = 0,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
     )
     {
@@ -1779,15 +1779,15 @@ public struct CreateRecipeJobInput {
         encryptionKeyArn: Swift.String? = nil,
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int? = nil,
-        maxRetries: Swift.Int? = nil,
+        maxCapacity: Swift.Int? = 0,
+        maxRetries: Swift.Int? = 0,
         name: Swift.String? = nil,
         outputs: [DataBrewClientTypes.Output]? = nil,
         projectName: Swift.String? = nil,
         recipeReference: DataBrewClientTypes.RecipeReference? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        timeout: Swift.Int? = nil
+        timeout: Swift.Int? = 0
     )
     {
         self.dataCatalogOutputs = dataCatalogOutputs
@@ -3860,7 +3860,7 @@ public struct SendProjectSessionActionInput {
     public init(
         clientSessionId: Swift.String? = nil,
         name: Swift.String? = nil,
-        preview: Swift.Bool? = nil,
+        preview: Swift.Bool? = false,
         recipeStep: DataBrewClientTypes.RecipeStep? = nil,
         stepIndex: Swift.Int? = nil,
         viewFrame: DataBrewClientTypes.ViewFrame? = nil
@@ -3935,7 +3935,7 @@ public struct StartProjectSessionInput {
     public var name: Swift.String?
 
     public init(
-        assumeControl: Swift.Bool? = nil,
+        assumeControl: Swift.Bool? = false,
         name: Swift.String? = nil
     )
     {
@@ -4125,12 +4125,12 @@ public struct UpdateProfileJobInput {
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         jobSample: DataBrewClientTypes.JobSample? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int? = nil,
-        maxRetries: Swift.Int? = nil,
+        maxCapacity: Swift.Int? = 0,
+        maxRetries: Swift.Int? = 0,
         name: Swift.String? = nil,
         outputLocation: DataBrewClientTypes.S3Location? = nil,
         roleArn: Swift.String? = nil,
-        timeout: Swift.Int? = nil,
+        timeout: Swift.Int? = 0,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
     )
     {
@@ -4271,12 +4271,12 @@ public struct UpdateRecipeJobInput {
         encryptionKeyArn: Swift.String? = nil,
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int? = nil,
-        maxRetries: Swift.Int? = nil,
+        maxCapacity: Swift.Int? = 0,
+        maxRetries: Swift.Int? = 0,
         name: Swift.String? = nil,
         outputs: [DataBrewClientTypes.Output]? = nil,
         roleArn: Swift.String? = nil,
-        timeout: Swift.Int? = nil
+        timeout: Swift.Int? = 0
     )
     {
         self.dataCatalogOutputs = dataCatalogOutputs
@@ -5202,7 +5202,7 @@ extension BatchDeleteRecipeVersionOutput {
         let reader = responseReader
         var value = BatchDeleteRecipeVersionOutput()
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.RecipeVersionErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5214,7 +5214,7 @@ extension CreateDatasetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateDatasetOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5226,7 +5226,7 @@ extension CreateProfileJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProfileJobOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5238,7 +5238,7 @@ extension CreateProjectOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProjectOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5250,7 +5250,7 @@ extension CreateRecipeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRecipeOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5262,7 +5262,7 @@ extension CreateRecipeJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRecipeJobOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5274,7 +5274,7 @@ extension CreateRulesetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRulesetOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5286,7 +5286,7 @@ extension CreateScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateScheduleOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5298,7 +5298,7 @@ extension DeleteDatasetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDatasetOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5310,7 +5310,7 @@ extension DeleteJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteJobOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5322,7 +5322,7 @@ extension DeleteProjectOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteProjectOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5334,8 +5334,8 @@ extension DeleteRecipeVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteRecipeVersionOutput()
-        value.name = try reader["Name"].readIfPresent()
-        value.recipeVersion = try reader["RecipeVersion"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.recipeVersion = try reader["RecipeVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5347,7 +5347,7 @@ extension DeleteRulesetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteRulesetOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5359,7 +5359,7 @@ extension DeleteScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteScheduleOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5378,7 +5378,7 @@ extension DescribeDatasetOutput {
         value.input = try reader["Input"].readIfPresent(with: DataBrewClientTypes.Input.read(from:))
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.pathOptions = try reader["PathOptions"].readIfPresent(with: DataBrewClientTypes.PathOptions.read(from:))
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.source = try reader["Source"].readIfPresent()
@@ -5407,7 +5407,7 @@ extension DescribeJobOutput {
         value.logSubscription = try reader["LogSubscription"].readIfPresent()
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent() ?? 0
         value.maxRetries = try reader["MaxRetries"].readIfPresent() ?? 0
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.profileConfiguration = try reader["ProfileConfiguration"].readIfPresent(with: DataBrewClientTypes.ProfileConfiguration.read(from:))
         value.projectName = try reader["ProjectName"].readIfPresent()
@@ -5436,7 +5436,7 @@ extension DescribeJobRunOutput {
         value.datasetName = try reader["DatasetName"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
-        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
         value.jobSample = try reader["JobSample"].readIfPresent(with: DataBrewClientTypes.JobSample.read(from:))
         value.logGroupName = try reader["LogGroupName"].readIfPresent()
         value.logSubscription = try reader["LogSubscription"].readIfPresent()
@@ -5464,7 +5464,7 @@ extension DescribeProjectOutput {
         value.datasetName = try reader["DatasetName"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.openDate = try reader["OpenDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.openedBy = try reader["OpenedBy"].readIfPresent()
         value.recipeName = try reader["RecipeName"].readIfPresent()
@@ -5489,7 +5489,7 @@ extension DescribeRecipeOutput {
         value.description = try reader["Description"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.projectName = try reader["ProjectName"].readIfPresent()
         value.publishedBy = try reader["PublishedBy"].readIfPresent()
         value.publishedDate = try reader["PublishedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5513,7 +5513,7 @@ extension DescribeRulesetOutput {
         value.description = try reader["Description"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5535,7 +5535,7 @@ extension DescribeScheduleOutput {
         value.jobNames = try reader["JobNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -5549,7 +5549,7 @@ extension ListDatasetsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListDatasetsOutput()
-        value.datasets = try reader["Datasets"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Dataset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.datasets = try reader["Datasets"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Dataset.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5562,7 +5562,7 @@ extension ListJobRunsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListJobRunsOutput()
-        value.jobRuns = try reader["JobRuns"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.JobRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobRuns = try reader["JobRuns"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.JobRun.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5575,7 +5575,7 @@ extension ListJobsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListJobsOutput()
-        value.jobs = try reader["Jobs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Job.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobs = try reader["Jobs"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Job.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5589,7 +5589,7 @@ extension ListProjectsOutput {
         let reader = responseReader
         var value = ListProjectsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.projects = try reader["Projects"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Project.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projects = try reader["Projects"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Project.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5602,7 +5602,7 @@ extension ListRecipesOutput {
         let reader = responseReader
         var value = ListRecipesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.recipes = try reader["Recipes"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Recipe.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recipes = try reader["Recipes"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Recipe.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5615,7 +5615,7 @@ extension ListRecipeVersionsOutput {
         let reader = responseReader
         var value = ListRecipeVersionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.recipes = try reader["Recipes"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Recipe.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recipes = try reader["Recipes"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Recipe.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5628,7 +5628,7 @@ extension ListRulesetsOutput {
         let reader = responseReader
         var value = ListRulesetsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.rulesets = try reader["Rulesets"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.RulesetItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rulesets = try reader["Rulesets"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.RulesetItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5641,7 +5641,7 @@ extension ListSchedulesOutput {
         let reader = responseReader
         var value = ListSchedulesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
-        value.schedules = try reader["Schedules"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Schedule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schedules = try reader["Schedules"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.Schedule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5665,7 +5665,7 @@ extension PublishRecipeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PublishRecipeOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5678,7 +5678,7 @@ extension SendProjectSessionActionOutput {
         let reader = responseReader
         var value = SendProjectSessionActionOutput()
         value.actionId = try reader["ActionId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.result = try reader["Result"].readIfPresent()
         return value
     }
@@ -5691,7 +5691,7 @@ extension StartJobRunOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartJobRunOutput()
-        value.runId = try reader["RunId"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5704,7 +5704,7 @@ extension StartProjectSessionOutput {
         let reader = responseReader
         var value = StartProjectSessionOutput()
         value.clientSessionId = try reader["ClientSessionId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5716,7 +5716,7 @@ extension StopJobRunOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StopJobRunOutput()
-        value.runId = try reader["RunId"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5742,7 +5742,7 @@ extension UpdateDatasetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateDatasetOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5754,7 +5754,7 @@ extension UpdateProfileJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateProfileJobOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5767,7 +5767,7 @@ extension UpdateProjectOutput {
         let reader = responseReader
         var value = UpdateProjectOutput()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5779,7 +5779,7 @@ extension UpdateRecipeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateRecipeOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5791,7 +5791,7 @@ extension UpdateRecipeJobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateRecipeJobOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5803,7 +5803,7 @@ extension UpdateRulesetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateRulesetOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5815,7 +5815,7 @@ extension UpdateScheduleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateScheduleOutput()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6715,7 +6715,7 @@ extension DataBrewClientTypes.DatabaseInputDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatabaseInputDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.DatabaseInputDefinition()
-        value.glueConnectionName = try reader["GlueConnectionName"].readIfPresent()
+        value.glueConnectionName = try reader["GlueConnectionName"].readIfPresent() ?? ""
         value.databaseTableName = try reader["DatabaseTableName"].readIfPresent()
         value.tempDirectory = try reader["TempDirectory"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
         value.queryString = try reader["QueryString"].readIfPresent()
@@ -6735,7 +6735,7 @@ extension DataBrewClientTypes.S3Location {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.S3Location()
-        value.bucket = try reader["Bucket"].readIfPresent()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.key = try reader["Key"].readIfPresent()
         value.bucketOwner = try reader["BucketOwner"].readIfPresent()
         return value
@@ -6756,8 +6756,8 @@ extension DataBrewClientTypes.DataCatalogInputDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.DataCatalogInputDefinition()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
         value.tempDirectory = try reader["TempDirectory"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
         return value
     }
@@ -6796,8 +6796,8 @@ extension DataBrewClientTypes.DatasetParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatasetParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.DatasetParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.datetimeOptions = try reader["DatetimeOptions"].readIfPresent(with: DataBrewClientTypes.DatetimeOptions.read(from:))
         value.createColumn = try reader["CreateColumn"].readIfPresent() ?? false
         value.filter = try reader["Filter"].readIfPresent(with: DataBrewClientTypes.FilterExpression.read(from:))
@@ -6816,8 +6816,8 @@ extension DataBrewClientTypes.FilterExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.FilterExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.FilterExpression()
-        value.expression = try reader["Expression"].readIfPresent()
-        value.valuesMap = try reader["ValuesMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        value.valuesMap = try reader["ValuesMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -6834,7 +6834,7 @@ extension DataBrewClientTypes.DatetimeOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatetimeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.DatetimeOptions()
-        value.format = try reader["Format"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent() ?? ""
         value.timezoneOffset = try reader["TimezoneOffset"].readIfPresent()
         value.localeCode = try reader["LocaleCode"].readIfPresent()
         return value
@@ -6853,7 +6853,7 @@ extension DataBrewClientTypes.FilesLimit {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.FilesLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.FilesLimit()
-        value.maxFiles = try reader["MaxFiles"].readIfPresent()
+        value.maxFiles = try reader["MaxFiles"].readIfPresent() ?? 0
         value.orderedBy = try reader["OrderedBy"].readIfPresent()
         value.order = try reader["Order"].readIfPresent()
         return value
@@ -6933,8 +6933,8 @@ extension DataBrewClientTypes.DataCatalogOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.DataCatalogOutput()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
         value.s3Options = try reader["S3Options"].readIfPresent(with: DataBrewClientTypes.S3TableOutputOptions.read(from:))
         value.databaseOptions = try reader["DatabaseOptions"].readIfPresent(with: DataBrewClientTypes.DatabaseTableOutputOptions.read(from:))
         value.overwrite = try reader["Overwrite"].readIfPresent() ?? false
@@ -6954,7 +6954,7 @@ extension DataBrewClientTypes.DatabaseTableOutputOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.DatabaseTableOutputOptions()
         value.tempDirectory = try reader["TempDirectory"].readIfPresent(with: DataBrewClientTypes.S3Location.read(from:))
-        value.tableName = try reader["TableName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6986,7 +6986,7 @@ extension DataBrewClientTypes.DatabaseOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.DatabaseOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.DatabaseOutput()
-        value.glueConnectionName = try reader["GlueConnectionName"].readIfPresent()
+        value.glueConnectionName = try reader["GlueConnectionName"].readIfPresent() ?? ""
         value.databaseOptions = try reader["DatabaseOptions"].readIfPresent(with: DataBrewClientTypes.DatabaseTableOutputOptions.read(from:))
         value.databaseOutputMode = try reader["DatabaseOutputMode"].readIfPresent()
         return value
@@ -7025,7 +7025,7 @@ extension DataBrewClientTypes.EntityDetectorConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.EntityDetectorConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.EntityDetectorConfiguration()
-        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entityTypes = try reader["EntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowedStatistics = try reader["AllowedStatistics"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.AllowedStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7041,7 +7041,7 @@ extension DataBrewClientTypes.AllowedStatistics {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.AllowedStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.AllowedStatistics()
-        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7091,8 +7091,8 @@ extension DataBrewClientTypes.StatisticOverride {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.StatisticOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.StatisticOverride()
-        value.statistic = try reader["Statistic"].readIfPresent()
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.statistic = try reader["Statistic"].readIfPresent() ?? ""
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -7125,7 +7125,7 @@ extension DataBrewClientTypes.ValidationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ValidationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.ValidationConfiguration()
-        value.rulesetArn = try reader["RulesetArn"].readIfPresent()
+        value.rulesetArn = try reader["RulesetArn"].readIfPresent() ?? ""
         value.validationMode = try reader["ValidationMode"].readIfPresent()
         return value
     }
@@ -7142,7 +7142,7 @@ extension DataBrewClientTypes.RecipeReference {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.RecipeReference()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.recipeVersion = try reader["RecipeVersion"].readIfPresent()
         return value
     }
@@ -7177,7 +7177,7 @@ extension DataBrewClientTypes.Sample {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.Sample()
         value.size = try reader["Size"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7211,9 +7211,9 @@ extension DataBrewClientTypes.ConditionExpression {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.ConditionExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.ConditionExpression()
-        value.condition = try reader["Condition"].readIfPresent()
+        value.condition = try reader["Condition"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
-        value.targetColumn = try reader["TargetColumn"].readIfPresent()
+        value.targetColumn = try reader["TargetColumn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7229,7 +7229,7 @@ extension DataBrewClientTypes.RecipeAction {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.RecipeAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.RecipeAction()
-        value.operation = try reader["Operation"].readIfPresent()
+        value.operation = try reader["Operation"].readIfPresent() ?? ""
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -7250,9 +7250,9 @@ extension DataBrewClientTypes.Rule {
     static func read(from reader: SmithyJSON.Reader) throws -> DataBrewClientTypes.Rule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataBrewClientTypes.Rule()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.disabled = try reader["Disabled"].readIfPresent() ?? false
-        value.checkExpression = try reader["CheckExpression"].readIfPresent()
+        value.checkExpression = try reader["CheckExpression"].readIfPresent() ?? ""
         value.substitutionMap = try reader["SubstitutionMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.threshold = try reader["Threshold"].readIfPresent(with: DataBrewClientTypes.Threshold.read(from:))
         value.columnSelectors = try reader["ColumnSelectors"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.ColumnSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7287,7 +7287,7 @@ extension DataBrewClientTypes.Dataset {
         value.accountId = try reader["AccountId"].readIfPresent()
         value.createdBy = try reader["CreatedBy"].readIfPresent()
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.format = try reader["Format"].readIfPresent()
         value.formatOptions = try reader["FormatOptions"].readIfPresent(with: DataBrewClientTypes.FormatOptions.read(from:))
         value.input = try reader["Input"].readIfPresent(with: DataBrewClientTypes.Input.read(from:))
@@ -7339,7 +7339,7 @@ extension DataBrewClientTypes.Job {
         value.datasetName = try reader["DatasetName"].readIfPresent()
         value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
         value.encryptionMode = try reader["EncryptionMode"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -7372,8 +7372,8 @@ extension DataBrewClientTypes.Project {
         value.datasetName = try reader["DatasetName"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.recipeName = try reader["RecipeName"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.recipeName = try reader["RecipeName"].readIfPresent() ?? ""
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.sample = try reader["Sample"].readIfPresent(with: DataBrewClientTypes.Sample.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7397,7 +7397,7 @@ extension DataBrewClientTypes.Recipe {
         value.publishedBy = try reader["PublishedBy"].readIfPresent()
         value.publishedDate = try reader["PublishedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: DataBrewClientTypes.RecipeStep.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7417,11 +7417,11 @@ extension DataBrewClientTypes.RulesetItem {
         value.description = try reader["Description"].readIfPresent()
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.ruleCount = try reader["RuleCount"].readIfPresent() ?? 0
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.targetArn = try reader["TargetArn"].readIfPresent()
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7440,7 +7440,7 @@ extension DataBrewClientTypes.Schedule {
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.cronExpression = try reader["CronExpression"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }

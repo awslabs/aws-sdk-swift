@@ -3339,7 +3339,7 @@ extension ListChannelsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListChannelsOutput()
-        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: IvsClientTypes.ChannelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: IvsClientTypes.ChannelSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3352,7 +3352,7 @@ extension ListPlaybackKeyPairsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListPlaybackKeyPairsOutput()
-        value.keyPairs = try reader["keyPairs"].readListIfPresent(memberReadingClosure: IvsClientTypes.PlaybackKeyPairSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keyPairs = try reader["keyPairs"].readListIfPresent(memberReadingClosure: IvsClientTypes.PlaybackKeyPairSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3366,7 +3366,7 @@ extension ListPlaybackRestrictionPoliciesOutput {
         let reader = responseReader
         var value = ListPlaybackRestrictionPoliciesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.playbackRestrictionPolicies = try reader["playbackRestrictionPolicies"].readListIfPresent(memberReadingClosure: IvsClientTypes.PlaybackRestrictionPolicySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.playbackRestrictionPolicies = try reader["playbackRestrictionPolicies"].readListIfPresent(memberReadingClosure: IvsClientTypes.PlaybackRestrictionPolicySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3379,7 +3379,7 @@ extension ListRecordingConfigurationsOutput {
         let reader = responseReader
         var value = ListRecordingConfigurationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.recordingConfigurations = try reader["recordingConfigurations"].readListIfPresent(memberReadingClosure: IvsClientTypes.RecordingConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordingConfigurations = try reader["recordingConfigurations"].readListIfPresent(memberReadingClosure: IvsClientTypes.RecordingConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3392,7 +3392,7 @@ extension ListStreamKeysOutput {
         let reader = responseReader
         var value = ListStreamKeysOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.streamKeys = try reader["streamKeys"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamKeySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamKeys = try reader["streamKeys"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamKeySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3405,7 +3405,7 @@ extension ListStreamsOutput {
         let reader = responseReader
         var value = ListStreamsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3418,7 +3418,7 @@ extension ListStreamSessionsOutput {
         let reader = responseReader
         var value = ListStreamSessionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.streamSessions = try reader["streamSessions"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamSessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamSessions = try reader["streamSessions"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamSessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3430,7 +3430,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -4274,8 +4274,8 @@ extension IvsClientTypes.BatchStartViewerSessionRevocationError {
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.BatchStartViewerSessionRevocationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.BatchStartViewerSessionRevocationError()
-        value.channelArn = try reader["channelArn"].readIfPresent()
-        value.viewerId = try reader["viewerId"].readIfPresent()
+        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
+        value.viewerId = try reader["viewerId"].readIfPresent() ?? ""
         value.code = try reader["code"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         return value
@@ -4287,9 +4287,9 @@ extension IvsClientTypes.PlaybackRestrictionPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.PlaybackRestrictionPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.PlaybackRestrictionPolicy()
-        value.arn = try reader["arn"].readIfPresent()
-        value.allowedCountries = try reader["allowedCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedOrigins = try reader["allowedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.allowedCountries = try reader["allowedCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedOrigins = try reader["allowedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.enableStrictOriginEnforcement = try reader["enableStrictOriginEnforcement"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4302,10 +4302,10 @@ extension IvsClientTypes.RecordingConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.RecordingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.RecordingConfiguration()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.destinationConfiguration = try reader["destinationConfiguration"].readIfPresent(with: IvsClientTypes.DestinationConfiguration.read(from:))
-        value.state = try reader["state"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: IvsClientTypes.ThumbnailConfiguration.read(from:))
         value.recordingReconnectWindowSeconds = try reader["recordingReconnectWindowSeconds"].readIfPresent() ?? 0
@@ -4377,7 +4377,7 @@ extension IvsClientTypes.S3DestinationConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.S3DestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.S3DestinationConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4516,9 +4516,9 @@ extension IvsClientTypes.PlaybackRestrictionPolicySummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.PlaybackRestrictionPolicySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.PlaybackRestrictionPolicySummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.allowedCountries = try reader["allowedCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedOrigins = try reader["allowedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.allowedCountries = try reader["allowedCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedOrigins = try reader["allowedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.enableStrictOriginEnforcement = try reader["enableStrictOriginEnforcement"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4531,10 +4531,10 @@ extension IvsClientTypes.RecordingConfigurationSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.RecordingConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.RecordingConfigurationSummary()
-        value.arn = try reader["arn"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.destinationConfiguration = try reader["destinationConfiguration"].readIfPresent(with: IvsClientTypes.DestinationConfiguration.read(from:))
-        value.state = try reader["state"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }

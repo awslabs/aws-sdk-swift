@@ -108,7 +108,7 @@ public struct GetActionRecommendationsInput {
         campaignArn: Swift.String? = nil,
         filterArn: Swift.String? = nil,
         filterValues: [Swift.String: Swift.String]? = nil,
-        numResults: Swift.Int? = nil,
+        numResults: Swift.Int? = 0,
         userId: Swift.String? = nil
     )
     {
@@ -306,7 +306,7 @@ public struct GetRecommendationsInput {
         filterValues: [Swift.String: Swift.String]? = nil,
         itemId: Swift.String? = nil,
         metadataColumns: [Swift.String: [Swift.String]]? = nil,
-        numResults: Swift.Int? = nil,
+        numResults: Swift.Int? = 0,
         promotions: [PersonalizeRuntimeClientTypes.Promotion]? = nil,
         recommenderArn: Swift.String? = nil,
         userId: Swift.String? = nil

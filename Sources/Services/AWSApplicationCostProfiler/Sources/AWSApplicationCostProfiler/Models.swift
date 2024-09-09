@@ -23,6 +23,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have permission to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -674,13 +675,13 @@ extension GetReportDefinitionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetReportDefinitionOutput()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.destinationS3Location = try reader["destinationS3Location"].readIfPresent(with: ApplicationCostProfilerClientTypes.S3Location.read(from:))
-        value.format = try reader["format"].readIfPresent()
-        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.reportDescription = try reader["reportDescription"].readIfPresent()
-        value.reportFrequency = try reader["reportFrequency"].readIfPresent()
-        value.reportId = try reader["reportId"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reportDescription = try reader["reportDescription"].readIfPresent() ?? ""
+        value.reportFrequency = try reader["reportFrequency"].readIfPresent() ?? .sdkUnknown("")
+        value.reportId = try reader["reportId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -692,7 +693,7 @@ extension ImportApplicationUsageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ImportApplicationUsageOutput()
-        value.importId = try reader["importId"].readIfPresent()
+        value.importId = try reader["importId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -913,8 +914,8 @@ extension ApplicationCostProfilerClientTypes.S3Location {
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationCostProfilerClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApplicationCostProfilerClientTypes.S3Location()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
         return value
     }
 }

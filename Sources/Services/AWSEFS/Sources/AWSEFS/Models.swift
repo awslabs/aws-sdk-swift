@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public struct CreateTagsOutput {
 
@@ -2853,7 +2854,7 @@ public struct PutFileSystemPolicyInput {
     public var policy: Swift.String?
 
     public init(
-        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = false,
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
     )
@@ -3768,21 +3769,21 @@ extension CreateFileSystemOutput {
         var value = CreateFileSystemOutput()
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.availabilityZoneName = try reader["AvailabilityZoneName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationToken = try reader["CreationToken"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.creationToken = try reader["CreationToken"].readIfPresent() ?? ""
         value.encrypted = try reader["Encrypted"].readIfPresent()
         value.fileSystemArn = try reader["FileSystemArn"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.fileSystemProtection = try reader["FileSystemProtection"].readIfPresent(with: EFSClientTypes.FileSystemProtectionDescription.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent()
+        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent() ?? .sdkUnknown("")
         value.name = try reader["Name"].readIfPresent()
         value.numberOfMountTargets = try reader["NumberOfMountTargets"].readIfPresent() ?? 0
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.performanceMode = try reader["PerformanceMode"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent() ?? ""
+        value.performanceMode = try reader["PerformanceMode"].readIfPresent() ?? .sdkUnknown("")
         value.provisionedThroughputInMibps = try reader["ProvisionedThroughputInMibps"].readIfPresent()
         value.sizeInBytes = try reader["SizeInBytes"].readIfPresent(with: EFSClientTypes.FileSystemSize.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.throughputMode = try reader["ThroughputMode"].readIfPresent()
         return value
     }
@@ -3797,13 +3798,13 @@ extension CreateMountTargetOutput {
         var value = CreateMountTargetOutput()
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.availabilityZoneName = try reader["AvailabilityZoneName"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent()
-        value.mountTargetId = try reader["MountTargetId"].readIfPresent()
+        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent() ?? .sdkUnknown("")
+        value.mountTargetId = try reader["MountTargetId"].readIfPresent() ?? ""
         value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
         value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent() ?? ""
         value.vpcId = try reader["VpcId"].readIfPresent()
         return value
     }
@@ -3816,12 +3817,12 @@ extension CreateReplicationConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateReplicationConfigurationOutput()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: EFSClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.originalSourceFileSystemArn = try reader["OriginalSourceFileSystemArn"].readIfPresent()
-        value.sourceFileSystemArn = try reader["SourceFileSystemArn"].readIfPresent()
-        value.sourceFileSystemId = try reader["SourceFileSystemId"].readIfPresent()
-        value.sourceFileSystemRegion = try reader["SourceFileSystemRegion"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: EFSClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.originalSourceFileSystemArn = try reader["OriginalSourceFileSystemArn"].readIfPresent() ?? ""
+        value.sourceFileSystemArn = try reader["SourceFileSystemArn"].readIfPresent() ?? ""
+        value.sourceFileSystemId = try reader["SourceFileSystemId"].readIfPresent() ?? ""
+        value.sourceFileSystemRegion = try reader["SourceFileSystemRegion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3973,7 +3974,7 @@ extension DescribeMountTargetSecurityGroupsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeMountTargetSecurityGroupsOutput()
-        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4000,7 +4001,7 @@ extension DescribeTagsOutput {
         var value = DescribeTagsOutput()
         value.marker = try reader["Marker"].readIfPresent()
         value.nextMarker = try reader["NextMarker"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4097,21 +4098,21 @@ extension UpdateFileSystemOutput {
         var value = UpdateFileSystemOutput()
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.availabilityZoneName = try reader["AvailabilityZoneName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationToken = try reader["CreationToken"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.creationToken = try reader["CreationToken"].readIfPresent() ?? ""
         value.encrypted = try reader["Encrypted"].readIfPresent()
         value.fileSystemArn = try reader["FileSystemArn"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.fileSystemProtection = try reader["FileSystemProtection"].readIfPresent(with: EFSClientTypes.FileSystemProtectionDescription.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent()
+        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent() ?? .sdkUnknown("")
         value.name = try reader["Name"].readIfPresent()
         value.numberOfMountTargets = try reader["NumberOfMountTargets"].readIfPresent() ?? 0
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.performanceMode = try reader["PerformanceMode"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent() ?? ""
+        value.performanceMode = try reader["PerformanceMode"].readIfPresent() ?? .sdkUnknown("")
         value.provisionedThroughputInMibps = try reader["ProvisionedThroughputInMibps"].readIfPresent()
         value.sizeInBytes = try reader["SizeInBytes"].readIfPresent(with: EFSClientTypes.FileSystemSize.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.throughputMode = try reader["ThroughputMode"].readIfPresent()
         return value
     }
@@ -4686,7 +4687,7 @@ extension FileSystemNotFound {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemNotFound {
         let reader = baseError.errorBodyReader
         var value = FileSystemNotFound()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4700,7 +4701,7 @@ extension BadRequest {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequest {
         let reader = baseError.errorBodyReader
         var value = BadRequest()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4714,8 +4715,8 @@ extension AccessPointAlreadyExists {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = AccessPointAlreadyExists()
-        value.properties.accessPointId = try reader["AccessPointId"].readIfPresent()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.accessPointId = try reader["AccessPointId"].readIfPresent() ?? ""
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4729,7 +4730,7 @@ extension IncorrectFileSystemLifeCycleState {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IncorrectFileSystemLifeCycleState {
         let reader = baseError.errorBodyReader
         var value = IncorrectFileSystemLifeCycleState()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4743,7 +4744,7 @@ extension InternalServerError {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4771,7 +4772,7 @@ extension AccessPointLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = AccessPointLimitExceeded()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4785,7 +4786,7 @@ extension InsufficientThroughputCapacity {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InsufficientThroughputCapacity {
         let reader = baseError.errorBodyReader
         var value = InsufficientThroughputCapacity()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4799,8 +4800,8 @@ extension FileSystemAlreadyExists {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = FileSystemAlreadyExists()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4814,7 +4815,7 @@ extension FileSystemLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = FileSystemLimitExceeded()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4828,7 +4829,7 @@ extension ThroughputLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThroughputLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ThroughputLimitExceeded()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4842,7 +4843,7 @@ extension UnsupportedAvailabilityZone {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedAvailabilityZone {
         let reader = baseError.errorBodyReader
         var value = UnsupportedAvailabilityZone()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4870,7 +4871,7 @@ extension NoFreeAddressesInSubnet {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoFreeAddressesInSubnet {
         let reader = baseError.errorBodyReader
         var value = NoFreeAddressesInSubnet()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4884,7 +4885,7 @@ extension IpAddressInUse {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IpAddressInUse {
         let reader = baseError.errorBodyReader
         var value = IpAddressInUse()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4898,7 +4899,7 @@ extension SecurityGroupLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecurityGroupLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = SecurityGroupLimitExceeded()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4912,7 +4913,7 @@ extension MountTargetConflict {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MountTargetConflict {
         let reader = baseError.errorBodyReader
         var value = MountTargetConflict()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4926,7 +4927,7 @@ extension NetworkInterfaceLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NetworkInterfaceLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = NetworkInterfaceLimitExceeded()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4940,7 +4941,7 @@ extension SecurityGroupNotFound {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecurityGroupNotFound {
         let reader = baseError.errorBodyReader
         var value = SecurityGroupNotFound()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4954,7 +4955,7 @@ extension SubnetNotFound {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SubnetNotFound {
         let reader = baseError.errorBodyReader
         var value = SubnetNotFound()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4982,7 +4983,7 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5010,7 +5011,7 @@ extension AccessPointNotFound {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointNotFound {
         let reader = baseError.errorBodyReader
         var value = AccessPointNotFound()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5024,7 +5025,7 @@ extension FileSystemInUse {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemInUse {
         let reader = baseError.errorBodyReader
         var value = FileSystemInUse()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5038,7 +5039,7 @@ extension MountTargetNotFound {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MountTargetNotFound {
         let reader = baseError.errorBodyReader
         var value = MountTargetNotFound()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5052,7 +5053,7 @@ extension DependencyTimeout {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyTimeout {
         let reader = baseError.errorBodyReader
         var value = DependencyTimeout()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5080,7 +5081,7 @@ extension IncorrectMountTargetState {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IncorrectMountTargetState {
         let reader = baseError.errorBodyReader
         var value = IncorrectMountTargetState()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5108,7 +5109,7 @@ extension TooManyRequests {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequests {
         let reader = baseError.errorBodyReader
         var value = TooManyRequests()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5142,8 +5143,8 @@ extension EFSClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5160,8 +5161,8 @@ extension EFSClientTypes.PosixUser {
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.PosixUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.PosixUser()
-        value.uid = try reader["Uid"].readIfPresent()
-        value.gid = try reader["Gid"].readIfPresent()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
         value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -5196,9 +5197,9 @@ extension EFSClientTypes.CreationInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.CreationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.CreationInfo()
-        value.ownerUid = try reader["OwnerUid"].readIfPresent()
-        value.ownerGid = try reader["OwnerGid"].readIfPresent()
-        value.permissions = try reader["Permissions"].readIfPresent()
+        value.ownerUid = try reader["OwnerUid"].readIfPresent() ?? 0
+        value.ownerGid = try reader["OwnerGid"].readIfPresent() ?? 0
+        value.permissions = try reader["Permissions"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5232,9 +5233,9 @@ extension EFSClientTypes.Destination {
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.Destination()
-        value.status = try reader["Status"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
         value.lastReplicatedTimestamp = try reader["LastReplicatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -5280,7 +5281,7 @@ extension EFSClientTypes.BackupPolicy {
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.BackupPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.BackupPolicy()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5290,23 +5291,23 @@ extension EFSClientTypes.FileSystemDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.FileSystemDescription()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.creationToken = try reader["CreationToken"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent() ?? ""
+        value.creationToken = try reader["CreationToken"].readIfPresent() ?? ""
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.fileSystemArn = try reader["FileSystemArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent() ?? .sdkUnknown("")
         value.name = try reader["Name"].readIfPresent()
         value.numberOfMountTargets = try reader["NumberOfMountTargets"].readIfPresent() ?? 0
         value.sizeInBytes = try reader["SizeInBytes"].readIfPresent(with: EFSClientTypes.FileSystemSize.read(from:))
-        value.performanceMode = try reader["PerformanceMode"].readIfPresent()
+        value.performanceMode = try reader["PerformanceMode"].readIfPresent() ?? .sdkUnknown("")
         value.encrypted = try reader["Encrypted"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.throughputMode = try reader["ThroughputMode"].readIfPresent()
         value.provisionedThroughputInMibps = try reader["ProvisionedThroughputInMibps"].readIfPresent()
         value.availabilityZoneName = try reader["AvailabilityZoneName"].readIfPresent()
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.fileSystemProtection = try reader["FileSystemProtection"].readIfPresent(with: EFSClientTypes.FileSystemProtectionDescription.read(from:))
         return value
     }
@@ -5337,10 +5338,10 @@ extension EFSClientTypes.MountTargetDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.MountTargetDescription()
         value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.mountTargetId = try reader["MountTargetId"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent()
+        value.mountTargetId = try reader["MountTargetId"].readIfPresent() ?? ""
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        value.subnetId = try reader["SubnetId"].readIfPresent() ?? ""
+        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent() ?? .sdkUnknown("")
         value.ipAddress = try reader["IpAddress"].readIfPresent()
         value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
@@ -5355,12 +5356,12 @@ extension EFSClientTypes.ReplicationConfigurationDescription {
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ReplicationConfigurationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EFSClientTypes.ReplicationConfigurationDescription()
-        value.sourceFileSystemId = try reader["SourceFileSystemId"].readIfPresent()
-        value.sourceFileSystemRegion = try reader["SourceFileSystemRegion"].readIfPresent()
-        value.sourceFileSystemArn = try reader["SourceFileSystemArn"].readIfPresent()
-        value.originalSourceFileSystemArn = try reader["OriginalSourceFileSystemArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: EFSClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceFileSystemId = try reader["SourceFileSystemId"].readIfPresent() ?? ""
+        value.sourceFileSystemRegion = try reader["SourceFileSystemRegion"].readIfPresent() ?? ""
+        value.sourceFileSystemArn = try reader["SourceFileSystemArn"].readIfPresent() ?? ""
+        value.originalSourceFileSystemArn = try reader["OriginalSourceFileSystemArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: EFSClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

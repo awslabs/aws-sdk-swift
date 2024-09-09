@@ -4496,11 +4496,11 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4513,7 +4513,7 @@ extension OcuLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OcuLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = OcuLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4721,7 +4721,7 @@ extension OpenSearchServerlessClientTypes.SamlConfigOptions {
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.SamlConfigOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchServerlessClientTypes.SamlConfigOptions()
-        value.metadata = try reader["metadata"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent() ?? ""
         value.userAttribute = try reader["userAttribute"].readIfPresent()
         value.groupAttribute = try reader["groupAttribute"].readIfPresent()
         value.sessionTimeout = try reader["sessionTimeout"].readIfPresent()
@@ -4933,8 +4933,8 @@ extension OpenSearchServerlessClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchServerlessClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

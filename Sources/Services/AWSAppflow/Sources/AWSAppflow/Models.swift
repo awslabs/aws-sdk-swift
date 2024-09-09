@@ -6246,7 +6246,7 @@ extension AppflowClientTypes {
             flowErrorDeactivationThreshold: Swift.Int? = nil,
             scheduleEndTime: Foundation.Date? = nil,
             scheduleExpression: Swift.String? = nil,
-            scheduleOffset: Swift.Int? = nil,
+            scheduleOffset: Swift.Int? = 0,
             scheduleStartTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
         )
@@ -6420,7 +6420,7 @@ public struct DeleteConnectorProfileInput {
 
     public init(
         connectorProfileName: Swift.String? = nil,
-        forceDelete: Swift.Bool? = nil
+        forceDelete: Swift.Bool? = false
     )
     {
         self.connectorProfileName = connectorProfileName
@@ -6442,7 +6442,7 @@ public struct DeleteFlowInput {
 
     public init(
         flowName: Swift.String? = nil,
-        forceDelete: Swift.Bool? = nil
+        forceDelete: Swift.Bool? = false
     )
     {
         self.flowName = flowName
@@ -7365,7 +7365,7 @@ public struct UnregisterConnectorInput {
 
     public init(
         connectorLabel: Swift.String? = nil,
-        forceDelete: Swift.Bool? = nil
+        forceDelete: Swift.Bool? = false
     )
     {
         self.connectorLabel = connectorLabel
@@ -8048,7 +8048,7 @@ extension DescribeConnectorEntityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeConnectorEntityOutput()
-        value.connectorEntityFields = try reader["connectorEntityFields"].readListIfPresent(memberReadingClosure: AppflowClientTypes.ConnectorEntityField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectorEntityFields = try reader["connectorEntityFields"].readListIfPresent(memberReadingClosure: AppflowClientTypes.ConnectorEntityField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8130,7 +8130,7 @@ extension ListConnectorEntitiesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListConnectorEntitiesOutput()
-        value.connectorEntityMap = try reader["connectorEntityMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: AppflowClientTypes.ConnectorEntity.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectorEntityMap = try reader["connectorEntityMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: AppflowClientTypes.ConnectorEntity.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8916,7 +8916,7 @@ extension AppflowClientTypes.LambdaConnectorProvisioningConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.LambdaConnectorProvisioningConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.LambdaConnectorProvisioningConfig()
-        value.lambdaArn = try reader["lambdaArn"].readIfPresent()
+        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9234,7 +9234,7 @@ extension AppflowClientTypes.ConnectorEntityField {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorEntityField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ConnectorEntityField()
-        value.identifier = try reader["identifier"].readIfPresent()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.label = try reader["label"].readIfPresent()
         value.isPrimaryKey = try reader["isPrimaryKey"].readIfPresent() ?? false
@@ -9291,8 +9291,8 @@ extension AppflowClientTypes.FieldTypeDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.FieldTypeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.FieldTypeDetails()
-        value.fieldType = try reader["fieldType"].readIfPresent()
-        value.filterOperators = try reader["filterOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppflowClientTypes.Operator>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldType = try reader["fieldType"].readIfPresent() ?? ""
+        value.filterOperators = try reader["filterOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppflowClientTypes.Operator>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.supportedValues = try reader["supportedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.valueRegexPattern = try reader["valueRegexPattern"].readIfPresent()
         value.supportedDateFormat = try reader["supportedDateFormat"].readIfPresent()
@@ -9443,8 +9443,8 @@ extension AppflowClientTypes.OAuth2Properties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.OAuth2Properties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.OAuth2Properties()
-        value.tokenUrl = try reader["tokenUrl"].readIfPresent()
-        value.oAuth2GrantType = try reader["oAuth2GrantType"].readIfPresent()
+        value.tokenUrl = try reader["tokenUrl"].readIfPresent() ?? ""
+        value.oAuth2GrantType = try reader["oAuth2GrantType"].readIfPresent() ?? .sdkUnknown("")
         value.tokenUrlCustomProperties = try reader["tokenUrlCustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9467,10 +9467,10 @@ extension AppflowClientTypes.SAPODataConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SAPODataConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SAPODataConnectorProfileProperties()
-        value.applicationHostUrl = try reader["applicationHostUrl"].readIfPresent()
-        value.applicationServicePath = try reader["applicationServicePath"].readIfPresent()
-        value.portNumber = try reader["portNumber"].readIfPresent()
-        value.clientNumber = try reader["clientNumber"].readIfPresent()
+        value.applicationHostUrl = try reader["applicationHostUrl"].readIfPresent() ?? ""
+        value.applicationServicePath = try reader["applicationServicePath"].readIfPresent() ?? ""
+        value.portNumber = try reader["portNumber"].readIfPresent() ?? 0
+        value.clientNumber = try reader["clientNumber"].readIfPresent() ?? ""
         value.logonLanguage = try reader["logonLanguage"].readIfPresent()
         value.privateLinkServiceName = try reader["privateLinkServiceName"].readIfPresent()
         value.oAuthProperties = try reader["oAuthProperties"].readIfPresent(with: AppflowClientTypes.OAuthProperties.read(from:))
@@ -9491,9 +9491,9 @@ extension AppflowClientTypes.OAuthProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.OAuthProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.OAuthProperties()
-        value.tokenUrl = try reader["tokenUrl"].readIfPresent()
-        value.authCodeUrl = try reader["authCodeUrl"].readIfPresent()
-        value.oAuthScopes = try reader["oAuthScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tokenUrl = try reader["tokenUrl"].readIfPresent() ?? ""
+        value.authCodeUrl = try reader["authCodeUrl"].readIfPresent() ?? ""
+        value.oAuthScopes = try reader["oAuthScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9508,7 +9508,7 @@ extension AppflowClientTypes.ZendeskConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ZendeskConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ZendeskConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9523,7 +9523,7 @@ extension AppflowClientTypes.VeevaConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.VeevaConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.VeevaConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9557,9 +9557,9 @@ extension AppflowClientTypes.SnowflakeConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SnowflakeConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SnowflakeConnectorProfileProperties()
-        value.warehouse = try reader["warehouse"].readIfPresent()
-        value.stage = try reader["stage"].readIfPresent()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.warehouse = try reader["warehouse"].readIfPresent() ?? ""
+        value.stage = try reader["stage"].readIfPresent() ?? ""
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         value.bucketPrefix = try reader["bucketPrefix"].readIfPresent()
         value.privateLinkServiceName = try reader["privateLinkServiceName"].readIfPresent()
         value.accountName = try reader["accountName"].readIfPresent()
@@ -9578,7 +9578,7 @@ extension AppflowClientTypes.SlackConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SlackConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SlackConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9606,7 +9606,7 @@ extension AppflowClientTypes.ServiceNowConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ServiceNowConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ServiceNowConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9649,9 +9649,9 @@ extension AppflowClientTypes.RedshiftConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.RedshiftConnectorProfileProperties()
         value.databaseUrl = try reader["databaseUrl"].readIfPresent()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         value.bucketPrefix = try reader["bucketPrefix"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.dataApiRoleArn = try reader["dataApiRoleArn"].readIfPresent()
         value.isRedshiftServerless = try reader["isRedshiftServerless"].readIfPresent() ?? false
         value.clusterIdentifier = try reader["clusterIdentifier"].readIfPresent()
@@ -9671,7 +9671,7 @@ extension AppflowClientTypes.MarketoConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.MarketoConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.MarketoConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9686,7 +9686,7 @@ extension AppflowClientTypes.InforNexusConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.InforNexusConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.InforNexusConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9727,7 +9727,7 @@ extension AppflowClientTypes.DynatraceConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DynatraceConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.DynatraceConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9742,7 +9742,7 @@ extension AppflowClientTypes.DatadogConnectorProfileProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DatadogConnectorProfileProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.DatadogConnectorProfileProperties()
-        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9795,7 +9795,7 @@ extension AppflowClientTypes.SourceFlowConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SourceFlowConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SourceFlowConfig()
-        value.connectorType = try reader["connectorType"].readIfPresent()
+        value.connectorType = try reader["connectorType"].readIfPresent() ?? .sdkUnknown("")
         value.apiVersion = try reader["apiVersion"].readIfPresent()
         value.connectorProfileName = try reader["connectorProfileName"].readIfPresent()
         value.sourceConnectorProperties = try reader["sourceConnectorProperties"].readIfPresent(with: AppflowClientTypes.SourceConnectorProperties.read(from:))
@@ -9876,7 +9876,7 @@ extension AppflowClientTypes.PardotSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.PardotSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.PardotSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9893,7 +9893,7 @@ extension AppflowClientTypes.CustomConnectorSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.CustomConnectorSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.CustomConnectorSourceProperties()
-        value.entityName = try reader["entityName"].readIfPresent()
+        value.entityName = try reader["entityName"].readIfPresent() ?? ""
         value.customProperties = try reader["customProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dataTransferApi = try reader["dataTransferApi"].readIfPresent(with: AppflowClientTypes.DataTransferApi.read(from:))
         return value
@@ -9929,7 +9929,7 @@ extension AppflowClientTypes.SAPODataPaginationConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SAPODataPaginationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SAPODataPaginationConfig()
-        value.maxPageSize = try reader["maxPageSize"].readIfPresent()
+        value.maxPageSize = try reader["maxPageSize"].readIfPresent() ?? 0
         return value
     }
 }
@@ -9944,7 +9944,7 @@ extension AppflowClientTypes.SAPODataParallelismConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SAPODataParallelismConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SAPODataParallelismConfig()
-        value.maxParallelism = try reader["maxParallelism"].readIfPresent()
+        value.maxParallelism = try reader["maxParallelism"].readIfPresent() ?? 0
         return value
     }
 }
@@ -9959,7 +9959,7 @@ extension AppflowClientTypes.ZendeskSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ZendeskSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ZendeskSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9978,7 +9978,7 @@ extension AppflowClientTypes.VeevaSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.VeevaSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.VeevaSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         value.documentType = try reader["documentType"].readIfPresent()
         value.includeSourceFiles = try reader["includeSourceFiles"].readIfPresent() ?? false
         value.includeRenditions = try reader["includeRenditions"].readIfPresent() ?? false
@@ -9997,7 +9997,7 @@ extension AppflowClientTypes.TrendmicroSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.TrendmicroSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.TrendmicroSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10012,7 +10012,7 @@ extension AppflowClientTypes.SlackSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SlackSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SlackSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10027,7 +10027,7 @@ extension AppflowClientTypes.SingularSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SingularSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SingularSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10042,7 +10042,7 @@ extension AppflowClientTypes.ServiceNowSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ServiceNowSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ServiceNowSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10060,7 +10060,7 @@ extension AppflowClientTypes.SalesforceSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SalesforceSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SalesforceSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         value.enableDynamicFieldUpdate = try reader["enableDynamicFieldUpdate"].readIfPresent() ?? false
         value.includeDeletedRecords = try reader["includeDeletedRecords"].readIfPresent() ?? false
         value.dataTransferApi = try reader["dataTransferApi"].readIfPresent()
@@ -10080,7 +10080,7 @@ extension AppflowClientTypes.S3SourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.S3SourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.S3SourceProperties()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         value.bucketPrefix = try reader["bucketPrefix"].readIfPresent()
         value.s3InputFormatConfig = try reader["s3InputFormatConfig"].readIfPresent(with: AppflowClientTypes.S3InputFormatConfig.read(from:))
         return value
@@ -10112,7 +10112,7 @@ extension AppflowClientTypes.MarketoSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.MarketoSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.MarketoSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10127,7 +10127,7 @@ extension AppflowClientTypes.InforNexusSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.InforNexusSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.InforNexusSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10142,7 +10142,7 @@ extension AppflowClientTypes.GoogleAnalyticsSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.GoogleAnalyticsSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.GoogleAnalyticsSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10157,7 +10157,7 @@ extension AppflowClientTypes.DynatraceSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DynatraceSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.DynatraceSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10172,7 +10172,7 @@ extension AppflowClientTypes.DatadogSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DatadogSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.DatadogSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10187,7 +10187,7 @@ extension AppflowClientTypes.AmplitudeSourceProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.AmplitudeSourceProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.AmplitudeSourceProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10205,7 +10205,7 @@ extension AppflowClientTypes.DestinationFlowConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.DestinationFlowConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.DestinationFlowConfig()
-        value.connectorType = try reader["connectorType"].readIfPresent()
+        value.connectorType = try reader["connectorType"].readIfPresent() ?? .sdkUnknown("")
         value.apiVersion = try reader["apiVersion"].readIfPresent()
         value.connectorProfileName = try reader["connectorProfileName"].readIfPresent()
         value.destinationConnectorProperties = try reader["destinationConnectorProperties"].readIfPresent(with: AppflowClientTypes.DestinationConnectorProperties.read(from:))
@@ -10266,7 +10266,7 @@ extension AppflowClientTypes.SAPODataDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SAPODataDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SAPODataDestinationProperties()
-        value.objectPath = try reader["objectPath"].readIfPresent()
+        value.objectPath = try reader["objectPath"].readIfPresent() ?? ""
         value.successResponseHandlingConfig = try reader["successResponseHandlingConfig"].readIfPresent(with: AppflowClientTypes.SuccessResponseHandlingConfig.read(from:))
         value.idFieldNames = try reader["idFieldNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
@@ -10325,7 +10325,7 @@ extension AppflowClientTypes.CustomConnectorDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.CustomConnectorDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.CustomConnectorDestinationProperties()
-        value.entityName = try reader["entityName"].readIfPresent()
+        value.entityName = try reader["entityName"].readIfPresent() ?? ""
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         value.writeOperationType = try reader["writeOperationType"].readIfPresent()
         value.idFieldNames = try reader["idFieldNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10345,7 +10345,7 @@ extension AppflowClientTypes.MarketoDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.MarketoDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.MarketoDestinationProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         return value
     }
@@ -10364,7 +10364,7 @@ extension AppflowClientTypes.ZendeskDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ZendeskDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ZendeskDestinationProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         value.idFieldNames = try reader["idFieldNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         value.writeOperationType = try reader["writeOperationType"].readIfPresent()
@@ -10383,7 +10383,7 @@ extension AppflowClientTypes.CustomerProfilesDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.CustomerProfilesDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.CustomerProfilesDestinationProperties()
-        value.domainName = try reader["domainName"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
         value.objectTypeName = try reader["objectTypeName"].readIfPresent()
         return value
     }
@@ -10400,7 +10400,7 @@ extension AppflowClientTypes.HoneycodeDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.HoneycodeDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.HoneycodeDestinationProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         return value
     }
@@ -10418,7 +10418,7 @@ extension AppflowClientTypes.UpsolverDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.UpsolverDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.UpsolverDestinationProperties()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         value.bucketPrefix = try reader["bucketPrefix"].readIfPresent()
         value.s3OutputFormatConfig = try reader["s3OutputFormatConfig"].readIfPresent(with: AppflowClientTypes.UpsolverS3OutputFormatConfig.read(from:))
         return value
@@ -10504,7 +10504,7 @@ extension AppflowClientTypes.EventBridgeDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.EventBridgeDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.EventBridgeDestinationProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         return value
     }
@@ -10523,8 +10523,8 @@ extension AppflowClientTypes.SnowflakeDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SnowflakeDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SnowflakeDestinationProperties()
-        value.object = try reader["object"].readIfPresent()
-        value.intermediateBucketName = try reader["intermediateBucketName"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
+        value.intermediateBucketName = try reader["intermediateBucketName"].readIfPresent() ?? ""
         value.bucketPrefix = try reader["bucketPrefix"].readIfPresent()
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         return value
@@ -10545,7 +10545,7 @@ extension AppflowClientTypes.SalesforceDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.SalesforceDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.SalesforceDestinationProperties()
-        value.object = try reader["object"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
         value.idFieldNames = try reader["idFieldNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         value.writeOperationType = try reader["writeOperationType"].readIfPresent()
@@ -10566,7 +10566,7 @@ extension AppflowClientTypes.S3DestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.S3DestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.S3DestinationProperties()
-        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         value.bucketPrefix = try reader["bucketPrefix"].readIfPresent()
         value.s3OutputFormatConfig = try reader["s3OutputFormatConfig"].readIfPresent(with: AppflowClientTypes.S3OutputFormatConfig.read(from:))
         return value
@@ -10607,8 +10607,8 @@ extension AppflowClientTypes.RedshiftDestinationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.RedshiftDestinationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.RedshiftDestinationProperties()
-        value.object = try reader["object"].readIfPresent()
-        value.intermediateBucketName = try reader["intermediateBucketName"].readIfPresent()
+        value.object = try reader["object"].readIfPresent() ?? ""
+        value.intermediateBucketName = try reader["intermediateBucketName"].readIfPresent() ?? ""
         value.bucketPrefix = try reader["bucketPrefix"].readIfPresent()
         value.errorHandlingConfig = try reader["errorHandlingConfig"].readIfPresent(with: AppflowClientTypes.ErrorHandlingConfig.read(from:))
         return value
@@ -10638,7 +10638,7 @@ extension AppflowClientTypes.TriggerConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.TriggerConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.TriggerConfig()
-        value.triggerType = try reader["triggerType"].readIfPresent()
+        value.triggerType = try reader["triggerType"].readIfPresent() ?? .sdkUnknown("")
         value.triggerProperties = try reader["triggerProperties"].readIfPresent(with: AppflowClientTypes.TriggerProperties.read(from:))
         return value
     }
@@ -10676,7 +10676,7 @@ extension AppflowClientTypes.ScheduledTriggerProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ScheduledTriggerProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ScheduledTriggerProperties()
-        value.scheduleExpression = try reader["scheduleExpression"].readIfPresent()
+        value.scheduleExpression = try reader["scheduleExpression"].readIfPresent() ?? ""
         value.dataPullMode = try reader["dataPullMode"].readIfPresent()
         value.scheduleStartTime = try reader["scheduleStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.scheduleEndTime = try reader["scheduleEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -10702,10 +10702,10 @@ extension AppflowClientTypes.Task {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.Task {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.Task()
-        value.sourceFields = try reader["sourceFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceFields = try reader["sourceFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.connectorOperator = try reader["connectorOperator"].readIfPresent(with: AppflowClientTypes.ConnectorOperator.read(from:))
         value.destinationField = try reader["destinationField"].readIfPresent()
-        value.taskType = try reader["taskType"].readIfPresent()
+        value.taskType = try reader["taskType"].readIfPresent() ?? .sdkUnknown("")
         value.taskProperties = try reader["taskProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -10785,9 +10785,9 @@ extension AppflowClientTypes.GlueDataCatalogConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.GlueDataCatalogConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.GlueDataCatalogConfig()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        value.tablePrefix = try reader["tablePrefix"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tablePrefix = try reader["tablePrefix"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10865,7 +10865,7 @@ extension AppflowClientTypes.ConnectorEntity {
     static func read(from reader: SmithyJSON.Reader) throws -> AppflowClientTypes.ConnectorEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppflowClientTypes.ConnectorEntity()
-        value.name = try reader["name"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.label = try reader["label"].readIfPresent()
         value.hasNestedEntities = try reader["hasNestedEntities"].readIfPresent() ?? false
         return value

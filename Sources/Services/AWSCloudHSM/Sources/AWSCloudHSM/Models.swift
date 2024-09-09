@@ -1362,7 +1362,7 @@ extension AddTagsToResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AddTagsToResourceOutput()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1410,7 +1410,7 @@ extension DeleteHapgOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteHapgOutput()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1422,7 +1422,7 @@ extension DeleteHsmOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteHsmOutput()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1434,7 +1434,7 @@ extension DeleteLunaClientOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteLunaClientOutput()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1540,7 +1540,7 @@ extension ListHapgsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListHapgsOutput()
-        value.hapgList = try reader["HapgList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hapgList = try reader["HapgList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1566,7 +1566,7 @@ extension ListLunaClientsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListLunaClientsOutput()
-        value.clientList = try reader["ClientList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientList = try reader["ClientList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1579,7 +1579,7 @@ extension ListTagsForResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1627,7 +1627,7 @@ extension RemoveTagsFromResourceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RemoveTagsFromResourceOutput()
-        value.status = try reader["Status"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2003,8 +2003,8 @@ extension CloudHSMClientTypes.Tag {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudHSMClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
