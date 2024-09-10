@@ -27,7 +27,6 @@ open class AWSQueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSQueryC
         "SDKAppliedContentEncoding_awsQuery",
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery",
     )
-    override val tagsToIgnore = setOf("defaults")
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)

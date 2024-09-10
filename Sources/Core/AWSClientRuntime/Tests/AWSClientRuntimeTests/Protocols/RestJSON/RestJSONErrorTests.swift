@@ -5,12 +5,12 @@
 
 import Smithy
 import SmithyHTTPAPI
-import SmithyReadWrite
-import SmithyJSON
+@_spi(SmithyReadWrite) import SmithyReadWrite
+@_spi(SmithyReadWrite) import SmithyJSON
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
-@testable import AWSClientRuntime
+@_spi(SmithyReadWrite) @testable import AWSClientRuntime
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 class RestJSONErrorTests: HttpResponseTestBase {

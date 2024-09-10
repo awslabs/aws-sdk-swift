@@ -9,8 +9,8 @@ import SmithyHTTPAPI
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
-import SmithyXML
-@testable import AWSClientRuntime
+@_spi(SmithyReadWrite) import SmithyXML
+@_spi(SmithyReadWrite) @testable import AWSClientRuntime
 
 class Ec2ErrorRequestIdTests: XCTestCase {
 
