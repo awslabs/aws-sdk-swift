@@ -639,6 +639,11 @@ public struct GetCredentialsForIdentityInput {
     }
 }
 
+extension GetCredentialsForIdentityInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetCredentialsForIdentityInput(customRoleArn: \(Swift.String(describing: customRoleArn)), identityId: \(Swift.String(describing: identityId)), logins: [keys: \(Swift.String(describing: logins?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
 extension CognitoIdentityClientTypes {
     /// Credentials for the provided identity ID.
     public struct Credentials {
@@ -665,6 +670,11 @@ extension CognitoIdentityClientTypes {
         }
     }
 
+}
+
+extension CognitoIdentityClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Credentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expiration: \(Swift.String(describing: expiration)), sessionToken: \(Swift.String(describing: sessionToken)), secretKey: \"CONTENT_REDACTED\")"}
 }
 
 /// Returned in response to a successful GetCredentialsForIdentity operation.
@@ -716,6 +726,11 @@ public struct GetIdInput {
         self.identityPoolId = identityPoolId
         self.logins = logins
     }
+}
+
+extension GetIdInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetIdInput(accountId: \(Swift.String(describing: accountId)), identityPoolId: \(Swift.String(describing: identityPoolId)), logins: [keys: \(Swift.String(describing: logins?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 /// Returned in response to a GetId request.
@@ -922,6 +937,11 @@ public struct GetOpenIdTokenInput {
     }
 }
 
+extension GetOpenIdTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetOpenIdTokenInput(identityId: \(Swift.String(describing: identityId)), logins: [keys: \(Swift.String(describing: logins?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
 /// Returned in response to a successful GetOpenIdToken request.
 public struct GetOpenIdTokenOutput {
     /// A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
@@ -937,6 +957,11 @@ public struct GetOpenIdTokenOutput {
         self.identityId = identityId
         self.token = token
     }
+}
+
+extension GetOpenIdTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetOpenIdTokenOutput(identityId: \(Swift.String(describing: identityId)), token: \"CONTENT_REDACTED\")"}
 }
 
 /// The provided developer user identifier is already registered with Cognito under a different identity ID.
@@ -995,6 +1020,11 @@ public struct GetOpenIdTokenForDeveloperIdentityInput {
     }
 }
 
+extension GetOpenIdTokenForDeveloperIdentityInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetOpenIdTokenForDeveloperIdentityInput(identityId: \(Swift.String(describing: identityId)), identityPoolId: \(Swift.String(describing: identityPoolId)), principalTags: \(Swift.String(describing: principalTags)), tokenDuration: \(Swift.String(describing: tokenDuration)), logins: [keys: \(Swift.String(describing: logins?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
 /// Returned in response to a successful GetOpenIdTokenForDeveloperIdentity request.
 public struct GetOpenIdTokenForDeveloperIdentityOutput {
     /// A unique identifier in the format REGION:GUID.
@@ -1010,6 +1040,11 @@ public struct GetOpenIdTokenForDeveloperIdentityOutput {
         self.identityId = identityId
         self.token = token
     }
+}
+
+extension GetOpenIdTokenForDeveloperIdentityOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetOpenIdTokenForDeveloperIdentityOutput(identityId: \(Swift.String(describing: identityId)), token: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPrincipalTagAttributeMapInput {
@@ -1475,6 +1510,11 @@ public struct UnlinkIdentityInput {
         self.logins = logins
         self.loginsToRemove = loginsToRemove
     }
+}
+
+extension UnlinkIdentityInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UnlinkIdentityInput(identityId: \(Swift.String(describing: identityId)), loginsToRemove: \(Swift.String(describing: loginsToRemove)), logins: [keys: \(Swift.String(describing: logins?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct UntagResourceInput {
