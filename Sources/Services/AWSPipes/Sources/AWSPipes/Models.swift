@@ -756,13 +756,7 @@ extension PipesClientTypes {
         /// Specifies the Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
         /// This member is required.
         public var bucketOwner: Swift.String?
-        /// How EventBridge should format the log records.
-        ///
-        /// * json: JSON
-        ///
-        /// * plain: Plain text
-        ///
-        /// * w3c: [W3C extended logging file format](https://www.w3.org/TR/WD-logfile)
+        /// How EventBridge should format the log records. EventBridge currently only supports json formatting.
         public var outputFormat: PipesClientTypes.S3OutputFormat?
         /// Specifies any prefix text with which to begin Amazon S3 log object names. You can use prefixes to organize the data that you store in Amazon S3 buckets. A prefix is a string of characters at the beginning of the object key name. A prefix can be any length, subject to the maximum length of the object key name (1,024 bytes). For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) in the Amazon Simple Storage Service User Guide.
         public var `prefix`: Swift.String?
@@ -1265,7 +1259,7 @@ extension PipesClientTypes {
 extension PipesClientTypes {
     /// This structure specifies the VPC subnets and security groups for the stream, and whether a public IP address is to be used.
     public struct SelfManagedKafkaAccessConfigurationVpc {
-        /// Specifies the security groups associated with the stream. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
+        /// Specifies the security groups associated with the stream. These security groups must all be in the same VPC. You can specify as many as five security groups.
         public var securityGroup: [Swift.String]?
         /// Specifies the subnets associated with the stream. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public var subnets: [Swift.String]?
@@ -2635,6 +2629,8 @@ public struct CreatePipeInput {
     public var enrichment: Swift.String?
     /// The parameters required to set up enrichment on your pipe.
     public var enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt pipe data. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt pipe data. For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html) in the Key Management Service Developer Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The logging configuration settings for the pipe.
     public var logConfiguration: PipesClientTypes.PipeLogConfigurationParameters?
     /// The name of the pipe.
@@ -2661,6 +2657,7 @@ public struct CreatePipeInput {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         enrichment: Swift.String? = nil,
         enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         logConfiguration: PipesClientTypes.PipeLogConfigurationParameters? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -2675,6 +2672,7 @@ public struct CreatePipeInput {
         self.desiredState = desiredState
         self.enrichment = enrichment
         self.enrichmentParameters = enrichmentParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.logConfiguration = logConfiguration
         self.name = name
         self.roleArn = roleArn
@@ -2688,7 +2686,7 @@ public struct CreatePipeInput {
 
 extension CreatePipeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\", tags: [keys: \(Swift.String(describing: tags?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "CreatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\", tags: [keys: \(Swift.String(describing: tags?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 extension PipesClientTypes {
@@ -2904,13 +2902,7 @@ extension PipesClientTypes {
         public var bucketName: Swift.String?
         /// The Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
         public var bucketOwner: Swift.String?
-        /// The format EventBridge uses for the log records.
-        ///
-        /// * json: JSON
-        ///
-        /// * plain: Plain text
-        ///
-        /// * w3c: [W3C extended logging file format](https://www.w3.org/TR/WD-logfile)
+        /// The format EventBridge uses for the log records. EventBridge currently only supports json formatting.
         public var outputFormat: PipesClientTypes.S3OutputFormat?
         /// The prefix text with which to begin Amazon S3 log object names. For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) in the Amazon Simple Storage Service User Guide.
         public var `prefix`: Swift.String?
@@ -2978,6 +2970,8 @@ public struct DescribePipeOutput {
     public var enrichment: Swift.String?
     /// The parameters required to set up enrichment on your pipe.
     public var enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use to encrypt pipe data, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModifiedTime: Foundation.Date?
     /// The logging configuration settings for the pipe.
@@ -3007,6 +3001,7 @@ public struct DescribePipeOutput {
         desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse? = nil,
         enrichment: Swift.String? = nil,
         enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         logConfiguration: PipesClientTypes.PipeLogConfiguration? = nil,
         name: Swift.String? = nil,
@@ -3026,6 +3021,7 @@ public struct DescribePipeOutput {
         self.desiredState = desiredState
         self.enrichment = enrichment
         self.enrichmentParameters = enrichmentParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastModifiedTime = lastModifiedTime
         self.logConfiguration = logConfiguration
         self.name = name
@@ -3041,7 +3037,7 @@ public struct DescribePipeOutput {
 
 extension DescribePipeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribePipeOutput(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\", tags: [keys: \(Swift.String(describing: tags?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "DescribePipeOutput(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\", tags: [keys: \(Swift.String(describing: tags?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct ListPipesInput {
@@ -3537,6 +3533,8 @@ public struct UpdatePipeInput {
     public var enrichment: Swift.String?
     /// The parameters required to set up enrichment on your pipe.
     public var enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt pipe data. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. To update a pipe that is using the default Amazon Web Services owned key to use a customer managed key instead, or update a pipe that is using a customer managed key to use a different customer managed key, specify a customer managed key identifier. To update a pipe that is using a customer managed key to use the default Amazon Web Services owned key, specify an empty string. For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html) in the Key Management Service Developer Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The logging configuration settings for the pipe.
     public var logConfiguration: PipesClientTypes.PipeLogConfigurationParameters?
     /// The name of the pipe.
@@ -3557,6 +3555,7 @@ public struct UpdatePipeInput {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         enrichment: Swift.String? = nil,
         enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         logConfiguration: PipesClientTypes.PipeLogConfigurationParameters? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -3569,6 +3568,7 @@ public struct UpdatePipeInput {
         self.desiredState = desiredState
         self.enrichment = enrichment
         self.enrichmentParameters = enrichmentParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.logConfiguration = logConfiguration
         self.name = name
         self.roleArn = roleArn
@@ -3580,7 +3580,7 @@ public struct UpdatePipeInput {
 
 extension UpdatePipeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), sourceParameters: \(Swift.String(describing: sourceParameters)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
+        "UpdatePipeInput(desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), sourceParameters: \(Swift.String(describing: sourceParameters)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePipeOutput {
@@ -3823,6 +3823,7 @@ extension CreatePipeInput {
         try writer["DesiredState"].write(value.desiredState)
         try writer["Enrichment"].write(value.enrichment)
         try writer["EnrichmentParameters"].write(value.enrichmentParameters, with: PipesClientTypes.PipeEnrichmentParameters.write(value:to:))
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["LogConfiguration"].write(value.logConfiguration, with: PipesClientTypes.PipeLogConfigurationParameters.write(value:to:))
         try writer["RoleArn"].write(value.roleArn)
         try writer["Source"].write(value.source)
@@ -3849,6 +3850,7 @@ extension UpdatePipeInput {
         try writer["DesiredState"].write(value.desiredState)
         try writer["Enrichment"].write(value.enrichment)
         try writer["EnrichmentParameters"].write(value.enrichmentParameters, with: PipesClientTypes.PipeEnrichmentParameters.write(value:to:))
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["LogConfiguration"].write(value.logConfiguration, with: PipesClientTypes.PipeLogConfigurationParameters.write(value:to:))
         try writer["RoleArn"].write(value.roleArn)
         try writer["SourceParameters"].write(value.sourceParameters, with: PipesClientTypes.UpdatePipeSourceParameters.write(value:to:))
@@ -3905,6 +3907,7 @@ extension DescribePipeOutput {
         value.desiredState = try reader["DesiredState"].readIfPresent()
         value.enrichment = try reader["Enrichment"].readIfPresent()
         value.enrichmentParameters = try reader["EnrichmentParameters"].readIfPresent(with: PipesClientTypes.PipeEnrichmentParameters.read(from:))
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: PipesClientTypes.PipeLogConfiguration.read(from:))
         value.name = try reader["Name"].readIfPresent()

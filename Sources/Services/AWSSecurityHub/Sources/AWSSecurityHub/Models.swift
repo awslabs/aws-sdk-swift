@@ -424,7 +424,7 @@ extension SecurityHubClientTypes {
         ///
         /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public var lastSeen: Swift.String?
-        /// Provided if CallerType is remoteIp. Provides information about the remote IP address that the API call originated from.
+        /// Provided if CallerType is remoteip. Provides information about the remote IP address that the API call originated from.
         public var remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails?
         /// The name of the Amazon Web Services service that the API method belongs to. Length Constraints: 128.
         public var serviceName: Swift.String?
@@ -17742,17 +17742,17 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes {
-    /// Contains finding details that are specific to control-based findings. Only returned for findings generated from controls.
+    /// This object typically provides details about a control finding, such as applicable standards and the status of control checks. While finding providers can add custom content in Compliance object fields, they are typically used to review details of Security Hub control findings.
     public struct Compliance {
-        /// The enabled security standards in which a security control is currently enabled.
+        /// Typically provides an array of enabled security standards in which a security control is currently enabled.
         public var associatedStandards: [SecurityHubClientTypes.AssociatedStandard]?
-        /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements. Array Members: Maximum number of 32 items.
+        /// Typically provides the industry or regulatory framework requirements that are related to a control. The check for that control is aligned with these requirements. Array Members: Maximum number of 32 items.
         public var relatedRequirements: [Swift.String]?
-        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Servicesservice and a number, such as APIGateway.5.
+        /// Typically provides the unique identifier of a control across standards. For Security Hub controls, this field consists of an Amazon Web Servicesservice and a unique number, such as APIGateway.5.
         public var securityControlId: Swift.String?
-        /// An object that includes security control parameter names and values.
+        /// Typically an object that includes security control parameter names and values.
         public var securityControlParameters: [SecurityHubClientTypes.SecurityControlParameter]?
-        /// The result of a standards check. The valid values for Status are as follows.
+        /// Typically summarizes the result of a control check. For Security Hub controls, valid values for Status are as follows.
         ///
         ///
         /// * PASSED - Standards check passed for all evaluated resources.
@@ -17763,7 +17763,7 @@ extension SecurityHubClientTypes {
         ///
         /// * NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE for a Security Hub control, Security Hub automatically archives the finding after 3 days.
         public var status: SecurityHubClientTypes.ComplianceStatus?
-        /// For findings generated from controls, a list of reasons behind the value of Status. For the list of status reason codes and their meanings, see [Standards-related information in the ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff) in the Security Hub User Guide.
+        /// Typically used to provide a list of reasons for the value of Status.
         public var statusReasons: [SecurityHubClientTypes.StatusReason]?
 
         public init(
