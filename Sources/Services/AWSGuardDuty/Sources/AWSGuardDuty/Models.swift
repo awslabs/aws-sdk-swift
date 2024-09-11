@@ -495,6 +495,30 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes {
+    /// Represents a list of map of accounts with the number of findings associated with each account.
+    public struct AccountStatistics {
+        /// The ID of the Amazon Web Services account.
+        public var accountId: Swift.String?
+        /// The timestamp at which the finding for this account was last generated.
+        public var lastGeneratedAt: Foundation.Date?
+        /// The total number of findings associated with an account.
+        public var totalFindings: Swift.Int?
+
+        public init(
+            accountId: Swift.String? = nil,
+            lastGeneratedAt: Foundation.Date? = nil,
+            totalFindings: Swift.Int? = nil
+        )
+        {
+            self.accountId = accountId
+            self.lastGeneratedAt = lastGeneratedAt
+            self.totalFindings = totalFindings
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
     /// Contains information about the domain.
     public struct DomainDetails {
         /// The domain information for the Amazon Web Services API call.
@@ -2715,7 +2739,7 @@ public struct CreateFilterInput {
     public var clientToken: Swift.String?
     /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
     public var description: Swift.String?
-    /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
+    /// The detector ID associated with the GuardDuty account for which you want to create a filter.
     /// This member is required.
     public var detectorId: Swift.String?
     /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:
@@ -3010,7 +3034,7 @@ public struct CreateIPSetInput {
     public var activate: Swift.Bool?
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
-    /// The unique ID of the detector of the GuardDuty account that you want to create an IPSet for.
+    /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The format of the file that contains the IPSet.
@@ -3163,7 +3187,7 @@ public struct CreateMalwareProtectionPlanInput {
     /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
     /// This member is required.
     public var protectedResource: GuardDutyClientTypes.CreateProtectedResource?
-    /// IAM role with permissions required to scan and add tags to the associated protected resource.
+    /// Amazon Resource Name (ARN) of the IAM role that has the permissions to scan and add tags to the associated protected resource.
     /// This member is required.
     public var role: Swift.String?
     /// Tags added to the Malware Protection plan resource.
@@ -3201,7 +3225,7 @@ public struct CreateMembersInput {
     /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
     /// This member is required.
     public var accountDetails: [GuardDutyClientTypes.AccountDetail]?
-    /// The unique ID of the detector of the GuardDuty account that you want to associate member accounts with.
+    /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts.
     /// This member is required.
     public var detectorId: Swift.String?
 
@@ -3337,7 +3361,7 @@ public struct CreatePublishingDestinationOutput {
 }
 
 public struct CreateSampleFindingsInput {
-    /// The ID of the detector to create sample findings for.
+    /// The ID of the detector for which you need to create sample findings.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The types of sample findings to generate.
@@ -3405,7 +3429,7 @@ public struct CreateThreatIntelSetInput {
     public var activate: Swift.Bool?
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
-    /// The unique ID of the detector of the GuardDuty account that you want to create a threatIntelSet for.
+    /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The format of the file that contains the ThreatIntelSet.
@@ -3663,6 +3687,34 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes {
+    /// Represents list a map of dates with a count of total findings generated on each date.
+    public struct DateStatistics {
+        /// The timestamp when the total findings count is observed. For example, Date would look like "2024-09-05T17:00:00-07:00" whereas LastGeneratedAt would look like 2024-09-05T17:12:29-07:00".
+        public var date: Foundation.Date?
+        /// The timestamp at which the last finding in the findings count, was generated.
+        public var lastGeneratedAt: Foundation.Date?
+        /// The severity of the findings generated on each date.
+        public var severity: Swift.Double?
+        /// The total number of findings that were generated per severity level on each date.
+        public var totalFindings: Swift.Int?
+
+        public init(
+            date: Foundation.Date? = nil,
+            lastGeneratedAt: Foundation.Date? = nil,
+            severity: Swift.Double? = nil,
+            totalFindings: Swift.Int? = nil
+        )
+        {
+            self.date = date
+            self.lastGeneratedAt = lastGeneratedAt
+            self.severity = severity
+            self.totalFindings = totalFindings
+        }
+    }
+
+}
+
 public struct DeclineInvitationsInput {
     /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to decline invitations from.
     /// This member is required.
@@ -3728,7 +3780,7 @@ public struct DeleteDetectorOutput {
 }
 
 public struct DeleteFilterInput {
-    /// The unique ID of the detector that the filter is associated with.
+    /// The unique ID of the detector that is associated with the filter.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The name of the filter that you want to delete.
@@ -3896,7 +3948,7 @@ public struct DeletePublishingDestinationOutput {
 }
 
 public struct DeleteThreatIntelSetInput {
-    /// The unique ID of the detector that the threatIntelSet is associated with.
+    /// The unique ID of the detector that is associated with the threatIntelSet.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The unique ID of the threatIntelSet that you want to delete.
@@ -4217,7 +4269,7 @@ extension GuardDutyClientTypes {
     public struct Scan {
         /// The ID for the account that belongs to the scan.
         public var accountId: Swift.String?
-        /// The unique detector ID of the administrator account that the request is associated with. Note that this value will be the same as the one used for DetectorId if the account is an administrator.
+        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for DetectorId.
         public var adminDetectorId: Swift.String?
         /// List of volumes that were attached to the original instance to be scanned.
         public var attachedVolumes: [GuardDutyClientTypes.VolumeDetail]?
@@ -4302,7 +4354,7 @@ public struct DescribeMalwareScansOutput {
 }
 
 public struct DescribeOrganizationConfigurationInput {
-    /// The ID of the detector to retrieve information about the delegated administrator from.
+    /// The detector ID of the delegated administrator for which you need to retrieve the information.
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items that you want in the response.
@@ -6690,16 +6742,137 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes {
-    /// Contains information about finding statistics.
-    public struct FindingStatistics {
-        /// Represents a map of severity to count statistics for a set of findings.
-        public var countBySeverity: [Swift.String: Swift.Int]?
+    /// Information about each finding type associated with the groupedByFindingType statistics.
+    public struct FindingTypeStatistics {
+        /// Name of the finding type.
+        public var findingType: Swift.String?
+        /// The timestamp at which this finding type was last generated in your environment.
+        public var lastGeneratedAt: Foundation.Date?
+        /// The total number of findings associated with generated for each distinct finding type.
+        public var totalFindings: Swift.Int?
 
         public init(
-            countBySeverity: [Swift.String: Swift.Int]? = nil
+            findingType: Swift.String? = nil,
+            lastGeneratedAt: Foundation.Date? = nil,
+            totalFindings: Swift.Int? = nil
+        )
+        {
+            self.findingType = findingType
+            self.lastGeneratedAt = lastGeneratedAt
+            self.totalFindings = totalFindings
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about each resource type associated with the groupedByResource statistics.
+    public struct ResourceStatistics {
+        /// The ID of the Amazon Web Services account.
+        public var accountId: Swift.String?
+        /// The timestamp at which the statistics for this resource was last generated.
+        public var lastGeneratedAt: Foundation.Date?
+        /// ID associated with each resource. The following list provides the mapping of the resource type and resource ID. Mapping of resource and resource ID
+        ///
+        /// * AccessKey - resource.accessKeyDetails.accessKeyId
+        ///
+        /// * Container - resource.containerDetails.id
+        ///
+        /// * ECSCluster - resource.ecsClusterDetails.name
+        ///
+        /// * EKSCluster - resource.eksClusterDetails.name
+        ///
+        /// * Instance - resource.instanceDetails.instanceId
+        ///
+        /// * KubernetesCluster - resource.kubernetesDetails.kubernetesWorkloadDetails.name
+        ///
+        /// * Lambda - resource.lambdaDetails.functionName
+        ///
+        /// * RDSDBInstance - resource.rdsDbInstanceDetails.dbInstanceIdentifier
+        ///
+        /// * S3Bucket - resource.s3BucketDetails.name
+        ///
+        /// * S3Object - resource.s3BucketDetails.name
+        public var resourceId: Swift.String?
+        /// The type of resource.
+        public var resourceType: Swift.String?
+        /// The total number of findings associated with this resource.
+        public var totalFindings: Swift.Int?
+
+        public init(
+            accountId: Swift.String? = nil,
+            lastGeneratedAt: Foundation.Date? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            totalFindings: Swift.Int? = nil
+        )
+        {
+            self.accountId = accountId
+            self.lastGeneratedAt = lastGeneratedAt
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.totalFindings = totalFindings
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about severity level for each finding type.
+    public struct SeverityStatistics {
+        /// The timestamp at which a finding type for a specific severity was last generated.
+        public var lastGeneratedAt: Foundation.Date?
+        /// The severity level associated with each finding type.
+        public var severity: Swift.Double?
+        /// The total number of findings associated with this severity.
+        public var totalFindings: Swift.Int?
+
+        public init(
+            lastGeneratedAt: Foundation.Date? = nil,
+            severity: Swift.Double? = nil,
+            totalFindings: Swift.Int? = nil
+        )
+        {
+            self.lastGeneratedAt = lastGeneratedAt
+            self.severity = severity
+            self.totalFindings = totalFindings
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about finding statistics.
+    public struct FindingStatistics {
+        /// Represents a list of map of severity to count statistics for a set of findings.
+        @available(*, deprecated, message: "This parameter is deprecated. Please set GroupBy to 'SEVERITY' to return GroupedBySeverity instead.")
+        public var countBySeverity: [Swift.String: Swift.Int]?
+        /// Represents a list of map of accounts with a findings count associated with each account.
+        public var groupedByAccount: [GuardDutyClientTypes.AccountStatistics]?
+        /// Represents a list of map of dates with a count of total findings generated on each date per severity level.
+        public var groupedByDate: [GuardDutyClientTypes.DateStatistics]?
+        /// Represents a list of map of finding types with a count of total findings generated for each type. Based on the orderBy parameter, this request returns either the most occurring finding types or the least occurring finding types. If the orderBy parameter is ASC, this will represent the least occurring finding types in your account; otherwise, this will represent the most occurring finding types. The default value of orderBy is DESC.
+        public var groupedByFindingType: [GuardDutyClientTypes.FindingTypeStatistics]?
+        /// Represents a list of map of top resources with a count of total findings.
+        public var groupedByResource: [GuardDutyClientTypes.ResourceStatistics]?
+        /// Represents a list of map of total findings for each severity level.
+        public var groupedBySeverity: [GuardDutyClientTypes.SeverityStatistics]?
+
+        public init(
+            countBySeverity: [Swift.String: Swift.Int]? = nil,
+            groupedByAccount: [GuardDutyClientTypes.AccountStatistics]? = nil,
+            groupedByDate: [GuardDutyClientTypes.DateStatistics]? = nil,
+            groupedByFindingType: [GuardDutyClientTypes.FindingTypeStatistics]? = nil,
+            groupedByResource: [GuardDutyClientTypes.ResourceStatistics]? = nil,
+            groupedBySeverity: [GuardDutyClientTypes.SeverityStatistics]? = nil
         )
         {
             self.countBySeverity = countBySeverity
+            self.groupedByAccount = groupedByAccount
+            self.groupedByDate = groupedByDate
+            self.groupedByFindingType = groupedByFindingType
+            self.groupedByResource = groupedByResource
+            self.groupedBySeverity = groupedBySeverity
         }
     }
 
@@ -6758,10 +6931,10 @@ public struct GetAdministratorAccountOutput {
 }
 
 public struct GetCoverageStatisticsInput {
-    /// The unique ID of the GuardDuty detector associated to the coverage statistics.
+    /// The unique ID of the GuardDuty detector.
     /// This member is required.
     public var detectorId: Swift.String?
-    /// Represents the criteria used to filter the coverage statistics
+    /// Represents the criteria used to filter the coverage statistics.
     public var filterCriteria: GuardDutyClientTypes.CoverageFilterCriteria?
     /// Represents the statistics type used to aggregate the coverage details.
     /// This member is required.
@@ -6848,7 +7021,7 @@ public struct GetDetectorOutput {
 }
 
 public struct GetFilterInput {
-    /// The unique ID of the detector that the filter is associated with.
+    /// The unique ID of the detector that is associated with this filter.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The name of the filter you want to get.
@@ -6935,25 +7108,75 @@ public struct GetFindingsOutput {
     }
 }
 
+extension GuardDutyClientTypes {
+
+    public enum GroupByType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case date
+        case findingType
+        case resource
+        case severity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupByType] {
+            return [
+                .account,
+                .date,
+                .findingType,
+                .resource,
+                .severity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .date: return "DATE"
+            case .findingType: return "FINDING_TYPE"
+            case .resource: return "RESOURCE"
+            case .severity: return "SEVERITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetFindingsStatisticsInput {
-    /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
+    /// The ID of the detector whose findings statistics you want to retrieve.
     /// This member is required.
     public var detectorId: Swift.String?
     /// Represents the criteria that is used for querying findings.
     public var findingCriteria: GuardDutyClientTypes.FindingCriteria?
     /// The types of finding statistics to retrieve.
-    /// This member is required.
+    @available(*, deprecated, message: "This parameter is deprecated, please use GroupBy instead")
     public var findingStatisticTypes: [GuardDutyClientTypes.FindingStatisticType]?
+    /// Displays the findings statistics grouped by one of the listed valid values.
+    public var groupBy: GuardDutyClientTypes.GroupByType?
+    /// The maximum number of results to be returned in the response. The default value is 25. You can use this parameter only with the groupBy parameter.
+    public var maxResults: Swift.Int?
+    /// Displays the sorted findings in the requested order. The default value of orderBy is DESC. You can use this parameter only with the groupBy parameter.
+    public var orderBy: GuardDutyClientTypes.OrderBy?
 
     public init(
         detectorId: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
-        findingStatisticTypes: [GuardDutyClientTypes.FindingStatisticType]? = nil
+        findingStatisticTypes: [GuardDutyClientTypes.FindingStatisticType]? = nil,
+        groupBy: GuardDutyClientTypes.GroupByType? = nil,
+        maxResults: Swift.Int? = nil,
+        orderBy: GuardDutyClientTypes.OrderBy? = nil
     )
     {
         self.detectorId = detectorId
         self.findingCriteria = findingCriteria
         self.findingStatisticTypes = findingStatisticTypes
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.orderBy = orderBy
     }
 }
 
@@ -6961,12 +7184,16 @@ public struct GetFindingsStatisticsOutput {
     /// The finding statistics object.
     /// This member is required.
     public var findingStatistics: GuardDutyClientTypes.FindingStatistics?
+    /// The pagination parameter to be used on the next list operation to retrieve more items. This parameter is currently not supported.
+    public var nextToken: Swift.String?
 
     public init(
-        findingStatistics: GuardDutyClientTypes.FindingStatistics? = nil
+        findingStatistics: GuardDutyClientTypes.FindingStatistics? = nil,
+        nextToken: Swift.String? = nil
     )
     {
         self.findingStatistics = findingStatistics
+        self.nextToken = nextToken
     }
 }
 
@@ -6988,7 +7215,7 @@ public struct GetInvitationsCountOutput {
 }
 
 public struct GetIPSetInput {
-    /// The unique ID of the detector that the IPSet is associated with.
+    /// The unique ID of the detector that is associated with the IPSet.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The unique ID of the IPSet to retrieve.
@@ -7155,7 +7382,7 @@ public struct GetMalwareProtectionPlanOutput {
     public var createdAt: Foundation.Date?
     /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
     public var protectedResource: GuardDutyClientTypes.CreateProtectedResource?
-    /// IAM role that includes the permissions required to scan and add tags to the associated protected resource.
+    /// Amazon Resource Name (ARN) of the IAM role that includes the permissions to scan and add tags to the associated protected resource.
     public var role: Swift.String?
     /// Malware Protection plan status.
     public var status: GuardDutyClientTypes.MalwareProtectionPlanStatus?
@@ -7187,7 +7414,7 @@ public struct GetMalwareProtectionPlanOutput {
 }
 
 public struct GetMalwareScanSettingsInput {
-    /// The unique ID of the detector that the scan setting is associated with.
+    /// The unique ID of the detector that is associated with this scan.
     /// This member is required.
     public var detectorId: Swift.String?
 
@@ -7357,7 +7584,7 @@ public struct GetMasterAccountOutput {
 }
 
 public struct GetMemberDetectorsInput {
-    /// The account ID of the member account.
+    /// A list of member account IDs.
     /// This member is required.
     public var accountIds: [Swift.String]?
     /// The detector ID for the administrator account.
@@ -7702,7 +7929,7 @@ public struct GetRemainingFreeTrialDaysOutput {
 }
 
 public struct GetThreatIntelSetInput {
-    /// The unique ID of the detector that the threatIntelSet is associated with.
+    /// The unique ID of the detector that is associated with the threatIntelSet.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The unique ID of the threatIntelSet that you want to get.
@@ -8158,7 +8385,7 @@ public struct InviteMembersInput {
     /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
     /// This member is required.
     public var accountIds: [Swift.String]?
-    /// The unique ID of the detector of the GuardDuty account that you want to invite members with.
+    /// The unique ID of the detector of the GuardDuty account with which you want to invite members.
     /// This member is required.
     public var detectorId: Swift.String?
     /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
@@ -8273,7 +8500,7 @@ public struct ListDetectorsOutput {
 }
 
 public struct ListFiltersInput {
-    /// The unique ID of the detector that the filter is associated with.
+    /// The unique ID of the detector that is associated with the filter.
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
@@ -8406,6 +8633,8 @@ public struct ListFindingsInput {
     ///
     /// * service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.
     ///
+    /// * service.ebsVolumeScanDetails.scanId
+    ///
     /// * service.resourceRole
     ///
     /// * severity
@@ -8515,7 +8744,7 @@ public struct ListInvitationsOutput {
 }
 
 public struct ListIPSetsInput {
-    /// The unique ID of the detector that the IPSet is associated with.
+    /// The unique ID of the detector that is associated with IPSet.
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
@@ -8597,7 +8826,7 @@ public struct ListMalwareProtectionPlansOutput {
 }
 
 public struct ListMembersInput {
-    /// The unique ID of the detector the member is associated with.
+    /// The unique ID of the detector that is associated with the member.
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
@@ -8670,7 +8899,7 @@ public struct ListOrganizationAdminAccountsOutput {
 }
 
 public struct ListPublishingDestinationsInput {
-    /// The ID of the detector to retrieve publishing destinations for.
+    /// The detector ID for which you want to retrieve the publishing destination.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The maximum number of results to return in the response.
@@ -8733,7 +8962,7 @@ public struct ListTagsForResourceOutput {
 }
 
 public struct ListThreatIntelSetsInput {
-    /// The unique ID of the detector that the threatIntelSet is associated with.
+    /// The unique ID of the detector that is associated with the threatIntelSet.
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
@@ -9011,7 +9240,7 @@ public struct UpdateFilterOutput {
 public struct UpdateFindingsFeedbackInput {
     /// Additional feedback about the GuardDuty findings.
     public var comments: Swift.String?
-    /// The ID of the detector associated with the findings to update feedback for.
+    /// The ID of the detector that is associated with the findings for which you want to update the feedback.
     /// This member is required.
     public var detectorId: Swift.String?
     /// The feedback for the finding.
@@ -9115,7 +9344,7 @@ public struct UpdateMalwareProtectionPlanInput {
     public var malwareProtectionPlanId: Swift.String?
     /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
     public var protectedResource: GuardDutyClientTypes.UpdateProtectedResource?
-    /// IAM role with permissions required to scan and add tags to the associated protected resource.
+    /// Amazon Resource Name (ARN) of the IAM role with permissions to scan and add tags to the associated protected resource.
     public var role: Swift.String?
 
     public init(
@@ -10638,6 +10867,9 @@ extension GetFindingsStatisticsInput {
         guard let value else { return }
         try writer["findingCriteria"].write(value.findingCriteria, with: GuardDutyClientTypes.FindingCriteria.write(value:to:))
         try writer["findingStatisticTypes"].writeList(value.findingStatisticTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GuardDutyClientTypes.FindingStatisticType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["groupBy"].write(value.groupBy)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["orderBy"].write(value.orderBy)
     }
 }
 
@@ -11206,6 +11438,7 @@ extension GetFindingsStatisticsOutput {
         let reader = responseReader
         var value = GetFindingsStatisticsOutput()
         value.findingStatistics = try reader["findingStatistics"].readIfPresent(with: GuardDutyClientTypes.FindingStatistics.read(from:))
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -14415,6 +14648,74 @@ extension GuardDutyClientTypes.FindingStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.FindingStatistics()
         value.countBySeverity = try reader["countBySeverity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.groupedByAccount = try reader["groupedByAccount"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.AccountStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedByDate = try reader["groupedByDate"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DateStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedByFindingType = try reader["groupedByFindingType"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.FindingTypeStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedByResource = try reader["groupedByResource"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ResourceStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedBySeverity = try reader["groupedBySeverity"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SeverityStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.SeverityStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SeverityStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.SeverityStatistics()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.severity = try reader["severity"].readIfPresent()
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ResourceStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ResourceStatistics()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.FindingTypeStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingTypeStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.FindingTypeStatistics()
+        value.findingType = try reader["findingType"].readIfPresent()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DateStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DateStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DateStatistics()
+        value.date = try reader["date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.severity = try reader["severity"].readIfPresent()
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AccountStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AccountStatistics()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
         return value
     }
 }
