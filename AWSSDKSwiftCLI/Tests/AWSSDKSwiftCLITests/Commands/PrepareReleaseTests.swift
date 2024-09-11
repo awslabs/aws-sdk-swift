@@ -32,10 +32,10 @@ class PrepareReleaseTests: CLITestCase {
         }
         ProcessRunner.testRunner = runner
         let previousVersion = try Version("1.2.3")
-        let newVersion = try Version("1.3.0")
+        let newVersion = try Version("1.2.4")
         createPackageVersion(previousVersion)
         
-        let subject = PrepareRelease.mock(diffChecker: { _,_ in true })
+        let subject = PrepareRelease.mock(repoType: .awsSdkSwift, diffChecker: { _,_ in true })
         try! subject.run()
         
         let versionFromFile = try! Version.fromFile("Package.version")
@@ -73,17 +73,28 @@ class PrepareReleaseTests: CLITestCase {
     
     // MARK: createNewVersion()
     
-    func testCreateNewVersion() throws {
+    func testCreateNewSDKVersion() throws {
         let previousVersion = try Version("1.2.3")
-        let newVersion = try Version("1.3.0")
-        let subject = PrepareRelease.mock()
+        let newVersion = try Version("1.2.4")
+        let subject = PrepareRelease.mock(repoType: .awsSdkSwift)
         let result = try! subject.createNewVersion(previousVersion)
         XCTAssertEqual(result, newVersion)
-        
+
         let versionFromFile = try! Version.fromFile("Package.version")
         XCTAssertEqual(versionFromFile, newVersion)
     }
-    
+
+    func testCreateNewSmithySwiftVersion() throws {
+        let previousVersion = try Version("1.2.3")
+        let newVersion = try Version("1.3.0")
+        let subject = PrepareRelease.mock(repoType: .smithySwift)
+        let result = try! subject.createNewVersion(previousVersion)
+        XCTAssertEqual(result, newVersion)
+
+        let versionFromFile = try! Version.fromFile("Package.version")
+        XCTAssertEqual(versionFromFile, newVersion)
+    }
+
     // MARK: getPreviousVersion()
     
     func testGetPreviousVersionFromPackageVersion() throws {
