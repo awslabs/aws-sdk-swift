@@ -41,6 +41,7 @@ class PrepareReleaseTests: CLITestCase {
         ProcessRunner.testRunner = runner
         let previousVersion = try Version("1.2.3")
         let newVersion = try Version("1.2.4")
+        let futureVersion = try Version("1.2.5")
         createPackageVersion(previousVersion)
         createNextPackageVersion(newVersion)
 
@@ -49,7 +50,10 @@ class PrepareReleaseTests: CLITestCase {
         
         let versionFromFile = try! Version.fromFile("Package.version")
         XCTAssertEqual(versionFromFile, newVersion)
-        
+
+        let futureVersionFromFile = try! Version.fromFile("Package.version.next")
+        XCTAssertEqual(futureVersionFromFile, futureVersion)
+
         let releaseManifest = try! ReleaseManifest.fromFile("release-manifest.json")
         XCTAssertEqual(releaseManifest.name, "\(newVersion)")
         XCTAssertEqual(releaseManifest.tagName, "\(newVersion)")
@@ -69,8 +73,10 @@ class PrepareReleaseTests: CLITestCase {
         }
         ProcessRunner.testRunner = runner
         let previousVersion = try Version("1.2.3")
+        let newVersion = try Version("1.2.4")
         createPackageVersion(previousVersion)
-        
+        createNextPackageVersion(newVersion)
+
         let subject = PrepareRelease.mock(diffChecker: { _,_ in false })
         try! subject.run()
         
@@ -117,7 +123,7 @@ class PrepareReleaseTests: CLITestCase {
     }
 
     // MARK: getPreviousVersion()
-    
+
     func testGetPreviousVersionFromPackageVersion() throws {
         let version = try Version("1.2.3")
         createPackageVersion(version)
@@ -125,7 +131,17 @@ class PrepareReleaseTests: CLITestCase {
         let result = try! subject.getPreviousVersion()
         XCTAssertEqual(result, version)
     }
-    
+
+    // MARK: getNextVersion()
+
+    func testGetNewVersionFromPackageVersionDotNext() throws {
+        let version = try Version("1.2.3")
+        createNextPackageVersion(version)
+        let subject = PrepareRelease.mock()
+        let result = try! subject.getNewVersion()
+        XCTAssertEqual(result, version)
+    }
+
     // MARK: stageFiles()
     
     func testStageFilesForAWSSDKSwift() {
