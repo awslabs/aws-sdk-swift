@@ -4154,10 +4154,10 @@ extension BedrockAgentRuntimeClientTypes {
     public struct KnowledgeBaseRetrieveAndGenerateConfiguration {
         /// Contains configurations for response generation based on the knowledge base query results.
         public var generationConfiguration: BedrockAgentRuntimeClientTypes.GenerationConfiguration?
-        /// The unique identifier of the knowledge base that is queried and the foundation model used for generation.
+        /// The unique identifier of the knowledge base that is queried.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
-        /// The ARN of the foundation model used to generate a response.
+        /// The ARN of the foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) used to generate a response.
         /// This member is required.
         public var modelArn: Swift.String?
         /// Settings for how the model processes the prompt prior to retrieval and generation.
