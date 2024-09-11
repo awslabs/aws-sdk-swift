@@ -72,7 +72,7 @@ struct PrepareRelease {
     let sourceCodeArtifactId: String
     
     typealias DiffChecker = (_ branch: String, _ version: Version) throws -> Bool
-    /// Returns true if the repsoitory has changes given the current branch and the version to compare, otherwise returns false
+    /// Returns true if the repository has changes given the current branch and the version to compare, otherwise returns false
     let diffChecker: DiffChecker
     
     /// Prepares a release for the specified repository.
@@ -144,7 +144,13 @@ struct PrepareRelease {
     /// - Parameter previousVersion: The version of the previous release
     /// - Returns: A new version to be used for this release
     func createNewVersion(_ previousVersion: Version) throws -> Version {
-        let newVersion = previousVersion.incrementingMinor()
+        let newVersion: Version
+        switch repoType {
+        case .awsSdkSwift:
+            newVersion = previousVersion.incrementingPatch()
+        case .smithySwift:
+            newVersion = previousVersion.incrementingMinor()
+        }
         do {
             try "\(newVersion)".write(toFile: "Package.version" , atomically: true, encoding: .utf8)
         } catch {
