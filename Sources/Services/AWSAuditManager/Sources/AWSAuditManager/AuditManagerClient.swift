@@ -30,7 +30,6 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
-import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -229,9 +228,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutput>(AssociateAssessmentReportEvidenceFolderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutput>())
@@ -302,9 +300,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutput>(BatchAssociateAssessmentReportEvidenceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutput>())
@@ -375,9 +372,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutput>(BatchCreateDelegationByAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutput>())
@@ -448,9 +444,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutput>(BatchDeleteDelegationByAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutput>())
@@ -521,9 +516,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutput>(BatchDisassociateAssessmentReportEvidenceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutput>())
@@ -606,9 +600,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutput>(BatchImportEvidenceToAssessmentControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutput>())
@@ -681,9 +674,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateAssessmentInput, CreateAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAssessmentInput, CreateAssessmentOutput>(CreateAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAssessmentInput, CreateAssessmentOutput>())
@@ -755,9 +747,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutput>(CreateAssessmentFrameworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutput>())
@@ -828,9 +819,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateAssessmentReportInput, CreateAssessmentReportOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAssessmentReportInput, CreateAssessmentReportOutput>(CreateAssessmentReportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAssessmentReportInput, CreateAssessmentReportOutput>())
@@ -902,9 +892,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateControlInput, CreateControlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateControlInput, CreateControlOutput>(CreateControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateControlInput, CreateControlOutput>())
@@ -975,9 +964,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteAssessmentInput, DeleteAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAssessmentInput, DeleteAssessmentOutput>(DeleteAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssessmentInput, DeleteAssessmentOutput>())
@@ -1045,9 +1033,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutput>(DeleteAssessmentFrameworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutput>())
@@ -1115,9 +1102,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutput>(DeleteAssessmentFrameworkShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutput>())
@@ -1193,9 +1179,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteAssessmentReportInput, DeleteAssessmentReportOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAssessmentReportInput, DeleteAssessmentReportOutput>(DeleteAssessmentReportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssessmentReportInput, DeleteAssessmentReportOutput>())
@@ -1263,9 +1248,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteControlInput, DeleteControlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteControlInput, DeleteControlOutput>(DeleteControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteControlInput, DeleteControlOutput>())
@@ -1333,9 +1317,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeregisterAccountInput, DeregisterAccountOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterAccountInput, DeregisterAccountOutput>(DeregisterAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterAccountInput, DeregisterAccountOutput>())
@@ -1416,9 +1399,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutput>(DeregisterOrganizationAdminAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutput>())
@@ -1489,9 +1471,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutput>(DisassociateAssessmentReportEvidenceFolderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutput>())
@@ -1559,9 +1540,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetAccountStatusInput, GetAccountStatusOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountStatusInput, GetAccountStatusOutput>(GetAccountStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountStatusInput, GetAccountStatusOutput>())
@@ -1629,9 +1609,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetAssessmentInput, GetAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAssessmentInput, GetAssessmentOutput>(GetAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssessmentInput, GetAssessmentOutput>())
@@ -1699,9 +1678,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutput>(GetAssessmentFrameworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutput>())
@@ -1769,9 +1747,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutput>(GetAssessmentReportUrlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutput>())
@@ -1839,9 +1816,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetChangeLogsInput, GetChangeLogsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetChangeLogsInput, GetChangeLogsOutput>(GetChangeLogsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChangeLogsInput, GetChangeLogsOutput>())
@@ -1910,9 +1886,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetControlInput, GetControlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetControlInput, GetControlOutput>(GetControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetControlInput, GetControlOutput>())
@@ -1979,9 +1954,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetDelegationsInput, GetDelegationsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDelegationsInput, GetDelegationsOutput>(GetDelegationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDelegationsInput, GetDelegationsOutput>())
@@ -2050,9 +2024,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetEvidenceInput, GetEvidenceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEvidenceInput, GetEvidenceOutput>(GetEvidenceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvidenceInput, GetEvidenceOutput>())
@@ -2120,9 +2093,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutput>(GetEvidenceByEvidenceFolderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutput>())
@@ -2200,9 +2172,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetEvidenceFileUploadUrlInput, GetEvidenceFileUploadUrlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEvidenceFileUploadUrlInput, GetEvidenceFileUploadUrlOutput>(GetEvidenceFileUploadUrlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvidenceFileUploadUrlInput, GetEvidenceFileUploadUrlOutput>())
@@ -2271,9 +2242,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetEvidenceFolderInput, GetEvidenceFolderOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEvidenceFolderInput, GetEvidenceFolderOutput>(GetEvidenceFolderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvidenceFolderInput, GetEvidenceFolderOutput>())
@@ -2341,9 +2311,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutput>(GetEvidenceFoldersByAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutput>())
@@ -2412,9 +2381,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutput>(GetEvidenceFoldersByAssessmentControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutput>())
@@ -2481,9 +2449,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetInsightsInput, GetInsightsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInsightsInput, GetInsightsOutput>(GetInsightsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInsightsInput, GetInsightsOutput>())
@@ -2551,9 +2518,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutput>(GetInsightsByAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutput>())
@@ -2621,9 +2587,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutput>(GetOrganizationAdminAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutput>())
@@ -2690,9 +2655,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetServicesInScopeInput, GetServicesInScopeOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServicesInScopeInput, GetServicesInScopeOutput>(GetServicesInScopeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServicesInScopeInput, GetServicesInScopeOutput>())
@@ -2758,9 +2722,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetSettingsInput, GetSettingsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSettingsInput, GetSettingsOutput>(GetSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSettingsInput, GetSettingsOutput>())
@@ -2828,9 +2791,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutput>(ListAssessmentControlInsightsByControlDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutput>())
@@ -2898,9 +2860,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutput>(ListAssessmentFrameworkShareRequestsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutput>())
@@ -2968,9 +2929,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutput>(ListAssessmentFrameworksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutput>())
@@ -3038,9 +2998,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListAssessmentReportsInput, ListAssessmentReportsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssessmentReportsInput, ListAssessmentReportsOutput>(ListAssessmentReportsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssessmentReportsInput, ListAssessmentReportsOutput>())
@@ -3108,9 +3067,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListAssessmentsInput, ListAssessmentsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssessmentsInput, ListAssessmentsOutput>(ListAssessmentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssessmentsInput, ListAssessmentsOutput>())
@@ -3179,9 +3137,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListControlDomainInsightsInput, ListControlDomainInsightsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListControlDomainInsightsInput, ListControlDomainInsightsOutput>(ListControlDomainInsightsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListControlDomainInsightsInput, ListControlDomainInsightsOutput>())
@@ -3250,9 +3207,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutput>(ListControlDomainInsightsByAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutput>())
@@ -3321,9 +3277,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutput>(ListControlInsightsByControlDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutput>())
@@ -3391,9 +3346,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListControlsInput, ListControlsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListControlsInput, ListControlsOutput>(ListControlsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListControlsInput, ListControlsOutput>())
@@ -3461,9 +3415,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutput>(ListKeywordsForDataSourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutput>())
@@ -3531,9 +3484,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListNotificationsInput, ListNotificationsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListNotificationsInput, ListNotificationsOutput>(ListNotificationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListNotificationsInput, ListNotificationsOutput>())
@@ -3601,9 +3553,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3672,9 +3623,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<RegisterAccountInput, RegisterAccountOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterAccountInput, RegisterAccountOutput>(RegisterAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterAccountInput, RegisterAccountOutput>())
@@ -3745,9 +3695,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutput>(RegisterOrganizationAdminAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutput>())
@@ -3829,9 +3778,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutput>(StartAssessmentFrameworkShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutput>())
@@ -3901,9 +3849,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3973,9 +3920,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -4045,9 +3991,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateAssessmentInput, UpdateAssessmentOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssessmentInput, UpdateAssessmentOutput>(UpdateAssessmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssessmentInput, UpdateAssessmentOutput>())
@@ -4118,9 +4063,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateAssessmentControlInput, UpdateAssessmentControlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssessmentControlInput, UpdateAssessmentControlOutput>(UpdateAssessmentControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssessmentControlInput, UpdateAssessmentControlOutput>())
@@ -4191,9 +4135,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutput>(UpdateAssessmentControlSetStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutput>())
@@ -4264,9 +4207,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutput>(UpdateAssessmentFrameworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutput>())
@@ -4338,9 +4280,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutput>(UpdateAssessmentFrameworkShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutput>())
@@ -4412,9 +4353,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutput>(UpdateAssessmentStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutput>())
@@ -4485,9 +4425,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateControlInput, UpdateControlOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateControlInput, UpdateControlOutput>(UpdateControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateControlInput, UpdateControlOutput>())
@@ -4557,9 +4496,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateSettingsInput, UpdateSettingsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSettingsInput, UpdateSettingsOutput>(UpdateSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSettingsInput, UpdateSettingsOutput>())
@@ -4630,9 +4568,8 @@ extension AuditManagerClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutput>(ValidateAssessmentReportIntegrityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutput>())

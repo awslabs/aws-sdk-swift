@@ -30,7 +30,6 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
-import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -230,9 +229,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(AcceptPrimaryEmailUpdateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>())
@@ -304,9 +302,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteAlternateContactInput, DeleteAlternateContactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutput>(DeleteAlternateContactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutput>())
@@ -378,9 +375,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisableRegionInput, DisableRegionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableRegionInput, DisableRegionOutput>(DisableRegionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableRegionInput, DisableRegionOutput>())
@@ -452,9 +448,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<EnableRegionInput, EnableRegionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableRegionInput, EnableRegionOutput>(EnableRegionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableRegionInput, EnableRegionOutput>())
@@ -526,9 +521,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetAlternateContactInput, GetAlternateContactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAlternateContactInput, GetAlternateContactOutput>(GetAlternateContactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAlternateContactInput, GetAlternateContactOutput>())
@@ -600,9 +594,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetContactInformationInput, GetContactInformationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContactInformationInput, GetContactInformationOutput>(GetContactInformationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContactInformationInput, GetContactInformationOutput>())
@@ -674,9 +667,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetPrimaryEmailInput, GetPrimaryEmailOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>(GetPrimaryEmailInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>())
@@ -747,9 +739,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetRegionOptStatusInput, GetRegionOptStatusOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRegionOptStatusInput, GetRegionOptStatusOutput>(GetRegionOptStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRegionOptStatusInput, GetRegionOptStatusOutput>())
@@ -820,9 +811,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListRegionsInput, ListRegionsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRegionsInput, ListRegionsOutput>(ListRegionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRegionsInput, ListRegionsOutput>())
@@ -893,9 +883,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<PutAlternateContactInput, PutAlternateContactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAlternateContactInput, PutAlternateContactOutput>(PutAlternateContactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAlternateContactInput, PutAlternateContactOutput>())
@@ -966,9 +955,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<PutContactInformationInput, PutContactInformationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutContactInformationInput, PutContactInformationOutput>(PutContactInformationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutContactInformationInput, PutContactInformationOutput>())
@@ -1041,9 +1029,8 @@ extension AccountClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(StartPrimaryEmailUpdateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>())

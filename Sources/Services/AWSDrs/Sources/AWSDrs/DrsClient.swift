@@ -30,7 +30,6 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
-import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -232,9 +231,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AssociateSourceNetworkStackInput, AssociateSourceNetworkStackOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSourceNetworkStackInput, AssociateSourceNetworkStackOutput>(AssociateSourceNetworkStackInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSourceNetworkStackInput, AssociateSourceNetworkStackOutput>())
@@ -308,9 +306,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateExtendedSourceServerInput, CreateExtendedSourceServerOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateExtendedSourceServerInput, CreateExtendedSourceServerOutput>(CreateExtendedSourceServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateExtendedSourceServerInput, CreateExtendedSourceServerOutput>())
@@ -383,9 +380,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutput>(CreateLaunchConfigurationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutput>())
@@ -458,9 +454,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateReplicationConfigurationTemplateInput, CreateReplicationConfigurationTemplateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateReplicationConfigurationTemplateInput, CreateReplicationConfigurationTemplateOutput>(CreateReplicationConfigurationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateReplicationConfigurationTemplateInput, CreateReplicationConfigurationTemplateOutput>())
@@ -534,9 +529,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateSourceNetworkInput, CreateSourceNetworkOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSourceNetworkInput, CreateSourceNetworkOutput>(CreateSourceNetworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSourceNetworkInput, CreateSourceNetworkOutput>())
@@ -608,9 +602,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteJobInput, DeleteJobOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteJobInput, DeleteJobOutput>(DeleteJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobInput, DeleteJobOutput>())
@@ -682,9 +675,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteLaunchActionInput, DeleteLaunchActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLaunchActionInput, DeleteLaunchActionOutput>(DeleteLaunchActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLaunchActionInput, DeleteLaunchActionOutput>())
@@ -756,9 +748,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutput>(DeleteLaunchConfigurationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutput>())
@@ -830,9 +821,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteRecoveryInstanceInput, DeleteRecoveryInstanceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRecoveryInstanceInput, DeleteRecoveryInstanceOutput>(DeleteRecoveryInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecoveryInstanceInput, DeleteRecoveryInstanceOutput>())
@@ -904,9 +894,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteReplicationConfigurationTemplateInput, DeleteReplicationConfigurationTemplateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteReplicationConfigurationTemplateInput, DeleteReplicationConfigurationTemplateOutput>(DeleteReplicationConfigurationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReplicationConfigurationTemplateInput, DeleteReplicationConfigurationTemplateOutput>())
@@ -978,9 +967,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteSourceNetworkInput, DeleteSourceNetworkOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSourceNetworkInput, DeleteSourceNetworkOutput>(DeleteSourceNetworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSourceNetworkInput, DeleteSourceNetworkOutput>())
@@ -1052,9 +1040,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteSourceServerInput, DeleteSourceServerOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSourceServerInput, DeleteSourceServerOutput>(DeleteSourceServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSourceServerInput, DeleteSourceServerOutput>())
@@ -1125,9 +1112,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeJobLogItemsInput, DescribeJobLogItemsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeJobLogItemsInput, DescribeJobLogItemsOutput>(DescribeJobLogItemsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobLogItemsInput, DescribeJobLogItemsOutput>())
@@ -1198,9 +1184,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeJobsInput, DescribeJobsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeJobsInput, DescribeJobsOutput>(DescribeJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobsInput, DescribeJobsOutput>())
@@ -1272,9 +1257,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutput>(DescribeLaunchConfigurationTemplatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutput>())
@@ -1345,9 +1329,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeRecoveryInstancesInput, DescribeRecoveryInstancesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRecoveryInstancesInput, DescribeRecoveryInstancesOutput>(DescribeRecoveryInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRecoveryInstancesInput, DescribeRecoveryInstancesOutput>())
@@ -1419,9 +1402,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeRecoverySnapshotsInput, DescribeRecoverySnapshotsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRecoverySnapshotsInput, DescribeRecoverySnapshotsOutput>(DescribeRecoverySnapshotsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRecoverySnapshotsInput, DescribeRecoverySnapshotsOutput>())
@@ -1493,9 +1475,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeReplicationConfigurationTemplatesInput, DescribeReplicationConfigurationTemplatesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeReplicationConfigurationTemplatesInput, DescribeReplicationConfigurationTemplatesOutput>(DescribeReplicationConfigurationTemplatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReplicationConfigurationTemplatesInput, DescribeReplicationConfigurationTemplatesOutput>())
@@ -1566,9 +1547,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeSourceNetworksInput, DescribeSourceNetworksOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSourceNetworksInput, DescribeSourceNetworksOutput>(DescribeSourceNetworksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSourceNetworksInput, DescribeSourceNetworksOutput>())
@@ -1639,9 +1619,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeSourceServersInput, DescribeSourceServersOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSourceServersInput, DescribeSourceServersOutput>(DescribeSourceServersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSourceServersInput, DescribeSourceServersOutput>())
@@ -1714,9 +1693,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisconnectRecoveryInstanceInput, DisconnectRecoveryInstanceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisconnectRecoveryInstanceInput, DisconnectRecoveryInstanceOutput>(DisconnectRecoveryInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisconnectRecoveryInstanceInput, DisconnectRecoveryInstanceOutput>())
@@ -1788,9 +1766,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisconnectSourceServerInput, DisconnectSourceServerOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisconnectSourceServerInput, DisconnectSourceServerOutput>(DisconnectSourceServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisconnectSourceServerInput, DisconnectSourceServerOutput>())
@@ -1863,9 +1840,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ExportSourceNetworkCfnTemplateInput, ExportSourceNetworkCfnTemplateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportSourceNetworkCfnTemplateInput, ExportSourceNetworkCfnTemplateOutput>(ExportSourceNetworkCfnTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportSourceNetworkCfnTemplateInput, ExportSourceNetworkCfnTemplateOutput>())
@@ -1936,9 +1912,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetFailbackReplicationConfigurationInput, GetFailbackReplicationConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFailbackReplicationConfigurationInput, GetFailbackReplicationConfigurationOutput>(GetFailbackReplicationConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFailbackReplicationConfigurationInput, GetFailbackReplicationConfigurationOutput>())
@@ -2009,9 +1984,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetLaunchConfigurationInput, GetLaunchConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLaunchConfigurationInput, GetLaunchConfigurationOutput>(GetLaunchConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLaunchConfigurationInput, GetLaunchConfigurationOutput>())
@@ -2083,9 +2057,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetReplicationConfigurationInput, GetReplicationConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReplicationConfigurationInput, GetReplicationConfigurationOutput>(GetReplicationConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReplicationConfigurationInput, GetReplicationConfigurationOutput>())
@@ -2156,9 +2129,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<InitializeServiceInput, InitializeServiceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<InitializeServiceInput, InitializeServiceOutput>(InitializeServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InitializeServiceInput, InitializeServiceOutput>())
@@ -2227,9 +2199,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutput>(ListExtensibleSourceServersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutput>())
@@ -2301,9 +2272,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListLaunchActionsInput, ListLaunchActionsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLaunchActionsInput, ListLaunchActionsOutput>(ListLaunchActionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLaunchActionsInput, ListLaunchActionsOutput>())
@@ -2375,9 +2345,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListStagingAccountsInput, ListStagingAccountsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStagingAccountsInput, ListStagingAccountsOutput>(ListStagingAccountsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStagingAccountsInput, ListStagingAccountsOutput>())
@@ -2447,9 +2416,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2519,9 +2487,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<PutLaunchActionInput, PutLaunchActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutLaunchActionInput, PutLaunchActionOutput>(PutLaunchActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLaunchActionInput, PutLaunchActionOutput>())
@@ -2594,9 +2561,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<RetryDataReplicationInput, RetryDataReplicationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetryDataReplicationInput, RetryDataReplicationOutput>(RetryDataReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetryDataReplicationInput, RetryDataReplicationOutput>())
@@ -2670,9 +2636,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ReverseReplicationInput, ReverseReplicationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReverseReplicationInput, ReverseReplicationOutput>(ReverseReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReverseReplicationInput, ReverseReplicationOutput>())
@@ -2745,9 +2710,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StartFailbackLaunchInput, StartFailbackLaunchOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFailbackLaunchInput, StartFailbackLaunchOutput>(StartFailbackLaunchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFailbackLaunchInput, StartFailbackLaunchOutput>())
@@ -2819,9 +2783,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StartRecoveryInput, StartRecoveryOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRecoveryInput, StartRecoveryOutput>(StartRecoveryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRecoveryInput, StartRecoveryOutput>())
@@ -2893,9 +2856,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StartReplicationInput, StartReplicationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartReplicationInput, StartReplicationOutput>(StartReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartReplicationInput, StartReplicationOutput>())
@@ -2968,9 +2930,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StartSourceNetworkRecoveryInput, StartSourceNetworkRecoveryOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSourceNetworkRecoveryInput, StartSourceNetworkRecoveryOutput>(StartSourceNetworkRecoveryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSourceNetworkRecoveryInput, StartSourceNetworkRecoveryOutput>())
@@ -3042,9 +3003,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StartSourceNetworkReplicationInput, StartSourceNetworkReplicationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSourceNetworkReplicationInput, StartSourceNetworkReplicationOutput>(StartSourceNetworkReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSourceNetworkReplicationInput, StartSourceNetworkReplicationOutput>())
@@ -3115,9 +3075,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StopFailbackInput, StopFailbackOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopFailbackInput, StopFailbackOutput>(StopFailbackInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopFailbackInput, StopFailbackOutput>())
@@ -3189,9 +3148,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StopReplicationInput, StopReplicationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopReplicationInput, StopReplicationOutput>(StopReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopReplicationInput, StopReplicationOutput>())
@@ -3264,9 +3222,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<StopSourceNetworkReplicationInput, StopSourceNetworkReplicationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopSourceNetworkReplicationInput, StopSourceNetworkReplicationOutput>(StopSourceNetworkReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopSourceNetworkReplicationInput, StopSourceNetworkReplicationOutput>())
@@ -3338,9 +3295,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3412,9 +3368,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<TerminateRecoveryInstancesInput, TerminateRecoveryInstancesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TerminateRecoveryInstancesInput, TerminateRecoveryInstancesOutput>(TerminateRecoveryInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TerminateRecoveryInstancesInput, TerminateRecoveryInstancesOutput>())
@@ -3486,9 +3441,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3558,9 +3512,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateFailbackReplicationConfigurationInput, UpdateFailbackReplicationConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFailbackReplicationConfigurationInput, UpdateFailbackReplicationConfigurationOutput>(UpdateFailbackReplicationConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFailbackReplicationConfigurationInput, UpdateFailbackReplicationConfigurationOutput>())
@@ -3633,9 +3586,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateLaunchConfigurationInput, UpdateLaunchConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLaunchConfigurationInput, UpdateLaunchConfigurationOutput>(UpdateLaunchConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLaunchConfigurationInput, UpdateLaunchConfigurationOutput>())
@@ -3708,9 +3660,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutput>(UpdateLaunchConfigurationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutput>())
@@ -3784,9 +3735,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateReplicationConfigurationInput, UpdateReplicationConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateReplicationConfigurationInput, UpdateReplicationConfigurationOutput>(UpdateReplicationConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateReplicationConfigurationInput, UpdateReplicationConfigurationOutput>())
@@ -3859,9 +3809,8 @@ extension DrsClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateReplicationConfigurationTemplateInput, UpdateReplicationConfigurationTemplateOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateReplicationConfigurationTemplateInput, UpdateReplicationConfigurationTemplateOutput>(UpdateReplicationConfigurationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateReplicationConfigurationTemplateInput, UpdateReplicationConfigurationTemplateOutput>())

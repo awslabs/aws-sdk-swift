@@ -13,7 +13,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
-import enum SmithyReadWrite.Document
+import enum Smithy.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -886,10 +886,10 @@ extension SSOAdminClientTypes {
     public struct IamAuthenticationMethod {
         /// An IAM policy document in JSON.
         /// This member is required.
-        public var actorPolicy: SmithyReadWrite.Document?
+        public var actorPolicy: Smithy.Document?
 
         public init(
-            actorPolicy: SmithyReadWrite.Document? = nil
+            actorPolicy: Smithy.Document? = nil
         )
         {
             self.actorPolicy = actorPolicy
@@ -7755,7 +7755,7 @@ extension SSOAdminClientTypes.IamAuthenticationMethod {
     static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.IamAuthenticationMethod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.IamAuthenticationMethod()
-        value.actorPolicy = try reader["ActorPolicy"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.actorPolicy = try reader["ActorPolicy"].readIfPresent() ?? Smithy.Document.map([:])
         return value
     }
 }

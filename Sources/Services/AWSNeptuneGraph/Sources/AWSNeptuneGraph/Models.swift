@@ -15,7 +15,7 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
+import enum Smithy.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -455,7 +455,7 @@ public struct ExecuteQueryInput {
     /// This member is required.
     public var language: NeptuneGraphClientTypes.QueryLanguage?
     /// The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional)
-    public var parameters: [Swift.String: SmithyReadWrite.Document]?
+    public var parameters: [Swift.String: Smithy.Document]?
     /// Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query. This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an LRU cache with a 5 minute TTL and a capacity of 1000.
     public var planCache: NeptuneGraphClientTypes.PlanCacheType?
     /// The query string to be executed.
@@ -468,7 +468,7 @@ public struct ExecuteQueryInput {
         explainMode: NeptuneGraphClientTypes.ExplainMode? = nil,
         graphIdentifier: Swift.String? = nil,
         language: NeptuneGraphClientTypes.QueryLanguage? = nil,
-        parameters: [Swift.String: SmithyReadWrite.Document]? = nil,
+        parameters: [Swift.String: Smithy.Document]? = nil,
         planCache: NeptuneGraphClientTypes.PlanCacheType? = nil,
         queryString: Swift.String? = nil,
         queryTimeoutMilliseconds: Swift.Int? = nil

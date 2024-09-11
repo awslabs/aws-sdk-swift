@@ -13,7 +13,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
+import enum Smithy.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -418,7 +418,7 @@ extension MarketplaceCatalogClientTypes {
     /// An object that contains metadata and details about the entity.
     public struct EntityDetail {
         /// An object that contains all the details of the entity.
-        public var detailsDocument: SmithyReadWrite.Document?
+        public var detailsDocument: Smithy.Document?
         /// The Amazon Resource Name (ARN) of the entity.
         public var entityArn: Swift.String?
         /// The ID of the entity, in the format of EntityId@RevisionId.
@@ -429,7 +429,7 @@ extension MarketplaceCatalogClientTypes {
         public var lastModifiedDate: Swift.String?
 
         public init(
-            detailsDocument: SmithyReadWrite.Document? = nil,
+            detailsDocument: Smithy.Document? = nil,
             entityArn: Swift.String? = nil,
             entityIdentifier: Swift.String? = nil,
             entityType: Swift.String? = nil,
@@ -651,7 +651,7 @@ extension MarketplaceCatalogClientTypes {
         /// This object contains details specific to the change type of the requested change.
         public var details: Swift.String?
         /// The JSON value of the details specific to the change type of the requested change.
-        public var detailsDocument: SmithyReadWrite.Document?
+        public var detailsDocument: Smithy.Document?
         /// The entity to be changed.
         public var entity: MarketplaceCatalogClientTypes.Entity?
         /// An array of ErrorDetail objects associated with the change.
@@ -661,7 +661,7 @@ extension MarketplaceCatalogClientTypes {
             changeName: Swift.String? = nil,
             changeType: Swift.String? = nil,
             details: Swift.String? = nil,
-            detailsDocument: SmithyReadWrite.Document? = nil,
+            detailsDocument: Smithy.Document? = nil,
             entity: MarketplaceCatalogClientTypes.Entity? = nil,
             errorDetailList: [MarketplaceCatalogClientTypes.ErrorDetail]? = nil
         )
@@ -867,7 +867,7 @@ public struct DescribeEntityOutput {
     /// This stringified JSON object includes the details of the entity.
     public var details: Swift.String?
     /// The JSON value of the details specific to the entity.
-    public var detailsDocument: SmithyReadWrite.Document?
+    public var detailsDocument: Smithy.Document?
     /// The ARN associated to the unique identifier for the entity referenced in this request.
     public var entityArn: Swift.String?
     /// The identifier of the entity, in the format of EntityId@RevisionId.
@@ -879,7 +879,7 @@ public struct DescribeEntityOutput {
 
     public init(
         details: Swift.String? = nil,
-        detailsDocument: SmithyReadWrite.Document? = nil,
+        detailsDocument: Smithy.Document? = nil,
         entityArn: Swift.String? = nil,
         entityIdentifier: Swift.String? = nil,
         entityType: Swift.String? = nil,
@@ -3039,7 +3039,7 @@ extension MarketplaceCatalogClientTypes {
         /// This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
         public var details: Swift.String?
         /// Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument, but not both.
-        public var detailsDocument: SmithyReadWrite.Document?
+        public var detailsDocument: Smithy.Document?
         /// The entity to be changed.
         /// This member is required.
         public var entity: MarketplaceCatalogClientTypes.Entity?
@@ -3050,7 +3050,7 @@ extension MarketplaceCatalogClientTypes {
             changeName: Swift.String? = nil,
             changeType: Swift.String? = nil,
             details: Swift.String? = nil,
-            detailsDocument: SmithyReadWrite.Document? = nil,
+            detailsDocument: Smithy.Document? = nil,
             entity: MarketplaceCatalogClientTypes.Entity? = nil,
             entityTags: [MarketplaceCatalogClientTypes.Tag]? = nil
         )

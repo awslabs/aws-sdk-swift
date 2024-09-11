@@ -30,7 +30,6 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
-import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -229,9 +228,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>(CreateChimeWebhookConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>())
@@ -303,9 +301,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>(CreateMicrosoftTeamsChannelConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>())
@@ -377,9 +374,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>(CreateSlackChannelConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>())
@@ -450,9 +446,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>(DeleteChimeWebhookConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>())
@@ -523,9 +518,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>(DeleteMicrosoftTeamsChannelConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>())
@@ -594,9 +588,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>(DeleteMicrosoftTeamsConfiguredTeamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>())
@@ -666,9 +659,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>(DeleteMicrosoftTeamsUserIdentityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>())
@@ -739,9 +731,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>(DeleteSlackChannelConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>())
@@ -811,9 +802,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>(DeleteSlackUserIdentityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>())
@@ -882,9 +872,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>(DeleteSlackWorkspaceAuthorizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>())
@@ -954,9 +943,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>(DescribeChimeWebhookConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>())
@@ -1026,9 +1014,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>(DescribeSlackChannelConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>())
@@ -1098,9 +1085,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>(DescribeSlackUserIdentitiesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>())
@@ -1170,9 +1156,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>(DescribeSlackWorkspacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>())
@@ -1241,9 +1226,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetAccountPreferencesInput, GetAccountPreferencesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>(GetAccountPreferencesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>())
@@ -1310,9 +1294,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>(GetMicrosoftTeamsChannelConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>())
@@ -1382,9 +1365,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>(ListMicrosoftTeamsChannelConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>())
@@ -1454,9 +1436,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>(ListMicrosoftTeamsConfiguredTeamsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>())
@@ -1526,9 +1507,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>(ListMicrosoftTeamsUserIdentitiesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>())
@@ -1598,9 +1578,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -1671,9 +1650,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1743,9 +1721,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -1815,9 +1792,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>(UpdateAccountPreferencesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>())
@@ -1888,9 +1864,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>(UpdateChimeWebhookConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>())
@@ -1961,9 +1936,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>(UpdateMicrosoftTeamsChannelConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>())
@@ -2034,9 +2008,8 @@ extension ChatbotClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>(UpdateSlackChannelConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>())

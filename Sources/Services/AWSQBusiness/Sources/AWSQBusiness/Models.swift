@@ -16,8 +16,8 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
+import enum Smithy.Document
 import enum SmithyEventStreamsAPI.MessageType
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -267,10 +267,10 @@ extension QBusinessClientTypes {
     public struct ActionExecutionPayloadField {
         /// The content of a user input field in an plugin action execution payload.
         /// This member is required.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.value = value
@@ -372,13 +372,13 @@ extension QBusinessClientTypes {
     /// Information about the field values that an end user can use to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
     public struct ActionReviewPayloadFieldAllowedValue {
         /// The name of the field.
-        public var displayValue: SmithyReadWrite.Document?
+        public var displayValue: Smithy.Document?
         /// The field value.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
-            displayValue: SmithyReadWrite.Document? = nil,
-            value: SmithyReadWrite.Document? = nil
+            displayValue: Smithy.Document? = nil,
+            value: Smithy.Document? = nil
         )
         {
             self.displayValue = displayValue
@@ -406,7 +406,7 @@ extension QBusinessClientTypes {
         /// The type of field.
         public var type: QBusinessClientTypes.ActionPayloadFieldType?
         /// The field value.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
             allowedFormat: Swift.String? = nil,
@@ -416,7 +416,7 @@ extension QBusinessClientTypes {
             displayOrder: Swift.Int? = nil,
             `required`: Swift.Bool? = nil,
             type: QBusinessClientTypes.ActionPayloadFieldType? = nil,
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.allowedFormat = allowedFormat
@@ -1861,7 +1861,7 @@ public struct CreateDataSourceInput {
     ///
     /// * Then, from your specific data source connector page, select Using the API. You will find the JSON schema for your data source, including parameter descriptions, in this section.
     /// This member is required.
-    public var configuration: SmithyReadWrite.Document?
+    public var configuration: Smithy.Document?
     /// A description for the data source connector.
     public var description: Swift.String?
     /// A name for the data source connector.
@@ -1884,7 +1884,7 @@ public struct CreateDataSourceInput {
     public init(
         applicationId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
-        configuration: SmithyReadWrite.Document? = nil,
+        configuration: Smithy.Document? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         documentEnrichmentConfiguration: QBusinessClientTypes.DocumentEnrichmentConfiguration? = nil,
@@ -2021,7 +2021,7 @@ public struct GetDataSourceOutput {
     /// The identifier of the Amazon Q Business application.
     public var applicationId: Swift.String?
     /// The details of how the data source connector is configured.
-    public var configuration: SmithyReadWrite.Document?
+    public var configuration: Smithy.Document?
     /// The Unix timestamp when the data source connector was created.
     public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the data source.
@@ -2053,7 +2053,7 @@ public struct GetDataSourceOutput {
 
     public init(
         applicationId: Swift.String? = nil,
-        configuration: SmithyReadWrite.Document? = nil,
+        configuration: Smithy.Document? = nil,
         createdAt: Foundation.Date? = nil,
         dataSourceArn: Swift.String? = nil,
         dataSourceId: Swift.String? = nil,
@@ -2172,7 +2172,7 @@ public struct UpdateDataSourceInput {
     /// This member is required.
     public var applicationId: Swift.String?
     /// Provides the configuration information for an Amazon Q Business data source.
-    public var configuration: SmithyReadWrite.Document?
+    public var configuration: Smithy.Document?
     /// The identifier of the data source connector.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -2194,7 +2194,7 @@ public struct UpdateDataSourceInput {
 
     public init(
         applicationId: Swift.String? = nil,
-        configuration: SmithyReadWrite.Document? = nil,
+        configuration: Smithy.Document? = nil,
         dataSourceId: Swift.String? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
@@ -11222,7 +11222,7 @@ extension QBusinessClientTypes.ActionExecutionPayloadField {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ActionExecutionPayloadField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.ActionExecutionPayloadField()
-        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.value = try reader["value"].readIfPresent() ?? Smithy.Document.map([:])
         return value
     }
 }

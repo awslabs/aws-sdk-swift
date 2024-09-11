@@ -30,7 +30,6 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
-import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -229,9 +228,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AcceptPortfolioShareInput, AcceptPortfolioShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>(AcceptPortfolioShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>())
@@ -303,9 +301,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>(AssociateBudgetWithResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>())
@@ -376,9 +373,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>(AssociatePrincipalWithPortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>())
@@ -449,9 +445,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>(AssociateProductWithPortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>())
@@ -523,9 +518,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(AssociateServiceActionWithProvisioningArtifactInput.urlPathProvider(_:)))
@@ -600,9 +594,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>(AssociateTagOptionWithResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>())
@@ -671,9 +664,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>(BatchAssociateServiceActionWithProvisioningArtifactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>())
@@ -742,9 +734,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>(BatchDisassociateServiceActionFromProvisioningArtifactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>())
@@ -814,9 +805,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CopyProductInput, CopyProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CopyProductInput, CopyProductOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CopyProductInput, CopyProductOutput>(CopyProductInput.urlPathProvider(_:)))
@@ -889,9 +879,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateConstraintInput, CreateConstraintOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateConstraintInput, CreateConstraintOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConstraintInput, CreateConstraintOutput>(CreateConstraintInput.urlPathProvider(_:)))
@@ -963,9 +952,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreatePortfolioInput, CreatePortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(CreatePortfolioInput.urlPathProvider(_:)))
@@ -1039,9 +1027,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreatePortfolioShareInput, CreatePortfolioShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>(CreatePortfolioShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>())
@@ -1112,9 +1099,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateProductInput, CreateProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateProductInput, CreateProductOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProductInput, CreateProductOutput>(CreateProductInput.urlPathProvider(_:)))
@@ -1186,9 +1172,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(CreateProvisionedProductPlanInput.urlPathProvider(_:)))
@@ -1260,9 +1245,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(CreateProvisioningArtifactInput.urlPathProvider(_:)))
@@ -1333,9 +1317,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateServiceActionInput, CreateServiceActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(CreateServiceActionInput.urlPathProvider(_:)))
@@ -1407,9 +1390,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<CreateTagOptionInput, CreateTagOptionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTagOptionInput, CreateTagOptionOutput>(CreateTagOptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTagOptionInput, CreateTagOptionOutput>())
@@ -1479,9 +1461,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteConstraintInput, DeleteConstraintOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConstraintInput, DeleteConstraintOutput>(DeleteConstraintInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConstraintInput, DeleteConstraintOutput>())
@@ -1553,9 +1534,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeletePortfolioInput, DeletePortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePortfolioInput, DeletePortfolioOutput>(DeletePortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePortfolioInput, DeletePortfolioOutput>())
@@ -1627,9 +1607,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeletePortfolioShareInput, DeletePortfolioShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>(DeletePortfolioShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>())
@@ -1701,9 +1680,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteProductInput, DeleteProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProductInput, DeleteProductOutput>(DeleteProductInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProductInput, DeleteProductOutput>())
@@ -1773,9 +1751,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>(DeleteProvisionedProductPlanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>())
@@ -1846,9 +1823,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>(DeleteProvisioningArtifactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>())
@@ -1918,9 +1894,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteServiceActionInput, DeleteServiceActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(DeleteServiceActionInput.urlPathProvider(_:)))
@@ -1992,9 +1967,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DeleteTagOptionInput, DeleteTagOptionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>(DeleteTagOptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>())
@@ -2063,9 +2037,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeConstraintInput, DescribeConstraintOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeConstraintInput, DescribeConstraintOutput>(DescribeConstraintInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConstraintInput, DescribeConstraintOutput>())
@@ -2134,9 +2107,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>(DescribeCopyProductStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>())
@@ -2205,9 +2177,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribePortfolioInput, DescribePortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePortfolioInput, DescribePortfolioOutput>(DescribePortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePortfolioInput, DescribePortfolioOutput>())
@@ -2278,9 +2249,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>(DescribePortfolioShareStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>())
@@ -2350,9 +2320,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribePortfolioSharesInput, DescribePortfolioSharesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(DescribePortfolioSharesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>())
@@ -2422,9 +2391,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeProductInput, DescribeProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProductInput, DescribeProductOutput>(DescribeProductInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProductInput, DescribeProductOutput>())
@@ -2494,9 +2462,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeProductAsAdminInput, DescribeProductAsAdminOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>(DescribeProductAsAdminInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>())
@@ -2566,9 +2533,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeProductViewInput, DescribeProductViewOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProductViewInput, DescribeProductViewOutput>(DescribeProductViewInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProductViewInput, DescribeProductViewOutput>())
@@ -2638,9 +2604,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeProvisionedProductInput, DescribeProvisionedProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>(DescribeProvisionedProductInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>())
@@ -2710,9 +2675,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>(DescribeProvisionedProductPlanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>())
@@ -2782,9 +2746,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>(DescribeProvisioningArtifactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>())
@@ -2854,9 +2817,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>(DescribeProvisioningParametersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>())
@@ -2925,9 +2887,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeRecordInput, DescribeRecordOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRecordInput, DescribeRecordOutput>(DescribeRecordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRecordInput, DescribeRecordOutput>())
@@ -2996,9 +2957,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeServiceActionInput, DescribeServiceActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>(DescribeServiceActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>())
@@ -3068,9 +3028,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>(DescribeServiceActionExecutionParametersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>())
@@ -3140,9 +3099,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DescribeTagOptionInput, DescribeTagOptionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>(DescribeTagOptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>())
@@ -3213,9 +3171,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>(DisableAWSOrganizationsAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>())
@@ -3284,9 +3241,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>(DisassociateBudgetFromResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>())
@@ -3356,9 +3312,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>(DisassociatePrincipalFromPortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>())
@@ -3429,9 +3384,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>(DisassociateProductFromPortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>())
@@ -3500,9 +3454,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(DisassociateServiceActionFromProvisioningArtifactInput.urlPathProvider(_:)))
@@ -3573,9 +3526,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>(DisassociateTagOptionFromResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>())
@@ -3646,9 +3598,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>(EnableAWSOrganizationsAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>())
@@ -3719,9 +3670,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(ExecuteProvisionedProductPlanInput.urlPathProvider(_:)))
@@ -3793,9 +3743,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(keyPath: \.executeToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(ExecuteProvisionedProductServiceActionInput.urlPathProvider(_:)))
@@ -3866,9 +3815,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>(GetAWSOrganizationsAccessStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>())
@@ -3938,9 +3886,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(GetProvisionedProductOutputsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>())
@@ -4012,9 +3959,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(ImportAsProvisionedProductInput.urlPathProvider(_:)))
@@ -4085,9 +4031,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(ListAcceptedPortfolioSharesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>())
@@ -4157,9 +4102,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListBudgetsForResourceInput, ListBudgetsForResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(ListBudgetsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>())
@@ -4229,9 +4173,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(ListConstraintsForPortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>())
@@ -4301,9 +4244,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListLaunchPathsInput, ListLaunchPathsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>(ListLaunchPathsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>())
@@ -4374,9 +4316,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(ListOrganizationPortfolioAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>())
@@ -4446,9 +4387,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListPortfolioAccessInput, ListPortfolioAccessOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>(ListPortfolioAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>())
@@ -4517,9 +4457,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListPortfoliosInput, ListPortfoliosOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPortfoliosInput, ListPortfoliosOutput>(ListPortfoliosInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPortfoliosInput, ListPortfoliosOutput>())
@@ -4589,9 +4528,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListPortfoliosForProductInput, ListPortfoliosForProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(ListPortfoliosForProductInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>())
@@ -4661,9 +4599,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(ListPrincipalsForPortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>())
@@ -4733,9 +4670,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(ListProvisionedProductPlansInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>())
@@ -4805,9 +4741,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>(ListProvisioningArtifactsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>())
@@ -4877,9 +4812,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(ListProvisioningArtifactsForServiceActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>())
@@ -4948,9 +4882,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListRecordHistoryInput, ListRecordHistoryOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>(ListRecordHistoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>())
@@ -5021,9 +4954,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(ListResourcesForTagOptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>())
@@ -5092,9 +5024,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListServiceActionsInput, ListServiceActionsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceActionsInput, ListServiceActionsOutput>(ListServiceActionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceActionsInput, ListServiceActionsOutput>())
@@ -5164,9 +5095,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(ListServiceActionsForProvisioningArtifactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>())
@@ -5236,9 +5166,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(ListStackInstancesForProvisionedProductInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>())
@@ -5308,9 +5237,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ListTagOptionsInput, ListTagOptionsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagOptionsInput, ListTagOptionsOutput>(ListTagOptionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagOptionsInput, ListTagOptionsOutput>())
@@ -5380,9 +5308,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(NotifyProvisionProductEngineWorkflowResultInput.urlPathProvider(_:)))
@@ -5453,9 +5380,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(NotifyTerminateProvisionedProductEngineWorkflowResultInput.urlPathProvider(_:)))
@@ -5526,9 +5452,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(NotifyUpdateProvisionedProductEngineWorkflowResultInput.urlPathProvider(_:)))
@@ -5600,9 +5525,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ProvisionProductInput, ProvisionProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ProvisionProductInput, ProvisionProductOutput>(keyPath: \.provisionToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ProvisionProductInput, ProvisionProductOutput>(ProvisionProductInput.urlPathProvider(_:)))
@@ -5672,9 +5596,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<RejectPortfolioShareInput, RejectPortfolioShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>(RejectPortfolioShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>())
@@ -5743,9 +5666,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<ScanProvisionedProductsInput, ScanProvisionedProductsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(ScanProvisionedProductsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>())
@@ -5814,9 +5736,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<SearchProductsInput, SearchProductsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchProductsInput, SearchProductsOutput>(SearchProductsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchProductsInput, SearchProductsOutput>())
@@ -5886,9 +5807,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<SearchProductsAsAdminInput, SearchProductsAsAdminOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(SearchProductsAsAdminInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>())
@@ -5957,9 +5877,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<SearchProvisionedProductsInput, SearchProvisionedProductsOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(SearchProvisionedProductsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>())
@@ -6028,9 +5947,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<TerminateProvisionedProductInput, TerminateProvisionedProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(keyPath: \.terminateToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(TerminateProvisionedProductInput.urlPathProvider(_:)))
@@ -6101,9 +6019,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateConstraintInput, UpdateConstraintOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConstraintInput, UpdateConstraintOutput>(UpdateConstraintInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConstraintInput, UpdateConstraintOutput>())
@@ -6175,9 +6092,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdatePortfolioInput, UpdatePortfolioOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>(UpdatePortfolioInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>())
@@ -6249,9 +6165,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdatePortfolioShareInput, UpdatePortfolioShareOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>(UpdatePortfolioShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>())
@@ -6322,9 +6237,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateProductInput, UpdateProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProductInput, UpdateProductOutput>(UpdateProductInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProductInput, UpdateProductOutput>())
@@ -6394,9 +6308,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateProvisionedProductInput, UpdateProvisionedProductOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(keyPath: \.updateToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(UpdateProvisionedProductInput.urlPathProvider(_:)))
@@ -6468,9 +6381,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(keyPath: \.idempotencyToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(UpdateProvisionedProductPropertiesInput.urlPathProvider(_:)))
@@ -6541,9 +6453,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>(UpdateProvisioningArtifactInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>())
@@ -6613,9 +6524,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateServiceActionInput, UpdateServiceActionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>(UpdateServiceActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>())
@@ -6687,9 +6597,8 @@ extension ServiceCatalogClient {
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        config.httpInterceptorProviders.forEach { (provider: any ClientRuntime.HttpInterceptorProvider) -> Void in
-            let i: any ClientRuntime.HttpInterceptor<UpdateTagOptionInput, UpdateTagOptionOutput> = provider.create()
-            builder.interceptors.add(i)
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>(UpdateTagOptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>())
