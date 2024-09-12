@@ -93,7 +93,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     }
 
     class DisablePayloadSigningProvider: HttpInterceptorProvider {
-        func create<InputType, OutputType>() -> any HttpInterceptor<InputType, OutputType> {
+        func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
             return DisablePayloadSigning()
         }
     }

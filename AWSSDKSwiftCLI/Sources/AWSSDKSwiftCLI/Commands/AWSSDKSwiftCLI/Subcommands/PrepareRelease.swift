@@ -72,7 +72,7 @@ struct PrepareRelease {
     let sourceCodeArtifactId: String
     
     typealias DiffChecker = (_ branch: String, _ version: Version) throws -> Bool
-    /// Returns true if the repsoitory has changes given the current branch and the version to compare, otherwise returns false
+    /// Returns true if the repository has changes given the current branch and the version to compare, otherwise returns false
     let diffChecker: DiffChecker
     
     /// Prepares a release for the specified repository.
@@ -123,8 +123,17 @@ struct PrepareRelease {
         log("Previous release version: \(previousVersion)")
         return previousVersion
     }
-    
-    
+
+    /// Returns the version of the new release.
+    /// This version is read from the version defined in the `Package.version.next` file.
+    ///
+    /// - Returns: The version of the new release.
+    func getNewVersion() throws -> Version {
+        let newVersion = try Version.fromFile("Package.version.next")
+        log("New release version: \(newVersion)")
+        return newVersion
+    }
+
     /// Returns true if the `main` branch has changes since the previous release, otherwise returns false.
     ///
     /// - Parameter previousVersion: The version of the previous release
@@ -139,18 +148,39 @@ struct PrepareRelease {
         return hasChanges
     }
     
-    /// Creates and returns a new version to be used for this release
+    /// Creates and returns a new version to be used for this release.
+    ///
+    /// The new version is read from the file `Package.version.next`, which is written into `Package.version`.  The
+    /// new version is then auto-incremented and written into `Package.version.next`.
     ///
     /// - Parameter previousVersion: The version of the previous release
-    /// - Returns: A new version to be used for this release
+    /// - Returns: The new version to be used for this release, as read from `Package.version.next`.
     func createNewVersion(_ previousVersion: Version) throws -> Version {
-        let newVersion = previousVersion.incrementingMinor()
+        let newVersion: Version
+        do {
+            newVersion = try getNewVersion()
+        } catch {
+            throw Error("Failed to read new version from Package.version.next")
+        }
         do {
             try "\(newVersion)".write(toFile: "Package.version" , atomically: true, encoding: .utf8)
+            log("Updated Package.version: \(newVersion)")
         } catch {
           throw Error("Failed to write version \(newVersion) to Package.version")
         }
-        log("Updated Package.version: \(newVersion)")
+        let futureVersion: Version
+        do {
+            switch repoType {
+            case .awsSdkSwift:
+                futureVersion = newVersion.incrementingPatch()
+            case .smithySwift:
+                futureVersion = newVersion.incrementingMinor()
+            }
+            try "\(futureVersion)".write(toFile: "Package.version.next", atomically: true, encoding: .utf8)
+            log("Updated Package.version.next: \(futureVersion)")
+        } catch {
+            throw Error("Failed to write version \(futureVersion) to Package.version.next")
+        }
         return newVersion
     }
     
@@ -162,12 +192,13 @@ struct PrepareRelease {
             files = [
                 "Package.swift",
                 "Package.version",
+                "Package.version.next",
                 "packageDependencies.plist",
                 "Sources/Services",
                 "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
             ]
         case .smithySwift:
-            files = ["Package.version"]
+            files = ["Package.version", "Package.version.next"]
         }
         
         try _run(Process.git.add(files))
