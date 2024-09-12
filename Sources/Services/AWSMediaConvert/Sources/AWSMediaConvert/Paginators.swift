@@ -173,6 +173,36 @@ extension PaginatorSequence where OperationStackInput == ListQueuesInput, Operat
     }
 }
 extension MediaConvertClient {
+    /// Paginate over `[ListVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsOutput`
+    public func listVersionsPaginated(input: ListVersionsInput) -> ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVersions(input:))
+    }
+}
+
+extension ListVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListVersionsInput {
+        return ListVersionsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListVersionsInput, OperationStackOutput == ListVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listVersionsPaginated`
+    /// to access the nested member `[MediaConvertClientTypes.JobEngineVersion]`
+    /// - Returns: `[MediaConvertClientTypes.JobEngineVersion]`
+    public func versions() async throws -> [MediaConvertClientTypes.JobEngineVersion] {
+        return try await self.asyncCompactMap { item in item.versions }
+    }
+}
+extension MediaConvertClient {
     /// Paginate over `[SearchJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

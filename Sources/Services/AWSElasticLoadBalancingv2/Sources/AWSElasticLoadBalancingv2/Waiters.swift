@@ -46,7 +46,7 @@ extension ElasticLoadBalancingv2Client {
             }),
             .init(state: .retry, matcher: { (input: DescribeLoadBalancersInput, result: Swift.Result<DescribeLoadBalancersOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? ClientRuntime.ServiceError)?.typeName == "LoadBalancerNotFoundException"
+                return (error as? ClientRuntime.ServiceError)?.typeName == "LoadBalancerNotFound"
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -78,7 +78,7 @@ extension ElasticLoadBalancingv2Client {
             }),
             .init(state: .retry, matcher: { (input: DescribeLoadBalancersInput, result: Swift.Result<DescribeLoadBalancersOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? ClientRuntime.ServiceError)?.typeName == "LoadBalancerNotFoundException"
+                return (error as? ClientRuntime.ServiceError)?.typeName == "LoadBalancerNotFound"
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -117,7 +117,7 @@ extension ElasticLoadBalancingv2Client {
             }),
             .init(state: .success, matcher: { (input: DescribeLoadBalancersInput, result: Swift.Result<DescribeLoadBalancersOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? ClientRuntime.ServiceError)?.typeName == "LoadBalancerNotFoundException"
+                return (error as? ClientRuntime.ServiceError)?.typeName == "LoadBalancerNotFound"
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
