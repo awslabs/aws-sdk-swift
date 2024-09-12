@@ -1079,7 +1079,11 @@ extension GlueClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
     public func batchGetTableOptimizer(input: BatchGetTableOptimizerInput) async throws -> BatchGetTableOptimizerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3236,6 +3240,8 @@ extension GlueClient {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    /// - `ValidationException` : A value could not be validated.
     public func createTableOptimizer(input: CreateTableOptimizerInput) async throws -> CreateTableOptimizerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5150,6 +5156,7 @@ extension GlueClient {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
     public func deleteTableOptimizer(input: DeleteTableOptimizerInput) async throws -> DeleteTableOptimizerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9535,6 +9542,7 @@ extension GlueClient {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
     public func getTableOptimizer(input: GetTableOptimizerInput) async throws -> GetTableOptimizerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12248,6 +12256,8 @@ extension GlueClient {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    /// - `ValidationException` : A value could not be validated.
     public func listTableOptimizerRuns(input: ListTableOptimizerRunsInput) async throws -> ListTableOptimizerRunsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16319,9 +16329,12 @@ extension GlueClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ThrottlingException` : The throttling threshhold was exceeded.
+    /// - `ValidationException` : A value could not be validated.
     public func updateTableOptimizer(input: UpdateTableOptimizerInput) async throws -> UpdateTableOptimizerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
