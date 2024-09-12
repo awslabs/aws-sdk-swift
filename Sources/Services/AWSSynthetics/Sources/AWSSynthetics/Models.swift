@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 extension SyntheticsClientTypes {
 
@@ -803,7 +804,11 @@ extension SyntheticsClientTypes {
 }
 
 extension SyntheticsClientTypes {
-    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile.
+    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
+    ///
+    /// * For Node.js canaries, the folder structure must be nodejs/node_modules/myCanaryFilename.js  For more information, see [Packaging your Node.js canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package)
+    ///
+    /// * For Python canaries, the folder structure must be python/myCanaryFilename.p  or python/myFolder/myCanaryFilename.py  For more information, see [Packaging your Python canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Python.html#CloudWatch_Synthetics_Canaries_WritingCanary_Python_package)
     public struct CanaryCodeInput {
         /// The entry point to use for the source code when running the canary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4, the handler must be specified as  fileName.handler. For syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as  fileName.functionName , or you can specify a folder where canary scripts reside as  folder/fileName.functionName .
         /// This member is required.
@@ -909,6 +914,32 @@ public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSCli
 }
 
 extension SyntheticsClientTypes {
+
+    public enum ResourceToTag: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lambdaFunction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceToTag] {
+            return [
+                .lambdaFunction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lambdaFunction: return "lambda-function"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public struct VpcConfigInput {
         /// The IDs of the security groups for this canary.
@@ -959,6 +990,8 @@ public struct CreateCanaryInput {
     /// The name for this canary. Be sure to give it a descriptive name that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see [Security Considerations for Synthetics Canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html).
     /// This member is required.
     public var name: Swift.String?
+    /// To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
+    public var resourcesToReplicateTags: [SyntheticsClientTypes.ResourceToTag]?
     /// A structure that contains the configuration for individual canary runs, such as timeout value and environment variables. The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
     public var runConfig: SyntheticsClientTypes.CanaryRunConfigInput?
     /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
@@ -969,7 +1002,7 @@ public struct CreateCanaryInput {
     public var schedule: SyntheticsClientTypes.CanaryScheduleInput?
     /// The number of days to retain data about successful runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days.
     public var successRetentionPeriodInDays: Swift.Int?
-    /// A list of key-value pairs to associate with the canary. You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only the resources that have certain tag values.
+    /// A list of key-value pairs to associate with the canary. You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only the resources that have certain tag values. To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function.
     public var tags: [Swift.String: Swift.String]?
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
@@ -981,6 +1014,7 @@ public struct CreateCanaryInput {
         executionRoleArn: Swift.String? = nil,
         failureRetentionPeriodInDays: Swift.Int? = nil,
         name: Swift.String? = nil,
+        resourcesToReplicateTags: [SyntheticsClientTypes.ResourceToTag]? = nil,
         runConfig: SyntheticsClientTypes.CanaryRunConfigInput? = nil,
         runtimeVersion: Swift.String? = nil,
         schedule: SyntheticsClientTypes.CanaryScheduleInput? = nil,
@@ -995,6 +1029,7 @@ public struct CreateCanaryInput {
         self.executionRoleArn = executionRoleArn
         self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
         self.name = name
+        self.resourcesToReplicateTags = resourcesToReplicateTags
         self.runConfig = runConfig
         self.runtimeVersion = runtimeVersion
         self.schedule = schedule
@@ -1122,7 +1157,7 @@ public struct DeleteGroupOutput {
 }
 
 public struct DescribeCanariesInput {
-    /// Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is used.
+    /// Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 20 is used.
     public var maxResults: Swift.Int?
     /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use this parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
     public var names: [Swift.String]?
@@ -2007,6 +2042,7 @@ extension CreateCanaryInput {
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
         try writer["Name"].write(value.name)
+        try writer["ResourcesToReplicateTags"].writeList(value.resourcesToReplicateTags, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SyntheticsClientTypes.ResourceToTag>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RunConfig"].write(value.runConfig, with: SyntheticsClientTypes.CanaryRunConfigInput.write(value:to:))
         try writer["RuntimeVersion"].write(value.runtimeVersion)
         try writer["Schedule"].write(value.schedule, with: SyntheticsClientTypes.CanaryScheduleInput.write(value:to:))

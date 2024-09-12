@@ -516,11 +516,11 @@ extension EMRClientTypes {
 }
 
 extension EMRClientTypes {
-    /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot instance allocation strategies are available in Amazon EMR releases 5.12.1 and later.
+    /// The launch specification for On-Demand and Spot Instances in the fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot instance allocation strategies are available in Amazon EMR releases 5.12.1 and later.
     public struct InstanceFleetProvisioningSpecifications {
-        /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and later.
+        /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy and capacity reservation options. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and later.
         public var onDemandSpecification: EMRClientTypes.OnDemandProvisioningSpecification?
-        /// The launch specification for Spot instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
+        /// The launch specification for Spot instances in the fleet, which determines the allocation strategy, defined duration, and provisioning timeout behavior.
         public var spotSpecification: EMRClientTypes.SpotProvisioningSpecification?
 
         public init(
@@ -538,14 +538,21 @@ extension EMRClientTypes {
 extension EMRClientTypes {
     /// The resize specification for On-Demand Instances in the instance fleet, which contains the resize timeout period.
     public struct OnDemandResizingSpecification {
+        /// Specifies the allocation strategy to use to launch On-Demand instances during a resize. The default is lowest-price.
+        public var allocationStrategy: EMRClientTypes.OnDemandProvisioningAllocationStrategy?
+        /// Describes the strategy for using unused Capacity Reservations for fulfilling On-Demand capacity.
+        public var capacityReservationOptions: EMRClientTypes.OnDemandCapacityReservationOptions?
         /// On-Demand resize timeout in minutes. If On-Demand Instances are not provisioned within this time, the resize workflow stops. The minimum value is 5 minutes, and the maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
-        /// This member is required.
         public var timeoutDurationMinutes: Swift.Int?
 
         public init(
+            allocationStrategy: EMRClientTypes.OnDemandProvisioningAllocationStrategy? = nil,
+            capacityReservationOptions: EMRClientTypes.OnDemandCapacityReservationOptions? = nil,
             timeoutDurationMinutes: Swift.Int? = nil
         )
         {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationOptions = capacityReservationOptions
             self.timeoutDurationMinutes = timeoutDurationMinutes
         }
     }
@@ -555,14 +562,17 @@ extension EMRClientTypes {
 extension EMRClientTypes {
     /// The resize specification for Spot Instances in the instance fleet, which contains the resize timeout period.
     public struct SpotResizingSpecification {
+        /// Specifies the allocation strategy to use to launch Spot instances during a resize. If you run Amazon EMR releases 6.9.0 or higher, the default is price-capacity-optimized. If you run Amazon EMR releases 6.8.0 or lower, the default is capacity-optimized.
+        public var allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy?
         /// Spot resize timeout in minutes. If Spot Instances are not provisioned within this time, the resize workflow will stop provisioning of Spot instances. Minimum value is 5 minutes and maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
-        /// This member is required.
         public var timeoutDurationMinutes: Swift.Int?
 
         public init(
+            allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy? = nil,
             timeoutDurationMinutes: Swift.Int? = nil
         )
         {
+            self.allocationStrategy = allocationStrategy
             self.timeoutDurationMinutes = timeoutDurationMinutes
         }
     }
@@ -572,9 +582,9 @@ extension EMRClientTypes {
 extension EMRClientTypes {
     /// The resize specification for On-Demand and Spot Instances in the fleet.
     public struct InstanceFleetResizingSpecifications {
-        /// The resize specification for On-Demand Instances in the instance fleet, which contains the resize timeout period.
+        /// The resize specification for On-Demand Instances in the instance fleet, which contains the allocation strategy, capacity reservation options, and the resize timeout period.
         public var onDemandResizeSpecification: EMRClientTypes.OnDemandResizingSpecification?
-        /// The resize specification for Spot Instances in the instance fleet, which contains the resize timeout period.
+        /// The resize specification for Spot Instances in the instance fleet, which contains the allocation strategy and the resize timeout period.
         public var spotResizeSpecification: EMRClientTypes.SpotResizingSpecification?
 
         public init(
@@ -5423,53 +5433,6 @@ public struct ModifyClusterOutput {
 }
 
 extension EMRClientTypes {
-    /// Configuration parameters for an instance fleet modification request. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
-    public struct InstanceFleetModifyConfig {
-        /// A unique identifier for the instance fleet.
-        /// This member is required.
-        public var instanceFleetId: Swift.String?
-        /// The resize specification for the instance fleet.
-        public var resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications?
-        /// The target capacity of On-Demand units for the instance fleet. For more information see [InstanceFleetConfig$TargetOnDemandCapacity].
-        public var targetOnDemandCapacity: Swift.Int?
-        /// The target capacity of Spot units for the instance fleet. For more information, see [InstanceFleetConfig$TargetSpotCapacity].
-        public var targetSpotCapacity: Swift.Int?
-
-        public init(
-            instanceFleetId: Swift.String? = nil,
-            resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
-            targetOnDemandCapacity: Swift.Int? = nil,
-            targetSpotCapacity: Swift.Int? = nil
-        )
-        {
-            self.instanceFleetId = instanceFleetId
-            self.resizeSpecifications = resizeSpecifications
-            self.targetOnDemandCapacity = targetOnDemandCapacity
-            self.targetSpotCapacity = targetSpotCapacity
-        }
-    }
-
-}
-
-public struct ModifyInstanceFleetInput {
-    /// The unique identifier of the cluster.
-    /// This member is required.
-    public var clusterId: Swift.String?
-    /// The configuration parameters of the instance fleet.
-    /// This member is required.
-    public var instanceFleet: EMRClientTypes.InstanceFleetModifyConfig?
-
-    public init(
-        clusterId: Swift.String? = nil,
-        instanceFleet: EMRClientTypes.InstanceFleetModifyConfig? = nil
-    )
-    {
-        self.clusterId = clusterId
-        self.instanceFleet = instanceFleet
-    }
-}
-
-extension EMRClientTypes {
 
     public enum ReconfigurationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case merge
@@ -6522,6 +6485,39 @@ extension EMRClientTypes {
 
 }
 
+extension EMRClientTypes {
+    /// Configuration parameters for an instance fleet modification request. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    public struct InstanceFleetModifyConfig {
+        /// A unique identifier for the instance fleet.
+        /// This member is required.
+        public var instanceFleetId: Swift.String?
+        /// An array of InstanceTypeConfig objects that specify how Amazon EMR provisions Amazon EC2 instances when it fulfills On-Demand and Spot capacities. For more information, see [InstanceTypeConfig](https://docs.aws.amazon.com/emr/latest/APIReference/API_InstanceTypeConfig.html).
+        public var instanceTypeConfigs: [EMRClientTypes.InstanceTypeConfig]?
+        /// The resize specification for the instance fleet.
+        public var resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications?
+        /// The target capacity of On-Demand units for the instance fleet. For more information see [InstanceFleetConfig$TargetOnDemandCapacity].
+        public var targetOnDemandCapacity: Swift.Int?
+        /// The target capacity of Spot units for the instance fleet. For more information, see [InstanceFleetConfig$TargetSpotCapacity].
+        public var targetSpotCapacity: Swift.Int?
+
+        public init(
+            instanceFleetId: Swift.String? = nil,
+            instanceTypeConfigs: [EMRClientTypes.InstanceTypeConfig]? = nil,
+            resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
+            targetOnDemandCapacity: Swift.Int? = nil,
+            targetSpotCapacity: Swift.Int? = nil
+        )
+        {
+            self.instanceFleetId = instanceFleetId
+            self.instanceTypeConfigs = instanceTypeConfigs
+            self.resizeSpecifications = resizeSpecifications
+            self.targetOnDemandCapacity = targetOnDemandCapacity
+            self.targetSpotCapacity = targetSpotCapacity
+        }
+    }
+
+}
+
 /// Input to an AddInstanceGroups call.
 public struct AddInstanceGroupsInput {
     /// Instance groups to add.
@@ -6653,6 +6649,24 @@ public struct AddInstanceFleetInput {
     public init(
         clusterId: Swift.String? = nil,
         instanceFleet: EMRClientTypes.InstanceFleetConfig? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.instanceFleet = instanceFleet
+    }
+}
+
+public struct ModifyInstanceFleetInput {
+    /// The unique identifier of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The configuration parameters of the instance fleet.
+    /// This member is required.
+    public var instanceFleet: EMRClientTypes.InstanceFleetModifyConfig?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        instanceFleet: EMRClientTypes.InstanceFleetModifyConfig? = nil
     )
     {
         self.clusterId = clusterId
@@ -10202,13 +10216,36 @@ extension EMRClientTypes.OnDemandResizingSpecification {
 
     static func write(value: EMRClientTypes.OnDemandResizingSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AllocationStrategy"].write(value.allocationStrategy)
+        try writer["CapacityReservationOptions"].write(value.capacityReservationOptions, with: EMRClientTypes.OnDemandCapacityReservationOptions.write(value:to:))
         try writer["TimeoutDurationMinutes"].write(value.timeoutDurationMinutes)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.OnDemandResizingSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRClientTypes.OnDemandResizingSpecification()
-        value.timeoutDurationMinutes = try reader["TimeoutDurationMinutes"].readIfPresent() ?? 0
+        value.timeoutDurationMinutes = try reader["TimeoutDurationMinutes"].readIfPresent()
+        value.allocationStrategy = try reader["AllocationStrategy"].readIfPresent()
+        value.capacityReservationOptions = try reader["CapacityReservationOptions"].readIfPresent(with: EMRClientTypes.OnDemandCapacityReservationOptions.read(from:))
+        return value
+    }
+}
+
+extension EMRClientTypes.OnDemandCapacityReservationOptions {
+
+    static func write(value: EMRClientTypes.OnDemandCapacityReservationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
+        try writer["CapacityReservationResourceGroupArn"].write(value.capacityReservationResourceGroupArn)
+        try writer["UsageStrategy"].write(value.usageStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.OnDemandCapacityReservationOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRClientTypes.OnDemandCapacityReservationOptions()
+        value.usageStrategy = try reader["UsageStrategy"].readIfPresent()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.capacityReservationResourceGroupArn = try reader["CapacityReservationResourceGroupArn"].readIfPresent()
         return value
     }
 }
@@ -10217,13 +10254,15 @@ extension EMRClientTypes.SpotResizingSpecification {
 
     static func write(value: EMRClientTypes.SpotResizingSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AllocationStrategy"].write(value.allocationStrategy)
         try writer["TimeoutDurationMinutes"].write(value.timeoutDurationMinutes)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.SpotResizingSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRClientTypes.SpotResizingSpecification()
-        value.timeoutDurationMinutes = try reader["TimeoutDurationMinutes"].readIfPresent() ?? 0
+        value.timeoutDurationMinutes = try reader["TimeoutDurationMinutes"].readIfPresent()
+        value.allocationStrategy = try reader["AllocationStrategy"].readIfPresent()
         return value
     }
 }
@@ -10258,25 +10297,6 @@ extension EMRClientTypes.OnDemandProvisioningSpecification {
         var value = EMRClientTypes.OnDemandProvisioningSpecification()
         value.allocationStrategy = try reader["AllocationStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.capacityReservationOptions = try reader["CapacityReservationOptions"].readIfPresent(with: EMRClientTypes.OnDemandCapacityReservationOptions.read(from:))
-        return value
-    }
-}
-
-extension EMRClientTypes.OnDemandCapacityReservationOptions {
-
-    static func write(value: EMRClientTypes.OnDemandCapacityReservationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
-        try writer["CapacityReservationResourceGroupArn"].write(value.capacityReservationResourceGroupArn)
-        try writer["UsageStrategy"].write(value.usageStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.OnDemandCapacityReservationOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRClientTypes.OnDemandCapacityReservationOptions()
-        value.usageStrategy = try reader["UsageStrategy"].readIfPresent()
-        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
-        value.capacityReservationResourceGroupArn = try reader["CapacityReservationResourceGroupArn"].readIfPresent()
         return value
     }
 }
@@ -10903,6 +10923,7 @@ extension EMRClientTypes.InstanceFleetModifyConfig {
     static func write(value: EMRClientTypes.InstanceFleetModifyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["InstanceFleetId"].write(value.instanceFleetId)
+        try writer["InstanceTypeConfigs"].writeList(value.instanceTypeConfigs, memberWritingClosure: EMRClientTypes.InstanceTypeConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResizeSpecifications"].write(value.resizeSpecifications, with: EMRClientTypes.InstanceFleetResizingSpecifications.write(value:to:))
         try writer["TargetOnDemandCapacity"].write(value.targetOnDemandCapacity)
         try writer["TargetSpotCapacity"].write(value.targetSpotCapacity)

@@ -857,7 +857,20 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
 ///
 public struct ApplyPendingMaintenanceActionInput {
-    /// The pending maintenance action to apply to this resource. Valid Values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation
+    /// The pending maintenance action to apply to this resource. Valid Values:
+    ///
+    /// * ca-certificate-rotation
+    ///
+    /// * db-upgrade
+    ///
+    /// * hardware-maintenance
+    ///
+    /// * os-upgrade
+    ///
+    /// * system-update
+    ///
+    ///
+    /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
     /// This member is required.
     public var applyAction: Swift.String?
     /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values:
@@ -888,7 +901,20 @@ public struct ApplyPendingMaintenanceActionInput {
 extension RDSClientTypes {
     /// Provides information about a pending maintenance action for a resource.
     public struct PendingMaintenanceAction {
-        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
+        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values:
+        ///
+        /// * ca-certificate-rotation
+        ///
+        /// * db-upgrade
+        ///
+        /// * hardware-maintenance
+        ///
+        /// * os-upgrade
+        ///
+        /// * system-update
+        ///
+        ///
+        /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public var autoAppliedAfterDate: Foundation.Date?
@@ -5742,8 +5768,6 @@ public struct CreateDBInstanceInput {
     ///
     /// * Must match the name of an existing DB subnet group.
     ///
-    /// * Must not be default.
-    ///
     ///
     /// Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
@@ -5840,6 +5864,8 @@ public struct CreateDBInstanceInput {
     /// * custom-sqlserver-se (for RDS Custom for SQL Server DB instances)
     ///
     /// * custom-sqlserver-web (for RDS Custom for SQL Server DB instances)
+    ///
+    /// * custom-sqlserver-dev (for RDS Custom for SQL Server DB instances)
     ///
     /// * db2-ae
     ///
@@ -6269,7 +6295,17 @@ extension RDSClientTypes {
     public struct DBParameterGroupStatus {
         /// The name of the DB parameter group.
         public var dbParameterGroupName: Swift.String?
-        /// The status of parameter updates.
+        /// The status of parameter updates. Valid values are:
+        ///
+        /// * applying: The parameter group change is being applied to the database.
+        ///
+        /// * failed-to-apply: The parameter group is in an invalid state.
+        ///
+        /// * in-sync: The parameter group change is synchronized with the database.
+        ///
+        /// * pending-database-upgrade: The parameter group change will be applied after the DB instance is upgraded.
+        ///
+        /// * pending-reboot: The parameter group change will be applied after the DB instance reboots.
         public var parameterApplyStatus: Swift.String?
 
         public init(
@@ -7123,7 +7159,7 @@ public struct CreateDBInstanceReadReplicaInput {
     /// * SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are creating an encrypted read replica from a DB instance in the us-west-2 Amazon Web Services Region, then your SourceDBInstanceIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.
     ///
     ///
-    /// To learn how to generate a Signature Version 4 signed request, see [Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) and [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region. SourceRegion isn't supported for SQL Server, because Amazon RDS for SQL Server doesn't support cross-Region read replicas. This setting doesn't apply to RDS Custom DB instances.
+    /// To learn how to generate a Signature Version 4 signed request, see [Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) and [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region. This setting doesn't apply to RDS Custom DB instances.
     public var preSignedUrl: Swift.String?
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom DB instances.
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
@@ -17931,7 +17967,7 @@ public struct ModifyDBProxyEndpointOutput {
 extension RDSClientTypes {
     /// Specifies the settings that control the size and behavior of the connection pool associated with a DBProxyTargetGroup.
     public struct ConnectionPoolConfiguration {
-        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. For an unlimited wait time, specify 0. Default: 120 Constraints:
+        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints:
         ///
         /// * Must be between 0 and 3600.
         public var connectionBorrowTimeout: Swift.Int?
