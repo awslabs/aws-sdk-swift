@@ -10,6 +10,6 @@ struct UserAgentMetadata {}
 extension UserAgentMetadata: CustomStringConvertible {
 
     var description: String {
-        "ua/2.0"
+        "ua/2.1"
     }
 }
