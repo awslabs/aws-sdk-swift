@@ -592,7 +592,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `RetrieveAndGenerate` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
-    /// Queries a knowledge base and generates responses based on the retrieved results. The response only cites sources that are relevant to the query.
+    /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). The response only cites sources that are relevant to the query.
     ///
     /// - Parameter RetrieveAndGenerateInput : [no documentation found]
     ///

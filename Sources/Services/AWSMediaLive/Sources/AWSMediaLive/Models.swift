@@ -3952,6 +3952,26 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Elemental anywhere settings
+    public struct DescribeAnywhereSettings {
+        /// The ID of the channel placement group for the channel.
+        public var channelPlacementGroupId: Swift.String?
+        /// The ID of the cluster for the channel.
+        public var clusterId: Swift.String?
+
+        public init(
+            channelPlacementGroupId: Swift.String? = nil,
+            clusterId: Swift.String? = nil
+        )
+        {
+            self.channelPlacementGroupId = channelPlacementGroupId
+            self.clusterId = clusterId
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
 
     /// Maximum CDI input resolution; SD is 480i and 576i up to 30 frames-per-second (fps), HD is 720p up to 60 fps / 1080i up to 30 fps, FHD is 1080p up to 60 fps, UHD is 2160p up to 60 fps
     public enum CdiInputResolution: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4098,6 +4118,30 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Placeholder documentation for SrtOutputDestinationSettings
+    public struct SrtOutputDestinationSettings {
+        /// Arn used to extract the password from Secrets Manager
+        public var encryptionPassphraseSecretArn: Swift.String?
+        /// Stream id for SRT destinations (URLs of type srt://)
+        public var streamId: Swift.String?
+        /// A URL specifying a destination
+        public var url: Swift.String?
+
+        public init(
+            encryptionPassphraseSecretArn: Swift.String? = nil,
+            streamId: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.encryptionPassphraseSecretArn = encryptionPassphraseSecretArn
+            self.streamId = streamId
+            self.url = url
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// Placeholder documentation for OutputDestination
     public struct OutputDestination {
         /// User-specified id. This is used in an output group or an output.
@@ -4108,18 +4152,22 @@ extension MediaLiveClientTypes {
         public var multiplexSettings: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings?
         /// Destination settings for a standard output; one destination for each redundant encoder.
         public var settings: [MediaLiveClientTypes.OutputDestinationSettings]?
+        /// SRT settings for an SRT output; one destination for each redundant encoder.
+        public var srtSettings: [MediaLiveClientTypes.SrtOutputDestinationSettings]?
 
         public init(
             id: Swift.String? = nil,
             mediaPackageSettings: [MediaLiveClientTypes.MediaPackageOutputDestinationSettings]? = nil,
             multiplexSettings: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings? = nil,
-            settings: [MediaLiveClientTypes.OutputDestinationSettings]? = nil
+            settings: [MediaLiveClientTypes.OutputDestinationSettings]? = nil,
+            srtSettings: [MediaLiveClientTypes.SrtOutputDestinationSettings]? = nil
         )
         {
             self.id = id
             self.mediaPackageSettings = mediaPackageSettings
             self.multiplexSettings = multiplexSettings
             self.settings = settings
+            self.srtSettings = srtSettings
         }
     }
 
@@ -4437,6 +4485,22 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Multicast-specific input settings.
+    public struct MulticastInputSettings {
+        /// Optionally, a source ip address to filter by for Source-specific Multicast (SSM)
+        public var sourceIpAddress: Swift.String?
+
+        public init(
+            sourceIpAddress: Swift.String? = nil
+        )
+        {
+            self.sourceIpAddress = sourceIpAddress
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
 
     /// Network Input Server Validation
     public enum NetworkInputServerValidation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4471,15 +4535,19 @@ extension MediaLiveClientTypes {
     public struct NetworkInputSettings {
         /// Specifies HLS input settings when the uri is for a HLS manifest.
         public var hlsInputSettings: MediaLiveClientTypes.HlsInputSettings?
+        /// Specifies multicast input settings when the uri is for a multicast event.
+        public var multicastInputSettings: MediaLiveClientTypes.MulticastInputSettings?
         /// Check HTTPS server certificates. When set to checkCryptographyOnly, cryptography in the certificate will be checked, but not the server's name. Certain subdomains (notably S3 buckets that use dots in the bucket name) do not strictly match the corresponding certificate's wildcard pattern and would otherwise cause the event to error. This setting is ignored for protocols that do not use https.
         public var serverValidation: MediaLiveClientTypes.NetworkInputServerValidation?
 
         public init(
             hlsInputSettings: MediaLiveClientTypes.HlsInputSettings? = nil,
+            multicastInputSettings: MediaLiveClientTypes.MulticastInputSettings? = nil,
             serverValidation: MediaLiveClientTypes.NetworkInputServerValidation? = nil
         )
         {
             self.hlsInputSettings = hlsInputSettings
+            self.multicastInputSettings = multicastInputSettings
             self.serverValidation = serverValidation
         }
     }
@@ -4808,18 +4876,22 @@ extension MediaLiveClientTypes {
         public var inputId: Swift.String?
         /// Settings of an input (caption selector, etc.)
         public var inputSettings: MediaLiveClientTypes.InputSettings?
+        /// Optional assignment of an input to a logical interface on the Node. Only applies to on premises channels.
+        public var logicalInterfaceNames: [Swift.String]?
 
         public init(
             automaticInputFailoverSettings: MediaLiveClientTypes.AutomaticInputFailoverSettings? = nil,
             inputAttachmentName: Swift.String? = nil,
             inputId: Swift.String? = nil,
-            inputSettings: MediaLiveClientTypes.InputSettings? = nil
+            inputSettings: MediaLiveClientTypes.InputSettings? = nil,
+            logicalInterfaceNames: [Swift.String]? = nil
         )
         {
             self.automaticInputFailoverSettings = automaticInputFailoverSettings
             self.inputAttachmentName = inputAttachmentName
             self.inputId = inputId
             self.inputSettings = inputSettings
+            self.logicalInterfaceNames = logicalInterfaceNames
         }
     }
 
@@ -5148,6 +5220,8 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes {
     /// Placeholder documentation for ChannelSummary
     public struct ChannelSummary {
+        /// AnywhereSettings settings for this channel.
+        public var anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public var arn: Swift.String?
         /// Specification of CDI inputs for this channel
@@ -5182,6 +5256,7 @@ extension MediaLiveClientTypes {
         public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
         public init(
+            anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings? = nil,
             arn: Swift.String? = nil,
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -5200,6 +5275,7 @@ extension MediaLiveClientTypes {
             vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
         )
         {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -5586,6 +5662,601 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+
+    /// Used in DescribeChannelPlacementGroupResult
+    public enum ChannelPlacementGroupState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assigned
+        case assigning
+        case deleted
+        case deleteFailed
+        case deleting
+        case unassigned
+        case unassigning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelPlacementGroupState] {
+            return [
+                .assigned,
+                .assigning,
+                .deleted,
+                .deleteFailed,
+                .deleting,
+                .unassigned,
+                .unassigning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assigned: return "ASSIGNED"
+            case .assigning: return "ASSIGNING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .unassigned: return "UNASSIGNED"
+            case .unassigning: return "UNASSIGNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Contains the response for ListChannelPlacementGroups
+    public struct DescribeChannelPlacementGroupSummary {
+        /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+        public var arn: Swift.String?
+        /// Used in ListChannelPlacementGroupsResult
+        public var channels: [Swift.String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public var clusterId: Swift.String?
+        /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public var id: Swift.String?
+        /// The name that you specified for the ChannelPlacementGroup.
+        public var name: Swift.String?
+        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        public var nodes: [Swift.String]?
+        /// The current state of the ChannelPlacementGroup.
+        public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
+
+        public init(
+            arn: Swift.String? = nil,
+            channels: [Swift.String]? = nil,
+            clusterId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            nodes: [Swift.String]? = nil,
+            state: MediaLiveClientTypes.ChannelPlacementGroupState? = nil
+        )
+        {
+            self.arn = arn
+            self.channels = channels
+            self.clusterId = clusterId
+            self.id = id
+            self.name = name
+            self.nodes = nodes
+            self.state = state
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in CreateClusterSummary, DescribeClusterSummary, DescribeClusterResult, UpdateClusterResult.
+    public enum ClusterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onPremises
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterType] {
+            return [
+                .onPremises
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onPremises: return "ON_PREMISES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Used in ClusterNetworkSettings
+    public struct InterfaceMapping {
+        /// The logical name for one interface (on every Node) that handles a specific type of traffic. We recommend that the name hints at the physical interface it applies to. For example, it could refer to the traffic that the physical interface handles. For example, my-Inputs-Interface.
+        public var logicalInterfaceName: Swift.String?
+        /// The ID of the network that you want to connect to the specified logicalInterfaceName.
+        public var networkId: Swift.String?
+
+        public init(
+            logicalInterfaceName: Swift.String? = nil,
+            networkId: Swift.String? = nil
+        )
+        {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkId = networkId
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Used in DescribeClusterResult, DescribeClusterSummary, UpdateClusterResult.
+    public struct ClusterNetworkSettings {
+        /// The network interface that is the default route for traffic to and from the node. MediaLive Anywhere uses this default when the destination for the traffic isn't covered by the route table for any of the networks. Specify the value of the appropriate logicalInterfaceName parameter that you create in the interfaceMappings.
+        public var defaultRoute: Swift.String?
+        /// An array of interfaceMapping objects for this Cluster. Each mapping logically connects one interface on the nodes with one Network. You need only one mapping for each interface because all the Nodes share the mapping.
+        public var interfaceMappings: [MediaLiveClientTypes.InterfaceMapping]?
+
+        public init(
+            defaultRoute: Swift.String? = nil,
+            interfaceMappings: [MediaLiveClientTypes.InterfaceMapping]? = nil
+        )
+        {
+            self.defaultRoute = defaultRoute
+            self.interfaceMappings = interfaceMappings
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in DescribeClusterSummary, DescribeClusterResult, UpdateClusterResult.
+    public enum ClusterState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterState] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Used in ListClustersResult.
+    public struct DescribeClusterSummary {
+        /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+        public var arn: Swift.String?
+        /// An array of the IDs of the Channels that are associated with this Cluster. One Channel is associated with the Cluster as follows: A Channel belongs to a ChannelPlacementGroup. A ChannelPlacementGroup is attached to a Node. A Node belongs to a Cluster.
+        public var channelIds: [Swift.String]?
+        /// The hardware type for the Cluster.
+        public var clusterType: MediaLiveClientTypes.ClusterType?
+        /// The ID of the Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public var id: Swift.String?
+        /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+        public var instanceRoleArn: Swift.String?
+        /// The name that you specified for the Cluster.
+        public var name: Swift.String?
+        /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+        public var networkSettings: MediaLiveClientTypes.ClusterNetworkSettings?
+        /// The current state of the Cluster.
+        public var state: MediaLiveClientTypes.ClusterState?
+
+        public init(
+            arn: Swift.String? = nil,
+            channelIds: [Swift.String]? = nil,
+            clusterType: MediaLiveClientTypes.ClusterType? = nil,
+            id: Swift.String? = nil,
+            instanceRoleArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkSettings: MediaLiveClientTypes.ClusterNetworkSettings? = nil,
+            state: MediaLiveClientTypes.ClusterState? = nil
+        )
+        {
+            self.arn = arn
+            self.channelIds = channelIds
+            self.clusterType = clusterType
+            self.id = id
+            self.instanceRoleArn = instanceRoleArn
+            self.name = name
+            self.networkSettings = networkSettings
+            self.state = state
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Used in DescribeNetworkResult, DescribeNetworkSummary, UpdateNetworkResult.
+    public struct IpPool {
+        /// A CIDR block of IP addresses that are reserved for MediaLive Anywhere.
+        public var cidr: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Used in DescribeNetworkResult, DescribeNetworkSummary, UpdateNetworkResult.
+    public struct Route {
+        /// A CIDR block for one Route.
+        public var cidr: Swift.String?
+        /// The IP address of the Gateway for this route, if applicable.
+        public var gateway: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil,
+            gateway: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in DescribeNetworkResult, DescribeNetworkSummary, UpdateNetworkResult.
+    public enum NetworkState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleting
+        case idle
+        case inUse
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkState] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting,
+                .idle,
+                .inUse,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .idle: return "IDLE"
+            case .inUse: return "IN_USE"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Used in ListNetworksResult.
+    public struct DescribeNetworkSummary {
+        /// The ARN of this Network. It is automatically assigned when the Network is created.
+        public var arn: Swift.String?
+        /// Placeholder documentation for __listOf__string
+        public var associatedClusterIds: [Swift.String]?
+        /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public var id: Swift.String?
+        /// An array of IpPools in your organization's network that identify a collection of IP addresses in your organization's network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+        public var ipPools: [MediaLiveClientTypes.IpPool]?
+        /// The name that you specified for this Network.
+        public var name: Swift.String?
+        /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public var routes: [MediaLiveClientTypes.Route]?
+        /// The current state of the Network. Only MediaLive Anywhere can change the state.
+        public var state: MediaLiveClientTypes.NetworkState?
+
+        public init(
+            arn: Swift.String? = nil,
+            associatedClusterIds: [Swift.String]? = nil,
+            id: Swift.String? = nil,
+            ipPools: [MediaLiveClientTypes.IpPool]? = nil,
+            name: Swift.String? = nil,
+            routes: [MediaLiveClientTypes.Route]? = nil,
+            state: MediaLiveClientTypes.NetworkState? = nil
+        )
+        {
+            self.arn = arn
+            self.associatedClusterIds = associatedClusterIds
+            self.id = id
+            self.ipPools = ipPools
+            self.name = name
+            self.routes = routes
+            self.state = state
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in DescribeNodeSummary.
+    public enum NodeConnectionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case disconnected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeConnectionState] {
+            return [
+                .connected,
+                .disconnected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .disconnected: return "DISCONNECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in NodeInterfaceMapping and NodeInterfaceMappingCreateRequest
+    public enum NetworkInterfaceMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bridge
+        case nat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkInterfaceMode] {
+            return [
+                .bridge,
+                .nat
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bridge: return "BRIDGE"
+            case .nat: return "NAT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// A mapping that's used to pair a logical network interface name on a Node with the physical interface name exposed in the operating system.
+    public struct NodeInterfaceMapping {
+        /// A uniform logical interface name to address in a MediaLive channel configuration.
+        public var logicalInterfaceName: Swift.String?
+        /// Used in NodeInterfaceMapping and NodeInterfaceMappingCreateRequest
+        public var networkInterfaceMode: MediaLiveClientTypes.NetworkInterfaceMode?
+        /// The name of the physical interface on the hardware that will be running Elemental anywhere.
+        public var physicalInterfaceName: Swift.String?
+
+        public init(
+            logicalInterfaceName: Swift.String? = nil,
+            networkInterfaceMode: MediaLiveClientTypes.NetworkInterfaceMode? = nil,
+            physicalInterfaceName: Swift.String? = nil
+        )
+        {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkInterfaceMode = networkInterfaceMode
+            self.physicalInterfaceName = physicalInterfaceName
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in CreateNodeRequest, CreateNodeRegistrationScriptRequest, DescribeNodeResult, DescribeNodeSummary, UpdateNodeRequest.
+    public enum NodeRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case backup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeRole] {
+            return [
+                .active,
+                .backup
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .backup: return "BACKUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in DescribeNodeSummary.
+    public enum NodeState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activationFailed
+        case active
+        case created
+        case deregistered
+        case deregistering
+        case deregistrationFailed
+        case draining
+        case inUse
+        case ready
+        case readyToActivate
+        case registering
+        case registrationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeState] {
+            return [
+                .activationFailed,
+                .active,
+                .created,
+                .deregistered,
+                .deregistering,
+                .deregistrationFailed,
+                .draining,
+                .inUse,
+                .ready,
+                .readyToActivate,
+                .registering,
+                .registrationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activationFailed: return "ACTIVATION_FAILED"
+            case .active: return "ACTIVE"
+            case .created: return "CREATED"
+            case .deregistered: return "DEREGISTERED"
+            case .deregistering: return "DEREGISTERING"
+            case .deregistrationFailed: return "DEREGISTRATION_FAILED"
+            case .draining: return "DRAINING"
+            case .inUse: return "IN_USE"
+            case .ready: return "READY"
+            case .readyToActivate: return "READY_TO_ACTIVATE"
+            case .registering: return "REGISTERING"
+            case .registrationFailed: return "REGISTRATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for DescribeNodeSummary
+    public struct DescribeNodeSummary {
+        /// The ARN of the Node. It is automatically assigned when the Node is created.
+        public var arn: Swift.String?
+        /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+        public var channelPlacementGroups: [Swift.String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public var clusterId: Swift.String?
+        /// The current connection state of the Node.
+        public var connectionState: MediaLiveClientTypes.NodeConnectionState?
+        /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+        public var id: Swift.String?
+        /// The EC2 ARN of the Instance associated with the Node.
+        public var instanceArn: Swift.String?
+        /// At the routing layer will get it from the callerId/context for use with bring your own device.
+        public var managedInstanceId: Swift.String?
+        /// The name that you specified for the Node.
+        public var name: Swift.String?
+        /// Documentation update needed
+        public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
+        /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public var role: MediaLiveClientTypes.NodeRole?
+        /// The current state of the Node.
+        public var state: MediaLiveClientTypes.NodeState?
+
+        public init(
+            arn: Swift.String? = nil,
+            channelPlacementGroups: [Swift.String]? = nil,
+            clusterId: Swift.String? = nil,
+            connectionState: MediaLiveClientTypes.NodeConnectionState? = nil,
+            id: Swift.String? = nil,
+            instanceArn: Swift.String? = nil,
+            managedInstanceId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
+            role: MediaLiveClientTypes.NodeRole? = nil,
+            state: MediaLiveClientTypes.NodeState? = nil
+        )
+        {
+            self.arn = arn
+            self.channelPlacementGroups = channelPlacementGroups
+            self.clusterId = clusterId
+            self.connectionState = connectionState
+            self.id = id
+            self.instanceArn = instanceArn
+            self.managedInstanceId = managedInstanceId
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.role = role
+            self.state = state
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// Placeholder documentation for EventBridgeRuleTemplateGroupSummary
     public struct EventBridgeRuleTemplateGroupSummary {
         /// An eventbridge rule template group's ARN (Amazon Resource Name)
@@ -5807,6 +6478,26 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// A network route configuration.
+    public struct InputDestinationRoute {
+        /// The CIDR of the route.
+        public var cidr: Swift.String?
+        /// An optional gateway for the route.
+        public var gateway: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil,
+            gateway: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// The properties for a VPC type input destination.
     public struct InputDestinationVpc {
         /// The availability zone of the Input destination.
@@ -5831,6 +6522,10 @@ extension MediaLiveClientTypes {
     public struct InputDestination {
         /// The system-generated static IP address of endpoint. It remains fixed for the lifetime of the input.
         public var ip: Swift.String?
+        /// The ID of the attached network.
+        public var network: Swift.String?
+        /// If the push input has an input location of ON-PREM it's a requirement to specify what the route of the input is going to be on the customer local network.
+        public var networkRoutes: [MediaLiveClientTypes.InputDestinationRoute]?
         /// The port number for the input.
         public var port: Swift.String?
         /// This represents the endpoint that the customer stream will be pushed to.
@@ -5840,12 +6535,16 @@ extension MediaLiveClientTypes {
 
         public init(
             ip: Swift.String? = nil,
+            network: Swift.String? = nil,
+            networkRoutes: [MediaLiveClientTypes.InputDestinationRoute]? = nil,
             port: Swift.String? = nil,
             url: Swift.String? = nil,
             vpc: MediaLiveClientTypes.InputDestinationVpc? = nil
         )
         {
             self.ip = ip
+            self.network = network
+            self.networkRoutes = networkRoutes
             self.port = port
             self.url = url
             self.vpc = vpc
@@ -5902,6 +6601,39 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// With the introduction of MediaLive OnPrem, a MediaLive input can now exist in two different places: AWS or inside an on-premise datacenter. By default all inputs will continue to be AWS inputs.
+    public enum InputNetworkLocation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case onPremise
+        case onPremises
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputNetworkLocation] {
+            return [
+                .aws,
+                .onPremise,
+                .onPremises
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .onPremise: return "ON_PREMISE"
+            case .onPremises: return "ON_PREMISES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// There are two types of input sources, static and dynamic. If an input source is dynamic you can change the source url of the input dynamically using an input switch action. Currently, two input types support a dynamic url at this time, MP4_FILE and TS_FILE. By default all input sources are static.
     public enum InputSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `dynamic`
@@ -5941,6 +6673,43 @@ extension MediaLiveClientTypes {
         )
         {
             self.flowArn = flowArn
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Pair of multicast url and source ip address (optional) that make up a multicast source.
+    public struct MulticastSource {
+        /// This represents the ip address of the device sending the multicast stream.
+        public var sourceIp: Swift.String?
+        /// This represents the customer's source URL where multicast stream is pulled from.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            sourceIp: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.sourceIp = sourceIp
+            self.url = url
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Settings for a Multicast input. Contains a list of multicast Urls and optional source ip addresses.
+    public struct MulticastSettings {
+        /// Placeholder documentation for __listOfMulticastSource
+        public var sources: [MediaLiveClientTypes.MulticastSource]?
+
+        public init(
+            sources: [MediaLiveClientTypes.MulticastSource]? = nil
+        )
+        {
+            self.sources = sources
         }
     }
 
@@ -6118,6 +6887,7 @@ extension MediaLiveClientTypes {
         case inputDevice
         case mediaconnect
         case mp4File
+        case multicast
         case rtmpPull
         case rtmpPush
         case rtpPush
@@ -6133,6 +6903,7 @@ extension MediaLiveClientTypes {
                 .inputDevice,
                 .mediaconnect,
                 .mp4File,
+                .multicast,
                 .rtmpPull,
                 .rtmpPush,
                 .rtpPush,
@@ -6154,6 +6925,7 @@ extension MediaLiveClientTypes {
             case .inputDevice: return "INPUT_DEVICE"
             case .mediaconnect: return "MEDIACONNECT"
             case .mp4File: return "MP4_FILE"
+            case .multicast: return "MULTICAST"
             case .rtmpPull: return "RTMP_PULL"
             case .rtmpPush: return "RTMP_PUSH"
             case .rtpPush: return "RTP_PUSH"
@@ -6182,12 +6954,16 @@ extension MediaLiveClientTypes {
         public var inputClass: MediaLiveClientTypes.InputClass?
         /// Settings for the input devices.
         public var inputDevices: [MediaLiveClientTypes.InputDeviceSettings]?
+        /// The location of this input. AWS, for an input existing in the AWS Cloud, On-Prem for an input in a customer network.
+        public var inputNetworkLocation: MediaLiveClientTypes.InputNetworkLocation?
         /// A list of IDs for all Inputs which are partners of this one.
         public var inputPartnerIds: [Swift.String]?
         /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes during input switch actions. Presently, this functionality only works with MP4_FILE and TS_FILE inputs.
         public var inputSourceType: MediaLiveClientTypes.InputSourceType?
         /// A list of MediaConnect Flows for this input.
         public var mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlow]?
+        /// Multicast Input settings.
+        public var multicastSettings: MediaLiveClientTypes.MulticastSettings?
         /// The user-assigned name (This is a mutable value).
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
@@ -6212,9 +6988,11 @@ extension MediaLiveClientTypes {
             id: Swift.String? = nil,
             inputClass: MediaLiveClientTypes.InputClass? = nil,
             inputDevices: [MediaLiveClientTypes.InputDeviceSettings]? = nil,
+            inputNetworkLocation: MediaLiveClientTypes.InputNetworkLocation? = nil,
             inputPartnerIds: [Swift.String]? = nil,
             inputSourceType: MediaLiveClientTypes.InputSourceType? = nil,
             mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlow]? = nil,
+            multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             securityGroups: [Swift.String]? = nil,
@@ -6231,9 +7009,11 @@ extension MediaLiveClientTypes {
             self.id = id
             self.inputClass = inputClass
             self.inputDevices = inputDevices
+            self.inputNetworkLocation = inputNetworkLocation
             self.inputPartnerIds = inputPartnerIds
             self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
+            self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
             self.securityGroups = securityGroups
@@ -6248,15 +7028,47 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// A network route configuration.
+    public struct InputRequestDestinationRoute {
+        /// The CIDR of the route.
+        public var cidr: Swift.String?
+        /// An optional gateway for the route.
+        public var gateway: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil,
+            gateway: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// Endpoint settings for a PUSH type input.
     public struct InputDestinationRequest {
+        /// If the push input has an input location of ON-PREM, ID the ID of the attached network.
+        public var network: Swift.String?
+        /// If the push input has an input location of ON-PREM it's a requirement to specify what the route of the input is going to be on the customer local network.
+        public var networkRoutes: [MediaLiveClientTypes.InputRequestDestinationRoute]?
+        /// If the push input has an input location of ON-PREM it's optional to specify what the ip address of the input is going to be on the customer local network.
+        public var staticIpAddress: Swift.String?
         /// A unique name for the location the RTMP stream is being pushed to.
         public var streamName: Swift.String?
 
         public init(
+            network: Swift.String? = nil,
+            networkRoutes: [MediaLiveClientTypes.InputRequestDestinationRoute]? = nil,
+            staticIpAddress: Swift.String? = nil,
             streamName: Swift.String? = nil
         )
         {
+            self.network = network
+            self.networkRoutes = networkRoutes
+            self.staticIpAddress = staticIpAddress
             self.streamName = streamName
         }
     }
@@ -7127,6 +7939,78 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Used in ClusterNetworkSettingsCreateRequest.
+    public struct InterfaceMappingCreateRequest {
+        /// The logical name for one interface (on every Node) that handles a specific type of traffic. We recommend that the name hints at the physical interface it applies to. For example, it could refer to the traffic that the physical interface handles. For example, my-Inputs-Interface.
+        public var logicalInterfaceName: Swift.String?
+        /// The ID of the network that you want to connect to the specified logicalInterfaceName.
+        public var networkId: Swift.String?
+
+        public init(
+            logicalInterfaceName: Swift.String? = nil,
+            networkId: Swift.String? = nil
+        )
+        {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkId = networkId
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for InterfaceMappingUpdateRequest
+    public struct InterfaceMappingUpdateRequest {
+        /// The logical name for one interface (on every Node) that handles a specific type of traffic. We recommend that the name hints at the physical interface it applies to. For example, it could refer to the traffic that the physical interface handles. For example, my-Inputs-Interface.
+        public var logicalInterfaceName: Swift.String?
+        /// The ID of the network that you want to connect to the specified logicalInterfaceName. You can use the ListNetworks operation to discover all the IDs.
+        public var networkId: Swift.String?
+
+        public init(
+            logicalInterfaceName: Swift.String? = nil,
+            networkId: Swift.String? = nil
+        )
+        {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkId = networkId
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Used in CreateNetworkRequest.
+    public struct IpPoolCreateRequest {
+        /// A CIDR block of IP addresses to reserve for MediaLive Anywhere.
+        public var cidr: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Used in UpdateNetworkRequest.
+    public struct IpPoolUpdateRequest {
+        /// A CIDR block of IP addresses to reserve for MediaLive Anywhere.
+        public var cidr: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// The settings for a MediaConnect Flow.
     public struct MediaConnectFlowRequest {
         /// The ARN of the MediaConnect Flow that you want to use as a source.
@@ -7158,6 +8042,48 @@ extension MediaLiveClientTypes {
         {
             self.arn = arn
             self.name = name
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Pair of multicast url and source ip address (optional) that make up a multicast source.
+    public struct MulticastSourceCreateRequest {
+        /// This represents the ip address of the device sending the multicast stream.
+        public var sourceIp: Swift.String?
+        /// This represents the customer's source URL where multicast stream is pulled from.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            sourceIp: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.sourceIp = sourceIp
+            self.url = url
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Pair of multicast url and source ip address (optional) that make up a multicast source.
+    public struct MulticastSourceUpdateRequest {
+        /// This represents the ip address of the device sending the multicast stream.
+        public var sourceIp: Swift.String?
+        /// This represents the customer's source URL where multicast stream is pulled from.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            sourceIp: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.sourceIp = sourceIp
+            self.url = url
         }
     }
 
@@ -7351,6 +8277,30 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Used in CreateNodeRequest.
+    public struct NodeInterfaceMappingCreateRequest {
+        /// Specify one of the logicalInterfaceNames that you created in the Cluster that this node belongs to. For example, my-Inputs-Interface.
+        public var logicalInterfaceName: Swift.String?
+        /// The style of the network -- NAT or BRIDGE.
+        public var networkInterfaceMode: MediaLiveClientTypes.NetworkInterfaceMode?
+        /// Specify the physical name that corresponds to the logicalInterfaceName that you specified in this interface mapping. For example, Eth1 or ENO1234EXAMPLE.
+        public var physicalInterfaceName: Swift.String?
+
+        public init(
+            logicalInterfaceName: Swift.String? = nil,
+            networkInterfaceMode: MediaLiveClientTypes.NetworkInterfaceMode? = nil,
+            physicalInterfaceName: Swift.String? = nil
+        )
+        {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkInterfaceMode = networkInterfaceMode
+            self.physicalInterfaceName = physicalInterfaceName
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
 
     /// Units for duration, e.g. 'MONTHS'
     public enum OfferingDurationUnits: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7406,9 +8356,10 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// Codec, 'MPEG2', 'AVC', 'HEVC', or 'AUDIO'
+    /// Codec, 'MPEG2', 'AVC', 'HEVC', 'AUDIO', 'LINK', or 'AV1'
     public enum ReservationCodec: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audio
+        case av1
         case avc
         case hevc
         case link
@@ -7418,6 +8369,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [ReservationCodec] {
             return [
                 .audio,
+                .av1,
                 .avc,
                 .hevc,
                 .link,
@@ -7433,6 +8385,7 @@ extension MediaLiveClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .audio: return "AUDIO"
+            case .av1: return "AV1"
             case .avc: return "AVC"
             case .hevc: return "HEVC"
             case .link: return "LINK"
@@ -9427,6 +10380,73 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Srt Encryption Type
+    public enum SrtEncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes128
+        case aes192
+        case aes256
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SrtEncryptionType] {
+            return [
+                .aes128,
+                .aes192,
+                .aes256
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes128: return "AES128"
+            case .aes192: return "AES192"
+            case .aes256: return "AES256"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Srt Output Settings
+    public struct SrtOutputSettings {
+        /// SRT output buffering in milliseconds. A higher value increases latency through the encoder. But the benefits are that it helps to maintain a constant, low-jitter SRT output, and it accommodates clock recovery, input switching, input disruptions, picture reordering, and so on. Range: 0-10000 milliseconds.
+        public var bufferMsec: Swift.Int?
+        /// Udp Container Settings
+        /// This member is required.
+        public var containerSettings: MediaLiveClientTypes.UdpContainerSettings?
+        /// Reference to an OutputDestination ID defined in the channel
+        /// This member is required.
+        public var destination: MediaLiveClientTypes.OutputLocationRef?
+        /// The encryption level for the content. Valid values are AES128, AES192, AES256. You and the downstream system should plan how to set this field because the values must not conflict with each other.
+        public var encryptionType: MediaLiveClientTypes.SrtEncryptionType?
+        /// The latency value, in milliseconds, that is proposed during the SRT connection handshake. SRT will choose the maximum of the values proposed by the sender and receiver. On the sender side, latency is the amount of time a packet is held to give it a chance to be delivered successfully. On the receiver side, latency is the amount of time the packet is held before delivering to the application, aiding in packet recovery and matching as closely as possible the packet timing of the sender. Range: 40-16000 milliseconds.
+        public var latency: Swift.Int?
+
+        public init(
+            bufferMsec: Swift.Int? = nil,
+            containerSettings: MediaLiveClientTypes.UdpContainerSettings? = nil,
+            destination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            encryptionType: MediaLiveClientTypes.SrtEncryptionType? = nil,
+            latency: Swift.Int? = nil
+        )
+        {
+            self.bufferMsec = bufferMsec
+            self.containerSettings = containerSettings
+            self.destination = destination
+            self.encryptionType = encryptionType
+            self.latency = latency
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
     /// Fec Output Include Fec
     public enum FecOutputIncludeFec: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case column
@@ -9528,6 +10548,8 @@ extension MediaLiveClientTypes {
         public var multiplexOutputSettings: MediaLiveClientTypes.MultiplexOutputSettings?
         /// Rtmp Output Settings
         public var rtmpOutputSettings: MediaLiveClientTypes.RtmpOutputSettings?
+        /// Srt Output Settings
+        public var srtOutputSettings: MediaLiveClientTypes.SrtOutputSettings?
         /// Udp Output Settings
         public var udpOutputSettings: MediaLiveClientTypes.UdpOutputSettings?
 
@@ -9540,6 +10562,7 @@ extension MediaLiveClientTypes {
             msSmoothOutputSettings: MediaLiveClientTypes.MsSmoothOutputSettings? = nil,
             multiplexOutputSettings: MediaLiveClientTypes.MultiplexOutputSettings? = nil,
             rtmpOutputSettings: MediaLiveClientTypes.RtmpOutputSettings? = nil,
+            srtOutputSettings: MediaLiveClientTypes.SrtOutputSettings? = nil,
             udpOutputSettings: MediaLiveClientTypes.UdpOutputSettings? = nil
         )
         {
@@ -9551,6 +10574,7 @@ extension MediaLiveClientTypes {
             self.msSmoothOutputSettings = msSmoothOutputSettings
             self.multiplexOutputSettings = multiplexOutputSettings
             self.rtmpOutputSettings = rtmpOutputSettings
+            self.srtOutputSettings = srtOutputSettings
             self.udpOutputSettings = udpOutputSettings
         }
     }
@@ -11723,6 +12747,22 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Srt Group Settings
+    public struct SrtGroupSettings {
+        /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted. When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement). Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
+        public var inputLossAction: MediaLiveClientTypes.InputLossActionForUdpOut?
+
+        public init(
+            inputLossAction: MediaLiveClientTypes.InputLossActionForUdpOut? = nil
+        )
+        {
+            self.inputLossAction = inputLossAction
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
 
     /// Udp Timed Metadata Id3 Frame
     public enum UdpTimedMetadataId3Frame: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -11798,6 +12838,8 @@ extension MediaLiveClientTypes {
         public var multiplexGroupSettings: MediaLiveClientTypes.MultiplexGroupSettings?
         /// Rtmp Group Settings
         public var rtmpGroupSettings: MediaLiveClientTypes.RtmpGroupSettings?
+        /// Srt Group Settings
+        public var srtGroupSettings: MediaLiveClientTypes.SrtGroupSettings?
         /// Udp Group Settings
         public var udpGroupSettings: MediaLiveClientTypes.UdpGroupSettings?
 
@@ -11810,6 +12852,7 @@ extension MediaLiveClientTypes {
             msSmoothGroupSettings: MediaLiveClientTypes.MsSmoothGroupSettings? = nil,
             multiplexGroupSettings: MediaLiveClientTypes.MultiplexGroupSettings? = nil,
             rtmpGroupSettings: MediaLiveClientTypes.RtmpGroupSettings? = nil,
+            srtGroupSettings: MediaLiveClientTypes.SrtGroupSettings? = nil,
             udpGroupSettings: MediaLiveClientTypes.UdpGroupSettings? = nil
         )
         {
@@ -11821,6 +12864,7 @@ extension MediaLiveClientTypes {
             self.msSmoothGroupSettings = msSmoothGroupSettings
             self.multiplexGroupSettings = multiplexGroupSettings
             self.rtmpGroupSettings = rtmpGroupSettings
+            self.srtGroupSettings = srtGroupSettings
             self.udpGroupSettings = udpGroupSettings
         }
     }
@@ -12104,6 +13148,46 @@ extension MediaLiveClientTypes {
             self.state = state
             self.tags = tags
             self.usagePrice = usagePrice
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Used in CreateNetworkRequest.
+    public struct RouteCreateRequest {
+        /// A CIDR block for one Route.
+        public var cidr: Swift.String?
+        /// The IP address of the Gateway for this route, if applicable.
+        public var gateway: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil,
+            gateway: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Used in UpdateNetworkRequest.
+    public struct RouteUpdateRequest {
+        /// A CIDR block for one Route.
+        public var cidr: Swift.String?
+        /// The IP address of the Gateway for this route, if applicable.
+        public var gateway: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil,
+            gateway: Swift.String? = nil
+        )
+        {
+            self.cidr = cidr
+            self.gateway = gateway
         }
     }
 
@@ -13481,15 +14565,160 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// Frame Capture Interval Unit
-    public enum FrameCaptureIntervalUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case milliseconds
+    /// Afd Signaling
+    public enum AfdSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case fixed
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AfdSignaling] {
+            return [
+                .auto,
+                .fixed,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .fixed: return "FIXED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Passthrough applies no color space conversion to the output
+    public struct ColorSpacePassthroughSettings {
+
+        public init() { }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Rec601 Settings
+    public struct Rec601Settings {
+
+        public init() { }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Rec709 Settings
+    public struct Rec709Settings {
+
+        public init() { }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Av1 Color Space Settings
+    public struct Av1ColorSpaceSettings {
+        /// Passthrough applies no color space conversion to the output
+        public var colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings?
+        /// Hdr10 Settings
+        public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
+        /// Rec601 Settings
+        public var rec601Settings: MediaLiveClientTypes.Rec601Settings?
+        /// Rec709 Settings
+        public var rec709Settings: MediaLiveClientTypes.Rec709Settings?
+
+        public init(
+            colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings? = nil,
+            hdr10Settings: MediaLiveClientTypes.Hdr10Settings? = nil,
+            rec601Settings: MediaLiveClientTypes.Rec601Settings? = nil,
+            rec709Settings: MediaLiveClientTypes.Rec709Settings? = nil
+        )
+        {
+            self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
+            self.hdr10Settings = hdr10Settings
+            self.rec601Settings = rec601Settings
+            self.rec709Settings = rec709Settings
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
+    /// Fixed Afd
+    public enum FixedAfd: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afd0000
+        case afd0010
+        case afd0011
+        case afd0100
+        case afd1000
+        case afd1001
+        case afd1010
+        case afd1011
+        case afd1101
+        case afd1110
+        case afd1111
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FixedAfd] {
+            return [
+                .afd0000,
+                .afd0010,
+                .afd0011,
+                .afd0100,
+                .afd1000,
+                .afd1001,
+                .afd1010,
+                .afd1011,
+                .afd1101,
+                .afd1110,
+                .afd1111
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .afd0000: return "AFD_0000"
+            case .afd0010: return "AFD_0010"
+            case .afd0011: return "AFD_0011"
+            case .afd0100: return "AFD_0100"
+            case .afd1000: return "AFD_1000"
+            case .afd1001: return "AFD_1001"
+            case .afd1010: return "AFD_1010"
+            case .afd1011: return "AFD_1011"
+            case .afd1101: return "AFD_1101"
+            case .afd1110: return "AFD_1110"
+            case .afd1111: return "AFD_1111"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Gop Size Units
+    public enum Av1GopSizeUnits: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case frames
         case seconds
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [FrameCaptureIntervalUnit] {
+        public static var allCases: [Av1GopSizeUnits] {
             return [
-                .milliseconds,
+                .frames,
                 .seconds
             ]
         }
@@ -13501,8 +14730,140 @@ extension MediaLiveClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .milliseconds: return "MILLISECONDS"
+            case .frames: return "FRAMES"
             case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Level
+    public enum Av1Level: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case av1Level2
+        case av1Level21
+        case av1Level3
+        case av1Level31
+        case av1Level4
+        case av1Level41
+        case av1Level5
+        case av1Level51
+        case av1Level52
+        case av1Level53
+        case av1Level6
+        case av1Level61
+        case av1Level62
+        case av1Level63
+        case av1LevelAuto
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1Level] {
+            return [
+                .av1Level2,
+                .av1Level21,
+                .av1Level3,
+                .av1Level31,
+                .av1Level4,
+                .av1Level41,
+                .av1Level5,
+                .av1Level51,
+                .av1Level52,
+                .av1Level53,
+                .av1Level6,
+                .av1Level61,
+                .av1Level62,
+                .av1Level63,
+                .av1LevelAuto
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .av1Level2: return "AV1_LEVEL_2"
+            case .av1Level21: return "AV1_LEVEL_2_1"
+            case .av1Level3: return "AV1_LEVEL_3"
+            case .av1Level31: return "AV1_LEVEL_3_1"
+            case .av1Level4: return "AV1_LEVEL_4"
+            case .av1Level41: return "AV1_LEVEL_4_1"
+            case .av1Level5: return "AV1_LEVEL_5"
+            case .av1Level51: return "AV1_LEVEL_5_1"
+            case .av1Level52: return "AV1_LEVEL_5_2"
+            case .av1Level53: return "AV1_LEVEL_5_3"
+            case .av1Level6: return "AV1_LEVEL_6"
+            case .av1Level61: return "AV1_LEVEL_6_1"
+            case .av1Level62: return "AV1_LEVEL_6_2"
+            case .av1Level63: return "AV1_LEVEL_6_3"
+            case .av1LevelAuto: return "AV1_LEVEL_AUTO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Look Ahead Rate Control
+    public enum Av1LookAheadRateControl: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1LookAheadRateControl] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Scene Change Detect
+    public enum Av1SceneChangeDetect: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1SceneChangeDetect] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13623,6 +14984,118 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Av1 Settings
+    public struct Av1Settings {
+        /// Configures whether MediaLive will write AFD values into the video. AUTO: MediaLive will try to preserve the input AFD value (in cases where multiple AFD values are valid). FIXED: the AFD value will be the value configured in the fixedAfd parameter. NONE: MediaLive won't write AFD into the video
+        public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
+        /// The size of the buffer (HRD buffer model) in bits.
+        public var bufSize: Swift.Int?
+        /// Color Space settings
+        public var colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings?
+        /// Complete this property only if you set the afdSignaling property to FIXED. Choose the AFD value (4 bits) to write on all frames of the video encode.
+        public var fixedAfd: MediaLiveClientTypes.FixedAfd?
+        /// The denominator for the framerate. Framerate is a fraction, for example, 24000 / 1001.
+        /// This member is required.
+        public var framerateDenominator: Swift.Int?
+        /// The numerator for the framerate. Framerate is a fraction, for example, 24000 / 1001.
+        /// This member is required.
+        public var framerateNumerator: Swift.Int?
+        /// The GOP size (keyframe interval). If GopSizeUnits is frames, GopSize must be a whole number and must be greater than or equal to 1. If GopSizeUnits is seconds, GopSize must be greater than 0, but it can be a decimal.
+        public var gopSize: Swift.Double?
+        /// Choose the units for the GOP size: FRAMES or SECONDS. For SECONDS, MediaLive converts the size into a frame count at run time.
+        public var gopSizeUnits: MediaLiveClientTypes.Av1GopSizeUnits?
+        /// Sets the level. This parameter is one of the properties of the encoding scheme for AV1.
+        public var level: MediaLiveClientTypes.Av1Level?
+        /// Sets the amount of lookahead. A value of LOW can decrease latency and memory usage. A value of HIGH can produce better quality for certain content.
+        public var lookAheadRateControl: MediaLiveClientTypes.Av1LookAheadRateControl?
+        /// The maximum bitrate to assign. For recommendations, see the description for qvbrQualityLevel.
+        public var maxBitrate: Swift.Int?
+        /// Applies only if you enable SceneChangeDetect. Sets the interval between frames. This property ensures a minimum separation between repeated (cadence) I-frames and any I-frames inserted by scene change detection (SCD frames). Enter a number for the interval, measured in number of frames. If an SCD frame and a cadence frame are closer than the specified number of frames, MediaLive shrinks or stretches the GOP to include the SCD frame. Then normal cadence resumes in the next GOP. For GOP stretch to succeed, you must enable LookAheadRateControl. Note that the maximum GOP stretch = (GOP size) + (Minimum I-interval) - 1
+        public var minIInterval: Swift.Int?
+        /// The denominator for the output pixel aspect ratio (PAR).
+        public var parDenominator: Swift.Int?
+        /// The numerator for the output pixel aspect ratio (PAR).
+        public var parNumerator: Swift.Int?
+        /// Controls the target quality for the video encode. With QVBR rate control mode, the final quality is the target quality, constrained by the maxBitrate. Set values for the qvbrQualityLevel property and maxBitrate property that suit your most important viewing devices. To let MediaLive set the quality level (AUTO mode), leave the qvbrQualityLevel field empty. In this case, MediaLive uses the maximum bitrate, and the quality follows from that: more complex content might have a lower quality. Or set a target quality level and a maximum bitrate. With more complex content, MediaLive will try to achieve the target quality, but it won't exceed the maximum bitrate. With less complex content, This option will use only the bitrate needed to reach the target quality. Recommended values are: Primary screen: qvbrQualityLevel: Leave empty. maxBitrate: 4,000,000 PC or tablet: qvbrQualityLevel: Leave empty. maxBitrate: 1,500,000 to 3,000,000 Smartphone: qvbrQualityLevel: Leave empty. maxBitrate: 1,000,000 to 1,500,000
+        public var qvbrQualityLevel: Swift.Int?
+        /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
+        public var sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect?
+        /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
+        public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
+
+        public init(
+            afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
+            bufSize: Swift.Int? = nil,
+            colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings? = nil,
+            fixedAfd: MediaLiveClientTypes.FixedAfd? = nil,
+            framerateDenominator: Swift.Int? = nil,
+            framerateNumerator: Swift.Int? = nil,
+            gopSize: Swift.Double? = nil,
+            gopSizeUnits: MediaLiveClientTypes.Av1GopSizeUnits? = nil,
+            level: MediaLiveClientTypes.Av1Level? = nil,
+            lookAheadRateControl: MediaLiveClientTypes.Av1LookAheadRateControl? = nil,
+            maxBitrate: Swift.Int? = nil,
+            minIInterval: Swift.Int? = nil,
+            parDenominator: Swift.Int? = nil,
+            parNumerator: Swift.Int? = nil,
+            qvbrQualityLevel: Swift.Int? = nil,
+            sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect? = nil,
+            timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
+        )
+        {
+            self.afdSignaling = afdSignaling
+            self.bufSize = bufSize
+            self.colorSpaceSettings = colorSpaceSettings
+            self.fixedAfd = fixedAfd
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.gopSize = gopSize
+            self.gopSizeUnits = gopSizeUnits
+            self.level = level
+            self.lookAheadRateControl = lookAheadRateControl
+            self.maxBitrate = maxBitrate
+            self.minIInterval = minIInterval
+            self.parDenominator = parDenominator
+            self.parNumerator = parNumerator
+            self.qvbrQualityLevel = qvbrQualityLevel
+            self.sceneChangeDetect = sceneChangeDetect
+            self.timecodeBurninSettings = timecodeBurninSettings
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
+    /// Frame Capture Interval Unit
+    public enum FrameCaptureIntervalUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case milliseconds
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FrameCaptureIntervalUnit] {
+            return [
+                .milliseconds,
+                .seconds
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .milliseconds: return "MILLISECONDS"
+            case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
     /// Frame Capture Settings
     public struct FrameCaptureSettings {
         /// The frequency at which to capture frames for inclusion in the output. May be specified in either seconds or milliseconds, as specified by captureIntervalUnits.
@@ -13693,39 +15166,6 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// Afd Signaling
-    public enum AfdSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case auto
-        case fixed
-        case `none`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AfdSignaling] {
-            return [
-                .auto,
-                .fixed,
-                .none
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .auto: return "AUTO"
-            case .fixed: return "FIXED"
-            case .none: return "NONE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaLiveClientTypes {
-
     /// H264 Color Metadata
     public enum H264ColorMetadata: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ignore
@@ -13752,33 +15192,6 @@ extension MediaLiveClientTypes {
             }
         }
     }
-}
-
-extension MediaLiveClientTypes {
-    /// Passthrough applies no color space conversion to the output
-    public struct ColorSpacePassthroughSettings {
-
-        public init() { }
-    }
-
-}
-
-extension MediaLiveClientTypes {
-    /// Rec601 Settings
-    public struct Rec601Settings {
-
-        public init() { }
-    }
-
-}
-
-extension MediaLiveClientTypes {
-    /// Rec709 Settings
-    public struct Rec709Settings {
-
-        public init() { }
-    }
-
 }
 
 extension MediaLiveClientTypes {
@@ -13981,63 +15394,6 @@ extension MediaLiveClientTypes {
         }
     }
 
-}
-
-extension MediaLiveClientTypes {
-
-    /// Fixed Afd
-    public enum FixedAfd: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case afd0000
-        case afd0010
-        case afd0011
-        case afd0100
-        case afd1000
-        case afd1001
-        case afd1010
-        case afd1011
-        case afd1101
-        case afd1110
-        case afd1111
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FixedAfd] {
-            return [
-                .afd0000,
-                .afd0010,
-                .afd0011,
-                .afd0100,
-                .afd1000,
-                .afd1001,
-                .afd1010,
-                .afd1011,
-                .afd1101,
-                .afd1110,
-                .afd1111
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .afd0000: return "AFD_0000"
-            case .afd0010: return "AFD_0010"
-            case .afd0011: return "AFD_0011"
-            case .afd0100: return "AFD_0100"
-            case .afd1000: return "AFD_1000"
-            case .afd1001: return "AFD_1001"
-            case .afd1010: return "AFD_1010"
-            case .afd1011: return "AFD_1011"
-            case .afd1101: return "AFD_1101"
-            case .afd1110: return "AFD_1110"
-            case .afd1111: return "AFD_1111"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
 }
 
 extension MediaLiveClientTypes {
@@ -15994,6 +17350,8 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes {
     /// Video Codec Settings
     public struct VideoCodecSettings {
+        /// Av1 Settings
+        public var av1Settings: MediaLiveClientTypes.Av1Settings?
         /// Frame Capture Settings
         public var frameCaptureSettings: MediaLiveClientTypes.FrameCaptureSettings?
         /// H264 Settings
@@ -16004,12 +17362,14 @@ extension MediaLiveClientTypes {
         public var mpeg2Settings: MediaLiveClientTypes.Mpeg2Settings?
 
         public init(
+            av1Settings: MediaLiveClientTypes.Av1Settings? = nil,
             frameCaptureSettings: MediaLiveClientTypes.FrameCaptureSettings? = nil,
             h264Settings: MediaLiveClientTypes.H264Settings? = nil,
             h265Settings: MediaLiveClientTypes.H265Settings? = nil,
             mpeg2Settings: MediaLiveClientTypes.Mpeg2Settings? = nil
         )
         {
+            self.av1Settings = av1Settings
             self.frameCaptureSettings = frameCaptureSettings
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
@@ -16410,6 +17770,26 @@ extension MediaLiveClientTypes {
         )
         {
             self.kmsKeyId = kmsKeyId
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Elemental anywhere settings
+    public struct AnywhereSettings {
+        /// The ID of the channel placement group for the channel.
+        public var channelPlacementGroupId: Swift.String?
+        /// The ID of the cluster for the channel.
+        public var clusterId: Swift.String?
+
+        public init(
+            channelPlacementGroupId: Swift.String? = nil,
+            clusterId: Swift.String? = nil
+        )
+        {
+            self.channelPlacementGroupId = channelPlacementGroupId
+            self.clusterId = clusterId
         }
     }
 
@@ -17744,6 +19124,8 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes {
     /// Placeholder documentation for Channel
     public struct Channel {
+        /// Anywhere settings for this channel.
+        public var anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public var arn: Swift.String?
         /// Specification of CDI inputs for this channel
@@ -17782,6 +19164,7 @@ extension MediaLiveClientTypes {
         public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
         public init(
+            anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings? = nil,
             arn: Swift.String? = nil,
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -17802,6 +19185,7 @@ extension MediaLiveClientTypes {
             vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
         )
         {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -17842,6 +19226,46 @@ public struct ClaimDeviceInput {
 public struct ClaimDeviceOutput {
 
     public init() { }
+}
+
+extension MediaLiveClientTypes {
+    /// Used in a CreateClusterRequest.
+    public struct ClusterNetworkSettingsCreateRequest {
+        /// Specify one network interface as the default route for traffic to and from the Node. MediaLive Anywhere uses this default when the destination for the traffic isn't covered by the route table for any of the networks. Specify the value of the appropriate logicalInterfaceName parameter that you create in the interfaceMappings.
+        public var defaultRoute: Swift.String?
+        /// An array of interfaceMapping objects for this Cluster. You must create a mapping for node interfaces that you plan to use for encoding traffic. You typically don't create a mapping for the management interface. You define this mapping in the Cluster so that the mapping can be used by all the Nodes. Each mapping logically connects one interface on the nodes with one Network. Each mapping consists of a pair of parameters. The logicalInterfaceName parameter creates a logical name for the Node interface that handles a specific type of traffic. For example, my-Inputs-Interface. The networkID parameter refers to the ID of the network. When you create the Nodes in this Cluster, you will associate the logicalInterfaceName with the appropriate physical interface.
+        public var interfaceMappings: [MediaLiveClientTypes.InterfaceMappingCreateRequest]?
+
+        public init(
+            defaultRoute: Swift.String? = nil,
+            interfaceMappings: [MediaLiveClientTypes.InterfaceMappingCreateRequest]? = nil
+        )
+        {
+            self.defaultRoute = defaultRoute
+            self.interfaceMappings = interfaceMappings
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for ClusterNetworkSettingsUpdateRequest
+    public struct ClusterNetworkSettingsUpdateRequest {
+        /// Include this parameter only if you want to change the default route for the Cluster. Specify one network interface as the default route for traffic to and from the node. MediaLive Anywhere uses this default when the destination for the traffic isn't covered by the route table for any of the networks. Specify the value of the appropriate logicalInterfaceName parameter that you create in the interfaceMappings.
+        public var defaultRoute: Swift.String?
+        /// An array of interfaceMapping objects for this Cluster. Include this parameter only if you want to change the interface mappings for the Cluster. Typically, you change the interface mappings only to fix an error you made when creating the mapping. In an update request, make sure that you enter the entire set of mappings again, not just the mappings that you want to add or change. You define this mapping so that the mapping can be used by all the Nodes. Each mapping logically connects one interface on the nodes with one Network. Each mapping consists of a pair of parameters. The logicalInterfaceName parameter creates a logical name for the Node interface that handles a specific type of traffic. For example, my-Inputs-Interface. The networkID parameter refers to the ID of the network. When you create the Nodes in this Cluster, you will associate the logicalInterfaceName with the appropriate physical interface.
+        public var interfaceMappings: [MediaLiveClientTypes.InterfaceMappingUpdateRequest]?
+
+        public init(
+            defaultRoute: Swift.String? = nil,
+            interfaceMappings: [MediaLiveClientTypes.InterfaceMappingUpdateRequest]? = nil
+        )
+        {
+            self.defaultRoute = defaultRoute
+            self.interfaceMappings = interfaceMappings
+        }
+    }
+
 }
 
 extension MediaLiveClientTypes {
@@ -17918,6 +19342,8 @@ extension MediaLiveClientTypes {
 
 /// A request to create a channel
 public struct CreateChannelInput {
+    /// The Elemental Anywhere settings for this channel.
+    public var anywhereSettings: MediaLiveClientTypes.AnywhereSettings?
     /// Specification of CDI inputs for this channel
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
@@ -17949,6 +19375,7 @@ public struct CreateChannelInput {
     public var vpc: MediaLiveClientTypes.VpcOutputSettings?
 
     public init(
+        anywhereSettings: MediaLiveClientTypes.AnywhereSettings? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
@@ -17965,6 +19392,7 @@ public struct CreateChannelInput {
         vpc: MediaLiveClientTypes.VpcOutputSettings? = nil
     )
     {
+        self.anywhereSettings = anywhereSettings
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
         self.destinations = destinations
@@ -17992,6 +19420,73 @@ public struct CreateChannelOutput {
     )
     {
         self.channel = channel
+    }
+}
+
+/// A request to create a channel placement group.
+public struct CreateChannelPlacementGroupInput {
+    /// The ID of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// Specify a name that is unique in the Cluster. You can't change the name. Names are case-sensitive.
+    public var name: Swift.String?
+    /// An array of one ID for the Node that you want to associate with the ChannelPlacementGroup. (You can't associate more than one Node with the ChannelPlacementGroup.) The Node and the ChannelPlacementGroup must be in the same Cluster.
+    public var nodes: [Swift.String]?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources. the request.
+    public var requestId: Swift.String?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodes: [Swift.String]? = nil,
+        requestId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.name = name
+        self.nodes = nodes
+        self.requestId = requestId
+        self.tags = tags
+    }
+}
+
+/// Placeholder documentation for CreateChannelPlacementGroupResponse
+public struct CreateChannelPlacementGroupOutput {
+    /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+    public var arn: Swift.String?
+    /// Used in ListChannelPlacementGroupsResult
+    public var channels: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The name that you specified for the ChannelPlacementGroup.
+    public var name: Swift.String?
+    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    public var nodes: [Swift.String]?
+    /// The current state of the ChannelPlacementGroup.
+    public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channels: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodes: [Swift.String]? = nil,
+        state: MediaLiveClientTypes.ChannelPlacementGroupState? = nil
+    )
+    {
+        self.arn = arn
+        self.channels = channels
+        self.clusterId = clusterId
+        self.id = id
+        self.name = name
+        self.nodes = nodes
+        self.state = state
     }
 }
 
@@ -18202,6 +19697,80 @@ public struct CreateCloudWatchAlarmTemplateGroupOutput {
     }
 }
 
+/// Create as many Clusters as you want, but create at least one. Each Cluster groups together Nodes that you want to treat as a collection. Within the Cluster, you will set up some Nodes as active Nodes, and some as backup Nodes, for Node failover purposes. Each Node can belong to only one Cluster.
+public struct CreateClusterInput {
+    /// Specify a type. All the Nodes that you later add to this Cluster must be this type of hardware. One Cluster instance can't contain different hardware types. You won't be able to change this parameter after you create the Cluster.
+    public var clusterType: MediaLiveClientTypes.ClusterType?
+    /// The ARN of the IAM role for the Node in this Cluster. The role must include all the operations that you expect these Node to perform. If necessary, create a role in IAM, then attach it here.
+    public var instanceRoleArn: Swift.String?
+    /// Specify a name that is unique in the AWS account. We recommend that you assign a name that hints at the types of Nodes in the Cluster. Names are case-sensitive.
+    public var name: Swift.String?
+    /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+    public var networkSettings: MediaLiveClientTypes.ClusterNetworkSettingsCreateRequest?
+    /// The unique ID of the request.
+    public var requestId: Swift.String?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clusterType: MediaLiveClientTypes.ClusterType? = nil,
+        instanceRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        networkSettings: MediaLiveClientTypes.ClusterNetworkSettingsCreateRequest? = nil,
+        requestId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.clusterType = clusterType
+        self.instanceRoleArn = instanceRoleArn
+        self.name = name
+        self.networkSettings = networkSettings
+        self.requestId = requestId
+        self.tags = tags
+    }
+}
+
+/// Placeholder documentation for CreateClusterResponse
+public struct CreateClusterOutput {
+    /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__string
+    public var channelIds: [Swift.String]?
+    /// The hardware type for the Cluster
+    public var clusterType: MediaLiveClientTypes.ClusterType?
+    /// The ID of the Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+    public var instanceRoleArn: Swift.String?
+    /// The name that you specified for the Cluster.
+    public var name: Swift.String?
+    /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+    public var networkSettings: MediaLiveClientTypes.ClusterNetworkSettings?
+    /// The current state of the Cluster.
+    public var state: MediaLiveClientTypes.ClusterState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelIds: [Swift.String]? = nil,
+        clusterType: MediaLiveClientTypes.ClusterType? = nil,
+        id: Swift.String? = nil,
+        instanceRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        networkSettings: MediaLiveClientTypes.ClusterNetworkSettings? = nil,
+        state: MediaLiveClientTypes.ClusterState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelIds = channelIds
+        self.clusterType = clusterType
+        self.id = id
+        self.instanceRoleArn = instanceRoleArn
+        self.name = name
+        self.networkSettings = networkSettings
+        self.state = state
+    }
+}
+
 /// Placeholder documentation for CreateEventBridgeRuleTemplateRequest
 public struct CreateEventBridgeRuleTemplateInput {
     /// A resource's optional description.
@@ -18347,6 +19916,22 @@ public struct CreateEventBridgeRuleTemplateGroupOutput {
 }
 
 extension MediaLiveClientTypes {
+    /// Settings for a Multicast input. Contains a list of multicast Urls and optional source ip addresses.
+    public struct MulticastSettingsCreateRequest {
+        /// Placeholder documentation for __listOfMulticastSourceCreateRequest
+        public var sources: [MediaLiveClientTypes.MulticastSourceCreateRequest]?
+
+        public init(
+            sources: [MediaLiveClientTypes.MulticastSourceCreateRequest]? = nil
+        )
+        {
+            self.sources = sources
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// Configures the sources for this SRT input. For a single-pipeline input, include one srtCallerSource in the array. For a standard-pipeline input, include two srtCallerSource.
     public struct SrtSettingsRequest {
         /// Placeholder documentation for __listOfSrtCallerSourceRequest
@@ -18389,10 +19974,14 @@ public struct CreateInputInput {
     public var destinations: [MediaLiveClientTypes.InputDestinationRequest]?
     /// Settings for the devices.
     public var inputDevices: [MediaLiveClientTypes.InputDeviceSettings]?
+    /// The location of this input. AWS, for an input existing in the AWS Cloud, On-Prem for an input in a customer network.
+    public var inputNetworkLocation: MediaLiveClientTypes.InputNetworkLocation?
     /// A list of security groups referenced by IDs to attach to the input.
     public var inputSecurityGroups: [Swift.String]?
     /// A list of the MediaConnect Flows that you want to use in this input. You can specify as few as one Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a separate Availability Zone as this ensures your EML input is redundant to AZ issues.
     public var mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlowRequest]?
+    /// Multicast Input settings.
+    public var multicastSettings: MediaLiveClientTypes.MulticastSettingsCreateRequest?
     /// Name of the input.
     public var name: Swift.String?
     /// Unique identifier of the request to ensure the request is handled exactly once in case of retries.
@@ -18413,8 +20002,10 @@ public struct CreateInputInput {
     public init(
         destinations: [MediaLiveClientTypes.InputDestinationRequest]? = nil,
         inputDevices: [MediaLiveClientTypes.InputDeviceSettings]? = nil,
+        inputNetworkLocation: MediaLiveClientTypes.InputNetworkLocation? = nil,
         inputSecurityGroups: [Swift.String]? = nil,
         mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlowRequest]? = nil,
+        multicastSettings: MediaLiveClientTypes.MulticastSettingsCreateRequest? = nil,
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -18427,8 +20018,10 @@ public struct CreateInputInput {
     {
         self.destinations = destinations
         self.inputDevices = inputDevices
+        self.inputNetworkLocation = inputNetworkLocation
         self.inputSecurityGroups = inputSecurityGroups
         self.mediaConnectFlows = mediaConnectFlows
+        self.multicastSettings = multicastSettings
         self.name = name
         self.requestId = requestId
         self.roleArn = roleArn
@@ -18893,6 +20486,202 @@ public struct CreateMultiplexProgramOutput {
     }
 }
 
+/// A request to create a Network.
+public struct CreateNetworkInput {
+    /// An array of IpPoolCreateRequests that identify a collection of IP addresses in your network that you want to reserve for use in MediaLive Anywhere. MediaLiveAnywhere uses these IP addresses for Push inputs (in both Bridge and NATnetworks) and for output destinations (only in Bridge networks). EachIpPoolUpdateRequest specifies one CIDR block.
+    public var ipPools: [MediaLiveClientTypes.IpPoolCreateRequest]?
+    /// Specify a name that is unique in the AWS account. We recommend that you assign a name that hints at the type of traffic on the network. Names are case-sensitive.
+    public var name: Swift.String?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
+    /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+    public var routes: [MediaLiveClientTypes.RouteCreateRequest]?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        ipPools: [MediaLiveClientTypes.IpPoolCreateRequest]? = nil,
+        name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        routes: [MediaLiveClientTypes.RouteCreateRequest]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.ipPools = ipPools
+        self.name = name
+        self.requestId = requestId
+        self.routes = routes
+        self.tags = tags
+    }
+}
+
+/// Placeholder documentation for CreateNetworkResponse
+public struct CreateNetworkOutput {
+    /// The ARN of this Network. It is automatically assigned when the Network is created.
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__string
+    public var associatedClusterIds: [Swift.String]?
+    /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+    public var ipPools: [MediaLiveClientTypes.IpPool]?
+    /// The name that you specified for the Network.
+    public var name: Swift.String?
+    /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+    public var routes: [MediaLiveClientTypes.Route]?
+    /// The current state of the Network. Only MediaLive Anywhere can change the state.
+    public var state: MediaLiveClientTypes.NetworkState?
+
+    public init(
+        arn: Swift.String? = nil,
+        associatedClusterIds: [Swift.String]? = nil,
+        id: Swift.String? = nil,
+        ipPools: [MediaLiveClientTypes.IpPool]? = nil,
+        name: Swift.String? = nil,
+        routes: [MediaLiveClientTypes.Route]? = nil,
+        state: MediaLiveClientTypes.NetworkState? = nil
+    )
+    {
+        self.arn = arn
+        self.associatedClusterIds = associatedClusterIds
+        self.id = id
+        self.ipPools = ipPools
+        self.name = name
+        self.routes = routes
+        self.state = state
+    }
+}
+
+/// A request to create a node
+public struct CreateNodeInput {
+    /// The ID of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The user-specified name of the Node to be created.
+    public var name: Swift.String?
+    /// Documentation update needed
+    public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMappingCreateRequest]?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
+    /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMappingCreateRequest]? = nil,
+        requestId: Swift.String? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.name = name
+        self.nodeInterfaceMappings = nodeInterfaceMappings
+        self.requestId = requestId
+        self.role = role
+        self.tags = tags
+    }
+}
+
+/// Placeholder documentation for CreateNodeResponse
+public struct CreateNodeOutput {
+    /// The ARN of the Node. It is automatically assigned when the Node is created.
+    public var arn: Swift.String?
+    /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+    public var channelPlacementGroups: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The current connection state of the Node.
+    public var connectionState: MediaLiveClientTypes.NodeConnectionState?
+    /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the EC2 instance hosting the Node.
+    public var instanceArn: Swift.String?
+    /// The name that you specified for the Node.
+    public var name: Swift.String?
+    /// Documentation update needed
+    public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
+    /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+    /// The current state of the Node.
+    public var state: MediaLiveClientTypes.NodeState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelPlacementGroups: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        connectionState: MediaLiveClientTypes.NodeConnectionState? = nil,
+        id: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil,
+        state: MediaLiveClientTypes.NodeState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelPlacementGroups = channelPlacementGroups
+        self.clusterId = clusterId
+        self.connectionState = connectionState
+        self.id = id
+        self.instanceArn = instanceArn
+        self.name = name
+        self.nodeInterfaceMappings = nodeInterfaceMappings
+        self.role = role
+        self.state = state
+    }
+}
+
+/// A request to create a new node registration script.
+public struct CreateNodeRegistrationScriptInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// If you're generating a re-registration script for an already existing node, this is where you provide the id.
+    public var id: Swift.String?
+    /// Specify a pattern for MediaLive Anywhere to use to assign a name to each Node in the Cluster. The pattern can include the variables $hn (hostname of the node hardware) and $ts for the date and time that the Node is created, in UTC (for example, 2024-08-20T23:35:12Z).
+    public var name: Swift.String?
+    /// Documentation update needed
+    public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
+    /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
+        requestId: Swift.String? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.id = id
+        self.name = name
+        self.nodeInterfaceMappings = nodeInterfaceMappings
+        self.requestId = requestId
+        self.role = role
+    }
+}
+
+/// Placeholder documentation for CreateNodeRegistrationScriptResponse
+public struct CreateNodeRegistrationScriptOutput {
+    /// A script that can be run on a Bring Your Own Device Elemental Anywhere system to create a node in a cluster.
+    public var nodeRegistrationScript: Swift.String?
+
+    public init(
+        nodeRegistrationScript: Swift.String? = nil
+    )
+    {
+        self.nodeRegistrationScript = nodeRegistrationScript
+    }
+}
+
 /// A request to create a partner input
 public struct CreatePartnerInputInput {
     /// Unique ID of the input.
@@ -19149,6 +20938,8 @@ public struct DeleteChannelInput {
 
 /// Placeholder documentation for DeleteChannelResponse
 public struct DeleteChannelOutput {
+    /// Anywhere settings for this channel.
+    public var anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings?
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -19187,6 +20978,7 @@ public struct DeleteChannelOutput {
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
     public init(
+        anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings? = nil,
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -19207,6 +20999,7 @@ public struct DeleteChannelOutput {
         vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
     )
     {
+        self.anywhereSettings = anywhereSettings
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
@@ -19225,6 +21018,62 @@ public struct DeleteChannelOutput {
         self.state = state
         self.tags = tags
         self.vpc = vpc
+    }
+}
+
+/// Placeholder documentation for DeleteChannelPlacementGroupRequest
+public struct DeleteChannelPlacementGroupInput {
+    /// The ID of the channel placement group.
+    /// This member is required.
+    public var channelPlacementGroupId: Swift.String?
+    /// The ID of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+
+    public init(
+        channelPlacementGroupId: Swift.String? = nil,
+        clusterId: Swift.String? = nil
+    )
+    {
+        self.channelPlacementGroupId = channelPlacementGroupId
+        self.clusterId = clusterId
+    }
+}
+
+/// Placeholder documentation for DeleteChannelPlacementGroupResponse
+public struct DeleteChannelPlacementGroupOutput {
+    /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+    public var arn: Swift.String?
+    /// Used in ListChannelPlacementGroupsResult
+    public var channels: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The name that you specified for the ChannelPlacementGroup.
+    public var name: Swift.String?
+    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    public var nodes: [Swift.String]?
+    /// The current state of the ChannelPlacementGroup.
+    public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channels: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodes: [Swift.String]? = nil,
+        state: MediaLiveClientTypes.ChannelPlacementGroupState? = nil
+    )
+    {
+        self.arn = arn
+        self.channels = channels
+        self.clusterId = clusterId
+        self.id = id
+        self.name = name
+        self.nodes = nodes
+        self.state = state
     }
 }
 
@@ -19253,6 +21102,61 @@ public struct DeleteCloudWatchAlarmTemplateGroupInput {
     )
     {
         self.identifier = identifier
+    }
+}
+
+/// Placeholder documentation for DeleteClusterRequest
+public struct DeleteClusterInput {
+    /// The ID of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil
+    )
+    {
+        self.clusterId = clusterId
+    }
+}
+
+/// Placeholder documentation for DeleteClusterResponse
+public struct DeleteClusterOutput {
+    /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__string
+    public var channelIds: [Swift.String]?
+    /// The hardware type for the Cluster
+    public var clusterType: MediaLiveClientTypes.ClusterType?
+    /// The ID of the Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+    public var instanceRoleArn: Swift.String?
+    /// The name that you specified for the Cluster.
+    public var name: Swift.String?
+    /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+    public var networkSettings: MediaLiveClientTypes.ClusterNetworkSettings?
+    /// The current state of the Cluster.
+    public var state: MediaLiveClientTypes.ClusterState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelIds: [Swift.String]? = nil,
+        clusterType: MediaLiveClientTypes.ClusterType? = nil,
+        id: Swift.String? = nil,
+        instanceRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        networkSettings: MediaLiveClientTypes.ClusterNetworkSettings? = nil,
+        state: MediaLiveClientTypes.ClusterState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelIds = channelIds
+        self.clusterType = clusterType
+        self.id = id
+        self.instanceRoleArn = instanceRoleArn
+        self.name = name
+        self.networkSettings = networkSettings
+        self.state = state
     }
 }
 
@@ -19432,6 +21336,125 @@ public struct DeleteMultiplexProgramOutput {
         self.packetIdentifiersMap = packetIdentifiersMap
         self.pipelineDetails = pipelineDetails
         self.programName = programName
+    }
+}
+
+/// Placeholder documentation for DeleteNetworkRequest
+public struct DeleteNetworkInput {
+    /// The ID of the network.
+    /// This member is required.
+    public var networkId: Swift.String?
+
+    public init(
+        networkId: Swift.String? = nil
+    )
+    {
+        self.networkId = networkId
+    }
+}
+
+/// Placeholder documentation for DeleteNetworkResponse
+public struct DeleteNetworkOutput {
+    /// The ARN of this Network. It is automatically assigned when the Network is created.
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__string
+    public var associatedClusterIds: [Swift.String]?
+    /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+    public var ipPools: [MediaLiveClientTypes.IpPool]?
+    /// The name that you specified for the Network.
+    public var name: Swift.String?
+    /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+    public var routes: [MediaLiveClientTypes.Route]?
+    /// The current state of the Network. Only MediaLive Anywhere can change the state.
+    public var state: MediaLiveClientTypes.NetworkState?
+
+    public init(
+        arn: Swift.String? = nil,
+        associatedClusterIds: [Swift.String]? = nil,
+        id: Swift.String? = nil,
+        ipPools: [MediaLiveClientTypes.IpPool]? = nil,
+        name: Swift.String? = nil,
+        routes: [MediaLiveClientTypes.Route]? = nil,
+        state: MediaLiveClientTypes.NetworkState? = nil
+    )
+    {
+        self.arn = arn
+        self.associatedClusterIds = associatedClusterIds
+        self.id = id
+        self.ipPools = ipPools
+        self.name = name
+        self.routes = routes
+        self.state = state
+    }
+}
+
+/// Placeholder documentation for DeleteNodeRequest
+public struct DeleteNodeInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The ID of the node.
+    /// This member is required.
+    public var nodeId: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        nodeId: Swift.String? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.nodeId = nodeId
+    }
+}
+
+/// Placeholder documentation for DeleteNodeResponse
+public struct DeleteNodeOutput {
+    /// The ARN of the Node. It is automatically assigned when the Node is created.
+    public var arn: Swift.String?
+    /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+    public var channelPlacementGroups: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The current connection state of the Node.
+    public var connectionState: MediaLiveClientTypes.NodeConnectionState?
+    /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the EC2 instance hosting the Node.
+    public var instanceArn: Swift.String?
+    /// The name that you specified for the Node.
+    public var name: Swift.String?
+    /// Documentation update needed
+    public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
+    /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+    /// The current state of the Node.
+    public var state: MediaLiveClientTypes.NodeState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelPlacementGroups: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        connectionState: MediaLiveClientTypes.NodeConnectionState? = nil,
+        id: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil,
+        state: MediaLiveClientTypes.NodeState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelPlacementGroups = channelPlacementGroups
+        self.clusterId = clusterId
+        self.connectionState = connectionState
+        self.id = id
+        self.instanceArn = instanceArn
+        self.name = name
+        self.nodeInterfaceMappings = nodeInterfaceMappings
+        self.role = role
+        self.state = state
     }
 }
 
@@ -19622,6 +21645,8 @@ public struct DescribeChannelInput {
 
 /// Placeholder documentation for DescribeChannelResponse
 public struct DescribeChannelOutput {
+    /// Anywhere settings for this channel.
+    public var anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings?
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -19660,6 +21685,7 @@ public struct DescribeChannelOutput {
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
     public init(
+        anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings? = nil,
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -19680,6 +21706,7 @@ public struct DescribeChannelOutput {
         vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
     )
     {
+        self.anywhereSettings = anywhereSettings
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
@@ -19698,6 +21725,117 @@ public struct DescribeChannelOutput {
         self.state = state
         self.tags = tags
         self.vpc = vpc
+    }
+}
+
+/// Placeholder documentation for DescribeChannelPlacementGroupRequest
+public struct DescribeChannelPlacementGroupInput {
+    /// The ID of the channel placement group.
+    /// This member is required.
+    public var channelPlacementGroupId: Swift.String?
+    /// The ID of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+
+    public init(
+        channelPlacementGroupId: Swift.String? = nil,
+        clusterId: Swift.String? = nil
+    )
+    {
+        self.channelPlacementGroupId = channelPlacementGroupId
+        self.clusterId = clusterId
+    }
+}
+
+/// Placeholder documentation for DescribeChannelPlacementGroupResponse
+public struct DescribeChannelPlacementGroupOutput {
+    /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+    public var arn: Swift.String?
+    /// Used in ListChannelPlacementGroupsResult
+    public var channels: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The name that you specified for the ChannelPlacementGroup.
+    public var name: Swift.String?
+    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    public var nodes: [Swift.String]?
+    /// The current state of the ChannelPlacementGroup.
+    public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channels: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodes: [Swift.String]? = nil,
+        state: MediaLiveClientTypes.ChannelPlacementGroupState? = nil
+    )
+    {
+        self.arn = arn
+        self.channels = channels
+        self.clusterId = clusterId
+        self.id = id
+        self.name = name
+        self.nodes = nodes
+        self.state = state
+    }
+}
+
+/// Placeholder documentation for DescribeClusterRequest
+public struct DescribeClusterInput {
+    /// The ID of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil
+    )
+    {
+        self.clusterId = clusterId
+    }
+}
+
+/// Placeholder documentation for DescribeClusterResponse
+public struct DescribeClusterOutput {
+    /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__string
+    public var channelIds: [Swift.String]?
+    /// The hardware type for the Cluster
+    public var clusterType: MediaLiveClientTypes.ClusterType?
+    /// The ID of the Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+    public var instanceRoleArn: Swift.String?
+    /// The name that you specified for the Cluster.
+    public var name: Swift.String?
+    /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+    public var networkSettings: MediaLiveClientTypes.ClusterNetworkSettings?
+    /// The current state of the Cluster.
+    public var state: MediaLiveClientTypes.ClusterState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelIds: [Swift.String]? = nil,
+        clusterType: MediaLiveClientTypes.ClusterType? = nil,
+        id: Swift.String? = nil,
+        instanceRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        networkSettings: MediaLiveClientTypes.ClusterNetworkSettings? = nil,
+        state: MediaLiveClientTypes.ClusterState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelIds = channelIds
+        self.clusterType = clusterType
+        self.id = id
+        self.instanceRoleArn = instanceRoleArn
+        self.name = name
+        self.networkSettings = networkSettings
+        self.state = state
     }
 }
 
@@ -19729,12 +21867,16 @@ public struct DescribeInputOutput {
     public var inputClass: MediaLiveClientTypes.InputClass?
     /// Settings for the input devices.
     public var inputDevices: [MediaLiveClientTypes.InputDeviceSettings]?
+    /// The location of this input. AWS, for an input existing in the AWS Cloud, On-Prem for an input in a customer network.
+    public var inputNetworkLocation: MediaLiveClientTypes.InputNetworkLocation?
     /// A list of IDs for all Inputs which are partners of this one.
     public var inputPartnerIds: [Swift.String]?
     /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes during input switch actions. Presently, this functionality only works with MP4_FILE and TS_FILE inputs.
     public var inputSourceType: MediaLiveClientTypes.InputSourceType?
     /// A list of MediaConnect Flows for this input.
     public var mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlow]?
+    /// Multicast Input settings.
+    public var multicastSettings: MediaLiveClientTypes.MulticastSettings?
     /// The user-assigned name (This is a mutable value).
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
@@ -19759,9 +21901,11 @@ public struct DescribeInputOutput {
         id: Swift.String? = nil,
         inputClass: MediaLiveClientTypes.InputClass? = nil,
         inputDevices: [MediaLiveClientTypes.InputDeviceSettings]? = nil,
+        inputNetworkLocation: MediaLiveClientTypes.InputNetworkLocation? = nil,
         inputPartnerIds: [Swift.String]? = nil,
         inputSourceType: MediaLiveClientTypes.InputSourceType? = nil,
         mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlow]? = nil,
+        multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil,
@@ -19778,9 +21922,11 @@ public struct DescribeInputOutput {
         self.id = id
         self.inputClass = inputClass
         self.inputDevices = inputDevices
+        self.inputNetworkLocation = inputNetworkLocation
         self.inputPartnerIds = inputPartnerIds
         self.inputSourceType = inputSourceType
         self.mediaConnectFlows = mediaConnectFlows
+        self.multicastSettings = multicastSettings
         self.name = name
         self.roleArn = roleArn
         self.securityGroups = securityGroups
@@ -20082,6 +22228,125 @@ public struct DescribeMultiplexProgramOutput {
         self.packetIdentifiersMap = packetIdentifiersMap
         self.pipelineDetails = pipelineDetails
         self.programName = programName
+    }
+}
+
+/// Placeholder documentation for DescribeNetworkRequest
+public struct DescribeNetworkInput {
+    /// The ID of the network.
+    /// This member is required.
+    public var networkId: Swift.String?
+
+    public init(
+        networkId: Swift.String? = nil
+    )
+    {
+        self.networkId = networkId
+    }
+}
+
+/// Placeholder documentation for DescribeNetworkResponse
+public struct DescribeNetworkOutput {
+    /// The ARN of this Network. It is automatically assigned when the Network is created.
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__string
+    public var associatedClusterIds: [Swift.String]?
+    /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+    public var ipPools: [MediaLiveClientTypes.IpPool]?
+    /// The name that you specified for the Network.
+    public var name: Swift.String?
+    /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+    public var routes: [MediaLiveClientTypes.Route]?
+    /// The current state of the Network. Only MediaLive Anywhere can change the state.
+    public var state: MediaLiveClientTypes.NetworkState?
+
+    public init(
+        arn: Swift.String? = nil,
+        associatedClusterIds: [Swift.String]? = nil,
+        id: Swift.String? = nil,
+        ipPools: [MediaLiveClientTypes.IpPool]? = nil,
+        name: Swift.String? = nil,
+        routes: [MediaLiveClientTypes.Route]? = nil,
+        state: MediaLiveClientTypes.NetworkState? = nil
+    )
+    {
+        self.arn = arn
+        self.associatedClusterIds = associatedClusterIds
+        self.id = id
+        self.ipPools = ipPools
+        self.name = name
+        self.routes = routes
+        self.state = state
+    }
+}
+
+/// Placeholder documentation for DescribeNodeRequest
+public struct DescribeNodeInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The ID of the node.
+    /// This member is required.
+    public var nodeId: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        nodeId: Swift.String? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.nodeId = nodeId
+    }
+}
+
+/// Placeholder documentation for DescribeNodeResponse
+public struct DescribeNodeOutput {
+    /// The ARN of the Node. It is automatically assigned when the Node is created.
+    public var arn: Swift.String?
+    /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+    public var channelPlacementGroups: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The current connection state of the Node.
+    public var connectionState: MediaLiveClientTypes.NodeConnectionState?
+    /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the EC2 instance hosting the Node.
+    public var instanceArn: Swift.String?
+    /// The name that you specified for the Node.
+    public var name: Swift.String?
+    /// Documentation update needed
+    public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
+    /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+    /// The current state of the Node.
+    public var state: MediaLiveClientTypes.NodeState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelPlacementGroups: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        connectionState: MediaLiveClientTypes.NodeConnectionState? = nil,
+        id: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil,
+        state: MediaLiveClientTypes.NodeState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelPlacementGroups = channelPlacementGroups
+        self.clusterId = clusterId
+        self.connectionState = connectionState
+        self.id = id
+        self.instanceArn = instanceArn
+        self.name = name
+        self.nodeInterfaceMappings = nodeInterfaceMappings
+        self.role = role
+        self.state = state
     }
 }
 
@@ -20742,6 +23007,45 @@ extension MediaLiveClientTypes {
 
 }
 
+/// Placeholder documentation for ListChannelPlacementGroupsRequest
+public struct ListChannelPlacementGroupsInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListChannelPlacementGroupsResponse
+public struct ListChannelPlacementGroupsOutput {
+    /// An array of ChannelPlacementGroups that exist in the Cluster.
+    public var channelPlacementGroups: [MediaLiveClientTypes.DescribeChannelPlacementGroupSummary]?
+    /// Token for the next result.
+    public var nextToken: Swift.String?
+
+    public init(
+        channelPlacementGroups: [MediaLiveClientTypes.DescribeChannelPlacementGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.channelPlacementGroups = channelPlacementGroups
+        self.nextToken = nextToken
+    }
+}
+
 /// Placeholder documentation for ListChannelsRequest
 public struct ListChannelsInput {
     /// Placeholder documentation for MaxResults
@@ -20860,6 +23164,40 @@ public struct ListCloudWatchAlarmTemplatesOutput {
     )
     {
         self.cloudWatchAlarmTemplates = cloudWatchAlarmTemplates
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListClustersRequest
+public struct ListClustersInput {
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListClustersResponse
+public struct ListClustersOutput {
+    /// A list of the Clusters that exist in your AWS account.
+    public var clusters: [MediaLiveClientTypes.DescribeClusterSummary]?
+    /// Token for the next result.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusters: [MediaLiveClientTypes.DescribeClusterSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusters = clusters
         self.nextToken = nextToken
     }
 }
@@ -21158,13 +23496,86 @@ public struct ListMultiplexProgramsOutput {
     }
 }
 
+/// Placeholder documentation for ListNetworksRequest
+public struct ListNetworksInput {
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListNetworksResponse
+public struct ListNetworksOutput {
+    /// An array of networks that you have created.
+    public var networks: [MediaLiveClientTypes.DescribeNetworkSummary]?
+    /// Token for the next ListNetworks request.
+    public var nextToken: Swift.String?
+
+    public init(
+        networks: [MediaLiveClientTypes.DescribeNetworkSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.networks = networks
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListNodesRequest
+public struct ListNodesInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListNodesResponse
+public struct ListNodesOutput {
+    /// Token for the next result.
+    public var nextToken: Swift.String?
+    /// An array of Nodes that exist in the Cluster.
+    public var nodes: [MediaLiveClientTypes.DescribeNodeSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        nodes: [MediaLiveClientTypes.DescribeNodeSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.nodes = nodes
+    }
+}
+
 /// Placeholder documentation for ListOfferingsRequest
 public struct ListOfferingsInput {
     /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
     public var channelClass: Swift.String?
     /// Filter to offerings that match the configuration of an existing channel, e.g. '2345678' (a channel ID)
     public var channelConfiguration: Swift.String?
-    /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
+    /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', 'LINK', or 'AV1'
     public var codec: Swift.String?
     /// Filter by offering duration, e.g. '12'
     public var duration: Swift.String?
@@ -21236,7 +23647,7 @@ public struct ListOfferingsOutput {
 public struct ListReservationsInput {
     /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
     public var channelClass: Swift.String?
-    /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
+    /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', 'LINK', or 'AV1'
     public var codec: Swift.String?
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
@@ -21537,6 +23948,8 @@ public struct RestartChannelPipelinesInput {
 
 /// Placeholder documentation for RestartChannelPipelinesResponse
 public struct RestartChannelPipelinesOutput {
+    /// Anywhere settings for this channel.
+    public var anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings?
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -21577,6 +23990,7 @@ public struct RestartChannelPipelinesOutput {
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
     public init(
+        anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings? = nil,
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -21598,6 +24012,7 @@ public struct RestartChannelPipelinesOutput {
         vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
     )
     {
+        self.anywhereSettings = anywhereSettings
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
@@ -21636,6 +24051,8 @@ public struct StartChannelInput {
 
 /// Placeholder documentation for StartChannelResponse
 public struct StartChannelOutput {
+    /// Anywhere settings for this channel.
+    public var anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings?
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -21674,6 +24091,7 @@ public struct StartChannelOutput {
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
     public init(
+        anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings? = nil,
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -21694,6 +24112,7 @@ public struct StartChannelOutput {
         vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
     )
     {
+        self.anywhereSettings = anywhereSettings
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
@@ -22147,6 +24566,8 @@ public struct StopChannelInput {
 
 /// Placeholder documentation for StopChannelResponse
 public struct StopChannelOutput {
+    /// Anywhere settings for this channel.
+    public var anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings?
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -22185,6 +24606,7 @@ public struct StopChannelOutput {
     public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
     public init(
+        anywhereSettings: MediaLiveClientTypes.DescribeAnywhereSettings? = nil,
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
@@ -22205,6 +24627,7 @@ public struct StopChannelOutput {
         vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
     )
     {
+        self.anywhereSettings = anywhereSettings
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
@@ -22466,6 +24889,70 @@ public struct UpdateChannelClassOutput {
     }
 }
 
+/// A request to update the channel placement group
+public struct UpdateChannelPlacementGroupInput {
+    /// The ID of the channel placement group.
+    /// This member is required.
+    public var channelPlacementGroupId: Swift.String?
+    /// The ID of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// Include this parameter only if you want to change the current name of the ChannelPlacementGroup. Specify a name that is unique in the Cluster. You can't change the name. Names are case-sensitive.
+    public var name: Swift.String?
+    /// Include this parameter only if you want to change the list of Nodes that are associated with the ChannelPlacementGroup.
+    public var nodes: [Swift.String]?
+
+    public init(
+        channelPlacementGroupId: Swift.String? = nil,
+        clusterId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodes: [Swift.String]? = nil
+    )
+    {
+        self.channelPlacementGroupId = channelPlacementGroupId
+        self.clusterId = clusterId
+        self.name = name
+        self.nodes = nodes
+    }
+}
+
+/// Placeholder documentation for UpdateChannelPlacementGroupResponse
+public struct UpdateChannelPlacementGroupOutput {
+    /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+    public var arn: Swift.String?
+    /// Used in ListChannelPlacementGroupsResult
+    public var channels: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The name that you specified for the ChannelPlacementGroup.
+    public var name: Swift.String?
+    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    public var nodes: [Swift.String]?
+    /// The current state of the ChannelPlacementGroup.
+    public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channels: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodes: [Swift.String]? = nil,
+        state: MediaLiveClientTypes.ChannelPlacementGroupState? = nil
+    )
+    {
+        self.arn = arn
+        self.channels = channels
+        self.clusterId = clusterId
+        self.id = id
+        self.name = name
+        self.nodes = nodes
+        self.state = state
+    }
+}
+
 /// Placeholder documentation for UpdateCloudWatchAlarmTemplateRequest
 public struct UpdateCloudWatchAlarmTemplateInput {
     /// The comparison operator used to compare the specified statistic and the threshold.
@@ -22660,6 +25147,65 @@ public struct UpdateCloudWatchAlarmTemplateGroupOutput {
     }
 }
 
+/// A request to update the cluster.
+public struct UpdateClusterInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// Include this parameter only if you want to change the current name of the Cluster. Specify a name that is unique in the AWS account. You can't change the name. Names are case-sensitive.
+    public var name: Swift.String?
+    /// Include this property only if you want to change the current connections between the Nodes in the Cluster and the Networks the Cluster is associated with.
+    public var networkSettings: MediaLiveClientTypes.ClusterNetworkSettingsUpdateRequest?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        networkSettings: MediaLiveClientTypes.ClusterNetworkSettingsUpdateRequest? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.name = name
+        self.networkSettings = networkSettings
+    }
+}
+
+/// Placeholder documentation for UpdateClusterResponse
+public struct UpdateClusterOutput {
+    /// The ARN of the Cluster.
+    public var arn: Swift.String?
+    /// An array of the IDs of the Channels that are associated with this Cluster. One Channel is associated with the Cluster as follows: A Channel belongs to a ChannelPlacementGroup. A ChannelPlacementGroup is attached to a Node. A Node belongs to a Cluster.
+    public var channelIds: [Swift.String]?
+    /// The hardware type for the Cluster
+    public var clusterType: MediaLiveClientTypes.ClusterType?
+    /// The unique ID of the Cluster.
+    public var id: Swift.String?
+    /// The user-specified name of the Cluster.
+    public var name: Swift.String?
+    /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+    public var networkSettings: MediaLiveClientTypes.ClusterNetworkSettings?
+    /// The current state of the Cluster.
+    public var state: MediaLiveClientTypes.ClusterState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelIds: [Swift.String]? = nil,
+        clusterType: MediaLiveClientTypes.ClusterType? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        networkSettings: MediaLiveClientTypes.ClusterNetworkSettings? = nil,
+        state: MediaLiveClientTypes.ClusterState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelIds = channelIds
+        self.clusterType = clusterType
+        self.id = id
+        self.name = name
+        self.networkSettings = networkSettings
+        self.state = state
+    }
+}
+
 /// Placeholder documentation for UpdateEventBridgeRuleTemplateRequest
 public struct UpdateEventBridgeRuleTemplateInput {
     /// A resource's optional description.
@@ -22798,6 +25344,22 @@ public struct UpdateEventBridgeRuleTemplateGroupOutput {
     }
 }
 
+extension MediaLiveClientTypes {
+    /// Settings for a Multicast input. Contains a list of multicast Urls and optional source ip addresses.
+    public struct MulticastSettingsUpdateRequest {
+        /// Placeholder documentation for __listOfMulticastSourceUpdateRequest
+        public var sources: [MediaLiveClientTypes.MulticastSourceUpdateRequest]?
+
+        public init(
+            sources: [MediaLiveClientTypes.MulticastSourceUpdateRequest]? = nil
+        )
+        {
+            self.sources = sources
+        }
+    }
+
+}
+
 /// A request to update an input.
 public struct UpdateInputInput {
     /// Destination settings for PUSH type inputs.
@@ -22811,6 +25373,8 @@ public struct UpdateInputInput {
     public var inputSecurityGroups: [Swift.String]?
     /// A list of the MediaConnect Flow ARNs that you want to use as the source of the input. You can specify as few as one Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a separate Availability Zone as this ensures your EML input is redundant to AZ issues.
     public var mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlowRequest]?
+    /// Multicast Input settings.
+    public var multicastSettings: MediaLiveClientTypes.MulticastSettingsUpdateRequest?
     /// Name of the input.
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
@@ -22826,6 +25390,7 @@ public struct UpdateInputInput {
         inputId: Swift.String? = nil,
         inputSecurityGroups: [Swift.String]? = nil,
         mediaConnectFlows: [MediaLiveClientTypes.MediaConnectFlowRequest]? = nil,
+        multicastSettings: MediaLiveClientTypes.MulticastSettingsUpdateRequest? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
@@ -22837,6 +25402,7 @@ public struct UpdateInputInput {
         self.inputId = inputId
         self.inputSecurityGroups = inputSecurityGroups
         self.mediaConnectFlows = mediaConnectFlows
+        self.multicastSettings = multicastSettings
         self.name = name
         self.roleArn = roleArn
         self.sources = sources
@@ -23070,6 +25636,247 @@ public struct UpdateMultiplexProgramOutput {
     }
 }
 
+/// A request to update the network.
+public struct UpdateNetworkInput {
+    /// Include this parameter only if you want to change the pool of IP addresses in the network. An array of IpPoolCreateRequests that identify a collection of IP addresses in this network that you want to reserve for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPoolUpdateRequest specifies one CIDR block.
+    public var ipPools: [MediaLiveClientTypes.IpPoolUpdateRequest]?
+    /// Include this parameter only if you want to change the name of the Network. Specify a name that is unique in the AWS account. Names are case-sensitive.
+    public var name: Swift.String?
+    /// The ID of the network
+    /// This member is required.
+    public var networkId: Swift.String?
+    /// Include this parameter only if you want to change or add routes in the Network. An array of Routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+    public var routes: [MediaLiveClientTypes.RouteUpdateRequest]?
+
+    public init(
+        ipPools: [MediaLiveClientTypes.IpPoolUpdateRequest]? = nil,
+        name: Swift.String? = nil,
+        networkId: Swift.String? = nil,
+        routes: [MediaLiveClientTypes.RouteUpdateRequest]? = nil
+    )
+    {
+        self.ipPools = ipPools
+        self.name = name
+        self.networkId = networkId
+        self.routes = routes
+    }
+}
+
+/// Placeholder documentation for UpdateNetworkResponse
+public struct UpdateNetworkOutput {
+    /// The ARN of this Network. It is automatically assigned when the Network is created.
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__string
+    public var associatedClusterIds: [Swift.String]?
+    /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+    public var ipPools: [MediaLiveClientTypes.IpPool]?
+    /// The name that you specified for the Network.
+    public var name: Swift.String?
+    /// An array of Routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+    public var routes: [MediaLiveClientTypes.Route]?
+    /// The current state of the Network. Only MediaLive Anywhere can change the state.
+    public var state: MediaLiveClientTypes.NetworkState?
+
+    public init(
+        arn: Swift.String? = nil,
+        associatedClusterIds: [Swift.String]? = nil,
+        id: Swift.String? = nil,
+        ipPools: [MediaLiveClientTypes.IpPool]? = nil,
+        name: Swift.String? = nil,
+        routes: [MediaLiveClientTypes.Route]? = nil,
+        state: MediaLiveClientTypes.NetworkState? = nil
+    )
+    {
+        self.arn = arn
+        self.associatedClusterIds = associatedClusterIds
+        self.id = id
+        self.ipPools = ipPools
+        self.name = name
+        self.routes = routes
+        self.state = state
+    }
+}
+
+/// A request to update the node.
+public struct UpdateNodeInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// Include this parameter only if you want to change the current name of the Node. Specify a name that is unique in the Cluster. You can't change the name. Names are case-sensitive.
+    public var name: Swift.String?
+    /// The ID of the node.
+    /// This member is required.
+    public var nodeId: Swift.String?
+    /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeId: Swift.String? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.name = name
+        self.nodeId = nodeId
+        self.role = role
+    }
+}
+
+/// Placeholder documentation for UpdateNodeResponse
+public struct UpdateNodeOutput {
+    /// The ARN of the Node. It is automatically assigned when the Node is created.
+    public var arn: Swift.String?
+    /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+    public var channelPlacementGroups: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The current connection state of the Node.
+    public var connectionState: MediaLiveClientTypes.NodeConnectionState?
+    /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the EC2 instance hosting the Node.
+    public var instanceArn: Swift.String?
+    /// The name that you specified for the Node.
+    public var name: Swift.String?
+    /// Documentation update needed
+    public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
+    /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+    /// The current state of the Node.
+    public var state: MediaLiveClientTypes.NodeState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelPlacementGroups: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        connectionState: MediaLiveClientTypes.NodeConnectionState? = nil,
+        id: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil,
+        state: MediaLiveClientTypes.NodeState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelPlacementGroups = channelPlacementGroups
+        self.clusterId = clusterId
+        self.connectionState = connectionState
+        self.id = id
+        self.instanceArn = instanceArn
+        self.name = name
+        self.nodeInterfaceMappings = nodeInterfaceMappings
+        self.role = role
+        self.state = state
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in UpdateNodeStateRequest.
+    public enum UpdateNodeStateShape: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case draining
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateNodeStateShape] {
+            return [
+                .active,
+                .draining
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .draining: return "DRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// A request to update the state of a node.
+public struct UpdateNodeStateInput {
+    /// The ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The ID of the node.
+    /// This member is required.
+    public var nodeId: Swift.String?
+    /// The state to apply to the Node. Set to ACTIVE (COMMISSIONED) to indicate that the Node is deployable. MediaLive Anywhere will consider this node it needs a Node to run a Channel on, or when it needs a Node to promote from a backup node to an active node. Set to DRAINING to isolate the Node so that MediaLive Anywhere won't use it.
+    public var state: MediaLiveClientTypes.UpdateNodeStateShape?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        nodeId: Swift.String? = nil,
+        state: MediaLiveClientTypes.UpdateNodeStateShape? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.nodeId = nodeId
+        self.state = state
+    }
+}
+
+/// Placeholder documentation for UpdateNodeStateResponse
+public struct UpdateNodeStateOutput {
+    /// The ARN of the Node. It is automatically assigned when the Node is created.
+    public var arn: Swift.String?
+    /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+    public var channelPlacementGroups: [Swift.String]?
+    /// The ID of the Cluster that the Node belongs to.
+    public var clusterId: Swift.String?
+    /// The current connection state of the Node.
+    public var connectionState: MediaLiveClientTypes.NodeConnectionState?
+    /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+    public var id: Swift.String?
+    /// The ARN of the EC2 instance hosting the Node.
+    public var instanceArn: Swift.String?
+    /// The name that you specified for the Node.
+    public var name: Swift.String?
+    /// Documentation update needed
+    public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
+    /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    public var role: MediaLiveClientTypes.NodeRole?
+    /// The current state of the Node.
+    public var state: MediaLiveClientTypes.NodeState?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelPlacementGroups: [Swift.String]? = nil,
+        clusterId: Swift.String? = nil,
+        connectionState: MediaLiveClientTypes.NodeConnectionState? = nil,
+        id: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
+        role: MediaLiveClientTypes.NodeRole? = nil,
+        state: MediaLiveClientTypes.NodeState? = nil
+    )
+    {
+        self.arn = arn
+        self.channelPlacementGroups = channelPlacementGroups
+        self.clusterId = clusterId
+        self.connectionState = connectionState
+        self.id = id
+        self.instanceArn = instanceArn
+        self.name = name
+        self.nodeInterfaceMappings = nodeInterfaceMappings
+        self.role = role
+        self.state = state
+    }
+}
+
 /// Request to update a reservation
 public struct UpdateReservationInput {
     /// Name of the reservation
@@ -23170,6 +25977,16 @@ extension CreateChannelInput {
     }
 }
 
+extension CreateChannelPlacementGroupInput {
+
+    static func urlPathProvider(_ value: CreateChannelPlacementGroupInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/channelplacementgroups"
+    }
+}
+
 extension CreateCloudWatchAlarmTemplateInput {
 
     static func urlPathProvider(_ value: CreateCloudWatchAlarmTemplateInput) -> Swift.String? {
@@ -23181,6 +25998,13 @@ extension CreateCloudWatchAlarmTemplateGroupInput {
 
     static func urlPathProvider(_ value: CreateCloudWatchAlarmTemplateGroupInput) -> Swift.String? {
         return "/prod/cloudwatch-alarm-template-groups"
+    }
+}
+
+extension CreateClusterInput {
+
+    static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
+        return "/prod/clusters"
     }
 }
 
@@ -23229,6 +26053,33 @@ extension CreateMultiplexProgramInput {
     }
 }
 
+extension CreateNetworkInput {
+
+    static func urlPathProvider(_ value: CreateNetworkInput) -> Swift.String? {
+        return "/prod/networks"
+    }
+}
+
+extension CreateNodeInput {
+
+    static func urlPathProvider(_ value: CreateNodeInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/nodes"
+    }
+}
+
+extension CreateNodeRegistrationScriptInput {
+
+    static func urlPathProvider(_ value: CreateNodeRegistrationScriptInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/nodeRegistrationScript"
+    }
+}
+
 extension CreatePartnerInputInput {
 
     static func urlPathProvider(_ value: CreatePartnerInputInput) -> Swift.String? {
@@ -23266,6 +26117,19 @@ extension DeleteChannelInput {
     }
 }
 
+extension DeleteChannelPlacementGroupInput {
+
+    static func urlPathProvider(_ value: DeleteChannelPlacementGroupInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        guard let channelPlacementGroupId = value.channelPlacementGroupId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/channelplacementgroups/\(channelPlacementGroupId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteCloudWatchAlarmTemplateInput {
 
     static func urlPathProvider(_ value: DeleteCloudWatchAlarmTemplateInput) -> Swift.String? {
@@ -23283,6 +26147,16 @@ extension DeleteCloudWatchAlarmTemplateGroupInput {
             return nil
         }
         return "/prod/cloudwatch-alarm-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteClusterInput {
+
+    static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())"
     }
 }
 
@@ -23346,6 +26220,29 @@ extension DeleteMultiplexProgramInput {
             return nil
         }
         return "/prod/multiplexes/\(multiplexId.urlPercentEncoding())/programs/\(programName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteNetworkInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
+            return nil
+        }
+        return "/prod/networks/\(networkId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteNodeInput {
+
+    static func urlPathProvider(_ value: DeleteNodeInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        guard let nodeId = value.nodeId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())"
     }
 }
 
@@ -23422,6 +26319,29 @@ extension DescribeChannelInput {
     }
 }
 
+extension DescribeChannelPlacementGroupInput {
+
+    static func urlPathProvider(_ value: DescribeChannelPlacementGroupInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        guard let channelPlacementGroupId = value.channelPlacementGroupId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/channelplacementgroups/\(channelPlacementGroupId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeClusterInput {
+
+    static func urlPathProvider(_ value: DescribeClusterInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())"
+    }
+}
+
 extension DescribeInputInput {
 
     static func urlPathProvider(_ value: DescribeInputInput) -> Swift.String? {
@@ -23493,6 +26413,29 @@ extension DescribeMultiplexProgramInput {
             return nil
         }
         return "/prod/multiplexes/\(multiplexId.urlPercentEncoding())/programs/\(programName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeNetworkInput {
+
+    static func urlPathProvider(_ value: DescribeNetworkInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
+            return nil
+        }
+        return "/prod/networks/\(networkId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeNodeInput {
+
+    static func urlPathProvider(_ value: DescribeNodeInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        guard let nodeId = value.nodeId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())"
     }
 }
 
@@ -23622,6 +26565,32 @@ extension GetSignalMapInput {
     }
 }
 
+extension ListChannelPlacementGroupsInput {
+
+    static func urlPathProvider(_ value: ListChannelPlacementGroupsInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/channelplacementgroups"
+    }
+}
+
+extension ListChannelPlacementGroupsInput {
+
+    static func queryItemProvider(_ value: ListChannelPlacementGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListChannelsInput {
 
     static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
@@ -23706,6 +26675,29 @@ extension ListCloudWatchAlarmTemplatesInput {
         if let groupIdentifier = value.groupIdentifier {
             let groupIdentifierQueryItem = Smithy.URIQueryItem(name: "groupIdentifier".urlPercentEncoding(), value: Swift.String(groupIdentifier).urlPercentEncoding())
             items.append(groupIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListClustersInput {
+
+    static func urlPathProvider(_ value: ListClustersInput) -> Swift.String? {
+        return "/prod/clusters"
+    }
+}
+
+extension ListClustersInput {
+
+    static func queryItemProvider(_ value: ListClustersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -23903,6 +26895,55 @@ extension ListMultiplexProgramsInput {
 extension ListMultiplexProgramsInput {
 
     static func queryItemProvider(_ value: ListMultiplexProgramsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListNetworksInput {
+
+    static func urlPathProvider(_ value: ListNetworksInput) -> Swift.String? {
+        return "/prod/networks"
+    }
+}
+
+extension ListNetworksInput {
+
+    static func queryItemProvider(_ value: ListNetworksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListNodesInput {
+
+    static func urlPathProvider(_ value: ListNodesInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/nodes"
+    }
+}
+
+extension ListNodesInput {
+
+    static func queryItemProvider(_ value: ListNodesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -24252,6 +27293,19 @@ extension UpdateChannelClassInput {
     }
 }
 
+extension UpdateChannelPlacementGroupInput {
+
+    static func urlPathProvider(_ value: UpdateChannelPlacementGroupInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        guard let channelPlacementGroupId = value.channelPlacementGroupId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/channelplacementgroups/\(channelPlacementGroupId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateCloudWatchAlarmTemplateInput {
 
     static func urlPathProvider(_ value: UpdateCloudWatchAlarmTemplateInput) -> Swift.String? {
@@ -24269,6 +27323,16 @@ extension UpdateCloudWatchAlarmTemplateGroupInput {
             return nil
         }
         return "/prod/cloudwatch-alarm-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateClusterInput {
+
+    static func urlPathProvider(_ value: UpdateClusterInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())"
     }
 }
 
@@ -24345,6 +27409,42 @@ extension UpdateMultiplexProgramInput {
     }
 }
 
+extension UpdateNetworkInput {
+
+    static func urlPathProvider(_ value: UpdateNetworkInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
+            return nil
+        }
+        return "/prod/networks/\(networkId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateNodeInput {
+
+    static func urlPathProvider(_ value: UpdateNodeInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        guard let nodeId = value.nodeId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateNodeStateInput {
+
+    static func urlPathProvider(_ value: UpdateNodeStateInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        guard let nodeId = value.nodeId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())/state"
+    }
+}
+
 extension UpdateReservationInput {
 
     static func urlPathProvider(_ value: UpdateReservationInput) -> Swift.String? {
@@ -24405,6 +27505,7 @@ extension CreateChannelInput {
 
     static func write(value: CreateChannelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["anywhereSettings"].write(value.anywhereSettings, with: MediaLiveClientTypes.AnywhereSettings.write(value:to:))
         try writer["cdiInputSpecification"].write(value.cdiInputSpecification, with: MediaLiveClientTypes.CdiInputSpecification.write(value:to:))
         try writer["channelClass"].write(value.channelClass)
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -24419,6 +27520,17 @@ extension CreateChannelInput {
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["vpc"].write(value.vpc, with: MediaLiveClientTypes.VpcOutputSettings.write(value:to:))
+    }
+}
+
+extension CreateChannelPlacementGroupInput {
+
+    static func write(value: CreateChannelPlacementGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["nodes"].writeList(value.nodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["requestId"].write(value.requestId)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -24452,6 +27564,19 @@ extension CreateCloudWatchAlarmTemplateGroupInput {
     }
 }
 
+extension CreateClusterInput {
+
+    static func write(value: CreateClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterType"].write(value.clusterType)
+        try writer["instanceRoleArn"].write(value.instanceRoleArn)
+        try writer["name"].write(value.name)
+        try writer["networkSettings"].write(value.networkSettings, with: MediaLiveClientTypes.ClusterNetworkSettingsCreateRequest.write(value:to:))
+        try writer["requestId"].write(value.requestId)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateEventBridgeRuleTemplateInput {
 
     static func write(value: CreateEventBridgeRuleTemplateInput?, to writer: SmithyJSON.Writer) throws {
@@ -24481,8 +27606,10 @@ extension CreateInputInput {
         guard let value else { return }
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.InputDestinationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputDevices"].writeList(value.inputDevices, memberWritingClosure: MediaLiveClientTypes.InputDeviceSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inputNetworkLocation"].write(value.inputNetworkLocation)
         try writer["inputSecurityGroups"].writeList(value.inputSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["mediaConnectFlows"].writeList(value.mediaConnectFlows, memberWritingClosure: MediaLiveClientTypes.MediaConnectFlowRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["multicastSettings"].write(value.multicastSettings, with: MediaLiveClientTypes.MulticastSettingsCreateRequest.write(value:to:))
         try writer["name"].write(value.name)
         try writer["requestId"].write(value.requestId)
         try writer["roleArn"].write(value.roleArn)
@@ -24522,6 +27649,42 @@ extension CreateMultiplexProgramInput {
         try writer["multiplexProgramSettings"].write(value.multiplexProgramSettings, with: MediaLiveClientTypes.MultiplexProgramSettings.write(value:to:))
         try writer["programName"].write(value.programName)
         try writer["requestId"].write(value.requestId)
+    }
+}
+
+extension CreateNetworkInput {
+
+    static func write(value: CreateNetworkInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ipPools"].writeList(value.ipPools, memberWritingClosure: MediaLiveClientTypes.IpPoolCreateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["requestId"].write(value.requestId)
+        try writer["routes"].writeList(value.routes, memberWritingClosure: MediaLiveClientTypes.RouteCreateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateNodeInput {
+
+    static func write(value: CreateNodeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["nodeInterfaceMappings"].writeList(value.nodeInterfaceMappings, memberWritingClosure: MediaLiveClientTypes.NodeInterfaceMappingCreateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["requestId"].write(value.requestId)
+        try writer["role"].write(value.role)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateNodeRegistrationScriptInput {
+
+    static func write(value: CreateNodeRegistrationScriptInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["nodeInterfaceMappings"].writeList(value.nodeInterfaceMappings, memberWritingClosure: MediaLiveClientTypes.NodeInterfaceMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["requestId"].write(value.requestId)
+        try writer["role"].write(value.role)
     }
 }
 
@@ -24648,6 +27811,15 @@ extension UpdateChannelClassInput {
     }
 }
 
+extension UpdateChannelPlacementGroupInput {
+
+    static func write(value: UpdateChannelPlacementGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["nodes"].writeList(value.nodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateCloudWatchAlarmTemplateInput {
 
     static func write(value: UpdateCloudWatchAlarmTemplateInput?, to writer: SmithyJSON.Writer) throws {
@@ -24672,6 +27844,15 @@ extension UpdateCloudWatchAlarmTemplateGroupInput {
     static func write(value: UpdateCloudWatchAlarmTemplateGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+    }
+}
+
+extension UpdateClusterInput {
+
+    static func write(value: UpdateClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["networkSettings"].write(value.networkSettings, with: MediaLiveClientTypes.ClusterNetworkSettingsUpdateRequest.write(value:to:))
     }
 }
 
@@ -24703,6 +27884,7 @@ extension UpdateInputInput {
         try writer["inputDevices"].writeList(value.inputDevices, memberWritingClosure: MediaLiveClientTypes.InputDeviceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSecurityGroups"].writeList(value.inputSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["mediaConnectFlows"].writeList(value.mediaConnectFlows, memberWritingClosure: MediaLiveClientTypes.MediaConnectFlowRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["multicastSettings"].write(value.multicastSettings, with: MediaLiveClientTypes.MulticastSettingsUpdateRequest.write(value:to:))
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -24745,6 +27927,33 @@ extension UpdateMultiplexProgramInput {
     static func write(value: UpdateMultiplexProgramInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["multiplexProgramSettings"].write(value.multiplexProgramSettings, with: MediaLiveClientTypes.MultiplexProgramSettings.write(value:to:))
+    }
+}
+
+extension UpdateNetworkInput {
+
+    static func write(value: UpdateNetworkInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ipPools"].writeList(value.ipPools, memberWritingClosure: MediaLiveClientTypes.IpPoolUpdateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["routes"].writeList(value.routes, memberWritingClosure: MediaLiveClientTypes.RouteUpdateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateNodeInput {
+
+    static func write(value: UpdateNodeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["role"].write(value.role)
+    }
+}
+
+extension UpdateNodeStateInput {
+
+    static func write(value: UpdateNodeStateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
     }
 }
 
@@ -24842,6 +28051,24 @@ extension CreateChannelOutput {
     }
 }
 
+extension CreateChannelPlacementGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChannelPlacementGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateChannelPlacementGroupOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodes = try reader["nodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateCloudWatchAlarmTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCloudWatchAlarmTemplateOutput {
@@ -24884,6 +28111,25 @@ extension CreateCloudWatchAlarmTemplateGroupOutput {
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateClusterOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelIds = try reader["channelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceRoleArn = try reader["instanceRoleArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.networkSettings = try reader["networkSettings"].readIfPresent(with: MediaLiveClientTypes.ClusterNetworkSettings.read(from:))
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -24975,6 +28221,57 @@ extension CreateMultiplexProgramOutput {
     }
 }
 
+extension CreateNetworkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNetworkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNetworkOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.associatedClusterIds = try reader["associatedClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent()
+        value.ipPools = try reader["ipPools"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.IpPool.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.routes = try reader["routes"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Route.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateNodeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNodeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNodeOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelPlacementGroups = try reader["channelPlacementGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.connectionState = try reader["connectionState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["role"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateNodeRegistrationScriptOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNodeRegistrationScriptOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNodeRegistrationScriptOutput()
+        value.nodeRegistrationScript = try reader["nodeRegistrationScript"].readIfPresent()
+        return value
+    }
+}
+
 extension CreatePartnerInputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePartnerInputOutput {
@@ -25030,6 +28327,7 @@ extension DeleteChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteChannelOutput()
+        value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
@@ -25052,6 +28350,24 @@ extension DeleteChannelOutput {
     }
 }
 
+extension DeleteChannelPlacementGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChannelPlacementGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteChannelPlacementGroupOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodes = try reader["nodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteCloudWatchAlarmTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCloudWatchAlarmTemplateOutput {
@@ -25063,6 +28379,25 @@ extension DeleteCloudWatchAlarmTemplateGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCloudWatchAlarmTemplateGroupOutput {
         return DeleteCloudWatchAlarmTemplateGroupOutput()
+    }
+}
+
+extension DeleteClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteClusterOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelIds = try reader["channelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceRoleArn = try reader["instanceRoleArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.networkSettings = try reader["networkSettings"].readIfPresent(with: MediaLiveClientTypes.ClusterNetworkSettings.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        return value
     }
 }
 
@@ -25127,6 +28462,45 @@ extension DeleteMultiplexProgramOutput {
         value.packetIdentifiersMap = try reader["packetIdentifiersMap"].readIfPresent(with: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap.read(from:))
         value.pipelineDetails = try reader["pipelineDetails"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MultiplexProgramPipelineDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.programName = try reader["programName"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteNetworkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteNetworkOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.associatedClusterIds = try reader["associatedClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent()
+        value.ipPools = try reader["ipPools"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.IpPool.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.routes = try reader["routes"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Route.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteNodeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNodeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteNodeOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelPlacementGroups = try reader["channelPlacementGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.connectionState = try reader["connectionState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["role"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -25201,6 +28575,7 @@ extension DescribeChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeChannelOutput()
+        value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
@@ -25223,6 +28598,43 @@ extension DescribeChannelOutput {
     }
 }
 
+extension DescribeChannelPlacementGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeChannelPlacementGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeChannelPlacementGroupOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodes = try reader["nodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeClusterOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelIds = try reader["channelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceRoleArn = try reader["instanceRoleArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.networkSettings = try reader["networkSettings"].readIfPresent(with: MediaLiveClientTypes.ClusterNetworkSettings.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeInputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInputOutput {
@@ -25236,9 +28648,11 @@ extension DescribeInputOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputClass = try reader["inputClass"].readIfPresent()
         value.inputDevices = try reader["inputDevices"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputDeviceSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputNetworkLocation = try reader["inputNetworkLocation"].readIfPresent()
         value.inputPartnerIds = try reader["inputPartnerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSourceType = try reader["inputSourceType"].readIfPresent()
         value.mediaConnectFlows = try reader["mediaConnectFlows"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MediaConnectFlow.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -25356,6 +28770,45 @@ extension DescribeMultiplexProgramOutput {
         value.packetIdentifiersMap = try reader["packetIdentifiersMap"].readIfPresent(with: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap.read(from:))
         value.pipelineDetails = try reader["pipelineDetails"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MultiplexProgramPipelineDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.programName = try reader["programName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeNetworkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNetworkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNetworkOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.associatedClusterIds = try reader["associatedClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent()
+        value.ipPools = try reader["ipPools"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.IpPool.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.routes = try reader["routes"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Route.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeNodeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNodeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNodeOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelPlacementGroups = try reader["channelPlacementGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.connectionState = try reader["connectionState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["role"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -25551,6 +29004,19 @@ extension GetSignalMapOutput {
     }
 }
 
+extension ListChannelPlacementGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChannelPlacementGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListChannelPlacementGroupsOutput()
+        value.channelPlacementGroups = try reader["channelPlacementGroups"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.DescribeChannelPlacementGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListChannelsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChannelsOutput {
@@ -25585,6 +29051,19 @@ extension ListCloudWatchAlarmTemplatesOutput {
         let reader = responseReader
         var value = ListCloudWatchAlarmTemplatesOutput()
         value.cloudWatchAlarmTemplates = try reader["cloudWatchAlarmTemplates"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CloudWatchAlarmTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListClustersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClustersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListClustersOutput()
+        value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.DescribeClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -25694,6 +29173,32 @@ extension ListMultiplexProgramsOutput {
     }
 }
 
+extension ListNetworksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNetworksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNetworksOutput()
+        value.networks = try reader["networks"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.DescribeNetworkSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListNodesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNodesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNodesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.nodes = try reader["nodes"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.DescribeNodeSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListOfferingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOfferingsOutput {
@@ -25778,6 +29283,7 @@ extension RestartChannelPipelinesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RestartChannelPipelinesOutput()
+        value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
@@ -25808,6 +29314,7 @@ extension StartChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartChannelOutput()
+        value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
@@ -25959,6 +29466,7 @@ extension StopChannelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StopChannelOutput()
+        value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
@@ -26052,6 +29560,24 @@ extension UpdateChannelClassOutput {
     }
 }
 
+extension UpdateChannelPlacementGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChannelPlacementGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateChannelPlacementGroupOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodes = try reader["nodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateCloudWatchAlarmTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCloudWatchAlarmTemplateOutput {
@@ -26094,6 +29620,24 @@ extension UpdateCloudWatchAlarmTemplateGroupOutput {
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension UpdateClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateClusterOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelIds = try reader["channelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.networkSettings = try reader["networkSettings"].readIfPresent(with: MediaLiveClientTypes.ClusterNetworkSettings.read(from:))
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -26208,6 +29752,66 @@ extension UpdateMultiplexProgramOutput {
         let reader = responseReader
         var value = UpdateMultiplexProgramOutput()
         value.multiplexProgram = try reader["multiplexProgram"].readIfPresent(with: MediaLiveClientTypes.MultiplexProgram.read(from:))
+        return value
+    }
+}
+
+extension UpdateNetworkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNetworkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateNetworkOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.associatedClusterIds = try reader["associatedClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent()
+        value.ipPools = try reader["ipPools"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.IpPool.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.routes = try reader["routes"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Route.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateNodeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNodeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateNodeOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelPlacementGroups = try reader["channelPlacementGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.connectionState = try reader["connectionState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["role"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateNodeStateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNodeStateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateNodeStateOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelPlacementGroups = try reader["channelPlacementGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.connectionState = try reader["connectionState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["role"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -26394,6 +29998,26 @@ enum CreateChannelOutputError {
     }
 }
 
+enum CreateChannelPlacementGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnprocessableEntityException": return try UnprocessableEntityException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateCloudWatchAlarmTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -26426,6 +30050,26 @@ enum CreateCloudWatchAlarmTemplateGroupOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -26550,6 +30194,66 @@ enum CreateMultiplexProgramOutputError {
     }
 }
 
+enum CreateNetworkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateNodeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnprocessableEntityException": return try UnprocessableEntityException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateNodeRegistrationScriptOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePartnerInputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -26626,6 +30330,27 @@ enum DeleteChannelOutputError {
     }
 }
 
+enum DeleteChannelPlacementGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteCloudWatchAlarmTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -26656,6 +30381,27 @@ enum DeleteCloudWatchAlarmTemplateGroupOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -26765,6 +30511,48 @@ enum DeleteMultiplexOutputError {
 }
 
 enum DeleteMultiplexProgramOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteNetworkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteNodeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -26901,6 +30689,46 @@ enum DescribeChannelOutputError {
     }
 }
 
+enum DescribeChannelPlacementGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeInputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -27002,6 +30830,46 @@ enum DescribeMultiplexOutputError {
 }
 
 enum DescribeMultiplexProgramOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeNetworkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeNodeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -27192,6 +31060,25 @@ enum GetSignalMapOutputError {
     }
 }
 
+enum ListChannelPlacementGroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListChannelsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -27241,6 +31128,25 @@ enum ListCloudWatchAlarmTemplatesOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListClustersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -27393,6 +31299,44 @@ enum ListMultiplexProgramsOutputError {
             case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListNetworksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListNodesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -27845,6 +31789,27 @@ enum UpdateChannelClassOutputError {
     }
 }
 
+enum UpdateChannelPlacementGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnprocessableEntityException": return try UnprocessableEntityException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateCloudWatchAlarmTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -27877,6 +31842,26 @@ enum UpdateCloudWatchAlarmTemplateGroupOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -28018,6 +32003,67 @@ enum UpdateMultiplexProgramOutputError {
             case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnprocessableEntityException": return try UnprocessableEntityException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateNetworkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateNodeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateNodeStateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnprocessableEntityException": return try UnprocessableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -28815,6 +32861,18 @@ extension MediaLiveClientTypes.Channel {
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpc = try reader["vpc"].readIfPresent(with: MediaLiveClientTypes.VpcOutputSettingsDescription.read(from:))
+        value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeAnywhereSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeAnywhereSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeAnywhereSettings()
+        value.channelPlacementGroupId = try reader["channelPlacementGroupId"].readIfPresent()
+        value.clusterId = try reader["clusterId"].readIfPresent()
         return value
     }
 }
@@ -28886,6 +32944,7 @@ extension MediaLiveClientTypes.InputAttachment {
         try writer["inputAttachmentName"].write(value.inputAttachmentName)
         try writer["inputId"].write(value.inputId)
         try writer["inputSettings"].write(value.inputSettings, with: MediaLiveClientTypes.InputSettings.write(value:to:))
+        try writer["logicalInterfaceNames"].writeList(value.logicalInterfaceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.InputAttachment {
@@ -28895,6 +32954,7 @@ extension MediaLiveClientTypes.InputAttachment {
         value.inputAttachmentName = try reader["inputAttachmentName"].readIfPresent()
         value.inputId = try reader["inputId"].readIfPresent()
         value.inputSettings = try reader["inputSettings"].readIfPresent(with: MediaLiveClientTypes.InputSettings.read(from:))
+        value.logicalInterfaceNames = try reader["logicalInterfaceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -29039,6 +33099,7 @@ extension MediaLiveClientTypes.NetworkInputSettings {
     static func write(value: MediaLiveClientTypes.NetworkInputSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["hlsInputSettings"].write(value.hlsInputSettings, with: MediaLiveClientTypes.HlsInputSettings.write(value:to:))
+        try writer["multicastInputSettings"].write(value.multicastInputSettings, with: MediaLiveClientTypes.MulticastInputSettings.write(value:to:))
         try writer["serverValidation"].write(value.serverValidation)
     }
 
@@ -29047,6 +33108,22 @@ extension MediaLiveClientTypes.NetworkInputSettings {
         var value = MediaLiveClientTypes.NetworkInputSettings()
         value.hlsInputSettings = try reader["hlsInputSettings"].readIfPresent(with: MediaLiveClientTypes.HlsInputSettings.read(from:))
         value.serverValidation = try reader["serverValidation"].readIfPresent()
+        value.multicastInputSettings = try reader["multicastInputSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastInputSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MulticastInputSettings {
+
+    static func write(value: MediaLiveClientTypes.MulticastInputSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceIpAddress"].write(value.sourceIpAddress)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MulticastInputSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MulticastInputSettings()
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
         return value
     }
 }
@@ -29617,6 +33694,7 @@ extension MediaLiveClientTypes.VideoCodecSettings {
 
     static func write(value: MediaLiveClientTypes.VideoCodecSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["av1Settings"].write(value.av1Settings, with: MediaLiveClientTypes.Av1Settings.write(value:to:))
         try writer["frameCaptureSettings"].write(value.frameCaptureSettings, with: MediaLiveClientTypes.FrameCaptureSettings.write(value:to:))
         try writer["h264Settings"].write(value.h264Settings, with: MediaLiveClientTypes.H264Settings.write(value:to:))
         try writer["h265Settings"].write(value.h265Settings, with: MediaLiveClientTypes.H265Settings.write(value:to:))
@@ -29630,7 +33708,134 @@ extension MediaLiveClientTypes.VideoCodecSettings {
         value.h264Settings = try reader["h264Settings"].readIfPresent(with: MediaLiveClientTypes.H264Settings.read(from:))
         value.h265Settings = try reader["h265Settings"].readIfPresent(with: MediaLiveClientTypes.H265Settings.read(from:))
         value.mpeg2Settings = try reader["mpeg2Settings"].readIfPresent(with: MediaLiveClientTypes.Mpeg2Settings.read(from:))
+        value.av1Settings = try reader["av1Settings"].readIfPresent(with: MediaLiveClientTypes.Av1Settings.read(from:))
         return value
+    }
+}
+
+extension MediaLiveClientTypes.Av1Settings {
+
+    static func write(value: MediaLiveClientTypes.Av1Settings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["afdSignaling"].write(value.afdSignaling)
+        try writer["bufSize"].write(value.bufSize)
+        try writer["colorSpaceSettings"].write(value.colorSpaceSettings, with: MediaLiveClientTypes.Av1ColorSpaceSettings.write(value:to:))
+        try writer["fixedAfd"].write(value.fixedAfd)
+        try writer["framerateDenominator"].write(value.framerateDenominator)
+        try writer["framerateNumerator"].write(value.framerateNumerator)
+        try writer["gopSize"].write(value.gopSize)
+        try writer["gopSizeUnits"].write(value.gopSizeUnits)
+        try writer["level"].write(value.level)
+        try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
+        try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["minIInterval"].write(value.minIInterval)
+        try writer["parDenominator"].write(value.parDenominator)
+        try writer["parNumerator"].write(value.parNumerator)
+        try writer["qvbrQualityLevel"].write(value.qvbrQualityLevel)
+        try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
+        try writer["timecodeBurninSettings"].write(value.timecodeBurninSettings, with: MediaLiveClientTypes.TimecodeBurninSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Av1Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Av1Settings()
+        value.afdSignaling = try reader["afdSignaling"].readIfPresent()
+        value.bufSize = try reader["bufSize"].readIfPresent()
+        value.colorSpaceSettings = try reader["colorSpaceSettings"].readIfPresent(with: MediaLiveClientTypes.Av1ColorSpaceSettings.read(from:))
+        value.fixedAfd = try reader["fixedAfd"].readIfPresent()
+        value.framerateDenominator = try reader["framerateDenominator"].readIfPresent() ?? 0
+        value.framerateNumerator = try reader["framerateNumerator"].readIfPresent() ?? 0
+        value.gopSize = try reader["gopSize"].readIfPresent()
+        value.gopSizeUnits = try reader["gopSizeUnits"].readIfPresent()
+        value.level = try reader["level"].readIfPresent()
+        value.lookAheadRateControl = try reader["lookAheadRateControl"].readIfPresent()
+        value.maxBitrate = try reader["maxBitrate"].readIfPresent()
+        value.minIInterval = try reader["minIInterval"].readIfPresent()
+        value.parDenominator = try reader["parDenominator"].readIfPresent()
+        value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.qvbrQualityLevel = try reader["qvbrQualityLevel"].readIfPresent()
+        value.sceneChangeDetect = try reader["sceneChangeDetect"].readIfPresent()
+        value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.TimecodeBurninSettings {
+
+    static func write(value: MediaLiveClientTypes.TimecodeBurninSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fontSize"].write(value.fontSize)
+        try writer["position"].write(value.position)
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.TimecodeBurninSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.TimecodeBurninSettings()
+        value.fontSize = try reader["fontSize"].readIfPresent() ?? .sdkUnknown("")
+        value.position = try reader["position"].readIfPresent() ?? .sdkUnknown("")
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.Av1ColorSpaceSettings {
+
+    static func write(value: MediaLiveClientTypes.Av1ColorSpaceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["colorSpacePassthroughSettings"].write(value.colorSpacePassthroughSettings, with: MediaLiveClientTypes.ColorSpacePassthroughSettings.write(value:to:))
+        try writer["hdr10Settings"].write(value.hdr10Settings, with: MediaLiveClientTypes.Hdr10Settings.write(value:to:))
+        try writer["rec601Settings"].write(value.rec601Settings, with: MediaLiveClientTypes.Rec601Settings.write(value:to:))
+        try writer["rec709Settings"].write(value.rec709Settings, with: MediaLiveClientTypes.Rec709Settings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Av1ColorSpaceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Av1ColorSpaceSettings()
+        value.colorSpacePassthroughSettings = try reader["colorSpacePassthroughSettings"].readIfPresent(with: MediaLiveClientTypes.ColorSpacePassthroughSettings.read(from:))
+        value.hdr10Settings = try reader["hdr10Settings"].readIfPresent(with: MediaLiveClientTypes.Hdr10Settings.read(from:))
+        value.rec601Settings = try reader["rec601Settings"].readIfPresent(with: MediaLiveClientTypes.Rec601Settings.read(from:))
+        value.rec709Settings = try reader["rec709Settings"].readIfPresent(with: MediaLiveClientTypes.Rec709Settings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.Rec709Settings {
+
+    static func write(value: MediaLiveClientTypes.Rec709Settings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Rec709Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.Rec709Settings()
+    }
+}
+
+extension MediaLiveClientTypes.Rec601Settings {
+
+    static func write(value: MediaLiveClientTypes.Rec601Settings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Rec601Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.Rec601Settings()
+    }
+}
+
+extension MediaLiveClientTypes.ColorSpacePassthroughSettings {
+
+    static func write(value: MediaLiveClientTypes.ColorSpacePassthroughSettings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ColorSpacePassthroughSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.ColorSpacePassthroughSettings()
     }
 }
 
@@ -29677,25 +33882,6 @@ extension MediaLiveClientTypes.Mpeg2Settings {
         value.subgopLength = try reader["subgopLength"].readIfPresent()
         value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
-        return value
-    }
-}
-
-extension MediaLiveClientTypes.TimecodeBurninSettings {
-
-    static func write(value: MediaLiveClientTypes.TimecodeBurninSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fontSize"].write(value.fontSize)
-        try writer["position"].write(value.position)
-        try writer["prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.TimecodeBurninSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaLiveClientTypes.TimecodeBurninSettings()
-        value.fontSize = try reader["fontSize"].readIfPresent() ?? .sdkUnknown("")
-        value.position = try reader["position"].readIfPresent() ?? .sdkUnknown("")
-        value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
 }
@@ -29857,32 +34043,6 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings {
     }
 }
 
-extension MediaLiveClientTypes.Rec709Settings {
-
-    static func write(value: MediaLiveClientTypes.Rec709Settings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Rec709Settings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.Rec709Settings()
-    }
-}
-
-extension MediaLiveClientTypes.Rec601Settings {
-
-    static func write(value: MediaLiveClientTypes.Rec601Settings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Rec601Settings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.Rec601Settings()
-    }
-}
-
 extension MediaLiveClientTypes.DolbyVision81Settings {
 
     static func write(value: MediaLiveClientTypes.DolbyVision81Settings?, to writer: SmithyJSON.Writer) throws {
@@ -29893,19 +34053,6 @@ extension MediaLiveClientTypes.DolbyVision81Settings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DolbyVision81Settings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return MediaLiveClientTypes.DolbyVision81Settings()
-    }
-}
-
-extension MediaLiveClientTypes.ColorSpacePassthroughSettings {
-
-    static func write(value: MediaLiveClientTypes.ColorSpacePassthroughSettings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ColorSpacePassthroughSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.ColorSpacePassthroughSettings()
     }
 }
 
@@ -30132,6 +34279,7 @@ extension MediaLiveClientTypes.OutputSettings {
         try writer["msSmoothOutputSettings"].write(value.msSmoothOutputSettings, with: MediaLiveClientTypes.MsSmoothOutputSettings.write(value:to:))
         try writer["multiplexOutputSettings"].write(value.multiplexOutputSettings, with: MediaLiveClientTypes.MultiplexOutputSettings.write(value:to:))
         try writer["rtmpOutputSettings"].write(value.rtmpOutputSettings, with: MediaLiveClientTypes.RtmpOutputSettings.write(value:to:))
+        try writer["srtOutputSettings"].write(value.srtOutputSettings, with: MediaLiveClientTypes.SrtOutputSettings.write(value:to:))
         try writer["udpOutputSettings"].write(value.udpOutputSettings, with: MediaLiveClientTypes.UdpOutputSettings.write(value:to:))
     }
 
@@ -30147,61 +34295,30 @@ extension MediaLiveClientTypes.OutputSettings {
         value.rtmpOutputSettings = try reader["rtmpOutputSettings"].readIfPresent(with: MediaLiveClientTypes.RtmpOutputSettings.read(from:))
         value.udpOutputSettings = try reader["udpOutputSettings"].readIfPresent(with: MediaLiveClientTypes.UdpOutputSettings.read(from:))
         value.cmafIngestOutputSettings = try reader["cmafIngestOutputSettings"].readIfPresent(with: MediaLiveClientTypes.CmafIngestOutputSettings.read(from:))
+        value.srtOutputSettings = try reader["srtOutputSettings"].readIfPresent(with: MediaLiveClientTypes.SrtOutputSettings.read(from:))
         return value
     }
 }
 
-extension MediaLiveClientTypes.CmafIngestOutputSettings {
+extension MediaLiveClientTypes.SrtOutputSettings {
 
-    static func write(value: MediaLiveClientTypes.CmafIngestOutputSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nameModifier"].write(value.nameModifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestOutputSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaLiveClientTypes.CmafIngestOutputSettings()
-        value.nameModifier = try reader["nameModifier"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaLiveClientTypes.UdpOutputSettings {
-
-    static func write(value: MediaLiveClientTypes.UdpOutputSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaLiveClientTypes.SrtOutputSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bufferMsec"].write(value.bufferMsec)
         try writer["containerSettings"].write(value.containerSettings, with: MediaLiveClientTypes.UdpContainerSettings.write(value:to:))
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
-        try writer["fecOutputSettings"].write(value.fecOutputSettings, with: MediaLiveClientTypes.FecOutputSettings.write(value:to:))
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["latency"].write(value.latency)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.UdpOutputSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtOutputSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaLiveClientTypes.UdpOutputSettings()
+        var value = MediaLiveClientTypes.SrtOutputSettings()
         value.bufferMsec = try reader["bufferMsec"].readIfPresent()
         value.containerSettings = try reader["containerSettings"].readIfPresent(with: MediaLiveClientTypes.UdpContainerSettings.read(from:))
         value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
-        value.fecOutputSettings = try reader["fecOutputSettings"].readIfPresent(with: MediaLiveClientTypes.FecOutputSettings.read(from:))
-        return value
-    }
-}
-
-extension MediaLiveClientTypes.FecOutputSettings {
-
-    static func write(value: MediaLiveClientTypes.FecOutputSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnDepth"].write(value.columnDepth)
-        try writer["includeFec"].write(value.includeFec)
-        try writer["rowLength"].write(value.rowLength)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.FecOutputSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaLiveClientTypes.FecOutputSettings()
-        value.columnDepth = try reader["columnDepth"].readIfPresent()
-        value.includeFec = try reader["includeFec"].readIfPresent()
-        value.rowLength = try reader["rowLength"].readIfPresent()
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.latency = try reader["latency"].readIfPresent()
         return value
     }
 }
@@ -30396,6 +34513,61 @@ extension MediaLiveClientTypes.DvbNitSettings {
         value.networkId = try reader["networkId"].readIfPresent() ?? 0
         value.networkName = try reader["networkName"].readIfPresent() ?? ""
         value.repInterval = try reader["repInterval"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.CmafIngestOutputSettings {
+
+    static func write(value: MediaLiveClientTypes.CmafIngestOutputSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["nameModifier"].write(value.nameModifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestOutputSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.CmafIngestOutputSettings()
+        value.nameModifier = try reader["nameModifier"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.UdpOutputSettings {
+
+    static func write(value: MediaLiveClientTypes.UdpOutputSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bufferMsec"].write(value.bufferMsec)
+        try writer["containerSettings"].write(value.containerSettings, with: MediaLiveClientTypes.UdpContainerSettings.write(value:to:))
+        try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+        try writer["fecOutputSettings"].write(value.fecOutputSettings, with: MediaLiveClientTypes.FecOutputSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.UdpOutputSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.UdpOutputSettings()
+        value.bufferMsec = try reader["bufferMsec"].readIfPresent()
+        value.containerSettings = try reader["containerSettings"].readIfPresent(with: MediaLiveClientTypes.UdpContainerSettings.read(from:))
+        value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
+        value.fecOutputSettings = try reader["fecOutputSettings"].readIfPresent(with: MediaLiveClientTypes.FecOutputSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.FecOutputSettings {
+
+    static func write(value: MediaLiveClientTypes.FecOutputSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnDepth"].write(value.columnDepth)
+        try writer["includeFec"].write(value.includeFec)
+        try writer["rowLength"].write(value.rowLength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.FecOutputSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.FecOutputSettings()
+        value.columnDepth = try reader["columnDepth"].readIfPresent()
+        value.includeFec = try reader["includeFec"].readIfPresent()
+        value.rowLength = try reader["rowLength"].readIfPresent()
         return value
     }
 }
@@ -30705,6 +34877,7 @@ extension MediaLiveClientTypes.OutputGroupSettings {
         try writer["msSmoothGroupSettings"].write(value.msSmoothGroupSettings, with: MediaLiveClientTypes.MsSmoothGroupSettings.write(value:to:))
         try writer["multiplexGroupSettings"].write(value.multiplexGroupSettings, with: MediaLiveClientTypes.MultiplexGroupSettings.write(value:to:))
         try writer["rtmpGroupSettings"].write(value.rtmpGroupSettings, with: MediaLiveClientTypes.RtmpGroupSettings.write(value:to:))
+        try writer["srtGroupSettings"].write(value.srtGroupSettings, with: MediaLiveClientTypes.SrtGroupSettings.write(value:to:))
         try writer["udpGroupSettings"].write(value.udpGroupSettings, with: MediaLiveClientTypes.UdpGroupSettings.write(value:to:))
     }
 
@@ -30720,6 +34893,22 @@ extension MediaLiveClientTypes.OutputGroupSettings {
         value.rtmpGroupSettings = try reader["rtmpGroupSettings"].readIfPresent(with: MediaLiveClientTypes.RtmpGroupSettings.read(from:))
         value.udpGroupSettings = try reader["udpGroupSettings"].readIfPresent(with: MediaLiveClientTypes.UdpGroupSettings.read(from:))
         value.cmafIngestGroupSettings = try reader["cmafIngestGroupSettings"].readIfPresent(with: MediaLiveClientTypes.CmafIngestGroupSettings.read(from:))
+        value.srtGroupSettings = try reader["srtGroupSettings"].readIfPresent(with: MediaLiveClientTypes.SrtGroupSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SrtGroupSettings {
+
+    static func write(value: MediaLiveClientTypes.SrtGroupSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputLossAction"].write(value.inputLossAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtGroupSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SrtGroupSettings()
+        value.inputLossAction = try reader["inputLossAction"].readIfPresent()
         return value
     }
 }
@@ -32305,6 +36494,7 @@ extension MediaLiveClientTypes.OutputDestination {
         try writer["mediaPackageSettings"].writeList(value.mediaPackageSettings, memberWritingClosure: MediaLiveClientTypes.MediaPackageOutputDestinationSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["multiplexSettings"].write(value.multiplexSettings, with: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings.write(value:to:))
         try writer["settings"].writeList(value.settings, memberWritingClosure: MediaLiveClientTypes.OutputDestinationSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["srtSettings"].writeList(value.srtSettings, memberWritingClosure: MediaLiveClientTypes.SrtOutputDestinationSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.OutputDestination {
@@ -32314,6 +36504,26 @@ extension MediaLiveClientTypes.OutputDestination {
         value.mediaPackageSettings = try reader["mediaPackageSettings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MediaPackageOutputDestinationSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.multiplexSettings = try reader["multiplexSettings"].readIfPresent(with: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings.read(from:))
         value.settings = try reader["settings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestinationSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.srtSettings = try reader["srtSettings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SrtOutputDestinationSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SrtOutputDestinationSettings {
+
+    static func write(value: MediaLiveClientTypes.SrtOutputDestinationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionPassphraseSecretArn"].write(value.encryptionPassphraseSecretArn)
+        try writer["streamId"].write(value.streamId)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtOutputDestinationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SrtOutputDestinationSettings()
+        value.encryptionPassphraseSecretArn = try reader["encryptionPassphraseSecretArn"].readIfPresent()
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
         return value
     }
 }
@@ -32386,6 +36596,28 @@ extension MediaLiveClientTypes.CdiInputSpecification {
     }
 }
 
+extension MediaLiveClientTypes.ClusterNetworkSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ClusterNetworkSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.ClusterNetworkSettings()
+        value.defaultRoute = try reader["defaultRoute"].readIfPresent()
+        value.interfaceMappings = try reader["interfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.InterfaceMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.InterfaceMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.InterfaceMapping()
+        value.logicalInterfaceName = try reader["logicalInterfaceName"].readIfPresent()
+        value.networkId = try reader["networkId"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.EventBridgeRuleTemplateTarget {
 
     static func write(value: MediaLiveClientTypes.EventBridgeRuleTemplateTarget?, to writer: SmithyJSON.Writer) throws {
@@ -32423,6 +36655,29 @@ extension MediaLiveClientTypes.Input {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
         value.srtSettings = try reader["srtSettings"].readIfPresent(with: MediaLiveClientTypes.SrtSettings.read(from:))
+        value.inputNetworkLocation = try reader["inputNetworkLocation"].readIfPresent()
+        value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MulticastSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MulticastSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MulticastSettings()
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MulticastSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MulticastSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MulticastSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MulticastSource()
+        value.sourceIp = try reader["sourceIp"].readIfPresent()
+        value.url = try reader["url"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32508,6 +36763,19 @@ extension MediaLiveClientTypes.InputDestination {
         value.port = try reader["port"].readIfPresent()
         value.url = try reader["url"].readIfPresent()
         value.vpc = try reader["vpc"].readIfPresent(with: MediaLiveClientTypes.InputDestinationVpc.read(from:))
+        value.network = try reader["network"].readIfPresent()
+        value.networkRoutes = try reader["networkRoutes"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputDestinationRoute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.InputDestinationRoute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.InputDestinationRoute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.InputDestinationRoute()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.gateway = try reader["gateway"].readIfPresent()
         return value
     }
 }
@@ -32754,6 +37022,46 @@ extension MediaLiveClientTypes.MultiplexProgramServiceDescriptor {
     }
 }
 
+extension MediaLiveClientTypes.IpPool {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.IpPool {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.IpPool()
+        value.cidr = try reader["cidr"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.Route {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Route {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Route()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.gateway = try reader["gateway"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.NodeInterfaceMapping {
+
+    static func write(value: MediaLiveClientTypes.NodeInterfaceMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logicalInterfaceName"].write(value.logicalInterfaceName)
+        try writer["networkInterfaceMode"].write(value.networkInterfaceMode)
+        try writer["physicalInterfaceName"].write(value.physicalInterfaceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.NodeInterfaceMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.NodeInterfaceMapping()
+        value.logicalInterfaceName = try reader["logicalInterfaceName"].readIfPresent()
+        value.networkInterfaceMode = try reader["networkInterfaceMode"].readIfPresent()
+        value.physicalInterfaceName = try reader["physicalInterfaceName"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.MediaResource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaResource {
@@ -32950,6 +37258,22 @@ extension MediaLiveClientTypes.Thumbnail {
     }
 }
 
+extension MediaLiveClientTypes.DescribeChannelPlacementGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeChannelPlacementGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeChannelPlacementGroupSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodes = try reader["nodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.ChannelSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ChannelSummary {
@@ -32971,6 +37295,7 @@ extension MediaLiveClientTypes.ChannelSummary {
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpc = try reader["vpc"].readIfPresent(with: MediaLiveClientTypes.VpcOutputSettingsDescription.read(from:))
+        value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         return value
     }
 }
@@ -33014,6 +37339,23 @@ extension MediaLiveClientTypes.CloudWatchAlarmTemplateSummary {
         value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
         value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
         value.treatMissingData = try reader["treatMissingData"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeClusterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeClusterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeClusterSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelIds = try reader["channelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceRoleArn = try reader["instanceRoleArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.networkSettings = try reader["networkSettings"].readIfPresent(with: MediaLiveClientTypes.ClusterNetworkSettings.read(from:))
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -33131,6 +37473,42 @@ extension MediaLiveClientTypes.MultiplexProgramSummary {
     }
 }
 
+extension MediaLiveClientTypes.DescribeNetworkSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeNetworkSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeNetworkSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.associatedClusterIds = try reader["associatedClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent()
+        value.ipPools = try reader["ipPools"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.IpPool.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.routes = try reader["routes"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Route.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeNodeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeNodeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeNodeSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.channelPlacementGroups = try reader["channelPlacementGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterId = try reader["clusterId"].readIfPresent()
+        value.connectionState = try reader["connectionState"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.managedInstanceId = try reader["managedInstanceId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["role"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.Offering {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Offering {
@@ -33243,11 +37621,50 @@ extension MediaLiveClientTypes.VpcOutputSettings {
     }
 }
 
+extension MediaLiveClientTypes.AnywhereSettings {
+
+    static func write(value: MediaLiveClientTypes.AnywhereSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelPlacementGroupId"].write(value.channelPlacementGroupId)
+        try writer["clusterId"].write(value.clusterId)
+    }
+}
+
+extension MediaLiveClientTypes.ClusterNetworkSettingsCreateRequest {
+
+    static func write(value: MediaLiveClientTypes.ClusterNetworkSettingsCreateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultRoute"].write(value.defaultRoute)
+        try writer["interfaceMappings"].writeList(value.interfaceMappings, memberWritingClosure: MediaLiveClientTypes.InterfaceMappingCreateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MediaLiveClientTypes.InterfaceMappingCreateRequest {
+
+    static func write(value: MediaLiveClientTypes.InterfaceMappingCreateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logicalInterfaceName"].write(value.logicalInterfaceName)
+        try writer["networkId"].write(value.networkId)
+    }
+}
+
 extension MediaLiveClientTypes.InputDestinationRequest {
 
     static func write(value: MediaLiveClientTypes.InputDestinationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["network"].write(value.network)
+        try writer["networkRoutes"].writeList(value.networkRoutes, memberWritingClosure: MediaLiveClientTypes.InputRequestDestinationRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["staticIpAddress"].write(value.staticIpAddress)
         try writer["streamName"].write(value.streamName)
+    }
+}
+
+extension MediaLiveClientTypes.InputRequestDestinationRoute {
+
+    static func write(value: MediaLiveClientTypes.InputRequestDestinationRoute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+        try writer["gateway"].write(value.gateway)
     }
 }
 
@@ -33307,11 +37724,55 @@ extension MediaLiveClientTypes.SrtCallerDecryptionRequest {
     }
 }
 
+extension MediaLiveClientTypes.MulticastSettingsCreateRequest {
+
+    static func write(value: MediaLiveClientTypes.MulticastSettingsCreateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.MulticastSourceCreateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MediaLiveClientTypes.MulticastSourceCreateRequest {
+
+    static func write(value: MediaLiveClientTypes.MulticastSourceCreateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceIp"].write(value.sourceIp)
+        try writer["url"].write(value.url)
+    }
+}
+
 extension MediaLiveClientTypes.InputWhitelistRuleCidr {
 
     static func write(value: MediaLiveClientTypes.InputWhitelistRuleCidr?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cidr"].write(value.cidr)
+    }
+}
+
+extension MediaLiveClientTypes.IpPoolCreateRequest {
+
+    static func write(value: MediaLiveClientTypes.IpPoolCreateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+    }
+}
+
+extension MediaLiveClientTypes.RouteCreateRequest {
+
+    static func write(value: MediaLiveClientTypes.RouteCreateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+        try writer["gateway"].write(value.gateway)
+    }
+}
+
+extension MediaLiveClientTypes.NodeInterfaceMappingCreateRequest {
+
+    static func write(value: MediaLiveClientTypes.NodeInterfaceMappingCreateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logicalInterfaceName"].write(value.logicalInterfaceName)
+        try writer["networkInterfaceMode"].write(value.networkInterfaceMode)
+        try writer["physicalInterfaceName"].write(value.physicalInterfaceName)
     }
 }
 
@@ -33325,11 +37786,46 @@ extension MediaLiveClientTypes.MaintenanceUpdateSettings {
     }
 }
 
+extension MediaLiveClientTypes.ClusterNetworkSettingsUpdateRequest {
+
+    static func write(value: MediaLiveClientTypes.ClusterNetworkSettingsUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultRoute"].write(value.defaultRoute)
+        try writer["interfaceMappings"].writeList(value.interfaceMappings, memberWritingClosure: MediaLiveClientTypes.InterfaceMappingUpdateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MediaLiveClientTypes.InterfaceMappingUpdateRequest {
+
+    static func write(value: MediaLiveClientTypes.InterfaceMappingUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logicalInterfaceName"].write(value.logicalInterfaceName)
+        try writer["networkId"].write(value.networkId)
+    }
+}
+
 extension MediaLiveClientTypes.InputDeviceRequest {
 
     static func write(value: MediaLiveClientTypes.InputDeviceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["id"].write(value.id)
+    }
+}
+
+extension MediaLiveClientTypes.MulticastSettingsUpdateRequest {
+
+    static func write(value: MediaLiveClientTypes.MulticastSettingsUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.MulticastSourceUpdateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MediaLiveClientTypes.MulticastSourceUpdateRequest {
+
+    static func write(value: MediaLiveClientTypes.MulticastSourceUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceIp"].write(value.sourceIp)
+        try writer["url"].write(value.url)
     }
 }
 
@@ -33363,6 +37859,23 @@ extension MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings {
         try writer["roleArn"].write(value.roleArn)
         try writer["secretArn"].write(value.secretArn)
         try writer["sourceName"].write(value.sourceName)
+    }
+}
+
+extension MediaLiveClientTypes.IpPoolUpdateRequest {
+
+    static func write(value: MediaLiveClientTypes.IpPoolUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+    }
+}
+
+extension MediaLiveClientTypes.RouteUpdateRequest {
+
+    static func write(value: MediaLiveClientTypes.RouteUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+        try writer["gateway"].write(value.gateway)
     }
 }
 

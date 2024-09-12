@@ -192,6 +192,224 @@ extension MediaLiveClient {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func channelPlacementGroupAssignedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "ASSIGNED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "ASSIGNED")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "ASSIGNING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "ASSIGNING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the ChannelPlacementGroupAssigned event on the describeChannelPlacementGroup operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeChannelPlacementGroupInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilChannelPlacementGroupAssigned(options: SmithyWaitersAPI.WaiterOptions, input: DescribeChannelPlacementGroupInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeChannelPlacementGroupOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.channelPlacementGroupAssignedWaiterConfig(), operation: self.describeChannelPlacementGroup(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func channelPlacementGroupDeletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DELETED")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DELETING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the ChannelPlacementGroupDeleted event on the describeChannelPlacementGroup operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeChannelPlacementGroupInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilChannelPlacementGroupDeleted(options: SmithyWaitersAPI.WaiterOptions, input: DescribeChannelPlacementGroupInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeChannelPlacementGroupOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.channelPlacementGroupDeletedWaiterConfig(), operation: self.describeChannelPlacementGroup(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func channelPlacementGroupUnassignedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "UNASSIGNED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "UNASSIGNED")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "UNASSIGNING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "UNASSIGNING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelPlacementGroupInput, result: Swift.Result<DescribeChannelPlacementGroupOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the ChannelPlacementGroupUnassigned event on the describeChannelPlacementGroup operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeChannelPlacementGroupInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilChannelPlacementGroupUnassigned(options: SmithyWaitersAPI.WaiterOptions, input: DescribeChannelPlacementGroupInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeChannelPlacementGroupOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.channelPlacementGroupUnassignedWaiterConfig(), operation: self.describeChannelPlacementGroup(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func clusterCreatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Swift.Result<DescribeClusterOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "ACTIVE"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "ACTIVE")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Swift.Result<DescribeClusterOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "CREATING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Swift.Result<DescribeClusterOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
+            }),
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Swift.Result<DescribeClusterOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "CREATE_FAILED")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the ClusterCreated event on the describeCluster operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeClusterInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilClusterCreated(options: SmithyWaitersAPI.WaiterOptions, input: DescribeClusterInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeClusterOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.clusterCreatedWaiterConfig(), operation: self.describeCluster(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func clusterDeletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Swift.Result<DescribeClusterOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DELETED")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Swift.Result<DescribeClusterOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DELETING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Swift.Result<DescribeClusterOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the ClusterDeleted event on the describeCluster operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeClusterInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilClusterDeleted(options: SmithyWaitersAPI.WaiterOptions, input: DescribeClusterInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeClusterOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.clusterDeletedWaiterConfig(), operation: self.describeCluster(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func inputAttachedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeInputInput, DescribeInputOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeInputInput, DescribeInputOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeInputInput, result: Swift.Result<DescribeInputOutput, Swift.Error>) -> Bool in
@@ -499,6 +717,110 @@ extension MediaLiveClient {
     /// `WaiterTimeoutError` if the waiter times out.
     public func waitUntilMultiplexStopped(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMultiplexInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMultiplexOutput> {
         let waiter = SmithyWaitersAPI.Waiter(config: try Self.multiplexStoppedWaiterConfig(), operation: self.describeMultiplex(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func nodeDeregisteredWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeNodeInput, DescribeNodeOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeNodeInput, DescribeNodeOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DEREGISTERED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DEREGISTERED")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DEREGISTERING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DEREGISTERING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DRAINING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DRAINING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNodeInput, DescribeNodeOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the NodeDeregistered event on the describeNode operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeNodeInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilNodeDeregistered(options: SmithyWaitersAPI.WaiterOptions, input: DescribeNodeInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeNodeOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.nodeDeregisteredWaiterConfig(), operation: self.describeNode(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func nodeRegisteredWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeNodeInput, DescribeNodeOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeNodeInput, DescribeNodeOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "ACTIVE"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "ACTIVE")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "REGISTERING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "REGISTERING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "NotFoundException"
+            }),
+            .init(state: .failure, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "REGISTRATION_FAILED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "REGISTRATION_FAILED")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeNodeInput, result: Swift.Result<DescribeNodeOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNodeInput, DescribeNodeOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the NodeRegistered event on the describeNode operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeNodeInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilNodeRegistered(options: SmithyWaitersAPI.WaiterOptions, input: DescribeNodeInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeNodeOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.nodeRegisteredWaiterConfig(), operation: self.describeNode(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
