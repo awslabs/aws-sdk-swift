@@ -10,6 +10,8 @@ import AWSSTS
 import AWSCognitoIdentity
 import AWSClientRuntime
 import ClientRuntime
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 
 /// Tests unauthenciated API using AWSCognitoIdentity::getId
 class UnauthenticatedAPITests: XCTestCase {
@@ -70,7 +72,7 @@ class GetHeadersBeforeTransmit<InputType, OutputType>: HttpInterceptor {
     }
 }
 class GetHeadersBeforeTransmitProvider: HttpInterceptorProvider {
-  func create<InputType, OutputType>() -> any HttpInterceptor<InputType, OutputType> {
+  func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
     return GetHeadersBeforeTransmit()
   }
 }

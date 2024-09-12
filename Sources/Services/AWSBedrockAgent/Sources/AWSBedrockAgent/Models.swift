@@ -3354,9 +3354,9 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes {
-    /// Settings for a foundation model used to parse documents for a data source.
+    /// Settings for a foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) used to parse documents for a data source.
     public struct BedrockFoundationModelConfiguration {
-        /// The model's ARN.
+        /// The ARN of the foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html).
         /// This member is required.
         public var modelArn: Swift.String?
         /// Instructions for interpreting the contents of a document.
@@ -3401,7 +3401,7 @@ extension BedrockAgentClientTypes {
 }
 
 extension BedrockAgentClientTypes {
-    /// Settings for parsing document contents. By default, the service converts the contents of each document into text before splitting it into chunks. To improve processing of PDF files with tables and images, you can configure the data source to convert the pages of text into images and use a model to describe the contents of each page. To use a model to parse PDF documents, set the parsing strategy to BEDROCK_FOUNDATION_MODEL and specify the model to use by ARN. You can also override the default parsing prompt with instructions for how to interpret images and tables in your documents. The following models are supported.
+    /// Settings for parsing document contents. By default, the service converts the contents of each document into text before splitting it into chunks. To improve processing of PDF files with tables and images, you can configure the data source to convert the pages of text into images and use a model to describe the contents of each page. To use a model to parse PDF documents, set the parsing strategy to BEDROCK_FOUNDATION_MODEL and specify the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to use by ARN. You can also override the default parsing prompt with instructions for how to interpret images and tables in your documents. The following models are supported.
     ///
     /// * Anthropic Claude 3 Sonnet - anthropic.claude-3-sonnet-20240229-v1:0
     ///
