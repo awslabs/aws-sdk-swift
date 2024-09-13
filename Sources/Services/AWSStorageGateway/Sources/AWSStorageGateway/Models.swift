@@ -957,7 +957,7 @@ extension StorageGatewayClientTypes {
     public struct CachediSCSIVolume {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
         public var createdDate: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public var kmsKey: Swift.String?
         /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g., snap-78e22663. Otherwise, this field is not included.
         public var sourceSnapshotId: Swift.String?
@@ -1212,6 +1212,38 @@ public struct CreateCachediSCSIVolumeOutput {
 }
 
 extension StorageGatewayClientTypes {
+
+    public enum EncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dssekms
+        case ssekms
+        case sses3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .dssekms,
+                .ssekms,
+                .sses3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dssekms: return "DsseKms"
+            case .ssekms: return "SseKms"
+            case .sses3: return "SseS3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension StorageGatewayClientTypes {
     /// Describes Network File System (NFS) file share default values. Files and folders stored as Amazon S3 objects in S3 buckets don't, by default, have Unix file permissions assigned to them. Upon discovery in an S3 bucket by Storage Gateway, the S3 objects that represent files and folders are assigned these default Unix permissions. This operation is only supported for S3 File Gateways.
     public struct NFSFileShareDefaults {
         /// The Unix directory mode in the form "nnnn". For example, 0666 represents the default access mode for all directories inside the file share. The default value is 0777.
@@ -1299,6 +1331,8 @@ public struct CreateNFSFileShareInput {
     public var clientToken: Swift.String?
     /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
     public var defaultStorageClass: Swift.String?
+    /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+    public var encryptionType: StorageGatewayClientTypes.EncryptionType?
     /// The name of the file share. Optional. FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
     public var fileShareName: Swift.String?
     /// The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to create a file share.
@@ -1306,16 +1340,17 @@ public struct CreateNFSFileShareInput {
     public var gatewayARN: Swift.String?
     /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
     public var guessMIMETypeEnabled: Swift.Bool?
-    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true. Valid Values: true | false
+    @available(*, deprecated, message: "KMSEncrypted is deprecated, use EncryptionType instead.")
     public var kmsEncrypted: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+    /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
     public var kmsKey: Swift.String?
     /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::my-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see [Delegating access control to access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control) in the Amazon S3 User Guide. Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
     /// This member is required.
     public var locationARN: Swift.String?
     /// File share default values. Optional.
     public var nfsFileShareDefaults: StorageGatewayClientTypes.NFSFileShareDefaults?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -1346,6 +1381,7 @@ public struct CreateNFSFileShareInput {
         clientList: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         defaultStorageClass: Swift.String? = nil,
+        encryptionType: StorageGatewayClientTypes.EncryptionType? = nil,
         fileShareName: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
         guessMIMETypeEnabled: Swift.Bool? = nil,
@@ -1369,6 +1405,7 @@ public struct CreateNFSFileShareInput {
         self.clientList = clientList
         self.clientToken = clientToken
         self.defaultStorageClass = defaultStorageClass
+        self.encryptionType = encryptionType
         self.fileShareName = fileShareName
         self.gatewayARN = gatewayARN
         self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -1421,6 +1458,8 @@ public struct CreateSMBFileShareInput {
     public var clientToken: Swift.String?
     /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
     public var defaultStorageClass: Swift.String?
+    /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+    public var encryptionType: StorageGatewayClientTypes.EncryptionType?
     /// The name of the file share. Optional. FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
     public var fileShareName: Swift.String?
     /// The ARN of the S3 File Gateway on which you want to create a file share.
@@ -1430,14 +1469,15 @@ public struct CreateSMBFileShareInput {
     public var guessMIMETypeEnabled: Swift.Bool?
     /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
     public var invalidUserList: [Swift.String]?
-    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true. Valid Values: true | false
+    @available(*, deprecated, message: "KMSEncrypted is deprecated, use EncryptionType instead.")
     public var kmsEncrypted: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+    /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
     public var kmsKey: Swift.String?
     /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::my-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see [Delegating access control to access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control) in the Amazon S3 User Guide. Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
     /// This member is required.
     public var locationARN: Swift.String?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -1450,7 +1490,7 @@ public struct CreateSMBFileShareInput {
     /// The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage.
     /// This member is required.
     public var role: Swift.String?
-    /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see [Using Microsoft Windows ACLs to control access to an SMB file share](https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html) in the Storage Gateway User Guide. Valid Values: true | false
+    /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see [Using Windows ACLs to limit SMB file share access](https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html) in the Amazon S3 File Gateway User Guide. Valid Values: true | false
     public var smbaclEnabled: Swift.Bool?
     /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair. Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
     public var tags: [StorageGatewayClientTypes.Tag]?
@@ -1469,6 +1509,7 @@ public struct CreateSMBFileShareInput {
         caseSensitivity: StorageGatewayClientTypes.CaseSensitivity? = nil,
         clientToken: Swift.String? = nil,
         defaultStorageClass: Swift.String? = nil,
+        encryptionType: StorageGatewayClientTypes.EncryptionType? = nil,
         fileShareName: Swift.String? = nil,
         gatewayARN: Swift.String? = nil,
         guessMIMETypeEnabled: Swift.Bool? = nil,
@@ -1497,6 +1538,7 @@ public struct CreateSMBFileShareInput {
         self.caseSensitivity = caseSensitivity
         self.clientToken = clientToken
         self.defaultStorageClass = defaultStorageClass
+        self.encryptionType = encryptionType
         self.fileShareName = fileShareName
         self.gatewayARN = gatewayARN
         self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -2786,7 +2828,7 @@ public struct DescribeMaintenanceStartTimeInput {
 extension StorageGatewayClientTypes {
     /// A set of variables indicating the software update preferences for the gateway.
     public struct SoftwareUpdatePreferences {
-        /// Indicates the automatic update policy for a gateway. ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        /// Indicates the automatic update policy for a gateway. ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
         public var automaticUpdatePolicy: StorageGatewayClientTypes.AutomaticUpdatePolicy?
 
         public init(
@@ -2823,7 +2865,7 @@ public struct DescribeMaintenanceStartTimeOutput {
     public var hourOfDay: Swift.Int?
     /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
     public var minuteOfHour: Swift.Int?
-    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy parameter with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
     public var softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences?
     /// A value that indicates the time zone that is set for the gateway. The start time and day of week specified should be in the time zone of the gateway.
     public var timezone: Swift.String?
@@ -2875,6 +2917,8 @@ extension StorageGatewayClientTypes {
         public var clientList: [Swift.String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public var defaultStorageClass: Swift.String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public var encryptionType: StorageGatewayClientTypes.EncryptionType?
         /// The Amazon Resource Name (ARN) of the file share.
         public var fileShareARN: Swift.String?
         /// The ID of the file share.
@@ -2887,15 +2931,16 @@ extension StorageGatewayClientTypes {
         public var gatewayARN: Swift.String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public var guessMIMETypeEnabled: Swift.Bool?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true. Valid Values: true | false
+        @available(*, deprecated, message: "KMSEncrypted is deprecated, use EncryptionType instead.")
         public var kmsEncrypted: Swift.Bool
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public var kmsKey: Swift.String?
         /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::my-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see [Delegating access control to access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control) in the Amazon S3 User Guide. Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
         public var locationARN: Swift.String?
         /// Describes Network File System (NFS) file share default values. Files and folders stored as Amazon S3 objects in S3 buckets don't, by default, have Unix file permissions assigned to them. Upon discovery in an S3 bucket by Storage Gateway, the S3 objects that represent files and folders are assigned these default Unix permissions. This operation is only supported for S3 File Gateways.
         public var nfsFileShareDefaults: StorageGatewayClientTypes.NFSFileShareDefaults?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
         public var notificationPolicy: Swift.String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that an S3 File Gateway puts objects into. The default value is private.
         public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -2926,6 +2971,7 @@ extension StorageGatewayClientTypes {
             cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
             clientList: [Swift.String]? = nil,
             defaultStorageClass: Swift.String? = nil,
+            encryptionType: StorageGatewayClientTypes.EncryptionType? = nil,
             fileShareARN: Swift.String? = nil,
             fileShareId: Swift.String? = nil,
             fileShareName: Swift.String? = nil,
@@ -2952,6 +2998,7 @@ extension StorageGatewayClientTypes {
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
             self.fileShareName = fileShareName
@@ -3022,6 +3069,8 @@ extension StorageGatewayClientTypes {
         public var caseSensitivity: StorageGatewayClientTypes.CaseSensitivity?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public var defaultStorageClass: Swift.String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public var encryptionType: StorageGatewayClientTypes.EncryptionType?
         /// The Amazon Resource Name (ARN) of the file share.
         public var fileShareARN: Swift.String?
         /// The ID of the file share.
@@ -3036,13 +3085,14 @@ extension StorageGatewayClientTypes {
         public var guessMIMETypeEnabled: Swift.Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public var invalidUserList: [Swift.String]?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true. Valid Values: true | false
+        @available(*, deprecated, message: "KMSEncrypted is deprecated, use EncryptionType instead.")
         public var kmsEncrypted: Swift.Bool
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public var kmsKey: Swift.String?
         /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::my-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see [Delegating access control to access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control) in the Amazon S3 User Guide. Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
         public var locationARN: Swift.String?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
         public var notificationPolicy: Swift.String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that an S3 File Gateway puts objects into. The default value is private.
         public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -3056,7 +3106,7 @@ extension StorageGatewayClientTypes {
         public var requesterPays: Swift.Bool?
         /// The ARN of the IAM role that an S3 File Gateway assumes when it accesses the underlying storage.
         public var role: Swift.String?
-        /// If this value is set to true, it indicates that access control list (ACL) is enabled on the SMB file share. If it is set to false, it indicates that file and directory permissions are mapped to the POSIX permission. For more information, see [Using Microsoft Windows ACLs to control access to an SMB file share](https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html) in the Storage Gateway User Guide.
+        /// If this value is set to true, it indicates that access control list (ACL) is enabled on the SMB file share. If it is set to false, it indicates that file and directory permissions are mapped to the POSIX permission. For more information, see [Using Windows ACLs to limit SMB file share access](https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html) in the Amazon S3 File Gateway User Guide.
         public var smbaclEnabled: Swift.Bool?
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public var tags: [StorageGatewayClientTypes.Tag]?
@@ -3074,6 +3124,7 @@ extension StorageGatewayClientTypes {
             cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
             caseSensitivity: StorageGatewayClientTypes.CaseSensitivity? = nil,
             defaultStorageClass: Swift.String? = nil,
+            encryptionType: StorageGatewayClientTypes.EncryptionType? = nil,
             fileShareARN: Swift.String? = nil,
             fileShareId: Swift.String? = nil,
             fileShareName: Swift.String? = nil,
@@ -3105,6 +3156,7 @@ extension StorageGatewayClientTypes {
             self.cacheAttributes = cacheAttributes
             self.caseSensitivity = caseSensitivity
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
             self.fileShareName = fileShareName
@@ -3331,7 +3383,7 @@ extension StorageGatewayClientTypes {
     public struct StorediSCSIVolume {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
         public var createdDate: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public var kmsKey: Swift.String?
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved. Valid Values: true | false
         public var preservedExistingData: Swift.Bool
@@ -3468,7 +3520,7 @@ extension StorageGatewayClientTypes {
     public struct TapeArchive {
         /// The time that the archiving of the virtual tape was completed. The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public var completionTime: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public var kmsKey: Swift.String?
         /// The time that the tape entered the custom tape pool. The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public var poolEntryDate: Foundation.Date?
@@ -3644,7 +3696,7 @@ public struct DescribeTapesInput {
 extension StorageGatewayClientTypes {
     /// Describes a virtual tape object.
     public struct Tape {
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public var kmsKey: Swift.String?
         /// The date that the tape enters a custom tape pool.
         public var poolEntryDate: Foundation.Date?
@@ -5483,7 +5535,7 @@ public struct UpdateMaintenanceStartTimeInput {
     public var hourOfDay: Swift.Int?
     /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
     public var minuteOfHour: Swift.Int?
-    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
     public var softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences?
 
     public init(
@@ -5527,6 +5579,8 @@ public struct UpdateNFSFileShareInput {
     public var clientList: [Swift.String]?
     /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
     public var defaultStorageClass: Swift.String?
+    /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+    public var encryptionType: StorageGatewayClientTypes.EncryptionType?
     /// The Amazon Resource Name (ARN) of the file share to be updated.
     /// This member is required.
     public var fileShareARN: Swift.String?
@@ -5534,13 +5588,14 @@ public struct UpdateNFSFileShareInput {
     public var fileShareName: Swift.String?
     /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
     public var guessMIMETypeEnabled: Swift.Bool?
-    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true. Valid Values: true | false
+    @available(*, deprecated, message: "KMSEncrypted is deprecated, use EncryptionType instead.")
     public var kmsEncrypted: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+    /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
     public var kmsKey: Swift.String?
     /// The default values for the file share. Optional.
     public var nfsFileShareDefaults: StorageGatewayClientTypes.NFSFileShareDefaults?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -5562,6 +5617,7 @@ public struct UpdateNFSFileShareInput {
         cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
         clientList: [Swift.String]? = nil,
         defaultStorageClass: Swift.String? = nil,
+        encryptionType: StorageGatewayClientTypes.EncryptionType? = nil,
         fileShareARN: Swift.String? = nil,
         fileShareName: Swift.String? = nil,
         guessMIMETypeEnabled: Swift.Bool? = nil,
@@ -5579,6 +5635,7 @@ public struct UpdateNFSFileShareInput {
         self.cacheAttributes = cacheAttributes
         self.clientList = clientList
         self.defaultStorageClass = defaultStorageClass
+        self.encryptionType = encryptionType
         self.fileShareARN = fileShareARN
         self.fileShareName = fileShareName
         self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -5620,6 +5677,8 @@ public struct UpdateSMBFileShareInput {
     public var caseSensitivity: StorageGatewayClientTypes.CaseSensitivity?
     /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
     public var defaultStorageClass: Swift.String?
+    /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+    public var encryptionType: StorageGatewayClientTypes.EncryptionType?
     /// The Amazon Resource Name (ARN) of the SMB file share that you want to update.
     /// This member is required.
     public var fileShareARN: Swift.String?
@@ -5629,11 +5688,12 @@ public struct UpdateSMBFileShareInput {
     public var guessMIMETypeEnabled: Swift.Bool?
     /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
     public var invalidUserList: [Swift.String]?
-    /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+    /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead. We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true. Valid Values: true | false
+    @available(*, deprecated, message: "KMSEncrypted is deprecated, use EncryptionType instead.")
     public var kmsEncrypted: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+    /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
     public var kmsKey: Swift.String?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -5643,7 +5703,7 @@ public struct UpdateSMBFileShareInput {
     public var readOnly: Swift.Bool?
     /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data. RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration. Valid Values: true | false
     public var requesterPays: Swift.Bool?
-    /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see [Using Microsoft Windows ACLs to control access to an SMB file share](https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html) in the Storage Gateway User Guide. Valid Values: true | false
+    /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see [Using Windows ACLs to limit SMB file share access](https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html) in the Amazon S3 File Gateway User Guide. Valid Values: true | false
     public var smbaclEnabled: Swift.Bool?
     /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
     public var validUserList: [Swift.String]?
@@ -5655,6 +5715,7 @@ public struct UpdateSMBFileShareInput {
         cacheAttributes: StorageGatewayClientTypes.CacheAttributes? = nil,
         caseSensitivity: StorageGatewayClientTypes.CaseSensitivity? = nil,
         defaultStorageClass: Swift.String? = nil,
+        encryptionType: StorageGatewayClientTypes.EncryptionType? = nil,
         fileShareARN: Swift.String? = nil,
         fileShareName: Swift.String? = nil,
         guessMIMETypeEnabled: Swift.Bool? = nil,
@@ -5676,6 +5737,7 @@ public struct UpdateSMBFileShareInput {
         self.cacheAttributes = cacheAttributes
         self.caseSensitivity = caseSensitivity
         self.defaultStorageClass = defaultStorageClass
+        self.encryptionType = encryptionType
         self.fileShareARN = fileShareARN
         self.fileShareName = fileShareName
         self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -6643,6 +6705,7 @@ extension CreateNFSFileShareInput {
         try writer["ClientList"].writeList(value.clientList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ClientToken"].write(value.clientToken)
         try writer["DefaultStorageClass"].write(value.defaultStorageClass)
+        try writer["EncryptionType"].write(value.encryptionType)
         try writer["FileShareName"].write(value.fileShareName)
         try writer["GatewayARN"].write(value.gatewayARN)
         try writer["GuessMIMETypeEnabled"].write(value.guessMIMETypeEnabled)
@@ -6674,6 +6737,7 @@ extension CreateSMBFileShareInput {
         try writer["CaseSensitivity"].write(value.caseSensitivity)
         try writer["ClientToken"].write(value.clientToken)
         try writer["DefaultStorageClass"].write(value.defaultStorageClass)
+        try writer["EncryptionType"].write(value.encryptionType)
         try writer["FileShareName"].write(value.fileShareName)
         try writer["GatewayARN"].write(value.gatewayARN)
         try writer["GuessMIMETypeEnabled"].write(value.guessMIMETypeEnabled)
@@ -7358,6 +7422,7 @@ extension UpdateNFSFileShareInput {
         try writer["CacheAttributes"].write(value.cacheAttributes, with: StorageGatewayClientTypes.CacheAttributes.write(value:to:))
         try writer["ClientList"].writeList(value.clientList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DefaultStorageClass"].write(value.defaultStorageClass)
+        try writer["EncryptionType"].write(value.encryptionType)
         try writer["FileShareARN"].write(value.fileShareARN)
         try writer["FileShareName"].write(value.fileShareName)
         try writer["GuessMIMETypeEnabled"].write(value.guessMIMETypeEnabled)
@@ -7382,6 +7447,7 @@ extension UpdateSMBFileShareInput {
         try writer["CacheAttributes"].write(value.cacheAttributes, with: StorageGatewayClientTypes.CacheAttributes.write(value:to:))
         try writer["CaseSensitivity"].write(value.caseSensitivity)
         try writer["DefaultStorageClass"].write(value.defaultStorageClass)
+        try writer["EncryptionType"].write(value.encryptionType)
         try writer["FileShareARN"].write(value.fileShareARN)
         try writer["FileShareName"].write(value.fileShareName)
         try writer["GuessMIMETypeEnabled"].write(value.guessMIMETypeEnabled)
@@ -10195,6 +10261,7 @@ extension StorageGatewayClientTypes.NFSFileShareInfo {
         value.fileShareId = try reader["FileShareId"].readIfPresent()
         value.fileShareStatus = try reader["FileShareStatus"].readIfPresent()
         value.gatewayARN = try reader["GatewayARN"].readIfPresent()
+        value.encryptionType = try reader["EncryptionType"].readIfPresent()
         value.kmsEncrypted = try reader["KMSEncrypted"].readIfPresent() ?? false
         value.kmsKey = try reader["KMSKey"].readIfPresent()
         value.path = try reader["Path"].readIfPresent()
@@ -10248,6 +10315,7 @@ extension StorageGatewayClientTypes.SMBFileShareInfo {
         value.fileShareId = try reader["FileShareId"].readIfPresent()
         value.fileShareStatus = try reader["FileShareStatus"].readIfPresent()
         value.gatewayARN = try reader["GatewayARN"].readIfPresent()
+        value.encryptionType = try reader["EncryptionType"].readIfPresent()
         value.kmsEncrypted = try reader["KMSEncrypted"].readIfPresent() ?? false
         value.kmsKey = try reader["KMSKey"].readIfPresent()
         value.path = try reader["Path"].readIfPresent()

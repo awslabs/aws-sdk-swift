@@ -7736,15 +7736,44 @@ public struct BatchGetPartitionOutput {
     }
 }
 
+/// The throttling threshhold was exceeded.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension GlueClientTypes {
 
     public enum TableOptimizerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compaction
+        case orphanFileDeletion
+        case retention
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TableOptimizerType] {
             return [
-                .compaction
+                .compaction,
+                .orphanFileDeletion,
+                .retention
             ]
         }
 
@@ -7756,6 +7785,8 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .compaction: return "compaction"
+            case .orphanFileDeletion: return "orphan_file_deletion"
+            case .retention: return "retention"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7836,20 +7867,148 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
+    /// The configuration for an Iceberg orphan file deletion optimizer.
+    public struct IcebergOrphanFileDeletionConfiguration {
+        /// Specifies a directory in which to look for files (defaults to the table's location). You may choose a sub-directory rather than the top-level table location.
+        public var location: Swift.String?
+        /// The number of days that orphan files should be retained before file deletion. If an input is not provided, the default value 3 will be used.
+        public var orphanFileRetentionPeriodInDays: Swift.Int?
+
+        public init(
+            location: Swift.String? = nil,
+            orphanFileRetentionPeriodInDays: Swift.Int? = nil
+        )
+        {
+            self.location = location
+            self.orphanFileRetentionPeriodInDays = orphanFileRetentionPeriodInDays
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// The configuration for an orphan file deletion optimizer.
+    public struct OrphanFileDeletionConfiguration {
+        /// The configuration for an Iceberg orphan file deletion optimizer.
+        public var icebergConfiguration: GlueClientTypes.IcebergOrphanFileDeletionConfiguration?
+
+        public init(
+            icebergConfiguration: GlueClientTypes.IcebergOrphanFileDeletionConfiguration? = nil
+        )
+        {
+            self.icebergConfiguration = icebergConfiguration
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// The configuration for an Iceberg snapshot retention optimizer.
+    public struct IcebergRetentionConfiguration {
+        /// If set to false, snapshots are only deleted from table metadata, and the underlying data and metadata files are not deleted.
+        public var cleanExpiredFiles: Swift.Bool?
+        /// The number of Iceberg snapshots to retain within the retention period. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 1 will be used.
+        public var numberOfSnapshotsToRetain: Swift.Int?
+        /// The number of days to retain the Iceberg snapshots. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 5 will be used.
+        public var snapshotRetentionPeriodInDays: Swift.Int?
+
+        public init(
+            cleanExpiredFiles: Swift.Bool? = nil,
+            numberOfSnapshotsToRetain: Swift.Int? = nil,
+            snapshotRetentionPeriodInDays: Swift.Int? = nil
+        )
+        {
+            self.cleanExpiredFiles = cleanExpiredFiles
+            self.numberOfSnapshotsToRetain = numberOfSnapshotsToRetain
+            self.snapshotRetentionPeriodInDays = snapshotRetentionPeriodInDays
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// The configuration for a snapshot retention optimizer.
+    public struct RetentionConfiguration {
+        /// The configuration for an Iceberg snapshot retention optimizer.
+        public var icebergConfiguration: GlueClientTypes.IcebergRetentionConfiguration?
+
+        public init(
+            icebergConfiguration: GlueClientTypes.IcebergRetentionConfiguration? = nil
+        )
+        {
+            self.icebergConfiguration = icebergConfiguration
+        }
+    }
+
+}
+
+extension GlueClientTypes {
     /// Contains details on the configuration of a table optimizer. You pass this configuration when creating or updating a table optimizer.
     public struct TableOptimizerConfiguration {
         /// Whether table optimization is enabled.
         public var enabled: Swift.Bool?
+        /// The configuration for an orphan file deletion optimizer.
+        public var orphanFileDeletionConfiguration: GlueClientTypes.OrphanFileDeletionConfiguration?
+        /// The configuration for a snapshot retention optimizer.
+        public var retentionConfiguration: GlueClientTypes.RetentionConfiguration?
         /// A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf.
         public var roleArn: Swift.String?
 
         public init(
             enabled: Swift.Bool? = nil,
+            orphanFileDeletionConfiguration: GlueClientTypes.OrphanFileDeletionConfiguration? = nil,
+            retentionConfiguration: GlueClientTypes.RetentionConfiguration? = nil,
             roleArn: Swift.String? = nil
         )
         {
             self.enabled = enabled
+            self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
+            self.retentionConfiguration = retentionConfiguration
             self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// Compaction metrics for Iceberg for the optimizer run.
+    public struct IcebergCompactionMetrics {
+        /// The duration of the job in hours.
+        public var jobDurationInHour: Swift.Double
+        /// The number of bytes removed by the compaction job run.
+        public var numberOfBytesCompacted: Swift.Int
+        /// The number of DPU hours consumed by the job.
+        public var numberOfDpus: Swift.Int
+        /// The number of files removed by the compaction job run.
+        public var numberOfFilesCompacted: Swift.Int
+
+        public init(
+            jobDurationInHour: Swift.Double = 0.0,
+            numberOfBytesCompacted: Swift.Int = 0,
+            numberOfDpus: Swift.Int = 0,
+            numberOfFilesCompacted: Swift.Int = 0
+        )
+        {
+            self.jobDurationInHour = jobDurationInHour
+            self.numberOfBytesCompacted = numberOfBytesCompacted
+            self.numberOfDpus = numberOfDpus
+            self.numberOfFilesCompacted = numberOfFilesCompacted
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A structure that contains compaction metrics for the optimizer run.
+    public struct CompactionMetrics {
+        /// A structure containing the Iceberg compaction metrics for the optimizer run.
+        public var icebergMetrics: GlueClientTypes.IcebergCompactionMetrics?
+
+        public init(
+            icebergMetrics: GlueClientTypes.IcebergCompactionMetrics? = nil
+        )
+        {
+            self.icebergMetrics = icebergMetrics
         }
     }
 
@@ -7891,7 +8050,7 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
-    /// Metrics for the optimizer run.
+    /// Metrics for the optimizer run. This structure is deprecated. See the individual metric members for compaction, retention, and orphan file deletion.
     public struct RunMetrics {
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.String?
@@ -7919,31 +8078,132 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
+    /// Orphan file deletion metrics for Iceberg for the optimizer run.
+    public struct IcebergOrphanFileDeletionMetrics {
+        /// The duration of the job in hours.
+        public var jobDurationInHour: Swift.Double
+        /// The number of DPU hours consumed by the job.
+        public var numberOfDpus: Swift.Int
+        /// The number of orphan files deleted by the orphan file deletion job run.
+        public var numberOfOrphanFilesDeleted: Swift.Int
+
+        public init(
+            jobDurationInHour: Swift.Double = 0.0,
+            numberOfDpus: Swift.Int = 0,
+            numberOfOrphanFilesDeleted: Swift.Int = 0
+        )
+        {
+            self.jobDurationInHour = jobDurationInHour
+            self.numberOfDpus = numberOfDpus
+            self.numberOfOrphanFilesDeleted = numberOfOrphanFilesDeleted
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A structure that contains orphan file deletion metrics for the optimizer run.
+    public struct OrphanFileDeletionMetrics {
+        /// A structure containing the Iceberg orphan file deletion metrics for the optimizer run.
+        public var icebergMetrics: GlueClientTypes.IcebergOrphanFileDeletionMetrics?
+
+        public init(
+            icebergMetrics: GlueClientTypes.IcebergOrphanFileDeletionMetrics? = nil
+        )
+        {
+            self.icebergMetrics = icebergMetrics
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// Snapshot retention metrics for Iceberg for the optimizer run.
+    public struct IcebergRetentionMetrics {
+        /// The duration of the job in hours.
+        public var jobDurationInHour: Swift.Double
+        /// The number of data files deleted by the retention job run.
+        public var numberOfDataFilesDeleted: Swift.Int
+        /// The number of DPU hours consumed by the job.
+        public var numberOfDpus: Swift.Int
+        /// The number of manifest files deleted by the retention job run.
+        public var numberOfManifestFilesDeleted: Swift.Int
+        /// The number of manifest lists deleted by the retention job run.
+        public var numberOfManifestListsDeleted: Swift.Int
+
+        public init(
+            jobDurationInHour: Swift.Double = 0.0,
+            numberOfDataFilesDeleted: Swift.Int = 0,
+            numberOfDpus: Swift.Int = 0,
+            numberOfManifestFilesDeleted: Swift.Int = 0,
+            numberOfManifestListsDeleted: Swift.Int = 0
+        )
+        {
+            self.jobDurationInHour = jobDurationInHour
+            self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
+            self.numberOfDpus = numberOfDpus
+            self.numberOfManifestFilesDeleted = numberOfManifestFilesDeleted
+            self.numberOfManifestListsDeleted = numberOfManifestListsDeleted
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A structure that contains retention metrics for the optimizer run.
+    public struct RetentionMetrics {
+        /// A structure containing the Iceberg retention metrics for the optimizer run.
+        public var icebergMetrics: GlueClientTypes.IcebergRetentionMetrics?
+
+        public init(
+            icebergMetrics: GlueClientTypes.IcebergRetentionMetrics? = nil
+        )
+        {
+            self.icebergMetrics = icebergMetrics
+        }
+    }
+
+}
+
+extension GlueClientTypes {
     /// Contains details for a table optimizer run.
     public struct TableOptimizerRun {
+        /// A CompactionMetrics object containing metrics for the optimizer run.
+        public var compactionMetrics: GlueClientTypes.CompactionMetrics?
         /// Represents the epoch timestamp at which the compaction job ended.
         public var endTimestamp: Foundation.Date?
         /// An error that occured during the optimizer run.
         public var error: Swift.String?
         /// An event type representing the status of the table optimizer run.
         public var eventType: GlueClientTypes.TableOptimizerEventType?
-        /// A RunMetrics object containing metrics for the optimizer run.
+        /// A RunMetrics object containing metrics for the optimizer run. This member is deprecated. See the individual metric members for compaction, retention, and orphan file deletion.
+        @available(*, deprecated, message: "Metrics has been replaced by optimizer type specific metrics such as IcebergCompactionMetrics")
         public var metrics: GlueClientTypes.RunMetrics?
+        /// An OrphanFileDeletionMetrics object containing metrics for the optimizer run.
+        public var orphanFileDeletionMetrics: GlueClientTypes.OrphanFileDeletionMetrics?
+        /// A RetentionMetrics object containing metrics for the optimizer run.
+        public var retentionMetrics: GlueClientTypes.RetentionMetrics?
         /// Represents the epoch timestamp at which the compaction job was started within Lake Formation.
         public var startTimestamp: Foundation.Date?
 
         public init(
+            compactionMetrics: GlueClientTypes.CompactionMetrics? = nil,
             endTimestamp: Foundation.Date? = nil,
             error: Swift.String? = nil,
             eventType: GlueClientTypes.TableOptimizerEventType? = nil,
             metrics: GlueClientTypes.RunMetrics? = nil,
+            orphanFileDeletionMetrics: GlueClientTypes.OrphanFileDeletionMetrics? = nil,
+            retentionMetrics: GlueClientTypes.RetentionMetrics? = nil,
             startTimestamp: Foundation.Date? = nil
         )
         {
+            self.compactionMetrics = compactionMetrics
             self.endTimestamp = endTimestamp
             self.error = error
             self.eventType = eventType
             self.metrics = metrics
+            self.orphanFileDeletionMetrics = orphanFileDeletionMetrics
+            self.retentionMetrics = retentionMetrics
             self.startTimestamp = startTimestamp
         }
     }
@@ -7957,7 +8217,13 @@ extension GlueClientTypes {
         public var configuration: GlueClientTypes.TableOptimizerConfiguration?
         /// A TableOptimizerRun object representing the last run of the table optimizer.
         public var lastRun: GlueClientTypes.TableOptimizerRun?
-        /// The type of table optimizer. Currently, the only valid value is compaction.
+        /// The type of table optimizer. The valid values are:
+        ///
+        /// * compaction: for managing compaction with a table optimizer.
+        ///
+        /// * retention: for managing the retention of snapshot with a table optimizer.
+        ///
+        /// * orphan_file_deletion: for managing the deletion of orphan files with a table optimizer.
         public var type: GlueClientTypes.TableOptimizerType?
 
         public init(
@@ -7983,7 +8249,7 @@ extension GlueClientTypes {
         public var databaseName: Swift.String?
         /// The name of the table.
         public var tableName: Swift.String?
-        /// A TableOptimizer object that contains details on the configuration and last run of a table optimzer.
+        /// A TableOptimizer object that contains details on the configuration and last run of a table optimizer.
         public var tableOptimizer: GlueClientTypes.TableOptimizer?
 
         public init(
@@ -32122,7 +32388,11 @@ enum BatchGetTableOptimizerOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -32655,6 +32925,8 @@ enum CreateTableOptimizerOutputError {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33113,6 +33385,7 @@ enum DeleteTableOptimizerOutputError {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -34132,6 +34405,7 @@ enum GetTableOptimizerOutputError {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -34765,6 +35039,8 @@ enum ListTableOptimizerRunsOutputError {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35750,9 +36026,12 @@ enum UpdateTableOptimizerOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35982,6 +36261,19 @@ extension FederationSourceException {
         let reader = baseError.errorBodyReader
         var value = FederationSourceException()
         value.properties.federationSourceErrorCode = try reader["FederationSourceErrorCode"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -39784,6 +40076,78 @@ extension GlueClientTypes.TableOptimizerRun {
         value.endTimestamp = try reader["endTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.metrics = try reader["metrics"].readIfPresent(with: GlueClientTypes.RunMetrics.read(from:))
         value.error = try reader["error"].readIfPresent()
+        value.compactionMetrics = try reader["compactionMetrics"].readIfPresent(with: GlueClientTypes.CompactionMetrics.read(from:))
+        value.retentionMetrics = try reader["retentionMetrics"].readIfPresent(with: GlueClientTypes.RetentionMetrics.read(from:))
+        value.orphanFileDeletionMetrics = try reader["orphanFileDeletionMetrics"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OrphanFileDeletionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OrphanFileDeletionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OrphanFileDeletionMetrics()
+        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergOrphanFileDeletionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergOrphanFileDeletionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOrphanFileDeletionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergOrphanFileDeletionMetrics()
+        value.numberOfOrphanFilesDeleted = try reader["NumberOfOrphanFilesDeleted"].readIfPresent() ?? 0
+        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
+        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.RetentionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RetentionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RetentionMetrics()
+        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergRetentionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergRetentionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergRetentionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergRetentionMetrics()
+        value.numberOfDataFilesDeleted = try reader["NumberOfDataFilesDeleted"].readIfPresent() ?? 0
+        value.numberOfManifestFilesDeleted = try reader["NumberOfManifestFilesDeleted"].readIfPresent() ?? 0
+        value.numberOfManifestListsDeleted = try reader["NumberOfManifestListsDeleted"].readIfPresent() ?? 0
+        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
+        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.CompactionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CompactionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CompactionMetrics()
+        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergCompactionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergCompactionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergCompactionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergCompactionMetrics()
+        value.numberOfBytesCompacted = try reader["NumberOfBytesCompacted"].readIfPresent() ?? 0
+        value.numberOfFilesCompacted = try reader["NumberOfFilesCompacted"].readIfPresent() ?? 0
+        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
+        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
     }
 }
@@ -39806,6 +40170,8 @@ extension GlueClientTypes.TableOptimizerConfiguration {
     static func write(value: GlueClientTypes.TableOptimizerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
+        try writer["orphanFileDeletionConfiguration"].write(value.orphanFileDeletionConfiguration, with: GlueClientTypes.OrphanFileDeletionConfiguration.write(value:to:))
+        try writer["retentionConfiguration"].write(value.retentionConfiguration, with: GlueClientTypes.RetentionConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
     }
 
@@ -39814,6 +40180,74 @@ extension GlueClientTypes.TableOptimizerConfiguration {
         var value = GlueClientTypes.TableOptimizerConfiguration()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.retentionConfiguration = try reader["retentionConfiguration"].readIfPresent(with: GlueClientTypes.RetentionConfiguration.read(from:))
+        value.orphanFileDeletionConfiguration = try reader["orphanFileDeletionConfiguration"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OrphanFileDeletionConfiguration {
+
+    static func write(value: GlueClientTypes.OrphanFileDeletionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergOrphanFileDeletionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OrphanFileDeletionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OrphanFileDeletionConfiguration()
+        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergOrphanFileDeletionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
+
+    static func write(value: GlueClientTypes.IcebergOrphanFileDeletionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location)
+        try writer["orphanFileRetentionPeriodInDays"].write(value.orphanFileRetentionPeriodInDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergOrphanFileDeletionConfiguration()
+        value.orphanFileRetentionPeriodInDays = try reader["orphanFileRetentionPeriodInDays"].readIfPresent()
+        value.location = try reader["location"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.RetentionConfiguration {
+
+    static func write(value: GlueClientTypes.RetentionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergRetentionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RetentionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RetentionConfiguration()
+        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergRetentionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergRetentionConfiguration {
+
+    static func write(value: GlueClientTypes.IcebergRetentionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cleanExpiredFiles"].write(value.cleanExpiredFiles)
+        try writer["numberOfSnapshotsToRetain"].write(value.numberOfSnapshotsToRetain)
+        try writer["snapshotRetentionPeriodInDays"].write(value.snapshotRetentionPeriodInDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergRetentionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergRetentionConfiguration()
+        value.snapshotRetentionPeriodInDays = try reader["snapshotRetentionPeriodInDays"].readIfPresent()
+        value.numberOfSnapshotsToRetain = try reader["numberOfSnapshotsToRetain"].readIfPresent()
+        value.cleanExpiredFiles = try reader["cleanExpiredFiles"].readIfPresent()
         return value
     }
 }
