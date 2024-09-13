@@ -15,10 +15,13 @@ public class DefaultAWSClientPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientConfiguration) throws {
-        if var config = clientConfiguration as? DefaultClientConfiguration
+        if var config = clientConfiguration as? (DefaultClientConfiguration
             & AWSDefaultClientConfiguration
-            & AWSRegionClientConfiguration {
-            config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions()
+            & AWSRegionClientConfiguration) {
+            config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
+                config.awsRetryMode,
+                config.maxAttempts
+            )
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
         }
     }

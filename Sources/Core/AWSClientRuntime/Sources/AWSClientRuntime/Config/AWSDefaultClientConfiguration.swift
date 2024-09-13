@@ -31,9 +31,19 @@ public protocol AWSDefaultClientConfiguration {
 
     /// The AWS retry mode to be used.
     ///
-    /// This value is set after resolving retry mode from the standard progression of potential sources.
+    /// May be one of `legacy`, `standard`, or `adaptive`.
+    /// For the Swift SDK, `legacy` is the same behavior as `standard`.
+    /// `standard` and `adaptive` retry strategies are as documented in `AWSClientRuntime.AWSRetryMode`.
     ///
-    /// May be one of `legacy`, `standard`, or `adaptive`.  `standard` and `adaptive` retry strategies are as defined in
-    /// Smithy Reference Architecture.  For the Swift SDK, `legacy` is the same behavior as `standard`.
+    /// This value is set after resolving retry mode from the standard progression of potential sources.
+    /// Default mode is `legacy`.
     var awsRetryMode: AWSRetryMode { get set }
+
+    /// The max number of times to attempt the request until success.
+    ///
+    /// This number includes the initial request, and the number of subsequent retries.
+    /// For example, value of 3 for this config variable would mean maximum of 2 retries.
+    ///
+    /// If set, this value gets used when resolving max attempts value from the standard progression of potential sources. If no value could be resolved, the SDK uses max attempts value of 3 by default.
+    var maxAttempts: Int? { get set }
 }
