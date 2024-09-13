@@ -92,9 +92,11 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
     }
 }
 
-extension Sha256TreeHashMiddleware: HttpInterceptor {
+extension Sha256TreeHashMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeSigning(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
         let request = context.getRequest()
