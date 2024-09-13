@@ -1,0 +1,18 @@
+{
+  "registries" : {
+    "aws-sdk-swift" : {
+      "supportsAvailability" : false,
+      "url" : "https://sdk.amazonaws.com/swift/registry/"
+    }
+  },
+  "security": {
+    "scopeOverrides": {
+      "aws-sdk-swift": {
+        "signing": {
+          "onUnsigned": "silentAllow"
+        }
+      }
+    }
+  },
+  "version" : 1
+}

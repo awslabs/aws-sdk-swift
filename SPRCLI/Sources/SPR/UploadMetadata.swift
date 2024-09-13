@@ -38,12 +38,8 @@ extension SPRPublisher {
         jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         let data = try jsonEncoder.encode(metadata)
         let body = ByteStream.data(data)
-        let input = PutObjectInput(body: body, bucket: bucket, contentType: "application/json", key: metadataKey)
+        let input = PutObjectInput(body: body, bucket: bucket, cacheControl: "public, max-age=3600, immutable", contentType: "application/json", key: metadataKey)
         _ = try await s3Client.putObject(input: input)
-    }
-
-    private var metadataKey: String {
-        "\(scope)/\(name)/\(version)"
     }
 
     private func createMetadata() -> PackageInfo {
@@ -53,5 +49,9 @@ extension SPRPublisher {
         let resource = Resource(name: "source-archive", type: "application/zip", checksum: checksum, signing: nil)
         let metadata = PackageInfo.Metadata(author: author, description: "A Swift package, what can I say?", licenseURL: nil, originalPublicationTime: now, readmeURL: nil, repositoryURLs: nil)
         return PackageInfo(id: "\(scope).\(name)", version: version, resources: [resource], metadata: metadata, publishedAt: now)
+    }
+
+    private var metadataKey: String {
+        (keyPrefix + [scope, name, version]).joined(separator: "/")
     }
 }

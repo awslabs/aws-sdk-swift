@@ -38,11 +38,11 @@ extension SPRPublisher {
         let fileHandle = try FileHandle(forReadingFrom: manifestFileURL)
         let stream = FileStream(fileHandle: fileHandle)
         let body = ByteStream.stream(stream)
-        let input = PutObjectInput(body: body, bucket: bucket, contentType: "text/x-swift", key: manifestKey)
+        let input = PutObjectInput(body: body, bucket: bucket, cacheControl: "public, immutable", contentType: "text/x-swift", key: manifestKey)
         _ = try await s3Client.putObject(input: input)
     }
 
     private var manifestKey: String {
-        "\(scope)/\(name)/\(version)/Package.swift"
+        (keyPrefix + [scope, name, version, "Package.swift"]).joined(separator: "/")
     }
 }

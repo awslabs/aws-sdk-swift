@@ -1,10 +1,10 @@
 included:
-  - Sources/Core/AWSClientRuntime/Sources
-  - Sources/Core/AWSSDKChecksums/Sources
-  - Sources/Core/AWSSDKCommon/Sources
-  - Sources/Core/AWSSDKEventStreamsAuth/Sources
-  - Sources/Core/AWSSDKHTTPAuth/Sources
-  - Sources/Core/AWSSDKIdentity/Sources
+  - Sources/Core/aws-sdk-swift.AWSClientRuntime/Sources
+  - Sources/Core/aws-sdk-swift.AWSSDKChecksums/Sources
+  - Sources/Core/aws-sdk-swift.AWSSDKCommon/Sources
+  - Sources/Core/aws-sdk-swift.AWSSDKEventStreamsAuth/Sources
+  - Sources/Core/aws-sdk-swift.AWSSDKHTTPAuth/Sources
+  - Sources/Core/aws-sdk-swift.AWSSDKIdentity/Sources
 
 analyzer_rules:
   - unused_import
