@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -19,7 +20,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
-import protocol ClientRuntime.HttpInterceptor
+import protocol ClientRuntime.Interceptor
 import protocol ClientRuntime.ModeledError
 import protocol ClientRuntime.MutableInput
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
@@ -4915,9 +4916,11 @@ public struct PredictInputEndpointURLHostMiddleware {
 
     public init() { }
 }
-extension PredictInputEndpointURLHostMiddleware: ClientRuntime.HttpInterceptor {
+extension PredictInputEndpointURLHostMiddleware: ClientRuntime.Interceptor {
     public typealias InputType = PredictInput
     public typealias OutputType = PredictOutput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
+    public typealias ResponseType = SmithyHTTPAPI.HTTPResponse
 
     public func modifyBeforeSerialization(context: some ClientRuntime.MutableInput<InputType>) async throws {
         if let endpoint = context.getInput().predictEndpoint, let url = Foundation.URL(string: endpoint), let host = url.host {

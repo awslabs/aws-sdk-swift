@@ -13,7 +13,7 @@ import struct AWSSDKIdentity.ProcessAWSCredentialIdentityResolver
 // ProcessCredentialsProvider is not useful on iOS platform so this test will remain disabled for now
 #if !os(iOS)
 class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
-    let configPath = Bundle.module.path(forResource: "config", ofType: nil)!
+    let configPath = Bundle.module.path(forResource: "config_with_process", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
 
     func testGetCredentialsWithDefaultProfile() async throws {
