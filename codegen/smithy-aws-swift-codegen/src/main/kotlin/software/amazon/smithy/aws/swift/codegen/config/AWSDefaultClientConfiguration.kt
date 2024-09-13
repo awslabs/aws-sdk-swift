@@ -39,5 +39,6 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
             { it.format("\$N.retryMode()", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
             true
         ),
+        ConfigProperty("maxAttempts", SwiftTypes.Int.toOptional())
     )
 }
