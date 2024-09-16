@@ -1299,7 +1299,7 @@ extension OrganizationsClientTypes {
 ///
 /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
 ///
-/// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, there is a waiting period before you can remove it from the organization. If you get an error that indicates that a wait period is required, try again in a few days.
+/// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least seven days after the account was created. Invited accounts aren't subject to this waiting period.
 public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2813,7 +2813,7 @@ public struct DescribeHandshakeInput {
 }
 
 public struct DescribeOrganizationOutput {
-    /// A structure that contains information about the organization. The AvailablePolicyTypes part of the response is deprecated, and you shouldn't use it in your apps. It doesn't include any policy type supported by Organizations other than SCPs. To determine which policy types are enabled in your organization, use the [ListRoots] operation.
+    /// A structure that contains information about the organization. The AvailablePolicyTypes part of the response is deprecated, and you shouldn't use it in your apps. It doesn't include any policy type supported by Organizations other than SCPs. In the China (Ningxia) Region, no policy type is included. To determine which policy types are enabled in your organization, use the [ListRoots] operation.
     public var organization: OrganizationsClientTypes.Organization?
 
     public init(

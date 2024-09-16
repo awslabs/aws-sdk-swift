@@ -9,12 +9,12 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -1495,13 +1496,13 @@ extension DeadlineClientTypes {
         public var schemaVersion: Swift.String?
         /// The template used for the environment.
         /// This member is required.
-        public var template: SmithyReadWrite.Document?
+        public var template: Smithy.Document?
 
         public init(
             environmentId: Swift.String? = nil,
             jobId: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
-            template: SmithyReadWrite.Document? = nil
+            template: Smithy.Document? = nil
         )
         {
             self.environmentId = environmentId
@@ -1778,14 +1779,14 @@ extension DeadlineClientTypes {
         public var stepId: Swift.String?
         /// The template for a step.
         /// This member is required.
-        public var template: SmithyReadWrite.Document?
+        public var template: Smithy.Document?
 
         public init(
             dependencies: [Swift.String]? = nil,
             jobId: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             stepId: Swift.String? = nil,
-            template: SmithyReadWrite.Document? = nil
+            template: Smithy.Document? = nil
         )
         {
             self.dependencies = dependencies
@@ -16600,7 +16601,7 @@ extension DeadlineClientTypes.EnvironmentDetailsEntity {
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
-        value.template = try reader["template"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.template = try reader["template"].readIfPresent() ?? [:]
         return value
     }
 }
@@ -16613,7 +16614,7 @@ extension DeadlineClientTypes.StepDetailsEntity {
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
-        value.template = try reader["template"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.template = try reader["template"].readIfPresent() ?? [:]
         value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }

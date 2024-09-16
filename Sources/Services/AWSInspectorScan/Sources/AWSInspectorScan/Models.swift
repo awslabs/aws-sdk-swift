@@ -12,7 +12,6 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -21,6 +20,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -267,11 +267,11 @@ public struct ScanSbomInput {
     public var outputFormat: InspectorScanClientTypes.OutputFormat?
     /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format.
     /// This member is required.
-    public var sbom: SmithyReadWrite.Document?
+    public var sbom: Smithy.Document?
 
     public init(
         outputFormat: InspectorScanClientTypes.OutputFormat? = nil,
-        sbom: SmithyReadWrite.Document? = nil
+        sbom: Smithy.Document? = nil
     )
     {
         self.outputFormat = outputFormat
@@ -281,10 +281,10 @@ public struct ScanSbomInput {
 
 public struct ScanSbomOutput {
     /// The vulnerability report for the scanned SBOM.
-    public var sbom: SmithyReadWrite.Document?
+    public var sbom: Smithy.Document?
 
     public init(
-        sbom: SmithyReadWrite.Document? = nil
+        sbom: Smithy.Document? = nil
     )
     {
         self.sbom = sbom

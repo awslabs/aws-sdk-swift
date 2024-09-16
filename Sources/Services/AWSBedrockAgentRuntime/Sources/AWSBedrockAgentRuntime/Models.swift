@@ -16,7 +16,6 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
 import enum SmithyEventStreamsAPI.MessageType
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -29,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Message
@@ -435,7 +435,7 @@ extension BedrockAgentRuntimeClientTypes {
     /// * [InvokeFlow request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax)
     public enum FlowInputContent {
         /// The input to send to the prompt flow input node.
-        case document(SmithyReadWrite.Document)
+        case document(Smithy.Document)
         case sdkUnknown(Swift.String)
     }
 
@@ -555,7 +555,7 @@ extension BedrockAgentRuntimeClientTypes {
     /// * [InvokeFlow request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax)
     public enum FlowOutputContent {
         /// The content in the output.
-        case document(SmithyReadWrite.Document)
+        case document(Smithy.Document)
         case sdkUnknown(Swift.String)
     }
 
@@ -831,11 +831,11 @@ extension BedrockAgentRuntimeClientTypes {
         public var key: Swift.String?
         /// The value to whcih to compare the value of the metadata attribute.
         /// This member is required.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
             key: Swift.String? = nil,
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.key = key
@@ -1340,12 +1340,12 @@ extension BedrockAgentRuntimeClientTypes {
         /// Contains information about the location of the data source.
         public var location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation?
         /// Contains metadata attributes and their values for the file in the data source. For more information, see [Metadata and filtering](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-metadata).
-        public var metadata: [Swift.String: SmithyReadWrite.Document]?
+        public var metadata: [Swift.String: Smithy.Document]?
 
         public init(
             content: BedrockAgentRuntimeClientTypes.RetrievalResultContent? = nil,
             location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation? = nil,
-            metadata: [Swift.String: SmithyReadWrite.Document]? = nil
+            metadata: [Swift.String: Smithy.Document]? = nil
         )
         {
             self.content = content
@@ -3568,7 +3568,7 @@ extension BedrockAgentRuntimeClientTypes {
     /// Contains the generation configuration of the external source wrapper object.
     public struct ExternalSourcesGenerationConfiguration {
         /// Additional model parameters and their corresponding values not included in the textInferenceConfig structure for an external source. Takes in custom model parameters specific to the language model being used.
-        public var additionalModelRequestFields: [Swift.String: SmithyReadWrite.Document]?
+        public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
         /// The configuration details for the guardrail.
         public var guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration?
         /// Configuration settings for inference when using RetrieveAndGenerate to generate responses while using an external source.
@@ -3577,7 +3577,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate?
 
         public init(
-            additionalModelRequestFields: [Swift.String: SmithyReadWrite.Document]? = nil,
+            additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
             guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration? = nil,
             inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig? = nil,
             promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
@@ -3727,7 +3727,7 @@ extension BedrockAgentRuntimeClientTypes {
     /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax)
     public struct GenerationConfiguration {
         /// Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used.
-        public var additionalModelRequestFields: [Swift.String: SmithyReadWrite.Document]?
+        public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
         /// The configuration details for the guardrail.
         public var guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration?
         /// Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
@@ -3736,7 +3736,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate?
 
         public init(
-            additionalModelRequestFields: [Swift.String: SmithyReadWrite.Document]? = nil,
+            additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
             guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfiguration? = nil,
             inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig? = nil,
             promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
@@ -3980,14 +3980,14 @@ extension BedrockAgentRuntimeClientTypes {
         /// Contains information about the location of the data source.
         public var location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation?
         /// Contains metadata attributes and their values for the file in the data source. For more information, see [Metadata and filtering](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-metadata).
-        public var metadata: [Swift.String: SmithyReadWrite.Document]?
+        public var metadata: [Swift.String: Smithy.Document]?
         /// The level of relevance of the result to the query.
         public var score: Swift.Double?
 
         public init(
             content: BedrockAgentRuntimeClientTypes.RetrievalResultContent? = nil,
             location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation? = nil,
-            metadata: [Swift.String: SmithyReadWrite.Document]? = nil,
+            metadata: [Swift.String: Smithy.Document]? = nil,
             score: Swift.Double? = nil
         )
         {
