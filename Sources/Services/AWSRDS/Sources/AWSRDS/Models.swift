@@ -857,20 +857,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
 ///
 public struct ApplyPendingMaintenanceActionInput {
-    /// The pending maintenance action to apply to this resource. Valid Values:
-    ///
-    /// * ca-certificate-rotation
-    ///
-    /// * db-upgrade
-    ///
-    /// * hardware-maintenance
-    ///
-    /// * os-upgrade
-    ///
-    /// * system-update
-    ///
-    ///
-    /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
+    /// The pending maintenance action to apply to this resource. Valid Values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation
     /// This member is required.
     public var applyAction: Swift.String?
     /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values:
@@ -901,20 +888,7 @@ public struct ApplyPendingMaintenanceActionInput {
 extension RDSClientTypes {
     /// Provides information about a pending maintenance action for a resource.
     public struct PendingMaintenanceAction {
-        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values:
-        ///
-        /// * ca-certificate-rotation
-        ///
-        /// * db-upgrade
-        ///
-        /// * hardware-maintenance
-        ///
-        /// * os-upgrade
-        ///
-        /// * system-update
-        ///
-        ///
-        /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
+        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public var autoAppliedAfterDate: Foundation.Date?
@@ -8845,6 +8819,8 @@ public struct CreateGlobalClusterInput {
     ///
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB cluster.
     public var storageEncrypted: Swift.Bool?
+    /// Tags to assign to the global cluster.
+    public var tags: [RDSClientTypes.Tag]?
 
     public init(
         databaseName: Swift.String? = nil,
@@ -8854,7 +8830,8 @@ public struct CreateGlobalClusterInput {
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
-        storageEncrypted: Swift.Bool? = nil
+        storageEncrypted: Swift.Bool? = nil,
+        tags: [RDSClientTypes.Tag]? = nil
     )
     {
         self.databaseName = databaseName
@@ -8865,6 +8842,7 @@ public struct CreateGlobalClusterInput {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.storageEncrypted = storageEncrypted
+        self.tags = tags
     }
 }
 
@@ -9024,6 +9002,8 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global database cluster.
         public var storageEncrypted: Swift.Bool?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
 
         public init(
             databaseName: Swift.String? = nil,
@@ -9037,7 +9017,8 @@ extension RDSClientTypes {
             globalClusterMembers: [RDSClientTypes.GlobalClusterMember]? = nil,
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool? = nil
+            storageEncrypted: Swift.Bool? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil
         )
         {
             self.databaseName = databaseName
@@ -9052,6 +9033,7 @@ extension RDSClientTypes {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
     }
 
@@ -23368,6 +23350,7 @@ extension CreateGlobalClusterInput {
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
         try writer["StorageEncrypted"].write(value.storageEncrypted)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateGlobalCluster")
         try writer["Version"].write("2014-10-31")
     }
@@ -33158,6 +33141,7 @@ extension RDSClientTypes.GlobalCluster {
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
         value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }

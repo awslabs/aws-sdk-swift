@@ -6604,14 +6604,12 @@ extension MediaLiveClientTypes {
     /// With the introduction of MediaLive OnPrem, a MediaLive input can now exist in two different places: AWS or inside an on-premise datacenter. By default all inputs will continue to be AWS inputs.
     public enum InputNetworkLocation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
-        case onPremise
         case onPremises
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InputNetworkLocation] {
             return [
                 .aws,
-                .onPremise,
                 .onPremises
             ]
         }
@@ -6624,7 +6622,6 @@ extension MediaLiveClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aws: return "AWS"
-            case .onPremise: return "ON_PREMISE"
             case .onPremises: return "ON_PREMISES"
             case let .sdkUnknown(s): return s
             }

@@ -2397,6 +2397,229 @@ extension IoTClientTypes {
 
 }
 
+/// A resource with the same name already exists.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// A resource with the same name already exists.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+    }
+}
+
+/// Internal error from the service that indicates an unexpected error or that the service is unavailable.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// A limit has been exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The request is not valid.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension IoTClientTypes {
+    /// The S3 location.
+    public struct S3Location {
+        /// The S3 bucket.
+        public var bucket: Swift.String?
+        /// The S3 key.
+        public var key: Swift.String?
+        /// The S3 bucket version.
+        public var version: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            key: Swift.String? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.bucket = bucket
+            self.key = key
+            self.version = version
+        }
+    }
+
+}
+
+extension IoTClientTypes {
+    /// The Amazon S3 location for the software bill of materials associated with a software package version.
+    public struct Sbom {
+        /// The S3 location.
+        public var s3Location: IoTClientTypes.S3Location?
+
+        public init(
+            s3Location: IoTClientTypes.S3Location? = nil
+        )
+        {
+            self.s3Location = s3Location
+        }
+    }
+
+}
+
+public struct AssociateSbomWithPackageVersionInput {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The name of the new software package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The Amazon S3 location for the software bill of materials associated with a software package version.
+    /// This member is required.
+    public var sbom: IoTClientTypes.Sbom?
+    /// The name of the new package version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        sbom: IoTClientTypes.Sbom? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.packageName = packageName
+        self.sbom = sbom
+        self.versionName = versionName
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum SbomValidationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SbomValidationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateSbomWithPackageVersionOutput {
+    /// The name of the new software package.
+    public var packageName: Swift.String?
+    /// The Amazon S3 location for the software bill of materials associated with a software package version.
+    public var sbom: IoTClientTypes.Sbom?
+    /// The status of the initial validation for the SBOM against the Software Package Data Exchange (SPDX) and CycloneDX industry standard format.
+    public var sbomValidationStatus: IoTClientTypes.SbomValidationStatus?
+    /// The name of the new package version.
+    public var versionName: Swift.String?
+
+    public init(
+        packageName: Swift.String? = nil,
+        sbom: IoTClientTypes.Sbom? = nil,
+        sbomValidationStatus: IoTClientTypes.SbomValidationStatus? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.packageName = packageName
+        self.sbom = sbom
+        self.sbomValidationStatus = sbomValidationStatus
+        self.versionName = versionName
+    }
+}
+
 /// A limit has been exceeded.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -4429,7 +4652,7 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
 extension IoTClientTypes {
     /// The server certificate configuration.
     public struct ServerCertificateConfig {
-        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-domain-ocsp-config.html) from Amazon Web Services IoT Core Developer Guide.
+        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
         public var enableOCSPCheck: Swift.Bool?
 
         public init(
@@ -5267,34 +5490,6 @@ public struct CreateJobOutput {
     }
 }
 
-/// A resource with the same name already exists.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// A resource with the same name already exists.
-        public internal(set) var resourceId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-    }
-}
-
 public struct CreateJobTemplateInput {
     /// The criteria that determine when and how a job abort takes place.
     public var abortConfig: IoTClientTypes.AbortConfig?
@@ -6103,30 +6298,6 @@ extension IoTClientTypes {
 }
 
 extension IoTClientTypes {
-    /// The S3 location.
-    public struct S3Location {
-        /// The S3 bucket.
-        public var bucket: Swift.String?
-        /// The S3 key.
-        public var key: Swift.String?
-        /// The S3 bucket version.
-        public var version: Swift.String?
-
-        public init(
-            bucket: Swift.String? = nil,
-            key: Swift.String? = nil,
-            version: Swift.String? = nil
-        )
-        {
-            self.bucket = bucket
-            self.key = key
-            self.version = version
-        }
-    }
-
-}
-
-extension IoTClientTypes {
     /// Describes a group of files that can be streamed.
     public struct Stream {
         /// The ID of a file associated with a stream.
@@ -6364,78 +6535,6 @@ public struct CreateOTAUpdateOutput {
     }
 }
 
-/// Internal error from the service that indicates an unexpected error or that the service is unavailable.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// A limit has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// The request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 public struct CreatePackageInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
@@ -6491,7 +6590,25 @@ extension CreatePackageOutput: Swift.CustomDebugStringConvertible {
         "CreatePackageOutput(packageArn: \(Swift.String(describing: packageArn)), packageName: \(Swift.String(describing: packageName)), description: \"CONTENT_REDACTED\")"}
 }
 
+extension IoTClientTypes {
+    /// The Amazon S3 location for the artifacts associated with a software package version.
+    public struct PackageVersionArtifact {
+        /// The S3 location.
+        public var s3Location: IoTClientTypes.S3Location?
+
+        public init(
+            s3Location: IoTClientTypes.S3Location? = nil
+        )
+        {
+            self.s3Location = s3Location
+        }
+    }
+
+}
+
 public struct CreatePackageVersionInput {
+    /// The various build components created during the build process such as libraries and configuration files that make up a software package version.
+    public var artifact: IoTClientTypes.PackageVersionArtifact?
     /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is limited to 3KB.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -6501,6 +6618,8 @@ public struct CreatePackageVersionInput {
     /// The name of the associated software package.
     /// This member is required.
     public var packageName: Swift.String?
+    /// The inline job document associated with a software package version used for a quick job deployment via IoT Jobs.
+    public var recipe: Swift.String?
     /// Metadata that can be used to manage the package version.
     public var tags: [Swift.String: Swift.String]?
     /// The name of the new package version.
@@ -6508,18 +6627,22 @@ public struct CreatePackageVersionInput {
     public var versionName: Swift.String?
 
     public init(
+        artifact: IoTClientTypes.PackageVersionArtifact? = nil,
         attributes: [Swift.String: Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         packageName: Swift.String? = nil,
+        recipe: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         versionName: Swift.String? = nil
     )
     {
+        self.artifact = artifact
         self.attributes = attributes
         self.clientToken = clientToken
         self.description = description
         self.packageName = packageName
+        self.recipe = recipe
         self.tags = tags
         self.versionName = versionName
     }
@@ -6527,7 +6650,7 @@ public struct CreatePackageVersionInput {
 
 extension CreatePackageVersionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePackageVersionInput(clientToken: \(Swift.String(describing: clientToken)), packageName: \(Swift.String(describing: packageName)), tags: \(Swift.String(describing: tags)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "CreatePackageVersionInput(artifact: \(Swift.String(describing: artifact)), clientToken: \(Swift.String(describing: clientToken)), packageName: \(Swift.String(describing: packageName)), tags: \(Swift.String(describing: tags)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", recipe: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTClientTypes {
@@ -9976,14 +10099,18 @@ public struct DescribeIndexOutput {
 }
 
 public struct DescribeJobInput {
+    /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    public var beforeSubstitution: Swift.Bool?
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
     public var jobId: Swift.String?
 
     public init(
+        beforeSubstitution: Swift.Bool? = false,
         jobId: Swift.String? = nil
     )
     {
+        self.beforeSubstitution = beforeSubstitution
         self.jobId = jobId
     }
 }
@@ -11440,6 +11567,33 @@ public struct DisableTopicRuleInput {
     }
 }
 
+public struct DisassociateSbomFromPackageVersionInput {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The name of the new software package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The name of the new package version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.packageName = packageName
+        self.versionName = versionName
+    }
+}
+
+public struct DisassociateSbomFromPackageVersionOutput {
+
+    public init() { }
+}
+
 /// The input for the EnableTopicRuleRequest operation.
 public struct EnableTopicRuleInput {
     /// The name of the topic rule to enable.
@@ -12139,14 +12293,18 @@ public struct GetIndexingConfigurationOutput {
 }
 
 public struct GetJobDocumentInput {
+    /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    public var beforeSubstitution: Swift.Bool?
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
     public var jobId: Swift.String?
 
     public init(
+        beforeSubstitution: Swift.Bool? = false,
         jobId: Swift.String? = nil
     )
     {
+        self.beforeSubstitution = beforeSubstitution
         self.jobId = jobId
     }
 }
@@ -12413,6 +12571,8 @@ public struct GetPackageVersionInput {
 }
 
 public struct GetPackageVersionOutput {
+    /// The various components that make up a software package version.
+    public var artifact: IoTClientTypes.PackageVersionArtifact?
     /// Metadata that were added to the package version that can be used to define a package version’s configuration.
     public var attributes: [Swift.String: Swift.String]?
     /// The date when the package version was created.
@@ -12427,12 +12587,19 @@ public struct GetPackageVersionOutput {
     public var packageName: Swift.String?
     /// The ARN for the package version.
     public var packageVersionArn: Swift.String?
+    /// The inline job document associated with a software package version used for a quick job deployment via IoT Jobs.
+    public var recipe: Swift.String?
+    /// The software bill of materials for a software package version.
+    public var sbom: IoTClientTypes.Sbom?
+    /// The status of the validation for a new software bill of materials added to a software package version.
+    public var sbomValidationStatus: IoTClientTypes.SbomValidationStatus?
     /// The status associated to the package version. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
     public var status: IoTClientTypes.PackageVersionStatus?
     /// The name of the package version.
     public var versionName: Swift.String?
 
     public init(
+        artifact: IoTClientTypes.PackageVersionArtifact? = nil,
         attributes: [Swift.String: Swift.String]? = nil,
         creationDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -12440,10 +12607,14 @@ public struct GetPackageVersionOutput {
         lastModifiedDate: Foundation.Date? = nil,
         packageName: Swift.String? = nil,
         packageVersionArn: Swift.String? = nil,
+        recipe: Swift.String? = nil,
+        sbom: IoTClientTypes.Sbom? = nil,
+        sbomValidationStatus: IoTClientTypes.SbomValidationStatus? = nil,
         status: IoTClientTypes.PackageVersionStatus? = nil,
         versionName: Swift.String? = nil
     )
     {
+        self.artifact = artifact
         self.attributes = attributes
         self.creationDate = creationDate
         self.description = description
@@ -12451,6 +12622,9 @@ public struct GetPackageVersionOutput {
         self.lastModifiedDate = lastModifiedDate
         self.packageName = packageName
         self.packageVersionArn = packageVersionArn
+        self.recipe = recipe
+        self.sbom = sbom
+        self.sbomValidationStatus = sbomValidationStatus
         self.status = status
         self.versionName = versionName
     }
@@ -12458,7 +12632,7 @@ public struct GetPackageVersionOutput {
 
 extension GetPackageVersionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPackageVersionOutput(creationDate: \(Swift.String(describing: creationDate)), errorReason: \(Swift.String(describing: errorReason)), lastModifiedDate: \(Swift.String(describing: lastModifiedDate)), packageName: \(Swift.String(describing: packageName)), packageVersionArn: \(Swift.String(describing: packageVersionArn)), status: \(Swift.String(describing: status)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "GetPackageVersionOutput(artifact: \(Swift.String(describing: artifact)), creationDate: \(Swift.String(describing: creationDate)), errorReason: \(Swift.String(describing: errorReason)), lastModifiedDate: \(Swift.String(describing: lastModifiedDate)), packageName: \(Swift.String(describing: packageName)), packageVersionArn: \(Swift.String(describing: packageVersionArn)), sbom: \(Swift.String(describing: sbom)), sbomValidationStatus: \(Swift.String(describing: sbomValidationStatus)), status: \(Swift.String(describing: status)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", recipe: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPercentilesInput {
@@ -15178,6 +15352,138 @@ public struct ListRoleAliasesOutput {
     {
         self.nextMarker = nextMarker
         self.roleAliases = roleAliases
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum SbomValidationResult: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SbomValidationResult] {
+            return [
+                .failed,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListSbomValidationResultsInput {
+    /// The maximum number of results to return at one time.
+    public var maxResults: Swift.Int?
+    /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// The name of the new software package.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The end result of the
+    public var validationResult: IoTClientTypes.SbomValidationResult?
+    /// The name of the new package version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        validationResult: IoTClientTypes.SbomValidationResult? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.packageName = packageName
+        self.validationResult = validationResult
+        self.versionName = versionName
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum SbomValidationErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileSizeLimitExceeded
+        case incompatibleFormat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SbomValidationErrorCode] {
+            return [
+                .fileSizeLimitExceeded,
+                .incompatibleFormat
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileSizeLimitExceeded: return "FILE_SIZE_LIMIT_EXCEEDED"
+            case .incompatibleFormat: return "INCOMPATIBLE_FORMAT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+    /// A summary of the validation results for a specific software bill of materials (SBOM) attached to a software package version.
+    public struct SbomValidationResultSummary {
+        /// The errorCode representing the validation failure error if the SBOM validation failed.
+        public var errorCode: IoTClientTypes.SbomValidationErrorCode?
+        /// The errorMessage representing the validation failure error if the SBOM validation failed.
+        public var errorMessage: Swift.String?
+        /// The name of the SBOM file.
+        public var fileName: Swift.String?
+        /// The end result of the SBOM validation.
+        public var validationResult: IoTClientTypes.SbomValidationResult?
+
+        public init(
+            errorCode: IoTClientTypes.SbomValidationErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            fileName: Swift.String? = nil,
+            validationResult: IoTClientTypes.SbomValidationResult? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.fileName = fileName
+            self.validationResult = validationResult
+        }
+    }
+
+}
+
+public struct ListSbomValidationResultsOutput {
+    /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A summary of the validation results for each software bill of materials attached to a software package version.
+    public var validationResultSummaries: [IoTClientTypes.SbomValidationResultSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        validationResultSummaries: [IoTClientTypes.SbomValidationResultSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.validationResultSummaries = validationResultSummaries
     }
 }
 
@@ -18237,6 +18543,8 @@ extension IoTClientTypes {
 public struct UpdatePackageVersionInput {
     /// The status that the package version should be assigned. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
     public var action: IoTClientTypes.PackageVersionAction?
+    /// The various components that make up a software package version.
+    public var artifact: IoTClientTypes.PackageVersionArtifact?
     /// Metadata that can be used to define a package version’s configuration. For example, the Amazon S3 file location, configuration options that are being sent to the device or fleet. Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -18246,31 +18554,37 @@ public struct UpdatePackageVersionInput {
     /// The name of the associated software package.
     /// This member is required.
     public var packageName: Swift.String?
+    /// The inline job document associated with a software package version used for a quick job deployment via IoT Jobs.
+    public var recipe: Swift.String?
     /// The name of the target package version.
     /// This member is required.
     public var versionName: Swift.String?
 
     public init(
         action: IoTClientTypes.PackageVersionAction? = nil,
+        artifact: IoTClientTypes.PackageVersionArtifact? = nil,
         attributes: [Swift.String: Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         packageName: Swift.String? = nil,
+        recipe: Swift.String? = nil,
         versionName: Swift.String? = nil
     )
     {
         self.action = action
+        self.artifact = artifact
         self.attributes = attributes
         self.clientToken = clientToken
         self.description = description
         self.packageName = packageName
+        self.recipe = recipe
         self.versionName = versionName
     }
 }
 
 extension UpdatePackageVersionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePackageVersionInput(action: \(Swift.String(describing: action)), clientToken: \(Swift.String(describing: clientToken)), packageName: \(Swift.String(describing: packageName)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "UpdatePackageVersionInput(action: \(Swift.String(describing: action)), artifact: \(Swift.String(describing: artifact)), clientToken: \(Swift.String(describing: clientToken)), packageName: \(Swift.String(describing: packageName)), versionName: \(Swift.String(describing: versionName)), attributes: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", recipe: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePackageVersionOutput {
@@ -18758,6 +19072,31 @@ extension AddThingToThingGroupInput {
 
     static func urlPathProvider(_ value: AddThingToThingGroupInput) -> Swift.String? {
         return "/thing-groups/addThingToThingGroup"
+    }
+}
+
+extension AssociateSbomWithPackageVersionInput {
+
+    static func urlPathProvider(_ value: AssociateSbomWithPackageVersionInput) -> Swift.String? {
+        guard let packageName = value.packageName else {
+            return nil
+        }
+        guard let versionName = value.versionName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions/\(versionName.urlPercentEncoding())/sbom"
+    }
+}
+
+extension AssociateSbomWithPackageVersionInput {
+
+    static func queryItemProvider(_ value: AssociateSbomWithPackageVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -20082,6 +20421,18 @@ extension DescribeJobInput {
     }
 }
 
+extension DescribeJobInput {
+
+    static func queryItemProvider(_ value: DescribeJobInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let beforeSubstitution = value.beforeSubstitution {
+            let beforeSubstitutionQueryItem = Smithy.URIQueryItem(name: "beforeSubstitution".urlPercentEncoding(), value: Swift.String(beforeSubstitution).urlPercentEncoding())
+            items.append(beforeSubstitutionQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribeJobExecutionInput {
 
     static func urlPathProvider(_ value: DescribeJobExecutionInput) -> Swift.String? {
@@ -20338,6 +20689,31 @@ extension DisableTopicRuleInput {
     }
 }
 
+extension DisassociateSbomFromPackageVersionInput {
+
+    static func urlPathProvider(_ value: DisassociateSbomFromPackageVersionInput) -> Swift.String? {
+        guard let packageName = value.packageName else {
+            return nil
+        }
+        guard let versionName = value.versionName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions/\(versionName.urlPercentEncoding())/sbom"
+    }
+}
+
+extension DisassociateSbomFromPackageVersionInput {
+
+    static func queryItemProvider(_ value: DisassociateSbomFromPackageVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension EnableTopicRuleInput {
 
     static func urlPathProvider(_ value: EnableTopicRuleInput) -> Swift.String? {
@@ -20422,6 +20798,18 @@ extension GetJobDocumentInput {
             return nil
         }
         return "/jobs/\(jobId.urlPercentEncoding())/job-document"
+    }
+}
+
+extension GetJobDocumentInput {
+
+    static func queryItemProvider(_ value: GetJobDocumentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let beforeSubstitution = value.beforeSubstitution {
+            let beforeSubstitutionQueryItem = Smithy.URIQueryItem(name: "beforeSubstitution".urlPercentEncoding(), value: Swift.String(beforeSubstitution).urlPercentEncoding())
+            items.append(beforeSubstitutionQueryItem)
+        }
+        return items
     }
 }
 
@@ -21727,6 +22115,39 @@ extension ListRoleAliasesInput {
     }
 }
 
+extension ListSbomValidationResultsInput {
+
+    static func urlPathProvider(_ value: ListSbomValidationResultsInput) -> Swift.String? {
+        guard let packageName = value.packageName else {
+            return nil
+        }
+        guard let versionName = value.versionName else {
+            return nil
+        }
+        return "/packages/\(packageName.urlPercentEncoding())/versions/\(versionName.urlPercentEncoding())/sbom-validation-results"
+    }
+}
+
+extension ListSbomValidationResultsInput {
+
+    static func queryItemProvider(_ value: ListSbomValidationResultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let validationResult = value.validationResult {
+            let validationResultQueryItem = Smithy.URIQueryItem(name: "validationResult".urlPercentEncoding(), value: Swift.String(validationResult.rawValue).urlPercentEncoding())
+            items.append(validationResultQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListScheduledAuditsInput {
 
     static func urlPathProvider(_ value: ListScheduledAuditsInput) -> Swift.String? {
@@ -22963,6 +23384,14 @@ extension AddThingToThingGroupInput {
     }
 }
 
+extension AssociateSbomWithPackageVersionInput {
+
+    static func write(value: AssociateSbomWithPackageVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sbom"].write(value.sbom, with: IoTClientTypes.Sbom.write(value:to:))
+    }
+}
+
 extension AssociateTargetsWithJobInput {
 
     static func write(value: AssociateTargetsWithJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -23202,8 +23631,10 @@ extension CreatePackageVersionInput {
 
     static func write(value: CreatePackageVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["artifact"].write(value.artifact, with: IoTClientTypes.PackageVersionArtifact.write(value:to:))
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["description"].write(value.description)
+        try writer["recipe"].write(value.recipe)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -23861,8 +24292,10 @@ extension UpdatePackageVersionInput {
     static func write(value: UpdatePackageVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["action"].write(value.action)
+        try writer["artifact"].write(value.artifact, with: IoTClientTypes.PackageVersionArtifact.write(value:to:))
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["description"].write(value.description)
+        try writer["recipe"].write(value.recipe)
     }
 }
 
@@ -23992,6 +24425,21 @@ extension AddThingToThingGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddThingToThingGroupOutput {
         return AddThingToThingGroupOutput()
+    }
+}
+
+extension AssociateSbomWithPackageVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateSbomWithPackageVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateSbomWithPackageVersionOutput()
+        value.packageName = try reader["packageName"].readIfPresent()
+        value.sbom = try reader["sbom"].readIfPresent(with: IoTClientTypes.Sbom.read(from:))
+        value.sbomValidationStatus = try reader["sbomValidationStatus"].readIfPresent()
+        value.versionName = try reader["versionName"].readIfPresent()
+        return value
     }
 }
 
@@ -25358,6 +25806,13 @@ extension DisableTopicRuleOutput {
     }
 }
 
+extension DisassociateSbomFromPackageVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSbomFromPackageVersionOutput {
+        return DisassociateSbomFromPackageVersionOutput()
+    }
+}
+
 extension EnableTopicRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableTopicRuleOutput {
@@ -25501,6 +25956,7 @@ extension GetPackageVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPackageVersionOutput()
+        value.artifact = try reader["artifact"].readIfPresent(with: IoTClientTypes.PackageVersionArtifact.read(from:))
         value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
@@ -25508,6 +25964,9 @@ extension GetPackageVersionOutput {
         value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.packageName = try reader["packageName"].readIfPresent()
         value.packageVersionArn = try reader["packageVersionArn"].readIfPresent()
+        value.recipe = try reader["recipe"].readIfPresent()
+        value.sbom = try reader["sbom"].readIfPresent(with: IoTClientTypes.Sbom.read(from:))
+        value.sbomValidationStatus = try reader["sbomValidationStatus"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.versionName = try reader["versionName"].readIfPresent()
         return value
@@ -26141,6 +26600,19 @@ extension ListRoleAliasesOutput {
         var value = ListRoleAliasesOutput()
         value.nextMarker = try reader["nextMarker"].readIfPresent()
         value.roleAliases = try reader["roleAliases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSbomValidationResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSbomValidationResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSbomValidationResultsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.validationResultSummaries = try reader["validationResultSummaries"].readListIfPresent(memberReadingClosure: IoTClientTypes.SbomValidationResultSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -27008,6 +27480,25 @@ enum AddThingToThingGroupOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateSbomWithPackageVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29179,6 +29670,24 @@ enum DisableTopicRuleOutputError {
     }
 }
 
+enum DisassociateSbomFromPackageVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableTopicRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -30233,6 +30742,23 @@ enum ListRoleAliasesOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSbomValidationResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -31480,6 +32006,7 @@ enum UpdateStreamOutputError {
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -31669,6 +32196,59 @@ extension UnauthorizedException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
@@ -31793,59 +32373,6 @@ extension InvalidAggregationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidAggregationException {
         let reader = baseError.errorBodyReader
         var value = InvalidAggregationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -32006,6 +32533,40 @@ extension TransferConflictException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension IoTClientTypes.Sbom {
+
+    static func write(value: IoTClientTypes.Sbom?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Location"].write(value.s3Location, with: IoTClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Sbom {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.Sbom()
+        value.s3Location = try reader["s3Location"].readIfPresent(with: IoTClientTypes.S3Location.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.S3Location {
+
+    static func write(value: IoTClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.S3Location()
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
@@ -33235,25 +33796,6 @@ extension IoTClientTypes.StreamFile {
     }
 }
 
-extension IoTClientTypes.S3Location {
-
-    static func write(value: IoTClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-        try writer["version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTClientTypes.S3Location()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
 extension IoTClientTypes.ThingGroupProperties {
 
     static func write(value: IoTClientTypes.ThingGroupProperties?, to writer: SmithyJSON.Writer) throws {
@@ -33793,6 +34335,21 @@ extension IoTClientTypes.VersionUpdateByJobsConfig {
         var value = IoTClientTypes.VersionUpdateByJobsConfig()
         value.enabled = try reader["enabled"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.PackageVersionArtifact {
+
+    static func write(value: IoTClientTypes.PackageVersionArtifact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Location"].write(value.s3Location, with: IoTClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PackageVersionArtifact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.PackageVersionArtifact()
+        value.s3Location = try reader["s3Location"].readIfPresent(with: IoTClientTypes.S3Location.read(from:))
         return value
     }
 }
@@ -35038,6 +35595,19 @@ extension IoTClientTypes.ProvisioningTemplateVersionSummary {
         value.versionId = try reader["versionId"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.isDefaultVersion = try reader["isDefaultVersion"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IoTClientTypes.SbomValidationResultSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.SbomValidationResultSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.SbomValidationResultSummary()
+        value.fileName = try reader["fileName"].readIfPresent()
+        value.validationResult = try reader["validationResult"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }

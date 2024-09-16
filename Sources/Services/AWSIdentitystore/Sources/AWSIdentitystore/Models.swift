@@ -12,7 +12,6 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSServiceError
@@ -22,6 +21,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -135,11 +135,11 @@ extension IdentitystoreClientTypes {
         public var attributePath: Swift.String?
         /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
         /// This member is required.
-        public var attributeValue: SmithyReadWrite.Document?
+        public var attributeValue: Smithy.Document?
 
         public init(
             attributePath: Swift.String? = nil,
-            attributeValue: SmithyReadWrite.Document? = nil
+            attributeValue: Smithy.Document? = nil
         )
         {
             self.attributePath = attributePath
@@ -168,11 +168,11 @@ extension IdentitystoreClientTypes {
         /// This member is required.
         public var attributePath: Swift.String?
         /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
-        public var attributeValue: SmithyReadWrite.Document?
+        public var attributeValue: Smithy.Document?
 
         public init(
             attributePath: Swift.String? = nil,
-            attributeValue: SmithyReadWrite.Document? = nil
+            attributeValue: Smithy.Document? = nil
         )
         {
             self.attributePath = attributePath

@@ -15,7 +15,6 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -29,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -4976,7 +4976,7 @@ public struct GetRunOutput {
     /// The run's output URI.
     public var outputUri: Swift.String?
     /// The run's parameters.
-    public var parameters: SmithyReadWrite.Document?
+    public var parameters: Smithy.Document?
     /// The run's priority.
     public var priority: Swift.Int?
     /// The run's resource digests.
@@ -5028,7 +5028,7 @@ public struct GetRunOutput {
         logLocation: OmicsClientTypes.RunLogLocation? = nil,
         name: Swift.String? = nil,
         outputUri: Swift.String? = nil,
-        parameters: SmithyReadWrite.Document? = nil,
+        parameters: Smithy.Document? = nil,
         priority: Swift.Int? = nil,
         resourceDigests: [Swift.String: Swift.String]? = nil,
         retentionMode: OmicsClientTypes.RunRetentionMode? = nil,
@@ -7558,7 +7558,7 @@ public struct StartRunInput {
     /// An output URI for the run.
     public var outputUri: Swift.String?
     /// Parameters for the run.
-    public var parameters: SmithyReadWrite.Document?
+    public var parameters: Smithy.Document?
     /// A priority for the run.
     public var priority: Swift.Int?
     /// To ensure that requests don't run multiple times, specify a unique ID for each request.
@@ -7590,7 +7590,7 @@ public struct StartRunInput {
         logLevel: OmicsClientTypes.RunLogLevel? = nil,
         name: Swift.String? = nil,
         outputUri: Swift.String? = nil,
-        parameters: SmithyReadWrite.Document? = nil,
+        parameters: Smithy.Document? = nil,
         priority: Swift.Int? = nil,
         requestId: Swift.String? = nil,
         retentionMode: OmicsClientTypes.RunRetentionMode? = nil,

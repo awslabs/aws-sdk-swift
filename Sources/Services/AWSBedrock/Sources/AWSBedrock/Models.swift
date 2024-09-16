@@ -3120,12 +3120,12 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
-    /// VPC configuration.
+    /// The configuration of a virtual private cloud (VPC). For more information, see [Protect your data using Amazon Virtual Private Cloud and Amazon Web Services PrivateLink](https://docs.aws.amazon.com/bedrock/latest/userguide/usingVPC.html).
     public struct VpcConfig {
-        /// VPC configuration security group Ids.
+        /// An array of IDs for each security group in the VPC to use.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
-        /// VPC configuration subnets.
+        /// An array of IDs for each subnet in the VPC to use.
         /// This member is required.
         public var subnetIds: [Swift.String]?
 
@@ -3614,8 +3614,10 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
-    /// Contains the configuration of the S3 location of the output data.
+    /// Contains the configuration of the S3 location of the input data.
     public struct ModelInvocationJobS3InputDataConfig {
+        /// The ID of the Amazon Web Services account that owns the S3 bucket containing the input data.
+        public var s3BucketOwner: Swift.String?
         /// The format of the input data.
         public var s3InputFormat: BedrockClientTypes.S3InputFormat?
         /// The S3 location of the input data.
@@ -3623,10 +3625,12 @@ extension BedrockClientTypes {
         public var s3Uri: Swift.String?
 
         public init(
+            s3BucketOwner: Swift.String? = nil,
             s3InputFormat: BedrockClientTypes.S3InputFormat? = nil,
             s3Uri: Swift.String? = nil
         )
         {
+            self.s3BucketOwner = s3BucketOwner
             self.s3InputFormat = s3InputFormat
             self.s3Uri = s3Uri
         }
@@ -3647,6 +3651,8 @@ extension BedrockClientTypes {
 extension BedrockClientTypes {
     /// Contains the configuration of the S3 location of the output data.
     public struct ModelInvocationJobS3OutputDataConfig {
+        /// The ID of the Amazon Web Services account that owns the S3 bucket containing the output data.
+        public var s3BucketOwner: Swift.String?
         /// The unique identifier of the key that encrypts the S3 location of the output data.
         public var s3EncryptionKeyId: Swift.String?
         /// The S3 location of the output data.
@@ -3654,10 +3660,12 @@ extension BedrockClientTypes {
         public var s3Uri: Swift.String?
 
         public init(
+            s3BucketOwner: Swift.String? = nil,
             s3EncryptionKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
         )
         {
+            self.s3BucketOwner = s3BucketOwner
             self.s3EncryptionKeyId = s3EncryptionKeyId
             self.s3Uri = s3Uri
         }
@@ -3697,6 +3705,8 @@ public struct CreateModelInvocationJobInput {
     public var tags: [BedrockClientTypes.Tag]?
     /// The number of hours after which to force the batch inference job to time out.
     public var timeoutDurationInHours: Swift.Int?
+    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+    public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
         clientRequestToken: Swift.String? = nil,
@@ -3706,7 +3716,8 @@ public struct CreateModelInvocationJobInput {
         outputDataConfig: BedrockClientTypes.ModelInvocationJobOutputDataConfig? = nil,
         roleArn: Swift.String? = nil,
         tags: [BedrockClientTypes.Tag]? = nil,
-        timeoutDurationInHours: Swift.Int? = nil
+        timeoutDurationInHours: Swift.Int? = nil,
+        vpcConfig: BedrockClientTypes.VpcConfig? = nil
     )
     {
         self.clientRequestToken = clientRequestToken
@@ -3717,6 +3728,7 @@ public struct CreateModelInvocationJobInput {
         self.roleArn = roleArn
         self.tags = tags
         self.timeoutDurationInHours = timeoutDurationInHours
+        self.vpcConfig = vpcConfig
     }
 }
 
@@ -3834,6 +3846,8 @@ public struct GetModelInvocationJobOutput {
     public var submitTime: Foundation.Date?
     /// The number of hours after which batch inference job was set to time out.
     public var timeoutDurationInHours: Swift.Int?
+    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+    public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
         clientRequestToken: Swift.String? = nil,
@@ -3849,7 +3863,8 @@ public struct GetModelInvocationJobOutput {
         roleArn: Swift.String? = nil,
         status: BedrockClientTypes.ModelInvocationJobStatus? = nil,
         submitTime: Foundation.Date? = nil,
-        timeoutDurationInHours: Swift.Int? = nil
+        timeoutDurationInHours: Swift.Int? = nil,
+        vpcConfig: BedrockClientTypes.VpcConfig? = nil
     )
     {
         self.clientRequestToken = clientRequestToken
@@ -3866,12 +3881,13 @@ public struct GetModelInvocationJobOutput {
         self.status = status
         self.submitTime = submitTime
         self.timeoutDurationInHours = timeoutDurationInHours
+        self.vpcConfig = vpcConfig
     }
 }
 
 extension GetModelInvocationJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetModelInvocationJobOutput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), message: \"CONTENT_REDACTED\")"}
+        "GetModelInvocationJobOutput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListModelInvocationJobsInput {
@@ -3952,6 +3968,8 @@ extension BedrockClientTypes {
         public var submitTime: Foundation.Date?
         /// The number of hours after which the batch inference job was set to time out.
         public var timeoutDurationInHours: Swift.Int?
+        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+        public var vpcConfig: BedrockClientTypes.VpcConfig?
 
         public init(
             clientRequestToken: Swift.String? = nil,
@@ -3967,7 +3985,8 @@ extension BedrockClientTypes {
             roleArn: Swift.String? = nil,
             status: BedrockClientTypes.ModelInvocationJobStatus? = nil,
             submitTime: Foundation.Date? = nil,
-            timeoutDurationInHours: Swift.Int? = nil
+            timeoutDurationInHours: Swift.Int? = nil,
+            vpcConfig: BedrockClientTypes.VpcConfig? = nil
         )
         {
             self.clientRequestToken = clientRequestToken
@@ -3984,6 +4003,7 @@ extension BedrockClientTypes {
             self.status = status
             self.submitTime = submitTime
             self.timeoutDurationInHours = timeoutDurationInHours
+            self.vpcConfig = vpcConfig
         }
     }
 
@@ -3991,7 +4011,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.ModelInvocationJobSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModelInvocationJobSummary(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), message: \"CONTENT_REDACTED\")"}
+        "ModelInvocationJobSummary(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListModelInvocationJobsOutput {
@@ -5179,7 +5199,7 @@ public struct CreateModelCustomizationJobInput {
     public var trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
     /// Information about the validation dataset.
     public var validationDataConfig: BedrockClientTypes.ValidationDataConfig?
-    /// VPC configuration (optional). Configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for this job.
+    /// The configuration of the Virtual Private Cloud (VPC) that contains the resources that you're using for this job. For more information, see [Protect your model customization jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/vpc-model-customization.html).
     public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
@@ -6469,6 +6489,7 @@ extension CreateModelInvocationJobInput {
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timeoutDurationInHours"].write(value.timeoutDurationInHours)
+        try writer["vpcConfig"].write(value.vpcConfig, with: BedrockClientTypes.VpcConfig.write(value:to:))
     }
 }
 
@@ -6921,6 +6942,7 @@ extension GetModelInvocationJobOutput {
         value.status = try reader["status"].readIfPresent()
         value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.timeoutDurationInHours = try reader["timeoutDurationInHours"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockClientTypes.VpcConfig.read(from:))
         return value
     }
 }
@@ -8738,6 +8760,7 @@ extension BedrockClientTypes.ModelInvocationJobS3InputDataConfig {
 
     static func write(value: BedrockClientTypes.ModelInvocationJobS3InputDataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["s3BucketOwner"].write(value.s3BucketOwner)
         try writer["s3InputFormat"].write(value.s3InputFormat)
         try writer["s3Uri"].write(value.s3Uri)
     }
@@ -8747,6 +8770,7 @@ extension BedrockClientTypes.ModelInvocationJobS3InputDataConfig {
         var value = BedrockClientTypes.ModelInvocationJobS3InputDataConfig()
         value.s3InputFormat = try reader["s3InputFormat"].readIfPresent()
         value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
         return value
     }
 }
@@ -8779,6 +8803,7 @@ extension BedrockClientTypes.ModelInvocationJobS3OutputDataConfig {
 
     static func write(value: BedrockClientTypes.ModelInvocationJobS3OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["s3BucketOwner"].write(value.s3BucketOwner)
         try writer["s3EncryptionKeyId"].write(value.s3EncryptionKeyId)
         try writer["s3Uri"].write(value.s3Uri)
     }
@@ -8788,6 +8813,7 @@ extension BedrockClientTypes.ModelInvocationJobS3OutputDataConfig {
         var value = BedrockClientTypes.ModelInvocationJobS3OutputDataConfig()
         value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         value.s3EncryptionKeyId = try reader["s3EncryptionKeyId"].readIfPresent()
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
         return value
     }
 }
@@ -9022,6 +9048,7 @@ extension BedrockClientTypes.ModelInvocationJobSummary {
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.inputDataConfig = try reader["inputDataConfig"].readIfPresent(with: BedrockClientTypes.ModelInvocationJobInputDataConfig.read(from:))
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockClientTypes.ModelInvocationJobOutputDataConfig.read(from:))
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockClientTypes.VpcConfig.read(from:))
         value.timeoutDurationInHours = try reader["timeoutDurationInHours"].readIfPresent()
         value.jobExpirationTime = try reader["jobExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value

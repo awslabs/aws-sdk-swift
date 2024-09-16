@@ -9,11 +9,11 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -1644,14 +1645,14 @@ extension NeptunedataClientTypes {
     /// Contains status components of a Gremlin query.
     public struct GremlinQueryStatusAttributes {
         /// Attributes of the Gremlin query status.
-        public var attributes: SmithyReadWrite.Document?
+        public var attributes: Smithy.Document?
         /// The HTTP response code returned fro the Gremlin query request..
         public var code: Swift.Int?
         /// The status message.
         public var message: Swift.String?
 
         public init(
-            attributes: SmithyReadWrite.Document? = nil,
+            attributes: Smithy.Document? = nil,
             code: Swift.Int? = nil,
             message: Swift.String? = nil
         )
@@ -1666,18 +1667,18 @@ extension NeptunedataClientTypes {
 
 public struct ExecuteGremlinQueryOutput {
     /// Metadata about the Gremlin query.
-    public var meta: SmithyReadWrite.Document?
+    public var meta: Smithy.Document?
     /// The unique identifier of the Gremlin query.
     public var requestId: Swift.String?
     /// The Gremlin query output from the server.
-    public var result: SmithyReadWrite.Document?
+    public var result: Smithy.Document?
     /// The status of the Gremlin query.
     public var status: NeptunedataClientTypes.GremlinQueryStatusAttributes?
 
     public init(
-        meta: SmithyReadWrite.Document? = nil,
+        meta: Smithy.Document? = nil,
         requestId: Swift.String? = nil,
-        result: SmithyReadWrite.Document? = nil,
+        result: Smithy.Document? = nil,
         status: NeptunedataClientTypes.GremlinQueryStatusAttributes? = nil
     )
     {
@@ -1775,10 +1776,10 @@ public struct ExecuteOpenCypherQueryInput {
 public struct ExecuteOpenCypherQueryOutput {
     /// The openCypherquery results.
     /// This member is required.
-    public var results: SmithyReadWrite.Document?
+    public var results: Smithy.Document?
 
     public init(
-        results: SmithyReadWrite.Document? = nil
+        results: Smithy.Document? = nil
     )
     {
         self.results = results
@@ -1808,7 +1809,7 @@ public struct GetEngineStatusOutput {
     /// Set to enabled if the DFE engine is fully enabled, or to viaQueryHint (the default) if the DFE engine is only used with queries that have the useDFE query hint set to true.
     public var dfeQueryEngine: Swift.String?
     /// Contains status information about the features enabled on your DB cluster.
-    public var features: [Swift.String: SmithyReadWrite.Document]?
+    public var features: [Swift.String: Smithy.Document]?
     /// Contains information about the Gremlin query language available on your cluster. Specifically, it contains a version field that specifies the current TinkerPop version being used by the engine.
     public var gremlin: NeptunedataClientTypes.QueryLanguageVersion?
     /// Contains Lab Mode settings being used by the engine.
@@ -1833,7 +1834,7 @@ public struct GetEngineStatusOutput {
     public init(
         dbEngineVersion: Swift.String? = nil,
         dfeQueryEngine: Swift.String? = nil,
-        features: [Swift.String: SmithyReadWrite.Document]? = nil,
+        features: [Swift.String: Smithy.Document]? = nil,
         gremlin: NeptunedataClientTypes.QueryLanguageVersion? = nil,
         labMode: [Swift.String: Swift.String]? = nil,
         opencypher: NeptunedataClientTypes.QueryLanguageVersion? = nil,
@@ -1883,14 +1884,14 @@ extension NeptunedataClientTypes {
         /// The number of milliseconds the query has been running so far.
         public var elapsed: Swift.Int?
         /// The number of subqueries in this query.
-        public var subqueries: SmithyReadWrite.Document?
+        public var subqueries: Smithy.Document?
         /// Indicates how long the query waited, in milliseconds.
         public var waited: Swift.Int?
 
         public init(
             cancelled: Swift.Bool? = nil,
             elapsed: Swift.Int? = nil,
-            subqueries: SmithyReadWrite.Document? = nil,
+            subqueries: Smithy.Document? = nil,
             waited: Swift.Int? = nil
         )
         {
@@ -1955,13 +1956,13 @@ public struct GetLoaderJobStatusInput {
 public struct GetLoaderJobStatusOutput {
     /// Status information about the load job, in a layout that could look like this:
     /// This member is required.
-    public var payload: SmithyReadWrite.Document?
+    public var payload: Smithy.Document?
     /// The HTTP response code for the request.
     /// This member is required.
     public var status: Swift.String?
 
     public init(
-        payload: SmithyReadWrite.Document? = nil,
+        payload: Smithy.Document? = nil,
         status: Swift.String? = nil
     )
     {
@@ -2546,7 +2547,7 @@ extension NeptunedataClientTypes {
         public var type: Swift.String?
         /// This is a JSON object that contains a value field for the value itself, and a datatype field for the JSON data type of that value:
         /// This member is required.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
             from: Swift.String? = nil,
@@ -2554,7 +2555,7 @@ extension NeptunedataClientTypes {
             key: Swift.String? = nil,
             to: Swift.String? = nil,
             type: Swift.String? = nil,
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.from = from
@@ -5211,7 +5212,7 @@ extension ExecuteOpenCypherQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ExecuteOpenCypherQueryOutput()
-        value.results = try reader["results"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.results = try reader["results"].readIfPresent() ?? [:]
         return value
     }
 }
@@ -5261,7 +5262,7 @@ extension GetLoaderJobStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetLoaderJobStatusOutput()
-        value.payload = try reader["payload"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.payload = try reader["payload"].readIfPresent() ?? [:]
         value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
@@ -7371,7 +7372,7 @@ extension NeptunedataClientTypes.PropertygraphData {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? ""
         value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.value = try reader["value"].readIfPresent() ?? [:]
         value.from = try reader["from"].readIfPresent()
         value.to = try reader["to"].readIfPresent()
         return value
