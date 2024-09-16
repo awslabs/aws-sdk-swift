@@ -14,7 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum Smithy.Document
+import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -1495,13 +1495,13 @@ extension DeadlineClientTypes {
         public var schemaVersion: Swift.String?
         /// The template used for the environment.
         /// This member is required.
-        public var template: Smithy.Document?
+        public var template: SmithyReadWrite.Document?
 
         public init(
             environmentId: Swift.String? = nil,
             jobId: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
-            template: Smithy.Document? = nil
+            template: SmithyReadWrite.Document? = nil
         )
         {
             self.environmentId = environmentId
@@ -1778,14 +1778,14 @@ extension DeadlineClientTypes {
         public var stepId: Swift.String?
         /// The template for a step.
         /// This member is required.
-        public var template: Smithy.Document?
+        public var template: SmithyReadWrite.Document?
 
         public init(
             dependencies: [Swift.String]? = nil,
             jobId: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             stepId: Swift.String? = nil,
-            template: Smithy.Document? = nil
+            template: SmithyReadWrite.Document? = nil
         )
         {
             self.dependencies = dependencies
@@ -16600,7 +16600,7 @@ extension DeadlineClientTypes.EnvironmentDetailsEntity {
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
-        value.template = try reader["template"].readIfPresent() ?? Smithy.Document.map([:])
+        value.template = try reader["template"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
@@ -16613,7 +16613,7 @@ extension DeadlineClientTypes.StepDetailsEntity {
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
-        value.template = try reader["template"].readIfPresent() ?? Smithy.Document.map([:])
+        value.template = try reader["template"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }

@@ -14,7 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum Smithy.Document
+import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -1153,14 +1153,14 @@ extension ResourceExplorer2ClientTypes {
     /// A structure that describes a property of a resource.
     public struct ResourceProperty {
         /// Details about this property. The content of this field is a JSON object that varies based on the resource type.
-        public var data: Smithy.Document?
+        public var data: SmithyReadWrite.Document?
         /// The date and time that the information about this resource property was last updated.
         public var lastReportedAt: Foundation.Date?
         /// The name of this property of the resource.
         public var name: Swift.String?
 
         public init(
-            data: Smithy.Document? = nil,
+            data: SmithyReadWrite.Document? = nil,
             lastReportedAt: Foundation.Date? = nil,
             name: Swift.String? = nil
         )

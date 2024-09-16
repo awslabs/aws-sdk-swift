@@ -15,7 +15,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum Smithy.Document
+import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -1677,10 +1677,10 @@ extension IoTTwinMakerClientTypes {
     /// Represents a single row in the query results.
     public struct Row {
         /// The data in a row of query results.
-        public var rowData: [Smithy.Document]?
+        public var rowData: [SmithyReadWrite.Document]?
 
         public init(
-            rowData: [Smithy.Document]? = nil
+            rowData: [SmithyReadWrite.Document]? = nil
         )
         {
             self.rowData = rowData

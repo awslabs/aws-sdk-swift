@@ -14,7 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
-import enum Smithy.Document
+import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -4201,10 +4201,10 @@ extension KendraClientTypes {
     /// Provides a template for the configuration information to connect to your data source.
     public struct TemplateConfiguration {
         /// The template schema used for the data source, where templates schemas are supported. See [Data source template schemas](https://docs.aws.amazon.com/kendra/latest/dg/ds-schemas.html).
-        public var template: Smithy.Document?
+        public var template: SmithyReadWrite.Document?
 
         public init(
-            template: Smithy.Document? = nil
+            template: SmithyReadWrite.Document? = nil
         )
         {
             self.template = template

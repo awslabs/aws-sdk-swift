@@ -12,7 +12,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
-import enum Smithy.Document
+import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -209,7 +209,7 @@ extension OpenSearchServerlessClientTypes {
         /// The name of the policy.
         public var name: Swift.String?
         /// The JSON policy document without any whitespaces.
-        public var policy: Smithy.Document?
+        public var policy: SmithyReadWrite.Document?
         /// The version of the policy.
         public var policyVersion: Swift.String?
         /// The type of access policy.
@@ -220,7 +220,7 @@ extension OpenSearchServerlessClientTypes {
             description: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil,
-            policy: Smithy.Document? = nil,
+            policy: SmithyReadWrite.Document? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
         )
@@ -955,7 +955,7 @@ extension OpenSearchServerlessClientTypes {
         /// The name of the lifecycle policy.
         public var name: Swift.String?
         /// The JSON policy document without any whitespaces.
-        public var policy: Smithy.Document?
+        public var policy: SmithyReadWrite.Document?
         /// The version of the lifecycle policy.
         public var policyVersion: Swift.String?
         /// The type of lifecycle policy.
@@ -966,7 +966,7 @@ extension OpenSearchServerlessClientTypes {
             description: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil,
-            policy: Smithy.Document? = nil,
+            policy: SmithyReadWrite.Document? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
         )
@@ -1781,7 +1781,7 @@ extension OpenSearchServerlessClientTypes {
         /// The name of the policy.
         public var name: Swift.String?
         /// The JSON policy document without any whitespaces.
-        public var policy: Smithy.Document?
+        public var policy: SmithyReadWrite.Document?
         /// The version of the policy.
         public var policyVersion: Swift.String?
         /// The type of security policy.
@@ -1792,7 +1792,7 @@ extension OpenSearchServerlessClientTypes {
             description: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil,
-            policy: Smithy.Document? = nil,
+            policy: SmithyReadWrite.Document? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
         )

@@ -15,8 +15,8 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum Smithy.Document
 import enum SmithyEventStreamsAPI.MessageType
+import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -1562,7 +1562,7 @@ extension BedrockRuntimeClientTypes {
     /// The tool result content block.
     public enum ToolResultContentBlock {
         /// A tool result that is JSON format data.
-        case json(Smithy.Document)
+        case json(SmithyReadWrite.Document)
         /// A tool result that is text.
         case text(Swift.String)
         /// A tool result that is an image. This field is only supported by Anthropic Claude 3 models.
@@ -1634,7 +1634,7 @@ extension BedrockRuntimeClientTypes {
     public struct ToolUseBlock {
         /// The input to pass to the tool.
         /// This member is required.
-        public var input: Smithy.Document?
+        public var input: SmithyReadWrite.Document?
         /// The name of the tool that the model wants to use.
         /// This member is required.
         public var name: Swift.String?
@@ -1643,7 +1643,7 @@ extension BedrockRuntimeClientTypes {
         public var toolUseId: Swift.String?
 
         public init(
-            input: Smithy.Document? = nil,
+            input: SmithyReadWrite.Document? = nil,
             name: Swift.String? = nil,
             toolUseId: Swift.String? = nil
         )
@@ -1800,7 +1800,7 @@ extension BedrockRuntimeClientTypes {
     /// The schema for the tool. The top level schema type must be object.
     public enum ToolInputSchema {
         /// The JSON schema for the tool. For more information, see [JSON Schema Reference](https://json-schema.org/understanding-json-schema/reference).
-        case json(Smithy.Document)
+        case json(SmithyReadWrite.Document)
         case sdkUnknown(Swift.String)
     }
 
@@ -1865,7 +1865,7 @@ extension BedrockRuntimeClientTypes {
 
 public struct ConverseInput {
     /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse supports in the inferenceConfig field. For more information, see [Model parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-    public var additionalModelRequestFields: Smithy.Document?
+    public var additionalModelRequestFields: SmithyReadWrite.Document?
     /// Additional model parameters field paths to return in the response. Converse returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths. [ "/stop_sequence" ] For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901) documentation. Converse rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
     public var additionalModelResponseFieldPaths: [Swift.String]?
     /// Configuration information for a guardrail that you want to use in the request.
@@ -1895,7 +1895,7 @@ public struct ConverseInput {
     public var toolConfig: BedrockRuntimeClientTypes.ToolConfiguration?
 
     public init(
-        additionalModelRequestFields: Smithy.Document? = nil,
+        additionalModelRequestFields: SmithyReadWrite.Document? = nil,
         additionalModelResponseFieldPaths: [Swift.String]? = nil,
         guardrailConfig: BedrockRuntimeClientTypes.GuardrailConfiguration? = nil,
         inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
@@ -2053,7 +2053,7 @@ extension BedrockRuntimeClientTypes {
 
 public struct ConverseOutput {
     /// Additional fields in the response that are unique to the model.
-    public var additionalModelResponseFields: Smithy.Document?
+    public var additionalModelResponseFields: SmithyReadWrite.Document?
     /// Metrics for the call to Converse.
     /// This member is required.
     public var metrics: BedrockRuntimeClientTypes.ConverseMetrics?
@@ -2070,7 +2070,7 @@ public struct ConverseOutput {
     public var usage: BedrockRuntimeClientTypes.TokenUsage?
 
     public init(
-        additionalModelResponseFields: Smithy.Document? = nil,
+        additionalModelResponseFields: SmithyReadWrite.Document? = nil,
         metrics: BedrockRuntimeClientTypes.ConverseMetrics? = nil,
         output: BedrockRuntimeClientTypes.ConverseOutput? = nil,
         stopReason: BedrockRuntimeClientTypes.StopReason? = nil,
@@ -2148,7 +2148,7 @@ extension BedrockRuntimeClientTypes {
 
 public struct ConverseStreamInput {
     /// Additional inference parameters that the model supports, beyond the base set of inference parameters that ConverseStream supports in the inferenceConfig field.
-    public var additionalModelRequestFields: Smithy.Document?
+    public var additionalModelRequestFields: SmithyReadWrite.Document?
     /// Additional model parameters field paths to return in the response. ConverseStream returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths. [ "/stop_sequence" ] For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901) documentation. ConverseStream rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by ConverseStream.
     public var additionalModelResponseFieldPaths: [Swift.String]?
     /// Configuration information for a guardrail that you want to use in the request.
@@ -2178,7 +2178,7 @@ public struct ConverseStreamInput {
     public var toolConfig: BedrockRuntimeClientTypes.ToolConfiguration?
 
     public init(
-        additionalModelRequestFields: Smithy.Document? = nil,
+        additionalModelRequestFields: SmithyReadWrite.Document? = nil,
         additionalModelResponseFieldPaths: [Swift.String]? = nil,
         guardrailConfig: BedrockRuntimeClientTypes.GuardrailStreamConfiguration? = nil,
         inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
@@ -2342,13 +2342,13 @@ extension BedrockRuntimeClientTypes {
     /// The stop event for a message.
     public struct MessageStopEvent {
         /// The additional model response fields.
-        public var additionalModelResponseFields: Smithy.Document?
+        public var additionalModelResponseFields: SmithyReadWrite.Document?
         /// The reason why the model stopped generating output.
         /// This member is required.
         public var stopReason: BedrockRuntimeClientTypes.StopReason?
 
         public init(
-            additionalModelResponseFields: Smithy.Document? = nil,
+            additionalModelResponseFields: SmithyReadWrite.Document? = nil,
             stopReason: BedrockRuntimeClientTypes.StopReason? = nil
         )
         {
@@ -3744,7 +3744,7 @@ extension BedrockRuntimeClientTypes.ToolUseBlock {
         var value = BedrockRuntimeClientTypes.ToolUseBlock()
         value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.input = try reader["input"].readIfPresent() ?? Smithy.Document.map([:])
+        value.input = try reader["input"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
         return value
     }
 }
