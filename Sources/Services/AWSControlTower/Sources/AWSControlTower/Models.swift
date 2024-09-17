@@ -9,12 +9,12 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -759,11 +760,11 @@ extension ControlTowerClientTypes {
         public var key: Swift.String?
         /// A low-level Document object of any type (for example, a Java Object).
         /// This member is required.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
             key: Swift.String? = nil,
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.key = key
@@ -843,11 +844,11 @@ extension ControlTowerClientTypes {
         public var key: Swift.String?
         /// A low-level document object of any type (for example, a Java Object).
         /// This member is required.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
             key: Swift.String? = nil,
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.key = key
@@ -1129,11 +1130,11 @@ extension ControlTowerClientTypes {
         public var key: Swift.String?
         /// The value of a key/value pair.
         /// This member is required.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
             key: Swift.String? = nil,
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.key = key
@@ -1266,11 +1267,11 @@ extension ControlTowerClientTypes {
         public var key: Swift.String?
         /// The value of a key/value pair.
         /// This member is required.
-        public var value: SmithyReadWrite.Document?
+        public var value: Smithy.Document?
 
         public init(
             key: Swift.String? = nil,
-            value: SmithyReadWrite.Document? = nil
+            value: Smithy.Document? = nil
         )
         {
             self.key = key
@@ -1704,7 +1705,7 @@ public struct ListLandingZoneOperationsOutput {
 public struct CreateLandingZoneInput {
     /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
     /// This member is required.
-    public var manifest: SmithyReadWrite.Document?
+    public var manifest: Smithy.Document?
     /// Tags to be applied to the landing zone.
     public var tags: [Swift.String: Swift.String]?
     /// The landing zone version, for example, 3.0.
@@ -1712,7 +1713,7 @@ public struct CreateLandingZoneInput {
     public var version: Swift.String?
 
     public init(
-        manifest: SmithyReadWrite.Document? = nil,
+        manifest: Smithy.Document? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
     )
@@ -1872,7 +1873,7 @@ extension ControlTowerClientTypes {
         public var latestAvailableVersion: Swift.String?
         /// The landing zone manifest JSON text file that specifies the landing zone configurations.
         /// This member is required.
-        public var manifest: SmithyReadWrite.Document?
+        public var manifest: Smithy.Document?
         /// The landing zone deployment status. One of ACTIVE, PROCESSING, FAILED.
         public var status: ControlTowerClientTypes.LandingZoneStatus?
         /// The landing zone's current deployed version.
@@ -1883,7 +1884,7 @@ extension ControlTowerClientTypes {
             arn: Swift.String? = nil,
             driftStatus: ControlTowerClientTypes.LandingZoneDriftStatusSummary? = nil,
             latestAvailableVersion: Swift.String? = nil,
-            manifest: SmithyReadWrite.Document? = nil,
+            manifest: Smithy.Document? = nil,
             status: ControlTowerClientTypes.LandingZoneStatus? = nil,
             version: Swift.String? = nil
         )
@@ -1993,14 +1994,14 @@ public struct UpdateLandingZoneInput {
     public var landingZoneIdentifier: Swift.String?
     /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch). The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
     /// This member is required.
-    public var manifest: SmithyReadWrite.Document?
+    public var manifest: Smithy.Document?
     /// The landing zone version, for example, 3.2.
     /// This member is required.
     public var version: Swift.String?
 
     public init(
         landingZoneIdentifier: Swift.String? = nil,
-        manifest: SmithyReadWrite.Document? = nil,
+        manifest: Smithy.Document? = nil,
         version: Swift.String? = nil
     )
     {
@@ -3503,7 +3504,7 @@ extension ControlTowerClientTypes.EnabledBaselineParameterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledBaselineParameterSummary()
         value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.value = try reader["value"].readIfPresent() ?? [:]
         return value
     }
 }
@@ -3541,7 +3542,7 @@ extension ControlTowerClientTypes.EnabledControlParameterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledControlParameterSummary()
         value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.value = try reader["value"].readIfPresent() ?? [:]
         return value
     }
 }
@@ -3572,7 +3573,7 @@ extension ControlTowerClientTypes.LandingZoneDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.LandingZoneDetail()
         value.version = try reader["version"].readIfPresent() ?? ""
-        value.manifest = try reader["manifest"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.manifest = try reader["manifest"].readIfPresent() ?? [:]
         value.arn = try reader["arn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.latestAvailableVersion = try reader["latestAvailableVersion"].readIfPresent()

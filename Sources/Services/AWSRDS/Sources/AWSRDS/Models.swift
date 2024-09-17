@@ -857,20 +857,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
 ///
 public struct ApplyPendingMaintenanceActionInput {
-    /// The pending maintenance action to apply to this resource. Valid Values:
-    ///
-    /// * ca-certificate-rotation
-    ///
-    /// * db-upgrade
-    ///
-    /// * hardware-maintenance
-    ///
-    /// * os-upgrade
-    ///
-    /// * system-update
-    ///
-    ///
-    /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
+    /// The pending maintenance action to apply to this resource. Valid Values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation
     /// This member is required.
     public var applyAction: Swift.String?
     /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values:
@@ -901,20 +888,7 @@ public struct ApplyPendingMaintenanceActionInput {
 extension RDSClientTypes {
     /// Provides information about a pending maintenance action for a resource.
     public struct PendingMaintenanceAction {
-        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values:
-        ///
-        /// * ca-certificate-rotation
-        ///
-        /// * db-upgrade
-        ///
-        /// * hardware-maintenance
-        ///
-        /// * os-upgrade
-        ///
-        /// * system-update
-        ///
-        ///
-        /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
+        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public var autoAppliedAfterDate: Foundation.Date?
@@ -5906,7 +5880,7 @@ public struct CreateDBInstanceInput {
     public var iops: Swift.Int?
     /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the default key when this parameter is empty. You must explicitly specify a key.
     public var kmsKeyId: Swift.String?
-    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -8845,6 +8819,8 @@ public struct CreateGlobalClusterInput {
     ///
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB cluster.
     public var storageEncrypted: Swift.Bool?
+    /// Tags to assign to the global cluster.
+    public var tags: [RDSClientTypes.Tag]?
 
     public init(
         databaseName: Swift.String? = nil,
@@ -8854,7 +8830,8 @@ public struct CreateGlobalClusterInput {
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
-        storageEncrypted: Swift.Bool? = nil
+        storageEncrypted: Swift.Bool? = nil,
+        tags: [RDSClientTypes.Tag]? = nil
     )
     {
         self.databaseName = databaseName
@@ -8865,6 +8842,7 @@ public struct CreateGlobalClusterInput {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.storageEncrypted = storageEncrypted
+        self.tags = tags
     }
 }
 
@@ -9024,6 +9002,8 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global database cluster.
         public var storageEncrypted: Swift.Bool?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
 
         public init(
             databaseName: Swift.String? = nil,
@@ -9037,7 +9017,8 @@ extension RDSClientTypes {
             globalClusterMembers: [RDSClientTypes.GlobalClusterMember]? = nil,
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool? = nil
+            storageEncrypted: Swift.Bool? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil
         )
         {
             self.databaseName = databaseName
@@ -9052,6 +9033,7 @@ extension RDSClientTypes {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
     }
 
@@ -20143,7 +20125,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
     public var engineLifecycleSupport: Swift.String?
     /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -20781,7 +20763,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
     ///
     /// * Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -23368,6 +23350,7 @@ extension CreateGlobalClusterInput {
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
         try writer["StorageEncrypted"].write(value.storageEncrypted)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateGlobalCluster")
         try writer["Version"].write("2014-10-31")
     }
@@ -33158,6 +33141,7 @@ extension RDSClientTypes.GlobalCluster {
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
         value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
