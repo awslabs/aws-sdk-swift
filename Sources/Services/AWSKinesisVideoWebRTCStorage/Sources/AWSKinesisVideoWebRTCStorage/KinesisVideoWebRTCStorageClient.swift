@@ -271,6 +271,8 @@ extension KinesisVideoWebRTCStorageClient {
                 metricsAttributes: metricsAttributes,
                 meterScope: serviceName,
                 tracerScope: serviceName
+<<<<<<< HEAD
+=======
             ))
             .executeRequest(client)
             .build()
@@ -343,6 +345,7 @@ extension KinesisVideoWebRTCStorageClient {
                 metricsAttributes: metricsAttributes,
                 meterScope: serviceName,
                 tracerScope: serviceName
+>>>>>>> main
             ))
             .executeRequest(client)
             .build()
