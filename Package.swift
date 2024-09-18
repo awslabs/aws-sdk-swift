@@ -255,7 +255,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.71.0",
+    clientRuntimeVersion: "0.72.0",
     crtVersion: "0.36.0"
 )
 
@@ -373,6 +373,7 @@ let serviceTargets: [String] = [
     "AWSDeviceFarm",
     "AWSDirectConnect",
     "AWSDirectoryService",
+    "AWSDirectoryServiceData",
     "AWSDocDB",
     "AWSDocDBElastic",
     "AWSDrs",

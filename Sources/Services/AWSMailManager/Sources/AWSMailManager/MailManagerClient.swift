@@ -3439,7 +3439,7 @@ extension MailManagerClient {
 
     /// Performs the `UpdateRuleSet` operation on the `MailManagerSvc` service.
     ///
-    /// >Update attributes of an already provisioned rule set.
+    /// Update attributes of an already provisioned rule set.
     ///
     /// - Parameter UpdateRuleSetInput : [no documentation found]
     ///

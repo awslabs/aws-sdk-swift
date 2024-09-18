@@ -143,7 +143,7 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes {
-    /// The combination of Amazon Web Service, linked account, linked account name, Region, and usage type where a cost anomaly is observed. The linked account name will only be available when the account name can be identified.
+    /// The combination of Amazon Web Servicesservice, linked account, linked account name, Region, and usage type where a cost anomaly is observed. The linked account name will only be available when the account name can be identified.
     public struct RootCause {
         /// The member account value that's associated with the cost anomaly.
         public var linkedAccount: Swift.String?
@@ -151,7 +151,7 @@ extension CostExplorerClientTypes {
         public var linkedAccountName: Swift.String?
         /// The Amazon Web Services Region that's associated with the cost anomaly.
         public var region: Swift.String?
-        /// The Amazon Web Service name that's associated with the cost anomaly.
+        /// The Amazon Web Servicesservice name that's associated with the cost anomaly.
         public var service: Swift.String?
         /// The UsageType value that's associated with the cost anomaly.
         public var usageType: Swift.String?
@@ -187,7 +187,7 @@ extension CostExplorerClientTypes {
         public var anomalyScore: CostExplorerClientTypes.AnomalyScore?
         /// The first day the anomaly is detected.
         public var anomalyStartDate: Swift.String?
-        /// The dimension for the anomaly (for example, an Amazon Web Service in a service monitor).
+        /// The dimension for the anomaly (for example, an Amazon Web Servicesservice in a service monitor).
         public var dimensionValue: Swift.String?
         /// The feedback value.
         public var feedback: CostExplorerClientTypes.AnomalyFeedbackType?
@@ -2692,19 +2692,57 @@ extension CostExplorerClientTypes {
 }
 
 extension CostExplorerClientTypes {
+    /// The DynamoDB reservations that Amazon Web Services recommends that you purchase.
+    public struct DynamoDBCapacityDetails {
+        /// The capacity unit of the recommended reservation.
+        public var capacityUnits: Swift.String?
+        /// The Amazon Web Services Region of the recommended reservation.
+        public var region: Swift.String?
+
+        public init(
+            capacityUnits: Swift.String? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.capacityUnits = capacityUnits
+            self.region = region
+        }
+    }
+
+}
+
+extension CostExplorerClientTypes {
+    /// Details about the reservations that Amazon Web Services recommends that you purchase.
+    public struct ReservedCapacityDetails {
+        /// The DynamoDB reservations that Amazon Web Services recommends that you purchase.
+        public var dynamoDBCapacityDetails: CostExplorerClientTypes.DynamoDBCapacityDetails?
+
+        public init(
+            dynamoDBCapacityDetails: CostExplorerClientTypes.DynamoDBCapacityDetails? = nil
+        )
+        {
+            self.dynamoDBCapacityDetails = dynamoDBCapacityDetails
+        }
+    }
+
+}
+
+extension CostExplorerClientTypes {
     /// Details about your recommended reservation purchase.
     public struct ReservationPurchaseRecommendationDetail {
         /// The account that this Reserved Instance (RI) recommendation is for.
         public var accountId: Swift.String?
         /// The average number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var averageNormalizedUnitsUsedPerHour: Swift.String?
+        /// The average number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        public var averageNumberOfCapacityUnitsUsedPerHour: Swift.String?
         /// The average number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var averageNumberOfInstancesUsedPerHour: Swift.String?
-        /// The average utilization of your instances. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        /// The average utilization of your recommendations. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var averageUtilization: Swift.String?
-        /// The currency code that Amazon Web Services used to calculate the costs for this instance.
+        /// The currency code that Amazon Web Services used to calculate the costs for this recommendation.
         public var currencyCode: Swift.String?
-        /// How long Amazon Web Services estimates that it takes for this instance to start saving you money, in months.
+        /// How long Amazon Web Services estimates that it takes for this recommendation to start saving you money, in months.
         public var estimatedBreakEvenInMonths: Swift.String?
         /// How much Amazon Web Services estimates that you spend on On-Demand Instances in a month.
         public var estimatedMonthlyOnDemandCost: Swift.String?
@@ -2718,24 +2756,33 @@ extension CostExplorerClientTypes {
         public var instanceDetails: CostExplorerClientTypes.InstanceDetails?
         /// The maximum number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var maximumNormalizedUnitsUsedPerHour: Swift.String?
+        /// The maximum number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        public var maximumNumberOfCapacityUnitsUsedPerHour: Swift.String?
         /// The maximum number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var maximumNumberOfInstancesUsedPerHour: Swift.String?
         /// The minimum number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var minimumNormalizedUnitsUsedPerHour: Swift.String?
+        /// The minimum number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        public var minimumNumberOfCapacityUnitsUsedPerHour: Swift.String?
         /// The minimum number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var minimumNumberOfInstancesUsedPerHour: Swift.String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public var recommendedNormalizedUnitsToPurchase: Swift.String?
+        /// The number of reserved capacity units that Amazon Web Services recommends that you purchase.
+        public var recommendedNumberOfCapacityUnitsToPurchase: Swift.String?
         /// The number of instances that Amazon Web Services recommends that you purchase.
         public var recommendedNumberOfInstancesToPurchase: Swift.String?
-        /// How much purchasing this instance costs you on a monthly basis.
+        /// How much purchasing this recommendation costs you on a monthly basis.
         public var recurringStandardMonthlyCost: Swift.String?
-        /// How much purchasing this instance costs you upfront.
+        /// Details about the reservations that Amazon Web Services recommends that you purchase.
+        public var reservedCapacityDetails: CostExplorerClientTypes.ReservedCapacityDetails?
+        /// How much purchasing this recommendation costs you upfront.
         public var upfrontCost: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
             averageNormalizedUnitsUsedPerHour: Swift.String? = nil,
+            averageNumberOfCapacityUnitsUsedPerHour: Swift.String? = nil,
             averageNumberOfInstancesUsedPerHour: Swift.String? = nil,
             averageUtilization: Swift.String? = nil,
             currencyCode: Swift.String? = nil,
@@ -2746,17 +2793,22 @@ extension CostExplorerClientTypes {
             estimatedReservationCostForLookbackPeriod: Swift.String? = nil,
             instanceDetails: CostExplorerClientTypes.InstanceDetails? = nil,
             maximumNormalizedUnitsUsedPerHour: Swift.String? = nil,
+            maximumNumberOfCapacityUnitsUsedPerHour: Swift.String? = nil,
             maximumNumberOfInstancesUsedPerHour: Swift.String? = nil,
             minimumNormalizedUnitsUsedPerHour: Swift.String? = nil,
+            minimumNumberOfCapacityUnitsUsedPerHour: Swift.String? = nil,
             minimumNumberOfInstancesUsedPerHour: Swift.String? = nil,
             recommendedNormalizedUnitsToPurchase: Swift.String? = nil,
+            recommendedNumberOfCapacityUnitsToPurchase: Swift.String? = nil,
             recommendedNumberOfInstancesToPurchase: Swift.String? = nil,
             recurringStandardMonthlyCost: Swift.String? = nil,
+            reservedCapacityDetails: CostExplorerClientTypes.ReservedCapacityDetails? = nil,
             upfrontCost: Swift.String? = nil
         )
         {
             self.accountId = accountId
             self.averageNormalizedUnitsUsedPerHour = averageNormalizedUnitsUsedPerHour
+            self.averageNumberOfCapacityUnitsUsedPerHour = averageNumberOfCapacityUnitsUsedPerHour
             self.averageNumberOfInstancesUsedPerHour = averageNumberOfInstancesUsedPerHour
             self.averageUtilization = averageUtilization
             self.currencyCode = currencyCode
@@ -2767,12 +2819,16 @@ extension CostExplorerClientTypes {
             self.estimatedReservationCostForLookbackPeriod = estimatedReservationCostForLookbackPeriod
             self.instanceDetails = instanceDetails
             self.maximumNormalizedUnitsUsedPerHour = maximumNormalizedUnitsUsedPerHour
+            self.maximumNumberOfCapacityUnitsUsedPerHour = maximumNumberOfCapacityUnitsUsedPerHour
             self.maximumNumberOfInstancesUsedPerHour = maximumNumberOfInstancesUsedPerHour
             self.minimumNormalizedUnitsUsedPerHour = minimumNormalizedUnitsUsedPerHour
+            self.minimumNumberOfCapacityUnitsUsedPerHour = minimumNumberOfCapacityUnitsUsedPerHour
             self.minimumNumberOfInstancesUsedPerHour = minimumNumberOfInstancesUsedPerHour
             self.recommendedNormalizedUnitsToPurchase = recommendedNormalizedUnitsToPurchase
+            self.recommendedNumberOfCapacityUnitsToPurchase = recommendedNumberOfCapacityUnitsToPurchase
             self.recommendedNumberOfInstancesToPurchase = recommendedNumberOfInstancesToPurchase
             self.recurringStandardMonthlyCost = recurringStandardMonthlyCost
+            self.reservedCapacityDetails = reservedCapacityDetails
             self.upfrontCost = upfrontCost
         }
     }
@@ -5820,7 +5876,7 @@ public struct GetDimensionValuesInput {
     ///
     /// * AZ - The Availability Zone. An example is us-east-1a.
     ///
-    /// * BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.
+    /// * BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Servicesservices. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Servicesservices in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.
     ///
     /// * CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.
     ///
@@ -9740,6 +9796,32 @@ extension CostExplorerClientTypes.ReservationPurchaseRecommendationDetail {
         value.estimatedReservationCostForLookbackPeriod = try reader["EstimatedReservationCostForLookbackPeriod"].readIfPresent()
         value.upfrontCost = try reader["UpfrontCost"].readIfPresent()
         value.recurringStandardMonthlyCost = try reader["RecurringStandardMonthlyCost"].readIfPresent()
+        value.reservedCapacityDetails = try reader["ReservedCapacityDetails"].readIfPresent(with: CostExplorerClientTypes.ReservedCapacityDetails.read(from:))
+        value.recommendedNumberOfCapacityUnitsToPurchase = try reader["RecommendedNumberOfCapacityUnitsToPurchase"].readIfPresent()
+        value.minimumNumberOfCapacityUnitsUsedPerHour = try reader["MinimumNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
+        value.maximumNumberOfCapacityUnitsUsedPerHour = try reader["MaximumNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
+        value.averageNumberOfCapacityUnitsUsedPerHour = try reader["AverageNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservedCapacityDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservedCapacityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservedCapacityDetails()
+        value.dynamoDBCapacityDetails = try reader["DynamoDBCapacityDetails"].readIfPresent(with: CostExplorerClientTypes.DynamoDBCapacityDetails.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.DynamoDBCapacityDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DynamoDBCapacityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.DynamoDBCapacityDetails()
+        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
         return value
     }
 }
