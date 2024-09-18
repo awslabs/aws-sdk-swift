@@ -13,52 +13,42 @@ import AWSS3
 import AWSIntegrationTestUtils
 
 class S3ConcurrentTests: S3XCTestCase {
-    func test_10x_50MB_getObject() async throws {
-        try await repeatConcurrently(count: 10, test: getObject_50MB)
+    public var fileData: Data!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        fileData = try generateDummyTextData()
     }
 
-    func getObject_50MB() async throws {
-        // Generate dummy 50MB text file
-        let fileURL = getTemporaryFileURL()
-        try generateDummyTextFile(fileURL: fileURL)
+    // Run getObject_50BM ten times concurrently
+    func test_10x_50MB_getObject() async throws {
+        try await repeatConcurrentlyWithArgs(count: 10, test: getObject_50MB, args: fileData!)
+    }
 
-        // Upload then retrieve the dummy file to and from S3 bucket
-        let file = ByteStream.data(try Data(contentsOf: fileURL))
+    /* Helper functions */
+
+    // Generates 50MB text data
+    func generateDummyTextData() throws -> Data {
+        let segmentData = Data("1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST".utf8)
+        var wholeData = Data()
+        for _ in 0..<1_000_000 {
+            wholeData.append(segmentData)
+        }
+        return wholeData
+    }
+
+    // Puts 50MB data to S3, gets the uploaded file, then asserts retrieved data equals original data
+    func getObject_50MB(args: Any...) async throws {
+        guard let data = args[0] as? Data else {
+            throw ClientError.dataNotFound("Failed to retrieve dummy data.")
+        }
+        let file = ByteStream.data(data)
         let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
         let putObjectInput = PutObjectInput(body: file, bucket: bucketName, key: objectKey)
         _ = try await client.putObject(input: putObjectInput)
         let retrievedData = try await client.getObject(input: GetObjectInput(
             bucket: bucketName, key: objectKey
         )).body?.readData()
-
-        // Assert that uploaded & retrieved data equals data in local file
-        XCTAssertEqual(try Data(contentsOf: fileURL), retrievedData)
-
-        // Delete the temporary file
-        try FileManager.default.removeItem(at: fileURL)
-    }
-
-    // Helper functions
-
-    func getTemporaryFileURL() -> URL {
-        // Return file URL for a dummy text file located in temporary directory
-        let tempDirectoryURL = FileManager.default.temporaryDirectory
-        let uuid = UUID().uuidString.lowercased()
-        return URL(fileURLWithPath: "50MB-\(uuid)", relativeTo: tempDirectoryURL).appendingPathExtension("txt")
-    }
-
-    func generateDummyTextFile(fileURL: URL) throws {
-        // 50 char long string as Data
-        let segmentData = Data("1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST".utf8)
-
-        // Create the dummy file by writing empty data
-        try Data().write(to: fileURL)
-
-        // Populate dummy file with 50MB text
-        let fileHandle = try FileHandle(forWritingTo: fileURL)
-        for _ in 0..<1_000_000 {
-            try fileHandle.write(contentsOf: segmentData)
-        }
-        try fileHandle.close()
+        XCTAssertEqual(data, retrievedData)
     }
 }
