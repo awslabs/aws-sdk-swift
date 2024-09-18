@@ -11,7 +11,7 @@
 /// The function returns when all test runs have completed, and rethrows if a test run throws.
 /// - Parameters:
 ///   - count: The number of test runs
-///   - test: A function pointer to the test to be run
+///   - test: The function pointer for the test to run
 /// - Throws: Any error thrown by one of the test runs.
 public func repeatConcurrently(count: Int, test: @escaping () async throws -> Void) async throws {
     try await withThrowingTaskGroup(of: Void.self) { taskGroup in
