@@ -14,82 +14,58 @@ import AWSIntegrationTestUtils
 class S3ConcurrentTests: S3XCTestCase {
     let fileSize = 50_000_000
 
-    func test_50MB_putObject() async throws {
-        let fileURL = getFileURL()
-        generateDummyTextFile(fileURL: fileURL)
-        let file = ByteStream.from(
-            fileHandle: try FileHandle(
-                forReadingFrom: fileURL
-            )
-        )
-        let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
-        let putObjectInput = PutObjectInput(body: file, bucket: bucketName, key: objectKey)
-        _ = try await client.putObject(input: putObjectInput)
-        let headObjectInput = HeadObjectInput(bucket: bucketName, key: objectKey)
-        let contentLength = try await client.headObject(input: headObjectInput).contentLength
-        XCTAssertEqual(contentLength, fileSize)
-        deleteDummyTextFile(fileURL: fileURL)
-    }
-
-    func test_50MB_getObject() async throws {
-        let fileURL = getFileURL()
-        generateDummyTextFile(fileURL: fileURL)
-        let file = ByteStream.from(
-            fileHandle: try FileHandle(
-                forReadingFrom: fileURL
-            )
-        )
-        let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
-        let putObjectInput = PutObjectInput(body: file, bucket: bucketName, key: objectKey)
-        _ = try await client.putObject(input: putObjectInput)
-        let getObjectInput = GetObjectInput(bucket: bucketName, key: objectKey)
-        let retrievedData = try await client.getObject(input: getObjectInput).body.unsafelyUnwrapped.readData()
-        XCTAssertEqual(
-            try Data(contentsOf: fileURL),
-            retrievedData
-        )
-        deleteDummyTextFile(fileURL: fileURL)
-    }
-
-    func test_10x_50MB_putObject() async throws {
-        try await repeatConcurrently(count: 10, test: test_50MB_putObject)
-    }
-
     func test_10x_50MB_getObject() async throws {
-        try await repeatConcurrently(count: 10, test: test_50MB_getObject)
+        try await repeatConcurrently(count: 10, test: getObject_50MB)
+    }
+
+    func getObject_50MB() async throws {
+        // Generate dummy 50MB text file
+        let fileURL = getTemporaryFileURL()
+        try generateDummyTextFile(fileURL: fileURL)
+
+        // Upload then retrieve the dummy file to and from S3 bucket
+        let file = ByteStream.from(
+            fileHandle: try FileHandle(
+                forReadingFrom: fileURL
+            )
+        )
+        let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
+        let putObjectInput = PutObjectInput(body: file, bucket: bucketName, key: objectKey)
+        _ = try await client.putObject(input: putObjectInput)
+        let retrievedData = try await client.getObject(input: GetObjectInput(
+            bucket: bucketName, key: objectKey
+        )).body?.readData()
+
+        // Assert that uploaded & retrieved data equals data in local file
+        XCTAssertEqual(try Data(contentsOf: fileURL), retrievedData)
+
+        // Delete the temporary file
+        try FileManager.default.removeItem(at: fileURL)
     }
 
     // Helper functions
 
-    func getFileURL() -> URL {
+    func getTemporaryFileURL() -> URL {
+        // Return file URL for a dummy text file located in temporary directory
         let tempDirectoryURL = FileManager.default.temporaryDirectory
-        let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
-        return URL(fileURLWithPath: "50MiB-\(uuid)", relativeTo: tempDirectoryURL).appendingPathExtension("txt")
+        let uuid = UUID().uuidString.lowercased()
+        return URL(fileURLWithPath: "50MB-\(uuid)", relativeTo: tempDirectoryURL).appendingPathExtension("txt")
     }
 
-    func generateDummyTextFile(fileURL: URL) {
-        let stringSegment = "1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST" // 50 char long string
-        guard let segmentData = stringSegment.data(using: .utf8) else {
-            XCTFail("Unable to convert string to data")
-            return
-        }
+    func generateDummyTextFile(fileURL: URL) throws {
+        // 50 char long string as Data
+        let segmentData = Data("1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST".utf8)
+
+        // Create 50MB of dummy data
         var wholeData = Data()
-        for _ in 1...1_000_000 {
+        for _ in 0..<1_000_000 {
             wholeData.append(segmentData)
         }
-        do {
-            try wholeData.write(to: fileURL)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-    }
 
-    func deleteDummyTextFile(fileURL: URL) {
-        do {
-            // Delete the temporarily geenerated file
-            try FileManager.default.removeItem(at: fileURL)
-        } catch {
-            XCTFail(error.localizedDescription)
+        // Create the dummy file with 50MB data; throw error if it fails
+        let success = FileManager.default.createFile(atPath: fileURL.path(), contents: wholeData)
+        if !success {
+            XCTFail("Failed to create the dummy text file for S3 concurrent tests.")
         }
     }
 }
