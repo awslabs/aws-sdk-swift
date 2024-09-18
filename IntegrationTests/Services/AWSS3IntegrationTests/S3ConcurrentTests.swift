@@ -7,13 +7,12 @@
 
 import Foundation
 import Smithy
+import SmithyStreams
 import XCTest
 import AWSS3
 import AWSIntegrationTestUtils
 
 class S3ConcurrentTests: S3XCTestCase {
-    let fileSize = 50_000_000
-
     func test_10x_50MB_getObject() async throws {
         try await repeatConcurrently(count: 10, test: getObject_50MB)
     }
@@ -56,16 +55,17 @@ class S3ConcurrentTests: S3XCTestCase {
         // 50 char long string as Data
         let segmentData = Data("1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST".utf8)
 
-        // Create 50MB of dummy data
-        var wholeData = Data()
-        for _ in 0..<1_000_000 {
-            wholeData.append(segmentData)
-        }
-
-        // Create the dummy file with 50MB data; throw error if it fails
-        let success = FileManager.default.createFile(atPath: fileURL.path(), contents: wholeData)
+        // Create the dummy file; throw error if it fails
+        let success = FileManager.default.createFile(atPath: fileURL.path(), contents: nil)
         if !success {
             XCTFail("Failed to create the dummy text file for S3 concurrent tests.")
         }
+
+        // Populate dummy file with 50MB text
+        let fileStream = FileStream(fileHandle: try FileHandle(forWritingTo: fileURL))
+        for _ in 0..<1_000_000 {
+            try fileStream.write(contentsOf: segmentData)
+        }
+        fileStream.close()
     }
 }
