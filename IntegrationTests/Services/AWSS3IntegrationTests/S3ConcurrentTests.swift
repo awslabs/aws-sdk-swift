@@ -55,11 +55,8 @@ class S3ConcurrentTests: S3XCTestCase {
         // 50 char long string as Data
         let segmentData = Data("1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST".utf8)
 
-        // Create the dummy file; throw error if it fails
-        let success = FileManager.default.createFile(atPath: fileURL.path(), contents: nil)
-        if !success {
-            XCTFail("Failed to create the dummy text file for S3 concurrent tests.")
-        }
+        // Create the dummy file by writing empty data
+        try Data().write(to: fileURL)
 
         // Populate dummy file with 50MB text
         let fileStream = FileStream(fileHandle: try FileHandle(forWritingTo: fileURL))
