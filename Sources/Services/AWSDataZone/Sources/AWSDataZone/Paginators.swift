@@ -12,6 +12,39 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension DataZoneClient {
+    /// Paginate over `[ListAssetFiltersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetFiltersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetFiltersOutput`
+    public func listAssetFiltersPaginated(input: ListAssetFiltersInput) -> ClientRuntime.PaginatorSequence<ListAssetFiltersInput, ListAssetFiltersOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssetFiltersInput, ListAssetFiltersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetFilters(input:))
+    }
+}
+
+extension ListAssetFiltersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAssetFiltersInput {
+        return ListAssetFiltersInput(
+            assetIdentifier: self.assetIdentifier,
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAssetFiltersInput, OperationStackOutput == ListAssetFiltersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetFiltersPaginated`
+    /// to access the nested member `[DataZoneClientTypes.AssetFilterSummary]`
+    /// - Returns: `[DataZoneClientTypes.AssetFilterSummary]`
+    public func items() async throws -> [DataZoneClientTypes.AssetFilterSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[ListAssetRevisionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -40,6 +73,38 @@ extension PaginatorSequence where OperationStackInput == ListAssetRevisionsInput
     /// to access the nested member `[DataZoneClientTypes.AssetRevision]`
     /// - Returns: `[DataZoneClientTypes.AssetRevision]`
     public func items() async throws -> [DataZoneClientTypes.AssetRevision] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
+    /// Paginate over `[ListDataProductRevisionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataProductRevisionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataProductRevisionsOutput`
+    public func listDataProductRevisionsPaginated(input: ListDataProductRevisionsInput) -> ClientRuntime.PaginatorSequence<ListDataProductRevisionsInput, ListDataProductRevisionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataProductRevisionsInput, ListDataProductRevisionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataProductRevisions(input:))
+    }
+}
+
+extension ListDataProductRevisionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataProductRevisionsInput {
+        return ListDataProductRevisionsInput(
+            domainIdentifier: self.domainIdentifier,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDataProductRevisionsInput, OperationStackOutput == ListDataProductRevisionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataProductRevisionsPaginated`
+    /// to access the nested member `[DataZoneClientTypes.DataProductRevision]`
+    /// - Returns: `[DataZoneClientTypes.DataProductRevision]`
+    public func items() async throws -> [DataZoneClientTypes.DataProductRevision] {
         return try await self.asyncCompactMap { item in item.items }
     }
 }
@@ -74,6 +139,39 @@ extension PaginatorSequence where OperationStackInput == ListDataSourceRunActivi
     /// - Returns: `[DataZoneClientTypes.DataSourceRunActivity]`
     public func items() async throws -> [DataZoneClientTypes.DataSourceRunActivity] {
         return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
+    /// Paginate over `[ListEntityOwnersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEntityOwnersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityOwnersOutput`
+    public func listEntityOwnersPaginated(input: ListEntityOwnersInput) -> ClientRuntime.PaginatorSequence<ListEntityOwnersInput, ListEntityOwnersOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntityOwnersInput, ListEntityOwnersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntityOwners(input:))
+    }
+}
+
+extension ListEntityOwnersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEntityOwnersInput {
+        return ListEntityOwnersInput(
+            domainIdentifier: self.domainIdentifier,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEntityOwnersInput, OperationStackOutput == ListEntityOwnersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEntityOwnersPaginated`
+    /// to access the nested member `[DataZoneClientTypes.OwnerPropertiesOutput]`
+    /// - Returns: `[DataZoneClientTypes.OwnerPropertiesOutput]`
+    public func owners() async throws -> [DataZoneClientTypes.OwnerPropertiesOutput] {
+        return try await self.asyncCompactMap { item in item.owners }
     }
 }
 extension DataZoneClient {
@@ -217,6 +315,42 @@ extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, 
     }
 }
 extension DataZoneClient {
+    /// Paginate over `[ListLineageNodeHistoryOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLineageNodeHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLineageNodeHistoryOutput`
+    public func listLineageNodeHistoryPaginated(input: ListLineageNodeHistoryInput) -> ClientRuntime.PaginatorSequence<ListLineageNodeHistoryInput, ListLineageNodeHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListLineageNodeHistoryInput, ListLineageNodeHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLineageNodeHistory(input:))
+    }
+}
+
+extension ListLineageNodeHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLineageNodeHistoryInput {
+        return ListLineageNodeHistoryInput(
+            direction: self.direction,
+            domainIdentifier: self.domainIdentifier,
+            eventTimestampGTE: self.eventTimestampGTE,
+            eventTimestampLTE: self.eventTimestampLTE,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLineageNodeHistoryInput, OperationStackOutput == ListLineageNodeHistoryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLineageNodeHistoryPaginated`
+    /// to access the nested member `[DataZoneClientTypes.LineageNodeSummary]`
+    /// - Returns: `[DataZoneClientTypes.LineageNodeSummary]`
+    public func nodes() async throws -> [DataZoneClientTypes.LineageNodeSummary] {
+        return try await self.asyncCompactMap { item in item.nodes }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[ListNotificationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -250,6 +384,40 @@ extension PaginatorSequence where OperationStackInput == ListNotificationsInput,
     /// - Returns: `[DataZoneClientTypes.NotificationOutput]`
     public func notifications() async throws -> [DataZoneClientTypes.NotificationOutput] {
         return try await self.asyncCompactMap { item in item.notifications }
+    }
+}
+extension DataZoneClient {
+    /// Paginate over `[ListPolicyGrantsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPolicyGrantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyGrantsOutput`
+    public func listPolicyGrantsPaginated(input: ListPolicyGrantsInput) -> ClientRuntime.PaginatorSequence<ListPolicyGrantsInput, ListPolicyGrantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPolicyGrantsInput, ListPolicyGrantsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPolicyGrants(input:))
+    }
+}
+
+extension ListPolicyGrantsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPolicyGrantsInput {
+        return ListPolicyGrantsInput(
+            domainIdentifier: self.domainIdentifier,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyType: self.policyType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPolicyGrantsInput, OperationStackOutput == ListPolicyGrantsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPolicyGrantsPaginated`
+    /// to access the nested member `[DataZoneClientTypes.PolicyGrantMember]`
+    /// - Returns: `[DataZoneClientTypes.PolicyGrantMember]`
+    public func grantList() async throws -> [DataZoneClientTypes.PolicyGrantMember] {
+        return try await self.asyncCompactMap { item in item.grantList }
     }
 }
 extension DataZoneClient {
@@ -341,6 +509,7 @@ extension ListSubscriptionGrantsInput: ClientRuntime.PaginateToken {
             environmentId: self.environmentId,
             maxResults: self.maxResults,
             nextToken: token,
+            owningProjectId: self.owningProjectId,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             subscribedListingId: self.subscribedListingId,

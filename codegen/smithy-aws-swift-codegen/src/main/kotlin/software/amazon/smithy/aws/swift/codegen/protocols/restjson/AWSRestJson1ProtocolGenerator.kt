@@ -15,5 +15,4 @@ class AWSRestJson1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestJSONCu
         "SDKAppliedContentEncoding_restJson1",
         "SDKAppendedGzipAfterProvidedEncoding_restJson1",
     )
-    override val tagsToIgnore = setOf("defaults")
 }

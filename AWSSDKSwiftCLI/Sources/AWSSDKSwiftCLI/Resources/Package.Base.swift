@@ -83,9 +83,9 @@ let package = Package(
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
             ],
-            path: "Sources/Core/AWSClientRuntime/Sources",
+            path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
-                .process("AWSClientRuntime/Resources")
+                .process("Resources"),
             ]
         ),
         .target(
@@ -121,7 +121,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams],
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
@@ -223,7 +223,7 @@ func addServiceUnitTestTarget(_ name: String) {
     package.targets += [
         .testTarget(
             name: "\(testName)",
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
+            dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
             path: "Sources/Services/\(name)/Tests/\(testName)"
         )
     ]

@@ -7,18 +7,19 @@
 
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyXML.Reader
+import class SmithyHTTPAPI.HTTPResponse
+@_spi(SmithyReadWrite) import class SmithyXML.Reader
 
 public struct AWSQueryError: BaseError {
     public let code: String
     public let message: String?
     public let requestID: String?
-    public let httpResponse: HttpResponse
-    public let responseReader: Reader
-    public let errorBodyReader: Reader
+    public let httpResponse: HTTPResponse
+    @_spi(SmithyReadWrite) public let responseReader: Reader
+    @_spi(SmithyReadWrite) public let errorBodyReader: Reader
 
-    public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
+    @_spi(SmithyReadWrite)
+    public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
         self.errorBodyReader = noErrorWrapping ? responseReader : responseReader["Error"]
         let code: String? = try errorBodyReader["Code"].readIfPresent()
         let message: String? = try errorBodyReader["Message"].readIfPresent()

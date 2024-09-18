@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import protocol ClientRuntime.ServiceError
 import protocol ClientRuntime.HTTPError
 
@@ -21,7 +21,7 @@ protocol UnknownAWSHTTPErrorCandidate: ServiceError, HTTPError, Error {
     /// If a HTTP response matches this error type, then an instance of this error should be created.
     static var errorCode: String { get }
 
-    init(httpResponse: HttpResponse, message: String?, requestID: String?, requestID2: String?)
+    init(httpResponse: HTTPResponse, message: String?, requestID: String?, requestID2: String?)
 }
 
 // These extensions provide for conformance with the `ServiceError` and

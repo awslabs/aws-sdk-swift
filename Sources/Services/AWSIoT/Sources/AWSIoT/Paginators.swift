@@ -1259,6 +1259,39 @@ extension PaginatorSequence where OperationStackInput == ListRoleAliasesInput, O
     }
 }
 extension IoTClient {
+    /// Paginate over `[ListSbomValidationResultsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSbomValidationResultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSbomValidationResultsOutput`
+    public func listSbomValidationResultsPaginated(input: ListSbomValidationResultsInput) -> ClientRuntime.PaginatorSequence<ListSbomValidationResultsInput, ListSbomValidationResultsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSbomValidationResultsInput, ListSbomValidationResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSbomValidationResults(input:))
+    }
+}
+
+extension ListSbomValidationResultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSbomValidationResultsInput {
+        return ListSbomValidationResultsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageName: self.packageName,
+            validationResult: self.validationResult,
+            versionName: self.versionName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSbomValidationResultsInput, OperationStackOutput == ListSbomValidationResultsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSbomValidationResultsPaginated`
+    /// to access the nested member `[IoTClientTypes.SbomValidationResultSummary]`
+    /// - Returns: `[IoTClientTypes.SbomValidationResultSummary]`
+    public func validationResultSummaries() async throws -> [IoTClientTypes.SbomValidationResultSummary] {
+        return try await self.asyncCompactMap { item in item.validationResultSummaries }
+    }
+}
+extension IoTClient {
     /// Paginate over `[ListScheduledAuditsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

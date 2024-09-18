@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import ClientRuntime
 
-public extension HttpResponse {
+public extension HTTPResponse {
 
     /// The value of the x-amz-request-id header.
-    var requestId: String? {
+    var requestID: String? {
         return headers.value(for: "x-amz-request-id")
     }
 
     /// The value of the x-amz-id-2 header.
-    var requestId2: String? {
+    var requestID2: String? {
         return headers.value(for: "x-amz-id-2")
     }
 }

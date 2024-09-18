@@ -14,5 +14,6 @@ private fun runtimeSymbol(name: String, declaration: SwiftDeclaration? = null): 
     name,
     declaration,
     AWSSwiftDependency.AWS_SDK_HTTP_AUTH,
-    null,
+    emptyList(),
+    emptyList(),
 )

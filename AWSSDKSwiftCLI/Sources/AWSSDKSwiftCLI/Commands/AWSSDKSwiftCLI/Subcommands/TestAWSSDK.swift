@@ -8,7 +8,6 @@
 import Algorithms
 import ArgumentParser
 import Foundation
-import PackageDescription
 import AWSCLIUtils
 
 // MARK: - Command

@@ -21,7 +21,7 @@ class AWSRestXMLEventStreamTests {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, EventStreamTestClientTypes.TestEvents>(keyPath: \.eventStream, defaultBody: nil, marshalClosure: EventStreamTestClientTypes.TestEvents.marshal))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, EventStreamTestClientTypes.TestEvents>(keyPath: \.eventStream, defaultBody: nil, marshalClosure: EventStreamTestClientTypes.TestEvents.marshal))
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }

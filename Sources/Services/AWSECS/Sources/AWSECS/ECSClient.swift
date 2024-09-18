@@ -9,6 +9,7 @@
 
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
+import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
@@ -17,9 +18,9 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyHTTPAPI.SdkHttpRequest
-import class SmithyJSON.Writer
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
+@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
@@ -30,7 +31,6 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
-import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -39,22 +39,26 @@ import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
+import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-import struct ClientRuntime.BodyMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-import struct ClientRuntime.DeserializeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyIdentity.BearerTokenIdentity
+import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -93,6 +97,8 @@ extension ECSClient {
 
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
 
+        public var maxAttempts: Swift.Int?
+
         public var region: Swift.String?
 
         public var signingRegion: Swift.String?
@@ -117,18 +123,21 @@ extension ECSClient {
 
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
 
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
 
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
 
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
+            self.maxAttempts = maxAttempts
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -141,25 +150,26 @@ extension ECSClient {
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
             self.authSchemeResolver = authSchemeResolver
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
             self.httpInterceptorProviders = httpInterceptorProviders
             self.logger = telemetryProvider.loggerProvider.getLogger(name: ECSClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultECSAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultECSAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultECSAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultECSAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
         }
 
         public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultECSAuthSchemeResolver(), [], [])
+            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultECSAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
         }
 
         public var partitionID: String? {
@@ -196,7 +206,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `LimitExceededException` : The limit for the resource was exceeded.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -213,42 +225,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<CreateCapacityProviderInput, CreateCapacityProviderOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(CreateCapacityProviderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateCapacityProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityProviderOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateCapacityProvider"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityProviderInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityProviderOutput>(CreateCapacityProviderOutput.httpOutput(from:), CreateCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityProviderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityProviderOutput>(CreateCapacityProviderOutput.httpOutput(from:), CreateCapacityProviderOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateCapacityProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateCapacityProvider"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityProvider")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -257,7 +273,7 @@ extension ECSClient {
 
     /// Performs the `CreateCluster` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name with the CreateCluster action. When you call the [CreateCluster] API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name. When you call the [CreateCluster](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCluster.html) API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
@@ -266,7 +282,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -282,42 +300,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateClusterInput, CreateClusterOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateClusterInput, CreateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<CreateClusterInput, CreateClusterOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutput>(CreateClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClusterInput, CreateClusterOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateClusterInput, CreateClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateCluster"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateClusterInput, CreateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateClusterInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClusterInput, CreateClusterOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateClusterInput, CreateClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateClusterInput, CreateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateClusterInput, CreateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateClusterInput, CreateClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -326,14 +348,14 @@ extension ECSClient {
 
     /// Performs the `CreateService` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Runs and maintains your desired number of tasks from a specified task definition. If the number of tasks running in a service drops below the desiredCount, Amazon ECS runs another copy of the task in the specified cluster. To update an existing service, see the [UpdateService] action. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. In addition to maintaining the desired count of tasks in your service, you can optionally run your service behind one or more load balancers. The load balancers distribute traffic across the tasks that are associated with the service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. volumeConfigurations is only supported for REPLICA service and not DAEMON service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer. There are two service scheduler strategies available:
+    /// Runs and maintains your desired number of tasks from a specified task definition. If the number of tasks running in a service drops below the desiredCount, Amazon ECS runs another copy of the task in the specified cluster. To update an existing service, use [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. In addition to maintaining the desired count of tasks in your service, you can optionally run your service behind one or more load balancers. The load balancers distribute traffic across the tasks that are associated with the service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. volumeConfigurations is only supported for REPLICA service and not DAEMON service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer. There are two service scheduler strategies available:
     ///
     /// * REPLICA - The replica scheduling strategy places and maintains your desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. For more information, see [Service scheduler concepts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// * DAEMON - The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks. It also stops tasks that don't meet the placement constraints. When using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies. For more information, see [Service scheduler concepts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     ///
-    /// You can optionally specify a deployment configuration for your service. The deployment is initiated by changing properties. For example, the deployment might be initiated by the task definition or by your desired count of a service. This is done with an [UpdateService] operation. The default value for a replica service for minimumHealthyPercent is 100%. The default value for a daemon service for minimumHealthyPercent is 0%. If a service uses the ECS deployment controller, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment. Specifically, it represents it as a percentage of your desired number of tasks (rounded up to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can deploy without using additional cluster capacity. For example, if you set your service to have desired number of four tasks and a minimum healthy percent of 50%, the scheduler might stop two existing tasks to free up cluster capacity before starting two new tasks. If they're in the RUNNING state, tasks for services that don't use a load balancer are considered healthy . If they're in the RUNNING state and reported as healthy by the load balancer, tasks for services that do use a load balancer are considered healthy . The default value for minimum healthy percent is 100%. If a service uses the ECS deployment controller, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment. Specifically, it represents it as a percentage of the desired number of tasks (rounded down to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service uses either the CODE_DEPLOY or EXTERNAL deployment controller types and tasks that use the EC2 launch type, the minimum healthy percent and maximum percent values are used only to define the lower and upper limit on the number of the tasks in the service that remain in the RUNNING state. This is while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent and maximum percent values aren't used. This is the case even if they're currently visible when describing your service. When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the [CreateTaskSet] operation. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see [Amazon ECS task placement](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html) in the Amazon Elastic Container Service Developer Guide Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    /// You can optionally specify a deployment configuration for your service. The deployment is initiated by changing properties. For example, the deployment might be initiated by the task definition or by your desired count of a service. You can use [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). The default value for a replica service for minimumHealthyPercent is 100%. The default value for a daemon service for minimumHealthyPercent is 0%. If a service uses the ECS deployment controller, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment. Specifically, it represents it as a percentage of your desired number of tasks (rounded up to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can deploy without using additional cluster capacity. For example, if you set your service to have desired number of four tasks and a minimum healthy percent of 50%, the scheduler might stop two existing tasks to free up cluster capacity before starting two new tasks. If they're in the RUNNING state, tasks for services that don't use a load balancer are considered healthy . If they're in the RUNNING state and reported as healthy by the load balancer, tasks for services that do use a load balancer are considered healthy . The default value for minimum healthy percent is 100%. If a service uses the ECS deployment controller, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment. Specifically, it represents it as a percentage of the desired number of tasks (rounded down to the nearest integer). This happens when any of your container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Using this parameter, you can define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service uses either the CODE_DEPLOY or EXTERNAL deployment controller types and tasks that use the EC2 launch type, the minimum healthy percent and maximum percent values are used only to define the lower and upper limit on the number of the tasks in the service that remain in the RUNNING state. This is while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent and maximum percent values aren't used. This is the case even if they're currently visible when describing your service. When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see [Amazon ECS task placement](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html) in the Amazon Elastic Container Service Developer Guide Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     ///
     /// - Parameter CreateServiceInput : [no documentation found]
     ///
@@ -343,8 +365,10 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
@@ -363,42 +387,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceInput, CreateServiceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceInput, CreateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<CreateServiceInput, CreateServiceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceInput, CreateServiceOutput>(CreateServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceInput, CreateServiceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateServiceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateServiceInput, CreateServiceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateServiceInput, CreateServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateService"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceInput, CreateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceInput, CreateServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInput, CreateServiceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateServiceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateServiceInput, CreateServiceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateServiceInput, CreateServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateService"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceInput, CreateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceInput, CreateServiceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceInput, CreateServiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateServiceInput, CreateServiceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateService")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -407,7 +435,7 @@ extension ECSClient {
 
     /// Performs the `CreateTaskSet` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Create a task set in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For information about the maximum number of task sets and otther quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Create a task set in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For information about the maximum number of task sets and other quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter CreateTaskSetInput : [no documentation found]
     ///
@@ -417,15 +445,17 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func createTaskSet(input: CreateTaskSetInput) async throws -> CreateTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -439,42 +469,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTaskSetInput, CreateTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTaskSetInput, CreateTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<CreateTaskSetInput, CreateTaskSetOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(CreateTaskSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTaskSetInput, CreateTaskSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTaskSetOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateTaskSet"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTaskSetInput, CreateTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTaskSetInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTaskSetInput, CreateTaskSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskSetOutput>(CreateTaskSetOutput.httpOutput(from:), CreateTaskSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTaskSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskSetOutput>(CreateTaskSetOutput.httpOutput(from:), CreateTaskSetOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.CreateTaskSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateTaskSetInput, CreateTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTaskSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTaskSetInput, CreateTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTaskSet")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -492,7 +526,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteAccountSetting(input: DeleteAccountSettingInput) async throws -> DeleteAccountSettingOutput {
@@ -507,42 +543,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountSettingInput, DeleteAccountSettingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountSettingInput, DeleteAccountSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteAccountSettingInput, DeleteAccountSettingOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(DeleteAccountSettingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAccountSettingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountSettingOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteAccountSetting"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountSettingInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountSettingOutput>(DeleteAccountSettingOutput.httpOutput(from:), DeleteAccountSettingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountSettingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountSettingOutput>(DeleteAccountSettingOutput.httpOutput(from:), DeleteAccountSettingOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAccountSettingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteAccountSetting"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountSettingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccountSetting")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -560,9 +600,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
-    /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances]. Amazon ECS container instances are cluster-specific and Region-specific.
+    /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html). Amazon ECS container instances are cluster-specific and Region-specific.
     public func deleteAttributes(input: DeleteAttributesInput) async throws -> DeleteAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -575,42 +615,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAttributesInput, DeleteAttributesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAttributesInput, DeleteAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteAttributesInput, DeleteAttributesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(DeleteAttributesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAttributesInput, DeleteAttributesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAttributesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteAttributes"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAttributesInput, DeleteAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAttributesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAttributesInput, DeleteAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttributesOutput>(DeleteAttributesOutput.httpOutput(from:), DeleteAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttributesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttributesOutput>(DeleteAttributesOutput.httpOutput(from:), DeleteAttributesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteAttributes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAttributesInput, DeleteAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAttributesInput, DeleteAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -619,7 +663,7 @@ extension ECSClient {
 
     /// Performs the `DeleteCapacityProvider` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Deletes the specified capacity provider. The FARGATE and FARGATE_SPOT capacity providers are reserved and can't be deleted. You can disassociate them from a cluster using either the [PutClusterCapacityProviders] API or by deleting the cluster. Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The [UpdateService] API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the forceNewDeployment option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use [PutClusterCapacityProviders] or delete the cluster.
+    /// Deletes the specified capacity provider. The FARGATE and FARGATE_SPOT capacity providers are reserved and can't be deleted. You can disassociate them from a cluster using either [PutCapacityProviderProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutCapacityProviderProviders.html) or by deleting the cluster. Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the forceNewDeployment option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use [PutCapacityProviderProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutCapacityProviderProviders.html) or delete the cluster.
     ///
     /// - Parameter DeleteCapacityProviderInput : [no documentation found]
     ///
@@ -628,7 +672,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteCapacityProvider(input: DeleteCapacityProviderInput) async throws -> DeleteCapacityProviderOutput {
@@ -643,42 +689,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteCapacityProviderInput, DeleteCapacityProviderOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(DeleteCapacityProviderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteCapacityProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCapacityProviderOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCapacityProviderInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapacityProviderOutput>(DeleteCapacityProviderOutput.httpOutput(from:), DeleteCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCapacityProviderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapacityProviderOutput>(DeleteCapacityProviderOutput.httpOutput(from:), DeleteCapacityProviderOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteCapacityProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCapacityProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCapacityProvider")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -687,7 +737,7 @@ extension ECSClient {
 
     /// Performs the `DeleteCluster` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances] and deregister them with [DeregisterContainerInstance].
+    /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html) and deregister them with [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
@@ -696,11 +746,13 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterContainsContainerInstancesException` : You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance].
-    /// - `ClusterContainsServicesException` : You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService] and [DeleteService].
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterContainsContainerInstancesException` : You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
+    /// - `ClusterContainsServicesException` : You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) and [DeleteService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteService.html).
     /// - `ClusterContainsTasksException` : You can't delete a cluster that has active tasks.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UpdateInProgressException` : There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
@@ -716,42 +768,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteClusterInput, DeleteClusterOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteClusterInput, DeleteClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteClusterInput, DeleteClusterOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutput>(DeleteClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterInput, DeleteClusterOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteClusterInput, DeleteClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteCluster"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteClusterInput, DeleteClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteClusterInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterInput, DeleteClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterInput, DeleteClusterOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteClusterInput, DeleteClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteClusterInput, DeleteClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterInput, DeleteClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClusterInput, DeleteClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClusterInput, DeleteClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -760,7 +816,7 @@ extension ECSClient {
 
     /// Performs the `DeleteService` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService]. When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices] API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices] API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices] calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
+    /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html) API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
@@ -769,11 +825,13 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -786,42 +844,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceInput, DeleteServiceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceInput, DeleteServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteServiceInput, DeleteServiceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceInput, DeleteServiceOutput>(DeleteServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteServiceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteServiceInput, DeleteServiceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceInput, DeleteServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteService"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceInput, DeleteServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceInput, DeleteServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceInput, DeleteServiceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteServiceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteServiceInput, DeleteServiceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceInput, DeleteServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteService"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceInput, DeleteServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceInput, DeleteServiceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceInput, DeleteServiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteServiceInput, DeleteServiceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteService")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -840,7 +902,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteTaskDefinitions(input: DeleteTaskDefinitionsInput) async throws -> DeleteTaskDefinitionsOutput {
@@ -855,42 +919,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(DeleteTaskDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTaskDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskDefinitionsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteTaskDefinitions"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskDefinitionsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskDefinitionsOutput>(DeleteTaskDefinitionsOutput.httpOutput(from:), DeleteTaskDefinitionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaskDefinitionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskDefinitionsOutput>(DeleteTaskDefinitionsOutput.httpOutput(from:), DeleteTaskDefinitionsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTaskDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteTaskDefinitions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskDefinitionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTaskDefinitions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -909,13 +977,15 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
+    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func deleteTaskSet(input: DeleteTaskSetInput) async throws -> DeleteTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -929,42 +999,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskSetInput, DeleteTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskSetInput, DeleteTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteTaskSetInput, DeleteTaskSetOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(DeleteTaskSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskSetOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteTaskSet"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskSetInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskSetOutput>(DeleteTaskSetOutput.httpOutput(from:), DeleteTaskSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaskSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskSetOutput>(DeleteTaskSetOutput.httpOutput(from:), DeleteTaskSetOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeleteTaskSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTaskSet")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -982,8 +1056,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deregisterContainerInstance(input: DeregisterContainerInstanceInput) async throws -> DeregisterContainerInstanceOutput {
@@ -998,42 +1074,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(DeregisterContainerInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterContainerInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterContainerInstanceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeregisterContainerInstance"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterContainerInstanceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterContainerInstanceOutput>(DeregisterContainerInstanceOutput.httpOutput(from:), DeregisterContainerInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterContainerInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterContainerInstanceOutput>(DeregisterContainerInstanceOutput.httpOutput(from:), DeregisterContainerInstanceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterContainerInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeregisterContainerInstance"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterContainerInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterContainerInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterContainerInstance")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1051,7 +1131,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deregisterTaskDefinition(input: DeregisterTaskDefinitionInput) async throws -> DeregisterTaskDefinitionOutput {
@@ -1066,42 +1148,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(DeregisterTaskDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterTaskDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterTaskDefinitionOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeregisterTaskDefinition"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterTaskDefinitionInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTaskDefinitionOutput>(DeregisterTaskDefinitionOutput.httpOutput(from:), DeregisterTaskDefinitionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTaskDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTaskDefinitionOutput>(DeregisterTaskDefinitionOutput.httpOutput(from:), DeregisterTaskDefinitionOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterTaskDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DeregisterTaskDefinition"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterTaskDefinitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterTaskDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterTaskDefinition")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1119,7 +1205,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeCapacityProviders(input: DescribeCapacityProvidersInput) async throws -> DescribeCapacityProvidersOutput {
@@ -1134,42 +1222,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(DescribeCapacityProvidersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCapacityProvidersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityProvidersOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeCapacityProviders"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityProvidersInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityProvidersOutput>(DescribeCapacityProvidersOutput.httpOutput(from:), DescribeCapacityProvidersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityProvidersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityProvidersOutput>(DescribeCapacityProvidersOutput.httpOutput(from:), DescribeCapacityProvidersOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCapacityProvidersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeCapacityProviders"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityProvidersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityProviders")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1187,7 +1279,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
@@ -1202,42 +1296,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeClustersInput, DescribeClustersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeClustersInput, DescribeClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeClustersInput, DescribeClustersOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeClustersInput, DescribeClustersOutput>(DescribeClustersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClustersInput, DescribeClustersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeClustersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeClustersInput, DescribeClustersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClustersOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClustersInput, DescribeClustersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeClusters"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeClustersInput, DescribeClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClustersInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClustersInput, DescribeClustersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClustersInput, DescribeClustersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClustersOutput>(DescribeClustersOutput.httpOutput(from:), DescribeClustersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClustersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClustersOutput>(DescribeClustersOutput.httpOutput(from:), DescribeClustersOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeClustersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeClustersInput, DescribeClustersOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClustersInput, DescribeClustersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeClusters"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeClustersInput, DescribeClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClustersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClustersInput, DescribeClustersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeClustersInput, DescribeClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeClustersInput, DescribeClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClusters")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1255,8 +1353,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeContainerInstances(input: DescribeContainerInstancesInput) async throws -> DescribeContainerInstancesOutput {
@@ -1271,42 +1371,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeContainerInstancesInput, DescribeContainerInstancesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeContainerInstancesInput, DescribeContainerInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeContainerInstancesInput, DescribeContainerInstancesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(DescribeContainerInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeContainerInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerInstancesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeContainerInstances"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerInstancesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerInstancesOutput>(DescribeContainerInstancesOutput.httpOutput(from:), DescribeContainerInstancesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerInstancesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerInstancesOutput>(DescribeContainerInstancesOutput.httpOutput(from:), DescribeContainerInstancesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeContainerInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeContainerInstances"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerInstancesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContainerInstances")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1324,8 +1428,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput {
@@ -1340,42 +1446,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeServicesInput, DescribeServicesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeServicesInput, DescribeServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeServicesInput, DescribeServicesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutput>(DescribeServicesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeServicesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeServicesInput, DescribeServicesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServicesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeServicesInput, DescribeServicesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeServices"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeServicesInput, DescribeServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServicesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServicesInput, DescribeServicesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServicesOutput>(DescribeServicesOutput.httpOutput(from:), DescribeServicesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServicesInput, DescribeServicesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServicesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServicesOutput>(DescribeServicesOutput.httpOutput(from:), DescribeServicesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServicesInput, DescribeServicesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeServicesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeServicesInput, DescribeServicesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeServicesInput, DescribeServicesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeServices"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeServicesInput, DescribeServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServicesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeServicesInput, DescribeServicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeServicesInput, DescribeServicesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeServices")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1393,7 +1503,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeTaskDefinition(input: DescribeTaskDefinitionInput) async throws -> DescribeTaskDefinitionOutput {
@@ -1408,42 +1520,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(DescribeTaskDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTaskDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskDefinitionOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTaskDefinition"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskDefinitionInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskDefinitionOutput>(DescribeTaskDefinitionOutput.httpOutput(from:), DescribeTaskDefinitionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskDefinitionOutput>(DescribeTaskDefinitionOutput.httpOutput(from:), DescribeTaskDefinitionOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTaskDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTaskDefinition"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskDefinitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTaskDefinition")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1462,12 +1578,14 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func describeTaskSets(input: DescribeTaskSetsInput) async throws -> DescribeTaskSetsOutput {
         let context = Smithy.ContextBuilder()
@@ -1481,42 +1599,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskSetsInput, DescribeTaskSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskSetsInput, DescribeTaskSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeTaskSetsInput, DescribeTaskSetsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(DescribeTaskSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTaskSetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskSetsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTaskSets"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskSetsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskSetsOutput>(DescribeTaskSetsOutput.httpOutput(from:), DescribeTaskSetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskSetsOutput>(DescribeTaskSetsOutput.httpOutput(from:), DescribeTaskSetsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTaskSetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTaskSets"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskSetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTaskSets")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1534,8 +1656,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeTasks(input: DescribeTasksInput) async throws -> DescribeTasksOutput {
@@ -1550,42 +1674,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTasksInput, DescribeTasksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTasksInput, DescribeTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeTasksInput, DescribeTasksOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTasksInput, DescribeTasksOutput>(DescribeTasksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTasksInput, DescribeTasksOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTasksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTasksInput, DescribeTasksOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTasksOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTasksInput, DescribeTasksOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTasks"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTasksInput, DescribeTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTasksInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTasksInput, DescribeTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTasksInput, DescribeTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTasksOutput>(DescribeTasksOutput.httpOutput(from:), DescribeTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTasksInput, DescribeTasksOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTasksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTasksOutput>(DescribeTasksOutput.httpOutput(from:), DescribeTasksOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTasksInput, DescribeTasksOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTasksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTasksInput, DescribeTasksOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTasksInput, DescribeTasksOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DescribeTasks"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTasksInput, DescribeTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTasksInput, DescribeTasksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTasksInput, DescribeTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTasksInput, DescribeTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTasks")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1603,7 +1731,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func discoverPollEndpoint(input: DiscoverPollEndpointInput) async throws -> DiscoverPollEndpointOutput {
         let context = Smithy.ContextBuilder()
@@ -1617,42 +1747,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DiscoverPollEndpointInput, DiscoverPollEndpointOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DiscoverPollEndpointInput, DiscoverPollEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DiscoverPollEndpointInput, DiscoverPollEndpointOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(DiscoverPollEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DiscoverPollEndpointOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DiscoverPollEndpointOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DiscoverPollEndpoint"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DiscoverPollEndpointInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DiscoverPollEndpointOutput>(DiscoverPollEndpointOutput.httpOutput(from:), DiscoverPollEndpointOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DiscoverPollEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DiscoverPollEndpointOutput>(DiscoverPollEndpointOutput.httpOutput(from:), DiscoverPollEndpointOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DiscoverPollEndpointOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.DiscoverPollEndpoint"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DiscoverPollEndpointInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DiscoverPollEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DiscoverPollEndpoint")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1671,8 +1805,10 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `TargetNotConnectedException` : The execute command cannot run. This error can be caused by any of the following configuration issues:
@@ -1697,42 +1833,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExecuteCommandInput, ExecuteCommandOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ExecuteCommandInput, ExecuteCommandOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ExecuteCommandInput, ExecuteCommandOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(ExecuteCommandInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExecuteCommandInput, ExecuteCommandOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExecuteCommandOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteCommandOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ExecuteCommand"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExecuteCommandInput, ExecuteCommandOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteCommandInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteCommandInput, ExecuteCommandOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteCommandOutput>(ExecuteCommandOutput.httpOutput(from:), ExecuteCommandOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteCommandOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteCommandOutput>(ExecuteCommandOutput.httpOutput(from:), ExecuteCommandOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExecuteCommandOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ExecuteCommand"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ExecuteCommandInput, ExecuteCommandOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteCommandInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteCommandOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExecuteCommandInput, ExecuteCommandOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExecuteCommand")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1751,8 +1891,10 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1769,42 +1911,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTaskProtectionInput, GetTaskProtectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTaskProtectionInput, GetTaskProtectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<GetTaskProtectionInput, GetTaskProtectionOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(GetTaskProtectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetTaskProtectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaskProtectionOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.GetTaskProtection"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTaskProtectionInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaskProtectionOutput>(GetTaskProtectionOutput.httpOutput(from:), GetTaskProtectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaskProtectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaskProtectionOutput>(GetTaskProtectionOutput.httpOutput(from:), GetTaskProtectionOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetTaskProtectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.GetTaskProtection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTaskProtectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaskProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTaskProtection")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1822,7 +1968,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listAccountSettings(input: ListAccountSettingsInput) async throws -> ListAccountSettingsOutput {
@@ -1837,42 +1985,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccountSettingsInput, ListAccountSettingsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountSettingsInput, ListAccountSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListAccountSettingsInput, ListAccountSettingsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(ListAccountSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountSettingsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListAccountSettings"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountSettingsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountSettingsOutput>(ListAccountSettingsOutput.httpOutput(from:), ListAccountSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountSettingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountSettingsOutput>(ListAccountSettingsOutput.httpOutput(from:), ListAccountSettingsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListAccountSettings"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccountSettings")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1890,7 +2042,7 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     public func listAttributes(input: ListAttributesInput) async throws -> ListAttributesOutput {
         let context = Smithy.ContextBuilder()
@@ -1904,42 +2056,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAttributesInput, ListAttributesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAttributesInput, ListAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListAttributesInput, ListAttributesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAttributesInput, ListAttributesOutput>(ListAttributesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAttributesInput, ListAttributesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAttributesInput, ListAttributesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAttributesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAttributesInput, ListAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListAttributes"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAttributesInput, ListAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAttributesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAttributesInput, ListAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttributesInput, ListAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttributesOutput>(ListAttributesOutput.httpOutput(from:), ListAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttributesInput, ListAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttributesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttributesOutput>(ListAttributesOutput.httpOutput(from:), ListAttributesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttributesInput, ListAttributesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAttributesInput, ListAttributesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAttributesInput, ListAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListAttributes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAttributesInput, ListAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAttributesInput, ListAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAttributesInput, ListAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAttributesInput, ListAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1957,7 +2113,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
@@ -1972,42 +2130,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListClustersInput, ListClustersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListClustersInput, ListClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListClustersInput, ListClustersOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListClustersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListClustersInput, ListClustersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClustersOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClustersInput, ListClustersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListClusters"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListClustersInput, ListClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClustersInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClustersInput, ListClustersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClustersInput, ListClustersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListClustersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListClustersInput, ListClustersOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClustersInput, ListClustersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListClusters"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListClustersInput, ListClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClustersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClustersInput, ListClustersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListClustersInput, ListClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListClustersInput, ListClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListClusters")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2025,8 +2187,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listContainerInstances(input: ListContainerInstancesInput) async throws -> ListContainerInstancesOutput {
@@ -2041,42 +2205,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListContainerInstancesInput, ListContainerInstancesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListContainerInstancesInput, ListContainerInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListContainerInstancesInput, ListContainerInstancesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(ListContainerInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListContainerInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerInstancesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListContainerInstances"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainerInstancesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainerInstancesOutput>(ListContainerInstancesOutput.httpOutput(from:), ListContainerInstancesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerInstancesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainerInstancesOutput>(ListContainerInstancesOutput.httpOutput(from:), ListContainerInstancesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListContainerInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListContainerInstances"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainerInstancesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContainerInstances")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2094,8 +2262,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
@@ -2110,42 +2280,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicesInput, ListServicesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListServicesInput, ListServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListServicesInput, ListServicesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServicesInput, ListServicesOutput>(ListServicesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServicesInput, ListServicesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListServicesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServicesInput, ListServicesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServicesInput, ListServicesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListServices"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServicesInput, ListServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesInput, ListServicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesInput, ListServicesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListServicesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServicesInput, ListServicesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServicesInput, ListServicesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListServices"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListServicesInput, ListServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesInput, ListServicesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServicesInput, ListServicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListServicesInput, ListServicesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServices")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2163,7 +2337,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2179,42 +2355,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicesByNamespaceInput, ListServicesByNamespaceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListServicesByNamespaceInput, ListServicesByNamespaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListServicesByNamespaceInput, ListServicesByNamespaceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(ListServicesByNamespaceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListServicesByNamespaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesByNamespaceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListServicesByNamespace"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesByNamespaceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesByNamespaceOutput>(ListServicesByNamespaceOutput.httpOutput(from:), ListServicesByNamespaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesByNamespaceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesByNamespaceOutput>(ListServicesByNamespaceOutput.httpOutput(from:), ListServicesByNamespaceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListServicesByNamespaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListServicesByNamespace"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesByNamespaceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesByNamespaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServicesByNamespace")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2232,8 +2412,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -2248,42 +2430,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTagsForResource"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTagsForResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2301,7 +2487,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listTaskDefinitionFamilies(input: ListTaskDefinitionFamiliesInput) async throws -> ListTaskDefinitionFamiliesOutput {
@@ -2316,42 +2504,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(ListTaskDefinitionFamiliesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTaskDefinitionFamiliesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskDefinitionFamiliesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTaskDefinitionFamilies"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskDefinitionFamiliesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionFamiliesOutput>(ListTaskDefinitionFamiliesOutput.httpOutput(from:), ListTaskDefinitionFamiliesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaskDefinitionFamiliesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionFamiliesOutput>(ListTaskDefinitionFamiliesOutput.httpOutput(from:), ListTaskDefinitionFamiliesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTaskDefinitionFamiliesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTaskDefinitionFamilies"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskDefinitionFamiliesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskDefinitionFamiliesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTaskDefinitionFamilies")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2369,7 +2561,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listTaskDefinitions(input: ListTaskDefinitionsInput) async throws -> ListTaskDefinitionsOutput {
@@ -2384,42 +2578,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionsInput, ListTaskDefinitionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTaskDefinitionsInput, ListTaskDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListTaskDefinitionsInput, ListTaskDefinitionsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(ListTaskDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTaskDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskDefinitionsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTaskDefinitions"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskDefinitionsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionsOutput>(ListTaskDefinitionsOutput.httpOutput(from:), ListTaskDefinitionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaskDefinitionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionsOutput>(ListTaskDefinitionsOutput.httpOutput(from:), ListTaskDefinitionsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTaskDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTaskDefinitions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskDefinitionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTaskDefinitions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2437,11 +2635,13 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     public func listTasks(input: ListTasksInput) async throws -> ListTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2454,42 +2654,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTasksInput, ListTasksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTasksInput, ListTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListTasksInput, ListTasksOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTasksInput, ListTasksOutput>(ListTasksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTasksInput, ListTasksOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTasksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTasksInput, ListTasksOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTasksOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTasksInput, ListTasksOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTasks"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTasksInput, ListTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTasksInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTasksInput, ListTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTasksInput, ListTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTasksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTasksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTasksInput, ListTasksOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTasksInput, ListTasksOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.ListTasks"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTasksInput, ListTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTasksInput, ListTasksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTasksInput, ListTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTasksInput, ListTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTasks")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2507,7 +2711,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func putAccountSetting(input: PutAccountSettingInput) async throws -> PutAccountSettingOutput {
@@ -2522,42 +2728,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingInput, PutAccountSettingOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingInput, PutAccountSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<PutAccountSettingInput, PutAccountSettingOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(PutAccountSettingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutAccountSettingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAccountSetting"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingInput, PutAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingOutput>(PutAccountSettingOutput.httpOutput(from:), PutAccountSettingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingOutput>(PutAccountSettingOutput.httpOutput(from:), PutAccountSettingOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutAccountSettingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAccountSetting"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingInput, PutAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountSetting")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2575,7 +2785,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func putAccountSettingDefault(input: PutAccountSettingDefaultInput) async throws -> PutAccountSettingDefaultOutput {
@@ -2590,42 +2802,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(PutAccountSettingDefaultInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutAccountSettingDefaultOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingDefaultOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAccountSettingDefault"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingDefaultInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingDefaultOutput>(PutAccountSettingDefaultOutput.httpOutput(from:), PutAccountSettingDefaultOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingDefaultOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingDefaultOutput>(PutAccountSettingDefaultOutput.httpOutput(from:), PutAccountSettingDefaultOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutAccountSettingDefaultOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAccountSettingDefault"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingDefaultInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingDefaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountSettingDefault")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2634,7 +2850,7 @@ extension ECSClient {
 
     /// Performs the `PutAttributes` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes]. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
+    /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html). For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter PutAttributesInput : [no documentation found]
     ///
@@ -2643,10 +2859,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AttributeLimitExceededException` : You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with [ListAttributes]. You can remove existing attributes on a resource with [DeleteAttributes].
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `AttributeLimitExceededException` : You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with [ListAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListAttributes.html). You can remove existing attributes on a resource with [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
-    /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances]. Amazon ECS container instances are cluster-specific and Region-specific.
+    /// - `TargetNotFoundException` : The specified target wasn't found. You can view your available container instances with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html). Amazon ECS container instances are cluster-specific and Region-specific.
     public func putAttributes(input: PutAttributesInput) async throws -> PutAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2659,42 +2875,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAttributesInput, PutAttributesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAttributesInput, PutAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<PutAttributesInput, PutAttributesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAttributesInput, PutAttributesOutput>(PutAttributesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAttributesInput, PutAttributesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAttributesInput, PutAttributesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAttributesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAttributesInput, PutAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAttributes"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAttributesInput, PutAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAttributesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAttributesInput, PutAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAttributesInput, PutAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAttributesOutput>(PutAttributesOutput.httpOutput(from:), PutAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAttributesInput, PutAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAttributesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAttributesOutput>(PutAttributesOutput.httpOutput(from:), PutAttributesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAttributesInput, PutAttributesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAttributesInput, PutAttributesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAttributesInput, PutAttributesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutAttributes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAttributesInput, PutAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAttributesInput, PutAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAttributesInput, PutAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAttributesInput, PutAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2703,7 +2923,7 @@ extension ECSClient {
 
     /// Performs the `PutClusterCapacityProviders` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers that are associated with a cluster that are omitted from a [PutClusterCapacityProviders] API call will be disassociated with the cluster. You can only disassociate an existing capacity provider from a cluster if it's not being used by any existing tasks. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified, then the cluster's default capacity provider strategy is used. We recommend that you define a default capacity provider strategy for your cluster. However, you must specify an empty array ([]) to bypass defining a default strategy.
+    /// Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers that are associated with a cluster that are omitted from a [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API call will be disassociated with the cluster. You can only disassociate an existing capacity provider from a cluster if it's not being used by any existing tasks. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified, then the cluster's default capacity provider strategy is used. We recommend that you define a default capacity provider strategy for your cluster. However, you must specify an empty array ([]) to bypass defining a default strategy.
     ///
     /// - Parameter PutClusterCapacityProvidersInput : [no documentation found]
     ///
@@ -2712,8 +2932,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceInUseException` : The specified resource is in-use and can't be removed.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2730,42 +2952,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(PutClusterCapacityProvidersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutClusterCapacityProvidersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutClusterCapacityProvidersOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutClusterCapacityProviders"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutClusterCapacityProvidersInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutClusterCapacityProvidersOutput>(PutClusterCapacityProvidersOutput.httpOutput(from:), PutClusterCapacityProvidersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutClusterCapacityProvidersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutClusterCapacityProvidersOutput>(PutClusterCapacityProvidersOutput.httpOutput(from:), PutClusterCapacityProvidersOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutClusterCapacityProvidersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.PutClusterCapacityProviders"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutClusterCapacityProvidersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutClusterCapacityProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutClusterCapacityProviders")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2783,7 +3009,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func registerContainerInstance(input: RegisterContainerInstanceInput) async throws -> RegisterContainerInstanceOutput {
@@ -2798,42 +3026,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterContainerInstanceInput, RegisterContainerInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterContainerInstanceInput, RegisterContainerInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<RegisterContainerInstanceInput, RegisterContainerInstanceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(RegisterContainerInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterContainerInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterContainerInstanceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RegisterContainerInstance"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterContainerInstanceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterContainerInstanceOutput>(RegisterContainerInstanceOutput.httpOutput(from:), RegisterContainerInstanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterContainerInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterContainerInstanceOutput>(RegisterContainerInstanceOutput.httpOutput(from:), RegisterContainerInstanceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterContainerInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RegisterContainerInstance"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterContainerInstanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterContainerInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterContainerInstance")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2842,7 +3074,7 @@ extension ECSClient {
 
     /// Performs the `RegisterTaskDefinition` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. The available network modes correspond to those described in [Network settings](https://docs.docker.com/engine/reference/run/#/network-settings) in the Docker run reference. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration] when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter RegisterTaskDefinitionInput : [no documentation found]
     ///
@@ -2851,7 +3083,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func registerTaskDefinition(input: RegisterTaskDefinitionInput) async throws -> RegisterTaskDefinitionOutput {
@@ -2866,42 +3100,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(RegisterTaskDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterTaskDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterTaskDefinitionOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RegisterTaskDefinition"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterTaskDefinitionInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTaskDefinitionOutput>(RegisterTaskDefinitionOutput.httpOutput(from:), RegisterTaskDefinitionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTaskDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTaskDefinitionOutput>(RegisterTaskDefinitionOutput.httpOutput(from:), RegisterTaskDefinitionOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterTaskDefinitionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RegisterTaskDefinition"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterTaskDefinitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterTaskDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterTaskDefinition")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2910,7 +3148,7 @@ extension ECSClient {
 
     /// Performs the `RunTask` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Starts a new task using the specified task definition. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places tasks using placement constraints and placement strategies. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use [StartTask] to use your own scheduler or place tasks manually on specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your Amazon ECS resources might not be immediately visible to all subsequent commands you run. Keep this in mind when you carry out an API command that immediately follows a previous API command. To manage eventual consistency, you can do the following:
+    /// Starts a new task using the specified task definition. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places tasks using placement constraints and placement strategies. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use StartTask to use your own scheduler or place tasks manually on specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your Amazon ECS resources might not be immediately visible to all subsequent commands you run. Keep this in mind when you carry out an API command that immediately follows a previous API command. To manage eventual consistency, you can do the following:
     ///
     /// * Confirm the state of the resource before you run a command to modify it. Run the DescribeTasks command using an exponential backoff algorithm to ensure that you allow enough time for the previous command to propagate through the system. To do this, run the DescribeTasks command repeatedly, starting with a couple of seconds of wait time and increasing gradually up to five minutes of wait time.
     ///
@@ -2925,8 +3163,10 @@ extension ECSClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
     /// - `BlockedException` : Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web Services Support](http://aws.amazon.com/contact-us/).
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `ConflictException` : The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
     ///
     /// * Run RunTask with a unique clientToken.
@@ -2949,43 +3189,47 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RunTaskInput, RunTaskOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RunTaskInput, RunTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<RunTaskInput, RunTaskOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RunTaskInput, RunTaskOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RunTaskInput, RunTaskOutput>(RunTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RunTaskInput, RunTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RunTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RunTaskInput, RunTaskOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RunTaskOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RunTaskInput, RunTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RunTask"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RunTaskInput, RunTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RunTaskInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RunTaskInput, RunTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RunTaskInput, RunTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RunTaskOutput>(RunTaskOutput.httpOutput(from:), RunTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunTaskInput, RunTaskOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RunTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RunTaskOutput>(RunTaskOutput.httpOutput(from:), RunTaskOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunTaskInput, RunTaskOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RunTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RunTaskInput, RunTaskOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RunTaskInput, RunTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.RunTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RunTaskInput, RunTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RunTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RunTaskInput, RunTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RunTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RunTaskInput, RunTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RunTaskInput, RunTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RunTask")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2994,7 +3238,7 @@ extension ECSClient {
 
     /// Performs the `StartTask` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Starts a new task from the specified task definition on the specified container instance or instances. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. Alternatively, you can use [RunTask] to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide.
+    /// Starts a new task from the specified task definition on the specified container instance or instances. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service. Alternatively, you can useRunTask to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter StartTaskInput : [no documentation found]
     ///
@@ -3003,8 +3247,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
@@ -3020,42 +3266,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartTaskInput, StartTaskOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StartTaskInput, StartTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<StartTaskInput, StartTaskOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTaskInput, StartTaskOutput>(StartTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTaskInput, StartTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartTaskInput, StartTaskOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTaskOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTaskInput, StartTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StartTask"))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartTaskInput, StartTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTaskInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTaskInput, StartTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTaskInput, StartTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTaskOutput>(StartTaskOutput.httpOutput(from:), StartTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTaskInput, StartTaskOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTaskOutput>(StartTaskOutput.httpOutput(from:), StartTaskOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTaskInput, StartTaskOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartTaskInput, StartTaskOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTaskInput, StartTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StartTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartTaskInput, StartTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTaskInput, StartTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTaskInput, StartTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartTaskInput, StartTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartTask")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3064,7 +3314,7 @@ extension ECSClient {
 
     /// Performs the `StopTask` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Stops a running task. Any tags associated with the task will be deleted. When [StopTask] is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending a CTRL_SHUTDOWN_EVENT. For more information, see [Unable to react to graceful shutdown of (Windows) container #25982](https://github.com/moby/moby/issues/25982) on GitHub. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending a CTRL_SHUTDOWN_EVENT. For more information, see [Unable to react to graceful shutdown of (Windows) container #25982](https://github.com/moby/moby/issues/25982) on GitHub. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter StopTaskInput : [no documentation found]
     ///
@@ -3073,8 +3323,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func stopTask(input: StopTaskInput) async throws -> StopTaskOutput {
@@ -3089,42 +3341,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopTaskInput, StopTaskOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StopTaskInput, StopTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<StopTaskInput, StopTaskOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopTaskInput, StopTaskOutput>(StopTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopTaskInput, StopTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopTaskInput, StopTaskOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTaskOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTaskInput, StopTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StopTask"))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopTaskInput, StopTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTaskInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTaskInput, StopTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTaskInput, StopTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTaskOutput>(StopTaskOutput.httpOutput(from:), StopTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTaskInput, StopTaskOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTaskOutput>(StopTaskOutput.httpOutput(from:), StopTaskOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTaskInput, StopTaskOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopTaskInput, StopTaskOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTaskInput, StopTaskOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StopTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopTaskInput, StopTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTaskInput, StopTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopTaskInput, StopTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopTaskInput, StopTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopTask")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3143,7 +3399,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func submitAttachmentStateChanges(input: SubmitAttachmentStateChangesInput) async throws -> SubmitAttachmentStateChangesOutput {
@@ -3158,42 +3416,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(SubmitAttachmentStateChangesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitAttachmentStateChangesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitAttachmentStateChangesOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitAttachmentStateChanges"))
-        builder.serialize(ClientRuntime.BodyMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitAttachmentStateChangesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitAttachmentStateChangesOutput>(SubmitAttachmentStateChangesOutput.httpOutput(from:), SubmitAttachmentStateChangesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitAttachmentStateChangesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitAttachmentStateChangesOutput>(SubmitAttachmentStateChangesOutput.httpOutput(from:), SubmitAttachmentStateChangesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitAttachmentStateChangesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitAttachmentStateChanges"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitAttachmentStateChangesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitAttachmentStateChangesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitAttachmentStateChanges")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3212,7 +3474,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func submitContainerStateChange(input: SubmitContainerStateChangeInput) async throws -> SubmitContainerStateChangeOutput {
         let context = Smithy.ContextBuilder()
@@ -3226,42 +3490,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(SubmitContainerStateChangeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitContainerStateChangeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitContainerStateChangeOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitContainerStateChange"))
-        builder.serialize(ClientRuntime.BodyMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitContainerStateChangeInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitContainerStateChangeOutput>(SubmitContainerStateChangeOutput.httpOutput(from:), SubmitContainerStateChangeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitContainerStateChangeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitContainerStateChangeOutput>(SubmitContainerStateChangeOutput.httpOutput(from:), SubmitContainerStateChangeOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitContainerStateChangeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitContainerStateChange"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitContainerStateChangeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitContainerStateChangeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitContainerStateChange")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3280,7 +3548,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func submitTaskStateChange(input: SubmitTaskStateChangeInput) async throws -> SubmitTaskStateChangeOutput {
@@ -3295,42 +3565,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(SubmitTaskStateChangeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitTaskStateChangeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitTaskStateChangeOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitTaskStateChange"))
-        builder.serialize(ClientRuntime.BodyMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitTaskStateChangeInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitTaskStateChangeOutput>(SubmitTaskStateChangeOutput.httpOutput(from:), SubmitTaskStateChangeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitTaskStateChangeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitTaskStateChangeOutput>(SubmitTaskStateChangeOutput.httpOutput(from:), SubmitTaskStateChangeOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitTaskStateChangeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.SubmitTaskStateChange"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitTaskStateChangeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitTaskStateChangeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitTaskStateChange")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3348,8 +3622,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3365,42 +3641,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<TagResourceInput, TagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.TagResource"))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.TagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3418,8 +3698,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3435,42 +3717,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UntagResourceInput, UntagResourceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UntagResource"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UntagResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3488,7 +3774,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateCapacityProvider(input: UpdateCapacityProviderInput) async throws -> UpdateCapacityProviderOutput {
@@ -3503,42 +3791,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateCapacityProviderInput, UpdateCapacityProviderOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(UpdateCapacityProviderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateCapacityProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCapacityProviderOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCapacityProviderInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapacityProviderOutput>(UpdateCapacityProviderOutput.httpOutput(from:), UpdateCapacityProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCapacityProviderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapacityProviderOutput>(UpdateCapacityProviderOutput.httpOutput(from:), UpdateCapacityProviderOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateCapacityProviderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCapacityProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCapacityProvider")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3556,8 +3848,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3573,42 +3867,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterInput, UpdateClusterOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterInput, UpdateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateClusterInput, UpdateClusterOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutput>(UpdateClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterInput, UpdateClusterOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterInput, UpdateClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateCluster"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterInput, UpdateClusterOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterInput, UpdateClusterOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateClusterInput, UpdateClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3626,8 +3924,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateClusterSettings(input: UpdateClusterSettingsInput) async throws -> UpdateClusterSettingsOutput {
@@ -3642,42 +3942,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterSettingsInput, UpdateClusterSettingsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterSettingsInput, UpdateClusterSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateClusterSettingsInput, UpdateClusterSettingsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(UpdateClusterSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateClusterSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterSettingsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateClusterSettings"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterSettingsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterSettingsOutput>(UpdateClusterSettingsOutput.httpOutput(from:), UpdateClusterSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterSettingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterSettingsOutput>(UpdateClusterSettingsOutput.httpOutput(from:), UpdateClusterSettingsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateClusterSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateClusterSettings"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateClusterSettings")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3695,8 +3999,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `MissingVersionException` : Amazon ECS can't determine the current version of the Amazon ECS container agent on the container instance and doesn't have enough information to proceed with an update. This could be because the agent running on the container instance is a previous or custom version that doesn't use our version information.
     /// - `NoUpdateAvailableException` : There's no update available for this Amazon ECS container agent. This might be because the agent is already running the latest version or because it's so old that there's no update path to the current version.
@@ -3714,42 +4020,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerAgentInput, UpdateContainerAgentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerAgentInput, UpdateContainerAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateContainerAgentInput, UpdateContainerAgentOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(UpdateContainerAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateContainerAgentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerAgentOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateContainerAgent"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerAgentInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerAgentOutput>(UpdateContainerAgentOutput.httpOutput(from:), UpdateContainerAgentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerAgentOutput>(UpdateContainerAgentOutput.httpOutput(from:), UpdateContainerAgentOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateContainerAgentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateContainerAgent"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerAgentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerAgentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContainerAgent")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3758,14 +4068,14 @@ extension ECSClient {
 
     /// Performs the `UpdateContainerInstancesState` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the status of a container instance to DRAINING to manually remove an instance from a cluster, for example to perform system updates, update the Docker daemon, or scale down the cluster size. A container instance can't be changed to DRAINING until it has reached an ACTIVE status. If the instance is in any other status, an error will be received. When you set a container instance to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance and replacement service tasks are started on other container instances in the cluster if the resources are available. Service tasks on the container instance that are in the PENDING state are stopped immediately. Service tasks on the container instance that are in the RUNNING state are stopped and replaced according to the service's deployment configuration parameters, minimumHealthyPercent and maximumPercent. You can change the deployment configuration of your service using [UpdateService].
+    /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the status of a container instance to DRAINING to manually remove an instance from a cluster, for example to perform system updates, update the Docker daemon, or scale down the cluster size. A container instance can't be changed to DRAINING until it has reached an ACTIVE status. If the instance is in any other status, an error will be received. When you set a container instance to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance and replacement service tasks are started on other container instances in the cluster if the resources are available. Service tasks on the container instance that are in the PENDING state are stopped immediately. Service tasks on the container instance that are in the RUNNING state are stopped and replaced according to the service's deployment configuration parameters, minimumHealthyPercent and maximumPercent. You can change the deployment configuration of your service using [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html).
     ///
     /// * If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily during task replacement. For example, desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing tasks before starting two new tasks. If the minimum is 100%, the service scheduler can't remove existing tasks until the replacement tasks are considered healthy. Tasks for services that do not use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
     ///
     /// * The maximumPercent parameter represents an upper limit on the number of running tasks during task replacement. You can use this to define the replacement batch size. For example, if desiredCount is four tasks, a maximum of 200% starts four new tasks before stopping the four tasks to be drained, provided that the cluster resources required to do this are available. If the maximum is 100%, then replacement tasks can't start until the draining tasks have stopped.
     ///
     ///
-    /// Any PENDING or RUNNING tasks that do not belong to a service aren't affected. You must wait for them to finish or stop them manually. A container instance has completed draining when it has no more RUNNING tasks. You can verify this using [ListTasks]. When a container instance has been drained, you can set a container instance to ACTIVE status and once it has reached that status the Amazon ECS scheduler can begin scheduling tasks on the instance again.
+    /// Any PENDING or RUNNING tasks that do not belong to a service aren't affected. You must wait for them to finish or stop them manually. A container instance has completed draining when it has no more RUNNING tasks. You can verify this using [ListTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html). When a container instance has been drained, you can set a container instance to ACTIVE status and once it has reached that status the Amazon ECS scheduler can begin scheduling tasks on the instance again.
     ///
     /// - Parameter UpdateContainerInstancesStateInput : [no documentation found]
     ///
@@ -3774,8 +4084,10 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateContainerInstancesState(input: UpdateContainerInstancesStateInput) async throws -> UpdateContainerInstancesStateOutput {
@@ -3790,42 +4102,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(UpdateContainerInstancesStateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateContainerInstancesStateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerInstancesStateOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateContainerInstancesState"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerInstancesStateInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerInstancesStateOutput>(UpdateContainerInstancesStateOutput.httpOutput(from:), UpdateContainerInstancesStateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerInstancesStateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerInstancesStateOutput>(UpdateContainerInstancesStateOutput.httpOutput(from:), UpdateContainerInstancesStateOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateContainerInstancesStateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateContainerInstancesState"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerInstancesStateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerInstancesStateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContainerInstancesState")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3834,14 +4150,14 @@ extension ECSClient {
 
     /// Performs the `UpdateService` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// Modifies the parameters of a service. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For services using the rolling update (ECS) you can update the desired count, deployment configuration, network configuration, load balancers, service registries, enable ECS managed tags option, propagate tags option, task placement constraints and strategies, and task definition. When you update any of these parameters, Amazon ECS starts new tasks with the new configuration. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. You can update your volume configurations and trigger a new deployment. volumeConfigurations is only supported for REPLICA service and not DAEMON service. If you leave volumeConfigurationsnull, it doesn't trigger a new deployment. For more infomation on volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller, only the desired count, deployment configuration, health check grace period, task placement constraints and strategies, enable ECS managed tags option, and propagate tags can be updated using this API. If the network configuration, platform version, task definition, or load balancer need to be updated, create a new CodeDeploy deployment. For more information, see [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) in the CodeDeploy API Reference. For services using an external deployment controller, you can update only the desired count, task placement constraints and strategies, health check grace period, enable ECS managed tags option, and propagate tags option, using this API. If the launch type, load balancer, network configuration, platform version, or task definition need to be updated, create a new task set For more information, see [CreateTaskSet]. You can add to or subtract from the number of instantiations of a task definition in a service by specifying the cluster that the service is running in and a new desiredCount parameter. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task definition with that image and deploy it to your service. The service scheduler uses the minimum healthy percent and maximum percent parameters (in the service's deployment configuration) to determine the deployment strategy. If your updated Docker image uses the same tag as what is in the existing task definition for your service (for example, my_image:latest), you don't need to create a new revision of your task definition. You can update the service using the forceNewDeployment option. The new tasks launched by the deployment pull the current image/tag combination from your repository when they start. You can also update the deployment configuration of a service. When a deployment is triggered by updating the task definition of a service, the service scheduler uses the deployment configuration parameters, minimumHealthyPercent and maximumPercent, to determine the deployment strategy.
+    /// Modifies the parameters of a service. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For services using the rolling update (ECS) you can update the desired count, deployment configuration, network configuration, load balancers, service registries, enable ECS managed tags option, propagate tags option, task placement constraints and strategies, and task definition. When you update any of these parameters, Amazon ECS starts new tasks with the new configuration. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. You can update your volume configurations and trigger a new deployment. volumeConfigurations is only supported for REPLICA service and not DAEMON service. If you leave volumeConfigurationsnull, it doesn't trigger a new deployment. For more infomation on volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller, only the desired count, deployment configuration, health check grace period, task placement constraints and strategies, enable ECS managed tags option, and propagate tags can be updated using this API. If the network configuration, platform version, task definition, or load balancer need to be updated, create a new CodeDeploy deployment. For more information, see [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) in the CodeDeploy API Reference. For services using an external deployment controller, you can update only the desired count, task placement constraints and strategies, health check grace period, enable ECS managed tags option, and propagate tags option, using this API. If the launch type, load balancer, network configuration, platform version, or task definition need to be updated, create a new task set For more information, see [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). You can add to or subtract from the number of instantiations of a task definition in a service by specifying the cluster that the service is running in and a new desiredCount parameter. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more infomation, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task definition with that image and deploy it to your service. The service scheduler uses the minimum healthy percent and maximum percent parameters (in the service's deployment configuration) to determine the deployment strategy. If your updated Docker image uses the same tag as what is in the existing task definition for your service (for example, my_image:latest), you don't need to create a new revision of your task definition. You can update the service using the forceNewDeployment option. The new tasks launched by the deployment pull the current image/tag combination from your repository when they start. You can also update the deployment configuration of a service. When a deployment is triggered by updating the task definition of a service, the service scheduler uses the deployment configuration parameters, minimumHealthyPercent and maximumPercent, to determine the deployment strategy.
     ///
     /// * If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily during a deployment. For example, if desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing tasks before starting two new tasks. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
     ///
     /// * The maximumPercent parameter represents an upper limit on the number of running tasks during a deployment. You can use it to define the deployment batch size. For example, if desiredCount is four tasks, a maximum of 200% starts four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available).
     ///
     ///
-    /// When [UpdateService] stops a task during a deployment, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM and a 30-second timeout. After this, SIGKILL is sent and the containers are forcibly stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from receiving it, no SIGKILL is sent. When the service scheduler launches new tasks, it determines task placement in your cluster with the following logic.
+    /// When [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) stops a task during a deployment, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM and a 30-second timeout. After this, SIGKILL is sent and the containers are forcibly stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from receiving it, no SIGKILL is sent. When the service scheduler launches new tasks, it determines task placement in your cluster with the following logic.
     ///
     /// * Determine which of the container instances in your cluster can support your service's task definition. For example, they have the required CPU, memory, ports, and container instance attributes.
     ///
@@ -3879,15 +4195,17 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
         let context = Smithy.ContextBuilder()
@@ -3901,42 +4219,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceInput, UpdateServiceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceInput, UpdateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateServiceInput, UpdateServiceOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceInput, UpdateServiceOutput>(UpdateServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceInput, UpdateServiceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateServiceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateServiceInput, UpdateServiceOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServiceInput, UpdateServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateService"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceInput, UpdateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceInput, UpdateServiceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInput, UpdateServiceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateServiceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateServiceInput, UpdateServiceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServiceInput, UpdateServiceOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateService"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceInput, UpdateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceInput, UpdateServiceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceInput, UpdateServiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateServiceInput, UpdateServiceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateService")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -3955,13 +4277,15 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
+    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func updateServicePrimaryTaskSet(input: UpdateServicePrimaryTaskSetInput) async throws -> UpdateServicePrimaryTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -3975,42 +4299,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(UpdateServicePrimaryTaskSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateServicePrimaryTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServicePrimaryTaskSetOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateServicePrimaryTaskSet"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServicePrimaryTaskSetInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServicePrimaryTaskSetOutput>(UpdateServicePrimaryTaskSetOutput.httpOutput(from:), UpdateServicePrimaryTaskSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServicePrimaryTaskSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServicePrimaryTaskSetOutput>(UpdateServicePrimaryTaskSetOutput.httpOutput(from:), UpdateServicePrimaryTaskSetOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateServicePrimaryTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateServicePrimaryTaskSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServicePrimaryTaskSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServicePrimaryTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateServicePrimaryTaskSet")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4029,8 +4357,10 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -4047,42 +4377,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskProtectionInput, UpdateTaskProtectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskProtectionInput, UpdateTaskProtectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateTaskProtectionInput, UpdateTaskProtectionOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(UpdateTaskProtectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTaskProtectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskProtectionOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateTaskProtection"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskProtectionInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskProtectionOutput>(UpdateTaskProtectionOutput.httpOutput(from:), UpdateTaskProtectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskProtectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskProtectionOutput>(UpdateTaskProtectionOutput.httpOutput(from:), UpdateTaskProtectionOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTaskProtectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateTaskProtection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskProtectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTaskProtection")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -4101,13 +4435,15 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
-    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters]. Amazon ECS clusters are Region specific.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService].
-    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices]. Amazon ECS services are cluster specific and Region specific.
-    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets]. Task sets are specific to each cluster, service and Region.
+    /// - `ServiceNotActiveException` : The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+    /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
+    /// - `TaskSetNotFoundException` : The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func updateTaskSet(input: UpdateTaskSetInput) async throws -> UpdateTaskSetOutput {
         let context = Smithy.ContextBuilder()
@@ -4121,42 +4457,46 @@ extension ECSClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskSetInput, UpdateTaskSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskSetInput, UpdateTaskSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateTaskSetInput, UpdateTaskSetOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(UpdateTaskSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskSetOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateTaskSet"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskSetInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskSetOutput>(UpdateTaskSetOutput.httpOutput(from:), UpdateTaskSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskSetOutput>(UpdateTaskSetOutput.httpOutput(from:), UpdateTaskSetOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTaskSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.UpdateTaskSet"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTaskSet")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()

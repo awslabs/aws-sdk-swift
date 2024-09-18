@@ -40,10 +40,14 @@ class S3EventStreamTests: S3XCTestCase {
             outputSerialization: S3ClientTypes.OutputSerialization(json: S3ClientTypes.JSONOutput())
         ))
 
-        let outputStream = result.payload
+        guard let outputStream = result.payload else {
+            XCTFail("result.payload is nil")
+            return
+        }
+
         var actualOutput = ""
 
-        for try await event in outputStream! {
+        for try await event in outputStream {
             switch event {
             case .records(let record):
                 actualOutput = actualOutput + (String(data: record.payload ?? Data(), encoding: .utf8) ?? "")

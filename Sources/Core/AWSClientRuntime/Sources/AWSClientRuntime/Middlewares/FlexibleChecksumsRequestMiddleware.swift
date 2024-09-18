@@ -14,7 +14,7 @@ import AWSSDKChecksums
 import ClientRuntime
 import SmithyHTTPAPI
 
-public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
+public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationStackOutput> {
 
     public let id: String = "FlexibleChecksumsRequestMiddleware"
 
@@ -24,17 +24,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         self.checksumAlgorithm = checksumAlgorithm
     }
 
-    public func handle<H>(context: Context,
-                          input: SerializeStepInput<OperationStackInput>,
-                          next: H) async throws -> OperationOutput<OperationStackOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output {
-        try await addHeaders(builder: input.builder, attributes: context)
-        return try await next.handle(context: context, input: input)
-    }
-
-    private func addHeaders(builder: SdkHttpRequestBuilder, attributes: Context) async throws {
+    private func addHeaders(builder: HTTPRequestBuilder, attributes: Context) async throws {
         if case(.stream(let stream)) = builder.body {
             attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
             if stream.isEligibleForChunkedStreaming {
@@ -100,14 +90,13 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             throw ClientError.dataNotFound("Cannot calculate the checksum of an empty body!")
         }
     }
-
-    public typealias MInput = SerializeStepInput<OperationStackInput>
-    public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 
-extension FlexibleChecksumsRequestMiddleware: HttpInterceptor {
+extension FlexibleChecksumsRequestMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeRetryLoop(context: some MutableRequest<InputType, RequestType>) async throws {
         let builder = context.getRequest().toBuilder()

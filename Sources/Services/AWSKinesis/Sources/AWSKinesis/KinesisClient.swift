@@ -9,6 +9,7 @@
 
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
+import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
@@ -17,9 +18,9 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyHTTPAPI.SdkHttpRequest
-import class SmithyJSON.Writer
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
+@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
@@ -30,7 +31,6 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
-import protocol ClientRuntime.HttpInterceptor
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
@@ -39,21 +39,25 @@ import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import struct AWSClientRuntime.AWSUserAgentMetadata
+import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-import struct ClientRuntime.BodyMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-import struct ClientRuntime.DeserializeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyIdentity.BearerTokenIdentity
+import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -92,6 +96,8 @@ extension KinesisClient {
 
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
 
+        public var maxAttempts: Swift.Int?
+
         public var region: Swift.String?
 
         public var signingRegion: Swift.String?
@@ -116,18 +122,21 @@ extension KinesisClient {
 
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
 
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
 
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
 
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
+            self.maxAttempts = maxAttempts
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -140,25 +149,26 @@ extension KinesisClient {
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
             self.authSchemeResolver = authSchemeResolver
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
             self.httpInterceptorProviders = httpInterceptorProviders
             self.logger = telemetryProvider.loggerProvider.getLogger(name: KinesisClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultKinesisAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultKinesisAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultKinesisAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultKinesisAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
         }
 
         public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultKinesisAuthSchemeResolver(), [], [])
+            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultKinesisAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
         }
 
         public var partitionID: String? {
@@ -212,42 +222,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddTagsToStreamInput, AddTagsToStreamOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<AddTagsToStreamInput, AddTagsToStreamOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<AddTagsToStreamInput, AddTagsToStreamOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(AddTagsToStreamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AddTagsToStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsToStreamOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(xAmzTarget: "Kinesis_20131202.AddTagsToStream"))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddTagsToStreamInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToStreamOutput>(AddTagsToStreamOutput.httpOutput(from:), AddTagsToStreamOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToStreamOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToStreamOutput>(AddTagsToStreamOutput.httpOutput(from:), AddTagsToStreamOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AddTagsToStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(xAmzTarget: "Kinesis_20131202.AddTagsToStream"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddTagsToStreamInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsToStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddTagsToStream")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -287,42 +301,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateStreamInput, CreateStreamOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateStreamInput, CreateStreamOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<CreateStreamInput, CreateStreamOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStreamInput, CreateStreamOutput>(CreateStreamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStreamInput, CreateStreamOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateStreamInput, CreateStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStreamOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStreamInput, CreateStreamOutput>(xAmzTarget: "Kinesis_20131202.CreateStream"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateStreamInput, CreateStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStreamInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamInput, CreateStreamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamInput, CreateStreamOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamOutput>(CreateStreamOutput.httpOutput(from:), CreateStreamOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamInput, CreateStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamOutput>(CreateStreamOutput.httpOutput(from:), CreateStreamOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamInput, CreateStreamOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateStreamInput, CreateStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStreamInput, CreateStreamOutput>(xAmzTarget: "Kinesis_20131202.CreateStream"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateStreamInput, CreateStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStreamInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamInput, CreateStreamOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStreamInput, CreateStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStreamInput, CreateStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStream")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -357,42 +375,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(DecreaseStreamRetentionPeriodInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DecreaseStreamRetentionPeriodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DecreaseStreamRetentionPeriodOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(xAmzTarget: "Kinesis_20131202.DecreaseStreamRetentionPeriod"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DecreaseStreamRetentionPeriodInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DecreaseStreamRetentionPeriodOutput>(DecreaseStreamRetentionPeriodOutput.httpOutput(from:), DecreaseStreamRetentionPeriodOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecreaseStreamRetentionPeriodOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DecreaseStreamRetentionPeriodOutput>(DecreaseStreamRetentionPeriodOutput.httpOutput(from:), DecreaseStreamRetentionPeriodOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DecreaseStreamRetentionPeriodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(xAmzTarget: "Kinesis_20131202.DecreaseStreamRetentionPeriod"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DecreaseStreamRetentionPeriodInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DecreaseStreamRetentionPeriodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DecreaseStreamRetentionPeriod")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -431,42 +453,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteResourcePolicyInput, DeleteResourcePolicyOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, resourceARN: input.resourceARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "Kinesis_20131202.DeleteResourcePolicy"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, resourceARN: input.resourceARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "Kinesis_20131202.DeleteResourcePolicy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -501,42 +527,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteStreamInput, DeleteStreamOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteStreamInput, DeleteStreamOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeleteStreamInput, DeleteStreamOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStreamInput, DeleteStreamOutput>(DeleteStreamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStreamInput, DeleteStreamOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStreamInput, DeleteStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStreamOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStreamInput, DeleteStreamOutput>(xAmzTarget: "Kinesis_20131202.DeleteStream"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteStreamInput, DeleteStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStreamInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStreamInput, DeleteStreamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStreamInput, DeleteStreamOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamOutput>(DeleteStreamOutput.httpOutput(from:), DeleteStreamOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamInput, DeleteStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamOutput>(DeleteStreamOutput.httpOutput(from:), DeleteStreamOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamInput, DeleteStreamOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStreamInput, DeleteStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStreamInput, DeleteStreamOutput>(xAmzTarget: "Kinesis_20131202.DeleteStream"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteStreamInput, DeleteStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStreamInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStreamInput, DeleteStreamOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStreamInput, DeleteStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteStreamInput, DeleteStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStream")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -569,42 +599,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(DeregisterStreamConsumerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>())
-        let endpointParams = EndpointParams(consumerARN: input.consumerARN, endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterStreamConsumerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterStreamConsumerOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(xAmzTarget: "Kinesis_20131202.DeregisterStreamConsumer"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterStreamConsumerInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterStreamConsumerOutput>(DeregisterStreamConsumerOutput.httpOutput(from:), DeregisterStreamConsumerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterStreamConsumerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterStreamConsumerOutput>(DeregisterStreamConsumerOutput.httpOutput(from:), DeregisterStreamConsumerOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(consumerARN: input.consumerARN, endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterStreamConsumerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(xAmzTarget: "Kinesis_20131202.DeregisterStreamConsumer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterStreamConsumerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterStreamConsumerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterStreamConsumer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -635,42 +669,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLimitsInput, DescribeLimitsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeLimitsInput, DescribeLimitsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeLimitsInput, DescribeLimitsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(DescribeLimitsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLimitsInput, DescribeLimitsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeLimitsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLimitsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(xAmzTarget: "Kinesis_20131202.DescribeLimits"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLimitsInput, DescribeLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLimitsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLimitsInput, DescribeLimitsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLimitsOutput>(DescribeLimitsOutput.httpOutput(from:), DescribeLimitsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLimitsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLimitsOutput>(DescribeLimitsOutput.httpOutput(from:), DescribeLimitsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeLimitsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(xAmzTarget: "Kinesis_20131202.DescribeLimits"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLimitsInput, DescribeLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLimitsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLimitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLimitsInput, DescribeLimitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLimits")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -704,42 +742,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamInput, DescribeStreamOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamInput, DescribeStreamOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeStreamInput, DescribeStreamOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStreamInput, DescribeStreamOutput>(DescribeStreamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStreamInput, DescribeStreamOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamInput, DescribeStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamInput, DescribeStreamOutput>(xAmzTarget: "Kinesis_20131202.DescribeStream"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamInput, DescribeStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamInput, DescribeStreamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamInput, DescribeStreamOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamOutput>(DescribeStreamOutput.httpOutput(from:), DescribeStreamOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamInput, DescribeStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamOutput>(DescribeStreamOutput.httpOutput(from:), DescribeStreamOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamInput, DescribeStreamOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamInput, DescribeStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamInput, DescribeStreamOutput>(xAmzTarget: "Kinesis_20131202.DescribeStream"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamInput, DescribeStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamInput, DescribeStreamOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStreamInput, DescribeStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStreamInput, DescribeStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStream")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -772,42 +814,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamConsumerInput, DescribeStreamConsumerOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamConsumerInput, DescribeStreamConsumerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeStreamConsumerInput, DescribeStreamConsumerOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(DescribeStreamConsumerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>())
-        let endpointParams = EndpointParams(consumerARN: input.consumerARN, endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamConsumerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamConsumerOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(xAmzTarget: "Kinesis_20131202.DescribeStreamConsumer"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamConsumerInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamConsumerOutput>(DescribeStreamConsumerOutput.httpOutput(from:), DescribeStreamConsumerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamConsumerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamConsumerOutput>(DescribeStreamConsumerOutput.httpOutput(from:), DescribeStreamConsumerOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(consumerARN: input.consumerARN, endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamConsumerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(xAmzTarget: "Kinesis_20131202.DescribeStreamConsumer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamConsumerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamConsumerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStreamConsumer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -841,42 +887,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamSummaryInput, DescribeStreamSummaryOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamSummaryInput, DescribeStreamSummaryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DescribeStreamSummaryInput, DescribeStreamSummaryOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(DescribeStreamSummaryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamSummaryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamSummaryOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(xAmzTarget: "Kinesis_20131202.DescribeStreamSummary"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamSummaryInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamSummaryOutput>(DescribeStreamSummaryOutput.httpOutput(from:), DescribeStreamSummaryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamSummaryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamSummaryOutput>(DescribeStreamSummaryOutput.httpOutput(from:), DescribeStreamSummaryOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeStreamSummaryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(xAmzTarget: "Kinesis_20131202.DescribeStreamSummary"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamSummaryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStreamSummary")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -911,42 +961,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(DisableEnhancedMonitoringInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableEnhancedMonitoringOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableEnhancedMonitoringOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(xAmzTarget: "Kinesis_20131202.DisableEnhancedMonitoring"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableEnhancedMonitoringInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableEnhancedMonitoringOutput>(DisableEnhancedMonitoringOutput.httpOutput(from:), DisableEnhancedMonitoringOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableEnhancedMonitoringOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableEnhancedMonitoringOutput>(DisableEnhancedMonitoringOutput.httpOutput(from:), DisableEnhancedMonitoringOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableEnhancedMonitoringOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(xAmzTarget: "Kinesis_20131202.DisableEnhancedMonitoring"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableEnhancedMonitoringInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableEnhancedMonitoringOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableEnhancedMonitoring")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -981,42 +1035,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(EnableEnhancedMonitoringInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableEnhancedMonitoringOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableEnhancedMonitoringOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(xAmzTarget: "Kinesis_20131202.EnableEnhancedMonitoring"))
-        builder.serialize(ClientRuntime.BodyMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableEnhancedMonitoringInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableEnhancedMonitoringOutput>(EnableEnhancedMonitoringOutput.httpOutput(from:), EnableEnhancedMonitoringOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableEnhancedMonitoringOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableEnhancedMonitoringOutput>(EnableEnhancedMonitoringOutput.httpOutput(from:), EnableEnhancedMonitoringOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableEnhancedMonitoringOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(xAmzTarget: "Kinesis_20131202.EnableEnhancedMonitoring"))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableEnhancedMonitoringInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableEnhancedMonitoringOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableEnhancedMonitoring")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1057,42 +1115,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRecordsInput, GetRecordsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRecordsInput, GetRecordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<GetRecordsInput, GetRecordsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecordsInput, GetRecordsOutput>(GetRecordsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecordsInput, GetRecordsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetRecordsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecordsInput, GetRecordsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecordsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRecordsInput, GetRecordsOutput>(xAmzTarget: "Kinesis_20131202.GetRecords"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRecordsInput, GetRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecordsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecordsInput, GetRecordsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecordsInput, GetRecordsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordsOutput>(GetRecordsOutput.httpOutput(from:), GetRecordsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordsInput, GetRecordsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordsOutput>(GetRecordsOutput.httpOutput(from:), GetRecordsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordsInput, GetRecordsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetRecordsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecordsInput, GetRecordsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRecordsInput, GetRecordsOutput>(xAmzTarget: "Kinesis_20131202.GetRecords"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRecordsInput, GetRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecordsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecordsInput, GetRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecordsInput, GetRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecordsInput, GetRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRecords")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1130,42 +1192,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<GetResourcePolicyInput, GetResourcePolicyOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, resourceARN: input.resourceARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "Kinesis_20131202.GetResourcePolicy"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, resourceARN: input.resourceARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "Kinesis_20131202.GetResourcePolicy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1199,42 +1265,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetShardIteratorInput, GetShardIteratorOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetShardIteratorInput, GetShardIteratorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<GetShardIteratorInput, GetShardIteratorOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(GetShardIteratorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetShardIteratorInput, GetShardIteratorOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetShardIteratorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetShardIteratorOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(xAmzTarget: "Kinesis_20131202.GetShardIterator"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetShardIteratorInput, GetShardIteratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetShardIteratorInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetShardIteratorInput, GetShardIteratorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShardIteratorOutput>(GetShardIteratorOutput.httpOutput(from:), GetShardIteratorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShardIteratorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShardIteratorOutput>(GetShardIteratorOutput.httpOutput(from:), GetShardIteratorOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetShardIteratorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(xAmzTarget: "Kinesis_20131202.GetShardIterator"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetShardIteratorInput, GetShardIteratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetShardIteratorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetShardIteratorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetShardIteratorInput, GetShardIteratorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetShardIterator")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1269,42 +1339,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(IncreaseStreamRetentionPeriodInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<IncreaseStreamRetentionPeriodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IncreaseStreamRetentionPeriodOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(xAmzTarget: "Kinesis_20131202.IncreaseStreamRetentionPeriod"))
-        builder.serialize(ClientRuntime.BodyMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IncreaseStreamRetentionPeriodInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<IncreaseStreamRetentionPeriodOutput>(IncreaseStreamRetentionPeriodOutput.httpOutput(from:), IncreaseStreamRetentionPeriodOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IncreaseStreamRetentionPeriodOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<IncreaseStreamRetentionPeriodOutput>(IncreaseStreamRetentionPeriodOutput.httpOutput(from:), IncreaseStreamRetentionPeriodOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<IncreaseStreamRetentionPeriodOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(xAmzTarget: "Kinesis_20131202.IncreaseStreamRetentionPeriod"))
+        builder.serialize(ClientRuntime.BodyMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IncreaseStreamRetentionPeriodInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IncreaseStreamRetentionPeriodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "IncreaseStreamRetentionPeriod")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1340,42 +1414,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListShardsInput, ListShardsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListShardsInput, ListShardsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListShardsInput, ListShardsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListShardsInput, ListShardsOutput>(ListShardsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListShardsInput, ListShardsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListShardsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListShardsInput, ListShardsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListShardsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListShardsInput, ListShardsOutput>(xAmzTarget: "Kinesis_20131202.ListShards"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListShardsInput, ListShardsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListShardsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListShardsInput, ListShardsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListShardsInput, ListShardsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListShardsOutput>(ListShardsOutput.httpOutput(from:), ListShardsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListShardsInput, ListShardsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListShardsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListShardsOutput>(ListShardsOutput.httpOutput(from:), ListShardsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListShardsInput, ListShardsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListShardsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListShardsInput, ListShardsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListShardsInput, ListShardsOutput>(xAmzTarget: "Kinesis_20131202.ListShards"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListShardsInput, ListShardsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListShardsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListShardsInput, ListShardsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListShardsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListShardsInput, ListShardsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListShardsInput, ListShardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListShards")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1410,42 +1488,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListStreamConsumersInput, ListStreamConsumersOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListStreamConsumersInput, ListStreamConsumersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListStreamConsumersInput, ListStreamConsumersOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(ListStreamConsumersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStreamConsumersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamConsumersOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(xAmzTarget: "Kinesis_20131202.ListStreamConsumers"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamConsumersInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamConsumersOutput>(ListStreamConsumersOutput.httpOutput(from:), ListStreamConsumersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamConsumersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamConsumersOutput>(ListStreamConsumersOutput.httpOutput(from:), ListStreamConsumersOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStreamConsumersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(xAmzTarget: "Kinesis_20131202.ListStreamConsumers"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamConsumersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamConsumersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStreamConsumers")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1478,42 +1560,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListStreamsInput, ListStreamsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListStreamsInput, ListStreamsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListStreamsInput, ListStreamsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStreamsInput, ListStreamsOutput>(ListStreamsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStreamsInput, ListStreamsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStreamsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStreamsInput, ListStreamsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStreamsInput, ListStreamsOutput>(xAmzTarget: "Kinesis_20131202.ListStreams"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListStreamsInput, ListStreamsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStreamsInput, ListStreamsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamsInput, ListStreamsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStreamsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStreamsInput, ListStreamsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStreamsInput, ListStreamsOutput>(xAmzTarget: "Kinesis_20131202.ListStreams"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListStreamsInput, ListStreamsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStreamsInput, ListStreamsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStreamsInput, ListStreamsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStreamsInput, ListStreamsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStreams")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1547,42 +1633,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForStreamInput, ListTagsForStreamOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForStreamInput, ListTagsForStreamOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<ListTagsForStreamInput, ListTagsForStreamOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(ListTagsForStreamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForStreamOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(xAmzTarget: "Kinesis_20131202.ListTagsForStream"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForStreamInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForStreamOutput>(ListTagsForStreamOutput.httpOutput(from:), ListTagsForStreamOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForStreamOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForStreamOutput>(ListTagsForStreamOutput.httpOutput(from:), ListTagsForStreamOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(xAmzTarget: "Kinesis_20131202.ListTagsForStream"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForStreamInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForStream")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1618,42 +1708,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<MergeShardsInput, MergeShardsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<MergeShardsInput, MergeShardsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<MergeShardsInput, MergeShardsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<MergeShardsInput, MergeShardsOutput>(MergeShardsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<MergeShardsInput, MergeShardsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<MergeShardsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MergeShardsInput, MergeShardsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<MergeShardsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<MergeShardsInput, MergeShardsOutput>(xAmzTarget: "Kinesis_20131202.MergeShards"))
-        builder.serialize(ClientRuntime.BodyMiddleware<MergeShardsInput, MergeShardsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: MergeShardsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<MergeShardsInput, MergeShardsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MergeShardsInput, MergeShardsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<MergeShardsOutput>(MergeShardsOutput.httpOutput(from:), MergeShardsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<MergeShardsInput, MergeShardsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MergeShardsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<MergeShardsOutput>(MergeShardsOutput.httpOutput(from:), MergeShardsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<MergeShardsInput, MergeShardsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<MergeShardsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MergeShardsInput, MergeShardsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<MergeShardsInput, MergeShardsOutput>(xAmzTarget: "Kinesis_20131202.MergeShards"))
+        builder.serialize(ClientRuntime.BodyMiddleware<MergeShardsInput, MergeShardsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: MergeShardsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<MergeShardsInput, MergeShardsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<MergeShardsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<MergeShardsInput, MergeShardsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<MergeShardsInput, MergeShardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MergeShards")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1693,42 +1787,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutRecordInput, PutRecordOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutRecordInput, PutRecordOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<PutRecordInput, PutRecordOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutRecordInput, PutRecordOutput>(PutRecordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutRecordInput, PutRecordOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRecordOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRecordInput, PutRecordOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRecordOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRecordInput, PutRecordOutput>(xAmzTarget: "Kinesis_20131202.PutRecord"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutRecordInput, PutRecordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRecordInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRecordInput, PutRecordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordInput, PutRecordOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordOutput>(PutRecordOutput.httpOutput(from:), PutRecordOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordInput, PutRecordOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordOutput>(PutRecordOutput.httpOutput(from:), PutRecordOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordInput, PutRecordOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRecordOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRecordInput, PutRecordOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRecordInput, PutRecordOutput>(xAmzTarget: "Kinesis_20131202.PutRecord"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutRecordInput, PutRecordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRecordInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRecordInput, PutRecordOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRecordOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRecordInput, PutRecordOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRecordInput, PutRecordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRecord")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1768,42 +1866,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutRecordsInput, PutRecordsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutRecordsInput, PutRecordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<PutRecordsInput, PutRecordsOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutRecordsInput, PutRecordsOutput>(PutRecordsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutRecordsInput, PutRecordsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRecordsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRecordsInput, PutRecordsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRecordsOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRecordsInput, PutRecordsOutput>(xAmzTarget: "Kinesis_20131202.PutRecords"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutRecordsInput, PutRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRecordsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRecordsInput, PutRecordsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordsInput, PutRecordsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordsOutput>(PutRecordsOutput.httpOutput(from:), PutRecordsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordsInput, PutRecordsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordsOutput>(PutRecordsOutput.httpOutput(from:), PutRecordsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordsInput, PutRecordsOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "data", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRecordsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRecordsInput, PutRecordsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRecordsInput, PutRecordsOutput>(xAmzTarget: "Kinesis_20131202.PutRecords"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutRecordsInput, PutRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRecordsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRecordsInput, PutRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRecordsInput, PutRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRecordsInput, PutRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRecords")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1845,42 +1947,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<PutResourcePolicyInput, PutResourcePolicyOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(PutResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, resourceARN: input.resourceARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "Kinesis_20131202.PutResourcePolicy"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, resourceARN: input.resourceARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "Kinesis_20131202.PutResourcePolicy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1914,42 +2020,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterStreamConsumerInput, RegisterStreamConsumerOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterStreamConsumerInput, RegisterStreamConsumerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<RegisterStreamConsumerInput, RegisterStreamConsumerOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(RegisterStreamConsumerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterStreamConsumerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterStreamConsumerOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(xAmzTarget: "Kinesis_20131202.RegisterStreamConsumer"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterStreamConsumerInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterStreamConsumerOutput>(RegisterStreamConsumerOutput.httpOutput(from:), RegisterStreamConsumerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterStreamConsumerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterStreamConsumerOutput>(RegisterStreamConsumerOutput.httpOutput(from:), RegisterStreamConsumerOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterStreamConsumerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(xAmzTarget: "Kinesis_20131202.RegisterStreamConsumer"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterStreamConsumerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterStreamConsumerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterStreamConsumer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -1984,42 +2094,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(RemoveTagsFromStreamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RemoveTagsFromStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromStreamOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(xAmzTarget: "Kinesis_20131202.RemoveTagsFromStream"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTagsFromStreamInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromStreamOutput>(RemoveTagsFromStreamOutput.httpOutput(from:), RemoveTagsFromStreamOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromStreamOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromStreamOutput>(RemoveTagsFromStreamOutput.httpOutput(from:), RemoveTagsFromStreamOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RemoveTagsFromStreamOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(xAmzTarget: "Kinesis_20131202.RemoveTagsFromStream"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTagsFromStreamInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveTagsFromStream")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2055,42 +2169,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SplitShardInput, SplitShardOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SplitShardInput, SplitShardOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<SplitShardInput, SplitShardOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SplitShardInput, SplitShardOutput>(SplitShardInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SplitShardInput, SplitShardOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SplitShardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SplitShardInput, SplitShardOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SplitShardOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SplitShardInput, SplitShardOutput>(xAmzTarget: "Kinesis_20131202.SplitShard"))
-        builder.serialize(ClientRuntime.BodyMiddleware<SplitShardInput, SplitShardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SplitShardInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SplitShardInput, SplitShardOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SplitShardInput, SplitShardOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SplitShardOutput>(SplitShardOutput.httpOutput(from:), SplitShardOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SplitShardInput, SplitShardOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SplitShardOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SplitShardOutput>(SplitShardOutput.httpOutput(from:), SplitShardOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SplitShardInput, SplitShardOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SplitShardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SplitShardInput, SplitShardOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SplitShardInput, SplitShardOutput>(xAmzTarget: "Kinesis_20131202.SplitShard"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SplitShardInput, SplitShardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SplitShardInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SplitShardInput, SplitShardOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SplitShardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SplitShardInput, SplitShardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SplitShardInput, SplitShardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SplitShard")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2131,42 +2249,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartStreamEncryptionInput, StartStreamEncryptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StartStreamEncryptionInput, StartStreamEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<StartStreamEncryptionInput, StartStreamEncryptionOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(StartStreamEncryptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartStreamEncryptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartStreamEncryptionOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(xAmzTarget: "Kinesis_20131202.StartStreamEncryption"))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartStreamEncryptionInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamEncryptionOutput>(StartStreamEncryptionOutput.httpOutput(from:), StartStreamEncryptionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamEncryptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamEncryptionOutput>(StartStreamEncryptionOutput.httpOutput(from:), StartStreamEncryptionOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartStreamEncryptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(xAmzTarget: "Kinesis_20131202.StartStreamEncryption"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartStreamEncryptionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartStreamEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartStreamEncryption")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2201,42 +2323,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopStreamEncryptionInput, StopStreamEncryptionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<StopStreamEncryptionInput, StopStreamEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<StopStreamEncryptionInput, StopStreamEncryptionOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(StopStreamEncryptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopStreamEncryptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopStreamEncryptionOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(xAmzTarget: "Kinesis_20131202.StopStreamEncryption"))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopStreamEncryptionInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamEncryptionOutput>(StopStreamEncryptionOutput.httpOutput(from:), StopStreamEncryptionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopStreamEncryptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamEncryptionOutput>(StopStreamEncryptionOutput.httpOutput(from:), StopStreamEncryptionOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopStreamEncryptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(xAmzTarget: "Kinesis_20131202.StopStreamEncryption"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopStreamEncryptionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopStreamEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopStreamEncryption")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2271,42 +2397,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubscribeToShardInput, SubscribeToShardOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<SubscribeToShardInput, SubscribeToShardOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<SubscribeToShardInput, SubscribeToShardOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(SubscribeToShardInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubscribeToShardInput, SubscribeToShardOutput>())
-        let endpointParams = EndpointParams(consumerARN: input.consumerARN, endpoint: config.endpoint, operationType: "data", region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubscribeToShardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubscribeToShardOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(xAmzTarget: "Kinesis_20131202.SubscribeToShard"))
-        builder.serialize(ClientRuntime.BodyMiddleware<SubscribeToShardInput, SubscribeToShardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubscribeToShardInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubscribeToShardInput, SubscribeToShardOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubscribeToShardOutput>(SubscribeToShardOutput.httpOutput(from:), SubscribeToShardOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubscribeToShardOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubscribeToShardOutput>(SubscribeToShardOutput.httpOutput(from:), SubscribeToShardOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(consumerARN: input.consumerARN, endpoint: config.endpoint, operationType: "data", region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubscribeToShardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(xAmzTarget: "Kinesis_20131202.SubscribeToShard"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SubscribeToShardInput, SubscribeToShardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubscribeToShardInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubscribeToShardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SubscribeToShardInput, SubscribeToShardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubscribeToShard")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2359,42 +2489,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateShardCountInput, UpdateShardCountOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateShardCountInput, UpdateShardCountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateShardCountInput, UpdateShardCountOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(UpdateShardCountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateShardCountInput, UpdateShardCountOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateShardCountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateShardCountOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(xAmzTarget: "Kinesis_20131202.UpdateShardCount"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateShardCountInput, UpdateShardCountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateShardCountInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateShardCountInput, UpdateShardCountOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateShardCountOutput>(UpdateShardCountOutput.httpOutput(from:), UpdateShardCountOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateShardCountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateShardCountOutput>(UpdateShardCountOutput.httpOutput(from:), UpdateShardCountOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateShardCountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(xAmzTarget: "Kinesis_20131202.UpdateShardCount"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateShardCountInput, UpdateShardCountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateShardCountInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateShardCountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateShardCountInput, UpdateShardCountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateShardCount")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()
@@ -2428,42 +2562,46 @@ extension KinesisClient {
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateStreamModeInput, UpdateStreamModeOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateStreamModeInput, UpdateStreamModeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
-            let i: any ClientRuntime.HttpInterceptor<UpdateStreamModeInput, UpdateStreamModeOutput> = provider.create()
-            builder.interceptors.add(i)
+            builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(UpdateStreamModeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateStreamModeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStreamModeOutput>())
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(xAmzTarget: "Kinesis_20131202.UpdateStreamMode"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStreamModeInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamModeOutput>(UpdateStreamModeOutput.httpOutput(from:), UpdateStreamModeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamModeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamModeOutput>(UpdateStreamModeOutput.httpOutput(from:), UpdateStreamModeOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(clientLogMode: config.clientLogMode))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateStreamModeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(xAmzTarget: "Kinesis_20131202.UpdateStreamMode"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStreamModeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStreamModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamMode")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
             ))
             .executeRequest(client)
             .build()

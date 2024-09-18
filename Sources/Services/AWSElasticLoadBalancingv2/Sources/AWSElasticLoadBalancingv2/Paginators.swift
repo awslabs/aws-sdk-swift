@@ -11,6 +11,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ElasticLoadBalancingv2Client {
+    /// Paginate over `[DescribeListenerCertificatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeListenerCertificatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeListenerCertificatesOutput`
+    public func describeListenerCertificatesPaginated(input: DescribeListenerCertificatesInput) -> ClientRuntime.PaginatorSequence<DescribeListenerCertificatesInput, DescribeListenerCertificatesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeListenerCertificatesInput, DescribeListenerCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeListenerCertificates(input:))
+    }
+}
+
+extension DescribeListenerCertificatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeListenerCertificatesInput {
+        return DescribeListenerCertificatesInput(
+            listenerArn: self.listenerArn,
+            marker: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeListenerCertificatesInput, OperationStackOutput == DescribeListenerCertificatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeListenerCertificatesPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.Certificate]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.Certificate]`
+    public func certificates() async throws -> [ElasticLoadBalancingv2ClientTypes.Certificate] {
+        return try await self.asyncCompactMap { item in item.certificates }
+    }
+}
+extension ElasticLoadBalancingv2Client {
     /// Paginate over `[DescribeListenersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -72,6 +103,38 @@ extension PaginatorSequence where OperationStackInput == DescribeLoadBalancersIn
     /// - Returns: `[ElasticLoadBalancingv2ClientTypes.LoadBalancer]`
     public func loadBalancers() async throws -> [ElasticLoadBalancingv2ClientTypes.LoadBalancer] {
         return try await self.asyncCompactMap { item in item.loadBalancers }
+    }
+}
+extension ElasticLoadBalancingv2Client {
+    /// Paginate over `[DescribeRulesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRulesOutput`
+    public func describeRulesPaginated(input: DescribeRulesInput) -> ClientRuntime.PaginatorSequence<DescribeRulesInput, DescribeRulesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRulesInput, DescribeRulesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeRules(input:))
+    }
+}
+
+extension DescribeRulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRulesInput {
+        return DescribeRulesInput(
+            listenerArn: self.listenerArn,
+            marker: token,
+            pageSize: self.pageSize,
+            ruleArns: self.ruleArns
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeRulesInput, OperationStackOutput == DescribeRulesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRulesPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.Rule]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.Rule]`
+    public func rules() async throws -> [ElasticLoadBalancingv2ClientTypes.Rule] {
+        return try await self.asyncCompactMap { item in item.rules }
     }
 }
 extension ElasticLoadBalancingv2Client {

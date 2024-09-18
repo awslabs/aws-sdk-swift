@@ -10,7 +10,7 @@ import SmithyChecksumsAPI
 import SmithyHTTPAPI
 import XCTest
 import AwsCommonRuntimeKit
-import SmithyTestUtil
+@_spi(SmithyReadWrite) import SmithyTestUtil
 @testable import ClientRuntime
 import class SmithyStreams.BufferedStream
 import class SmithyChecksums.ChunkedStream
@@ -19,8 +19,8 @@ import AWSClientRuntime
 
 class FlexibleChecksumsMiddlewareTests: XCTestCase {
     private var builtContext: Context!
-    private var stack: OperationStack<MockInput, MockOutput>!
     private let testLogger = TestLogger()
+    private var builder: OrchestratorBuilder<MockInput, MockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -34,7 +34,15 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
                   .withOperation(value: "Test Operation")
                   .withLogger(value: testLogger)
                   .build()
-        stack = OperationStack<MockInput, MockOutput>(id: "Test Operation")
+        var metricsAttributes = Attributes()
+        metricsAttributes.set(key: OrchestratorMetricsAttributesKeys.service, value: "Service")
+        metricsAttributes.set(key: OrchestratorMetricsAttributesKeys.method, value: "Method")
+        builder = OrchestratorBuilder<MockInput, MockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+            .attributes(builtContext)
+            .serialize(MockSerializeMiddleware(id: "TestMiddleware", headerName: "TestName", headerValue: "TestValue"))
+            .deserialize(MockDeserializeMiddleware<MockOutput>(id: "TestDeserializeMiddleware", responseClosure: MockOutput.responseClosure(_:)))
+            .telemetry(OrchestratorTelemetry(telemetryProvider: DefaultTelemetry.provider, metricsAttributes: metricsAttributes))
+            .selectAuthScheme(SelectNoAuthScheme())
     }
 
     func testNormalPayloadSha256() async throws {
@@ -103,38 +111,30 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
     }
 
     private func addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: String?) {
-        stack.serializeStep.intercept(
-            position: .after,
-            middleware: FlexibleChecksumsRequestMiddleware<MockInput, MockOutput>(checksumAlgorithm: checksumAlgorithm)
-        )
+        builder.interceptors.add(FlexibleChecksumsRequestMiddleware<MockInput, MockOutput>(checksumAlgorithm: checksumAlgorithm))
     }
 
     private func addFlexibleChecksumsResponseMiddleware(validationMode: Bool, priorityList: [String] = []) {
-        stack.deserializeStep.intercept(
-            position: .after,
-            middleware: FlexibleChecksumsResponseMiddleware<MockInput, MockOutput>(
+        builder.interceptors.add(FlexibleChecksumsResponseMiddleware<MockInput, MockOutput>(
                 validationMode: validationMode,
                 priorityList: priorityList
-            )
-        )
+        ))
     }
 
     private func setNormalPayload(payload: ByteStream) {
         // Set normal payload data
-        stack.serializeStep.intercept(position: .before, id: "set normal payload") { (context, input, next) -> OperationOutput<MockOutput> in
-            input.builder.withBody(payload) // Set the payload data here
-            return try await next.handle(context: context, input: input)
-        }
+        builder.serialize({ input, builder, ctx in
+            builder.withBody(payload)
+        })
     }
 
     private func setStreamingPayload(payload: ByteStream, checksum: String) {
         // Set streaming payload
-        stack.serializeStep.intercept(position: .before, id: "set streaming payload") { (context, input, next) -> OperationOutput<MockOutput> in
-            input.builder.withHeader(name: "x-amz-checksum-algorithm", value: "\(checksum.uppercased())")
-            input.builder.withHeader(name: "Transfer-encoding", value: "chunked")
-            input.builder.withBody(payload) // Set the payload data here
-            return try await next.handle(context: context, input: input)
-        }
+        builder.serialize({ input, builder, ctx in
+            builder.withHeader(name: "x-amz-checksum-algorithm", value: "\(checksum.uppercased())")
+                .withHeader(name: "Transfer-encoding", value: "chunked")
+                .withBody(payload) // Set the payload data here
+        })
     }
 
     func testBufferedStreamingPayloadCRC32() async throws {
@@ -250,16 +250,13 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         file: StaticString = #filePath, line: UInt = #line
     ) async throws -> () {
         var isChecksumValidated = false
-        let mockHandler = MockHandler { (_, input) in
-            let httpResponse = HttpResponse(body: responseBody, statusCode: HttpStatusCode.ok)
-            httpResponse.headers.add(name: expectedHeader, value: expectedChecksum)
-            let mockOutput = try await MockOutput.responseClosure(httpResponse)
-            let output = OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
-            XCTAssertEqual(output.httpResponse.headers.value(for: expectedHeader), expectedChecksum)
-            return output
-        }
-
-        _ = try await stack.handleMiddleware(context: builtContext, input: MockInput(), next: mockHandler)
+        _ = try await builder.executeRequest({ (req, ctx) in
+            let response = HTTPResponse(body: responseBody, statusCode: .ok)
+            response.headers.add(name: expectedHeader, value: expectedChecksum)
+            return response
+        })
+        .build()
+        .execute(input: MockInput())
 
         XCTAssertEqual(
             self.builtContext.checksum,
@@ -287,18 +284,18 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         file: StaticString = #filePath, line: UInt = #line
     ) async throws -> Void {
         var isChecksumValidated = false
-        let mockHandler = MockHandler { (_, input) in
+        _ = try await builder.executeRequest({ request, attrs in
             if expectedHeader != "" {
-                XCTAssert(input.headers.value(for: expectedHeader) != nil, file: file, line: line)
+                XCTAssert(request.headers.value(for: expectedHeader) != nil, file: file, line: line)
             }
-            let httpResponse = HttpResponse(body: responseBody, statusCode: HttpStatusCode.ok)
-            httpResponse.headers.add(name: expectedHeader, value: expectedChecksum)
-            let mockOutput = try await MockOutput.responseClosure(httpResponse)
-            let output = OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
-            return output
-        }
+            let response = HTTPResponse(body: responseBody, statusCode: .ok)
+            response.headers.add(name: expectedHeader, value: expectedChecksum)
+            return response
+        })
+        .build()
+        .execute(input: MockInput())
 
-        _ = try await stack.handleMiddleware(context: builtContext, input: MockInput(), next: mockHandler)
+        // _ = try await stack.handleMiddleware(context: builtContext, input: MockInput(), next: mockHandler)
 
         if !checkLogs.isEmpty {
             checkLogs.forEach { expectedLog in
@@ -325,14 +322,6 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
     ) async throws -> Void {
         var isChecksumValidated = false
         var validatedChecksum: String? = nil
-        let mockHandler = MockHandler { (_, input) in
-            let responseBody = ByteStream.data(Data("Hello, world!".utf8))
-            let httpResponse = HttpResponse(body: responseBody, statusCode: HttpStatusCode.ok)
-            httpResponse.headers.addAll(headers: responseHeaders)
-            let mockOutput = try await MockOutput.responseClosure(httpResponse)
-            let output = OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
-            return output
-        }
 
         if expectedChecksumMismatch {
             await XCTAssertThrowsErrorAsync(try await handleMiddleware()) {
@@ -350,7 +339,13 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         }
 
         func handleMiddleware() async throws {
-            _ = try await stack.handleMiddleware(context: builtContext, input: MockInput(), next: mockHandler)
+            _ = try await builder.executeRequest({ request, attributes in
+                let response = HTTPResponse(body: ByteStream.data(Data("Hello, world!".utf8)), statusCode: .ok)
+                response.headers.addAll(headers: responseHeaders)
+                return response
+            })
+            .build()
+            .execute(input: MockInput())
         }
     }
 
@@ -366,26 +361,22 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 
     private func setPutPayload(payload: ByteStream, checksumSHA256: String, signingConfig: SigningConfig) {
         // Set PUT payload and headers
-        stack.serializeStep.intercept(position: .before, id: "set PUT payload") { (context, input, next) -> OperationOutput<MockOutput> in
-            context.attributes.set(key: AttributeKey<SigningConfig>(name: "SigningConfig"), value: signingConfig)
-            input.builder.withHeader(name: "x-amz-content-sha256", value: "UNSIGNED-PAYLOAD")
-            input.builder.withHeader(name: "x-amz-checksum-sha256", value: checksumSHA256)
-            input.builder.withBody(payload) // Set the payload data here
-            return try await next.handle(context: context, input: input)
-        }
+        builder.serialize({ input, builder, attributes in
+            attributes.set(key: AttributeKey<SigningConfig>(name: "SigningConfig"), value: signingConfig)
+            builder.withHeader(name: "x-amz-content-sha256", value: "UNSIGNED-PAYLOAD")
+                .withHeader(name: "x-amz-checksum-sha256", value: checksumSHA256)
+                .withBody(payload) // Set the payload data here
+        })
     }
 
     private func assertPutRequestHeaders(expectedChecksumSHA256: String) async throws {
-        let mockHandler = MockHandler { (context, input) -> OperationOutput<MockOutput> in
-            // Verify that the request headers are correctly set
-            XCTAssertEqual(input.headers.value(for: "x-amz-content-sha256"), "UNSIGNED-PAYLOAD")
-            XCTAssertEqual(input.headers.value(for: "x-amz-checksum-sha256"), expectedChecksumSHA256)
-            let httpResponse = HttpResponse(body: ByteStream.noStream, statusCode: HttpStatusCode.ok)
-            let mockOutput = try await MockOutput.responseClosure(httpResponse)
-            return OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
-        }
-
-        _ = try await stack.handleMiddleware(context: builtContext, input: MockInput(), next: mockHandler)
+        _ = try await builder.executeRequest({ request, attributes in
+            XCTAssertEqual(request.headers.value(for: "x-amz-content-sha256"), "UNSIGNED-PAYLOAD")
+            XCTAssertEqual(request.headers.value(for: "x-amz-checksum-sha256"), expectedChecksumSHA256)
+            return HTTPResponse(body: ByteStream.noStream, statusCode: HTTPStatusCode.ok)
+        })
+        .build()
+        .execute(input: MockInput())
     }
 
 }

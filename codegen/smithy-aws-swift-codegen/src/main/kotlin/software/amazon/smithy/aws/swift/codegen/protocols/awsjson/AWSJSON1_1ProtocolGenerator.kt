@@ -14,7 +14,6 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 class AWSJSON1_1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCustomizations()) {
     override val defaultContentType = "application/x-amz-json-1.1"
@@ -24,7 +23,6 @@ class AWSJSON1_1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
         "SDKAppliedContentEncoding_awsJson1_1",
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_1",
     )
-    override val tagsToIgnore = setOf("defaults")
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
         HttpBindingResolver = AWSJSONHttpBindingResolver(ctx, defaultContentType)
 
@@ -34,11 +32,11 @@ class AWSJSON1_1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
         operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service))
         // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSJson protocols
         // we always need to have an InputBodyMiddleware
-        operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+        operationMiddleware.removeMiddleware(operation, "OperationInputBodyMiddleware")
         operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
 
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
-        operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
+        operationMiddleware.removeMiddleware(operation, "ContentTypeMiddleware")
         operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
     }
 }

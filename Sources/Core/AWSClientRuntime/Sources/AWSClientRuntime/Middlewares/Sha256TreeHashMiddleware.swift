@@ -9,7 +9,7 @@ import SmithyHTTPAPI
 import struct Foundation.Data
 import struct Smithy.AttributeKey
 
-public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
+public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput> {
     public let id: String = "Sha256TreeHash"
 
     private let X_AMZ_SHA256_TREE_HASH_HEADER_NAME = "X-Amz-Sha256-Tree-Hash"
@@ -18,27 +18,14 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
 
     public init() {}
 
-    public func handle<H>(context: Context,
-                          input: MInput,
-                          next: H) async throws -> MOutput
-    where H: Handler,
-          Self.MInput == H.Input,
-          Self.MOutput == H.Output {
-              let request = input.build()
-              try await addHashes(request: request, builder: input, context: context)
-              return try await next.handle(context: context, input: input)
-          }
-
-    private func addHashes(request: SdkHttpRequest, builder: SdkHttpRequestBuilder, context: Context) async throws {
+    private func addHashes(
+        request: SmithyHTTPAPI.HTTPRequest,
+        builder: SmithyHTTPAPI.HTTPRequestBuilder,
+        context: Context
+    ) async throws {
         switch request.body {
-        case .data(let data):
-            guard let data = data else {
-                return
-            }
-            if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
-                let sha256 = try data.computeSHA256().encodeToHexString()
-                builder.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
-            }
+        case .data:
+            break
         case .stream(let stream):
             let streamBytes: Data?
             let currentPosition = stream.position
@@ -103,14 +90,13 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
         let data = Data(previousLevelHashes[0])
         return data.encodeToHexString()
     }
-
-    public typealias MInput = SdkHttpRequestBuilder
-    public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 
-extension Sha256TreeHashMiddleware: HttpInterceptor {
+extension Sha256TreeHashMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeSigning(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
         let request = context.getRequest()

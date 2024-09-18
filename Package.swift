@@ -83,9 +83,9 @@ let package = Package(
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
             ],
-            path: "Sources/Core/AWSClientRuntime/Sources",
+            path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
-                .process("AWSClientRuntime/Resources")
+                .process("Resources"),
             ]
         ),
         .target(
@@ -121,7 +121,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams],
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
@@ -223,7 +223,7 @@ func addServiceUnitTestTarget(_ name: String) {
     package.targets += [
         .testTarget(
             name: "\(testName)",
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
+            dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
             path: "Sources/Services/\(name)/Tests/\(testName)"
         )
     ]
@@ -255,8 +255,8 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.51.0",
-    crtVersion: "0.32.0"
+    clientRuntimeVersion: "0.71.0",
+    crtVersion: "0.36.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
@@ -340,10 +340,7 @@ let serviceTargets: [String] = [
     "AWSCodeGuruReviewer",
     "AWSCodeGuruSecurity",
     "AWSCodePipeline",
-    "AWSCodeStar",
-    "AWSCodeStarconnections",
     "AWSCodeartifact",
-    "AWSCodestarnotifications",
     "AWSCognitoIdentity",
     "AWSCognitoIdentityProvider",
     "AWSCognitoSync",
@@ -510,7 +507,6 @@ let serviceTargets: [String] = [
     "AWSMigrationHubOrchestrator",
     "AWSMigrationHubRefactorSpaces",
     "AWSMigrationHubStrategy",
-    "AWSMobile",
     "AWSMq",
     "AWSNeptune",
     "AWSNeptuneGraph",
@@ -528,6 +524,7 @@ let serviceTargets: [String] = [
     "AWSOpsWorksCM",
     "AWSOrganizations",
     "AWSOutposts",
+    "AWSPCS",
     "AWSPI",
     "AWSPanorama",
     "AWSPaymentCryptography",
@@ -546,6 +543,7 @@ let serviceTargets: [String] = [
     "AWSPricing",
     "AWSPrivateNetworks",
     "AWSProton",
+    "AWSQApps",
     "AWSQBusiness",
     "AWSQConnect",
     "AWSQLDB",
@@ -586,6 +584,7 @@ let serviceTargets: [String] = [
     "AWSSSM",
     "AWSSSMContacts",
     "AWSSSMIncidents",
+    "AWSSSMQuickSetup",
     "AWSSSO",
     "AWSSSOAdmin",
     "AWSSSOOIDC",

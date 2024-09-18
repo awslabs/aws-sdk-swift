@@ -9,8 +9,8 @@ import SmithyHTTPAPI
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
-import SmithyXML
-@testable import AWSClientRuntime
+@_spi(SmithyReadWrite) import SmithyXML
+@_spi(SmithyReadWrite) @testable import AWSClientRuntime
 
 class Ec2ErrorRequestIdTests: XCTestCase {
 
@@ -26,7 +26,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
             <RequestID>abcdefg12345</RequestID>
         </Ec2Response>
         """.utf8)
-        let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
+        let httpResponse = HTTPResponse(body: .data(data), statusCode: .ok)
         let response = try EC2QueryError(httpResponse: httpResponse, responseReader: Reader.from(data: data), noErrorWrapping: true)
         XCTAssertEqual(response.requestID, "abcdefg12345")
     }
@@ -43,7 +43,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
             <RequestId>abcdefg12345</RequestId>
         </Ec2Response>
         """.utf8)
-        let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
+        let httpResponse = HTTPResponse(body: .data(data), statusCode: .ok)
         let response = try EC2QueryError(httpResponse: httpResponse, responseReader: Reader.from(data: data), noErrorWrapping: true)
         XCTAssertEqual(response.requestID, "abcdefg12345")
     }

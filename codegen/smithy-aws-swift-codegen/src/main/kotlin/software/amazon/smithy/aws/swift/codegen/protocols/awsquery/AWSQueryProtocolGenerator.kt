@@ -14,7 +14,6 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 open class AWSQueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSQueryCustomizations()) {
     override val defaultContentType = "application/x-www-form-urlencoded"
@@ -28,17 +27,16 @@ open class AWSQueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSQueryC
         "SDKAppliedContentEncoding_awsQuery",
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery",
     )
-    override val tagsToIgnore = setOf("defaults")
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
         // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSQuery
         // we always need to have an InputBodyMiddleware
-        operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+        operationMiddleware.removeMiddleware(operation, "OperationInputBodyMiddleware")
         operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
 
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
-        operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
+        operationMiddleware.removeMiddleware(operation, "ContentTypeMiddleware")
         operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
     }
 }
