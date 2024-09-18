@@ -26,9 +26,11 @@ public struct AmzSdkInvocationIdMiddleware<InputType, OperationStackOutput> {
     }
 }
 
-extension AmzSdkInvocationIdMiddleware: HttpInterceptor {
+extension AmzSdkInvocationIdMiddleware: Interceptor {
     public typealias InputType = InputType
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeRetryLoop(context: some MutableRequest<InputType, HTTPRequest>) async throws {
         let builder = context.getRequest().toBuilder()

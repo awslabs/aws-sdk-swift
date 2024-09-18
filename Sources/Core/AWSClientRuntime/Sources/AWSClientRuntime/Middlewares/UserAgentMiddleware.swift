@@ -30,9 +30,11 @@ public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput> {
     }
 }
 
-extension UserAgentMiddleware: HttpInterceptor {
+extension UserAgentMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeTransmit(context: some MutableRequest<Self.InputType, HTTPRequest>) async throws {
         let awsUserAgentString = AWSUserAgentMetadata.fromConfigAndContext(

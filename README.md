@@ -2,8 +2,6 @@
 
 The **AWS SDK for Swift** is a pure Swift SDK for accessing any & all AWS services.
 
-**The AWS SDK for Swift is currently in developer preview and is intended strictly for feedback purposes only. Do not use this SDK for production workloads. Refer to the SDK [stability guidelines](docs/stability.md) for more detail.**
-
 ## License
 
 This library is licensed under the Apache 2.0 License. 

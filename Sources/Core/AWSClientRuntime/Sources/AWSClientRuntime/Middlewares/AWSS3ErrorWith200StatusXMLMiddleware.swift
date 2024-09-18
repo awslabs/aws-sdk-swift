@@ -27,9 +27,11 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
     }
 }
 
-extension AWSS3ErrorWith200StatusXMLMiddleware: HttpInterceptor {
+extension AWSS3ErrorWith200StatusXMLMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeDeserialization(
         context: some MutableResponse<Self.InputType, Self.RequestType, Self.ResponseType>

@@ -83,7 +83,10 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     }
 
     // Streaming unsigned payload without checksum (chunked encoding)
-    class DisablePayloadSigning<InputType, OutputType>: HttpInterceptor {
+    class DisablePayloadSigning<InputType, OutputType>: Interceptor {
+        typealias RequestType = HTTPRequest
+        typealias ResponseType = HTTPResponse
+
         func modifyBeforeRetryLoop(context: some MutableRequest<InputType, RequestType>) async throws {
             context.getAttributes().set(key: SmithyHTTPAPIKeys.hasUnsignedPayloadTrait, value: true)
         }

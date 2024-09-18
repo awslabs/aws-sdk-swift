@@ -17,64 +17,8 @@
     {
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "AWSS3IntegrationTests",
-        "name" : "AWSS3IntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSCloudFrontKeyValueStoreIntegrationTests",
-        "name" : "AWSCloudFrontKeyValueStoreIntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSEC2IntegrationTests",
-        "name" : "AWSEC2IntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSECSIntegrationTests",
-        "name" : "AWSECSIntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSEventBridgeIntegrationTests",
-        "name" : "AWSEventBridgeIntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSKinesisIntegrationTests",
-        "name" : "AWSKinesisIntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSMediaConvertIntegrationTests",
-        "name" : "AWSMediaConvertIntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSRoute53IntegrationTests",
-        "name" : "AWSRoute53IntegrationTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "AWSSQSIntegrationTests",
-        "name" : "AWSSQSIntegrationTests"
+        "identifier" : "AWSCognitoIdentityIntegrationTests",
+        "name" : "AWSCognitoIdentityIntegrationTests"
       }
     },
     {
@@ -94,8 +38,71 @@
     {
       "target" : {
         "containerPath" : "container:",
+        "identifier" : "AWSECSIntegrationTests",
+        "name" : "AWSECSIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
         "identifier" : "AWSGlacierIntegrationTests",
         "name" : "AWSGlacierIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSMediaConvertIntegrationTests",
+        "name" : "AWSMediaConvertIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSCloudFrontKeyValueStoreIntegrationTests",
+        "name" : "AWSCloudFrontKeyValueStoreIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSSQSIntegrationTests",
+        "name" : "AWSSQSIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSEventBridgeIntegrationTests",
+        "name" : "AWSEventBridgeIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSEC2IntegrationTests",
+        "name" : "AWSEC2IntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSKinesisIntegrationTests",
+        "name" : "AWSKinesisIntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSRoute53IntegrationTests",
+        "name" : "AWSRoute53IntegrationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSS3IntegrationTests",
+        "name" : "AWSS3IntegrationTests"
       }
     }
   ],

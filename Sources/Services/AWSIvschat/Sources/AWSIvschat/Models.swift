@@ -475,7 +475,7 @@ public struct CreateLoggingConfigurationInput {
     public var destinationConfiguration: IvschatClientTypes.DestinationConfiguration?
     /// Logging-configuration name. The value does not need to be unique.
     public var name: Swift.String?
-    /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+    /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -616,7 +616,7 @@ public struct CreateRoomInput {
     public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
     /// Room name. The value does not need to be unique.
     public var name: Swift.String?
-    /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+    /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -1006,7 +1006,7 @@ extension IvschatClientTypes {
         public var name: Swift.String?
         /// The state of the logging configuration. When this is ACTIVE, the configuration is ready for logging chat content.
         public var state: IvschatClientTypes.LoggingConfigurationState?
-        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
         public var tags: [Swift.String: Swift.String]?
         /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         public var updateTime: Foundation.Date?
@@ -1095,7 +1095,7 @@ extension IvschatClientTypes {
         public var messageReviewHandler: IvschatClientTypes.MessageReviewHandler?
         /// Room name. The value does not need to be unique.
         public var name: Swift.String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public var tags: [Swift.String: Swift.String]?
         /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         public var updateTime: Foundation.Date?
@@ -1230,7 +1230,7 @@ public struct TagResourceInput {
     /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+    /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1253,7 +1253,7 @@ public struct UntagResourceInput {
     /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+    /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 

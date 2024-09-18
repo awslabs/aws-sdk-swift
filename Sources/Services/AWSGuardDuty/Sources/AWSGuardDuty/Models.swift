@@ -5385,6 +5385,8 @@ extension GuardDutyClientTypes {
         public var definitionArn: Swift.String?
         /// The name of the task group that's associated with the task.
         public var group: Swift.String?
+        /// A capacity on which the task is running. For example, Fargate and EC2.
+        public var launchType: Swift.String?
         /// The Unix timestamp for the time when the task started.
         public var startedAt: Foundation.Date?
         /// Contains the tag specified when a task is started.
@@ -5403,6 +5405,7 @@ extension GuardDutyClientTypes {
             containers: [GuardDutyClientTypes.Container]? = nil,
             definitionArn: Swift.String? = nil,
             group: Swift.String? = nil,
+            launchType: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             startedBy: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
@@ -5415,6 +5418,7 @@ extension GuardDutyClientTypes {
             self.containers = containers
             self.definitionArn = definitionArn
             self.group = group
+            self.launchType = launchType
             self.startedAt = startedAt
             self.startedBy = startedBy
             self.tags = tags
@@ -14008,7 +14012,7 @@ extension GuardDutyClientTypes.KubernetesApiCallAction {
         var value = GuardDutyClientTypes.KubernetesApiCallAction()
         value.requestUri = try reader["requestUri"].readIfPresent()
         value.verb = try reader["verb"].readIfPresent()
-        value.sourceIps = try reader["sourceIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceIps = try reader["sourceIPs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userAgent = try reader["userAgent"].readIfPresent()
         value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
         value.statusCode = try reader["statusCode"].readIfPresent()
@@ -14317,6 +14321,7 @@ extension GuardDutyClientTypes.EcsTaskDetails {
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.group = try reader["group"].readIfPresent()
+        value.launchType = try reader["launchType"].readIfPresent()
         return value
     }
 }

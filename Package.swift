@@ -255,8 +255,8 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.67.0",
-    crtVersion: "0.33.0"
+    clientRuntimeVersion: "0.72.0",
+    crtVersion: "0.36.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
@@ -373,6 +373,7 @@ let serviceTargets: [String] = [
     "AWSDeviceFarm",
     "AWSDirectConnect",
     "AWSDirectoryService",
+    "AWSDirectoryServiceData",
     "AWSDocDB",
     "AWSDocDBElastic",
     "AWSDrs",

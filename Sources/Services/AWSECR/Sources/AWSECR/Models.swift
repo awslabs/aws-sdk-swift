@@ -1274,7 +1274,7 @@ extension ECRClientTypes {
 extension ECRClientTypes {
     /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest. By default, when no encryption configuration is set or the AES256 encryption type is used, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts your data at rest using an AES256 encryption algorithm. This does not require any action on your part. For more control over the encryption of the contents of your repository, you can use server-side encryption with Key Management Service key stored in Key Management Service (KMS) to encrypt your images. For more information, see [Amazon ECR encryption at rest](https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html) in the Amazon Elastic Container Registry User Guide.
     public struct EncryptionConfiguration {
-        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. If you use the KMS_DSSE encryption type, the contents of the repository will be encrypted with two layers of encryption using server-side encryption with the KMS Management Service key stored in KMS. Similar to the KMS encryption type, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you've already created. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see [Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon Simple Storage Service Console Developer Guide.
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. If you use the KMS_DSSE encryption type, the contents of the repository will be encrypted with two layers of encryption using server-side encryption with the KMS Management Service key stored in KMS. Similar to the KMS encryption type, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you've already created. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see [Amazon ECR encryption at rest](https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html) in the Amazon Elastic Container Registry User Guide.
         /// This member is required.
         public var encryptionType: ECRClientTypes.EncryptionType?
         /// If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
@@ -2494,6 +2494,8 @@ extension ECRClientTypes {
         public var epoch: Swift.Int?
         /// The file path of the vulnerable package.
         public var filePath: Swift.String?
+        /// The version of the package that contains the vulnerability fix.
+        public var fixedInVersion: Swift.String?
         /// The name of the vulnerable package.
         public var name: Swift.String?
         /// The package manager of the vulnerable package.
@@ -2509,6 +2511,7 @@ extension ECRClientTypes {
             arch: Swift.String? = nil,
             epoch: Swift.Int? = nil,
             filePath: Swift.String? = nil,
+            fixedInVersion: Swift.String? = nil,
             name: Swift.String? = nil,
             packageManager: Swift.String? = nil,
             release: Swift.String? = nil,
@@ -2519,6 +2522,7 @@ extension ECRClientTypes {
             self.arch = arch
             self.epoch = epoch
             self.filePath = filePath
+            self.fixedInVersion = fixedInVersion
             self.name = name
             self.packageManager = packageManager
             self.release = release
@@ -2780,10 +2784,14 @@ extension ECRClientTypes {
         public var awsAccountId: Swift.String?
         /// The description of the finding.
         public var description: Swift.String?
+        /// If a finding discovered in your environment has an exploit available.
+        public var exploitAvailable: Swift.String?
         /// The Amazon Resource Number (ARN) of the finding.
         public var findingArn: Swift.String?
         /// The date and time that the finding was first observed.
         public var firstObservedAt: Foundation.Date?
+        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL. A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
+        public var fixAvailable: Swift.String?
         /// The date and time that the finding was last observed.
         public var lastObservedAt: Foundation.Date?
         /// An object that contains the details of a package vulnerability finding.
@@ -2810,8 +2818,10 @@ extension ECRClientTypes {
         public init(
             awsAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
+            exploitAvailable: Swift.String? = nil,
             findingArn: Swift.String? = nil,
             firstObservedAt: Foundation.Date? = nil,
+            fixAvailable: Swift.String? = nil,
             lastObservedAt: Foundation.Date? = nil,
             packageVulnerabilityDetails: ECRClientTypes.PackageVulnerabilityDetails? = nil,
             remediation: ECRClientTypes.Remediation? = nil,
@@ -2827,8 +2837,10 @@ extension ECRClientTypes {
         {
             self.awsAccountId = awsAccountId
             self.description = description
+            self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
             self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
             self.lastObservedAt = lastObservedAt
             self.packageVulnerabilityDetails = packageVulnerabilityDetails
             self.remediation = remediation
@@ -8046,6 +8058,8 @@ extension ECRClientTypes.EnhancedImageScanFinding {
         value.title = try reader["title"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fixAvailable = try reader["fixAvailable"].readIfPresent()
+        value.exploitAvailable = try reader["exploitAvailable"].readIfPresent()
         return value
     }
 }
@@ -8178,6 +8192,7 @@ extension ECRClientTypes.VulnerablePackage {
         value.release = try reader["release"].readIfPresent()
         value.sourceLayerHash = try reader["sourceLayerHash"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
+        value.fixedInVersion = try reader["fixedInVersion"].readIfPresent()
         return value
     }
 }

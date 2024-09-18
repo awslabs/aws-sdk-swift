@@ -14,7 +14,6 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -26,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -1735,7 +1735,7 @@ public struct GetSolNetworkPackageDescriptorOutput {
 
 public struct InstantiateSolNetworkInstanceInput {
     /// Provides values for the configurable properties.
-    public var additionalParamsForNs: SmithyReadWrite.Document?
+    public var additionalParamsForNs: Smithy.Document?
     /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// ID of the network instance.
@@ -1745,7 +1745,7 @@ public struct InstantiateSolNetworkInstanceInput {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
-        additionalParamsForNs: SmithyReadWrite.Document? = nil,
+        additionalParamsForNs: Smithy.Document? = nil,
         dryRun: Swift.Bool? = nil,
         nsInstanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -2645,13 +2645,13 @@ extension TnbClientTypes {
     public struct UpdateSolNetworkModify {
         /// Provides values for the configurable properties declared in the function package descriptor.
         /// This member is required.
-        public var vnfConfigurableProperties: SmithyReadWrite.Document?
+        public var vnfConfigurableProperties: Smithy.Document?
         /// ID of the network function instance. A network function instance is a function in a function package .
         /// This member is required.
         public var vnfInstanceId: Swift.String?
 
         public init(
-            vnfConfigurableProperties: SmithyReadWrite.Document? = nil,
+            vnfConfigurableProperties: Smithy.Document? = nil,
             vnfInstanceId: Swift.String? = nil
         )
         {

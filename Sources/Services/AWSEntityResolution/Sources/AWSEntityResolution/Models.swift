@@ -9,12 +9,12 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -527,14 +528,14 @@ extension EntityResolutionClientTypes {
         /// The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved permanently.
         public var intermediateSourceConfiguration: EntityResolutionClientTypes.IntermediateSourceConfiguration?
         /// The required configuration fields to use with the provider service.
-        public var providerConfiguration: SmithyReadWrite.Document?
+        public var providerConfiguration: Smithy.Document?
         /// The ARN of the provider service.
         /// This member is required.
         public var providerServiceArn: Swift.String?
 
         public init(
             intermediateSourceConfiguration: EntityResolutionClientTypes.IntermediateSourceConfiguration? = nil,
-            providerConfiguration: SmithyReadWrite.Document? = nil,
+            providerConfiguration: Smithy.Document? = nil,
             providerServiceArn: Swift.String? = nil
         )
         {
@@ -840,13 +841,13 @@ extension EntityResolutionClientTypes {
     /// An object containing ProviderConfiguration and ProviderServiceArn.
     public struct NamespaceProviderProperties {
         /// An object which defines any additional configurations required by the provider service.
-        public var providerConfiguration: SmithyReadWrite.Document?
+        public var providerConfiguration: Smithy.Document?
         /// The Amazon Resource Name (ARN) of the provider service.
         /// This member is required.
         public var providerServiceArn: Swift.String?
 
         public init(
-            providerConfiguration: SmithyReadWrite.Document? = nil,
+            providerConfiguration: Smithy.Document? = nil,
             providerServiceArn: Swift.String? = nil
         )
         {
@@ -2344,14 +2345,14 @@ extension EntityResolutionClientTypes {
         /// The description of the ID namespace.
         public var description: Swift.String?
         /// Configurations required for the source ID namespace.
-        public var providerSourceConfigurationDefinition: SmithyReadWrite.Document?
+        public var providerSourceConfigurationDefinition: Smithy.Document?
         /// Configurations required for the target ID namespace.
-        public var providerTargetConfigurationDefinition: SmithyReadWrite.Document?
+        public var providerTargetConfigurationDefinition: Smithy.Document?
 
         public init(
             description: Swift.String? = nil,
-            providerSourceConfigurationDefinition: SmithyReadWrite.Document? = nil,
-            providerTargetConfigurationDefinition: SmithyReadWrite.Document? = nil
+            providerSourceConfigurationDefinition: Smithy.Document? = nil,
+            providerTargetConfigurationDefinition: Smithy.Document? = nil
         )
         {
             self.description = description
@@ -2418,19 +2419,19 @@ public struct GetProviderServiceOutput {
     /// Input schema for the provider service.
     public var providerComponentSchema: EntityResolutionClientTypes.ProviderComponentSchema?
     /// The definition of the provider configuration.
-    public var providerConfigurationDefinition: SmithyReadWrite.Document?
+    public var providerConfigurationDefinition: Smithy.Document?
     /// The required configuration fields to use with the provider service.
     /// This member is required.
     public var providerEndpointConfiguration: EntityResolutionClientTypes.ProviderEndpointConfiguration?
     /// The definition of the provider entity output.
     /// This member is required.
-    public var providerEntityOutputDefinition: SmithyReadWrite.Document?
+    public var providerEntityOutputDefinition: Smithy.Document?
     /// The provider configuration required for different ID namespace types.
     public var providerIdNameSpaceConfiguration: EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration?
     /// The Amazon Web Services accounts and the S3 permissions that are required by some providers to create an S3 bucket for intermediate data storage.
     public var providerIntermediateDataAccessConfiguration: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration?
     /// Provider service job configurations.
-    public var providerJobConfiguration: SmithyReadWrite.Document?
+    public var providerJobConfiguration: Smithy.Document?
     /// The name of the provider. This name is typically the company name.
     /// This member is required.
     public var providerName: Swift.String?
@@ -2450,12 +2451,12 @@ public struct GetProviderServiceOutput {
     public init(
         anonymizedOutput: Swift.Bool? = nil,
         providerComponentSchema: EntityResolutionClientTypes.ProviderComponentSchema? = nil,
-        providerConfigurationDefinition: SmithyReadWrite.Document? = nil,
+        providerConfigurationDefinition: Smithy.Document? = nil,
         providerEndpointConfiguration: EntityResolutionClientTypes.ProviderEndpointConfiguration? = nil,
-        providerEntityOutputDefinition: SmithyReadWrite.Document? = nil,
+        providerEntityOutputDefinition: Smithy.Document? = nil,
         providerIdNameSpaceConfiguration: EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration? = nil,
         providerIntermediateDataAccessConfiguration: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration? = nil,
-        providerJobConfiguration: SmithyReadWrite.Document? = nil,
+        providerJobConfiguration: Smithy.Document? = nil,
         providerName: Swift.String? = nil,
         providerServiceArn: Swift.String? = nil,
         providerServiceDisplayName: Swift.String? = nil,
@@ -4424,7 +4425,7 @@ extension GetProviderServiceOutput {
         value.providerComponentSchema = try reader["providerComponentSchema"].readIfPresent(with: EntityResolutionClientTypes.ProviderComponentSchema.read(from:))
         value.providerConfigurationDefinition = try reader["providerConfigurationDefinition"].readIfPresent()
         value.providerEndpointConfiguration = try reader["providerEndpointConfiguration"].readIfPresent(with: EntityResolutionClientTypes.ProviderEndpointConfiguration.read(from:))
-        value.providerEntityOutputDefinition = try reader["providerEntityOutputDefinition"].readIfPresent() ?? SmithyReadWrite.Document.object([:])
+        value.providerEntityOutputDefinition = try reader["providerEntityOutputDefinition"].readIfPresent() ?? [:]
         value.providerIdNameSpaceConfiguration = try reader["providerIdNameSpaceConfiguration"].readIfPresent(with: EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration.read(from:))
         value.providerIntermediateDataAccessConfiguration = try reader["providerIntermediateDataAccessConfiguration"].readIfPresent(with: EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguration.read(from:))
         value.providerJobConfiguration = try reader["providerJobConfiguration"].readIfPresent()

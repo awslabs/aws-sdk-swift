@@ -2994,12 +2994,14 @@ extension CodeBuildClientTypes {
     public enum WebhookScopeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case githubGlobal
         case githubOrganization
+        case gitlabGroup
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WebhookScopeType] {
             return [
                 .githubGlobal,
-                .githubOrganization
+                .githubOrganization,
+                .gitlabGroup
             ]
         }
 
@@ -3012,6 +3014,7 @@ extension CodeBuildClientTypes {
             switch self {
             case .githubGlobal: return "GITHUB_GLOBAL"
             case .githubOrganization: return "GITHUB_ORGANIZATION"
+            case .gitlabGroup: return "GITLAB_GROUP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3021,12 +3024,12 @@ extension CodeBuildClientTypes {
 extension CodeBuildClientTypes {
     /// Contains configuration information about the scope for a webhook.
     public struct ScopeConfiguration {
-        /// The domain of the GitHub Enterprise organization. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE
+        /// The domain of the GitHub Enterprise organization or the GitLab Self Managed group. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE or GITLAB_SELF_MANAGED.
         public var domain: Swift.String?
-        /// The name of either the enterprise or organization that will send webhook events to CodeBuild, depending on if the webhook is a global or organization webhook respectively.
+        /// The name of either the group, enterprise, or organization that will send webhook events to CodeBuild, depending on the type of webhook.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of scope for a GitHub webhook.
+        /// The type of scope for a GitHub or GitLab webhook.
         /// This member is required.
         public var scope: CodeBuildClientTypes.WebhookScopeType?
 

@@ -5742,8 +5742,6 @@ public struct CreateDBInstanceInput {
     ///
     /// * Must match the name of an existing DB subnet group.
     ///
-    /// * Must not be default.
-    ///
     ///
     /// Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
@@ -5841,6 +5839,8 @@ public struct CreateDBInstanceInput {
     ///
     /// * custom-sqlserver-web (for RDS Custom for SQL Server DB instances)
     ///
+    /// * custom-sqlserver-dev (for RDS Custom for SQL Server DB instances)
+    ///
     /// * db2-ae
     ///
     /// * db2-se
@@ -5880,7 +5880,7 @@ public struct CreateDBInstanceInput {
     public var iops: Swift.Int?
     /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the default key when this parameter is empty. You must explicitly specify a key.
     public var kmsKeyId: Swift.String?
-    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -6269,7 +6269,17 @@ extension RDSClientTypes {
     public struct DBParameterGroupStatus {
         /// The name of the DB parameter group.
         public var dbParameterGroupName: Swift.String?
-        /// The status of parameter updates.
+        /// The status of parameter updates. Valid values are:
+        ///
+        /// * applying: The parameter group change is being applied to the database.
+        ///
+        /// * failed-to-apply: The parameter group is in an invalid state.
+        ///
+        /// * in-sync: The parameter group change is synchronized with the database.
+        ///
+        /// * pending-database-upgrade: The parameter group change will be applied after the DB instance is upgraded.
+        ///
+        /// * pending-reboot: The parameter group change will be applied after the DB instance reboots.
         public var parameterApplyStatus: Swift.String?
 
         public init(
@@ -7123,7 +7133,7 @@ public struct CreateDBInstanceReadReplicaInput {
     /// * SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are creating an encrypted read replica from a DB instance in the us-west-2 Amazon Web Services Region, then your SourceDBInstanceIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.
     ///
     ///
-    /// To learn how to generate a Signature Version 4 signed request, see [Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) and [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region. SourceRegion isn't supported for SQL Server, because Amazon RDS for SQL Server doesn't support cross-Region read replicas. This setting doesn't apply to RDS Custom DB instances.
+    /// To learn how to generate a Signature Version 4 signed request, see [Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) and [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region. This setting doesn't apply to RDS Custom DB instances.
     public var preSignedUrl: Swift.String?
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom DB instances.
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
@@ -8809,6 +8819,8 @@ public struct CreateGlobalClusterInput {
     ///
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB cluster.
     public var storageEncrypted: Swift.Bool?
+    /// Tags to assign to the global cluster.
+    public var tags: [RDSClientTypes.Tag]?
 
     public init(
         databaseName: Swift.String? = nil,
@@ -8818,7 +8830,8 @@ public struct CreateGlobalClusterInput {
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
-        storageEncrypted: Swift.Bool? = nil
+        storageEncrypted: Swift.Bool? = nil,
+        tags: [RDSClientTypes.Tag]? = nil
     )
     {
         self.databaseName = databaseName
@@ -8829,6 +8842,7 @@ public struct CreateGlobalClusterInput {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.storageEncrypted = storageEncrypted
+        self.tags = tags
     }
 }
 
@@ -8988,6 +9002,8 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global database cluster.
         public var storageEncrypted: Swift.Bool?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
 
         public init(
             databaseName: Swift.String? = nil,
@@ -9001,7 +9017,8 @@ extension RDSClientTypes {
             globalClusterMembers: [RDSClientTypes.GlobalClusterMember]? = nil,
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool? = nil
+            storageEncrypted: Swift.Bool? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil
         )
         {
             self.databaseName = databaseName
@@ -9016,6 +9033,7 @@ extension RDSClientTypes {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
     }
 
@@ -17931,7 +17949,7 @@ public struct ModifyDBProxyEndpointOutput {
 extension RDSClientTypes {
     /// Specifies the settings that control the size and behavior of the connection pool associated with a DBProxyTargetGroup.
     public struct ConnectionPoolConfiguration {
-        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. For an unlimited wait time, specify 0. Default: 120 Constraints:
+        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints:
         ///
         /// * Must be between 0 and 3600.
         public var connectionBorrowTimeout: Swift.Int?
@@ -20107,7 +20125,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
     public var engineLifecycleSupport: Swift.String?
     /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -20745,7 +20763,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
     ///
     /// * Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -23332,6 +23350,7 @@ extension CreateGlobalClusterInput {
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
         try writer["StorageEncrypted"].write(value.storageEncrypted)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateGlobalCluster")
         try writer["Version"].write("2014-10-31")
     }
@@ -33122,6 +33141,7 @@ extension RDSClientTypes.GlobalCluster {
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
         value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }

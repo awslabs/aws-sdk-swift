@@ -15,7 +15,6 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -29,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -1677,10 +1677,10 @@ extension IoTTwinMakerClientTypes {
     /// Represents a single row in the query results.
     public struct Row {
         /// The data in a row of query results.
-        public var rowData: [SmithyReadWrite.Document]?
+        public var rowData: [Smithy.Document]?
 
         public init(
-            rowData: [SmithyReadWrite.Document]? = nil
+            rowData: [Smithy.Document]? = nil
         )
         {
             self.rowData = rowData

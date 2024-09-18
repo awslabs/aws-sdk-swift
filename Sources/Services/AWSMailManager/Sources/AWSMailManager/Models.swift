@@ -1948,6 +1948,8 @@ extension MailManagerClientTypes {
     public enum RuleStringToEvaluate {
         /// The email attribute to evaluate in a string condition expression.
         case attribute(MailManagerClientTypes.RuleStringEmailAttribute)
+        /// The email MIME X-Header attribute to evaluate in a string condition expression.
+        case mimeheaderattribute(Swift.String)
         case sdkUnknown(Swift.String)
     }
 
@@ -7178,6 +7180,8 @@ extension MailManagerClientTypes.RuleStringToEvaluate {
         switch value {
             case let .attribute(attribute):
                 try writer["Attribute"].write(attribute)
+            case let .mimeheaderattribute(mimeheaderattribute):
+                try writer["MimeHeaderAttribute"].write(mimeheaderattribute)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -7189,6 +7193,8 @@ extension MailManagerClientTypes.RuleStringToEvaluate {
         switch name {
             case "Attribute":
                 return .attribute(try reader["Attribute"].read())
+            case "MimeHeaderAttribute":
+                return .mimeheaderattribute(try reader["MimeHeaderAttribute"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
