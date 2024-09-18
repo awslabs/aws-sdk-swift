@@ -23,11 +23,7 @@ class S3ConcurrentTests: S3XCTestCase {
         try generateDummyTextFile(fileURL: fileURL)
 
         // Upload then retrieve the dummy file to and from S3 bucket
-        let file = ByteStream.from(
-            fileHandle: try FileHandle(
-                forReadingFrom: fileURL
-            )
-        )
+        let file = ByteStream.data(try Data(contentsOf: fileURL))
         let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
         let putObjectInput = PutObjectInput(body: file, bucket: bucketName, key: objectKey)
         _ = try await client.putObject(input: putObjectInput)
@@ -59,10 +55,10 @@ class S3ConcurrentTests: S3XCTestCase {
         try Data().write(to: fileURL)
 
         // Populate dummy file with 50MB text
-        let fileStream = FileStream(fileHandle: try FileHandle(forWritingTo: fileURL))
+        let fileHandle = try FileHandle(forWritingTo: fileURL)
         for _ in 0..<1_000_000 {
-            try fileStream.write(contentsOf: segmentData)
+            try fileHandle.write(contentsOf: segmentData)
         }
-        fileStream.close()
+        try fileHandle.close()
     }
 }
