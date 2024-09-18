@@ -279,7 +279,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityAlreadyExistsException` : The specified entity already exists.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
@@ -354,11 +354,11 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryAlreadyInRegionException` : The Region you specified is the same Region where the Managed Microsoft AD directory was created. Specify a different Region and try again.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `RegionLimitExceededException` : You have reached the limit for maximum number of simultaneous Region replications per directory.
@@ -728,7 +728,7 @@ extension DirectoryClient {
     /// __Possible Exceptions:__
     /// - `AuthenticationFailedException` : An authentication error occurred.
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityAlreadyExistsException` : The specified entity already exists.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
@@ -804,7 +804,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityAlreadyExistsException` : The specified entity already exists.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
@@ -1251,7 +1251,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -1621,7 +1621,7 @@ extension DirectoryClient {
     /// - `CertificateInUseException` : The certificate is being used for the LDAP security connection and cannot be removed without disabling LDAP security.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
@@ -1842,7 +1842,7 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
     /// - `InvalidParameterException` : One or more parameters are not valid.
@@ -1918,7 +1918,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -2043,6 +2043,80 @@ extension DirectoryClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDirectories")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeDirectoryDataAccess` operation on the `DirectoryService_20150416` service.
+    ///
+    /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory.
+    ///
+    /// - Parameter DescribeDirectoryDataAccessInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDirectoryDataAccessOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func describeDirectoryDataAccess(input: DescribeDirectoryDataAccessInput) async throws -> DescribeDirectoryDataAccessOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDirectoryDataAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>(DescribeDirectoryDataAccessInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectoryDataAccessOutput>(DescribeDirectoryDataAccessOutput.httpOutput(from:), DescribeDirectoryDataAccessOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectoryDataAccessOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDirectoryDataAccessOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>(xAmzTarget: "DirectoryService_20150416.DescribeDirectoryDataAccess"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDirectoryDataAccessInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectoryDataAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDirectoryDataAccess")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2289,7 +2363,7 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
@@ -2664,7 +2738,7 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
     /// - `InvalidNextTokenException` : The NextToken value is not valid.
@@ -2739,7 +2813,7 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
     /// - `InvalidClientAuthStatusException` : Client authentication is already enabled.
@@ -2803,6 +2877,82 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableDirectoryDataAccess` operation on the `DirectoryService_20150416` service.
+    ///
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
+    ///
+    /// - Parameter DisableDirectoryDataAccessInput : [no documentation found]
+    ///
+    /// - Returns: `DisableDirectoryDataAccessOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
+    /// - `DirectoryInDesiredStateException` : The directory is already updated to desired update type settings.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func disableDirectoryDataAccess(input: DisableDirectoryDataAccessInput) async throws -> DisableDirectoryDataAccessOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableDirectoryDataAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>(DisableDirectoryDataAccessInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableDirectoryDataAccessOutput>(DisableDirectoryDataAccessOutput.httpOutput(from:), DisableDirectoryDataAccessOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableDirectoryDataAccessOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableDirectoryDataAccessOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>(xAmzTarget: "DirectoryService_20150416.DisableDirectoryDataAccess"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableDirectoryDataAccessInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDirectoryDataAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableDirectoryDataAccess")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisableLDAPS` operation on the `DirectoryService_20150416` service.
     ///
     /// Deactivates LDAP secure calls for the specified directory.
@@ -2816,7 +2966,7 @@ extension DirectoryClient {
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `InvalidLDAPSStatusException` : The LDAP activities could not be performed because they are limited by the LDAPS status.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -3036,7 +3186,7 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
     /// - `InvalidClientAuthStatusException` : Client authentication is already enabled.
@@ -3101,6 +3251,82 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `EnableDirectoryDataAccess` operation on the `DirectoryService_20150416` service.
+    ///
+    /// Enables access to directory data via the Directory Service Data API for the specified directory.
+    ///
+    /// - Parameter EnableDirectoryDataAccessInput : [no documentation found]
+    ///
+    /// - Returns: `EnableDirectoryDataAccessOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
+    /// - `DirectoryInDesiredStateException` : The directory is already updated to desired update type settings.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func enableDirectoryDataAccess(input: EnableDirectoryDataAccessInput) async throws -> EnableDirectoryDataAccessOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableDirectoryDataAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>(EnableDirectoryDataAccessInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableDirectoryDataAccessOutput>(EnableDirectoryDataAccessOutput.httpOutput(from:), EnableDirectoryDataAccessOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableDirectoryDataAccessOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableDirectoryDataAccessOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>(xAmzTarget: "DirectoryService_20150416.EnableDirectoryDataAccess"))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableDirectoryDataAccessInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDirectoryDataAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableDirectoryDataAccess")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableLDAPS` operation on the `DirectoryService_20150416` service.
     ///
     /// Activates the switch for the specific directory to always use LDAP secure calls.
@@ -3114,7 +3340,7 @@ extension DirectoryClient {
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `InvalidLDAPSStatusException` : The LDAP activities could not be performed because they are limited by the LDAPS status.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `NoAvailableCertificateException` : Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
@@ -3854,7 +4080,7 @@ extension DirectoryClient {
     /// - `CertificateLimitExceededException` : The certificate could not be added because the certificate limit has been reached.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `InvalidCertificateException` : The certificate PEM that was provided has incorrect encoding.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -4076,7 +4302,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -4149,10 +4375,10 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `UnsupportedOperationException` : The operation is not supported.
     public func removeRegion(input: RemoveRegionInput) async throws -> RemoveRegionOutput {
@@ -4288,7 +4514,7 @@ extension DirectoryClient {
 
     /// Performs the `ResetUserPassword` operation on the `DirectoryService_20150416` service.
     ///
-    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You can reset the password for any user in your directory with the following exceptions:
+    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions:
     ///
     /// * For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.
     ///
@@ -4302,7 +4528,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidPasswordException` : The new password provided by the user does not meet the password complexity requirements defined in your directory.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -4450,7 +4676,7 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryAlreadySharedException` : The specified directory has already been shared with this Amazon Web Services account.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
@@ -4530,7 +4756,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -4679,7 +4905,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
@@ -4753,11 +4979,11 @@ extension DirectoryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Client authentication is not available in this region at this time.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
     /// - `DirectoryInDesiredStateException` : The directory is already updated to desired update type settings.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.
     /// - `SnapshotLimitExceededException` : The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
@@ -4832,7 +5058,7 @@ extension DirectoryClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `DomainControllerLimitExceededException` : The maximum allowed number of domain controllers per directory was exceeded. The default limit per directory is 20 domain controllers.
     /// - `EntityDoesNotExistException` : The specified entity could not be found.
     /// - `InvalidParameterException` : One or more parameters are not valid.
@@ -4982,7 +5208,7 @@ extension DirectoryClient {
     /// __Possible Exceptions:__
     /// - `ClientException` : A client exception has occurred.
     /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
-    /// - `DirectoryUnavailableException` : The specified directory is unavailable or could not be found.
+    /// - `DirectoryUnavailableException` : The specified directory is unavailable.
     /// - `IncompatibleSettingsException` : The specified directory setting is not compatible with other settings.
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ServiceException` : An exception has occurred in Directory Service.

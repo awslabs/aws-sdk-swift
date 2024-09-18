@@ -295,6 +295,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSDirectoryService](../../../../../swift/api/awsdirectoryservice/latest)
 
+[AWSDirectoryServiceData](../../../../../swift/api/awsdirectoryservicedata/latest)
+
 [AWSDocDB](../../../../../swift/api/awsdocdb/latest)
 
 [AWSDocDBElastic](../../../../../swift/api/awsdocdbelastic/latest)

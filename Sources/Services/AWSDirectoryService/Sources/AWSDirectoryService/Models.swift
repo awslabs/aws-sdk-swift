@@ -328,7 +328,7 @@ public struct AcceptSharedDirectoryOutput {
     }
 }
 
-/// Client authentication is not available in this region at this time.
+/// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -357,7 +357,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// The specified directory is unavailable or could not be found.
+/// The specified directory is unavailable.
 public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -473,39 +473,39 @@ public struct AddIpRoutesInput {
     public var ipRoutes: [DirectoryClientTypes.IpRoute]?
     /// If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules: Inbound:
     ///
-    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
+    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0
+    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0
+    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0
+    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0
+    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0
+    /// * Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0
+    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0
+    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0
+    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0
+    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0
+    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0
+    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0
+    /// * Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0
+    /// * Type: DNS (UDP), Protocol: UDP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0
+    /// * Type: DNS (TCP), Protocol: TCP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0
+    /// * Type: LDAP, Protocol: TCP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
-    /// * Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0
+    /// * Type: All ICMP, Protocol: All, Range: N/A, Source: Managed Microsoft AD VPC IPv4 CIDR
     ///
     ///
     /// Outbound:
@@ -731,10 +731,10 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 extension DirectoryClientTypes {
     /// Metadata assigned to a directory consisting of a key-value pair.
     public struct Tag {
-        /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         /// This member is required.
         public var key: Swift.String?
-        /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         /// This member is required.
         public var value: Swift.String?
 
@@ -1928,7 +1928,7 @@ public struct CreateTrustInput {
     /// The direction of the trust relationship.
     /// This member is required.
     public var trustDirection: DirectoryClientTypes.TrustDirection?
-    /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
+    /// The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain.
     /// This member is required.
     public var trustPassword: Swift.String?
     /// The trust relationship type. Forest is the default.
@@ -1969,6 +1969,44 @@ public struct CreateTrustOutput {
     )
     {
         self.trustId = trustId
+    }
+}
+
+extension DirectoryClientTypes {
+
+    public enum DataAccessStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataAccessStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .disabling: return "Disabling"
+            case .enabled: return "Enabled"
+            case .enabling: return "Enabling"
+            case .failed: return "Failed"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -2409,7 +2447,7 @@ extension DirectoryClientTypes {
         public var displayLabel: Swift.String?
         /// The port that your RADIUS server is using for communications. Your self-managed network must allow inbound traffic over this port from the Directory Service servers.
         public var radiusPort: Swift.Int?
-        /// The maximum number of times that communication with the RADIUS server is attempted.
+        /// The maximum number of times that communication with the RADIUS server is retried after the initial attempt.
         public var radiusRetries: Swift.Int
         /// An array of strings that contains the fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
         public var radiusServers: [Swift.String]?
@@ -2579,6 +2617,7 @@ extension DirectoryClientTypes {
         case requested
         case restorefailed
         case restoring
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DirectoryStage] {
@@ -2593,7 +2632,8 @@ extension DirectoryClientTypes {
                 .inoperable,
                 .requested,
                 .restorefailed,
-                .restoring
+                .restoring,
+                .updating
             ]
         }
 
@@ -2615,6 +2655,7 @@ extension DirectoryClientTypes {
             case .requested: return "Requested"
             case .restorefailed: return "RestoreFailed"
             case .restoring: return "Restoring"
+            case .updating: return "Updating"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2707,7 +2748,7 @@ extension DirectoryClientTypes {
         public var stageLastUpdatedDateTime: Foundation.Date?
         /// Additional information about the directory stage.
         public var stageReason: Swift.String?
-        /// The directory size.
+        /// The directory type.
         public var type: DirectoryClientTypes.DirectoryType?
         /// A [DirectoryVpcSettingsDescription] object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed Microsoft AD directory.
         public var vpcSettings: DirectoryClientTypes.DirectoryVpcSettingsDescription?
@@ -2794,6 +2835,31 @@ public struct DescribeDirectoriesOutput {
     }
 }
 
+public struct DescribeDirectoryDataAccessInput {
+    /// The directory identifier.
+    /// This member is required.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    )
+    {
+        self.directoryId = directoryId
+    }
+}
+
+public struct DescribeDirectoryDataAccessOutput {
+    /// The current status of data access through the Directory Service Data API.
+    public var dataAccessStatus: DirectoryClientTypes.DataAccessStatus?
+
+    public init(
+        dataAccessStatus: DirectoryClientTypes.DataAccessStatus? = nil
+    )
+    {
+        self.dataAccessStatus = dataAccessStatus
+    }
+}
+
 public struct DescribeDomainControllersInput {
     /// Identifier of the directory for which to retrieve the domain controller information.
     /// This member is required.
@@ -2829,6 +2895,7 @@ extension DirectoryClientTypes {
         case failed
         case impaired
         case restoring
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DomainControllerStatus] {
@@ -2839,7 +2906,8 @@ extension DirectoryClientTypes {
                 .deleting,
                 .failed,
                 .impaired,
-                .restoring
+                .restoring,
+                .updating
             ]
         }
 
@@ -2857,6 +2925,7 @@ extension DirectoryClientTypes {
             case .failed: return "Failed"
             case .impaired: return "Impaired"
             case .restoring: return "Restoring"
+            case .updating: return "Updating"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4052,7 +4121,7 @@ public struct DisableClientAuthenticationInput {
     /// The identifier of the directory
     /// This member is required.
     public var directoryId: Swift.String?
-    /// The type of client authentication to disable. Currently, only the parameter, SmartCard is supported.
+    /// The type of client authentication to disable. Currently the only parameter "SmartCard" is supported.
     /// This member is required.
     public var type: DirectoryClientTypes.ClientAuthenticationType?
 
@@ -4067,6 +4136,24 @@ public struct DisableClientAuthenticationInput {
 }
 
 public struct DisableClientAuthenticationOutput {
+
+    public init() { }
+}
+
+public struct DisableDirectoryDataAccessInput {
+    /// The directory identifier.
+    /// This member is required.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    )
+    {
+        self.directoryId = directoryId
+    }
+}
+
+public struct DisableDirectoryDataAccessOutput {
 
     public init() { }
 }
@@ -4224,6 +4311,24 @@ public struct EnableClientAuthenticationInput {
 }
 
 public struct EnableClientAuthenticationOutput {
+
+    public init() { }
+}
+
+public struct EnableDirectoryDataAccessInput {
+    /// The directory identifier.
+    /// This member is required.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    )
+    {
+        self.directoryId = directoryId
+    }
+}
+
+public struct EnableDirectoryDataAccessOutput {
 
     public init() { }
 }
@@ -5800,6 +5905,13 @@ extension DescribeDirectoriesInput {
     }
 }
 
+extension DescribeDirectoryDataAccessInput {
+
+    static func urlPathProvider(_ value: DescribeDirectoryDataAccessInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeDomainControllersInput {
 
     static func urlPathProvider(_ value: DescribeDomainControllersInput) -> Swift.String? {
@@ -5870,6 +5982,13 @@ extension DisableClientAuthenticationInput {
     }
 }
 
+extension DisableDirectoryDataAccessInput {
+
+    static func urlPathProvider(_ value: DisableDirectoryDataAccessInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisableLDAPSInput {
 
     static func urlPathProvider(_ value: DisableLDAPSInput) -> Swift.String? {
@@ -5894,6 +6013,13 @@ extension DisableSsoInput {
 extension EnableClientAuthenticationInput {
 
     static func urlPathProvider(_ value: EnableClientAuthenticationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableDirectoryDataAccessInput {
+
+    static func urlPathProvider(_ value: EnableDirectoryDataAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6344,6 +6470,14 @@ extension DescribeDirectoriesInput {
     }
 }
 
+extension DescribeDirectoryDataAccessInput {
+
+    static func write(value: DescribeDirectoryDataAccessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+    }
+}
+
 extension DescribeDomainControllersInput {
 
     static func write(value: DescribeDomainControllersInput?, to writer: SmithyJSON.Writer) throws {
@@ -6448,6 +6582,14 @@ extension DisableClientAuthenticationInput {
     }
 }
 
+extension DisableDirectoryDataAccessInput {
+
+    static func write(value: DisableDirectoryDataAccessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+    }
+}
+
 extension DisableLDAPSInput {
 
     static func write(value: DisableLDAPSInput?, to writer: SmithyJSON.Writer) throws {
@@ -6481,6 +6623,14 @@ extension EnableClientAuthenticationInput {
         guard let value else { return }
         try writer["DirectoryId"].write(value.directoryId)
         try writer["Type"].write(value.type)
+    }
+}
+
+extension EnableDirectoryDataAccessInput {
+
+    static func write(value: EnableDirectoryDataAccessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
     }
 }
 
@@ -6999,6 +7149,18 @@ extension DescribeDirectoriesOutput {
     }
 }
 
+extension DescribeDirectoryDataAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDirectoryDataAccessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDirectoryDataAccessOutput()
+        value.dataAccessStatus = try reader["DataAccessStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDomainControllersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainControllersOutput {
@@ -7123,6 +7285,13 @@ extension DisableClientAuthenticationOutput {
     }
 }
 
+extension DisableDirectoryDataAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableDirectoryDataAccessOutput {
+        return DisableDirectoryDataAccessOutput()
+    }
+}
+
 extension DisableLDAPSOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableLDAPSOutput {
@@ -7148,6 +7317,13 @@ extension EnableClientAuthenticationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableClientAuthenticationOutput {
         return EnableClientAuthenticationOutput()
+    }
+}
+
+extension EnableDirectoryDataAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableDirectoryDataAccessOutput {
+        return EnableDirectoryDataAccessOutput()
     }
 }
 
@@ -7890,6 +8066,24 @@ enum DescribeDirectoriesOutputError {
     }
 }
 
+enum DescribeDirectoryDataAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDomainControllersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8078,6 +8272,26 @@ enum DisableClientAuthenticationOutputError {
     }
 }
 
+enum DisableDirectoryDataAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "DirectoryInDesiredStateException": return try DirectoryInDesiredStateException.makeError(baseError: baseError)
+            case "DirectoryUnavailableException": return try DirectoryUnavailableException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisableLDAPSOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8145,6 +8359,26 @@ enum EnableClientAuthenticationOutputError {
             case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
             case "InvalidClientAuthStatusException": return try InvalidClientAuthStatusException.makeError(baseError: baseError)
             case "NoAvailableCertificateException": return try NoAvailableCertificateException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableDirectoryDataAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "DirectoryInDesiredStateException": return try DirectoryInDesiredStateException.makeError(baseError: baseError)
+            case "DirectoryUnavailableException": return try DirectoryUnavailableException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8980,6 +9214,20 @@ extension InvalidClientAuthStatusException {
     }
 }
 
+extension DirectoryInDesiredStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryInDesiredStateException {
+        let reader = baseError.errorBodyReader
+        var value = DirectoryInDesiredStateException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidLDAPSStatusException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLDAPSStatusException {
@@ -9125,20 +9373,6 @@ extension DirectoryNotSharedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryNotSharedException {
         let reader = baseError.errorBodyReader
         var value = DirectoryNotSharedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DirectoryInDesiredStateException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryInDesiredStateException {
-        let reader = baseError.errorBodyReader
-        var value = DirectoryInDesiredStateException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
