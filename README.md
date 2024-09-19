@@ -5,10 +5,6 @@
 [apache-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
 [apache-url]: LICENSE
 
-#### License
-
-This library is licensed under the Apache 2.0 License.
-
 ## Getting Started
 
 - [SDK Product Page](https://aws.amazon.com/sdk-for-swift/)
@@ -28,6 +24,28 @@ This is the preferred mechanism for user feedback as it allows anyone with simil
 ## Contributing
 
 If you are interested in contributing to AWS SDK for Swift, see [CONTRIBUTING](CONTRIBUTING.md) for more information.
+
+## Development
+
+### Module Structure
+
+#### Codegen Modules
+
+* `codegen/smithy-aws-swift-codegen` - the Kotlin module that generates AWS SDK for Swift from Smithy models of AWS services.
+
+#### Runtime Modules (under `Sources/Core/`)
+
+* `AWSClientRuntime` - concrete types, protocols, enums, etc. that provide most AWS specific runtime functionalities for the SDK. 
+                       Has several other runtime modules as its dependencies.
+* `AWSSDKChecksums` - implementation for handling checksum in AWS requests
+* `AWSSDKCommon` - concrete types used by other runtime modules
+* `AWSSDKEventStreamsAuth` - concrete types for signing AWS event stream message
+* `AWSSDKHTTPAuth` - concrete types for AWS SigV4 signer, and types related to auth flow
+* `AWSSDKIdentity` - concrete types for AWS credentials and identity resolvers
+
+## License
+
+This library is licensed under the Apache 2.0 License.
 
 ## Security
 
