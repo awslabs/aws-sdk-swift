@@ -281,7 +281,7 @@ extension LambdaClient {
 
     /// Performs the `AddPermission` operation on the `AWSGirApiService` service.
     ///
-    /// Grants an Amazon Web Servicesservice, Amazon Web Services account, or Amazon Web Services organization permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Servicesservices, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Servicesservices, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see [Using resource-based policies for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html).
+    /// Grants a [principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying) permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Servicesservices, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Servicesservices, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see [Using resource-based policies for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html).
     ///
     /// - Parameter AddPermissionInput : [no documentation found]
     ///
@@ -297,6 +297,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `PublicPolicyException` : Lambda prevented your policy from being created because it would grant public access to your function. If you intended to create a public policy, use the [PutPublicAccessBlockConfig] API action to configure your function's public-access settings to allow public policies.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -1472,7 +1473,7 @@ extension LambdaClient {
 
     /// Performs the `DeleteResourcePolicy` operation on the `AWSGirApiService` service.
     ///
-    /// Deletes a [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) from a function.
+    /// The option to create and modify full JSON resource-based policies, and to use the PutResourcePolicy, GetResourcePolicy, and DeleteResourcePolicy APIs, won't be available in all Amazon Web Services Regions until September 30, 2024. Deletes a [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) from a function.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
@@ -2657,7 +2658,7 @@ extension LambdaClient {
 
     /// Performs the `GetPublicAccessBlockConfig` operation on the `AWSGirApiService` service.
     ///
-    /// Retrieve the public-access settings for a function.
+    /// The option to configure public-access settings, and to use the PutPublicAccessBlock and GetPublicAccessBlock APIs, won't be available in all Amazon Web Services Regions until September 30, 2024. Retrieve the public-access settings for a function.
     ///
     /// - Parameter GetPublicAccessBlockConfigInput : [no documentation found]
     ///
@@ -2726,7 +2727,7 @@ extension LambdaClient {
 
     /// Performs the `GetResourcePolicy` operation on the `AWSGirApiService` service.
     ///
-    /// Retrieves the [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) attached to a function.
+    /// The option to create and modify full JSON resource-based policies, and to use the PutResourcePolicy, GetResourcePolicy, and DeleteResourcePolicy APIs, won't be available in all Amazon Web Services Regions until September 30, 2024. Retrieves the [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) attached to a function.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
     ///
@@ -3834,7 +3835,7 @@ extension LambdaClient {
 
     /// Performs the `ListTags` operation on the `AWSGirApiService` service.
     ///
-    /// Returns a function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). You can also view tags with [GetFunction].
+    /// Returns a function, event source mapping, or code signing configuration's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). You can also view funciton tags with [GetFunction].
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
@@ -4493,7 +4494,7 @@ extension LambdaClient {
 
     /// Performs the `PutPublicAccessBlockConfig` operation on the `AWSGirApiService` service.
     ///
-    /// Configure your function's public-access settings. To control public access to a Lambda function, you can choose whether to allow the creation of [resource-based policies](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) that allow public access to that function. You can also block public access to a function, even if it has an existing resource-based policy that allows it.
+    /// The option to configure public-access settings, and to use the PutPublicAccessBlock and GetPublicAccessBlock APIs, won't be available in all Amazon Web Services Regions until September 30, 2024. Configure your function's public-access settings. To control public access to a Lambda function, you can choose whether to allow the creation of [resource-based policies](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) that allow public access to that function. You can also block public access to a function, even if it has an existing resource-based policy that allows it.
     ///
     /// - Parameter PutPublicAccessBlockConfigInput : [no documentation found]
     ///
@@ -4566,7 +4567,7 @@ extension LambdaClient {
 
     /// Performs the `PutResourcePolicy` operation on the `AWSGirApiService` service.
     ///
-    /// Adds a [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) to a function. You can use resource-based policies to grant access to other [Amazon Web Services accounts](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-cross-account.html), [organizations](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-organization.html), or [services](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-services.html). Resource-based policies apply to a single function, version, or alias. Adding a resource-based policy using this API action replaces any existing policy you've previously created. This means that if you've previously added resource-based permissions to a function using the [AddPermission] action, those permissions will be overwritten by your new policy.
+    /// The option to create and modify full JSON resource-based policies, and to use the PutResourcePolicy, GetResourcePolicy, and DeleteResourcePolicy APIs, won't be available in all Amazon Web Services Regions until September 30, 2024. Adds a [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) to a function. You can use resource-based policies to grant access to other [Amazon Web Services accounts](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-cross-account.html), [organizations](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-organization.html), or [services](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-services.html). Resource-based policies apply to a single function, version, or alias. Adding a resource-based policy using this API action replaces any existing policy you've previously created. This means that if you've previously added resource-based permissions to a function using the [AddPermission] action, those permissions will be overwritten by your new policy.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
@@ -4810,6 +4811,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `PublicPolicyException` : Lambda prevented your policy from being created because it would grant public access to your function. If you intended to create a public policy, use the [PutPublicAccessBlockConfig] API action to configure your function's public-access settings to allow public policies.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -4870,7 +4872,7 @@ extension LambdaClient {
 
     /// Performs the `TagResource` operation on the `AWSGirApiService` service.
     ///
-    /// Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function.
+    /// Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function, event source mapping, or code signing configuration.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -4943,7 +4945,7 @@ extension LambdaClient {
 
     /// Performs the `UntagResource` operation on the `AWSGirApiService` service.
     ///
-    /// Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function.
+    /// Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function, event source mapping, or code signing configuration.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///

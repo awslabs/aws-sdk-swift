@@ -6601,7 +6601,7 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// With the introduction of MediaLive OnPrem, a MediaLive input can now exist in two different places: AWS or inside an on-premise datacenter. By default all inputs will continue to be AWS inputs.
+    /// With the introduction of MediaLive Anywhere, a MediaLive input can now exist in two different places: AWS or inside an on-premises datacenter. By default all inputs will continue to be AWS inputs.
     public enum InputNetworkLocation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case onPremises
@@ -10268,6 +10268,90 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Multiplex M2ts Settings
+    public struct MultiplexM2tsSettings {
+        /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
+        public var absentInputAudioBehavior: MediaLiveClientTypes.M2tsAbsentInputAudioBehavior?
+        /// When set to enabled, uses ARIB-compliant field muxing and removes video descriptor.
+        public var arib: MediaLiveClientTypes.M2tsArib?
+        /// When set to dvb, uses DVB buffer model for Dolby Digital audio. When set to atsc, the ATSC model is used.
+        public var audioBufferModel: MediaLiveClientTypes.M2tsAudioBufferModel?
+        /// The number of audio frames to insert for each PES packet.
+        public var audioFramesPerPes: Swift.Int?
+        /// When set to atsc, uses stream type = 0x81 for AC3 and stream type = 0x87 for EAC3. When set to dvb, uses stream type = 0x06.
+        public var audioStreamType: MediaLiveClientTypes.M2tsAudioStreamType?
+        /// When set to enabled, generates captionServiceDescriptor in PMT.
+        public var ccDescriptor: MediaLiveClientTypes.M2tsCcDescriptor?
+        /// If set to passthrough, passes any EBIF data from the input source to this output.
+        public var ebif: MediaLiveClientTypes.M2tsEbifControl?
+        /// Include or exclude the ES Rate field in the PES header.
+        public var esRateInPes: MediaLiveClientTypes.M2tsEsRateInPes?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public var klv: MediaLiveClientTypes.M2tsKlv?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public var nielsenId3Behavior: MediaLiveClientTypes.M2tsNielsenId3Behavior?
+        /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
+        public var pcrControl: MediaLiveClientTypes.M2tsPcrControl?
+        /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
+        public var pcrPeriod: Swift.Int?
+        /// Optionally pass SCTE-35 signals from the input source to this output.
+        public var scte35Control: MediaLiveClientTypes.M2tsScte35Control?
+        /// Defines the amount SCTE-35 preroll will be increased (in milliseconds) on the output. Preroll is the amount of time between the presence of a SCTE-35 indication in a transport stream and the PTS of the video frame it references. Zero means don't add pullup (it doesn't mean set the preroll to zero). Negative pullup is not supported, which means that you can't make the preroll shorter. Be aware that latency in the output will increase by the pullup amount.
+        public var scte35PrerollPullupMilliseconds: Swift.Double?
+
+        public init(
+            absentInputAudioBehavior: MediaLiveClientTypes.M2tsAbsentInputAudioBehavior? = nil,
+            arib: MediaLiveClientTypes.M2tsArib? = nil,
+            audioBufferModel: MediaLiveClientTypes.M2tsAudioBufferModel? = nil,
+            audioFramesPerPes: Swift.Int? = nil,
+            audioStreamType: MediaLiveClientTypes.M2tsAudioStreamType? = nil,
+            ccDescriptor: MediaLiveClientTypes.M2tsCcDescriptor? = nil,
+            ebif: MediaLiveClientTypes.M2tsEbifControl? = nil,
+            esRateInPes: MediaLiveClientTypes.M2tsEsRateInPes? = nil,
+            klv: MediaLiveClientTypes.M2tsKlv? = nil,
+            nielsenId3Behavior: MediaLiveClientTypes.M2tsNielsenId3Behavior? = nil,
+            pcrControl: MediaLiveClientTypes.M2tsPcrControl? = nil,
+            pcrPeriod: Swift.Int? = nil,
+            scte35Control: MediaLiveClientTypes.M2tsScte35Control? = nil,
+            scte35PrerollPullupMilliseconds: Swift.Double? = nil
+        )
+        {
+            self.absentInputAudioBehavior = absentInputAudioBehavior
+            self.arib = arib
+            self.audioBufferModel = audioBufferModel
+            self.audioFramesPerPes = audioFramesPerPes
+            self.audioStreamType = audioStreamType
+            self.ccDescriptor = ccDescriptor
+            self.ebif = ebif
+            self.esRateInPes = esRateInPes
+            self.klv = klv
+            self.nielsenId3Behavior = nielsenId3Behavior
+            self.pcrControl = pcrControl
+            self.pcrPeriod = pcrPeriod
+            self.scte35Control = scte35Control
+            self.scte35PrerollPullupMilliseconds = scte35PrerollPullupMilliseconds
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Multiplex Container Settings
+    public struct MultiplexContainerSettings {
+        /// Multiplex M2ts Settings
+        public var multiplexM2tsSettings: MediaLiveClientTypes.MultiplexM2tsSettings?
+
+        public init(
+            multiplexM2tsSettings: MediaLiveClientTypes.MultiplexM2tsSettings? = nil
+        )
+        {
+            self.multiplexM2tsSettings = multiplexM2tsSettings
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// Reference to an OutputDestination ID defined in the channel
     public struct OutputLocationRef {
         /// Placeholder documentation for __string
@@ -10286,14 +10370,18 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes {
     /// Multiplex Output Settings
     public struct MultiplexOutputSettings {
+        /// Multiplex Container Settings
+        public var containerSettings: MediaLiveClientTypes.MultiplexContainerSettings?
         /// Destination is a Multiplex.
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
 
         public init(
+            containerSettings: MediaLiveClientTypes.MultiplexContainerSettings? = nil,
             destination: MediaLiveClientTypes.OutputLocationRef? = nil
         )
         {
+            self.containerSettings = containerSettings
             self.destination = destination
         }
     }
@@ -15247,6 +15335,101 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Bandwidth Reduction Post Filter Sharpening
+    public enum BandwidthReductionPostFilterSharpening: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case sharpening1
+        case sharpening2
+        case sharpening3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BandwidthReductionPostFilterSharpening] {
+            return [
+                .disabled,
+                .sharpening1,
+                .sharpening2,
+                .sharpening3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .sharpening1: return "SHARPENING_1"
+            case .sharpening2: return "SHARPENING_2"
+            case .sharpening3: return "SHARPENING_3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Bandwidth Reduction Filter Strength
+    public enum BandwidthReductionFilterStrength: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case strength1
+        case strength2
+        case strength3
+        case strength4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BandwidthReductionFilterStrength] {
+            return [
+                .auto,
+                .strength1,
+                .strength2,
+                .strength3,
+                .strength4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .strength1: return "STRENGTH_1"
+            case .strength2: return "STRENGTH_2"
+            case .strength3: return "STRENGTH_3"
+            case .strength4: return "STRENGTH_4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Bandwidth Reduction Filter Settings
+    public struct BandwidthReductionFilterSettings {
+        /// Configures the sharpening control, which is available when the bandwidth reduction filter is enabled. This control sharpens edges and contours, which produces a specific artistic effect that you might want. We recommend that you test each of the values (including DISABLED) to observe the sharpening effect on the content.
+        public var postFilterSharpening: MediaLiveClientTypes.BandwidthReductionPostFilterSharpening?
+        /// Enables the bandwidth reduction filter. The filter strengths range from 1 to 4. We recommend that you always enable this filter and use AUTO, to let MediaLive apply the optimum filtering for the context.
+        public var strength: MediaLiveClientTypes.BandwidthReductionFilterStrength?
+
+        public init(
+            postFilterSharpening: MediaLiveClientTypes.BandwidthReductionPostFilterSharpening? = nil,
+            strength: MediaLiveClientTypes.BandwidthReductionFilterStrength? = nil
+        )
+        {
+            self.postFilterSharpening = postFilterSharpening
+            self.strength = strength
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+
     /// Temporal Filter Post Filter Sharpening
     public enum TemporalFilterPostFilterSharpening: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
@@ -15380,13 +15563,17 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes {
     /// H264 Filter Settings
     public struct H264FilterSettings {
+        /// Bandwidth Reduction Filter Settings
+        public var bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings?
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
         public init(
+            bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings? = nil,
             temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings? = nil
         )
         {
+            self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
     }
@@ -16350,13 +16537,17 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes {
     /// H265 Filter Settings
     public struct H265FilterSettings {
+        /// Bandwidth Reduction Filter Settings
+        public var bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings?
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
         public init(
+            bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings? = nil,
             temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings? = nil
         )
         {
+            self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
     }
@@ -34006,6 +34197,7 @@ extension MediaLiveClientTypes.H265FilterSettings {
 
     static func write(value: MediaLiveClientTypes.H265FilterSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["bandwidthReductionFilterSettings"].write(value.bandwidthReductionFilterSettings, with: MediaLiveClientTypes.BandwidthReductionFilterSettings.write(value:to:))
         try writer["temporalFilterSettings"].write(value.temporalFilterSettings, with: MediaLiveClientTypes.TemporalFilterSettings.write(value:to:))
     }
 
@@ -34013,6 +34205,24 @@ extension MediaLiveClientTypes.H265FilterSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.H265FilterSettings()
         value.temporalFilterSettings = try reader["temporalFilterSettings"].readIfPresent(with: MediaLiveClientTypes.TemporalFilterSettings.read(from:))
+        value.bandwidthReductionFilterSettings = try reader["bandwidthReductionFilterSettings"].readIfPresent(with: MediaLiveClientTypes.BandwidthReductionFilterSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.BandwidthReductionFilterSettings {
+
+    static func write(value: MediaLiveClientTypes.BandwidthReductionFilterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["postFilterSharpening"].write(value.postFilterSharpening)
+        try writer["strength"].write(value.strength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.BandwidthReductionFilterSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.BandwidthReductionFilterSettings()
+        value.postFilterSharpening = try reader["postFilterSharpening"].readIfPresent()
+        value.strength = try reader["strength"].readIfPresent()
         return value
     }
 }
@@ -34156,6 +34366,7 @@ extension MediaLiveClientTypes.H264FilterSettings {
 
     static func write(value: MediaLiveClientTypes.H264FilterSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["bandwidthReductionFilterSettings"].write(value.bandwidthReductionFilterSettings, with: MediaLiveClientTypes.BandwidthReductionFilterSettings.write(value:to:))
         try writer["temporalFilterSettings"].write(value.temporalFilterSettings, with: MediaLiveClientTypes.TemporalFilterSettings.write(value:to:))
     }
 
@@ -34163,6 +34374,7 @@ extension MediaLiveClientTypes.H264FilterSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.H264FilterSettings()
         value.temporalFilterSettings = try reader["temporalFilterSettings"].readIfPresent(with: MediaLiveClientTypes.TemporalFilterSettings.read(from:))
+        value.bandwidthReductionFilterSettings = try reader["bandwidthReductionFilterSettings"].readIfPresent(with: MediaLiveClientTypes.BandwidthReductionFilterSettings.read(from:))
         return value
     }
 }
@@ -34594,6 +34806,7 @@ extension MediaLiveClientTypes.MultiplexOutputSettings {
 
     static func write(value: MediaLiveClientTypes.MultiplexOutputSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["containerSettings"].write(value.containerSettings, with: MediaLiveClientTypes.MultiplexContainerSettings.write(value:to:))
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
     }
 
@@ -34601,6 +34814,63 @@ extension MediaLiveClientTypes.MultiplexOutputSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MultiplexOutputSettings()
         value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
+        value.containerSettings = try reader["containerSettings"].readIfPresent(with: MediaLiveClientTypes.MultiplexContainerSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MultiplexContainerSettings {
+
+    static func write(value: MediaLiveClientTypes.MultiplexContainerSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["multiplexM2tsSettings"].write(value.multiplexM2tsSettings, with: MediaLiveClientTypes.MultiplexM2tsSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MultiplexContainerSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MultiplexContainerSettings()
+        value.multiplexM2tsSettings = try reader["multiplexM2tsSettings"].readIfPresent(with: MediaLiveClientTypes.MultiplexM2tsSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MultiplexM2tsSettings {
+
+    static func write(value: MediaLiveClientTypes.MultiplexM2tsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["absentInputAudioBehavior"].write(value.absentInputAudioBehavior)
+        try writer["arib"].write(value.arib)
+        try writer["audioBufferModel"].write(value.audioBufferModel)
+        try writer["audioFramesPerPes"].write(value.audioFramesPerPes)
+        try writer["audioStreamType"].write(value.audioStreamType)
+        try writer["ccDescriptor"].write(value.ccDescriptor)
+        try writer["ebif"].write(value.ebif)
+        try writer["esRateInPes"].write(value.esRateInPes)
+        try writer["klv"].write(value.klv)
+        try writer["nielsenId3Behavior"].write(value.nielsenId3Behavior)
+        try writer["pcrControl"].write(value.pcrControl)
+        try writer["pcrPeriod"].write(value.pcrPeriod)
+        try writer["scte35Control"].write(value.scte35Control)
+        try writer["scte35PrerollPullupMilliseconds"].write(value.scte35PrerollPullupMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MultiplexM2tsSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MultiplexM2tsSettings()
+        value.absentInputAudioBehavior = try reader["absentInputAudioBehavior"].readIfPresent()
+        value.arib = try reader["arib"].readIfPresent()
+        value.audioBufferModel = try reader["audioBufferModel"].readIfPresent()
+        value.audioFramesPerPes = try reader["audioFramesPerPes"].readIfPresent()
+        value.audioStreamType = try reader["audioStreamType"].readIfPresent()
+        value.ccDescriptor = try reader["ccDescriptor"].readIfPresent()
+        value.ebif = try reader["ebif"].readIfPresent()
+        value.esRateInPes = try reader["esRateInPes"].readIfPresent()
+        value.klv = try reader["klv"].readIfPresent()
+        value.nielsenId3Behavior = try reader["nielsenId3Behavior"].readIfPresent()
+        value.pcrControl = try reader["pcrControl"].readIfPresent()
+        value.pcrPeriod = try reader["pcrPeriod"].readIfPresent()
+        value.scte35Control = try reader["scte35Control"].readIfPresent()
+        value.scte35PrerollPullupMilliseconds = try reader["scte35PrerollPullupMilliseconds"].readIfPresent()
         return value
     }
 }
