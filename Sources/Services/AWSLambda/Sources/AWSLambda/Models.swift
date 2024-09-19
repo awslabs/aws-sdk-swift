@@ -460,6 +460,34 @@ public struct AddLayerVersionPermissionOutput {
     }
 }
 
+/// Lambda prevented your policy from being created because it would grant public access to your function. If you intended to create a public policy, use the [PutPublicAccessBlockConfig] API action to configure your function's public-access settings to allow public policies.
+public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PublicPolicyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 extension LambdaClientTypes {
 
     public enum FunctionUrlAuthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -509,7 +537,7 @@ public struct AddPermissionInput {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// The Amazon Web Servicesservice or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+    /// The Amazon Web Servicesservice, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
     public var principal: Swift.String?
     /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
@@ -847,16 +875,20 @@ public struct CreateCodeSigningConfigInput {
     public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
     /// Descriptive name for this code signing configuration.
     public var description: Swift.String?
+    /// A list of tags to add to the code signing configuration.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
         codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
-        description: Swift.String? = nil
+        description: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     )
     {
         self.allowedPublishers = allowedPublishers
         self.codeSigningPolicies = codeSigningPolicies
         self.description = description
+        self.tags = tags
     }
 }
 
@@ -1351,6 +1383,8 @@ public struct CreateEventSourceMappingInput {
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
     /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
     public var startingPositionTimestamp: Foundation.Date?
+    /// A list of tags to apply to the event source mapping.
+    public var tags: [Swift.String: Swift.String]?
     /// The name of the Kafka topic.
     public var topics: [Swift.String]?
     /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
@@ -1379,6 +1413,7 @@ public struct CreateEventSourceMappingInput {
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
         startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
         startingPositionTimestamp: Foundation.Date? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         topics: [Swift.String]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil
     )
@@ -1405,6 +1440,7 @@ public struct CreateEventSourceMappingInput {
         self.sourceAccessConfigurations = sourceAccessConfigurations
         self.startingPosition = startingPosition
         self.startingPositionTimestamp = startingPositionTimestamp
+        self.tags = tags
         self.topics = topics
         self.tumblingWindowInSeconds = tumblingWindowInSeconds
     }
@@ -1444,6 +1480,8 @@ public struct CreateEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the event source mapping.
+    public var eventSourceMappingArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// An object that contains details about an error related to filter criteria encryption.
@@ -1498,6 +1536,7 @@ public struct CreateEventSourceMappingOutput {
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
+        eventSourceMappingArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
@@ -1529,6 +1568,7 @@ public struct CreateEventSourceMappingOutput {
         self.destinationConfig = destinationConfig
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
+        self.eventSourceMappingArn = eventSourceMappingArn
         self.filterCriteria = filterCriteria
         self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
@@ -3195,6 +3235,8 @@ public struct DeleteEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the event source mapping.
+    public var eventSourceMappingArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// An object that contains details about an error related to filter criteria encryption.
@@ -3249,6 +3291,7 @@ public struct DeleteEventSourceMappingOutput {
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
+        eventSourceMappingArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
@@ -3280,6 +3323,7 @@ public struct DeleteEventSourceMappingOutput {
         self.destinationConfig = destinationConfig
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
+        self.eventSourceMappingArn = eventSourceMappingArn
         self.filterCriteria = filterCriteria
         self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
@@ -3624,6 +3668,8 @@ public struct GetEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the event source mapping.
+    public var eventSourceMappingArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// An object that contains details about an error related to filter criteria encryption.
@@ -3678,6 +3724,7 @@ public struct GetEventSourceMappingOutput {
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
+        eventSourceMappingArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
@@ -3709,6 +3756,7 @@ public struct GetEventSourceMappingOutput {
         self.destinationConfig = destinationConfig
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
+        self.eventSourceMappingArn = eventSourceMappingArn
         self.filterCriteria = filterCriteria
         self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
@@ -6108,6 +6156,8 @@ extension LambdaClientTypes {
         public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public var eventSourceArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the event source mapping.
+        public var eventSourceMappingArn: Swift.String?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
         public var filterCriteria: LambdaClientTypes.FilterCriteria?
         /// An object that contains details about an error related to filter criteria encryption.
@@ -6162,6 +6212,7 @@ extension LambdaClientTypes {
             destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
             documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
             eventSourceArn: Swift.String? = nil,
+            eventSourceMappingArn: Swift.String? = nil,
             filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
             filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
             functionArn: Swift.String? = nil,
@@ -6193,6 +6244,7 @@ extension LambdaClientTypes {
             self.destinationConfig = destinationConfig
             self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.eventSourceArn = eventSourceArn
+            self.eventSourceMappingArn = eventSourceMappingArn
             self.filterCriteria = filterCriteria
             self.filterCriteriaError = filterCriteriaError
             self.functionArn = functionArn
@@ -6758,7 +6810,7 @@ public struct ListProvisionedConcurrencyConfigsOutput {
 }
 
 public struct ListTagsInput {
-    /// The function's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to aliases or versions.
+    /// The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions.
     /// This member is required.
     public var resource: Swift.String?
 
@@ -7440,34 +7492,6 @@ public struct PutPublicAccessBlockConfigOutput {
     }
 }
 
-/// Lambda prevented your policy from being created because it would grant public access to your function. If you intended to create a public policy, use the [PutPublicAccessBlockConfig] API action to configure your function's public-access settings to allow public policies.
-public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The exception type.
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "PublicPolicyException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
 public struct PutResourcePolicyInput {
     /// The JSON resource-based policy you want to add to your function. To learn more about creating resource-based policies for controlling access to Lambda, see [Working with resource-based IAM policies in Lambda](https://docs.aws.amazon.com/) in the Lambda Developer Guide.
     /// This member is required.
@@ -7632,10 +7656,10 @@ public struct RemovePermissionInput {
 }
 
 public struct TagResourceInput {
-    /// The function's Amazon Resource Name (ARN).
+    /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resource: Swift.String?
-    /// A list of tags to apply to the function.
+    /// A list of tags to apply to the resource.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
@@ -7650,10 +7674,10 @@ public struct TagResourceInput {
 }
 
 public struct UntagResourceInput {
-    /// The function's Amazon Resource Name (ARN).
+    /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resource: Swift.String?
-    /// A list of tag keys to remove from the function.
+    /// A list of tag keys to remove from the resource.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -7897,6 +7921,8 @@ public struct UpdateEventSourceMappingOutput {
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the event source mapping.
+    public var eventSourceMappingArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// An object that contains details about an error related to filter criteria encryption.
@@ -7951,6 +7977,7 @@ public struct UpdateEventSourceMappingOutput {
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
         documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
+        eventSourceMappingArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
         functionArn: Swift.String? = nil,
@@ -7982,6 +8009,7 @@ public struct UpdateEventSourceMappingOutput {
         self.destinationConfig = destinationConfig
         self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
+        self.eventSourceMappingArn = eventSourceMappingArn
         self.filterCriteria = filterCriteria
         self.filterCriteriaError = filterCriteriaError
         self.functionArn = functionArn
@@ -9994,6 +10022,7 @@ extension CreateCodeSigningConfigInput {
         try writer["AllowedPublishers"].write(value.allowedPublishers, with: LambdaClientTypes.AllowedPublishers.write(value:to:))
         try writer["CodeSigningPolicies"].write(value.codeSigningPolicies, with: LambdaClientTypes.CodeSigningPolicies.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -10023,6 +10052,7 @@ extension CreateEventSourceMappingInput {
         try writer["SourceAccessConfigurations"].writeList(value.sourceAccessConfigurations, memberWritingClosure: LambdaClientTypes.SourceAccessConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StartingPosition"].write(value.startingPosition)
         try writer["StartingPositionTimestamp"].writeTimestamp(value.startingPositionTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Topics"].writeList(value.topics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TumblingWindowInSeconds"].write(value.tumblingWindowInSeconds)
     }
@@ -10363,6 +10393,7 @@ extension CreateEventSourceMappingOutput {
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
+        value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
@@ -10481,6 +10512,7 @@ extension DeleteEventSourceMappingOutput {
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
+        value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
@@ -10619,6 +10651,7 @@ extension GetEventSourceMappingOutput {
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
+        value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
@@ -11357,6 +11390,7 @@ extension UpdateEventSourceMappingOutput {
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
+        value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
@@ -11543,6 +11577,7 @@ enum AddPermissionOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PolicyLengthExceededException": return try PolicyLengthExceededException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -12676,6 +12711,7 @@ enum RemovePermissionOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -12951,6 +12987,20 @@ extension ResourceConflictException {
         var value = ResourceConflictException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PublicPolicyException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PublicPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = PublicPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -13384,20 +13434,6 @@ extension KMSInvalidStateException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> KMSInvalidStateException {
         let reader = baseError.errorBodyReader
         var value = KMSInvalidStateException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PublicPolicyException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PublicPolicyException {
-        let reader = baseError.errorBodyReader
-        var value = PublicPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -14107,6 +14143,7 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
+        value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
         return value
     }
 }

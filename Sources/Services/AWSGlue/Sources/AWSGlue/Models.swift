@@ -23184,6 +23184,62 @@ public struct TagResourceOutput {
     public init() { }
 }
 
+extension GlueClientTypes {
+    /// A structure that is used to specify testing a connection to a service.
+    public struct TestConnectionInput {
+        /// A structure containing the authentication configuration in the TestConnection request. Required for a connection to Salesforce using OAuth authentication.
+        public var authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput?
+        /// The key-value pairs that define parameters for the connection. JDBC connections use the following connection properties:
+        ///
+        /// * Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.
+        ///
+        /// * Required: All of (USERNAME, PASSWORD) or SECRET_ID.
+        ///
+        /// * Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION. These parameters are used to configure SSL with JDBC.
+        ///
+        ///
+        /// SALESFORCE connections require the AuthenticationConfiguration member to be configured.
+        /// This member is required.
+        public var connectionProperties: [Swift.String: Swift.String]?
+        /// The type of connection to test. This operation is only available for the JDBC or SALESFORCE connection types.
+        /// This member is required.
+        public var connectionType: GlueClientTypes.ConnectionType?
+
+        public init(
+            authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput? = nil,
+            connectionProperties: [Swift.String: Swift.String]? = nil,
+            connectionType: GlueClientTypes.ConnectionType? = nil
+        )
+        {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.connectionProperties = connectionProperties
+            self.connectionType = connectionType
+        }
+    }
+
+}
+
+public struct TestConnectionInput {
+    /// Optional. The name of the connection to test. If only name is provided, the operation will get the connection and use that for testing.
+    public var connectionName: Swift.String?
+    /// A structure that is used to specify testing a connection to a service.
+    public var testConnectionInput: GlueClientTypes.TestConnectionInput?
+
+    public init(
+        connectionName: Swift.String? = nil,
+        testConnectionInput: GlueClientTypes.TestConnectionInput? = nil
+    )
+    {
+        self.connectionName = connectionName
+        self.testConnectionInput = testConnectionInput
+    }
+}
+
+public struct TestConnectionOutput {
+
+    public init() { }
+}
+
 public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which to remove the tags.
     /// This member is required.
@@ -26950,6 +27006,13 @@ extension TagResourceInput {
     }
 }
 
+extension TestConnectionInput {
+
+    static func urlPathProvider(_ value: TestConnectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
@@ -29186,6 +29249,15 @@ extension TagResourceInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagsToAdd"].writeMap(value.tagsToAdd, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension TestConnectionInput {
+
+    static func write(value: TestConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["TestConnectionInput"].write(value.testConnectionInput, with: GlueClientTypes.TestConnectionInput.write(value:to:))
     }
 }
 
@@ -31934,6 +32006,13 @@ extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
+    }
+}
+
+extension TestConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TestConnectionOutput {
+        return TestConnectionOutput()
     }
 }
 
@@ -35662,6 +35741,28 @@ enum TagResourceOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TestConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -42771,6 +42872,16 @@ extension GlueClientTypes.SortCriterion {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Sort"].write(value.sort)
+    }
+}
+
+extension GlueClientTypes.TestConnectionInput {
+
+    static func write(value: GlueClientTypes.TestConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: GlueClientTypes.AuthenticationConfigurationInput.write(value:to:))
+        try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ConnectionType"].write(value.connectionType)
     }
 }
 

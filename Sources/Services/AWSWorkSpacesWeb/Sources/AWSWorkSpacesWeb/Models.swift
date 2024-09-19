@@ -797,6 +797,133 @@ public struct UpdateBrowserSettingsOutput {
     }
 }
 
+public struct ExpireSessionInput {
+    /// The ID of the web portal for the session.
+    /// This member is required.
+    public var portalId: Swift.String?
+    /// The ID of the session to expire.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        portalId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.portalId = portalId
+        self.sessionId = sessionId
+    }
+}
+
+public struct ExpireSessionOutput {
+
+    public init() { }
+}
+
+public struct GetSessionInput {
+    /// The ID of the web portal for the session.
+    /// This member is required.
+    public var portalId: Swift.String?
+    /// The ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        portalId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.portalId = portalId
+        self.sessionId = sessionId
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum SessionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case terminated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionStatus] {
+            return [
+                .active,
+                .terminated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .terminated: return "Terminated"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+    /// Information about a secure browser session.
+    public struct Session {
+        /// The IP address of the client.
+        public var clientIpAddresses: [Swift.String]?
+        /// The end time of the session.
+        public var endTime: Foundation.Date?
+        /// The ARN of the web portal.
+        public var portalArn: Swift.String?
+        /// The ID of the session.
+        public var sessionId: Swift.String?
+        /// The start time of the session.
+        public var startTime: Foundation.Date?
+        /// The status of the session.
+        public var status: WorkSpacesWebClientTypes.SessionStatus?
+        /// The username of the session.
+        public var username: Swift.String?
+
+        public init(
+            clientIpAddresses: [Swift.String]? = nil,
+            endTime: Foundation.Date? = nil,
+            portalArn: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: WorkSpacesWebClientTypes.SessionStatus? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.clientIpAddresses = clientIpAddresses
+            self.endTime = endTime
+            self.portalArn = portalArn
+            self.sessionId = sessionId
+            self.startTime = startTime
+            self.status = status
+            self.username = username
+        }
+    }
+
+}
+
+extension WorkSpacesWebClientTypes.Session: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Session(endTime: \(Swift.String(describing: endTime)), portalArn: \(Swift.String(describing: portalArn)), sessionId: \(Swift.String(describing: sessionId)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), clientIpAddresses: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetSessionOutput {
+    /// The sessions in a list.
+    public var session: WorkSpacesWebClientTypes.Session?
+
+    public init(
+        session: WorkSpacesWebClientTypes.Session? = nil
+    )
+    {
+        self.session = session
+    }
+}
+
 extension WorkSpacesWebClientTypes {
 
     public enum IdentityProviderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1592,6 +1719,135 @@ public struct UpdateIpAccessSettingsOutput {
     }
 }
 
+extension WorkSpacesWebClientTypes {
+
+    public enum SessionSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case startTimeAscending
+        case startTimeDescending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionSortBy] {
+            return [
+                .startTimeAscending,
+                .startTimeDescending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .startTimeAscending: return "StartTimeAscending"
+            case .startTimeDescending: return "StartTimeDescending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListSessionsInput {
+    /// The maximum number of results to be included in the next page.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+    /// The ID of the web portal for the sessions.
+    /// This member is required.
+    public var portalId: Swift.String?
+    /// The ID of the session.
+    public var sessionId: Swift.String?
+    /// The method in which the returned sessions should be sorted.
+    public var sortBy: WorkSpacesWebClientTypes.SessionSortBy?
+    /// The status of the session.
+    public var status: WorkSpacesWebClientTypes.SessionStatus?
+    /// The username of the session.
+    public var username: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        portalId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sortBy: WorkSpacesWebClientTypes.SessionSortBy? = nil,
+        status: WorkSpacesWebClientTypes.SessionStatus? = nil,
+        username: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.portalId = portalId
+        self.sessionId = sessionId
+        self.sortBy = sortBy
+        self.status = status
+        self.username = username
+    }
+}
+
+extension ListSessionsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListSessionsInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), portalId: \(Swift.String(describing: portalId)), sessionId: \(Swift.String(describing: sessionId)), sortBy: \(Swift.String(describing: sortBy)), status: \(Swift.String(describing: status)), username: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+    /// Summary information about a secure browser session.
+    public struct SessionSummary {
+        /// The end time of the session.
+        public var endTime: Foundation.Date?
+        /// The ARN of the web portal.
+        public var portalArn: Swift.String?
+        /// The ID of the session.
+        public var sessionId: Swift.String?
+        /// The start time of the session.
+        public var startTime: Foundation.Date?
+        /// The status of the session.
+        public var status: WorkSpacesWebClientTypes.SessionStatus?
+        /// The username of the session.
+        public var username: Swift.String?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            portalArn: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: WorkSpacesWebClientTypes.SessionStatus? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.portalArn = portalArn
+            self.sessionId = sessionId
+            self.startTime = startTime
+            self.status = status
+            self.username = username
+        }
+    }
+
+}
+
+extension WorkSpacesWebClientTypes.SessionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionSummary(endTime: \(Swift.String(describing: endTime)), portalArn: \(Swift.String(describing: portalArn)), sessionId: \(Swift.String(describing: sessionId)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), username: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListSessionsOutput {
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+    /// The sessions in a list.
+    /// This member is required.
+    public var sessions: [WorkSpacesWebClientTypes.SessionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [WorkSpacesWebClientTypes.SessionSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
 public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
@@ -1903,7 +2159,7 @@ extension WorkSpacesWebClientTypes {
 public struct CreatePortalInput {
     /// The additional encryption context of the portal.
     public var additionalEncryptionContext: [Swift.String: Swift.String]?
-    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
     public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
@@ -2165,7 +2421,7 @@ extension WorkSpacesWebClientTypes {
     public struct Portal {
         /// The additional encryption context of the portal.
         public var additionalEncryptionContext: [Swift.String: Swift.String]?
-        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
         public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
         /// The ARN of the browser settings that is associated with this web portal.
         public var browserSettingsArn: Swift.String?
@@ -2315,7 +2571,7 @@ public struct ListPortalsInput {
 extension WorkSpacesWebClientTypes {
     /// The summary of the portal.
     public struct PortalSummary {
-        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
         public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
         /// The ARN of the browser settings that is associated with the web portal.
         public var browserSettingsArn: Swift.String?
@@ -2411,7 +2667,7 @@ public struct ListPortalsOutput {
 }
 
 public struct UpdatePortalInput {
-    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center (successor to Single Sign-On). Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+    /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM Identity Center web portals are authenticated through IAM Identity Center. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
     public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
     /// The name of the web portal. This is not visible to users who log into the web portal.
     public var displayName: Swift.String?
@@ -3855,6 +4111,19 @@ extension DisassociateUserSettingsInput {
     }
 }
 
+extension ExpireSessionInput {
+
+    static func urlPathProvider(_ value: ExpireSessionInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/portals/\(portalId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
 extension GetBrowserSettingsInput {
 
     static func urlPathProvider(_ value: GetBrowserSettingsInput) -> Swift.String? {
@@ -3912,6 +4181,19 @@ extension GetPortalServiceProviderMetadataInput {
             return nil
         }
         return "/portalIdp/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/portals/\(portalId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
     }
 }
 
@@ -4082,6 +4364,48 @@ extension ListPortalsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSessionsInput {
+
+    static func urlPathProvider(_ value: ListSessionsInput) -> Swift.String? {
+        guard let portalId = value.portalId else {
+            return nil
+        }
+        return "/portals/\(portalId.urlPercentEncoding())/sessions"
+    }
+}
+
+extension ListSessionsInput {
+
+    static func queryItemProvider(_ value: ListSessionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let sessionId = value.sessionId {
+            let sessionIdQueryItem = Smithy.URIQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
+            items.append(sessionIdQueryItem)
+        }
+        if let username = value.username {
+            let usernameQueryItem = Smithy.URIQueryItem(name: "username".urlPercentEncoding(), value: Swift.String(username).urlPercentEncoding())
+            items.append(usernameQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
         return items
     }
@@ -4785,6 +5109,13 @@ extension DisassociateUserSettingsOutput {
     }
 }
 
+extension ExpireSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExpireSessionOutput {
+        return ExpireSessionOutput()
+    }
+}
+
 extension GetBrowserSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBrowserSettingsOutput {
@@ -4854,6 +5185,18 @@ extension GetPortalServiceProviderMetadataOutput {
         var value = GetPortalServiceProviderMetadataOutput()
         value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
         value.serviceProviderSamlMetadata = try reader["serviceProviderSamlMetadata"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionOutput()
+        value.session = try reader["session"].readIfPresent(with: WorkSpacesWebClientTypes.Session.read(from:))
         return value
     }
 }
@@ -4968,6 +5311,19 @@ extension ListPortalsOutput {
         var value = ListPortalsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.portals = try reader["portals"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.PortalSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSessionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sessions = try reader["sessions"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.SessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5674,6 +6030,24 @@ enum DisassociateUserSettingsOutputError {
     }
 }
 
+enum ExpireSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBrowserSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5765,6 +6139,24 @@ enum GetPortalOutputError {
 }
 
 enum GetPortalServiceProviderMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSessionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5932,6 +6324,24 @@ enum ListPortalsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6438,6 +6848,22 @@ extension WorkSpacesWebClientTypes.Portal {
     }
 }
 
+extension WorkSpacesWebClientTypes.Session {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.Session {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.Session()
+        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        value.clientIpAddresses = try reader["clientIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension WorkSpacesWebClientTypes.TrustStore {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.TrustStore {
@@ -6601,6 +7027,21 @@ extension WorkSpacesWebClientTypes.PortalSummary {
         value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.maxConcurrentSessions = try reader["maxConcurrentSessions"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.SessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.SessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.SessionSummary()
+        value.portalArn = try reader["portalArn"].readIfPresent()
+        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
