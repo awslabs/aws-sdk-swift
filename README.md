@@ -43,6 +43,8 @@ If you are interested in contributing to AWS SDK for Swift, see [CONTRIBUTING](C
 * `AWSSDKHTTPAuth` - concrete types for AWS SigV4 signer, and types related to auth flow
 * `AWSSDKIdentity` - concrete types for AWS credentials and identity resolvers
 
+> For more information on runtime modules, see [the AWS Runtime Module Documentation in API reference](https://sdk.amazonaws.com/swift/api/awssdkforswift/latest/documentation/awssdkforswift#AWS-Runtime-Module-Documentation)
+
 ## License
 
 This library is licensed under the Apache 2.0 License.
