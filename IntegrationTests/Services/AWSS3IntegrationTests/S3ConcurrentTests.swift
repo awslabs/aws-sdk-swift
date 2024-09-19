@@ -20,25 +20,25 @@ class S3ConcurrentTests: S3XCTestCase {
         fileData = try generateDummyTextData()
     }
 
-    // Run getObject_50BM ten times concurrently
-    func test_10x_50MB_getObject() async throws {
-        try await repeatConcurrentlyWithArgs(count: 10, test: getObject_50MB, args: fileData!)
+    // Run test 100 times, concurrently
+    func test_100x_5MB_getObject() async throws {
+        try await repeatConcurrentlyWithArgs(count: 100, test: getObject_5MB, args: fileData!)
     }
 
     /* Helper functions */
 
-    // Generates 50MB text data
+    // Generates 5MB text data
     func generateDummyTextData() throws -> Data {
         let segmentData = Data("1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST".utf8)
         var wholeData = Data()
-        for _ in 0..<1_000_000 {
+        for _ in 0..<100_000 {
             wholeData.append(segmentData)
         }
         return wholeData
     }
 
-    // Puts 50MB data to S3, gets the uploaded file, then asserts retrieved data equals original data
-    func getObject_50MB(args: Any...) async throws {
+    // Puts 5MB data to S3, gets the uploaded file, then asserts retrieved data equals original data
+    func getObject_5MB(args: Any...) async throws {
         guard let data = args[0] as? Data else {
             throw ClientError.dataNotFound("Failed to retrieve dummy data.")
         }
