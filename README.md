@@ -27,13 +27,7 @@ If you are interested in contributing to AWS SDK for Swift, see [CONTRIBUTING](C
 
 ## Development
 
-### Module Structure
-
-#### Codegen Modules
-
-* `codegen/smithy-aws-swift-codegen` - the Kotlin module that generates AWS SDK for Swift from Smithy models of AWS services.
-
-#### Runtime Modules (under `Sources/Core/`)
+### Runtime Modules (under `Sources/Core/`)
 
 * `AWSClientRuntime` - concrete types, protocols, enums, etc. that provide most AWS specific runtime functionalities for the SDK. 
                        Has several other runtime modules as its dependencies.
@@ -43,7 +37,7 @@ If you are interested in contributing to AWS SDK for Swift, see [CONTRIBUTING](C
 * `AWSSDKHTTPAuth` - concrete types for AWS SigV4 signer, and types related to auth flow
 * `AWSSDKIdentity` - concrete types for AWS credentials and identity resolvers
 
-> For more information on runtime modules, see [the AWS Runtime Module Documentation in API reference](https://sdk.amazonaws.com/swift/api/awssdkforswift/latest/documentation/awssdkforswift#AWS-Runtime-Module-Documentation)
+> 📖 For more information on runtime modules, see [the AWS Runtime Module Documentation in API reference](https://sdk.amazonaws.com/swift/api/awssdkforswift/latest/documentation/awssdkforswift#AWS-Runtime-Module-Documentation)
 
 ## License
 
