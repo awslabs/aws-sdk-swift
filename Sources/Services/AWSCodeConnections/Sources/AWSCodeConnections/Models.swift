@@ -598,6 +598,35 @@ extension CodeConnectionsClientTypes {
 
 extension CodeConnectionsClientTypes {
 
+    public enum PullRequestComment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PullRequestComment] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeConnectionsClientTypes {
+
     public enum SyncConfigurationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cfnStackSync
         case sdkUnknown(Swift.String)
@@ -660,6 +689,8 @@ public struct CreateSyncConfigurationInput {
     public var configFile: Swift.String?
     /// Whether to enable or disable publishing of deployment status to source providers.
     public var publishDeploymentStatus: CodeConnectionsClientTypes.PublishDeploymentStatus?
+    /// A toggle that specifies whether to enable or disable pull request comments for the sync configuration to be created.
+    public var pullRequestComment: CodeConnectionsClientTypes.PullRequestComment?
     /// The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
     /// This member is required.
     public var repositoryLinkId: Swift.String?
@@ -679,6 +710,7 @@ public struct CreateSyncConfigurationInput {
         branch: Swift.String? = nil,
         configFile: Swift.String? = nil,
         publishDeploymentStatus: CodeConnectionsClientTypes.PublishDeploymentStatus? = nil,
+        pullRequestComment: CodeConnectionsClientTypes.PullRequestComment? = nil,
         repositoryLinkId: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -689,6 +721,7 @@ public struct CreateSyncConfigurationInput {
         self.branch = branch
         self.configFile = configFile
         self.publishDeploymentStatus = publishDeploymentStatus
+        self.pullRequestComment = pullRequestComment
         self.repositoryLinkId = repositoryLinkId
         self.resourceName = resourceName
         self.roleArn = roleArn
@@ -713,6 +746,8 @@ extension CodeConnectionsClientTypes {
         public var providerType: CodeConnectionsClientTypes.ProviderType?
         /// Whether to enable or disable publishing of deployment status to source providers.
         public var publishDeploymentStatus: CodeConnectionsClientTypes.PublishDeploymentStatus?
+        /// A toggle that specifies whether to enable or disable pull request comments for the sync configuration to be created.
+        public var pullRequestComment: CodeConnectionsClientTypes.PullRequestComment?
         /// The ID of the repository link associated with a specific sync configuration.
         /// This member is required.
         public var repositoryLinkId: Swift.String?
@@ -737,6 +772,7 @@ extension CodeConnectionsClientTypes {
             ownerId: Swift.String? = nil,
             providerType: CodeConnectionsClientTypes.ProviderType? = nil,
             publishDeploymentStatus: CodeConnectionsClientTypes.PublishDeploymentStatus? = nil,
+            pullRequestComment: CodeConnectionsClientTypes.PullRequestComment? = nil,
             repositoryLinkId: Swift.String? = nil,
             repositoryName: Swift.String? = nil,
             resourceName: Swift.String? = nil,
@@ -750,6 +786,7 @@ extension CodeConnectionsClientTypes {
             self.ownerId = ownerId
             self.providerType = providerType
             self.publishDeploymentStatus = publishDeploymentStatus
+            self.pullRequestComment = pullRequestComment
             self.repositoryLinkId = repositoryLinkId
             self.repositoryName = repositoryName
             self.resourceName = resourceName
@@ -947,7 +984,7 @@ extension CodeConnectionsClientTypes {
 extension CodeConnectionsClientTypes {
     /// A resource that is used to connect third-party source providers with services like CodePipeline. Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the connection in the console.
     public struct Connection {
-        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services. The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Servicesservices. The ARN is never reused if the connection is deleted.
         public var connectionArn: Swift.String?
         /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
         public var connectionName: Swift.String?
@@ -2143,6 +2180,8 @@ public struct UpdateSyncConfigurationInput {
     public var configFile: Swift.String?
     /// Whether to enable or disable publishing of deployment status to source providers.
     public var publishDeploymentStatus: CodeConnectionsClientTypes.PublishDeploymentStatus?
+    /// TA toggle that specifies whether to enable or disable pull request comments for the sync configuration to be updated.
+    public var pullRequestComment: CodeConnectionsClientTypes.PullRequestComment?
     /// The ID of the repository link for the sync configuration to be updated.
     public var repositoryLinkId: Swift.String?
     /// The name of the Amazon Web Services resource for the sync configuration to be updated.
@@ -2160,6 +2199,7 @@ public struct UpdateSyncConfigurationInput {
         branch: Swift.String? = nil,
         configFile: Swift.String? = nil,
         publishDeploymentStatus: CodeConnectionsClientTypes.PublishDeploymentStatus? = nil,
+        pullRequestComment: CodeConnectionsClientTypes.PullRequestComment? = nil,
         repositoryLinkId: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -2170,6 +2210,7 @@ public struct UpdateSyncConfigurationInput {
         self.branch = branch
         self.configFile = configFile
         self.publishDeploymentStatus = publishDeploymentStatus
+        self.pullRequestComment = pullRequestComment
         self.repositoryLinkId = repositoryLinkId
         self.resourceName = resourceName
         self.roleArn = roleArn
@@ -2422,6 +2463,7 @@ extension CreateSyncConfigurationInput {
         try writer["Branch"].write(value.branch)
         try writer["ConfigFile"].write(value.configFile)
         try writer["PublishDeploymentStatus"].write(value.publishDeploymentStatus)
+        try writer["PullRequestComment"].write(value.pullRequestComment)
         try writer["RepositoryLinkId"].write(value.repositoryLinkId)
         try writer["ResourceName"].write(value.resourceName)
         try writer["RoleArn"].write(value.roleArn)
@@ -2637,6 +2679,7 @@ extension UpdateSyncConfigurationInput {
         try writer["Branch"].write(value.branch)
         try writer["ConfigFile"].write(value.configFile)
         try writer["PublishDeploymentStatus"].write(value.publishDeploymentStatus)
+        try writer["PullRequestComment"].write(value.pullRequestComment)
         try writer["RepositoryLinkId"].write(value.repositoryLinkId)
         try writer["ResourceName"].write(value.resourceName)
         try writer["RoleArn"].write(value.roleArn)
@@ -3681,6 +3724,7 @@ extension CodeConnectionsClientTypes.SyncConfiguration {
         value.syncType = try reader["SyncType"].readIfPresent() ?? .sdkUnknown("")
         value.publishDeploymentStatus = try reader["PublishDeploymentStatus"].readIfPresent()
         value.triggerResourceUpdateOn = try reader["TriggerResourceUpdateOn"].readIfPresent()
+        value.pullRequestComment = try reader["PullRequestComment"].readIfPresent()
         return value
     }
 }
