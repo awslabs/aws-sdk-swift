@@ -770,6 +770,8 @@ extension SageMakerClientTypes {
         public var compressionType: SageMakerClientTypes.ModelCompressionType?
         /// Configuration information for hub access.
         public var hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig?
+        /// The Amazon S3 URI of the manifest file. The manifest file is a CSV file that stores the artifact locations.
+        public var manifestS3Uri: Swift.String?
         /// Specifies the access configuration file for the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
         public var modelAccessConfig: SageMakerClientTypes.ModelAccessConfig?
         /// Specifies the type of ML model data to deploy. If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix as part of the ML model data to deploy. A valid key name prefix identified by S3Uri always ends with a forward slash (/). If you choose S3Object, S3Uri identifies an object that is the ML model data to deploy.
@@ -782,6 +784,7 @@ extension SageMakerClientTypes {
         public init(
             compressionType: SageMakerClientTypes.ModelCompressionType? = nil,
             hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig? = nil,
+            manifestS3Uri: Swift.String? = nil,
             modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataType: SageMakerClientTypes.S3ModelDataType? = nil,
             s3Uri: Swift.String? = nil
@@ -789,6 +792,7 @@ extension SageMakerClientTypes {
         {
             self.compressionType = compressionType
             self.hubAccessConfig = hubAccessConfig
+            self.manifestS3Uri = manifestS3Uri
             self.modelAccessConfig = modelAccessConfig
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -65010,6 +65014,7 @@ extension SageMakerClientTypes.S3ModelDataSource {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
         try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.InferenceHubAccessConfig.write(value:to:))
+        try writer["ManifestS3Uri"].write(value.manifestS3Uri)
         try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
@@ -65023,6 +65028,7 @@ extension SageMakerClientTypes.S3ModelDataSource {
         value.compressionType = try reader["CompressionType"].readIfPresent() ?? .sdkUnknown("")
         value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
         value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.InferenceHubAccessConfig.read(from:))
+        value.manifestS3Uri = try reader["ManifestS3Uri"].readIfPresent()
         return value
     }
 }
