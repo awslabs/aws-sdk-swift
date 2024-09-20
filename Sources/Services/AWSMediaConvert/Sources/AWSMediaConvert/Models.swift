@@ -8238,12 +8238,127 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
+
+    /// Specify which SPEKE version 2.0 audio preset MediaConvert uses to request content keys from your SPEKE server. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html To encrypt to your audio outputs, choose from the following: Audio preset 1, Audio preset 2, or Audio preset 3. To encrypt your audio outputs, using the same content key for both your audio and video outputs: Choose Shared. When you do, you must also set SPEKE v2.0 video preset to Shared. To not encrypt your audio outputs: Choose Unencrypted. When you do, to encrypt your video outputs, you must also specify a SPEKE v2.0 video preset (other than Shared or Unencrypted).
+    public enum PresetSpeke20Audio: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case presetAudio1
+        case presetAudio2
+        case presetAudio3
+        case shared
+        case unencrypted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PresetSpeke20Audio] {
+            return [
+                .presetAudio1,
+                .presetAudio2,
+                .presetAudio3,
+                .shared,
+                .unencrypted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .presetAudio1: return "PRESET_AUDIO_1"
+            case .presetAudio2: return "PRESET_AUDIO_2"
+            case .presetAudio3: return "PRESET_AUDIO_3"
+            case .shared: return "SHARED"
+            case .unencrypted: return "UNENCRYPTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Specify which SPEKE version 2.0 video preset MediaConvert uses to request content keys from your SPEKE server. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html To encrypt to your video outputs, choose from the following: Video preset 1, Video preset 2, Video preset 3, Video preset 4, Video preset 5, Video preset 6, Video preset 7, or Video preset 8. To encrypt your video outputs, using the same content key for both your video and audio outputs: Choose Shared. When you do, you must also set SPEKE v2.0 audio preset to Shared. To not encrypt your video outputs: Choose Unencrypted. When you do, to encrypt your audio outputs, you must also specify a SPEKE v2.0 audio preset (other than Shared or Unencrypted).
+    public enum PresetSpeke20Video: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case presetVideo1
+        case presetVideo2
+        case presetVideo3
+        case presetVideo4
+        case presetVideo5
+        case presetVideo6
+        case presetVideo7
+        case presetVideo8
+        case shared
+        case unencrypted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PresetSpeke20Video] {
+            return [
+                .presetVideo1,
+                .presetVideo2,
+                .presetVideo3,
+                .presetVideo4,
+                .presetVideo5,
+                .presetVideo6,
+                .presetVideo7,
+                .presetVideo8,
+                .shared,
+                .unencrypted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .presetVideo1: return "PRESET_VIDEO_1"
+            case .presetVideo2: return "PRESET_VIDEO_2"
+            case .presetVideo3: return "PRESET_VIDEO_3"
+            case .presetVideo4: return "PRESET_VIDEO_4"
+            case .presetVideo5: return "PRESET_VIDEO_5"
+            case .presetVideo6: return "PRESET_VIDEO_6"
+            case .presetVideo7: return "PRESET_VIDEO_7"
+            case .presetVideo8: return "PRESET_VIDEO_8"
+            case .shared: return "SHARED"
+            case .unencrypted: return "UNENCRYPTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
+    public struct EncryptionContractConfiguration {
+        /// Specify which SPEKE version 2.0 audio preset MediaConvert uses to request content keys from your SPEKE server. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html To encrypt to your audio outputs, choose from the following: Audio preset 1, Audio preset 2, or Audio preset 3. To encrypt your audio outputs, using the same content key for both your audio and video outputs: Choose Shared. When you do, you must also set SPEKE v2.0 video preset to Shared. To not encrypt your audio outputs: Choose Unencrypted. When you do, to encrypt your video outputs, you must also specify a SPEKE v2.0 video preset (other than Shared or Unencrypted).
+        public var spekeAudioPreset: MediaConvertClientTypes.PresetSpeke20Audio?
+        /// Specify which SPEKE version 2.0 video preset MediaConvert uses to request content keys from your SPEKE server. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html To encrypt to your video outputs, choose from the following: Video preset 1, Video preset 2, Video preset 3, Video preset 4, Video preset 5, Video preset 6, Video preset 7, or Video preset 8. To encrypt your video outputs, using the same content key for both your video and audio outputs: Choose Shared. When you do, you must also set SPEKE v2.0 audio preset to Shared. To not encrypt your video outputs: Choose Unencrypted. When you do, to encrypt your audio outputs, you must also specify a SPEKE v2.0 audio preset (other than Shared or Unencrypted).
+        public var spekeVideoPreset: MediaConvertClientTypes.PresetSpeke20Video?
+
+        public init(
+            spekeAudioPreset: MediaConvertClientTypes.PresetSpeke20Audio? = nil,
+            spekeVideoPreset: MediaConvertClientTypes.PresetSpeke20Video? = nil
+        )
+        {
+            self.spekeAudioPreset = spekeAudioPreset
+            self.spekeVideoPreset = spekeVideoPreset
+        }
+    }
+
+}
+
+extension MediaConvertClientTypes {
     /// If your output group type is CMAF, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is HLS, DASH, or Microsoft Smooth, use the SpekeKeyProvider settings instead.
     public struct SpekeKeyProviderCmaf {
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public var certificateArn: Swift.String?
         /// Specify the DRM system IDs that you want signaled in the DASH manifest that MediaConvert creates as part of this CMAF package. The DASH manifest can currently signal up to three system IDs. For more information, see https://dashif.org/identifiers/content_protection/.
         public var dashSignaledSystemIds: [Swift.String]?
+        /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
+        public var encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration?
         /// Specify the DRM system ID that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. The HLS manifest can currently signal only one system ID. For more information, see https://dashif.org/identifiers/content_protection/.
         public var hlsSignaledSystemIds: [Swift.String]?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
@@ -8254,6 +8369,7 @@ extension MediaConvertClientTypes {
         public init(
             certificateArn: Swift.String? = nil,
             dashSignaledSystemIds: [Swift.String]? = nil,
+            encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration? = nil,
             hlsSignaledSystemIds: [Swift.String]? = nil,
             resourceId: Swift.String? = nil,
             url: Swift.String? = nil
@@ -8261,6 +8377,7 @@ extension MediaConvertClientTypes {
         {
             self.certificateArn = certificateArn
             self.dashSignaledSystemIds = dashSignaledSystemIds
+            self.encryptionContractConfiguration = encryptionContractConfiguration
             self.hlsSignaledSystemIds = hlsSignaledSystemIds
             self.resourceId = resourceId
             self.url = url
@@ -9044,6 +9161,8 @@ extension MediaConvertClientTypes {
     public struct SpekeKeyProvider {
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public var certificateArn: Swift.String?
+        /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
+        public var encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public var resourceId: Swift.String?
         /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
@@ -9053,12 +9172,14 @@ extension MediaConvertClientTypes {
 
         public init(
             certificateArn: Swift.String? = nil,
+            encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration? = nil,
             resourceId: Swift.String? = nil,
             systemIds: [Swift.String]? = nil,
             url: Swift.String? = nil
         )
         {
             self.certificateArn = certificateArn
+            self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
             self.systemIds = systemIds
             self.url = url
@@ -27247,6 +27368,7 @@ extension MediaConvertClientTypes.SpekeKeyProvider {
     static func write(value: MediaConvertClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["certificateArn"].write(value.certificateArn)
+        try writer["encryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaConvertClientTypes.EncryptionContractConfiguration.write(value:to:))
         try writer["resourceId"].write(value.resourceId)
         try writer["systemIds"].writeList(value.systemIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["url"].write(value.url)
@@ -27256,9 +27378,27 @@ extension MediaConvertClientTypes.SpekeKeyProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.SpekeKeyProvider()
         value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaConvertClientTypes.EncryptionContractConfiguration.read(from:))
         value.resourceId = try reader["resourceId"].readIfPresent()
         value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.url = try reader["url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.EncryptionContractConfiguration {
+
+    static func write(value: MediaConvertClientTypes.EncryptionContractConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["spekeAudioPreset"].write(value.spekeAudioPreset)
+        try writer["spekeVideoPreset"].write(value.spekeVideoPreset)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.EncryptionContractConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.EncryptionContractConfiguration()
+        value.spekeAudioPreset = try reader["spekeAudioPreset"].readIfPresent()
+        value.spekeVideoPreset = try reader["spekeVideoPreset"].readIfPresent()
         return value
     }
 }
@@ -27794,6 +27934,7 @@ extension MediaConvertClientTypes.SpekeKeyProviderCmaf {
         guard let value else { return }
         try writer["certificateArn"].write(value.certificateArn)
         try writer["dashSignaledSystemIds"].writeList(value.dashSignaledSystemIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["encryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaConvertClientTypes.EncryptionContractConfiguration.write(value:to:))
         try writer["hlsSignaledSystemIds"].writeList(value.hlsSignaledSystemIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceId"].write(value.resourceId)
         try writer["url"].write(value.url)
@@ -27804,6 +27945,7 @@ extension MediaConvertClientTypes.SpekeKeyProviderCmaf {
         var value = MediaConvertClientTypes.SpekeKeyProviderCmaf()
         value.certificateArn = try reader["certificateArn"].readIfPresent()
         value.dashSignaledSystemIds = try reader["dashSignaledSystemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaConvertClientTypes.EncryptionContractConfiguration.read(from:))
         value.hlsSignaledSystemIds = try reader["hlsSignaledSystemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceId = try reader["resourceId"].readIfPresent()
         value.url = try reader["url"].readIfPresent()

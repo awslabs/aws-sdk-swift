@@ -2435,6 +2435,35 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+
+    public enum CommitMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommitMode] {
+            return [
+                .auto,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
     /// A control to display info icons for filters and parameters.
     public struct SheetControlInfoIconLabelOptions {
         /// The text content of info icon.
@@ -2731,6 +2760,8 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     /// The default options that correspond to the filter control type of a DateTimePicker.
     public struct DefaultDateTimePickerControlOptions {
+        /// The visibility configuration of the Apply button on a DateTimePickerControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The date time picker type of the DefaultDateTimePickerControlOptions. Choose one of the following options:
@@ -2741,10 +2772,12 @@ extension QuickSightClientTypes {
         public var type: QuickSightClientTypes.SheetControlDateTimePickerType?
 
         public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
             type: QuickSightClientTypes.SheetControlDateTimePickerType? = nil
         )
         {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.type = type
         }
@@ -2840,6 +2873,8 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     /// The default options that correspond to the Dropdown filter control type.
     public struct DefaultFilterDropDownControlOptions {
+        /// The visibility configuration of the Apply button on a FilterDropDownControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -2852,11 +2887,13 @@ extension QuickSightClientTypes {
         public var type: QuickSightClientTypes.SheetControlListType?
 
         public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             type: QuickSightClientTypes.SheetControlListType? = nil
         )
         {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
             self.type = type
@@ -2964,13 +3001,17 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     /// The default options that correspond to the RelativeDateTime filter control type.
     public struct DefaultRelativeDateTimeControlOptions {
+        /// The visibility configuration of the Apply button on a RelativeDateTimeControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions?
 
         public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions? = nil
         )
         {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
         }
     }
@@ -4790,6 +4831,8 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     /// A control from a date filter that is used to specify date and time.
     public struct FilterDateTimePickerControl {
+        /// The visibility configurationof the Apply button on a DateTimePickerControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The ID of the FilterDateTimePickerControl.
@@ -4809,6 +4852,7 @@ extension QuickSightClientTypes {
         public var type: QuickSightClientTypes.SheetControlDateTimePickerType?
 
         public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
@@ -4816,6 +4860,7 @@ extension QuickSightClientTypes {
             type: QuickSightClientTypes.SheetControlDateTimePickerType? = nil
         )
         {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -4831,6 +4876,8 @@ extension QuickSightClientTypes {
     public struct FilterDropDownControl {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
+        /// The visibility configuration of the Apply button on a FilterDropDownControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
         /// The display options of the FilterDropDownControl.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the FilterDropDownControl.
@@ -4853,6 +4900,7 @@ extension QuickSightClientTypes {
 
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
@@ -4862,6 +4910,7 @@ extension QuickSightClientTypes {
         )
         {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -4923,6 +4972,8 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     /// A control from a date filter that is used to specify the relative date.
     public struct FilterRelativeDateTimeControl {
+        /// The visibility configuration of the Apply button on a FilterRelativeDateTimeControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions?
         /// The ID of the FilterTextAreaControl.
@@ -4936,12 +4987,14 @@ extension QuickSightClientTypes {
         public var title: Swift.String?
 
         public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
             title: Swift.String? = nil
         )
         {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -5857,6 +5910,8 @@ extension QuickSightClientTypes {
     public struct ParameterDropDownControl {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
+        /// The visibility configuration of the Apply button on a ParameterDropDownControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the ParameterDropDownControl.
@@ -5875,6 +5930,7 @@ extension QuickSightClientTypes {
 
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.ParameterSelectableValues? = nil,
@@ -5884,6 +5940,7 @@ extension QuickSightClientTypes {
         )
         {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -35651,6 +35708,56 @@ public struct ListFoldersOutput {
     }
 }
 
+public struct ListFoldersForResourceInput {
+    /// The ID for the Amazon Web Services account that contains the resource.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) the resource whose folders you need to list.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListFoldersForResourceOutput {
+    /// A list that contains the Amazon Resource Names (ARNs) of all folders that the resource is a member of.
+    public var folders: [Swift.String]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        folders: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.folders = folders
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct ListGroupMembershipsInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
@@ -41779,6 +41886,35 @@ extension ListFoldersInput {
     }
 }
 
+extension ListFoldersForResourceInput {
+
+    static func urlPathProvider(_ value: ListFoldersForResourceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/resource/\(resourceArn.urlPercentEncoding())/folders"
+    }
+}
+
+extension ListFoldersForResourceInput {
+
+    static func queryItemProvider(_ value: ListFoldersForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListGroupMembershipsInput {
 
     static func urlPathProvider(_ value: ListGroupMembershipsInput) -> Swift.String? {
@@ -45389,6 +45525,21 @@ extension ListFoldersOutput {
     }
 }
 
+extension ListFoldersForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFoldersForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFoldersForResourceOutput()
+        value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension ListGroupMembershipsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListGroupMembershipsOutput {
@@ -48544,6 +48695,26 @@ enum ListFoldersOutputError {
     }
 }
 
+enum ListFoldersForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListGroupMembershipsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51235,6 +51406,7 @@ extension QuickSightClientTypes.DefaultRelativeDateTimeControlOptions {
 
     static func write(value: QuickSightClientTypes.DefaultRelativeDateTimeControlOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.write(value:to:))
     }
 
@@ -51242,6 +51414,7 @@ extension QuickSightClientTypes.DefaultRelativeDateTimeControlOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DefaultRelativeDateTimeControlOptions()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.read(from:))
+        value.commitMode = try reader["CommitMode"].readIfPresent()
         return value
     }
 }
@@ -51483,6 +51656,7 @@ extension QuickSightClientTypes.DefaultFilterDropDownControlOptions {
 
     static func write(value: QuickSightClientTypes.DefaultFilterDropDownControlOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
         try writer["Type"].write(value.type)
@@ -51494,6 +51668,7 @@ extension QuickSightClientTypes.DefaultFilterDropDownControlOptions {
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DropDownControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
+        value.commitMode = try reader["CommitMode"].readIfPresent()
         return value
     }
 }
@@ -51606,6 +51781,7 @@ extension QuickSightClientTypes.DefaultDateTimePickerControlOptions {
 
     static func write(value: QuickSightClientTypes.DefaultDateTimePickerControlOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.write(value:to:))
         try writer["Type"].write(value.type)
     }
@@ -51615,6 +51791,7 @@ extension QuickSightClientTypes.DefaultDateTimePickerControlOptions {
         var value = QuickSightClientTypes.DefaultDateTimePickerControlOptions()
         value.type = try reader["Type"].readIfPresent()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
+        value.commitMode = try reader["CommitMode"].readIfPresent()
         return value
     }
 }
@@ -59636,6 +59813,7 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl {
 
     static func write(value: QuickSightClientTypes.FilterRelativeDateTimeControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -59649,6 +59827,7 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl {
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.read(from:))
+        value.commitMode = try reader["CommitMode"].readIfPresent()
         return value
     }
 }
@@ -59731,6 +59910,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
     static func write(value: QuickSightClientTypes.FilterDropDownControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
+        try writer["CommitMode"].write(value.commitMode)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
@@ -59749,6 +59929,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
+        value.commitMode = try reader["CommitMode"].readIfPresent()
         return value
     }
 }
@@ -59784,6 +59965,7 @@ extension QuickSightClientTypes.FilterDateTimePickerControl {
 
     static func write(value: QuickSightClientTypes.FilterDateTimePickerControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -59799,6 +59981,7 @@ extension QuickSightClientTypes.FilterDateTimePickerControl {
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
+        value.commitMode = try reader["CommitMode"].readIfPresent()
         return value
     }
 }
@@ -59904,6 +60087,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
     static func write(value: QuickSightClientTypes.ParameterDropDownControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
+        try writer["CommitMode"].write(value.commitMode)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.ParameterSelectableValues.write(value:to:))
@@ -59922,6 +60106,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
         value.type = try reader["Type"].readIfPresent()
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.ParameterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
+        value.commitMode = try reader["CommitMode"].readIfPresent()
         return value
     }
 }
