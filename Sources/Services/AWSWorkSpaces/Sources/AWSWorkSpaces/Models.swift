@@ -5685,6 +5685,7 @@ extension WorkSpacesClientTypes {
     public enum WorkspaceImageErrorDetailCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case additionalDrivesAttached
         case antiVirusInstalled
+        case appxPackagesInstalled
         case autoLogonEnabled
         case autoMountDisabled
         case azureDomainJoined
@@ -5702,8 +5703,10 @@ extension WorkSpacesClientTypes {
         case pcoipAgentInstalled
         case pendingReboot
         case realtimeUniversalDisabled
+        case reservedStorageInUse
         case sixtyFourBitOs
         case uefiNotSupported
+        case unknownError
         case vmwareToolsInstalled
         case windowsUpdatesEnabled
         case workspacesByolAccountDisabled
@@ -5715,6 +5718,7 @@ extension WorkSpacesClientTypes {
             return [
                 .additionalDrivesAttached,
                 .antiVirusInstalled,
+                .appxPackagesInstalled,
                 .autoLogonEnabled,
                 .autoMountDisabled,
                 .azureDomainJoined,
@@ -5732,8 +5736,10 @@ extension WorkSpacesClientTypes {
                 .pcoipAgentInstalled,
                 .pendingReboot,
                 .realtimeUniversalDisabled,
+                .reservedStorageInUse,
                 .sixtyFourBitOs,
                 .uefiNotSupported,
+                .unknownError,
                 .vmwareToolsInstalled,
                 .windowsUpdatesEnabled,
                 .workspacesByolAccountDisabled,
@@ -5751,6 +5757,7 @@ extension WorkSpacesClientTypes {
             switch self {
             case .additionalDrivesAttached: return "AdditionalDrivesAttached"
             case .antiVirusInstalled: return "AntiVirusInstalled"
+            case .appxPackagesInstalled: return "AppXPackagesInstalled"
             case .autoLogonEnabled: return "AutoLogonEnabled"
             case .autoMountDisabled: return "AutoMountDisabled"
             case .azureDomainJoined: return "AzureDomainJoined"
@@ -5768,8 +5775,10 @@ extension WorkSpacesClientTypes {
             case .pcoipAgentInstalled: return "PCoIPAgentInstalled"
             case .pendingReboot: return "PendingReboot"
             case .realtimeUniversalDisabled: return "RealTimeUniversalDisabled"
+            case .reservedStorageInUse: return "ReservedStorageInUse"
             case .sixtyFourBitOs: return "Requires64BitOS"
             case .uefiNotSupported: return "UEFINotSupported"
+            case .unknownError: return "UnknownError"
             case .vmwareToolsInstalled: return "VMWareToolsInstalled"
             case .windowsUpdatesEnabled: return "WindowsUpdatesEnabled"
             case .workspacesByolAccountDisabled: return "WorkspacesBYOLAccountDisabled"
