@@ -14,31 +14,34 @@ import AWSIntegrationTestUtils
 
 class S3ConcurrentTests: S3XCTestCase {
     public var fileData: Data!
+    let MEGABYTE: Double = 1_000_000
 
-    override func setUp() async throws {
-        try await super.setUp()
-        fileData = try generateDummyTextData()
+    // Payload below 1,048,576 bytes; sends as simple data payload
+    func test_100x_1MB_getObject() async throws {
+        fileData = try generateDummyTextData(numMegabytes: MEGABYTE)
+        try await repeatConcurrentlyWithArgs(count: 100, test: getObject, args: fileData!)
     }
 
-    // Run test 100 times, concurrently
-    func test_100x_1MB_getObject() async throws {
-        try await repeatConcurrentlyWithArgs(count: 100, test: getObject_1MB, args: fileData!)
+    // Payload over 1,048,576 bytes; uses aws chunked encoding & flexible checksum
+    func test_100x_1_5MB_getObject() async throws {
+        fileData = try generateDummyTextData(numMegabytes: MEGABYTE * 1.5)
+        try await repeatConcurrentlyWithArgs(count: 100, test: getObject, args: fileData!)
     }
 
     /* Helper functions */
 
-    // Generates 1MB text data
-    func generateDummyTextData() throws -> Data {
+    // Generates text data in increments of 10 bytes
+    func generateDummyTextData(numMegabytes: Double) throws -> Data {
         let segmentData = Data("1234567890".utf8)
         var wholeData = Data()
-        for _ in 0..<100_000 {
+        for _ in 0..<(Int(numMegabytes)/10) {
             wholeData.append(segmentData)
         }
         return wholeData
     }
 
-    // Puts 1MB data to S3, gets the uploaded file, then asserts retrieved data equals original data
-    func getObject_1MB(args: Any...) async throws {
+    // Puts data to S3, gets the uploaded file, then asserts retrieved data equals original data
+    func getObject(args: Any...) async throws {
         guard let data = args[0] as? Data else {
             throw ClientError.dataNotFound("Failed to retrieve dummy data.")
         }
