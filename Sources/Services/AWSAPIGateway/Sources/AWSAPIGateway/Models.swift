@@ -1431,7 +1431,7 @@ public struct CreateDomainNameOutput {
     public var certificateArn: Swift.String?
     /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -4080,7 +4080,7 @@ public struct GetDomainNameOutput {
     public var certificateArn: Swift.String?
     /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -4175,7 +4175,7 @@ extension APIGatewayClientTypes {
         public var certificateArn: Swift.String?
         /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
         public var certificateName: Swift.String?
-        /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
+        /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
         public var certificateUploadDate: Foundation.Date?
         /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
         public var distributionDomainName: Swift.String?
@@ -7599,7 +7599,7 @@ public struct UpdateDomainNameOutput {
     public var certificateArn: Swift.String?
     /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
