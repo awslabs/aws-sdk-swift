@@ -7019,7 +7019,7 @@ public struct CreateDBInstanceReadReplicaInput {
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The name of the DB parameter group to associate with this DB instance. If you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
+    /// The name of the DB parameter group to associate with this read replica DB instance. For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -8184,30 +8184,6 @@ public struct DBShardGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-/// The maximum capacity of the DB shard group must be 48-7168 Aurora capacity units (ACUs).
-public struct InvalidMaxAcuFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidMaxAcu" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// The maximum number of DB shard groups for your Amazon Web Services account in the specified Amazon Web Services Region has been reached.
 public struct MaxDBShardGroupLimitReached: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -8257,13 +8233,13 @@ public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct CreateDBShardGroupInput {
-    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
     ///
-    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     /// This member is required.
@@ -8309,16 +8285,18 @@ public struct CreateDBShardGroupInput {
 }
 
 public struct CreateDBShardGroupOutput {
-    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
     ///
-    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     public var dbClusterIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) for the DB shard group.
+    public var dbShardGroupArn: Swift.String?
     /// The name of the DB shard group.
     public var dbShardGroupIdentifier: Swift.String?
     /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
@@ -8337,6 +8315,7 @@ public struct CreateDBShardGroupOutput {
     public init(
         computeRedundancy: Swift.Int? = nil,
         dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupArn: Swift.String? = nil,
         dbShardGroupIdentifier: Swift.String? = nil,
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
@@ -8348,6 +8327,7 @@ public struct CreateDBShardGroupOutput {
     {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupArn = dbShardGroupArn
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
@@ -10783,16 +10763,18 @@ public struct DeleteDBShardGroupInput {
 }
 
 public struct DeleteDBShardGroupOutput {
-    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
     ///
-    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     public var dbClusterIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) for the DB shard group.
+    public var dbShardGroupArn: Swift.String?
     /// The name of the DB shard group.
     public var dbShardGroupIdentifier: Swift.String?
     /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
@@ -10811,6 +10793,7 @@ public struct DeleteDBShardGroupOutput {
     public init(
         computeRedundancy: Swift.Int? = nil,
         dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupArn: Swift.String? = nil,
         dbShardGroupIdentifier: Swift.String? = nil,
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
@@ -10822,6 +10805,7 @@ public struct DeleteDBShardGroupOutput {
     {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupArn = dbShardGroupArn
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
@@ -13755,16 +13739,18 @@ public struct DescribeDBShardGroupsInput {
 
 extension RDSClientTypes {
     public struct DBShardGroup {
-        /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+        /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
         ///
-        /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+        /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
         ///
-        /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+        /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
         ///
-        /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+        /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
         public var computeRedundancy: Swift.Int?
         /// The name of the primary DB cluster for the DB shard group.
         public var dbClusterIdentifier: Swift.String?
+        /// The Amazon Resource Name (ARN) for the DB shard group.
+        public var dbShardGroupArn: Swift.String?
         /// The name of the DB shard group.
         public var dbShardGroupIdentifier: Swift.String?
         /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
@@ -13783,6 +13769,7 @@ extension RDSClientTypes {
         public init(
             computeRedundancy: Swift.Int? = nil,
             dbClusterIdentifier: Swift.String? = nil,
+            dbShardGroupArn: Swift.String? = nil,
             dbShardGroupIdentifier: Swift.String? = nil,
             dbShardGroupResourceId: Swift.String? = nil,
             endpoint: Swift.String? = nil,
@@ -13794,6 +13781,7 @@ extension RDSClientTypes {
         {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbShardGroupArn = dbShardGroupArn
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.dbShardGroupResourceId = dbShardGroupResourceId
             self.endpoint = endpoint
@@ -18090,6 +18078,14 @@ public struct ModifyDBRecommendationOutput {
 }
 
 public struct ModifyDBShardGroupInput {
+    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
+    ///
+    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
+    ///
+    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
+    ///
+    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+    public var computeRedundancy: Swift.Int?
     /// The name of the DB shard group to modify.
     /// This member is required.
     public var dbShardGroupIdentifier: Swift.String?
@@ -18099,11 +18095,13 @@ public struct ModifyDBShardGroupInput {
     public var minACU: Swift.Double?
 
     public init(
+        computeRedundancy: Swift.Int? = nil,
         dbShardGroupIdentifier: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
         minACU: Swift.Double? = nil
     )
     {
+        self.computeRedundancy = computeRedundancy
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.maxACU = maxACU
         self.minACU = minACU
@@ -18111,16 +18109,18 @@ public struct ModifyDBShardGroupInput {
 }
 
 public struct ModifyDBShardGroupOutput {
-    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
     ///
-    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     public var dbClusterIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) for the DB shard group.
+    public var dbShardGroupArn: Swift.String?
     /// The name of the DB shard group.
     public var dbShardGroupIdentifier: Swift.String?
     /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
@@ -18139,6 +18139,7 @@ public struct ModifyDBShardGroupOutput {
     public init(
         computeRedundancy: Swift.Int? = nil,
         dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupArn: Swift.String? = nil,
         dbShardGroupIdentifier: Swift.String? = nil,
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
@@ -18150,6 +18151,7 @@ public struct ModifyDBShardGroupOutput {
     {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupArn = dbShardGroupArn
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
@@ -18853,16 +18855,18 @@ public struct RebootDBShardGroupInput {
 }
 
 public struct RebootDBShardGroupOutput {
-    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
     ///
-    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     public var dbClusterIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) for the DB shard group.
+    public var dbShardGroupArn: Swift.String?
     /// The name of the DB shard group.
     public var dbShardGroupIdentifier: Swift.String?
     /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
@@ -18881,6 +18885,7 @@ public struct RebootDBShardGroupOutput {
     public init(
         computeRedundancy: Swift.Int? = nil,
         dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupArn: Swift.String? = nil,
         dbShardGroupIdentifier: Swift.String? = nil,
         dbShardGroupResourceId: Swift.String? = nil,
         endpoint: Swift.String? = nil,
@@ -18892,6 +18897,7 @@ public struct RebootDBShardGroupOutput {
     {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupArn = dbShardGroupArn
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.dbShardGroupResourceId = dbShardGroupResourceId
         self.endpoint = endpoint
@@ -24618,6 +24624,7 @@ extension ModifyDBShardGroupInput {
 
     static func write(value: ModifyDBShardGroupInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ComputeRedundancy"].write(value.computeRedundancy)
         try writer["DBShardGroupIdentifier"].write(value.dbShardGroupIdentifier)
         try writer["MaxACU"].write(value.maxACU)
         try writer["MinACU"].write(value.minACU)
@@ -25687,6 +25694,7 @@ extension CreateDBShardGroupOutput {
         var value = CreateDBShardGroupOutput()
         value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.dbShardGroupArn = try reader["DBShardGroupArn"].readIfPresent()
         value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -25985,6 +25993,7 @@ extension DeleteDBShardGroupOutput {
         var value = DeleteDBShardGroupOutput()
         value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.dbShardGroupArn = try reader["DBShardGroupArn"].readIfPresent()
         value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -26971,6 +26980,7 @@ extension ModifyDBShardGroupOutput {
         var value = ModifyDBShardGroupOutput()
         value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.dbShardGroupArn = try reader["DBShardGroupArn"].readIfPresent()
         value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -27158,6 +27168,7 @@ extension RebootDBShardGroupOutput {
         var value = RebootDBShardGroupOutput()
         value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.dbShardGroupArn = try reader["DBShardGroupArn"].readIfPresent()
         value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
         value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -27996,7 +28007,6 @@ enum CreateDBShardGroupOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBShardGroupAlreadyExists": return try DBShardGroupAlreadyExistsFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
-            case "InvalidMaxAcu": return try InvalidMaxAcuFault.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "MaxDBShardGroupLimitReached": return try MaxDBShardGroupLimitReached.makeError(baseError: baseError)
             case "UnsupportedDBEngineVersion": return try UnsupportedDBEngineVersionFault.makeError(baseError: baseError)
@@ -29462,7 +29472,6 @@ enum ModifyDBShardGroupOutputError {
             case "DBShardGroupAlreadyExists": return try DBShardGroupAlreadyExistsFault.makeError(baseError: baseError)
             case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
-            case "InvalidMaxAcu": return try InvalidMaxAcuFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -31331,19 +31340,6 @@ extension DBShardGroupAlreadyExistsFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBShardGroupAlreadyExistsFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidMaxAcuFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidMaxAcuFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidMaxAcuFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33731,6 +33727,7 @@ extension RDSClientTypes.DBShardGroup {
         value.status = try reader["Status"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
+        value.dbShardGroupArn = try reader["DBShardGroupArn"].readIfPresent()
         return value
     }
 }

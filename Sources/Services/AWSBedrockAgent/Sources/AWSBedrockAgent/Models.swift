@@ -1152,7 +1152,7 @@ extension BedrockAgentClientTypes.PromptConfiguration: Swift.CustomDebugStringCo
 extension BedrockAgentClientTypes {
     /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
     public struct PromptOverrideConfiguration {
-        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see [Parser Lambda function in Agents for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/lambda-parser.html).
+        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see [Parser Lambda function in Amazon Bedrock Agents](https://docs.aws.amazon.com/bedrock/latest/userguide/lambda-parser.html).
         public var overrideLambda: Swift.String?
         /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
         /// This member is required.
@@ -1637,7 +1637,7 @@ public struct CreateAgentInput {
     public var customerEncryptionKeyArn: Swift.String?
     /// A description of the agent.
     public var description: Swift.String?
-    /// The foundation model to be used for orchestration by the agent you create.
+    /// The Amazon Resource Name (ARN) of the foundation model to be used for orchestration by the agent you create.
     public var foundationModel: Swift.String?
     /// The unique Guardrail configuration assigned to the agent when it is created.
     public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
@@ -4021,7 +4021,7 @@ extension BedrockAgentClientTypes {
         /// The unique identifier of the knowledge base to query.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
-        /// The unique identifier of the model to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
+        /// The unique identifier of the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
         public var modelId: Swift.String?
 
         public init(
@@ -4210,7 +4210,7 @@ extension BedrockAgentClientTypes {
     public struct PromptFlowNodeInlineConfiguration {
         /// Contains inference configurations for the prompt.
         public var inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration?
-        /// The unique identifier of the model to run inference with.
+        /// The unique identifier of the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to run inference with.
         /// This member is required.
         public var modelId: Swift.String?
         /// Contains a prompt and variables in the prompt that can be replaced with values at runtime.
@@ -7297,7 +7297,7 @@ extension BedrockAgentClientTypes {
         public var inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration?
         /// An array of objects, each containing a key-value pair that defines a metadata tag and value to attach to a prompt variant. For more information, see [Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html).
         public var metadata: [BedrockAgentClientTypes.PromptMetadataEntry]?
-        /// The unique identifier of the model with which to run inference on the prompt.
+        /// The unique identifier of the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) with which to run inference on the prompt.
         public var modelId: Swift.String?
         /// The name of the prompt variant.
         /// This member is required.
