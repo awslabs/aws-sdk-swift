@@ -192,9 +192,73 @@ extension SageMakerMetricsClient {
 }
 
 extension SageMakerMetricsClient {
+    /// Performs the `BatchGetMetrics` operation on the `SageMakerMetricsService` service.
+    ///
+    /// Used to retrieve training metrics from SageMaker.
+    ///
+    /// - Parameter BatchGetMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetMetricsOutput` : [no documentation found]
+    public func batchGetMetrics(input: BatchGetMetricsInput) async throws -> BatchGetMetricsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetMetrics")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetMetricsInput, BatchGetMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>(BatchGetMetricsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetMetricsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetMetricsOutput>(BatchGetMetricsOutput.httpOutput(from:), BatchGetMetricsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetMetricsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchGetMetricsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMakerMetrics")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetMetrics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchPutMetrics` operation on the `SageMakerMetricsService` service.
     ///
-    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio and retrieved with the GetMetrics API.
+    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
     ///
     /// - Parameter BatchPutMetricsInput : [no documentation found]
     ///
