@@ -1067,6 +1067,119 @@ public struct ListIndexesForMembersOutput {
     }
 }
 
+public struct ListResourcesInput {
+    /// A search filter defines which resources can be part of a search query result set.
+    public var filters: ResourceExplorer2ClientTypes.SearchFilter?
+    /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
+    public var nextToken: Swift.String?
+    /// Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't specify a value for this parameter, then the operation automatically uses the default view for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have a default view or if you don't have permission to use the default view, then the operation fails with a 401 Unauthorized exception.
+    public var viewArn: Swift.String?
+
+    public init(
+        filters: ResourceExplorer2ClientTypes.SearchFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        viewArn: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.viewArn = viewArn
+    }
+}
+
+extension ListResourcesInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListResourcesInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), viewArn: \(Swift.String(describing: viewArn)), filters: \"CONTENT_REDACTED\")"}
+}
+
+extension ResourceExplorer2ClientTypes {
+    /// A structure that describes a property of a resource.
+    public struct ResourceProperty {
+        /// Details about this property. The content of this field is a JSON object that varies based on the resource type.
+        public var data: Smithy.Document?
+        /// The date and time that the information about this resource property was last updated.
+        public var lastReportedAt: Foundation.Date?
+        /// The name of this property of the resource.
+        public var name: Swift.String?
+
+        public init(
+            data: Smithy.Document? = nil,
+            lastReportedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.data = data
+            self.lastReportedAt = lastReportedAt
+            self.name = name
+        }
+    }
+
+}
+
+extension ResourceExplorer2ClientTypes {
+    /// A resource in Amazon Web Services that Amazon Web Services Resource Explorer has discovered, and for which it has stored information in the index of the Amazon Web Services Region that contains the resource.
+    public struct Resource {
+        /// The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
+        public var arn: Swift.String?
+        /// The date and time that Resource Explorer last queried this resource and updated the index with the latest information about the resource.
+        public var lastReportedAt: Foundation.Date?
+        /// The Amazon Web Services account that owns the resource.
+        public var owningAccountId: Swift.String?
+        /// A structure with additional type-specific details about the resource. These properties can be added by turning on integration between Resource Explorer and other Amazon Web Services services.
+        public var properties: [ResourceExplorer2ClientTypes.ResourceProperty]?
+        /// The Amazon Web Services Region in which the resource was created and exists.
+        public var region: Swift.String?
+        /// The type of the resource.
+        public var resourceType: Swift.String?
+        /// The Amazon Web Servicesservice that owns the resource and is responsible for creating and updating it.
+        public var service: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            lastReportedAt: Foundation.Date? = nil,
+            owningAccountId: Swift.String? = nil,
+            properties: [ResourceExplorer2ClientTypes.ResourceProperty]? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            service: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.lastReportedAt = lastReportedAt
+            self.owningAccountId = owningAccountId
+            self.properties = properties
+            self.region = region
+            self.resourceType = resourceType
+            self.service = service
+        }
+    }
+
+}
+
+public struct ListResourcesOutput {
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+    public var nextToken: Swift.String?
+    /// The list of structures that describe the resources that match the query.
+    public var resources: [ResourceExplorer2ClientTypes.Resource]?
+    /// The Amazon resource name (ARN) of the view that this operation used to perform the search.
+    public var viewArn: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resources: [ResourceExplorer2ClientTypes.Resource]? = nil,
+        viewArn: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resources = resources
+        self.viewArn = viewArn
+    }
+}
+
 public struct ListSupportedResourceTypesInput {
     /// The maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
@@ -1088,7 +1201,7 @@ extension ResourceExplorer2ClientTypes {
     public struct SupportedResourceType {
         /// The unique identifier of the resource type.
         public var resourceType: Swift.String?
-        /// The Amazon Web Service that is associated with the resource type. This is the primary service that lets you create and interact with resources of this type.
+        /// The Amazon Web Servicesservice that is associated with the resource type. This is the primary service that lets you create and interact with resources of this type.
         public var service: Swift.String?
 
         public init(
@@ -1147,70 +1260,6 @@ public struct ListTagsForResourceOutput {
 extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
-}
-
-extension ResourceExplorer2ClientTypes {
-    /// A structure that describes a property of a resource.
-    public struct ResourceProperty {
-        /// Details about this property. The content of this field is a JSON object that varies based on the resource type.
-        public var data: Smithy.Document?
-        /// The date and time that the information about this resource property was last updated.
-        public var lastReportedAt: Foundation.Date?
-        /// The name of this property of the resource.
-        public var name: Swift.String?
-
-        public init(
-            data: Smithy.Document? = nil,
-            lastReportedAt: Foundation.Date? = nil,
-            name: Swift.String? = nil
-        )
-        {
-            self.data = data
-            self.lastReportedAt = lastReportedAt
-            self.name = name
-        }
-    }
-
-}
-
-extension ResourceExplorer2ClientTypes {
-    /// A resource in Amazon Web Services that Amazon Web Services Resource Explorer has discovered, and for which it has stored information in the index of the Amazon Web Services Region that contains the resource.
-    public struct Resource {
-        /// The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
-        public var arn: Swift.String?
-        /// The date and time that Resource Explorer last queried this resource and updated the index with the latest information about the resource.
-        public var lastReportedAt: Foundation.Date?
-        /// The Amazon Web Services account that owns the resource.
-        public var owningAccountId: Swift.String?
-        /// A structure with additional type-specific details about the resource. These properties can be added by turning on integration between Resource Explorer and other Amazon Web Services services.
-        public var properties: [ResourceExplorer2ClientTypes.ResourceProperty]?
-        /// The Amazon Web Services Region in which the resource was created and exists.
-        public var region: Swift.String?
-        /// The type of the resource.
-        public var resourceType: Swift.String?
-        /// The Amazon Web Service that owns the resource and is responsible for creating and updating it.
-        public var service: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            lastReportedAt: Foundation.Date? = nil,
-            owningAccountId: Swift.String? = nil,
-            properties: [ResourceExplorer2ClientTypes.ResourceProperty]? = nil,
-            region: Swift.String? = nil,
-            resourceType: Swift.String? = nil,
-            service: Swift.String? = nil
-        )
-        {
-            self.arn = arn
-            self.lastReportedAt = lastReportedAt
-            self.owningAccountId = owningAccountId
-            self.properties = properties
-            self.region = region
-            self.resourceType = resourceType
-            self.service = service
-        }
-    }
-
 }
 
 extension ResourceExplorer2ClientTypes {
@@ -1437,6 +1486,13 @@ extension ListIndexesForMembersInput {
     }
 }
 
+extension ListResourcesInput {
+
+    static func urlPathProvider(_ value: ListResourcesInput) -> Swift.String? {
+        return "/ListResources"
+    }
+}
+
 extension ListSupportedResourceTypesInput {
 
     static func urlPathProvider(_ value: ListSupportedResourceTypesInput) -> Swift.String? {
@@ -1598,6 +1654,17 @@ extension ListIndexesForMembersInput {
         try writer["AccountIdList"].writeList(value.accountIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListResourcesInput {
+
+    static func write(value: ListResourcesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: ResourceExplorer2ClientTypes.SearchFilter.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ViewArn"].write(value.viewArn)
     }
 }
 
@@ -1819,6 +1886,20 @@ extension ListIndexesForMembersOutput {
         var value = ListIndexesForMembersOutput()
         value.indexes = try reader["Indexes"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.MemberIndex.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourcesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.viewArn = try reader["ViewArn"].readIfPresent()
         return value
     }
 }
@@ -2146,6 +2227,25 @@ enum ListIndexesForMembersOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2500,17 +2600,6 @@ extension ResourceExplorer2ClientTypes.MemberIndex {
     }
 }
 
-extension ResourceExplorer2ClientTypes.SupportedResourceType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.SupportedResourceType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.SupportedResourceType()
-        value.service = try reader["Service"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        return value
-    }
-}
-
 extension ResourceExplorer2ClientTypes.Resource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.Resource {
@@ -2535,6 +2624,17 @@ extension ResourceExplorer2ClientTypes.ResourceProperty {
         value.name = try reader["Name"].readIfPresent()
         value.lastReportedAt = try reader["LastReportedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.data = try reader["Data"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.SupportedResourceType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.SupportedResourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.SupportedResourceType()
+        value.service = try reader["Service"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
         return value
     }
 }
