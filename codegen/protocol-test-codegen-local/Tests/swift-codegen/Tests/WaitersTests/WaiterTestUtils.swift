@@ -11,7 +11,7 @@ import SmithyWaitersAPI
 
 // Convenience test-helper methods for testing acceptor matches
 
-extension WaiterConfiguration.Acceptor.Match: Equatable where Input: Equatable, Output: Equatable {
+extension WaiterConfiguration.Acceptor.Match: @retroactive Equatable where Input: Equatable, Output: Equatable {
 
     public static func == (
         lhs: WaiterConfiguration<Input, Output>.Acceptor.Match,
@@ -42,7 +42,7 @@ extension WaiterConfiguration.Acceptor.Match: Equatable where Input: Equatable, 
 }
 
 // Allows for the use of a string as an Error, for easy test validation & easy-to-read tests.
-extension String: Error {
+extension String: @retroactive Error {
     var localizedString: String? { self }
 }
 
