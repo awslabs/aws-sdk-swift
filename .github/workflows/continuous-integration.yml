@@ -52,6 +52,13 @@ jobs:
           - destination: 'platform=visionOS Simulator,OS=2.0,name=Apple Vision Pro'
             xcode: Xcode_15.2
     steps:
+      - name: Install visionOS 2.0 sim
+        if: ${{ matrix.destination == 'platform=visionOS Simulator,OS=2.0,name=Apple Vision Pro' }}
+        run: |
+          sudo xcodebuild -runFirstLaunch
+          sudo xcrun simctl list
+          sudo xcodebuild -downloadPlatform visionOS
+          sudo xcodebuild -runFirstLaunch
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
       - name: Select smithy-swift branch
