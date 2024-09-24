@@ -355,6 +355,26 @@ extension EMRServerlessClientTypes {
 }
 
 extension EMRServerlessClientTypes {
+    /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
+    public struct SchedulerConfiguration {
+        /// The maximum concurrent job runs on this application. If scheduler configuration is enabled on your application, the default value is 15. The valid range is 1 to 1000.
+        public var maxConcurrentRuns: Swift.Int?
+        /// The maximum duration in minutes for the job in QUEUED state. If scheduler configuration is enabled on your application, the default value is 360 minutes (6 hours). The valid range is from 15 to 720.
+        public var queueTimeoutMinutes: Swift.Int?
+
+        public init(
+            maxConcurrentRuns: Swift.Int? = nil,
+            queueTimeoutMinutes: Swift.Int? = nil
+        )
+        {
+            self.maxConcurrentRuns = maxConcurrentRuns
+            self.queueTimeoutMinutes = queueTimeoutMinutes
+        }
+    }
+
+}
+
+extension EMRServerlessClientTypes {
 
     public enum ApplicationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
@@ -1000,6 +1020,7 @@ extension EMRServerlessClientTypes {
         case cancelling
         case failed
         case pending
+        case queued
         case running
         case scheduled
         case submitted
@@ -1012,6 +1033,7 @@ extension EMRServerlessClientTypes {
                 .cancelling,
                 .failed,
                 .pending,
+                .queued,
                 .running,
                 .scheduled,
                 .submitted,
@@ -1030,6 +1052,7 @@ extension EMRServerlessClientTypes {
             case .cancelling: return "CANCELLING"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
+            case .queued: return "QUEUED"
             case .running: return "RUNNING"
             case .scheduled: return "SCHEDULED"
             case .submitted: return "SUBMITTED"
@@ -1491,6 +1514,8 @@ extension EMRServerlessClientTypes {
         public var releaseLabel: Swift.String?
         /// The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html) specifications of an application. Each configuration consists of a classification and properties. You use this parameter when creating or updating an application. To see the runtimeConfiguration object of an application, run the [GetApplication](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_GetApplication.html) API operation.
         public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
+        /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
+        public var schedulerConfiguration: EMRServerlessClientTypes.SchedulerConfiguration?
         /// The state of the application.
         /// This member is required.
         public var state: EMRServerlessClientTypes.ApplicationState?
@@ -1523,6 +1548,7 @@ extension EMRServerlessClientTypes {
             networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
             releaseLabel: Swift.String? = nil,
             runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
+            schedulerConfiguration: EMRServerlessClientTypes.SchedulerConfiguration? = nil,
             state: EMRServerlessClientTypes.ApplicationState? = nil,
             stateDetails: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -1546,6 +1572,7 @@ extension EMRServerlessClientTypes {
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
             self.runtimeConfiguration = runtimeConfiguration
+            self.schedulerConfiguration = schedulerConfiguration
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -1606,6 +1633,8 @@ public struct CreateApplicationInput {
     public var releaseLabel: Swift.String?
     /// The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html) specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
     public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
+    /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
+    public var schedulerConfiguration: EMRServerlessClientTypes.SchedulerConfiguration?
     /// The tags assigned to the application.
     public var tags: [Swift.String: Swift.String]?
     /// The type of application you want to start, such as Spark or Hive.
@@ -1628,6 +1657,7 @@ public struct CreateApplicationInput {
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
         releaseLabel: Swift.String? = nil,
         runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
+        schedulerConfiguration: EMRServerlessClientTypes.SchedulerConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
@@ -1646,6 +1676,7 @@ public struct CreateApplicationInput {
         self.networkConfiguration = networkConfiguration
         self.releaseLabel = releaseLabel
         self.runtimeConfiguration = runtimeConfiguration
+        self.schedulerConfiguration = schedulerConfiguration
         self.tags = tags
         self.type = type
         self.workerTypeSpecifications = workerTypeSpecifications
@@ -1681,6 +1712,8 @@ public struct UpdateApplicationInput {
     public var releaseLabel: Swift.String?
     /// The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html) specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
     public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
+    /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
+    public var schedulerConfiguration: EMRServerlessClientTypes.SchedulerConfiguration?
     /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
     public var workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
 
@@ -1698,6 +1731,7 @@ public struct UpdateApplicationInput {
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
         releaseLabel: Swift.String? = nil,
         runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
+        schedulerConfiguration: EMRServerlessClientTypes.SchedulerConfiguration? = nil,
         workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
     )
     {
@@ -1714,6 +1748,7 @@ public struct UpdateApplicationInput {
         self.networkConfiguration = networkConfiguration
         self.releaseLabel = releaseLabel
         self.runtimeConfiguration = runtimeConfiguration
+        self.schedulerConfiguration = schedulerConfiguration
         self.workerTypeSpecifications = workerTypeSpecifications
     }
 }
@@ -1743,6 +1778,8 @@ extension EMRServerlessClientTypes {
         /// The user who created the job run.
         /// This member is required.
         public var createdBy: Swift.String?
+        /// The date and time when the job was terminated.
+        public var endedAt: Foundation.Date?
         /// The execution role ARN of the job run.
         /// This member is required.
         public var executionRole: Swift.String?
@@ -1760,11 +1797,15 @@ extension EMRServerlessClientTypes {
         public var name: Swift.String?
         /// The network configuration for customer VPC connectivity.
         public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
+        /// The total time for a job in the QUEUED state in milliseconds.
+        public var queuedDurationMilliseconds: Swift.Int?
         /// The Amazon EMR release associated with the application your job is running on.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The retry policy of the job run.
         public var retryPolicy: EMRServerlessClientTypes.RetryPolicy?
+        /// The date and time when the job moved to the RUNNING state.
+        public var startedAt: Foundation.Date?
         /// The state of the job run.
         /// This member is required.
         public var state: EMRServerlessClientTypes.JobRunState?
@@ -1791,6 +1832,7 @@ extension EMRServerlessClientTypes {
             configurationOverrides: EMRServerlessClientTypes.ConfigurationOverrides? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
             executionRole: Swift.String? = nil,
             executionTimeoutMinutes: Swift.Int? = 0,
             jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
@@ -1798,8 +1840,10 @@ extension EMRServerlessClientTypes {
             mode: EMRServerlessClientTypes.JobRunMode? = nil,
             name: Swift.String? = nil,
             networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
+            queuedDurationMilliseconds: Swift.Int? = nil,
             releaseLabel: Swift.String? = nil,
             retryPolicy: EMRServerlessClientTypes.RetryPolicy? = nil,
+            startedAt: Foundation.Date? = nil,
             state: EMRServerlessClientTypes.JobRunState? = nil,
             stateDetails: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -1817,6 +1861,7 @@ extension EMRServerlessClientTypes {
             self.configurationOverrides = configurationOverrides
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.endedAt = endedAt
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
@@ -1824,8 +1869,10 @@ extension EMRServerlessClientTypes {
             self.mode = mode
             self.name = name
             self.networkConfiguration = networkConfiguration
+            self.queuedDurationMilliseconds = queuedDurationMilliseconds
             self.releaseLabel = releaseLabel
             self.retryPolicy = retryPolicy
+            self.startedAt = startedAt
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -2222,6 +2269,7 @@ extension CreateApplicationInput {
         try writer["networkConfiguration"].write(value.networkConfiguration, with: EMRServerlessClientTypes.NetworkConfiguration.write(value:to:))
         try writer["releaseLabel"].write(value.releaseLabel)
         try writer["runtimeConfiguration"].writeList(value.runtimeConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["schedulerConfiguration"].write(value.schedulerConfiguration, with: EMRServerlessClientTypes.SchedulerConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
         try writer["workerTypeSpecifications"].writeMap(value.workerTypeSpecifications, valueWritingClosure: EMRServerlessClientTypes.WorkerTypeSpecificationInput.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2268,6 +2316,7 @@ extension UpdateApplicationInput {
         try writer["networkConfiguration"].write(value.networkConfiguration, with: EMRServerlessClientTypes.NetworkConfiguration.write(value:to:))
         try writer["releaseLabel"].write(value.releaseLabel)
         try writer["runtimeConfiguration"].writeList(value.runtimeConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["schedulerConfiguration"].write(value.schedulerConfiguration, with: EMRServerlessClientTypes.SchedulerConfiguration.write(value:to:))
         try writer["workerTypeSpecifications"].writeMap(value.workerTypeSpecifications, valueWritingClosure: EMRServerlessClientTypes.WorkerTypeSpecificationInput.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2795,6 +2844,24 @@ extension EMRServerlessClientTypes.Application {
         value.runtimeConfiguration = try reader["runtimeConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
         value.interactiveConfiguration = try reader["interactiveConfiguration"].readIfPresent(with: EMRServerlessClientTypes.InteractiveConfiguration.read(from:))
+        value.schedulerConfiguration = try reader["schedulerConfiguration"].readIfPresent(with: EMRServerlessClientTypes.SchedulerConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.SchedulerConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.SchedulerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxConcurrentRuns"].write(value.maxConcurrentRuns)
+        try writer["queueTimeoutMinutes"].write(value.queueTimeoutMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SchedulerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.SchedulerConfiguration()
+        value.queueTimeoutMinutes = try reader["queueTimeoutMinutes"].readIfPresent()
+        value.maxConcurrentRuns = try reader["maxConcurrentRuns"].readIfPresent()
         return value
     }
 }
@@ -3084,6 +3151,9 @@ extension EMRServerlessClientTypes.JobRun {
         value.attempt = try reader["attempt"].readIfPresent()
         value.attemptCreatedAt = try reader["attemptCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.attemptUpdatedAt = try reader["attemptUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.queuedDurationMilliseconds = try reader["queuedDurationMilliseconds"].readIfPresent()
         return value
     }
 }

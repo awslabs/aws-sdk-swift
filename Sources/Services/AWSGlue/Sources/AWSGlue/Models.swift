@@ -851,6 +851,11 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.AuthorizationCodeProperties: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AuthorizationCodeProperties(redirectUri: \(Swift.String(describing: redirectUri)), authorizationCode: \"CONTENT_REDACTED\")"}
+}
+
 extension GlueClientTypes {
     /// A structure containing properties for OAuth2 in the CreateConnection request.
     public struct OAuth2PropertiesInput {
@@ -10249,6 +10254,8 @@ extension GlueClientTypes {
 extension GlueClientTypes {
     /// A structure that is used to specify a connection to create or update.
     public struct ConnectionInput {
+        /// This field is not currently used.
+        public var athenaProperties: [Swift.String: Swift.String]?
         /// The authentication properties of the connection. Used for a Salesforce connection.
         public var authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput?
         /// These key-value pairs define parameters for the connection.
@@ -10334,6 +10341,7 @@ extension GlueClientTypes {
         public var validateCredentials: Swift.Bool
 
         public init(
+            athenaProperties: [Swift.String: Swift.String]? = nil,
             authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
@@ -10344,6 +10352,7 @@ extension GlueClientTypes {
             validateCredentials: Swift.Bool = false
         )
         {
+            self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
@@ -15081,6 +15090,8 @@ public struct GetConnectionInput {
 extension GlueClientTypes {
     /// Defines a connection to a data source.
     public struct Connection {
+        /// This field is not currently used.
+        public var athenaProperties: [Swift.String: Swift.String]?
         /// The authentication properties of the connection.
         public var authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration?
         /// These key-value pairs define parameters for the connection:
@@ -15203,6 +15214,7 @@ extension GlueClientTypes {
         public var statusReason: Swift.String?
 
         public init(
+            athenaProperties: [Swift.String: Swift.String]? = nil,
             authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
@@ -15218,6 +15230,7 @@ extension GlueClientTypes {
             statusReason: Swift.String? = nil
         )
         {
+            self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
@@ -41159,6 +41172,7 @@ extension GlueClientTypes.Connection {
         value.connectionType = try reader["ConnectionType"].readIfPresent()
         value.matchCriteria = try reader["MatchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.athenaProperties = try reader["AthenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readIfPresent(with: GlueClientTypes.PhysicalConnectionRequirements.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -42513,6 +42527,7 @@ extension GlueClientTypes.ConnectionInput {
 
     static func write(value: GlueClientTypes.ConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AthenaProperties"].writeMap(value.athenaProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: GlueClientTypes.AuthenticationConfigurationInput.write(value:to:))
         try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ConnectionType"].write(value.connectionType)
