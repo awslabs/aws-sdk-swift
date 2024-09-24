@@ -549,12 +549,12 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
-    /// Contains the ARN of the Amazon Bedrock models specified in your model evaluation job. Each Amazon Bedrock model supports different inferenceParams. To learn more about supported inference parameters for Amazon Bedrock models, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). The inferenceParams are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, "temperature":"0.25" key value pair would need to be formatted as \"temperature\":\"0.25\" to successfully accepted in the request.
+    /// Contains the ARN of the Amazon Bedrock model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) specified in your model evaluation job. Each Amazon Bedrock model supports different inferenceParams. To learn more about supported inference parameters for Amazon Bedrock models, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). The inferenceParams are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, "temperature":"0.25" key value pair would need to be formatted as \"temperature\":\"0.25\" to successfully accepted in the request.
     public struct EvaluationBedrockModel {
         /// Each Amazon Bedrock support different inference parameters that change how the model behaves during inference.
         /// This member is required.
         public var inferenceParams: Swift.String?
-        /// The ARN of the Amazon Bedrock model specified.
+        /// The ARN of the Amazon Bedrock model or inference profile specified.
         /// This member is required.
         public var modelIdentifier: Swift.String?
 
@@ -578,7 +578,7 @@ extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConv
 extension BedrockClientTypes {
     /// Defines the models used in the model evaluation job.
     public enum EvaluationModelConfig {
-        /// Defines the Amazon Bedrock model and inference parameters you want used.
+        /// Defines the Amazon Bedrock model or inference profile and inference parameters you want used.
         case bedrockmodel(BedrockClientTypes.EvaluationBedrockModel)
         case sdkUnknown(Swift.String)
     }
@@ -642,7 +642,7 @@ public struct CreateEvaluationJobInput {
     /// Specifies whether the model evaluation job is automatic or uses human worker.
     /// This member is required.
     public var evaluationConfig: BedrockClientTypes.EvaluationConfig?
-    /// Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model, and model evaluation job that use human workers support two models.
+    /// Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html), and model evaluation job that use human workers support two models or inference profiles.
     /// This member is required.
     public var inferenceConfig: BedrockClientTypes.EvaluationInferenceConfig?
     /// A description of the model evaluation job.
