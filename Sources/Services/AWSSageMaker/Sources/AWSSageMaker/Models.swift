@@ -13835,6 +13835,7 @@ extension SageMakerClientTypes {
         case jumpStart
         case models
         case modelEvaluation
+        case performanceEvaluation
         case pipelines
         case projects
         case training
@@ -13853,6 +13854,7 @@ extension SageMakerClientTypes {
                 .jumpStart,
                 .models,
                 .modelEvaluation,
+                .performanceEvaluation,
                 .pipelines,
                 .projects,
                 .training
@@ -13877,6 +13879,7 @@ extension SageMakerClientTypes {
             case .jumpStart: return "JumpStart"
             case .models: return "Models"
             case .modelEvaluation: return "ModelEvaluation"
+            case .performanceEvaluation: return "PerformanceEvaluation"
             case .pipelines: return "Pipelines"
             case .projects: return "Projects"
             case .training: return "Training"
@@ -13887,20 +13890,74 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+
+    public enum SageMakerImageName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sagemakerDistribution
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SageMakerImageName] {
+            return [
+                .sagemakerDistribution
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sagemakerDistribution: return "sagemaker_distribution"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+    /// The SageMaker images that are hidden from the Studio user interface. You must specify the SageMaker image name and version aliases.
+    public struct HiddenSageMakerImage {
+        /// The SageMaker image name that you are hiding from the Studio user interface.
+        public var sageMakerImageName: SageMakerClientTypes.SageMakerImageName?
+        /// The version aliases you are hiding from the Studio user interface.
+        public var versionAliases: [Swift.String]?
+
+        public init(
+            sageMakerImageName: SageMakerClientTypes.SageMakerImageName? = nil,
+            versionAliases: [Swift.String]? = nil
+        )
+        {
+            self.sageMakerImageName = sageMakerImageName
+            self.versionAliases = versionAliases
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// Studio settings. If these settings are applied on a user level, they take priority over the settings applied on a domain level.
     public struct StudioWebPortalSettings {
         /// The [Applications supported in Studio](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-apps.html) that are hidden from the Studio left navigation pane.
         public var hiddenAppTypes: [SageMakerClientTypes.AppType]?
+        /// The instance types you are hiding from the Studio user interface.
+        public var hiddenInstanceTypes: [SageMakerClientTypes.AppInstanceType]?
         /// The machine learning tools that are hidden from the Studio left navigation pane.
         public var hiddenMlTools: [SageMakerClientTypes.MlTools]?
+        /// The version aliases you are hiding from the Studio user interface.
+        public var hiddenSageMakerImageVersionAliases: [SageMakerClientTypes.HiddenSageMakerImage]?
 
         public init(
             hiddenAppTypes: [SageMakerClientTypes.AppType]? = nil,
-            hiddenMlTools: [SageMakerClientTypes.MlTools]? = nil
+            hiddenInstanceTypes: [SageMakerClientTypes.AppInstanceType]? = nil,
+            hiddenMlTools: [SageMakerClientTypes.MlTools]? = nil,
+            hiddenSageMakerImageVersionAliases: [SageMakerClientTypes.HiddenSageMakerImage]? = nil
         )
         {
             self.hiddenAppTypes = hiddenAppTypes
+            self.hiddenInstanceTypes = hiddenInstanceTypes
             self.hiddenMlTools = hiddenMlTools
+            self.hiddenSageMakerImageVersionAliases = hiddenSageMakerImageVersionAliases
         }
     }
 
@@ -18762,7 +18819,6 @@ extension SageMakerClientTypes {
     /// Information required for human workers to complete a labeling task.
     public struct HumanTaskConfig {
         /// Configures how labels are consolidated across human workers.
-        /// This member is required.
         public var annotationConsolidationConfig: SageMakerClientTypes.AnnotationConsolidationConfig?
         /// Defines the maximum number of data objects that can be labeled by human workers at the same time. Also referred to as batch size. Each object may have more than one worker at one time. The default value is 1000 objects. To increase the maximum value to 5000 objects, contact Amazon Web Services Support.
         public var maxConcurrentTaskCount: Swift.Int?
@@ -19361,7 +19417,6 @@ extension SageMakerClientTypes {
         /// * arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation
         ///
         /// * arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation
-        /// This member is required.
         public var preHumanTaskLambdaArn: Swift.String?
         /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public var publicWorkforceTaskPrice: SageMakerClientTypes.PublicWorkforceTaskPrice?
@@ -37509,7 +37564,6 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of a Lambda function. The function is run before each data object is sent to a worker.
-        /// This member is required.
         public var preHumanTaskLambdaArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the work team assigned to the job.
         /// This member is required.
@@ -67294,7 +67348,9 @@ extension SageMakerClientTypes.StudioWebPortalSettings {
     static func write(value: SageMakerClientTypes.StudioWebPortalSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["HiddenAppTypes"].writeList(value.hiddenAppTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.AppType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HiddenInstanceTypes"].writeList(value.hiddenInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.AppInstanceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["HiddenMlTools"].writeList(value.hiddenMlTools, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.MlTools>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HiddenSageMakerImageVersionAliases"].writeList(value.hiddenSageMakerImageVersionAliases, memberWritingClosure: SageMakerClientTypes.HiddenSageMakerImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.StudioWebPortalSettings {
@@ -67302,6 +67358,25 @@ extension SageMakerClientTypes.StudioWebPortalSettings {
         var value = SageMakerClientTypes.StudioWebPortalSettings()
         value.hiddenMlTools = try reader["HiddenMlTools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.MlTools>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.hiddenAppTypes = try reader["HiddenAppTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.AppType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hiddenInstanceTypes = try reader["HiddenInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.AppInstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hiddenSageMakerImageVersionAliases = try reader["HiddenSageMakerImageVersionAliases"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HiddenSageMakerImage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.HiddenSageMakerImage {
+
+    static func write(value: SageMakerClientTypes.HiddenSageMakerImage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SageMakerImageName"].write(value.sageMakerImageName)
+        try writer["VersionAliases"].writeList(value.versionAliases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HiddenSageMakerImage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.HiddenSageMakerImage()
+        value.sageMakerImageName = try reader["SageMakerImageName"].readIfPresent()
+        value.versionAliases = try reader["VersionAliases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -70245,7 +70320,7 @@ extension SageMakerClientTypes.HumanTaskConfig {
         var value = SageMakerClientTypes.HumanTaskConfig()
         value.workteamArn = try reader["WorkteamArn"].readIfPresent() ?? ""
         value.uiConfig = try reader["UiConfig"].readIfPresent(with: SageMakerClientTypes.UiConfig.read(from:))
-        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent() ?? ""
+        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent()
         value.taskKeywords = try reader["TaskKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.taskTitle = try reader["TaskTitle"].readIfPresent() ?? ""
         value.taskDescription = try reader["TaskDescription"].readIfPresent() ?? ""
@@ -73366,7 +73441,7 @@ extension SageMakerClientTypes.LabelingJobSummary {
         value.labelingJobStatus = try reader["LabelingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.labelCounters = try reader["LabelCounters"].readIfPresent(with: SageMakerClientTypes.LabelCounters.read(from:))
         value.workteamArn = try reader["WorkteamArn"].readIfPresent() ?? ""
-        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent() ?? ""
+        value.preHumanTaskLambdaArn = try reader["PreHumanTaskLambdaArn"].readIfPresent()
         value.annotationConsolidationLambdaArn = try reader["AnnotationConsolidationLambdaArn"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.labelingJobOutput = try reader["LabelingJobOutput"].readIfPresent(with: SageMakerClientTypes.LabelingJobOutput.read(from:))

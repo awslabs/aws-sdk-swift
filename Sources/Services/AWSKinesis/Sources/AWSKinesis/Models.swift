@@ -455,16 +455,20 @@ public struct CreateStreamInput {
     /// A name to identify the stream. The stream name is scoped to the Amazon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name.
     /// This member is required.
     public var streamName: Swift.String?
+    /// A set of up to 10 key-value pairs to use to create the tags.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         shardCount: Swift.Int? = nil,
         streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
-        streamName: Swift.String? = nil
+        streamName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     )
     {
         self.shardCount = shardCount
         self.streamModeDetails = streamModeDetails
         self.streamName = streamName
+        self.tags = tags
     }
 }
 
@@ -2811,6 +2815,7 @@ extension CreateStreamInput {
         try writer["ShardCount"].write(value.shardCount)
         try writer["StreamModeDetails"].write(value.streamModeDetails, with: KinesisClientTypes.StreamModeDetails.write(value:to:))
         try writer["StreamName"].write(value.streamName)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -3701,6 +3706,7 @@ enum GetResourcePolicyOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
