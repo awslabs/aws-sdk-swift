@@ -11,17 +11,14 @@ import XCTest
 class PackageManifestBuilderTests: XCTestCase {
 
     let expected = """
-<contents of base package>
+<contents of prefix>
 
-// MARK: - Generated
+// MARK: - Dynamic Content
 
-addDependencies(
-    clientRuntimeVersion: "1.2.3",
-    crtVersion: "4.5.6"
-)
+let clientRuntimeVersion: Version = "1.2.3"
+let crtVersion: Version = "4.5.6"
 
-// Uncomment this line to exclude runtime unit tests
-// excludeRuntimeUnitTests()
+let excludeRuntimeUnitTests = false
 
 let serviceTargets: [String] = [
     "A",
@@ -31,12 +28,7 @@ let serviceTargets: [String] = [
     "E",
 ]
 
-// Uncomment this line to enable all services
-addAllServices()
-
-addResolvedTargets()
-
-
+<contents of base package>
 """
 
     func testBuild() throws {
@@ -44,11 +36,14 @@ addResolvedTargets()
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
             services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0) },
-            excludeAWSServices: false,
             excludeRuntimeTests: false,
+            prefixContents: { "<contents of prefix>" },
             basePackageContents: { "<contents of base package>" }
         )
         let result = try! subject.build()
+        print("")
+        print(result)
+        print("")
         XCTAssertEqual(result, expected)
     }
 }
