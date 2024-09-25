@@ -32,7 +32,7 @@ import struct Smithy.URIQueryItem
 
 extension CleanRoomsClientTypes {
 
-    public enum AccessDeniedExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AccessDeniedExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case insufficientPermissions
         case sdkUnknown(Swift.String)
 
@@ -86,7 +86,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension CleanRoomsClientTypes {
 
-    public enum AggregateFunctionName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AggregateFunctionName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case avg
         case count
         case countDistinct
@@ -123,8 +123,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Column in configured table that can be used in aggregate function in query.
-    public struct AggregateColumn {
+    public struct AggregateColumn: Swift.Sendable {
         /// Column names in configured table of aggregate columns.
         /// This member is required.
         public var columnNames: [Swift.String]?
@@ -141,12 +142,11 @@ extension CleanRoomsClientTypes {
             self.function = function
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum AggregationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AggregationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case countDistinct
         case sdkUnknown(Swift.String)
 
@@ -171,8 +171,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Constraint on query output removing output rows that do not meet a minimum number of distinct values of a specified column.
-    public struct AggregationConstraint {
+    public struct AggregationConstraint: Swift.Sendable {
         /// Column in aggregation constraint for which there must be a minimum number of distinct values in an output row for it to be in the query output.
         /// This member is required.
         public var columnName: Swift.String?
@@ -194,12 +195,11 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum AnalysisFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AnalysisFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sql
         case sdkUnknown(Swift.String)
 
@@ -225,7 +225,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    public enum AnalysisMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AnalysisMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case directQuery
         case sdkUnknown(Swift.String)
 
@@ -251,7 +251,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    public enum ParameterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bigint
         case boolean
         case char
@@ -318,8 +318,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Optional. The member who can query can provide this placeholder for a literal data value in an analysis template.
-    public struct AnalysisParameter {
+    public struct AnalysisParameter: Swift.Sendable {
         /// Optional. The default value that is applied in the analysis template. The member who can query can override this value in the query editor.
         public var defaultValue: Swift.String?
         /// The name of the parameter. The name must use only alphanumeric, underscore (_), or hyphen (-) characters but cannot start or end with a hyphen.
@@ -340,7 +341,6 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension CleanRoomsClientTypes.AnalysisParameter: Swift.CustomDebugStringConvertible {
@@ -351,7 +351,7 @@ extension CleanRoomsClientTypes.AnalysisParameter: Swift.CustomDebugStringConver
 
 extension CleanRoomsClientTypes {
 
-    public enum JoinOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum JoinOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case and
         case or
         case sdkUnknown(Swift.String)
@@ -380,7 +380,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    public enum JoinRequiredOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum JoinRequiredOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case queryRunner
         case sdkUnknown(Swift.String)
 
@@ -406,7 +406,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    public enum ScalarFunctions: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScalarFunctions: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case abs
         case cast
         case ceiling
@@ -500,8 +500,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A type of analysis rule that enables query structure and specified queries that produce aggregate statistics.
-    public struct AnalysisRuleAggregation {
+    public struct AnalysisRuleAggregation: Swift.Sendable {
         /// The columns that query runners are allowed to use in aggregation queries.
         /// This member is required.
         public var aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]?
@@ -541,12 +542,12 @@ extension CleanRoomsClientTypes {
             self.scalarFunctions = scalarFunctions
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Specifies the name of the column that contains the unique identifier of your users, whose privacy you want to protect.
-    public struct DifferentialPrivacyColumn {
+    public struct DifferentialPrivacyColumn: Swift.Sendable {
         /// The name of the column, such as user_id, that contains the unique identifier of your users, whose privacy you want to protect. If you want to turn on differential privacy for two or more tables in a collaboration, you must configure the same column as the user identifier column in both analysis rules.
         /// This member is required.
         public var name: Swift.String?
@@ -558,12 +559,12 @@ extension CleanRoomsClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Specifies the unique identifier for your users.
-    public struct DifferentialPrivacyConfiguration {
+    public struct DifferentialPrivacyConfiguration: Swift.Sendable {
         /// The name of the column (such as user_id) that contains the unique identifier of your users whose privacy you want to protect. If you want to turn on diﬀerential privacy for two or more tables in a collaboration, you must conﬁgure the same column as the user identiﬁer column in both analysis rules.
         /// This member is required.
         public var columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]?
@@ -575,12 +576,12 @@ extension CleanRoomsClientTypes {
             self.columns = columns
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
-    public struct AnalysisRuleCustom {
+    public struct AnalysisRuleCustom: Swift.Sendable {
         /// The ARN of the analysis templates that are allowed by the custom analysis rule.
         /// This member is required.
         public var allowedAnalyses: [Swift.String]?
@@ -600,12 +601,12 @@ extension CleanRoomsClientTypes {
             self.differentialPrivacy = differentialPrivacy
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// A type of analysis rule that enables row-level analysis.
-    public struct AnalysisRuleList {
+    public struct AnalysisRuleList: Swift.Sendable {
         /// The logical operators (if any) that are to be used in an INNER JOIN match condition. Default is AND.
         public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
         /// Columns that can be used to join a configured table with the table of the member who can query and other members' configured tables.
@@ -626,12 +627,12 @@ extension CleanRoomsClientTypes {
             self.listColumns = listColumns
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Controls on the query specifications that can be run on configured table.
-    public enum AnalysisRulePolicyV1 {
+    public enum AnalysisRulePolicyV1: Swift.Sendable {
         /// Analysis rule type that enables only list queries on a configured table.
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
@@ -640,22 +641,21 @@ extension CleanRoomsClientTypes {
         case custom(CleanRoomsClientTypes.AnalysisRuleCustom)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Controls on the query specifications that can be run on configured table.
-    public enum AnalysisRulePolicy {
+    public enum AnalysisRulePolicy: Swift.Sendable {
         /// Controls on the query specifications that can be run on configured table.
         case v1(CleanRoomsClientTypes.AnalysisRulePolicyV1)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum AnalysisRuleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AnalysisRuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aggregation
         case custom
         case list
@@ -686,8 +686,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A specification about how data from the configured table can be used in a query.
-    public struct AnalysisRule {
+    public struct AnalysisRule: Swift.Sendable {
         /// The unique ID for the associated collaboration.
         /// This member is required.
         public var collaborationId: Swift.String?
@@ -724,12 +725,12 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// A relation within an analysis.
-    public struct AnalysisSchema {
+    public struct AnalysisSchema: Swift.Sendable {
         /// The tables referenced in the analysis schema.
         public var referencedTables: [Swift.String]?
 
@@ -740,22 +741,22 @@ extension CleanRoomsClientTypes {
             self.referencedTables = referencedTables
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The structure that defines the body of the analysis template.
-    public enum AnalysisSource {
+    public enum AnalysisSource: Swift.Sendable {
         /// The query text.
         case text(Swift.String)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The reasons for the validation results.
-    public struct AnalysisTemplateValidationStatusReason {
+    public struct AnalysisTemplateValidationStatusReason: Swift.Sendable {
         /// The validation message.
         /// This member is required.
         public var message: Swift.String?
@@ -767,12 +768,11 @@ extension CleanRoomsClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum AnalysisTemplateValidationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AnalysisTemplateValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case invalid
         case unableToValidate
         case valid
@@ -804,7 +804,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    public enum AnalysisTemplateValidationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AnalysisTemplateValidationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case differentialPrivacy
         case sdkUnknown(Swift.String)
 
@@ -829,8 +829,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The status details of the analysis template validation. Clean Rooms Differential Privacy uses a general-purpose query structure to support complex SQL queries and validates whether an analysis template fits that general-purpose query structure. Validation is performed when analysis templates are created and fetched. Because analysis templates are immutable by design, we recommend that you create analysis templates after you associate the configured tables with their analysis rule to your collaboration. For more information, see [https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy](https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy).
-    public struct AnalysisTemplateValidationStatusDetail {
+    public struct AnalysisTemplateValidationStatusDetail: Swift.Sendable {
         /// The reasons for the validation results.
         public var reasons: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason]?
         /// The status of the validation.
@@ -851,12 +852,12 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The analysis template.
-    public struct AnalysisTemplate {
+    public struct AnalysisTemplate: Swift.Sendable {
         /// The parameters of the analysis template.
         public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
         /// The Amazon Resource Name (ARN) of the analysis template.
@@ -935,7 +936,6 @@ extension CleanRoomsClientTypes {
             self.validations = validations
         }
     }
-
 }
 
 extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvertible {
@@ -945,7 +945,7 @@ extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvert
 
 extension CleanRoomsClientTypes {
 
-    public enum ConflictExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConflictExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alreadyExists
         case invalidState
         case subresourcesExist
@@ -977,7 +977,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case collaboration
         case configuredTable
         case configuredTableAssociation
@@ -1165,8 +1165,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension CleanRoomsClientTypes {
+
     /// Describes validation errors for specific input parameters.
-    public struct ValidationExceptionField {
+    public struct ValidationExceptionField: Swift.Sendable {
         /// A message for the input validation error.
         /// This member is required.
         public var message: Swift.String?
@@ -1183,12 +1184,11 @@ extension CleanRoomsClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fieldValidationFailed
         case iamSynchronizationDelay
         case invalidConfiguration
@@ -1253,7 +1253,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct CreateAnalysisTemplateInput {
+public struct CreateAnalysisTemplateInput: Swift.Sendable {
     /// The parameters of the analysis template.
     public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
     /// The description of the analysis template.
@@ -1298,7 +1298,7 @@ extension CreateAnalysisTemplateInput: Swift.CustomDebugStringConvertible {
         "CreateAnalysisTemplateInput(description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), analysisParameters: \"CONTENT_REDACTED\", source: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateAnalysisTemplateOutput {
+public struct CreateAnalysisTemplateOutput: Swift.Sendable {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -1311,7 +1311,7 @@ public struct CreateAnalysisTemplateOutput {
     }
 }
 
-public struct DeleteAnalysisTemplateInput {
+public struct DeleteAnalysisTemplateInput: Swift.Sendable {
     /// The identifier for the analysis template resource.
     /// This member is required.
     public var analysisTemplateIdentifier: Swift.String?
@@ -1329,12 +1329,12 @@ public struct DeleteAnalysisTemplateInput {
     }
 }
 
-public struct DeleteAnalysisTemplateOutput {
+public struct DeleteAnalysisTemplateOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetAnalysisTemplateInput {
+public struct GetAnalysisTemplateInput: Swift.Sendable {
     /// The identifier for the analysis template resource.
     /// This member is required.
     public var analysisTemplateIdentifier: Swift.String?
@@ -1352,7 +1352,7 @@ public struct GetAnalysisTemplateInput {
     }
 }
 
-public struct GetAnalysisTemplateOutput {
+public struct GetAnalysisTemplateOutput: Swift.Sendable {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -1365,7 +1365,7 @@ public struct GetAnalysisTemplateOutput {
     }
 }
 
-public struct ListAnalysisTemplatesInput {
+public struct ListAnalysisTemplatesInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The identifier for a membership resource.
@@ -1387,8 +1387,9 @@ public struct ListAnalysisTemplatesInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The metadata of the analysis template.
-    public struct AnalysisTemplateSummary {
+    public struct AnalysisTemplateSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the analysis template.
         /// This member is required.
         public var arn: Swift.String?
@@ -1444,10 +1445,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListAnalysisTemplatesOutput {
+public struct ListAnalysisTemplatesOutput: Swift.Sendable {
     /// Lists analysis template metadata.
     /// This member is required.
     public var analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
@@ -1464,7 +1464,7 @@ public struct ListAnalysisTemplatesOutput {
     }
 }
 
-public struct UpdateAnalysisTemplateInput {
+public struct UpdateAnalysisTemplateInput: Swift.Sendable {
     /// The identifier for the analysis template resource.
     /// This member is required.
     public var analysisTemplateIdentifier: Swift.String?
@@ -1486,7 +1486,7 @@ public struct UpdateAnalysisTemplateInput {
     }
 }
 
-public struct UpdateAnalysisTemplateOutput {
+public struct UpdateAnalysisTemplateOutput: Swift.Sendable {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -1499,7 +1499,7 @@ public struct UpdateAnalysisTemplateOutput {
     }
 }
 
-public struct BatchGetCollaborationAnalysisTemplateInput {
+public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
     /// This member is required.
     public var analysisTemplateArns: [Swift.String]?
@@ -1518,8 +1518,9 @@ public struct BatchGetCollaborationAnalysisTemplateInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The analysis template within a collaboration.
-    public struct CollaborationAnalysisTemplate {
+    public struct CollaborationAnalysisTemplate: Swift.Sendable {
         /// The analysis parameters that have been specified in the analysis template.
         public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
         /// The Amazon Resource Name (ARN) of the analysis template.
@@ -1593,7 +1594,6 @@ extension CleanRoomsClientTypes {
             self.validations = validations
         }
     }
-
 }
 
 extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebugStringConvertible {
@@ -1602,8 +1602,9 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebug
 }
 
 extension CleanRoomsClientTypes {
+
     /// Details of errors thrown by the call to retrieve multiple analysis templates within a collaboration by their identifiers.
-    public struct BatchGetCollaborationAnalysisTemplateError {
+    public struct BatchGetCollaborationAnalysisTemplateError: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the analysis template.
         /// This member is required.
         public var arn: Swift.String?
@@ -1625,10 +1626,9 @@ extension CleanRoomsClientTypes {
             self.message = message
         }
     }
-
 }
 
-public struct BatchGetCollaborationAnalysisTemplateOutput {
+public struct BatchGetCollaborationAnalysisTemplateOutput: Swift.Sendable {
     /// The retrieved list of analysis templates within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]?
@@ -1646,7 +1646,7 @@ public struct BatchGetCollaborationAnalysisTemplateOutput {
     }
 }
 
-public struct BatchGetSchemaInput {
+public struct BatchGetSchemaInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -1665,8 +1665,9 @@ public struct BatchGetSchemaInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// An error describing why a schema could not be fetched.
-    public struct BatchGetSchemaError {
+    public struct BatchGetSchemaError: Swift.Sendable {
         /// An error code for the error.
         /// This member is required.
         public var code: Swift.String?
@@ -1688,12 +1689,12 @@ extension CleanRoomsClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// A column within a schema relation, derived from the underlying Glue table.
-    public struct Column {
+    public struct Column: Swift.Sendable {
         /// The name of the column.
         /// This member is required.
         public var name: Swift.String?
@@ -1710,12 +1711,11 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum SchemaConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SchemaConfiguration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case differentialPrivacy
         case sdkUnknown(Swift.String)
 
@@ -1741,7 +1741,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    public enum SchemaStatusReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SchemaStatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case analysisProvidersNotConfigured
         case analysisRuleMissing
         case analysisTemplatesNotConfigured
@@ -1775,8 +1775,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A reason why the schema status is set to its current value.
-    public struct SchemaStatusReason {
+    public struct SchemaStatusReason: Swift.Sendable {
         /// The schema status reason code.
         /// This member is required.
         public var code: CleanRoomsClientTypes.SchemaStatusReasonCode?
@@ -1793,12 +1794,11 @@ extension CleanRoomsClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum SchemaStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SchemaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case notReady
         case ready
         case sdkUnknown(Swift.String)
@@ -1826,8 +1826,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Information about the schema status. A status of READY means that based on the schema analysis rule, queries of the given analysis rule type are properly configured to run queries on this schema.
-    public struct SchemaStatusDetail {
+    public struct SchemaStatusDetail: Swift.Sendable {
         /// The analysis rule type for which the schema status has been evaluated.
         public var analysisRuleType: CleanRoomsClientTypes.AnalysisRuleType?
         /// The configuration details of the schema analysis rule for the given type.
@@ -1851,12 +1852,11 @@ extension CleanRoomsClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum SchemaType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case table
         case sdkUnknown(Swift.String)
 
@@ -1881,8 +1881,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A schema is a relation within a collaboration.
-    public struct Schema {
+    public struct Schema: Swift.Sendable {
         /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The analysis rule types associated with the schema. Currently, only one entry is present.
@@ -1953,10 +1954,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct BatchGetSchemaOutput {
+public struct BatchGetSchemaOutput: Swift.Sendable {
     /// Error reasons for schemas that could not be retrieved. One error is returned for every schema that could not be retrieved.
     /// This member is required.
     public var errors: [CleanRoomsClientTypes.BatchGetSchemaError]?
@@ -1975,8 +1975,9 @@ public struct BatchGetSchemaOutput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Defines the information that's necessary to retrieve an analysis rule schema. Schema analysis rules are uniquely identiﬁed by a combination of the schema name and the analysis rule type for a given collaboration.
-    public struct SchemaAnalysisRuleRequest {
+    public struct SchemaAnalysisRuleRequest: Swift.Sendable {
         /// The name of the analysis rule schema that you are requesting.
         /// This member is required.
         public var name: Swift.String?
@@ -1993,10 +1994,9 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
-public struct BatchGetSchemaAnalysisRuleInput {
+public struct BatchGetSchemaAnalysisRuleInput: Swift.Sendable {
     /// The unique identifier of the collaboration that contains the schema analysis rule.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2015,8 +2015,9 @@ public struct BatchGetSchemaAnalysisRuleInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// An error that describes why a schema could not be fetched.
-    public struct BatchGetSchemaAnalysisRuleError {
+    public struct BatchGetSchemaAnalysisRuleError: Swift.Sendable {
         /// An error code for the error.
         /// This member is required.
         public var code: Swift.String?
@@ -2043,10 +2044,9 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
-public struct BatchGetSchemaAnalysisRuleOutput {
+public struct BatchGetSchemaAnalysisRuleOutput: Swift.Sendable {
     /// The retrieved list of analysis rules.
     /// This member is required.
     public var analysisRules: [CleanRoomsClientTypes.AnalysisRule]?
@@ -2066,7 +2066,7 @@ public struct BatchGetSchemaAnalysisRuleOutput {
 
 extension CleanRoomsClientTypes {
 
-    public enum MemberAbility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MemberAbility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case canQuery
         case canReceiveResults
         case sdkUnknown(Swift.String)
@@ -2094,8 +2094,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
-    public struct QueryComputePaymentConfig {
+    public struct QueryComputePaymentConfig: Swift.Sendable {
         /// Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE) or has not configured the collaboration member to pay for query compute costs (FALSE). Exactly one member can be configured to pay for query compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
         /// This member is required.
         public var isResponsible: Swift.Bool?
@@ -2107,12 +2108,12 @@ extension CleanRoomsClientTypes {
             self.isResponsible = isResponsible
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator.
-    public struct PaymentConfiguration {
+    public struct PaymentConfiguration: Swift.Sendable {
         /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
         /// This member is required.
         public var queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig?
@@ -2124,12 +2125,12 @@ extension CleanRoomsClientTypes {
             self.queryCompute = queryCompute
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The settings for client-side encryption for cryptographic computing.
-    public struct DataEncryptionMetadata {
+    public struct DataEncryptionMetadata: Swift.Sendable {
         /// Indicates whether encrypted tables can contain cleartext data (TRUE) or are to cryptographically process every column (FALSE).
         /// This member is required.
         public var allowCleartext: Swift.Bool?
@@ -2156,12 +2157,12 @@ extension CleanRoomsClientTypes {
             self.preserveNulls = preserveNulls
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Basic metadata used to construct a new member.
-    public struct MemberSpecification {
+    public struct MemberSpecification: Swift.Sendable {
         /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
@@ -2187,12 +2188,11 @@ extension CleanRoomsClientTypes {
             self.paymentConfiguration = paymentConfiguration
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum CollaborationQueryLogStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CollaborationQueryLogStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -2219,7 +2219,7 @@ extension CleanRoomsClientTypes {
     }
 }
 
-public struct CreateCollaborationInput {
+public struct CreateCollaborationInput: Swift.Sendable {
     /// The display name of the collaboration creator.
     /// This member is required.
     public var creatorDisplayName: Swift.String?
@@ -2271,7 +2271,7 @@ public struct CreateCollaborationInput {
 
 extension CleanRoomsClientTypes {
 
-    public enum MemberStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MemberStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case invited
         case `left`
@@ -2305,8 +2305,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The multi-party data share environment. The collaboration contains metadata about its purpose and participants.
-    public struct Collaboration {
+    public struct Collaboration: Swift.Sendable {
         /// The unique ARN for the collaboration.
         /// This member is required.
         public var arn: Swift.String?
@@ -2374,10 +2375,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct CreateCollaborationOutput {
+public struct CreateCollaborationOutput: Swift.Sendable {
     /// The entire created collaboration object.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -2390,7 +2390,7 @@ public struct CreateCollaborationOutput {
     }
 }
 
-public struct DeleteCollaborationInput {
+public struct DeleteCollaborationInput: Swift.Sendable {
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2403,12 +2403,12 @@ public struct DeleteCollaborationInput {
     }
 }
 
-public struct DeleteCollaborationOutput {
+public struct DeleteCollaborationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteMemberInput {
+public struct DeleteMemberInput: Swift.Sendable {
     /// The account ID of the member to remove.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2426,12 +2426,12 @@ public struct DeleteMemberInput {
     }
 }
 
-public struct DeleteMemberOutput {
+public struct DeleteMemberOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetCollaborationInput {
+public struct GetCollaborationInput: Swift.Sendable {
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2444,7 +2444,7 @@ public struct GetCollaborationInput {
     }
 }
 
-public struct GetCollaborationOutput {
+public struct GetCollaborationOutput: Swift.Sendable {
     /// The entire collaboration for this identifier.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -2457,7 +2457,7 @@ public struct GetCollaborationOutput {
     }
 }
 
-public struct GetCollaborationAnalysisTemplateInput {
+public struct GetCollaborationAnalysisTemplateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
     /// This member is required.
     public var analysisTemplateArn: Swift.String?
@@ -2475,7 +2475,7 @@ public struct GetCollaborationAnalysisTemplateInput {
     }
 }
 
-public struct GetCollaborationAnalysisTemplateOutput {
+public struct GetCollaborationAnalysisTemplateOutput: Swift.Sendable {
     /// The analysis template within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
@@ -2488,7 +2488,7 @@ public struct GetCollaborationAnalysisTemplateOutput {
     }
 }
 
-public struct GetCollaborationConfiguredAudienceModelAssociationInput {
+public struct GetCollaborationConfiguredAudienceModelAssociationInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2507,8 +2507,9 @@ public struct GetCollaborationConfiguredAudienceModelAssociationInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The configured audience model association within a collaboration.
-    public struct CollaborationConfiguredAudienceModelAssociation {
+    public struct CollaborationConfiguredAudienceModelAssociation: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -2564,10 +2565,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct GetCollaborationConfiguredAudienceModelAssociationOutput {
+public struct GetCollaborationConfiguredAudienceModelAssociationOutput: Swift.Sendable {
     /// The metadata of the configured audience model association.
     /// This member is required.
     public var collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation?
@@ -2580,7 +2580,7 @@ public struct GetCollaborationConfiguredAudienceModelAssociationOutput {
     }
 }
 
-public struct GetCollaborationPrivacyBudgetTemplateInput {
+public struct GetCollaborationPrivacyBudgetTemplateInput: Swift.Sendable {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2600,7 +2600,7 @@ public struct GetCollaborationPrivacyBudgetTemplateInput {
 
 extension CleanRoomsClientTypes {
 
-    public enum PrivacyBudgetTemplateAutoRefresh: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PrivacyBudgetTemplateAutoRefresh: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case calendarMonth
         case `none`
         case sdkUnknown(Swift.String)
@@ -2628,8 +2628,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon and noise parameter values that were used for the differential privacy template.
-    public struct DifferentialPrivacyTemplateParametersOutput {
+    public struct DifferentialPrivacyTemplateParametersOutput: Swift.Sendable {
         /// The epsilon value that you specified.
         /// This member is required.
         public var epsilon: Swift.Int?
@@ -2646,22 +2647,21 @@ extension CleanRoomsClientTypes {
             self.usersNoisePerQuery = usersNoisePerQuery
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon and noise parameters that were used in the privacy budget template.
-    public enum PrivacyBudgetTemplateParametersOutput {
+    public enum PrivacyBudgetTemplateParametersOutput: Swift.Sendable {
         /// The epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum PrivacyBudgetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PrivacyBudgetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case differentialPrivacy
         case sdkUnknown(Swift.String)
 
@@ -2686,8 +2686,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// An array that specifies the information for a collaboration's privacy budget template.
-    public struct CollaborationPrivacyBudgetTemplate {
+    public struct CollaborationPrivacyBudgetTemplate: Swift.Sendable {
         /// The ARN of the collaboration privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -2744,10 +2745,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct GetCollaborationPrivacyBudgetTemplateOutput {
+public struct GetCollaborationPrivacyBudgetTemplateOutput: Swift.Sendable {
     /// Returns the details of the privacy budget template that you requested.
     /// This member is required.
     public var collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate?
@@ -2760,7 +2760,7 @@ public struct GetCollaborationPrivacyBudgetTemplateOutput {
     }
 }
 
-public struct GetSchemaInput {
+public struct GetSchemaInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2778,7 +2778,7 @@ public struct GetSchemaInput {
     }
 }
 
-public struct GetSchemaOutput {
+public struct GetSchemaOutput: Swift.Sendable {
     /// The entire schema object.
     /// This member is required.
     public var schema: CleanRoomsClientTypes.Schema?
@@ -2791,7 +2791,7 @@ public struct GetSchemaOutput {
     }
 }
 
-public struct GetSchemaAnalysisRuleInput {
+public struct GetSchemaAnalysisRuleInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2814,7 +2814,7 @@ public struct GetSchemaAnalysisRuleInput {
     }
 }
 
-public struct GetSchemaAnalysisRuleOutput {
+public struct GetSchemaAnalysisRuleOutput: Swift.Sendable {
     /// A specification about how data from the configured table can be used.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.AnalysisRule?
@@ -2827,7 +2827,7 @@ public struct GetSchemaAnalysisRuleOutput {
     }
 }
 
-public struct ListCollaborationAnalysisTemplatesInput {
+public struct ListCollaborationAnalysisTemplatesInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2849,8 +2849,9 @@ public struct ListCollaborationAnalysisTemplatesInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The metadata of the analysis template within a collaboration.
-    public struct CollaborationAnalysisTemplateSummary {
+    public struct CollaborationAnalysisTemplateSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the analysis template.
         /// This member is required.
         public var arn: Swift.String?
@@ -2901,10 +2902,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListCollaborationAnalysisTemplatesOutput {
+public struct ListCollaborationAnalysisTemplatesOutput: Swift.Sendable {
     /// The metadata of the analysis template within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
@@ -2921,7 +2921,7 @@ public struct ListCollaborationAnalysisTemplatesOutput {
     }
 }
 
-public struct ListCollaborationConfiguredAudienceModelAssociationsInput {
+public struct ListCollaborationConfiguredAudienceModelAssociationsInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2943,8 +2943,9 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A summary of the configured audience model association in the collaboration.
-    public struct CollaborationConfiguredAudienceModelAssociationSummary {
+    public struct CollaborationConfiguredAudienceModelAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -2995,10 +2996,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListCollaborationConfiguredAudienceModelAssociationsOutput {
+public struct ListCollaborationConfiguredAudienceModelAssociationsOutput: Swift.Sendable {
     /// The metadata of the configured audience model association within a collaboration.
     /// This member is required.
     public var collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]?
@@ -3015,7 +3015,7 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsOutput {
     }
 }
 
-public struct ListCollaborationPrivacyBudgetsInput {
+public struct ListCollaborationPrivacyBudgetsInput: Swift.Sendable {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -3043,7 +3043,7 @@ public struct ListCollaborationPrivacyBudgetsInput {
 
 extension CleanRoomsClientTypes {
 
-    public enum DifferentialPrivacyAggregationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DifferentialPrivacyAggregationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case avg
         case count
         case countDistinct
@@ -3080,8 +3080,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Information about the total number of aggregations, as well as the remaining aggregations.
-    public struct DifferentialPrivacyPrivacyBudgetAggregation {
+    public struct DifferentialPrivacyPrivacyBudgetAggregation: Swift.Sendable {
         /// The maximum number of aggregation functions that you can perform with the given privacy budget.
         /// This member is required.
         public var maxCount: Swift.Int?
@@ -3103,12 +3104,12 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Specifies the configured epsilon value and the utility in terms of total aggregations, as well as the remaining aggregations available.
-    public struct DifferentialPrivacyPrivacyBudget {
+    public struct DifferentialPrivacyPrivacyBudget: Swift.Sendable {
         /// This information includes the configured epsilon value and the utility in terms of total aggregations, as well as the remaining aggregations.
         /// This member is required.
         public var aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation]?
@@ -3125,22 +3126,22 @@ extension CleanRoomsClientTypes {
             self.epsilon = epsilon
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon parameter value and number of each aggregation function that you can perform.
-    public enum PrivacyBudget {
+    public enum PrivacyBudget: Swift.Sendable {
         /// An object that specifies the epsilon parameter and the utility in terms of total aggregations, as well as the remaining aggregations available.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// A summary of the collaboration privacy budgets. This summary includes the collaboration information, creation information, epsilon provided, and utility in terms of aggregations.
-    public struct CollaborationPrivacyBudgetSummary {
+    public struct CollaborationPrivacyBudgetSummary: Swift.Sendable {
         /// The includes epsilon provided and utility in terms of aggregations.
         /// This member is required.
         public var budget: CleanRoomsClientTypes.PrivacyBudget?
@@ -3197,10 +3198,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListCollaborationPrivacyBudgetsOutput {
+public struct ListCollaborationPrivacyBudgetsOutput: Swift.Sendable {
     /// Summaries of the collaboration privacy budgets.
     /// This member is required.
     public var collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]?
@@ -3217,7 +3217,7 @@ public struct ListCollaborationPrivacyBudgetsOutput {
     }
 }
 
-public struct ListCollaborationPrivacyBudgetTemplatesInput {
+public struct ListCollaborationPrivacyBudgetTemplatesInput: Swift.Sendable {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -3239,8 +3239,9 @@ public struct ListCollaborationPrivacyBudgetTemplatesInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A summary of the collaboration's privacy budget template. This summary includes information about who created the privacy budget template and what collaborations it belongs to.
-    public struct CollaborationPrivacyBudgetTemplateSummary {
+    public struct CollaborationPrivacyBudgetTemplateSummary: Swift.Sendable {
         /// The ARN of the collaboration privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -3287,10 +3288,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListCollaborationPrivacyBudgetTemplatesOutput {
+public struct ListCollaborationPrivacyBudgetTemplatesOutput: Swift.Sendable {
     /// An array that summarizes the collaboration privacy budget templates. The summary includes collaboration information, creation information, the privacy budget type.
     /// This member is required.
     public var collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]?
@@ -3309,7 +3309,7 @@ public struct ListCollaborationPrivacyBudgetTemplatesOutput {
 
 extension CleanRoomsClientTypes {
 
-    public enum FilterableMemberStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FilterableMemberStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case invited
         case sdkUnknown(Swift.String)
@@ -3336,7 +3336,7 @@ extension CleanRoomsClientTypes {
     }
 }
 
-public struct ListCollaborationsInput {
+public struct ListCollaborationsInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// The caller's status in a collaboration.
@@ -3357,8 +3357,9 @@ public struct ListCollaborationsInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The metadata of the collaboration.
-    public struct CollaborationSummary {
+    public struct CollaborationSummary: Swift.Sendable {
         /// The ARN of the collaboration.
         /// This member is required.
         public var arn: Swift.String?
@@ -3413,10 +3414,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListCollaborationsOutput {
+public struct ListCollaborationsOutput: Swift.Sendable {
     /// The list of collaborations.
     /// This member is required.
     public var collaborationList: [CleanRoomsClientTypes.CollaborationSummary]?
@@ -3433,7 +3433,7 @@ public struct ListCollaborationsOutput {
     }
 }
 
-public struct ListMembersInput {
+public struct ListMembersInput: Swift.Sendable {
     /// The identifier of the collaboration in which the members are listed.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -3455,8 +3455,9 @@ public struct ListMembersInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The member object listed by the request.
-    public struct MemberSummary {
+    public struct MemberSummary: Swift.Sendable {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var abilities: [CleanRoomsClientTypes.MemberAbility]?
@@ -3506,10 +3507,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListMembersOutput {
+public struct ListMembersOutput: Swift.Sendable {
     /// The list of members returned by the ListMembers operation.
     /// This member is required.
     public var memberSummaries: [CleanRoomsClientTypes.MemberSummary]?
@@ -3526,7 +3526,7 @@ public struct ListMembersOutput {
     }
 }
 
-public struct ListSchemasInput {
+public struct ListSchemasInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -3552,8 +3552,9 @@ public struct ListSchemasInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The schema summary for the objects listed by the request.
-    public struct SchemaSummary {
+    public struct SchemaSummary: Swift.Sendable {
         /// The analysis method for the associated schema. The only valid value is currently `DIRECT_QUERY`.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The types of analysis rules that are associated with this schema object.
@@ -3604,10 +3605,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListSchemasOutput {
+public struct ListSchemasOutput: Swift.Sendable {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// The retrieved list of schemas.
@@ -3624,7 +3624,7 @@ public struct ListSchemasOutput {
     }
 }
 
-public struct UpdateCollaborationInput {
+public struct UpdateCollaborationInput: Swift.Sendable {
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -3645,7 +3645,7 @@ public struct UpdateCollaborationInput {
     }
 }
 
-public struct UpdateCollaborationOutput {
+public struct UpdateCollaborationOutput: Swift.Sendable {
     /// The entire collaboration that has been updated.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -3658,7 +3658,7 @@ public struct UpdateCollaborationOutput {
     }
 }
 
-public struct CreateConfiguredAudienceModelAssociationInput {
+public struct CreateConfiguredAudienceModelAssociationInput: Swift.Sendable {
     /// A unique identifier for the configured audience model that you want to associate.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -3695,8 +3695,9 @@ public struct CreateConfiguredAudienceModelAssociationInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Details about the configured audience model association.
-    public struct ConfiguredAudienceModelAssociation {
+    public struct ConfiguredAudienceModelAssociation: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -3762,10 +3763,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct CreateConfiguredAudienceModelAssociationOutput {
+public struct CreateConfiguredAudienceModelAssociationOutput: Swift.Sendable {
     /// Information about the configured audience model association.
     /// This member is required.
     public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
@@ -3778,7 +3778,7 @@ public struct CreateConfiguredAudienceModelAssociationOutput {
     }
 }
 
-public struct DeleteConfiguredAudienceModelAssociationInput {
+public struct DeleteConfiguredAudienceModelAssociationInput: Swift.Sendable {
     /// A unique identifier of the configured audience model association that you want to delete.
     /// This member is required.
     public var configuredAudienceModelAssociationIdentifier: Swift.String?
@@ -3796,12 +3796,12 @@ public struct DeleteConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct DeleteConfiguredAudienceModelAssociationOutput {
+public struct DeleteConfiguredAudienceModelAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetConfiguredAudienceModelAssociationInput {
+public struct GetConfiguredAudienceModelAssociationInput: Swift.Sendable {
     /// A unique identifier for the configured audience model association that you want to retrieve.
     /// This member is required.
     public var configuredAudienceModelAssociationIdentifier: Swift.String?
@@ -3819,7 +3819,7 @@ public struct GetConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct GetConfiguredAudienceModelAssociationOutput {
+public struct GetConfiguredAudienceModelAssociationOutput: Swift.Sendable {
     /// Information about the configured audience model association that you requested.
     /// This member is required.
     public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
@@ -3832,7 +3832,7 @@ public struct GetConfiguredAudienceModelAssociationOutput {
     }
 }
 
-public struct ListConfiguredAudienceModelAssociationsInput {
+public struct ListConfiguredAudienceModelAssociationsInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
@@ -3854,8 +3854,9 @@ public struct ListConfiguredAudienceModelAssociationsInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A summary of the configured audience model association.
-    public struct ConfiguredAudienceModelAssociationSummary {
+    public struct ConfiguredAudienceModelAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -3916,10 +3917,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListConfiguredAudienceModelAssociationsOutput {
+public struct ListConfiguredAudienceModelAssociationsOutput: Swift.Sendable {
     /// Summaries of the configured audience model associations that you requested.
     /// This member is required.
     public var configuredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]?
@@ -3936,7 +3936,7 @@ public struct ListConfiguredAudienceModelAssociationsOutput {
     }
 }
 
-public struct UpdateConfiguredAudienceModelAssociationInput {
+public struct UpdateConfiguredAudienceModelAssociationInput: Swift.Sendable {
     /// A unique identifier for the configured audience model association that you want to update.
     /// This member is required.
     public var configuredAudienceModelAssociationIdentifier: Swift.String?
@@ -3962,7 +3962,7 @@ public struct UpdateConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct UpdateConfiguredAudienceModelAssociationOutput {
+public struct UpdateConfiguredAudienceModelAssociationOutput: Swift.Sendable {
     /// Details about the configured audience model association that you updated.
     /// This member is required.
     public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
@@ -3975,7 +3975,7 @@ public struct UpdateConfiguredAudienceModelAssociationOutput {
     }
 }
 
-public struct CreateConfiguredTableAssociationInput {
+public struct CreateConfiguredTableAssociationInput: Swift.Sendable {
     /// A unique identifier for the configured table to be associated to. Currently accepts a configured table ID.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -4012,8 +4012,9 @@ public struct CreateConfiguredTableAssociationInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A configured table association links a configured table to a collaboration.
-    public struct ConfiguredTableAssociation {
+    public struct ConfiguredTableAssociation: Swift.Sendable {
         /// The unique ARN for the configured table association.
         /// This member is required.
         public var arn: Swift.String?
@@ -4074,10 +4075,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct CreateConfiguredTableAssociationOutput {
+public struct CreateConfiguredTableAssociationOutput: Swift.Sendable {
     /// The entire configured table association object.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -4090,7 +4090,7 @@ public struct CreateConfiguredTableAssociationOutput {
     }
 }
 
-public struct DeleteConfiguredTableAssociationInput {
+public struct DeleteConfiguredTableAssociationInput: Swift.Sendable {
     /// The unique ID for the configured table association to be deleted. Currently accepts the configured table ID.
     /// This member is required.
     public var configuredTableAssociationIdentifier: Swift.String?
@@ -4108,12 +4108,12 @@ public struct DeleteConfiguredTableAssociationInput {
     }
 }
 
-public struct DeleteConfiguredTableAssociationOutput {
+public struct DeleteConfiguredTableAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetConfiguredTableAssociationInput {
+public struct GetConfiguredTableAssociationInput: Swift.Sendable {
     /// The unique ID for the configured table association to retrieve. Currently accepts the configured table ID.
     /// This member is required.
     public var configuredTableAssociationIdentifier: Swift.String?
@@ -4131,7 +4131,7 @@ public struct GetConfiguredTableAssociationInput {
     }
 }
 
-public struct GetConfiguredTableAssociationOutput {
+public struct GetConfiguredTableAssociationOutput: Swift.Sendable {
     /// The entire configured table association object.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -4144,7 +4144,7 @@ public struct GetConfiguredTableAssociationOutput {
     }
 }
 
-public struct ListConfiguredTableAssociationsInput {
+public struct ListConfiguredTableAssociationsInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
@@ -4166,8 +4166,9 @@ public struct ListConfiguredTableAssociationsInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The configured table association summary for the objects listed by the request.
-    public struct ConfiguredTableAssociationSummary {
+    public struct ConfiguredTableAssociationSummary: Swift.Sendable {
         /// The unique ARN for the configured table association.
         /// This member is required.
         public var arn: Swift.String?
@@ -4214,10 +4215,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListConfiguredTableAssociationsOutput {
+public struct ListConfiguredTableAssociationsOutput: Swift.Sendable {
     /// The retrieved list of configured table associations.
     /// This member is required.
     public var configuredTableAssociationSummaries: [CleanRoomsClientTypes.ConfiguredTableAssociationSummary]?
@@ -4234,7 +4234,7 @@ public struct ListConfiguredTableAssociationsOutput {
     }
 }
 
-public struct UpdateConfiguredTableAssociationInput {
+public struct UpdateConfiguredTableAssociationInput: Swift.Sendable {
     /// The unique identifier for the configured table association to update. Currently accepts the configured table association ID.
     /// This member is required.
     public var configuredTableAssociationIdentifier: Swift.String?
@@ -4260,7 +4260,7 @@ public struct UpdateConfiguredTableAssociationInput {
     }
 }
 
-public struct UpdateConfiguredTableAssociationOutput {
+public struct UpdateConfiguredTableAssociationOutput: Swift.Sendable {
     /// The entire updated configured table association.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -4274,8 +4274,9 @@ public struct UpdateConfiguredTableAssociationOutput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A reference to a table within an Glue data catalog.
-    public struct GlueTableReference {
+    public struct GlueTableReference: Swift.Sendable {
         /// The name of the database the Glue table belongs to.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -4292,20 +4293,19 @@ extension CleanRoomsClientTypes {
             self.tableName = tableName
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// A pointer to the dataset that underlies this table. Currently, this can only be an Glue table.
-    public enum TableReference {
+    public enum TableReference: Swift.Sendable {
         /// If present, a reference to the Glue table referred to by this table reference.
         case glue(CleanRoomsClientTypes.GlueTableReference)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct CreateConfiguredTableInput {
+public struct CreateConfiguredTableInput: Swift.Sendable {
     /// The columns of the underlying table that can be used by collaborations or analysis rules.
     /// This member is required.
     public var allowedColumns: [Swift.String]?
@@ -4343,7 +4343,7 @@ public struct CreateConfiguredTableInput {
 
 extension CleanRoomsClientTypes {
 
-    public enum ConfiguredTableAnalysisRuleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConfiguredTableAnalysisRuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aggregation
         case custom
         case list
@@ -4374,8 +4374,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A table that has been configured for use in a collaboration.
-    public struct ConfiguredTable {
+    public struct ConfiguredTable: Swift.Sendable {
         /// The columns within the underlying Glue table that can be utilized within collaborations.
         /// This member is required.
         public var allowedColumns: [Swift.String]?
@@ -4431,10 +4432,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct CreateConfiguredTableOutput {
+public struct CreateConfiguredTableOutput: Swift.Sendable {
     /// The created configured table.
     /// This member is required.
     public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
@@ -4448,8 +4448,9 @@ public struct CreateConfiguredTableOutput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Controls on the query specifications that can be run on a configured table.
-    public enum ConfiguredTableAnalysisRulePolicyV1 {
+    public enum ConfiguredTableAnalysisRulePolicyV1: Swift.Sendable {
         /// Analysis rule type that enables only list queries on a configured table.
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
@@ -4458,20 +4459,19 @@ extension CleanRoomsClientTypes {
         case custom(CleanRoomsClientTypes.AnalysisRuleCustom)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Controls on the query specifications that can be run on a configured table.
-    public enum ConfiguredTableAnalysisRulePolicy {
+    public enum ConfiguredTableAnalysisRulePolicy: Swift.Sendable {
         /// Controls on the query specifications that can be run on a configured table.
         case v1(CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicyV1)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct CreateConfiguredTableAnalysisRuleInput {
+public struct CreateConfiguredTableAnalysisRuleInput: Swift.Sendable {
     /// The entire created configured table analysis rule object.
     /// This member is required.
     public var analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
@@ -4495,8 +4495,9 @@ public struct CreateConfiguredTableAnalysisRuleInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A configured table analysis rule, which limits how data for this table can be used.
-    public struct ConfiguredTableAnalysisRule {
+    public struct ConfiguredTableAnalysisRule: Swift.Sendable {
         /// The unique ARN for the configured table.
         /// This member is required.
         public var configuredTableArn: Swift.String?
@@ -4533,10 +4534,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct CreateConfiguredTableAnalysisRuleOutput {
+public struct CreateConfiguredTableAnalysisRuleOutput: Swift.Sendable {
     /// The entire created analysis rule.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -4549,7 +4549,7 @@ public struct CreateConfiguredTableAnalysisRuleOutput {
     }
 }
 
-public struct DeleteConfiguredTableInput {
+public struct DeleteConfiguredTableInput: Swift.Sendable {
     /// The unique ID for the configured table to delete.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -4563,12 +4563,12 @@ public struct DeleteConfiguredTableInput {
 }
 
 /// The empty output for a successful deletion.
-public struct DeleteConfiguredTableOutput {
+public struct DeleteConfiguredTableOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteConfiguredTableAnalysisRuleInput {
+public struct DeleteConfiguredTableAnalysisRuleInput: Swift.Sendable {
     /// The analysis rule type to be deleted. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type.
     /// This member is required.
     public var analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType?
@@ -4587,12 +4587,12 @@ public struct DeleteConfiguredTableAnalysisRuleInput {
 }
 
 /// An empty response that indicates a successful delete.
-public struct DeleteConfiguredTableAnalysisRuleOutput {
+public struct DeleteConfiguredTableAnalysisRuleOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetConfiguredTableInput {
+public struct GetConfiguredTableInput: Swift.Sendable {
     /// The unique ID for the configured table to retrieve.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -4605,7 +4605,7 @@ public struct GetConfiguredTableInput {
     }
 }
 
-public struct GetConfiguredTableOutput {
+public struct GetConfiguredTableOutput: Swift.Sendable {
     /// The retrieved configured table.
     /// This member is required.
     public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
@@ -4618,7 +4618,7 @@ public struct GetConfiguredTableOutput {
     }
 }
 
-public struct GetConfiguredTableAnalysisRuleInput {
+public struct GetConfiguredTableAnalysisRuleInput: Swift.Sendable {
     /// The analysis rule to be retrieved. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type.
     /// This member is required.
     public var analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType?
@@ -4636,7 +4636,7 @@ public struct GetConfiguredTableAnalysisRuleInput {
     }
 }
 
-public struct GetConfiguredTableAnalysisRuleOutput {
+public struct GetConfiguredTableAnalysisRuleOutput: Swift.Sendable {
     /// The entire analysis rule output.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -4649,7 +4649,7 @@ public struct GetConfiguredTableAnalysisRuleOutput {
     }
 }
 
-public struct ListConfiguredTablesInput {
+public struct ListConfiguredTablesInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -4666,8 +4666,9 @@ public struct ListConfiguredTablesInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The configured table summary for the objects listed by the request.
-    public struct ConfiguredTableSummary {
+    public struct ConfiguredTableSummary: Swift.Sendable {
         /// The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
         /// This member is required.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
@@ -4709,10 +4710,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListConfiguredTablesOutput {
+public struct ListConfiguredTablesOutput: Swift.Sendable {
     /// The configured tables listed by the request.
     /// This member is required.
     public var configuredTableSummaries: [CleanRoomsClientTypes.ConfiguredTableSummary]?
@@ -4729,7 +4729,7 @@ public struct ListConfiguredTablesOutput {
     }
 }
 
-public struct UpdateConfiguredTableInput {
+public struct UpdateConfiguredTableInput: Swift.Sendable {
     /// The identifier for the configured table to update. Currently accepts the configured table ID.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -4750,7 +4750,7 @@ public struct UpdateConfiguredTableInput {
     }
 }
 
-public struct UpdateConfiguredTableOutput {
+public struct UpdateConfiguredTableOutput: Swift.Sendable {
     /// The updated configured table.
     /// This member is required.
     public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
@@ -4763,7 +4763,7 @@ public struct UpdateConfiguredTableOutput {
     }
 }
 
-public struct UpdateConfiguredTableAnalysisRuleInput {
+public struct UpdateConfiguredTableAnalysisRuleInput: Swift.Sendable {
     /// The new analysis rule policy for the configured table analysis rule.
     /// This member is required.
     public var analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
@@ -4786,7 +4786,7 @@ public struct UpdateConfiguredTableAnalysisRuleInput {
     }
 }
 
-public struct UpdateConfiguredTableAnalysisRuleOutput {
+public struct UpdateConfiguredTableAnalysisRuleOutput: Swift.Sendable {
     /// The entire updated analysis rule.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -4799,7 +4799,7 @@ public struct UpdateConfiguredTableAnalysisRuleOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4812,7 +4812,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A map of objects specifying each key name and value.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
@@ -4827,7 +4827,7 @@ public struct ListTagsForResourceOutput {
 
 extension CleanRoomsClientTypes {
 
-    public enum ResultFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case parquet
         case sdkUnknown(Swift.String)
@@ -4855,8 +4855,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains the configuration to write the query results to S3.
-    public struct ProtectedQueryS3OutputConfiguration {
+    public struct ProtectedQueryS3OutputConfiguration: Swift.Sendable {
         /// The S3 bucket to unload the protected query results.
         /// This member is required.
         public var bucket: Swift.String?
@@ -4877,22 +4878,22 @@ extension CleanRoomsClientTypes {
             self.resultFormat = resultFormat
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains configurations for protected query results.
-    public enum MembershipProtectedQueryOutputConfiguration {
+    public enum MembershipProtectedQueryOutputConfiguration: Swift.Sendable {
         /// Contains the configuration to write the query results to S3.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains configurations for protected query results.
-    public struct MembershipProtectedQueryResultConfiguration {
+    public struct MembershipProtectedQueryResultConfiguration: Swift.Sendable {
         /// Configuration for protected query results.
         /// This member is required.
         public var outputConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration?
@@ -4908,12 +4909,12 @@ extension CleanRoomsClientTypes {
             self.roleArn = roleArn
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// An object representing the payment responsibilities accepted by the collaboration member for query compute costs.
-    public struct MembershipQueryComputePaymentConfig {
+    public struct MembershipQueryComputePaymentConfig: Swift.Sendable {
         /// Indicates whether the collaboration member has accepted to pay for query compute costs (TRUE) or has not accepted to pay for query compute costs (FALSE). If the collaboration creator has not specified anyone to pay for query compute costs, then the member who can query is the default payer. An error message is returned for the following reasons:
         ///
         /// * If you set the value to FALSE but you are responsible to pay for query compute costs.
@@ -4929,12 +4930,12 @@ extension CleanRoomsClientTypes {
             self.isResponsible = isResponsible
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// An object representing the payment responsibilities accepted by the collaboration member.
-    public struct MembershipPaymentConfiguration {
+    public struct MembershipPaymentConfiguration: Swift.Sendable {
         /// The payment responsibilities accepted by the collaboration member for query compute costs.
         /// This member is required.
         public var queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig?
@@ -4946,12 +4947,11 @@ extension CleanRoomsClientTypes {
             self.queryCompute = queryCompute
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum MembershipQueryLogStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MembershipQueryLogStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -4978,7 +4978,7 @@ extension CleanRoomsClientTypes {
     }
 }
 
-public struct CreateMembershipInput {
+public struct CreateMembershipInput: Swift.Sendable {
     /// The unique ID for the associated collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -5010,7 +5010,7 @@ public struct CreateMembershipInput {
 
 extension CleanRoomsClientTypes {
 
-    public enum MembershipStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MembershipStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case collaborationDeleted
         case removed
@@ -5041,8 +5041,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The membership object.
-    public struct Membership {
+    public struct Membership: Swift.Sendable {
         /// The unique ARN for the membership.
         /// This member is required.
         public var arn: Swift.String?
@@ -5118,10 +5119,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct CreateMembershipOutput {
+public struct CreateMembershipOutput: Swift.Sendable {
     /// The membership that was created.
     /// This member is required.
     public var membership: CleanRoomsClientTypes.Membership?
@@ -5134,7 +5134,7 @@ public struct CreateMembershipOutput {
     }
 }
 
-public struct DeleteMembershipInput {
+public struct DeleteMembershipInput: Swift.Sendable {
     /// The identifier for a membership resource.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -5147,12 +5147,12 @@ public struct DeleteMembershipInput {
     }
 }
 
-public struct DeleteMembershipOutput {
+public struct DeleteMembershipOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetMembershipInput {
+public struct GetMembershipInput: Swift.Sendable {
     /// The identifier for a membership resource.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -5165,7 +5165,7 @@ public struct GetMembershipInput {
     }
 }
 
-public struct GetMembershipOutput {
+public struct GetMembershipOutput: Swift.Sendable {
     /// The membership retrieved for the provided identifier.
     /// This member is required.
     public var membership: CleanRoomsClientTypes.Membership?
@@ -5178,7 +5178,7 @@ public struct GetMembershipOutput {
     }
 }
 
-public struct GetProtectedQueryInput {
+public struct GetProtectedQueryInput: Swift.Sendable {
     /// The identifier for a membership in a protected query instance.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -5197,8 +5197,9 @@ public struct GetProtectedQueryInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Provides the sensitivity parameters.
-    public struct DifferentialPrivacySensitivityParameters {
+    public struct DifferentialPrivacySensitivityParameters: Swift.Sendable {
         /// The aggregation expression that was run.
         /// This member is required.
         public var aggregationExpression: Swift.String?
@@ -5228,12 +5229,12 @@ extension CleanRoomsClientTypes {
             self.userContributionLimit = userContributionLimit
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// An array that contains the sensitivity parameters.
-    public struct DifferentialPrivacyParameters {
+    public struct DifferentialPrivacyParameters: Swift.Sendable {
         /// Provides the sensitivity parameters that you can use to better understand the total amount of noise in query results.
         /// This member is required.
         public var sensitivityParameters: [CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters]?
@@ -5245,12 +5246,12 @@ extension CleanRoomsClientTypes {
             self.sensitivityParameters = sensitivityParameters
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Details of errors thrown by the protected query.
-    public struct ProtectedQueryError {
+    public struct ProtectedQueryError: Swift.Sendable {
         /// An error code for the error.
         /// This member is required.
         public var code: Swift.String?
@@ -5267,12 +5268,12 @@ extension CleanRoomsClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Details about the member who received the query result.
-    public struct ProtectedQuerySingleMemberOutput {
+    public struct ProtectedQuerySingleMemberOutput: Swift.Sendable {
         /// The Amazon Web Services account ID of the member in the collaboration who can receive results for the query.
         /// This member is required.
         public var accountId: Swift.String?
@@ -5284,12 +5285,12 @@ extension CleanRoomsClientTypes {
             self.accountId = accountId
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains output information for protected queries with an S3 output type.
-    public struct ProtectedQueryS3Output {
+    public struct ProtectedQueryS3Output: Swift.Sendable {
         /// The S3 location of the result.
         /// This member is required.
         public var location: Swift.String?
@@ -5301,24 +5302,24 @@ extension CleanRoomsClientTypes {
             self.location = location
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains details about the protected query output.
-    public enum ProtectedQueryOutput {
+    public enum ProtectedQueryOutput: Swift.Sendable {
         /// If present, the output for a protected query with an `S3` output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3Output)
         /// The list of member Amazon Web Services account(s) that received the results of the query.
         case memberlist([CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput])
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Details about the query results.
-    public struct ProtectedQueryResult {
+    public struct ProtectedQueryResult: Swift.Sendable {
         /// The output of the protected query.
         /// This member is required.
         public var output: CleanRoomsClientTypes.ProtectedQueryOutput?
@@ -5330,22 +5331,22 @@ extension CleanRoomsClientTypes {
             self.output = output
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains configuration details for protected query output.
-    public enum ProtectedQueryOutputConfiguration {
+    public enum ProtectedQueryOutputConfiguration: Swift.Sendable {
         /// Required configuration for a protected query with an `S3` output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains configurations for protected query results.
-    public struct ProtectedQueryResultConfiguration {
+    public struct ProtectedQueryResultConfiguration: Swift.Sendable {
         /// Configuration for protected query results.
         /// This member is required.
         public var outputConfiguration: CleanRoomsClientTypes.ProtectedQueryOutputConfiguration?
@@ -5357,12 +5358,12 @@ extension CleanRoomsClientTypes {
             self.outputConfiguration = outputConfiguration
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The parameters for the SQL type Protected Query.
-    public struct ProtectedQuerySQLParameters {
+    public struct ProtectedQuerySQLParameters: Swift.Sendable {
         /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
         public var analysisTemplateArn: Swift.String?
         /// The protected query SQL parameters.
@@ -5381,7 +5382,6 @@ extension CleanRoomsClientTypes {
             self.queryString = queryString
         }
     }
-
 }
 
 extension CleanRoomsClientTypes.ProtectedQuerySQLParameters: Swift.CustomDebugStringConvertible {
@@ -5391,8 +5391,9 @@ extension CleanRoomsClientTypes.ProtectedQuerySQLParameters: Swift.CustomDebugSt
 }
 
 extension CleanRoomsClientTypes {
+
     /// Contains statistics about the execution of the protected query.
-    public struct ProtectedQueryStatistics {
+    public struct ProtectedQueryStatistics: Swift.Sendable {
         /// The duration of the Protected Query, from creation until query completion.
         public var totalDurationInMillis: Swift.Int?
 
@@ -5403,12 +5404,11 @@ extension CleanRoomsClientTypes {
             self.totalDurationInMillis = totalDurationInMillis
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
 
-    public enum ProtectedQueryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ProtectedQueryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case cancelling
         case failed
@@ -5451,8 +5451,9 @@ extension CleanRoomsClientTypes {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The parameters for an Clean Rooms protected query.
-    public struct ProtectedQuery {
+    public struct ProtectedQuery: Swift.Sendable {
         /// The time at which the protected query was created.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -5508,7 +5509,6 @@ extension CleanRoomsClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertible {
@@ -5516,7 +5516,7 @@ extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertib
         "ProtectedQuery(createTime: \(Swift.String(describing: createTime)), differentialPrivacy: \(Swift.String(describing: differentialPrivacy)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), result: \(Swift.String(describing: result)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), statistics: \(Swift.String(describing: statistics)), status: \(Swift.String(describing: status)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetProtectedQueryOutput {
+public struct GetProtectedQueryOutput: Swift.Sendable {
     /// The query processing metadata.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -5529,7 +5529,7 @@ public struct GetProtectedQueryOutput {
     }
 }
 
-public struct ListMembershipsInput {
+public struct ListMembershipsInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -5550,8 +5550,9 @@ public struct ListMembershipsInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The membership object listed by the request.
-    public struct MembershipSummary {
+    public struct MembershipSummary: Swift.Sendable {
         /// The unique ARN for the membership.
         /// This member is required.
         public var arn: Swift.String?
@@ -5618,10 +5619,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListMembershipsOutput {
+public struct ListMembershipsOutput: Swift.Sendable {
     /// The list of memberships returned from the ListMemberships operation.
     /// This member is required.
     public var membershipSummaries: [CleanRoomsClientTypes.MembershipSummary]?
@@ -5638,7 +5638,7 @@ public struct ListMembershipsOutput {
     }
 }
 
-public struct ListPrivacyBudgetsInput {
+public struct ListPrivacyBudgetsInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
@@ -5665,8 +5665,9 @@ public struct ListPrivacyBudgetsInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// An array that summaries the specified privacy budget. This summary includes collaboration information, creation information, membership information, and privacy budget information.
-    public struct PrivacyBudgetSummary {
+    public struct PrivacyBudgetSummary: Swift.Sendable {
         /// The provided privacy budget.
         /// This member is required.
         public var budget: CleanRoomsClientTypes.PrivacyBudget?
@@ -5728,10 +5729,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListPrivacyBudgetsOutput {
+public struct ListPrivacyBudgetsOutput: Swift.Sendable {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// An array that summarizes the privacy budgets. The summary includes collaboration information, membership information, privacy budget template information, and privacy budget details.
@@ -5748,7 +5748,7 @@ public struct ListPrivacyBudgetsOutput {
     }
 }
 
-public struct ListProtectedQueriesInput {
+public struct ListProtectedQueriesInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service can return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// The identifier for the membership in the collaboration.
@@ -5774,8 +5774,9 @@ public struct ListProtectedQueriesInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The protected query summary for the objects listed by the request.
-    public struct ProtectedQuerySummary {
+    public struct ProtectedQuerySummary: Swift.Sendable {
         /// The time the protected query was created.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -5807,10 +5808,9 @@ extension CleanRoomsClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListProtectedQueriesOutput {
+public struct ListProtectedQueriesOutput: Swift.Sendable {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// A list of protected queries.
@@ -5828,8 +5828,9 @@ public struct ListProtectedQueriesOutput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon and noise parameters that you want to preview.
-    public struct DifferentialPrivacyPreviewParametersInput {
+    public struct DifferentialPrivacyPreviewParametersInput: Swift.Sendable {
         /// The epsilon value that you want to preview.
         /// This member is required.
         public var epsilon: Swift.Int?
@@ -5846,20 +5847,19 @@ extension CleanRoomsClientTypes {
             self.usersNoisePerQuery = usersNoisePerQuery
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Specifies the updated epsilon and noise parameters to preview. The preview allows you to see how the maximum number of each type of aggregation function would change with the new parameters.
-    public enum PreviewPrivacyImpactParametersInput {
+    public enum PreviewPrivacyImpactParametersInput: Swift.Sendable {
         /// An array that specifies the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPreviewParametersInput)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct PreviewPrivacyImpactInput {
+public struct PreviewPrivacyImpactInput: Swift.Sendable {
     /// A unique identifier for one of your memberships for a collaboration. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -5878,8 +5878,9 @@ public struct PreviewPrivacyImpactInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// Provides an estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
-    public struct DifferentialPrivacyPreviewAggregation {
+    public struct DifferentialPrivacyPreviewAggregation: Swift.Sendable {
         /// The maximum number of aggregations that the member who can query can run given the epsilon and noise parameters.
         /// This member is required.
         public var maxCount: Swift.Int?
@@ -5896,12 +5897,12 @@ extension CleanRoomsClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Information about the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
-    public struct DifferentialPrivacyPrivacyImpact {
+    public struct DifferentialPrivacyPrivacyImpact: Swift.Sendable {
         /// The number of aggregation functions that you can perform.
         /// This member is required.
         public var aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation]?
@@ -5913,20 +5914,19 @@ extension CleanRoomsClientTypes {
             self.aggregations = aggregations
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// Provides an estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
-    public enum PrivacyImpact {
+    public enum PrivacyImpact: Swift.Sendable {
         /// An object that lists the number and type of aggregation functions you can perform.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct PreviewPrivacyImpactOutput {
+public struct PreviewPrivacyImpactOutput: Swift.Sendable {
     /// An estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters. This does not change the privacy budget.
     /// This member is required.
     public var privacyImpact: CleanRoomsClientTypes.PrivacyImpact?
@@ -5941,7 +5941,7 @@ public struct PreviewPrivacyImpactOutput {
 
 extension CleanRoomsClientTypes {
 
-    public enum ProtectedQueryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ProtectedQueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sql
         case sdkUnknown(Swift.String)
 
@@ -5965,7 +5965,7 @@ extension CleanRoomsClientTypes {
     }
 }
 
-public struct StartProtectedQueryInput {
+public struct StartProtectedQueryInput: Swift.Sendable {
     /// A unique identifier for the membership to run this query against. Currently accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -5997,7 +5997,7 @@ extension StartProtectedQueryInput: Swift.CustomDebugStringConvertible {
         "StartProtectedQueryInput(membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), type: \(Swift.String(describing: type)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
-public struct StartProtectedQueryOutput {
+public struct StartProtectedQueryOutput: Swift.Sendable {
     /// The protected query.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -6010,7 +6010,7 @@ public struct StartProtectedQueryOutput {
     }
 }
 
-public struct UpdateMembershipInput {
+public struct UpdateMembershipInput: Swift.Sendable {
     /// The default protected query result configuration as specified by the member who can receive results.
     public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
     /// The unique identifier of the membership.
@@ -6031,7 +6031,7 @@ public struct UpdateMembershipInput {
     }
 }
 
-public struct UpdateMembershipOutput {
+public struct UpdateMembershipOutput: Swift.Sendable {
     /// The membership object.
     /// This member is required.
     public var membership: CleanRoomsClientTypes.Membership?
@@ -6046,7 +6046,7 @@ public struct UpdateMembershipOutput {
 
 extension CleanRoomsClientTypes {
 
-    public enum TargetProtectedQueryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TargetProtectedQueryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case sdkUnknown(Swift.String)
 
@@ -6070,7 +6070,7 @@ extension CleanRoomsClientTypes {
     }
 }
 
-public struct UpdateProtectedQueryInput {
+public struct UpdateProtectedQueryInput: Swift.Sendable {
     /// The identifier for a member of a protected query instance.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -6093,7 +6093,7 @@ public struct UpdateProtectedQueryInput {
     }
 }
 
-public struct UpdateProtectedQueryOutput {
+public struct UpdateProtectedQueryOutput: Swift.Sendable {
     /// The protected query output.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -6107,8 +6107,9 @@ public struct UpdateProtectedQueryOutput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon and noise parameter values that you want to use for the differential privacy template.
-    public struct DifferentialPrivacyTemplateParametersInput {
+    public struct DifferentialPrivacyTemplateParametersInput: Swift.Sendable {
         /// The epsilon value that you want to use.
         /// This member is required.
         public var epsilon: Swift.Int?
@@ -6125,20 +6126,19 @@ extension CleanRoomsClientTypes {
             self.usersNoisePerQuery = usersNoisePerQuery
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon and noise parameters that you want to use for the privacy budget template.
-    public enum PrivacyBudgetTemplateParametersInput {
+    public enum PrivacyBudgetTemplateParametersInput: Swift.Sendable {
         /// An object that specifies the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct CreatePrivacyBudgetTemplateInput {
+public struct CreatePrivacyBudgetTemplateInput: Swift.Sendable {
     /// How often the privacy budget refreshes. If you plan to regularly bring new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
     /// This member is required.
     public var autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
@@ -6171,8 +6171,9 @@ public struct CreatePrivacyBudgetTemplateInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// An object that defines the privacy budget template.
-    public struct PrivacyBudgetTemplate {
+    public struct PrivacyBudgetTemplate: Swift.Sendable {
         /// The ARN of the privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -6234,10 +6235,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct CreatePrivacyBudgetTemplateOutput {
+public struct CreatePrivacyBudgetTemplateOutput: Swift.Sendable {
     /// A summary of the elements in the privacy budget template.
     /// This member is required.
     public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
@@ -6250,7 +6250,7 @@ public struct CreatePrivacyBudgetTemplateOutput {
     }
 }
 
-public struct DeletePrivacyBudgetTemplateInput {
+public struct DeletePrivacyBudgetTemplateInput: Swift.Sendable {
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is deleted from the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -6268,12 +6268,12 @@ public struct DeletePrivacyBudgetTemplateInput {
     }
 }
 
-public struct DeletePrivacyBudgetTemplateOutput {
+public struct DeletePrivacyBudgetTemplateOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetPrivacyBudgetTemplateInput {
+public struct GetPrivacyBudgetTemplateInput: Swift.Sendable {
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -6291,7 +6291,7 @@ public struct GetPrivacyBudgetTemplateInput {
     }
 }
 
-public struct GetPrivacyBudgetTemplateOutput {
+public struct GetPrivacyBudgetTemplateOutput: Swift.Sendable {
     /// Returns the details of the privacy budget template that you requested.
     /// This member is required.
     public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
@@ -6304,7 +6304,7 @@ public struct GetPrivacyBudgetTemplateOutput {
     }
 }
 
-public struct ListPrivacyBudgetTemplatesInput {
+public struct ListPrivacyBudgetTemplatesInput: Swift.Sendable {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
@@ -6326,8 +6326,9 @@ public struct ListPrivacyBudgetTemplatesInput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// A summary of the privacy budget template. The summary includes membership information, collaboration information, and creation information.
-    public struct PrivacyBudgetTemplateSummary {
+    public struct PrivacyBudgetTemplateSummary: Swift.Sendable {
         /// The ARN of the privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -6379,10 +6380,9 @@ extension CleanRoomsClientTypes {
             self.updateTime = updateTime
         }
     }
-
 }
 
-public struct ListPrivacyBudgetTemplatesOutput {
+public struct ListPrivacyBudgetTemplatesOutput: Swift.Sendable {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// An array that summarizes the privacy budget templates. The summary includes collaboration information, creation information, and privacy budget type.
@@ -6400,8 +6400,9 @@ public struct ListPrivacyBudgetTemplatesOutput {
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon and noise parameter values that you want to update in the differential privacy template.
-    public struct DifferentialPrivacyTemplateUpdateParameters {
+    public struct DifferentialPrivacyTemplateUpdateParameters: Swift.Sendable {
         /// The updated epsilon value that you want to use.
         public var epsilon: Swift.Int?
         /// The updated value of noise added per query. It is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
@@ -6416,20 +6417,19 @@ extension CleanRoomsClientTypes {
             self.usersNoisePerQuery = usersNoisePerQuery
         }
     }
-
 }
 
 extension CleanRoomsClientTypes {
+
     /// The epsilon and noise parameters that you want to update in the privacy budget template.
-    public enum PrivacyBudgetTemplateUpdateParameters {
+    public enum PrivacyBudgetTemplateUpdateParameters: Swift.Sendable {
         /// An object that specifies the new values for the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct UpdatePrivacyBudgetTemplateInput {
+public struct UpdatePrivacyBudgetTemplateInput: Swift.Sendable {
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -6456,7 +6456,7 @@ public struct UpdatePrivacyBudgetTemplateInput {
     }
 }
 
-public struct UpdatePrivacyBudgetTemplateOutput {
+public struct UpdatePrivacyBudgetTemplateOutput: Swift.Sendable {
     /// Summary of the privacy budget template.
     /// This member is required.
     public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
@@ -6469,7 +6469,7 @@ public struct UpdatePrivacyBudgetTemplateOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6487,12 +6487,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6510,7 +6510,7 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }

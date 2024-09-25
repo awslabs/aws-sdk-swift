@@ -51,8 +51,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension KeyspacesClientTypes {
+
     /// The auto scaling policy that scales a table based on the ratio of consumed to provisioned capacity.
-    public struct TargetTrackingScalingPolicyConfiguration {
+    public struct TargetTrackingScalingPolicyConfiguration: Swift.Sendable {
         /// Specifies if scale-in is enabled. When auto scaling automatically decreases capacity for a table, the table scales in. When scaling policies are set, they can't scale in the table lower than its minimum capacity.
         public var disableScaleIn: Swift.Bool
         /// Specifies a scale-in cool down period. A cooldown period in seconds between scaling activities that lets the table stabilize before another scaling activity starts.
@@ -76,12 +77,12 @@ extension KeyspacesClientTypes {
             self.targetValue = targetValue
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// Amazon Keyspaces supports the target tracking auto scaling policy. With this policy, Amazon Keyspaces auto scaling ensures that the table's ratio of consumed to provisioned capacity stays at or near the target value that you specify. You define the target value as a percentage between 20 and 90.
-    public struct AutoScalingPolicy {
+    public struct AutoScalingPolicy: Swift.Sendable {
         /// Auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down when it falls below the target. A double between 20 and 90.
         public var targetTrackingScalingPolicyConfiguration: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration?
 
@@ -92,10 +93,10 @@ extension KeyspacesClientTypes {
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// The optional auto scaling settings for a table with provisioned throughput capacity. To turn on auto scaling for a table in throughputMode:PROVISIONED, you must specify the following parameters. Configure the minimum and maximum capacity units. The auto scaling policy ensures that capacity never goes below the minimum or above the maximum range.
     ///
     /// * minimumUnits: The minimum level of throughput the table should always be ready to support. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
@@ -122,7 +123,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
-    public struct AutoScalingSettings {
+    public struct AutoScalingSettings: Swift.Sendable {
         /// This optional parameter enables auto scaling for the table if set to false.
         public var autoScalingDisabled: Swift.Bool
         /// Manage costs by specifying the maximum amount of throughput to provision. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
@@ -145,12 +146,12 @@ extension KeyspacesClientTypes {
             self.scalingPolicy = scalingPolicy
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// The optional auto scaling capacity settings for a table in provisioned capacity mode.
-    public struct AutoScalingSpecification {
+    public struct AutoScalingSpecification: Swift.Sendable {
         /// The auto scaling settings for the table's read capacity.
         public var readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings?
         /// The auto scaling settings for the table's write capacity.
@@ -165,12 +166,11 @@ extension KeyspacesClientTypes {
             self.writeCapacityAutoScaling = writeCapacityAutoScaling
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
 
-    public enum ThroughputMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ThroughputMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case payPerRequest
         case provisioned
         case sdkUnknown(Swift.String)
@@ -198,6 +198,7 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// Amazon Keyspaces has two read/write capacity modes for processing reads and writes on your tables:
     ///
     /// * On-demand (default)
@@ -206,7 +207,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// The read/write capacity mode that you choose controls how you are charged for read and write throughput and how table throughput capacity is managed. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
-    public struct CapacitySpecification {
+    public struct CapacitySpecification: Swift.Sendable {
         /// The throughput capacity specified for read operations defined in read capacity units(RCUs).
         public var readCapacityUnits: Swift.Int?
         /// The read/write throughput capacity mode for a table. The options are:
@@ -233,10 +234,10 @@ extension KeyspacesClientTypes {
             self.writeCapacityUnits = writeCapacityUnits
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// The read/write throughput capacity mode for a table. The options are:
     ///
     /// * throughputMode:PAY_PER_REQUEST and
@@ -245,7 +246,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
-    public struct CapacitySpecificationSummary {
+    public struct CapacitySpecificationSummary: Swift.Sendable {
         /// The timestamp of the last operation that changed the provisioned throughput capacity of a table.
         public var lastUpdateToPayPerRequestTimestamp: Foundation.Date?
         /// The throughput capacity specified for read operations defined in read capacity units(RCUs).
@@ -276,12 +277,11 @@ extension KeyspacesClientTypes {
             self.writeCapacityUnits = writeCapacityUnits
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
 
-    public enum ClientSideTimestampsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ClientSideTimestampsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case sdkUnknown(Swift.String)
 
@@ -306,8 +306,9 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// The client-side timestamp setting of the table. For more information, see [How it works: Amazon Keyspaces client-side timestamps](https://docs.aws.amazon.com/keyspaces/latest/devguide/client-side-timestamps-how-it-works.html) in the Amazon Keyspaces Developer Guide.
-    public struct ClientSideTimestamps {
+    public struct ClientSideTimestamps: Swift.Sendable {
         /// Shows how to enable client-side timestamps settings for the specified table.
         /// This member is required.
         public var status: KeyspacesClientTypes.ClientSideTimestampsStatus?
@@ -319,12 +320,11 @@ extension KeyspacesClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
 
-    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asc
         case desc
         case sdkUnknown(Swift.String)
@@ -352,8 +352,9 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition.
-    public struct ClusteringKey {
+    public struct ClusteringKey: Swift.Sendable {
         /// The name(s) of the clustering column(s).
         /// This member is required.
         public var name: Swift.String?
@@ -370,12 +371,12 @@ extension KeyspacesClientTypes {
             self.orderBy = orderBy
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// The names and data types of regular columns.
-    public struct ColumnDefinition {
+    public struct ColumnDefinition: Swift.Sendable {
         /// The name of the column.
         /// This member is required.
         public var name: Swift.String?
@@ -392,12 +393,12 @@ extension KeyspacesClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// An optional comment that describes the table.
-    public struct Comment {
+    public struct Comment: Swift.Sendable {
         /// An optional description of the table.
         /// This member is required.
         public var message: Swift.String?
@@ -409,7 +410,6 @@ extension KeyspacesClientTypes {
             self.message = message
         }
     }
-
 }
 
 /// Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
@@ -514,7 +514,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension KeyspacesClientTypes {
 
-    public enum Rs: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Rs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case multiRegion
         case singleRegion
         case sdkUnknown(Swift.String)
@@ -542,12 +542,13 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// The replication specification of the keyspace includes:
     ///
     /// * regionList - up to six Amazon Web Services Regions where the keyspace is replicated in.
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
-    public struct ReplicationSpecification {
+    public struct ReplicationSpecification: Swift.Sendable {
         /// The regionList can contain up to six Amazon Web Services Regions where the keyspace is replicated in.
         public var regionList: [Swift.String]?
         /// The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION.
@@ -563,12 +564,12 @@ extension KeyspacesClientTypes {
             self.replicationStrategy = replicationStrategy
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
         /// This member is required.
         public var key: Swift.String?
@@ -585,10 +586,9 @@ extension KeyspacesClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct CreateKeyspaceInput {
+public struct CreateKeyspaceInput: Swift.Sendable {
     /// The name of the keyspace to be created.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -613,7 +613,7 @@ public struct CreateKeyspaceInput {
     }
 }
 
-public struct CreateKeyspaceOutput {
+public struct CreateKeyspaceOutput: Swift.Sendable {
     /// The unique identifier of the keyspace in the format of an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -657,7 +657,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension KeyspacesClientTypes {
 
-    public enum EncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsOwnedKmsKey
         case customerManagedKmsKey
         case sdkUnknown(Swift.String)
@@ -685,6 +685,7 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// Amazon Keyspaces encrypts and decrypts the table data at rest transparently and integrates with Key Management Service for storing and managing the encryption key. You can choose one of the following KMS keys (KMS keys):
     ///
     /// * Amazon Web Services owned key - This is the default encryption type. The key is owned by Amazon Keyspaces (no additional charge).
@@ -693,7 +694,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// For more information about encryption at rest in Amazon Keyspaces, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide. For more information about KMS, see [KMS management service concepts](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Key Management Service Developer Guide.
-    public struct EncryptionSpecification {
+    public struct EncryptionSpecification: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key, for example kms_key_identifier:ARN.
         public var kmsKeyIdentifier: Swift.String?
         /// The encryption option specified for the table. You can choose one of the following KMS keys (KMS keys):
@@ -716,12 +717,11 @@ extension KeyspacesClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
 
-    public enum PointInTimeRecoveryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PointInTimeRecoveryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -749,8 +749,9 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// Point-in-time recovery (PITR) helps protect your Amazon Keyspaces tables from accidental write or delete operations by providing you continuous backups of your table data. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
-    public struct PointInTimeRecovery {
+    public struct PointInTimeRecovery: Swift.Sendable {
         /// The options are:
         ///
         /// * status=ENABLED
@@ -766,10 +767,10 @@ extension KeyspacesClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// The Amazon Web Services Region specific settings of a multi-Region table. For a multi-Region table, you can configure the table's read capacity differently per Amazon Web Services Region. You can do this by configuring the following parameters.
     ///
     /// * region: The Region where these settings are applied. (Required)
@@ -777,7 +778,7 @@ extension KeyspacesClientTypes {
     /// * readCapacityUnits: The provisioned read capacity units. (Optional)
     ///
     /// * readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
-    public struct ReplicaSpecification {
+    public struct ReplicaSpecification: Swift.Sendable {
         /// The read capacity auto scaling settings for the multi-Region table in the specified Amazon Web Services Region.
         public var readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings?
         /// The provisioned read capacity units for the multi-Region table in the specified Amazon Web Services Region.
@@ -797,12 +798,12 @@ extension KeyspacesClientTypes {
             self.region = region
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// The partition key portion of the primary key is required and determines how Amazon Keyspaces stores the data. The partition key can be a single column, or it can be a compound value composed of two or more columns.
-    public struct PartitionKey {
+    public struct PartitionKey: Swift.Sendable {
         /// The name(s) of the partition key column(s).
         /// This member is required.
         public var name: Swift.String?
@@ -814,12 +815,12 @@ extension KeyspacesClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// The static columns of the table. Static columns store values that are shared by all rows in the same partition.
-    public struct StaticColumn {
+    public struct StaticColumn: Swift.Sendable {
         /// The name of the static column.
         /// This member is required.
         public var name: Swift.String?
@@ -831,12 +832,12 @@ extension KeyspacesClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
+
     /// Describes the schema of the table.
-    public struct SchemaDefinition {
+    public struct SchemaDefinition: Swift.Sendable {
         /// The regular columns of the table.
         /// This member is required.
         public var allColumns: [KeyspacesClientTypes.ColumnDefinition]?
@@ -861,12 +862,11 @@ extension KeyspacesClientTypes {
             self.staticColumns = staticColumns
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
 
-    public enum TimeToLiveStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TimeToLiveStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case sdkUnknown(Swift.String)
 
@@ -891,8 +891,9 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// Enable custom Time to Live (TTL) settings for rows and columns without setting a TTL default for the specified table. For more information, see [Enabling TTL on tables](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL-how-it-works.html#ttl-howitworks_enabling) in the Amazon Keyspaces Developer Guide.
-    public struct TimeToLive {
+    public struct TimeToLive: Swift.Sendable {
         /// Shows how to enable custom Time to Live (TTL) settings for the specified table.
         /// This member is required.
         public var status: KeyspacesClientTypes.TimeToLiveStatus?
@@ -904,10 +905,9 @@ extension KeyspacesClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct CreateTableInput {
+public struct CreateTableInput: Swift.Sendable {
     /// The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
     public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// Specifies the read/write throughput capacity mode for the table. The options are:
@@ -1030,7 +1030,7 @@ public struct CreateTableInput {
     }
 }
 
-public struct CreateTableOutput {
+public struct CreateTableOutput: Swift.Sendable {
     /// The unique identifier of the table in the format of an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1043,7 +1043,7 @@ public struct CreateTableOutput {
     }
 }
 
-public struct DeleteKeyspaceInput {
+public struct DeleteKeyspaceInput: Swift.Sendable {
     /// The name of the keyspace to be deleted.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1056,12 +1056,12 @@ public struct DeleteKeyspaceInput {
     }
 }
 
-public struct DeleteKeyspaceOutput {
+public struct DeleteKeyspaceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteTableInput {
+public struct DeleteTableInput: Swift.Sendable {
     /// The name of the keyspace of the to be deleted table.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1079,12 +1079,12 @@ public struct DeleteTableInput {
     }
 }
 
-public struct DeleteTableOutput {
+public struct DeleteTableOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetKeyspaceInput {
+public struct GetKeyspaceInput: Swift.Sendable {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1097,7 +1097,7 @@ public struct GetKeyspaceInput {
     }
 }
 
-public struct GetKeyspaceOutput {
+public struct GetKeyspaceOutput: Swift.Sendable {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1124,7 +1124,7 @@ public struct GetKeyspaceOutput {
     }
 }
 
-public struct GetTableInput {
+public struct GetTableInput: Swift.Sendable {
     /// The name of the keyspace that the table is stored in.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1143,8 +1143,9 @@ public struct GetTableInput {
 }
 
 extension KeyspacesClientTypes {
+
     /// The point-in-time recovery status of the specified table.
-    public struct PointInTimeRecoverySummary {
+    public struct PointInTimeRecoverySummary: Swift.Sendable {
         /// Specifies the earliest possible restore point of the table in ISO 8601 format.
         public var earliestRestorableTimestamp: Foundation.Date?
         /// Shows if point-in-time recovery is enabled or disabled for the specified table.
@@ -1160,12 +1161,11 @@ extension KeyspacesClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension KeyspacesClientTypes {
 
-    public enum TableStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
         case deleted
@@ -1208,8 +1208,9 @@ extension KeyspacesClientTypes {
 }
 
 extension KeyspacesClientTypes {
+
     /// The Region-specific settings of a multi-Region table in the specified Amazon Web Services Region. If the multi-Region table is using provisioned capacity and has optional auto scaling policies configured, note that the Region specific summary returns both read and write capacity settings. But only Region specific read capacity settings can be configured for a multi-Region table. In a multi-Region table, your write capacity units will be synced across all Amazon Web Services Regions to ensure that there is enough capacity to replicate write events across Regions.
-    public struct ReplicaSpecificationSummary {
+    public struct ReplicaSpecificationSummary: Swift.Sendable {
         /// The read/write throughput capacity mode for a table. The options are:
         ///
         /// * throughputMode:PAY_PER_REQUEST and
@@ -1235,10 +1236,9 @@ extension KeyspacesClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct GetTableOutput {
+public struct GetTableOutput: Swift.Sendable {
     /// The read/write throughput capacity mode for a table. The options are:
     ///
     /// * throughputMode:PAY_PER_REQUEST
@@ -1309,7 +1309,7 @@ public struct GetTableOutput {
     }
 }
 
-public struct GetTableAutoScalingSettingsInput {
+public struct GetTableAutoScalingSettingsInput: Swift.Sendable {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1328,8 +1328,9 @@ public struct GetTableAutoScalingSettingsInput {
 }
 
 extension KeyspacesClientTypes {
+
     /// The auto scaling settings of a multi-Region table in the specified Amazon Web Services Region.
-    public struct ReplicaAutoScalingSpecification {
+    public struct ReplicaAutoScalingSpecification: Swift.Sendable {
         /// The auto scaling settings for a multi-Region table in the specified Amazon Web Services Region.
         public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
         /// The Amazon Web Services Region.
@@ -1344,10 +1345,9 @@ extension KeyspacesClientTypes {
             self.region = region
         }
     }
-
 }
 
-public struct GetTableAutoScalingSettingsOutput {
+public struct GetTableAutoScalingSettingsOutput: Swift.Sendable {
     /// The auto scaling settings of the table.
     public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// The name of the keyspace.
@@ -1378,7 +1378,7 @@ public struct GetTableAutoScalingSettingsOutput {
     }
 }
 
-public struct ListKeyspacesInput {
+public struct ListKeyspacesInput: Swift.Sendable {
     /// The total number of keyspaces to return in the output. If the total number of keyspaces available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -1395,8 +1395,9 @@ public struct ListKeyspacesInput {
 }
 
 extension KeyspacesClientTypes {
+
     /// Represents the properties of a keyspace.
-    public struct KeyspaceSummary {
+    public struct KeyspaceSummary: Swift.Sendable {
         /// The name of the keyspace.
         /// This member is required.
         public var keyspaceName: Swift.String?
@@ -1422,10 +1423,9 @@ extension KeyspacesClientTypes {
             self.resourceArn = resourceArn
         }
     }
-
 }
 
-public struct ListKeyspacesOutput {
+public struct ListKeyspacesOutput: Swift.Sendable {
     /// A list of keyspaces.
     /// This member is required.
     public var keyspaces: [KeyspacesClientTypes.KeyspaceSummary]?
@@ -1442,7 +1442,7 @@ public struct ListKeyspacesOutput {
     }
 }
 
-public struct ListTablesInput {
+public struct ListTablesInput: Swift.Sendable {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1464,8 +1464,9 @@ public struct ListTablesInput {
 }
 
 extension KeyspacesClientTypes {
+
     /// Returns the name of the specified table, the keyspace it is stored in, and the unique identifier in the format of an Amazon Resource Name (ARN).
-    public struct TableSummary {
+    public struct TableSummary: Swift.Sendable {
         /// The name of the keyspace that the table is stored in.
         /// This member is required.
         public var keyspaceName: Swift.String?
@@ -1487,10 +1488,9 @@ extension KeyspacesClientTypes {
             self.tableName = tableName
         }
     }
-
 }
 
-public struct ListTablesOutput {
+public struct ListTablesOutput: Swift.Sendable {
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// A list of tables.
@@ -1506,7 +1506,7 @@ public struct ListTablesOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The total number of tags to return in the output. If the total number of tags available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -1527,7 +1527,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// A list of tags.
@@ -1543,7 +1543,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct RestoreTableInput {
+public struct RestoreTableInput: Swift.Sendable {
     /// The optional auto scaling settings for the restored table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
     public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// Specifies the read/write throughput capacity mode for the target table. The options are:
@@ -1620,7 +1620,7 @@ public struct RestoreTableInput {
     }
 }
 
-public struct RestoreTableOutput {
+public struct RestoreTableOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the restored table.
     /// This member is required.
     public var restoredTableARN: Swift.String?
@@ -1633,7 +1633,7 @@ public struct RestoreTableOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon Keyspaces resource to which to add tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1651,12 +1651,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Keyspaces resource that the tags will be removed from. This value is an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1674,12 +1674,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateTableInput {
+public struct UpdateTableInput: Swift.Sendable {
     /// For each column to be added to the specified table:
     ///
     /// * name - The name of the column.
@@ -1770,7 +1770,7 @@ public struct UpdateTableInput {
     }
 }
 
-public struct UpdateTableOutput {
+public struct UpdateTableOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the modified table.
     /// This member is required.
     public var resourceArn: Swift.String?

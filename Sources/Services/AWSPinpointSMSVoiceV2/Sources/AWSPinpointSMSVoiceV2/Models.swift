@@ -30,7 +30,7 @@ import protocol ClientRuntime.ModeledError
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum AccessDeniedExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AccessDeniedExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountDisabled
         case insufficientAccountReputation
         case sdkUnknown(Swift.String)
@@ -87,7 +87,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum AccountAttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AccountAttributeName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountTier
         case defaultProtectConfigurationId
         case sdkUnknown(Swift.String)
@@ -115,8 +115,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Displays the attributes associated with a single Amazon Web Services account.
-    public struct AccountAttribute {
+    public struct AccountAttribute: Swift.Sendable {
         /// The name of the account attribute.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.AccountAttributeName?
@@ -133,12 +134,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum AccountLimitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AccountLimitName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case configurationSets
         case optOutLists
         case phoneNumbers
@@ -184,8 +184,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The current resource quotas associated with an Amazon Web Services account.
-    public struct AccountLimit {
+    public struct AccountLimit: Swift.Sendable {
         /// The Amazon Web Services set limit for that resource type, in US dollars.
         /// This member is required.
         public var max: Swift.Int
@@ -207,12 +208,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.used = used
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum ConflictExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConflictExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createRegistrationVersionNotAllowed
         case deletionProtectionEnabled
         case destinationCountryBlockedByProtectConfiguration
@@ -340,7 +340,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case account
         case configurationSet
         case eventDestination
@@ -501,7 +501,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum ServiceQuotaExceededExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ServiceQuotaExceededExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case associationsPerRegistration
         case configurationSetsPerAccount
         case dailyDestinationCallLimit
@@ -644,8 +644,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The field associated with the validation exception.
-    public struct ValidationExceptionField {
+    public struct ValidationExceptionField: Swift.Sendable {
         /// The message associated with the validation exception with information to help determine its cause.
         /// This member is required.
         public var message: Swift.String?
@@ -662,12 +663,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case attachmentTypeNotSupported
         case cannotAddOptedOutNumber
         case cannotParse
@@ -837,7 +837,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct AssociateOriginationIdentityInput {
+public struct AssociateOriginationIdentityInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
@@ -864,7 +864,7 @@ public struct AssociateOriginationIdentityInput {
     }
 }
 
-public struct AssociateOriginationIdentityOutput {
+public struct AssociateOriginationIdentityOutput: Swift.Sendable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The PhoneNumberId or SenderId of the origination identity.
@@ -892,7 +892,7 @@ public struct AssociateOriginationIdentityOutput {
     }
 }
 
-public struct AssociateProtectConfigurationInput {
+public struct AssociateProtectConfigurationInput: Swift.Sendable {
     /// The name of the ConfigurationSet.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -910,7 +910,7 @@ public struct AssociateProtectConfigurationInput {
     }
 }
 
-public struct AssociateProtectConfigurationOutput {
+public struct AssociateProtectConfigurationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     /// This member is required.
     public var configurationSetArn: Swift.String?
@@ -940,7 +940,7 @@ public struct AssociateProtectConfigurationOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum AttachmentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AttachmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleted
         case uploadComplete
         case uploadFailed
@@ -975,7 +975,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum AttachmentUploadErrorReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AttachmentUploadErrorReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case internalError
         case sdkUnknown(Swift.String)
 
@@ -1000,8 +1000,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Contains the destination configuration to use when publishing message sending events.
-    public struct CloudWatchLogsDestination {
+    public struct CloudWatchLogsDestination: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to write event data to an Amazon CloudWatch destination.
         /// This member is required.
         public var iamRoleArn: Swift.String?
@@ -1018,12 +1019,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.logGroupArn = logGroupArn
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum ConfigurationSetFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConfigurationSetFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultMessageType
         case defaultSenderId
         case eventDestinationName
@@ -1060,8 +1060,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for configuration sets that meet a specified criteria.
-    public struct ConfigurationSetFilter {
+    public struct ConfigurationSetFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.ConfigurationSetFilterName?
@@ -1078,12 +1079,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum MessageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case promotional
         case transactional
         case sdkUnknown(Swift.String)
@@ -1111,8 +1111,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Contains the delivery stream Amazon Resource Name (ARN), and the ARN of the Identity and Access Management (IAM) role associated with a Firehose event destination. Event destinations, such as Firehose, are associated with configuration sets, which enable you to publish message sending events.
-    public struct KinesisFirehoseDestination {
+    public struct KinesisFirehoseDestination: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         /// This member is required.
         public var deliveryStreamArn: Swift.String?
@@ -1129,12 +1130,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.iamRoleArn = iamRoleArn
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum EventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case mediaAll
         case mediaBlocked
@@ -1282,8 +1282,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// An object that defines an Amazon SNS destination for events. You can use Amazon SNS to send notification when certain events occur.
-    public struct SnsDestination {
+    public struct SnsDestination: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         /// This member is required.
         public var topicArn: Swift.String?
@@ -1295,12 +1296,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.topicArn = topicArn
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Contains information about an event destination. Event destinations are associated with configuration sets, which enable you to publish message sending events to CloudWatch, Firehose, or Amazon SNS.
-    public struct EventDestination {
+    public struct EventDestination: Swift.Sendable {
         /// An object that contains information about an event destination that sends logging events to Amazon CloudWatch logs.
         public var cloudWatchLogsDestination: PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination?
         /// When set to true events will be logged.
@@ -1334,12 +1335,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.snsDestination = snsDestination
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Information related to a given configuration set in your Amazon Web Services account.
-    public struct ConfigurationSetInformation {
+    public struct ConfigurationSetInformation: Swift.Sendable {
         /// The Resource Name (ARN) of the ConfigurationSet.
         /// This member is required.
         public var configurationSetArn: Swift.String?
@@ -1378,12 +1379,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.protectConfigurationId = protectConfigurationId
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The list of tags to be added to the specified topic.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The key identifier, or name, of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -1400,10 +1401,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct CreateConfigurationSetInput {
+public struct CreateConfigurationSetInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The name to use for the new configuration set.
@@ -1424,7 +1424,7 @@ public struct CreateConfigurationSetInput {
     }
 }
 
-public struct CreateConfigurationSetOutput {
+public struct CreateConfigurationSetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the newly created configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the new configuration set.
@@ -1448,7 +1448,7 @@ public struct CreateConfigurationSetOutput {
     }
 }
 
-public struct CreateEventDestinationInput {
+public struct CreateEventDestinationInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// An object that contains information about an event destination for logging to Amazon CloudWatch Logs.
@@ -1487,7 +1487,7 @@ public struct CreateEventDestinationInput {
     }
 }
 
-public struct CreateEventDestinationOutput {
+public struct CreateEventDestinationOutput: Swift.Sendable {
     /// The ARN of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -1507,7 +1507,7 @@ public struct CreateEventDestinationOutput {
     }
 }
 
-public struct CreateOptOutListInput {
+public struct CreateOptOutListInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The name of the new OptOutList.
@@ -1528,7 +1528,7 @@ public struct CreateOptOutListInput {
     }
 }
 
-public struct CreateOptOutListOutput {
+public struct CreateOptOutListOutput: Swift.Sendable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) for the OptOutList.
@@ -1552,7 +1552,7 @@ public struct CreateOptOutListOutput {
     }
 }
 
-public struct CreatePoolInput {
+public struct CreatePoolInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the [UpdatePool] action.
@@ -1589,7 +1589,7 @@ public struct CreatePoolInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum PoolStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PoolStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
         case deleting
@@ -1619,7 +1619,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct CreatePoolOutput {
+public struct CreatePoolOutput: Swift.Sendable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// When set to true deletion protection is enabled. By default this is set to false.
@@ -1685,7 +1685,7 @@ public struct CreatePoolOutput {
     }
 }
 
-public struct CreateProtectConfigurationInput {
+public struct CreateProtectConfigurationInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// When set to true deletion protection is enabled. By default this is set to false.
@@ -1705,7 +1705,7 @@ public struct CreateProtectConfigurationInput {
     }
 }
 
-public struct CreateProtectConfigurationOutput {
+public struct CreateProtectConfigurationOutput: Swift.Sendable {
     /// This is true if the protect configuration is set as your account default protect configuration.
     /// This member is required.
     public var accountDefault: Swift.Bool
@@ -1742,7 +1742,7 @@ public struct CreateProtectConfigurationOutput {
     }
 }
 
-public struct CreateRegistrationInput {
+public struct CreateRegistrationInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The type of registration form to create. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
@@ -1765,7 +1765,7 @@ public struct CreateRegistrationInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case closed
         case complete
         case created
@@ -1810,7 +1810,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct CreateRegistrationOutput {
+public struct CreateRegistrationOutput: Swift.Sendable {
     /// Metadata about a given registration which is specific to that registration type.
     public var additionalAttributes: [Swift.String: Swift.String]?
     /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
@@ -1872,7 +1872,7 @@ public struct CreateRegistrationOutput {
     }
 }
 
-public struct CreateRegistrationAssociationInput {
+public struct CreateRegistrationAssociationInput: Swift.Sendable {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -1890,7 +1890,7 @@ public struct CreateRegistrationAssociationInput {
     }
 }
 
-public struct CreateRegistrationAssociationOutput {
+public struct CreateRegistrationAssociationOutput: Swift.Sendable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The phone number associated with the registration in E.164 format.
@@ -1936,7 +1936,7 @@ public struct CreateRegistrationAssociationOutput {
     }
 }
 
-public struct CreateRegistrationAttachmentInput {
+public struct CreateRegistrationAttachmentInput: Swift.Sendable {
     /// The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
     public var attachmentBody: Foundation.Data?
     /// A URL to the required registration file. For example, you can provide the S3 object URL.
@@ -1960,7 +1960,7 @@ public struct CreateRegistrationAttachmentInput {
     }
 }
 
-public struct CreateRegistrationAttachmentOutput {
+public struct CreateRegistrationAttachmentOutput: Swift.Sendable {
     /// The status of the registration attachment.
     ///
     /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
@@ -2000,7 +2000,7 @@ public struct CreateRegistrationAttachmentOutput {
     }
 }
 
-public struct CreateRegistrationVersionInput {
+public struct CreateRegistrationVersionInput: Swift.Sendable {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -2015,7 +2015,7 @@ public struct CreateRegistrationVersionInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationVersionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approved
         case archived
         case denied
@@ -2061,8 +2061,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
-    public struct RegistrationVersionStatusHistory {
+    public struct RegistrationVersionStatusHistory: Swift.Sendable {
         /// The time when the registration was in the approved state, in [UNIX epoch time](https://www.epochconverter.com/) format.
         public var approvedTimestamp: Foundation.Date?
         /// The time when the registration was in the archived state, in [UNIX epoch time](https://www.epochconverter.com/) format.
@@ -2102,10 +2103,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.submittedTimestamp = submittedTimestamp
         }
     }
-
 }
 
-public struct CreateRegistrationVersionOutput {
+public struct CreateRegistrationVersionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the registration.
     /// This member is required.
     public var registrationArn: Swift.String?
@@ -2154,7 +2154,7 @@ public struct CreateRegistrationVersionOutput {
     }
 }
 
-public struct CreateVerifiedDestinationNumberInput {
+public struct CreateVerifiedDestinationNumberInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The verified destination phone number, in E.164 format.
@@ -2177,7 +2177,7 @@ public struct CreateVerifiedDestinationNumberInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum VerificationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pending
         case verified
         case sdkUnknown(Swift.String)
@@ -2204,7 +2204,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct CreateVerifiedDestinationNumberOutput {
+public struct CreateVerifiedDestinationNumberOutput: Swift.Sendable {
     /// The time when the verified phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
     public var createdTimestamp: Foundation.Date?
@@ -2245,12 +2245,12 @@ public struct CreateVerifiedDestinationNumberOutput {
     }
 }
 
-public struct DeleteAccountDefaultProtectConfigurationInput {
+public struct DeleteAccountDefaultProtectConfigurationInput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteAccountDefaultProtectConfigurationOutput {
+public struct DeleteAccountDefaultProtectConfigurationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the account default protect configuration.
     /// This member is required.
     public var defaultProtectConfigurationArn: Swift.String?
@@ -2268,7 +2268,7 @@ public struct DeleteAccountDefaultProtectConfigurationOutput {
     }
 }
 
-public struct DeleteConfigurationSetInput {
+public struct DeleteConfigurationSetInput: Swift.Sendable {
     /// The name of the configuration set or the configuration set ARN that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2281,7 +2281,7 @@ public struct DeleteConfigurationSetInput {
     }
 }
 
-public struct DeleteConfigurationSetOutput {
+public struct DeleteConfigurationSetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the deleted configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the deleted configuration set.
@@ -2313,7 +2313,7 @@ public struct DeleteConfigurationSetOutput {
     }
 }
 
-public struct DeleteDefaultMessageTypeInput {
+public struct DeleteDefaultMessageTypeInput: Swift.Sendable {
     /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default message type from. The ConfigurationSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2326,7 +2326,7 @@ public struct DeleteDefaultMessageTypeInput {
     }
 }
 
-public struct DeleteDefaultMessageTypeOutput {
+public struct DeleteDefaultMessageTypeOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -2346,7 +2346,7 @@ public struct DeleteDefaultMessageTypeOutput {
     }
 }
 
-public struct DeleteDefaultSenderIdInput {
+public struct DeleteDefaultSenderIdInput: Swift.Sendable {
     /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2359,7 +2359,7 @@ public struct DeleteDefaultSenderIdInput {
     }
 }
 
-public struct DeleteDefaultSenderIdOutput {
+public struct DeleteDefaultSenderIdOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -2379,7 +2379,7 @@ public struct DeleteDefaultSenderIdOutput {
     }
 }
 
-public struct DeleteEventDestinationInput {
+public struct DeleteEventDestinationInput: Swift.Sendable {
     /// The name of the configuration set or the configuration set's Amazon Resource Name (ARN) to remove the event destination from. The ConfigurateSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets] action.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2397,7 +2397,7 @@ public struct DeleteEventDestinationInput {
     }
 }
 
-public struct DeleteEventDestinationOutput {
+public struct DeleteEventDestinationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set the event destination was deleted from.
@@ -2417,7 +2417,7 @@ public struct DeleteEventDestinationOutput {
     }
 }
 
-public struct DeleteKeywordInput {
+public struct DeleteKeywordInput: Swift.Sendable {
     /// The keyword to delete.
     /// This member is required.
     public var keyword: Swift.String?
@@ -2437,7 +2437,7 @@ public struct DeleteKeywordInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum KeywordAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum KeywordAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automaticResponse
         case optIn
         case optOut
@@ -2467,7 +2467,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct DeleteKeywordOutput {
+public struct DeleteKeywordOutput: Swift.Sendable {
     /// The keyword that was deleted.
     public var keyword: Swift.String?
     /// The action that was associated with the deleted keyword.
@@ -2495,12 +2495,12 @@ public struct DeleteKeywordOutput {
     }
 }
 
-public struct DeleteMediaMessageSpendLimitOverrideInput {
+public struct DeleteMediaMessageSpendLimitOverrideInput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteMediaMessageSpendLimitOverrideOutput {
+public struct DeleteMediaMessageSpendLimitOverrideOutput: Swift.Sendable {
     /// The current monthly limit, in US dollars.
     public var monthlyLimit: Swift.Int?
 
@@ -2512,7 +2512,7 @@ public struct DeleteMediaMessageSpendLimitOverrideOutput {
     }
 }
 
-public struct DeleteOptedOutNumberInput {
+public struct DeleteOptedOutNumberInput: Swift.Sendable {
     /// The OptOutListName or OptOutListArn to remove the phone number from. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
@@ -2530,7 +2530,7 @@ public struct DeleteOptedOutNumberInput {
     }
 }
 
-public struct DeleteOptedOutNumberOutput {
+public struct DeleteOptedOutNumberOutput: Swift.Sendable {
     /// This is true if it was the end user who requested their phone number be removed.
     public var endUserOptedOut: Swift.Bool
     /// The OptOutListArn that the phone number was removed from.
@@ -2558,7 +2558,7 @@ public struct DeleteOptedOutNumberOutput {
     }
 }
 
-public struct DeleteOptOutListInput {
+public struct DeleteOptOutListInput: Swift.Sendable {
     /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use [DescribeOptOutLists] to find the values for OptOutListName and OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
@@ -2571,7 +2571,7 @@ public struct DeleteOptOutListInput {
     }
 }
 
-public struct DeleteOptOutListOutput {
+public struct DeleteOptOutListOutput: Swift.Sendable {
     /// The time when the OptOutList was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the OptOutList that was removed.
@@ -2591,7 +2591,7 @@ public struct DeleteOptOutListOutput {
     }
 }
 
-public struct DeletePoolInput {
+public struct DeletePoolInput: Swift.Sendable {
     /// The PoolId or PoolArn of the pool to delete. You can use [DescribePools] to find the values for PoolId and PoolArn . If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var poolId: Swift.String?
@@ -2604,7 +2604,7 @@ public struct DeletePoolInput {
     }
 }
 
-public struct DeletePoolOutput {
+public struct DeletePoolOutput: Swift.Sendable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// The message type that was associated with the deleted pool.
@@ -2662,7 +2662,7 @@ public struct DeletePoolOutput {
     }
 }
 
-public struct DeleteProtectConfigurationInput {
+public struct DeleteProtectConfigurationInput: Swift.Sendable {
     /// The unique identifier for the protect configuration.
     /// This member is required.
     public var protectConfigurationId: Swift.String?
@@ -2675,7 +2675,7 @@ public struct DeleteProtectConfigurationInput {
     }
 }
 
-public struct DeleteProtectConfigurationOutput {
+public struct DeleteProtectConfigurationOutput: Swift.Sendable {
     /// This is true if the protect configuration is set as your account default protect configuration.
     /// This member is required.
     public var accountDefault: Swift.Bool
@@ -2708,7 +2708,7 @@ public struct DeleteProtectConfigurationOutput {
     }
 }
 
-public struct DeleteRegistrationInput {
+public struct DeleteRegistrationInput: Swift.Sendable {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -2721,7 +2721,7 @@ public struct DeleteRegistrationInput {
     }
 }
 
-public struct DeleteRegistrationOutput {
+public struct DeleteRegistrationOutput: Swift.Sendable {
     /// Metadata about a given registration which is specific to that registration type.
     public var additionalAttributes: [Swift.String: Swift.String]?
     /// The version number of the registration that was approved.
@@ -2787,7 +2787,7 @@ public struct DeleteRegistrationOutput {
     }
 }
 
-public struct DeleteRegistrationAttachmentInput {
+public struct DeleteRegistrationAttachmentInput: Swift.Sendable {
     /// The unique identifier for the registration attachment.
     /// This member is required.
     public var registrationAttachmentId: Swift.String?
@@ -2800,7 +2800,7 @@ public struct DeleteRegistrationAttachmentInput {
     }
 }
 
-public struct DeleteRegistrationAttachmentOutput {
+public struct DeleteRegistrationAttachmentOutput: Swift.Sendable {
     /// The status of the registration attachment.
     ///
     /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
@@ -2840,7 +2840,7 @@ public struct DeleteRegistrationAttachmentOutput {
     }
 }
 
-public struct DeleteRegistrationFieldValueInput {
+public struct DeleteRegistrationFieldValueInput: Swift.Sendable {
     /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -2858,7 +2858,7 @@ public struct DeleteRegistrationFieldValueInput {
     }
 }
 
-public struct DeleteRegistrationFieldValueOutput {
+public struct DeleteRegistrationFieldValueOutput: Swift.Sendable {
     /// The path to the registration form field.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -2898,7 +2898,7 @@ public struct DeleteRegistrationFieldValueOutput {
     }
 }
 
-public struct DeleteResourcePolicyInput {
+public struct DeleteResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource you're deleting the resource-based policy from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2911,7 +2911,7 @@ public struct DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyOutput {
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
     /// The time when the resource-based policy was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// The JSON formatted resource-based policy that was deleted.
@@ -2931,12 +2931,12 @@ public struct DeleteResourcePolicyOutput {
     }
 }
 
-public struct DeleteTextMessageSpendLimitOverrideInput {
+public struct DeleteTextMessageSpendLimitOverrideInput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteTextMessageSpendLimitOverrideOutput {
+public struct DeleteTextMessageSpendLimitOverrideOutput: Swift.Sendable {
     /// The current monthly limit, in US dollars.
     public var monthlyLimit: Swift.Int?
 
@@ -2948,7 +2948,7 @@ public struct DeleteTextMessageSpendLimitOverrideOutput {
     }
 }
 
-public struct DeleteVerifiedDestinationNumberInput {
+public struct DeleteVerifiedDestinationNumberInput: Swift.Sendable {
     /// The unique identifier for the verified destination phone number.
     /// This member is required.
     public var verifiedDestinationNumberId: Swift.String?
@@ -2961,7 +2961,7 @@ public struct DeleteVerifiedDestinationNumberInput {
     }
 }
 
-public struct DeleteVerifiedDestinationNumberOutput {
+public struct DeleteVerifiedDestinationNumberOutput: Swift.Sendable {
     /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
     public var createdTimestamp: Foundation.Date?
@@ -2989,12 +2989,12 @@ public struct DeleteVerifiedDestinationNumberOutput {
     }
 }
 
-public struct DeleteVoiceMessageSpendLimitOverrideInput {
+public struct DeleteVoiceMessageSpendLimitOverrideInput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteVoiceMessageSpendLimitOverrideOutput {
+public struct DeleteVoiceMessageSpendLimitOverrideOutput: Swift.Sendable {
     /// The current monthly limit, in US dollars.
     public var monthlyLimit: Swift.Int?
 
@@ -3006,7 +3006,7 @@ public struct DeleteVoiceMessageSpendLimitOverrideOutput {
     }
 }
 
-public struct DescribeAccountAttributesInput {
+public struct DescribeAccountAttributesInput: Swift.Sendable {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -3022,7 +3022,7 @@ public struct DescribeAccountAttributesInput {
     }
 }
 
-public struct DescribeAccountAttributesOutput {
+public struct DescribeAccountAttributesOutput: Swift.Sendable {
     /// An array of AccountAttributes objects.
     public var accountAttributes: [PinpointSMSVoiceV2ClientTypes.AccountAttribute]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3038,7 +3038,7 @@ public struct DescribeAccountAttributesOutput {
     }
 }
 
-public struct DescribeAccountLimitsInput {
+public struct DescribeAccountLimitsInput: Swift.Sendable {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -3054,7 +3054,7 @@ public struct DescribeAccountLimitsInput {
     }
 }
 
-public struct DescribeAccountLimitsOutput {
+public struct DescribeAccountLimitsOutput: Swift.Sendable {
     /// An array of AccountLimit objects that show the current spend limits.
     public var accountLimits: [PinpointSMSVoiceV2ClientTypes.AccountLimit]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3070,7 +3070,7 @@ public struct DescribeAccountLimitsOutput {
     }
 }
 
-public struct DescribeConfigurationSetsInput {
+public struct DescribeConfigurationSetsInput: Swift.Sendable {
     /// An array of strings. Each element can be either a ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetNames: [Swift.String]?
     /// An array of filters to apply to the results that are returned.
@@ -3094,7 +3094,7 @@ public struct DescribeConfigurationSetsInput {
     }
 }
 
-public struct DescribeConfigurationSetsOutput {
+public struct DescribeConfigurationSetsOutput: Swift.Sendable {
     /// An array of ConfigurationSets objects.
     public var configurationSets: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3112,7 +3112,7 @@ public struct DescribeConfigurationSetsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum KeywordFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum KeywordFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case keywordAction
         case sdkUnknown(Swift.String)
 
@@ -3137,8 +3137,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for keywords that meet a specified criteria.
-    public struct KeywordFilter {
+    public struct KeywordFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.KeywordFilterName?
@@ -3155,10 +3156,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeKeywordsInput {
+public struct DescribeKeywordsInput: Swift.Sendable {
     /// An array of keyword filters to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.KeywordFilter]?
     /// An array of keywords to search for.
@@ -3188,8 +3188,9 @@ public struct DescribeKeywordsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for all keywords in a pool.
-    public struct KeywordInformation {
+    public struct KeywordInformation: Swift.Sendable {
         /// The keyword as a string.
         /// This member is required.
         public var keyword: Swift.String?
@@ -3211,10 +3212,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.keywordMessage = keywordMessage
         }
     }
-
 }
 
-public struct DescribeKeywordsOutput {
+public struct DescribeKeywordsOutput: Swift.Sendable {
     /// An array of KeywordInformation objects that contain the results.
     public var keywords: [PinpointSMSVoiceV2ClientTypes.KeywordInformation]?
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
@@ -3240,7 +3240,7 @@ public struct DescribeKeywordsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum OptedOutFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OptedOutFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case endUserOptedOut
         case sdkUnknown(Swift.String)
 
@@ -3265,8 +3265,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for opted out numbers that meet a specified criteria.
-    public struct OptedOutFilter {
+    public struct OptedOutFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.OptedOutFilterName?
@@ -3283,10 +3284,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeOptedOutNumbersInput {
+public struct DescribeOptedOutNumbersInput: Swift.Sendable {
     /// An array of OptedOutFilter objects to filter the results on.
     public var filters: [PinpointSMSVoiceV2ClientTypes.OptedOutFilter]?
     /// The maximum number of results to return per each request.
@@ -3316,8 +3316,9 @@ public struct DescribeOptedOutNumbersInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for an opted out number in an Amazon Web Services account.
-    public struct OptedOutNumberInformation {
+    public struct OptedOutNumberInformation: Swift.Sendable {
         /// This is set to true if it was the end recipient that opted out.
         /// This member is required.
         public var endUserOptedOut: Swift.Bool
@@ -3339,10 +3340,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.optedOutTimestamp = optedOutTimestamp
         }
     }
-
 }
 
-public struct DescribeOptedOutNumbersOutput {
+public struct DescribeOptedOutNumbersOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the OptOutList.
@@ -3368,7 +3368,7 @@ public struct DescribeOptedOutNumbersOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum Owner: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Owner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `self`
         case shared
         case sdkUnknown(Swift.String)
@@ -3395,7 +3395,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct DescribeOptOutListsInput {
+public struct DescribeOptOutListsInput: Swift.Sendable {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -3420,8 +3420,9 @@ public struct DescribeOptOutListsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for all OptOutList in an Amazon Web Services account.
-    public struct OptOutListInformation {
+    public struct OptOutListInformation: Swift.Sendable {
         /// The time when the OutOutList was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: Foundation.Date?
@@ -3443,10 +3444,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.optOutListName = optOutListName
         }
     }
-
 }
 
-public struct DescribeOptOutListsOutput {
+public struct DescribeOptOutListsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of OptOutListInformation objects that contain the details for the requested OptOutLists.
@@ -3464,7 +3464,7 @@ public struct DescribeOptOutListsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum PhoneNumberFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PhoneNumberFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deletionProtectionEnabled
         case isoCountryCode
         case messageType
@@ -3516,8 +3516,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for a phone number that meets a specified criteria.
-    public struct PhoneNumberFilter {
+    public struct PhoneNumberFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.PhoneNumberFilterName?
@@ -3534,10 +3535,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribePhoneNumbersInput {
+public struct DescribePhoneNumbersInput: Swift.Sendable {
     /// An array of PhoneNumberFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.PhoneNumberFilter]?
     /// The maximum number of results to return per each request.
@@ -3567,7 +3567,7 @@ public struct DescribePhoneNumbersInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum NumberCapability: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NumberCapability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mms
         case sms
         case voice
@@ -3599,7 +3599,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum NumberType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case longCode
         case shortCode
         case simulator
@@ -3637,7 +3637,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum NumberStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NumberStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case associating
         case deleted
@@ -3674,8 +3674,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for a phone number, in E.164 format, in an Amazon Web Services account.
-    public struct PhoneNumberInformation {
+    public struct PhoneNumberInformation: Swift.Sendable {
         /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: Foundation.Date?
@@ -3767,10 +3768,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.twoWayEnabled = twoWayEnabled
         }
     }
-
 }
 
-public struct DescribePhoneNumbersOutput {
+public struct DescribePhoneNumbersOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of PhoneNumberInformation objects that contain the details for the requested phone numbers.
@@ -3788,7 +3788,7 @@ public struct DescribePhoneNumbersOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum PoolFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PoolFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deletionProtectionEnabled
         case messageType
         case optOutListName
@@ -3834,8 +3834,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for a pool that meets a specified criteria.
-    public struct PoolFilter {
+    public struct PoolFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.PoolFilterName?
@@ -3852,10 +3853,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribePoolsInput {
+public struct DescribePoolsInput: Swift.Sendable {
     /// An array of PoolFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.PoolFilter]?
     /// The maximum number of results to return per each request.
@@ -3884,8 +3884,9 @@ public struct DescribePoolsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for a pool in an Amazon Web Services account.
-    public struct PoolInformation {
+    public struct PoolInformation: Swift.Sendable {
         /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: Foundation.Date?
@@ -3950,10 +3951,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.twoWayEnabled = twoWayEnabled
         }
     }
-
 }
 
-public struct DescribePoolsOutput {
+public struct DescribePoolsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of PoolInformation objects that contain the details for the requested pools.
@@ -3971,7 +3971,7 @@ public struct DescribePoolsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum ProtectConfigurationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ProtectConfigurationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountDefault
         case deletionProtectionEnabled
         case sdkUnknown(Swift.String)
@@ -3999,8 +3999,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The filter definition for filtering protect configurations that meet a specified criteria.
-    public struct ProtectConfigurationFilter {
+    public struct ProtectConfigurationFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationFilterName?
@@ -4017,10 +4018,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeProtectConfigurationsInput {
+public struct DescribeProtectConfigurationsInput: Swift.Sendable {
     /// An array of ProtectConfigurationFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationFilter]?
     /// The maximum number of results to return per each request.
@@ -4045,8 +4045,9 @@ public struct DescribeProtectConfigurationsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides information on the specified protect configuration.
-    public struct ProtectConfigurationInformation {
+    public struct ProtectConfigurationInformation: Swift.Sendable {
         /// This is true if the protect configuration is set as your account default protect configuration.
         /// This member is required.
         public var accountDefault: Swift.Bool
@@ -4078,10 +4079,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.protectConfigurationId = protectConfigurationId
         }
     }
-
 }
 
-public struct DescribeProtectConfigurationsOutput {
+public struct DescribeProtectConfigurationsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of ProtectConfigurationInformation objects that contain the details for the request.
@@ -4099,7 +4099,7 @@ public struct DescribeProtectConfigurationsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationAttachmentFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationAttachmentFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case attachmentStatus
         case sdkUnknown(Swift.String)
 
@@ -4124,8 +4124,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The filter definition for filtering registration attachments that meets a specified criteria.
-    public struct RegistrationAttachmentFilter {
+    public struct RegistrationAttachmentFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilterName?
@@ -4142,10 +4143,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeRegistrationAttachmentsInput {
+public struct DescribeRegistrationAttachmentsInput: Swift.Sendable {
     /// An array of RegistrationAttachmentFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilter]?
     /// The maximum number of results to return per each request.
@@ -4170,8 +4170,9 @@ public struct DescribeRegistrationAttachmentsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides information on the specified registration attachments.
-    public struct RegistrationAttachmentsInformation {
+    public struct RegistrationAttachmentsInformation: Swift.Sendable {
         /// The status of the registration attachment.
         ///
         /// * UPLOAD_IN_PROGRESS The attachment is being uploaded.
@@ -4210,10 +4211,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.registrationAttachmentId = registrationAttachmentId
         }
     }
-
 }
 
-public struct DescribeRegistrationAttachmentsOutput {
+public struct DescribeRegistrationAttachmentsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationAttachments objects that contain the details for the requested registration attachments.
@@ -4230,7 +4230,7 @@ public struct DescribeRegistrationAttachmentsOutput {
     }
 }
 
-public struct DescribeRegistrationFieldDefinitionsInput {
+public struct DescribeRegistrationFieldDefinitionsInput: Swift.Sendable {
     /// An array of paths to the registration form field.
     public var fieldPaths: [Swift.String]?
     /// The maximum number of results to return per each request.
@@ -4260,8 +4260,9 @@ public struct DescribeRegistrationFieldDefinitionsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// A description of each select option.
-    public struct SelectOptionDescription {
+    public struct SelectOptionDescription: Swift.Sendable {
         /// A description of the option meaning.
         public var description: Swift.String?
         /// The value of the option.
@@ -4281,12 +4282,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.title = title
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides help information on the registration field.
-    public struct RegistrationFieldDisplayHints {
+    public struct RegistrationFieldDisplayHints: Swift.Sendable {
         /// The link to the document the display hint is associated with.
         public var documentationLink: Swift.String?
         /// The title of the document the display hint is associated with.
@@ -4327,12 +4328,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.title = title
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum FieldRequirement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FieldRequirement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case conditional
         case `optional`
         case `required`
@@ -4364,7 +4364,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum FieldType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case attachment
         case select
         case text
@@ -4395,8 +4395,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Validation rules for a select field.
-    public struct SelectValidation {
+    public struct SelectValidation: Swift.Sendable {
         /// The maximum number of choices for the select.
         /// This member is required.
         public var maxChoices: Swift.Int?
@@ -4418,12 +4419,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.options = options
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Validation rules for a text field.
-    public struct TextValidation {
+    public struct TextValidation: Swift.Sendable {
         /// The maximum number of characters for the text field.
         /// This member is required.
         public var maxLength: Swift.Int?
@@ -4445,12 +4446,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.pattern = pattern
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides a description of the specified field.
-    public struct RegistrationFieldDefinition {
+    public struct RegistrationFieldDefinition: Swift.Sendable {
         /// An array of RegistrationFieldDisplayHints objects for the field.
         /// This member is required.
         public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints?
@@ -4490,10 +4491,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.textValidation = textValidation
         }
     }
-
 }
 
-public struct DescribeRegistrationFieldDefinitionsOutput {
+public struct DescribeRegistrationFieldDefinitionsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationFieldDefinitions objects that contain the details for the requested fields.
@@ -4515,7 +4515,7 @@ public struct DescribeRegistrationFieldDefinitionsOutput {
     }
 }
 
-public struct DescribeRegistrationFieldValuesInput {
+public struct DescribeRegistrationFieldValuesInput: Swift.Sendable {
     /// An array of paths to the registration form field.
     public var fieldPaths: [Swift.String]?
     /// The maximum number of results to return per each request.
@@ -4549,8 +4549,9 @@ public struct DescribeRegistrationFieldValuesInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides the values of the specified field.
-    public struct RegistrationFieldValueInformation {
+    public struct RegistrationFieldValueInformation: Swift.Sendable {
         /// A description of why the registration was denied.
         public var deniedReason: Swift.String?
         /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
@@ -4578,10 +4579,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.textValue = textValue
         }
     }
-
 }
 
-public struct DescribeRegistrationFieldValuesOutput {
+public struct DescribeRegistrationFieldValuesOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) for the registration.
@@ -4615,7 +4615,7 @@ public struct DescribeRegistrationFieldValuesOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case registrationStatus
         case registrationType
         case sdkUnknown(Swift.String)
@@ -4643,8 +4643,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The filter definition for filtering registrations that meets a specified criteria.
-    public struct RegistrationFilter {
+    public struct RegistrationFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationFilterName?
@@ -4661,10 +4662,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeRegistrationsInput {
+public struct DescribeRegistrationsInput: Swift.Sendable {
     /// An array of RegistrationFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationFilter]?
     /// The maximum number of results to return per each request.
@@ -4689,8 +4689,9 @@ public struct DescribeRegistrationsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides information about the requested registration.
-    public struct RegistrationInformation {
+    public struct RegistrationInformation: Swift.Sendable {
         /// Metadata about a given registration which is specific to that registration type.
         public var additionalAttributes: [Swift.String: Swift.String]?
         /// The version number of the registration that was approved.
@@ -4755,10 +4756,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.registrationType = registrationType
         }
     }
-
 }
 
-public struct DescribeRegistrationsOutput {
+public struct DescribeRegistrationsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationInformation objects.
@@ -4775,7 +4775,7 @@ public struct DescribeRegistrationsOutput {
     }
 }
 
-public struct DescribeRegistrationSectionDefinitionsInput {
+public struct DescribeRegistrationSectionDefinitionsInput: Swift.Sendable {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -4801,8 +4801,9 @@ public struct DescribeRegistrationSectionDefinitionsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides help information on the registration section.
-    public struct RegistrationSectionDisplayHints {
+    public struct RegistrationSectionDisplayHints: Swift.Sendable {
         /// The link to the document the display hint is associated with.
         public var documentationLink: Swift.String?
         /// The title of the document the display hint is associated with.
@@ -4831,12 +4832,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.title = title
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides information on the specified section definition.
-    public struct RegistrationSectionDefinition {
+    public struct RegistrationSectionDefinition: Swift.Sendable {
         /// The path to the section of the registration.
         /// This member is required.
         public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints?
@@ -4853,10 +4854,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.sectionPath = sectionPath
         }
     }
-
 }
 
-public struct DescribeRegistrationSectionDefinitionsOutput {
+public struct DescribeRegistrationSectionDefinitionsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of RegistrationSectionDefinition objects.
@@ -4880,7 +4880,7 @@ public struct DescribeRegistrationSectionDefinitionsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationTypeFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationTypeFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case supportedAssociationIsoCountryCode
         case supportedAssociationResourceType
         case sdkUnknown(Swift.String)
@@ -4908,8 +4908,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The filter definition for filtering registration types that meets a specified criteria.
-    public struct RegistrationTypeFilter {
+    public struct RegistrationTypeFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilterName?
@@ -4926,10 +4927,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeRegistrationTypeDefinitionsInput {
+public struct DescribeRegistrationTypeDefinitionsInput: Swift.Sendable {
     /// An array of RegistrationFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilter]?
     /// The maximum number of results to return per each request.
@@ -4954,8 +4954,9 @@ public struct DescribeRegistrationTypeDefinitionsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides help information on the registration type.
-    public struct RegistrationTypeDisplayHints {
+    public struct RegistrationTypeDisplayHints: Swift.Sendable {
         /// The link to the document the display hint is associated with.
         public var documentationLink: Swift.String?
         /// The title of the document the display hint is associated with.
@@ -4983,12 +4984,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.title = title
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationAssociationBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationAssociationBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case associateAfterComplete
         case associateBeforeSubmit
         case associateOnApproval
@@ -5020,7 +5020,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationDisassociationBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationDisassociationBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleteRegistrationDisassociates
         case disassociateAllAllowsDeleteRegistration
         case disassociateAllClosesRegistration
@@ -5051,8 +5051,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The processing rules for when a registration can be associated with an origination identity and disassociated from an origination identity.
-    public struct SupportedAssociation {
+    public struct SupportedAssociation: Swift.Sendable {
         /// The association behavior.
         ///
         /// * ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.
@@ -5090,12 +5091,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.resourceType = resourceType
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides information on the supported registration type.
-    public struct RegistrationTypeDefinition {
+    public struct RegistrationTypeDefinition: Swift.Sendable {
         /// Provides help information on the registration.
         /// This member is required.
         public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints?
@@ -5116,10 +5117,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.supportedAssociations = supportedAssociations
         }
     }
-
 }
 
-public struct DescribeRegistrationTypeDefinitionsOutput {
+public struct DescribeRegistrationTypeDefinitionsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The type of registration form. The list of RegistrationTypes can be found using the [DescribeRegistrationTypeDefinitions] action.
@@ -5138,7 +5138,7 @@ public struct DescribeRegistrationTypeDefinitionsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationVersionFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationVersionFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case registrationVersionStatus
         case sdkUnknown(Swift.String)
 
@@ -5163,8 +5163,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The filter definition for filtering registration versions that meets a specified criteria.
-    public struct RegistrationVersionFilter {
+    public struct RegistrationVersionFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilterName?
@@ -5181,10 +5182,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeRegistrationVersionsInput {
+public struct DescribeRegistrationVersionsInput: Swift.Sendable {
     /// An array of RegistrationVersionFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilter]?
     /// The maximum number of results to return per each request.
@@ -5214,8 +5214,9 @@ public struct DescribeRegistrationVersionsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides the reason a registration was rejected.
-    public struct RegistrationDeniedReasonInformation {
+    public struct RegistrationDeniedReasonInformation: Swift.Sendable {
         /// The link to the document.
         public var documentationLink: Swift.String?
         /// The title of the document.
@@ -5244,12 +5245,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.shortDescription = shortDescription
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides information about the specified version of the registration.
-    public struct RegistrationVersionInformation {
+    public struct RegistrationVersionInformation: Swift.Sendable {
         /// An array of RegistrationDeniedReasonInformation objects.
         public var deniedReasons: [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]?
         /// The status of the registration.
@@ -5291,10 +5292,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.versionNumber = versionNumber
         }
     }
-
 }
 
-public struct DescribeRegistrationVersionsOutput {
+public struct DescribeRegistrationVersionsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) for the registration.
@@ -5323,7 +5323,7 @@ public struct DescribeRegistrationVersionsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum SenderIdFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SenderIdFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deletionProtectionEnabled
         case isoCountryCode
         case messageType
@@ -5360,8 +5360,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for a sender ID that meets a specified criteria.
-    public struct SenderIdFilter {
+    public struct SenderIdFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.SenderIdFilterName?
@@ -5378,12 +5379,12 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The alphanumeric sender ID in a specific country that you want to describe. For more information on sender IDs see [Requesting sender IDs ](https://docs.aws.amazon.com/sms-voice/latest/userguide/sender-id-request.html) in the AWS End User Messaging SMS User Guide.
-    public struct SenderIdAndCountry {
+    public struct SenderIdAndCountry: Swift.Sendable {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         /// This member is required.
         public var isoCountryCode: Swift.String?
@@ -5400,10 +5401,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.senderId = senderId
         }
     }
-
 }
 
-public struct DescribeSenderIdsInput {
+public struct DescribeSenderIdsInput: Swift.Sendable {
     /// An array of SenderIdFilter objects to filter the results.
     public var filters: [PinpointSMSVoiceV2ClientTypes.SenderIdFilter]?
     /// The maximum number of results to return per each request.
@@ -5432,8 +5432,9 @@ public struct DescribeSenderIdsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The information for all SenderIds in an Amazon Web Services account.
-    public struct SenderIdInformation {
+    public struct SenderIdInformation: Swift.Sendable {
         /// By default this is set to false. When set to true the sender ID can't be deleted.
         /// This member is required.
         public var deletionProtectionEnabled: Swift.Bool
@@ -5479,10 +5480,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.senderIdArn = senderIdArn
         }
     }
-
 }
 
-public struct DescribeSenderIdsOutput {
+public struct DescribeSenderIdsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of SernderIdInformation objects that contain the details for the requested SenderIds.
@@ -5498,7 +5498,7 @@ public struct DescribeSenderIdsOutput {
     }
 }
 
-public struct DescribeSpendLimitsInput {
+public struct DescribeSpendLimitsInput: Swift.Sendable {
     /// The maximum number of results to return per each request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
@@ -5516,7 +5516,7 @@ public struct DescribeSpendLimitsInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum SpendLimitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SpendLimitName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mediaMessageMonthlySpendLimit
         case textMessageMonthlySpendLimit
         case voiceMessageMonthlySpendLimit
@@ -5547,8 +5547,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Describes the current monthly spend limits for sending voice and text messages. For more information on increasing your monthly spend limit, see [ Requesting a spending quota increase ](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html) in the AWS End User Messaging SMS User Guide.
-    public struct SpendLimit {
+    public struct SpendLimit: Swift.Sendable {
         /// The maximum amount of money, in US dollars, that you want to be able to spend sending messages each month. This value has to be less than or equal to the amount in MaxLimit. To use this custom limit, Overridden must be set to true.
         /// This member is required.
         public var enforcedLimit: Swift.Int
@@ -5575,10 +5576,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.overridden = overridden
         }
     }
-
 }
 
-public struct DescribeSpendLimitsOutput {
+public struct DescribeSpendLimitsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of SpendLimit objects that contain the details for the requested spend limits.
@@ -5596,7 +5596,7 @@ public struct DescribeSpendLimitsOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum VerifiedDestinationNumberFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VerifiedDestinationNumberFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case status
         case sdkUnknown(Swift.String)
 
@@ -5621,8 +5621,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The filter definition for filtering verified destination phone numbers that meets a specified criteria.
-    public struct VerifiedDestinationNumberFilter {
+    public struct VerifiedDestinationNumberFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilterName?
@@ -5639,10 +5640,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeVerifiedDestinationNumbersInput {
+public struct DescribeVerifiedDestinationNumbersInput: Swift.Sendable {
     /// An array of verified destination phone number, in E.164 format.
     public var destinationPhoneNumbers: [Swift.String]?
     /// An array of VerifiedDestinationNumberFilter objects to filter the results.
@@ -5671,8 +5671,9 @@ public struct DescribeVerifiedDestinationNumbersInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Provides information about the requested verified destintion phone number.
-    public struct VerifiedDestinationNumberInformation {
+    public struct VerifiedDestinationNumberInformation: Swift.Sendable {
         /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: Foundation.Date?
@@ -5708,10 +5709,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.verifiedDestinationNumberId = verifiedDestinationNumberId
         }
     }
-
 }
 
-public struct DescribeVerifiedDestinationNumbersOutput {
+public struct DescribeVerifiedDestinationNumbersOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// An array of VerifiedDestinationNumberInformation objects
@@ -5730,7 +5730,7 @@ public struct DescribeVerifiedDestinationNumbersOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum DestinationCountryParameterKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DestinationCountryParameterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case inEntityId
         case inTemplateId
         case sdkUnknown(Swift.String)
@@ -5757,7 +5757,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct DisassociateOriginationIdentityInput {
+public struct DisassociateOriginationIdentityInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -5784,7 +5784,7 @@ public struct DisassociateOriginationIdentityInput {
     }
 }
 
-public struct DisassociateOriginationIdentityOutput {
+public struct DisassociateOriginationIdentityOutput: Swift.Sendable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The PhoneNumberId or SenderId of the origination identity.
@@ -5812,7 +5812,7 @@ public struct DisassociateOriginationIdentityOutput {
     }
 }
 
-public struct DisassociateProtectConfigurationInput {
+public struct DisassociateProtectConfigurationInput: Swift.Sendable {
     /// The name of the ConfigurationSet.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -5830,7 +5830,7 @@ public struct DisassociateProtectConfigurationInput {
     }
 }
 
-public struct DisassociateProtectConfigurationOutput {
+public struct DisassociateProtectConfigurationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration set.
     /// This member is required.
     public var configurationSetArn: Swift.String?
@@ -5858,7 +5858,7 @@ public struct DisassociateProtectConfigurationOutput {
     }
 }
 
-public struct DiscardRegistrationVersionInput {
+public struct DiscardRegistrationVersionInput: Swift.Sendable {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -5871,7 +5871,7 @@ public struct DiscardRegistrationVersionInput {
     }
 }
 
-public struct DiscardRegistrationVersionOutput {
+public struct DiscardRegistrationVersionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the registration.
     /// This member is required.
     public var registrationArn: Swift.String?
@@ -5920,7 +5920,7 @@ public struct DiscardRegistrationVersionOutput {
     }
 }
 
-public struct GetProtectConfigurationCountryRuleSetInput {
+public struct GetProtectConfigurationCountryRuleSetInput: Swift.Sendable {
     /// The capability type to return the CountryRuleSet for. Valid values are SMS, VOICE, or MMS.
     /// This member is required.
     public var numberCapability: PinpointSMSVoiceV2ClientTypes.NumberCapability?
@@ -5940,7 +5940,7 @@ public struct GetProtectConfigurationCountryRuleSetInput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum ProtectStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ProtectStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case block
         case sdkUnknown(Swift.String)
@@ -5968,8 +5968,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The types of statuses that can be used.
-    public struct ProtectConfigurationCountryRuleSetInformation {
+    public struct ProtectConfigurationCountryRuleSetInformation: Swift.Sendable {
         /// The types of protection that can be used.
         /// This member is required.
         public var protectStatus: PinpointSMSVoiceV2ClientTypes.ProtectStatus?
@@ -5981,10 +5982,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.protectStatus = protectStatus
         }
     }
-
 }
 
-public struct GetProtectConfigurationCountryRuleSetOutput {
+public struct GetProtectConfigurationCountryRuleSetOutput: Swift.Sendable {
     /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide.
     /// This member is required.
     public var countryRuleSet: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]?
@@ -6012,7 +6012,7 @@ public struct GetProtectConfigurationCountryRuleSetOutput {
     }
 }
 
-public struct GetResourcePolicyInput {
+public struct GetResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6025,7 +6025,7 @@ public struct GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyOutput {
+public struct GetResourcePolicyOutput: Swift.Sendable {
     /// The time when the resource-based policy was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// The JSON formatted string that contains the resource-based policy attached to the AWS End User Messaging SMS and Voice resource.
@@ -6047,7 +6047,7 @@ public struct GetResourcePolicyOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum LanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deDe
         case enGb
         case enUs
@@ -6109,7 +6109,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum PoolOriginationIdentitiesFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PoolOriginationIdentitiesFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case isoCountryCode
         case numberCapability
         case sdkUnknown(Swift.String)
@@ -6137,8 +6137,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Information about origination identities associated with a pool that meets a specified criteria.
-    public struct PoolOriginationIdentitiesFilter {
+    public struct PoolOriginationIdentitiesFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilterName?
@@ -6155,10 +6156,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct ListPoolOriginationIdentitiesInput {
+public struct ListPoolOriginationIdentitiesInput: Swift.Sendable {
     /// An array of PoolOriginationIdentitiesFilter objects to filter the results..
     public var filters: [PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilter]?
     /// The maximum number of results to return per each request.
@@ -6184,8 +6184,9 @@ public struct ListPoolOriginationIdentitiesInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The metadata for an origination identity associated with a pool.
-    public struct OriginationIdentityMetadata {
+    public struct OriginationIdentityMetadata: Swift.Sendable {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         /// This member is required.
         public var isoCountryCode: Swift.String?
@@ -6216,10 +6217,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.phoneNumber = phoneNumber
         }
     }
-
 }
 
-public struct ListPoolOriginationIdentitiesOutput {
+public struct ListPoolOriginationIdentitiesOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
     public var nextToken: Swift.String?
     /// An array of any OriginationIdentityMetadata objects.
@@ -6245,7 +6245,7 @@ public struct ListPoolOriginationIdentitiesOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RegistrationAssociationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationAssociationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case isoCountryCode
         case resourceType
         case sdkUnknown(Swift.String)
@@ -6273,8 +6273,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// The filter definition for filtering registrations that meets a specified criteria.
-    public struct RegistrationAssociationFilter {
+    public struct RegistrationAssociationFilter: Swift.Sendable {
         /// The name of the attribute to filter on.
         /// This member is required.
         public var name: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilterName?
@@ -6291,10 +6292,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct ListRegistrationAssociationsInput {
+public struct ListRegistrationAssociationsInput: Swift.Sendable {
     /// An array of RegistrationAssociationFilter to apply to the results that are returned.
     public var filters: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilter]?
     /// The maximum number of results to return per each request.
@@ -6320,8 +6320,9 @@ public struct ListRegistrationAssociationsInput {
 }
 
 extension PinpointSMSVoiceV2ClientTypes {
+
     /// Metadata for the origination identity that is associated with the registration.
-    public struct RegistrationAssociationMetadata {
+    public struct RegistrationAssociationMetadata: Swift.Sendable {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public var isoCountryCode: Swift.String?
         /// The phone number associated with the registration in E.164 format.
@@ -6351,10 +6352,9 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.resourceType = resourceType
         }
     }
-
 }
 
-public struct ListRegistrationAssociationsOutput {
+public struct ListRegistrationAssociationsOutput: Swift.Sendable {
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) for the registration.
@@ -6386,7 +6386,7 @@ public struct ListRegistrationAssociationsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to query for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6399,7 +6399,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The ARN of the resource.
     public var resourceArn: Swift.String?
     /// An array of key and value pair tags that are associated with the resource.
@@ -6415,7 +6415,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct PutKeywordInput {
+public struct PutKeywordInput: Swift.Sendable {
     /// The new keyword to add.
     /// This member is required.
     public var keyword: Swift.String?
@@ -6448,7 +6448,7 @@ public struct PutKeywordInput {
     }
 }
 
-public struct PutKeywordOutput {
+public struct PutKeywordOutput: Swift.Sendable {
     /// The keyword that was added.
     public var keyword: Swift.String?
     /// The action to perform when the keyword is used.
@@ -6476,7 +6476,7 @@ public struct PutKeywordOutput {
     }
 }
 
-public struct PutOptedOutNumberInput {
+public struct PutOptedOutNumberInput: Swift.Sendable {
     /// The OptOutListName or OptOutListArn to add the phone number to. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
@@ -6494,7 +6494,7 @@ public struct PutOptedOutNumberInput {
     }
 }
 
-public struct PutOptedOutNumberOutput {
+public struct PutOptedOutNumberOutput: Swift.Sendable {
     /// This is true if it was the end user who requested their phone number be removed.
     public var endUserOptedOut: Swift.Bool
     /// The OptOutListArn that the phone number was removed from.
@@ -6522,7 +6522,7 @@ public struct PutOptedOutNumberOutput {
     }
 }
 
-public struct PutRegistrationFieldValueInput {
+public struct PutRegistrationFieldValueInput: Swift.Sendable {
     /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -6552,7 +6552,7 @@ public struct PutRegistrationFieldValueInput {
     }
 }
 
-public struct PutRegistrationFieldValueOutput {
+public struct PutRegistrationFieldValueOutput: Swift.Sendable {
     /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
     /// This member is required.
     public var fieldPath: Swift.String?
@@ -6592,7 +6592,7 @@ public struct PutRegistrationFieldValueOutput {
     }
 }
 
-public struct PutResourcePolicyInput {
+public struct PutResourcePolicyInput: Swift.Sendable {
     /// The JSON formatted resource-based policy to attach.
     /// This member is required.
     public var policy: Swift.String?
@@ -6610,7 +6610,7 @@ public struct PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyOutput {
+public struct PutResourcePolicyOutput: Swift.Sendable {
     /// The time when the resource-based policy was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// The JSON formatted Resource Policy.
@@ -6630,7 +6630,7 @@ public struct PutResourcePolicyOutput {
     }
 }
 
-public struct ReleasePhoneNumberInput {
+public struct ReleasePhoneNumberInput: Swift.Sendable {
     /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use [DescribePhoneNumbers] to get the values for PhoneNumberId and PhoneNumberArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var phoneNumberId: Swift.String?
@@ -6643,7 +6643,7 @@ public struct ReleasePhoneNumberInput {
     }
 }
 
-public struct ReleasePhoneNumberOutput {
+public struct ReleasePhoneNumberOutput: Swift.Sendable {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -6715,7 +6715,7 @@ public struct ReleasePhoneNumberOutput {
     }
 }
 
-public struct ReleaseSenderIdInput {
+public struct ReleaseSenderIdInput: Swift.Sendable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     /// This member is required.
     public var isoCountryCode: Swift.String?
@@ -6733,7 +6733,7 @@ public struct ReleaseSenderIdInput {
     }
 }
 
-public struct ReleaseSenderIdOutput {
+public struct ReleaseSenderIdOutput: Swift.Sendable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     /// This member is required.
     public var isoCountryCode: Swift.String?
@@ -6777,7 +6777,7 @@ public struct ReleaseSenderIdOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum RequestableNumberType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RequestableNumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case longCode
         case simulator
         case tenDlc
@@ -6810,7 +6810,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct RequestPhoneNumberInput {
+public struct RequestPhoneNumberInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the phone number can't be deleted.
@@ -6862,7 +6862,7 @@ public struct RequestPhoneNumberInput {
     }
 }
 
-public struct RequestPhoneNumberOutput {
+public struct RequestPhoneNumberOutput: Swift.Sendable {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// By default this is set to false. When set to true the phone number can't be deleted.
@@ -6946,7 +6946,7 @@ public struct RequestPhoneNumberOutput {
     }
 }
 
-public struct RequestSenderIdInput {
+public struct RequestSenderIdInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the sender ID can't be deleted.
@@ -6980,7 +6980,7 @@ public struct RequestSenderIdInput {
     }
 }
 
-public struct RequestSenderIdOutput {
+public struct RequestSenderIdOutput: Swift.Sendable {
     /// By default this is set to false. When set to true the sender ID can't be deleted.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool
@@ -7029,7 +7029,7 @@ public struct RequestSenderIdOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum VerificationChannel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VerificationChannel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case text
         case voice
         case sdkUnknown(Swift.String)
@@ -7056,7 +7056,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct SendDestinationNumberVerificationCodeInput {
+public struct SendDestinationNumberVerificationCodeInput: Swift.Sendable {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
     /// You can specify custom data in this field. If you do, that data is logged to the event destination.
@@ -7094,7 +7094,7 @@ public struct SendDestinationNumberVerificationCodeInput {
     }
 }
 
-public struct SendDestinationNumberVerificationCodeOutput {
+public struct SendDestinationNumberVerificationCodeOutput: Swift.Sendable {
     /// The unique identifier for the message.
     /// This member is required.
     public var messageId: Swift.String?
@@ -7107,7 +7107,7 @@ public struct SendDestinationNumberVerificationCodeOutput {
     }
 }
 
-public struct SendMediaMessageInput {
+public struct SendMediaMessageInput: Swift.Sendable {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
     /// You can specify custom data in this field. If you do, that data is logged to the event destination.
@@ -7157,7 +7157,7 @@ public struct SendMediaMessageInput {
     }
 }
 
-public struct SendMediaMessageOutput {
+public struct SendMediaMessageOutput: Swift.Sendable {
     /// The unique identifier for the message.
     public var messageId: Swift.String?
 
@@ -7169,7 +7169,7 @@ public struct SendMediaMessageOutput {
     }
 }
 
-public struct SendTextMessageInput {
+public struct SendTextMessageInput: Swift.Sendable {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
     /// You can specify custom data in this field. If you do, that data is logged to the event destination.
@@ -7230,7 +7230,7 @@ public struct SendTextMessageInput {
     }
 }
 
-public struct SendTextMessageOutput {
+public struct SendTextMessageOutput: Swift.Sendable {
     /// The unique identifier for the message.
     public var messageId: Swift.String?
 
@@ -7244,7 +7244,7 @@ public struct SendTextMessageOutput {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum VoiceMessageBodyTextType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VoiceMessageBodyTextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ssml
         case text
         case sdkUnknown(Swift.String)
@@ -7273,7 +7273,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    public enum VoiceId: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VoiceId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amy
         case astrid
         case bianca
@@ -7471,7 +7471,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
-public struct SendVoiceMessageInput {
+public struct SendVoiceMessageInput: Swift.Sendable {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
     /// You can specify custom data in this field. If you do, that data is logged to the event destination.
@@ -7529,7 +7529,7 @@ public struct SendVoiceMessageInput {
     }
 }
 
-public struct SendVoiceMessageOutput {
+public struct SendVoiceMessageOutput: Swift.Sendable {
     /// The unique identifier for the message.
     public var messageId: Swift.String?
 
@@ -7541,7 +7541,7 @@ public struct SendVoiceMessageOutput {
     }
 }
 
-public struct SetAccountDefaultProtectConfigurationInput {
+public struct SetAccountDefaultProtectConfigurationInput: Swift.Sendable {
     /// The unique identifier for the protect configuration.
     /// This member is required.
     public var protectConfigurationId: Swift.String?
@@ -7554,7 +7554,7 @@ public struct SetAccountDefaultProtectConfigurationInput {
     }
 }
 
-public struct SetAccountDefaultProtectConfigurationOutput {
+public struct SetAccountDefaultProtectConfigurationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the account default protect configuration.
     /// This member is required.
     public var defaultProtectConfigurationArn: Swift.String?
@@ -7572,7 +7572,7 @@ public struct SetAccountDefaultProtectConfigurationOutput {
     }
 }
 
-public struct SetDefaultMessageTypeInput {
+public struct SetDefaultMessageTypeInput: Swift.Sendable {
     /// The configuration set to update with a new default message type. This field can be the ConsigurationSetName or ConfigurationSetArn.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -7590,7 +7590,7 @@ public struct SetDefaultMessageTypeInput {
     }
 }
 
-public struct SetDefaultMessageTypeOutput {
+public struct SetDefaultMessageTypeOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the updated configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set that was updated.
@@ -7610,7 +7610,7 @@ public struct SetDefaultMessageTypeOutput {
     }
 }
 
-public struct SetDefaultSenderIdInput {
+public struct SetDefaultSenderIdInput: Swift.Sendable {
     /// The configuration set to updated with a new default SenderId. This field can be the ConsigurationSetName or ConfigurationSetArn.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -7628,7 +7628,7 @@ public struct SetDefaultSenderIdInput {
     }
 }
 
-public struct SetDefaultSenderIdOutput {
+public struct SetDefaultSenderIdOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the updated configuration set.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set that was updated.
@@ -7648,7 +7648,7 @@ public struct SetDefaultSenderIdOutput {
     }
 }
 
-public struct SetMediaMessageSpendLimitOverrideInput {
+public struct SetMediaMessageSpendLimitOverrideInput: Swift.Sendable {
     /// The new monthly limit to enforce on text messages.
     /// This member is required.
     public var monthlyLimit: Swift.Int?
@@ -7661,7 +7661,7 @@ public struct SetMediaMessageSpendLimitOverrideInput {
     }
 }
 
-public struct SetMediaMessageSpendLimitOverrideOutput {
+public struct SetMediaMessageSpendLimitOverrideOutput: Swift.Sendable {
     /// The current monthly limit to enforce on sending text messages.
     public var monthlyLimit: Swift.Int?
 
@@ -7673,7 +7673,7 @@ public struct SetMediaMessageSpendLimitOverrideOutput {
     }
 }
 
-public struct SetTextMessageSpendLimitOverrideInput {
+public struct SetTextMessageSpendLimitOverrideInput: Swift.Sendable {
     /// The new monthly limit to enforce on text messages.
     /// This member is required.
     public var monthlyLimit: Swift.Int?
@@ -7686,7 +7686,7 @@ public struct SetTextMessageSpendLimitOverrideInput {
     }
 }
 
-public struct SetTextMessageSpendLimitOverrideOutput {
+public struct SetTextMessageSpendLimitOverrideOutput: Swift.Sendable {
     /// The current monthly limit to enforce on sending text messages.
     public var monthlyLimit: Swift.Int?
 
@@ -7698,7 +7698,7 @@ public struct SetTextMessageSpendLimitOverrideOutput {
     }
 }
 
-public struct SetVoiceMessageSpendLimitOverrideInput {
+public struct SetVoiceMessageSpendLimitOverrideInput: Swift.Sendable {
     /// The new monthly limit to enforce on voice messages.
     /// This member is required.
     public var monthlyLimit: Swift.Int?
@@ -7711,7 +7711,7 @@ public struct SetVoiceMessageSpendLimitOverrideInput {
     }
 }
 
-public struct SetVoiceMessageSpendLimitOverrideOutput {
+public struct SetVoiceMessageSpendLimitOverrideOutput: Swift.Sendable {
     /// The current monthly limit to enforce on sending voice messages.
     public var monthlyLimit: Swift.Int?
 
@@ -7723,7 +7723,7 @@ public struct SetVoiceMessageSpendLimitOverrideOutput {
     }
 }
 
-public struct SubmitRegistrationVersionInput {
+public struct SubmitRegistrationVersionInput: Swift.Sendable {
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
@@ -7736,7 +7736,7 @@ public struct SubmitRegistrationVersionInput {
     }
 }
 
-public struct SubmitRegistrationVersionOutput {
+public struct SubmitRegistrationVersionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the registration.
     /// This member is required.
     public var registrationArn: Swift.String?
@@ -7785,7 +7785,7 @@ public struct SubmitRegistrationVersionOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7803,12 +7803,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7826,12 +7826,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateEventDestinationInput {
+public struct UpdateEventDestinationInput: Swift.Sendable {
     /// An object that contains information about an event destination that sends data to CloudWatch Logs.
     public var cloudWatchLogsDestination: PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination?
     /// The configuration set to update with the new event destination. Valid values for this can be the ConfigurationSetName or ConfigurationSetArn.
@@ -7869,7 +7869,7 @@ public struct UpdateEventDestinationInput {
     }
 }
 
-public struct UpdateEventDestinationOutput {
+public struct UpdateEventDestinationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the ConfigurationSet that was updated.
     public var configurationSetArn: Swift.String?
     /// The name of the configuration set.
@@ -7889,7 +7889,7 @@ public struct UpdateEventDestinationOutput {
     }
 }
 
-public struct UpdatePhoneNumberInput {
+public struct UpdatePhoneNumberInput: Swift.Sendable {
     /// By default this is set to false. When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
@@ -7926,7 +7926,7 @@ public struct UpdatePhoneNumberInput {
     }
 }
 
-public struct UpdatePhoneNumberOutput {
+public struct UpdatePhoneNumberOutput: Swift.Sendable {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// When set to true the phone number can't be deleted.
@@ -8002,7 +8002,7 @@ public struct UpdatePhoneNumberOutput {
     }
 }
 
-public struct UpdatePoolInput {
+public struct UpdatePoolInput: Swift.Sendable {
     /// When set to true the pool can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -8043,7 +8043,7 @@ public struct UpdatePoolInput {
     }
 }
 
-public struct UpdatePoolOutput {
+public struct UpdatePoolOutput: Swift.Sendable {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
     /// When set to true the pool can't be deleted.
@@ -8099,7 +8099,7 @@ public struct UpdatePoolOutput {
     }
 }
 
-public struct UpdateProtectConfigurationInput {
+public struct UpdateProtectConfigurationInput: Swift.Sendable {
     /// When set to true deletion protection is enabled. By default this is set to false.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The unique identifier for the protect configuration.
@@ -8116,7 +8116,7 @@ public struct UpdateProtectConfigurationInput {
     }
 }
 
-public struct UpdateProtectConfigurationOutput {
+public struct UpdateProtectConfigurationOutput: Swift.Sendable {
     /// This is true if the protect configuration is set as your account default protect configuration.
     /// This member is required.
     public var accountDefault: Swift.Bool
@@ -8149,7 +8149,7 @@ public struct UpdateProtectConfigurationOutput {
     }
 }
 
-public struct UpdateProtectConfigurationCountryRuleSetInput {
+public struct UpdateProtectConfigurationCountryRuleSetInput: Swift.Sendable {
     /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide.
     /// This member is required.
     public var countryRuleSetUpdates: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]?
@@ -8172,7 +8172,7 @@ public struct UpdateProtectConfigurationCountryRuleSetInput {
     }
 }
 
-public struct UpdateProtectConfigurationCountryRuleSetOutput {
+public struct UpdateProtectConfigurationCountryRuleSetOutput: Swift.Sendable {
     /// An array of ProtectConfigurationCountryRuleSetInformation containing the rules for the NumberCapability.
     /// This member is required.
     public var countryRuleSet: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]?
@@ -8200,7 +8200,7 @@ public struct UpdateProtectConfigurationCountryRuleSetOutput {
     }
 }
 
-public struct UpdateSenderIdInput {
+public struct UpdateSenderIdInput: Swift.Sendable {
     /// By default this is set to false. When set to true the sender ID can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -8222,7 +8222,7 @@ public struct UpdateSenderIdInput {
     }
 }
 
-public struct UpdateSenderIdOutput {
+public struct UpdateSenderIdOutput: Swift.Sendable {
     /// By default this is set to false. When set to true the sender ID can't be deleted.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool
@@ -8269,7 +8269,7 @@ public struct UpdateSenderIdOutput {
     }
 }
 
-public struct VerifyDestinationNumberInput {
+public struct VerifyDestinationNumberInput: Swift.Sendable {
     /// The verification code that was received by the verified destination phone number.
     /// This member is required.
     public var verificationCode: Swift.String?
@@ -8287,7 +8287,7 @@ public struct VerifyDestinationNumberInput {
     }
 }
 
-public struct VerifyDestinationNumberOutput {
+public struct VerifyDestinationNumberOutput: Swift.Sendable {
     /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
     public var createdTimestamp: Foundation.Date?

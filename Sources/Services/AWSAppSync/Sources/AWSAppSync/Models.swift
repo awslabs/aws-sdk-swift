@@ -54,7 +54,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension AppSyncClientTypes {
 
-    public enum AuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonCognitoUserPools
         case apiKey
         case awsIam
@@ -91,8 +91,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// A LambdaAuthorizerConfig specifies how to authorize AppSync API access when using the AWS_LAMBDA authorizer mode. Be aware that an AppSync API can have only one Lambda authorizer configured at a time.
-    public struct LambdaAuthorizerConfig {
+    public struct LambdaAuthorizerConfig: Swift.Sendable {
         /// The number of seconds a response should be cached for. The default is 0 seconds, which disables caching. If you don't specify a value for authorizerResultTtlInSeconds, the default value is used. The maximum value is one hour (3600 seconds). The Lambda function can override this by returning a ttlOverride key in its response.
         public var authorizerResultTtlInSeconds: Swift.Int
         /// The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3), or an alias ARN. Note: This Lambda function must have the following resource-based policy assigned to it. When configuring Lambda authorizers in the console, this is done for you. To use the Command Line Interface (CLI), run the following: aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id "appsync" --principal appsync.amazonaws.com --action lambda:InvokeFunction
@@ -112,12 +113,12 @@ extension AppSyncClientTypes {
             self.identityValidationExpression = identityValidationExpression
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an OpenID Connect (OIDC) configuration.
-    public struct OpenIDConnectConfig {
+    public struct OpenIDConnectConfig: Swift.Sendable {
         /// The number of milliseconds that a token is valid after being authenticated.
         public var authTTL: Swift.Int
         /// The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that AppSync can validate against multiple client identifiers at a time.
@@ -141,12 +142,12 @@ extension AppSyncClientTypes {
             self.issuer = issuer
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an Amazon Cognito user pool configuration.
-    public struct CognitoUserPoolConfig {
+    public struct CognitoUserPoolConfig: Swift.Sendable {
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied.
         public var appIdClientRegex: Swift.String?
         /// The Amazon Web Services Region in which the user pool was created.
@@ -167,12 +168,12 @@ extension AppSyncClientTypes {
             self.userPoolId = userPoolId
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an additional authentication provider.
-    public struct AdditionalAuthenticationProvider {
+    public struct AdditionalAuthenticationProvider: Swift.Sendable {
         /// The authentication type: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
         public var authenticationType: AppSyncClientTypes.AuthenticationType?
         /// Configuration for Lambda function authorization.
@@ -195,12 +196,11 @@ extension AppSyncClientTypes {
             self.userPoolConfig = userPoolConfig
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum AssociationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case processing
         case success
@@ -231,8 +231,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an ApiAssociation object.
-    public struct ApiAssociation {
+    public struct ApiAssociation: Swift.Sendable {
         /// The API ID.
         public var apiId: Swift.String?
         /// Identifies the status of an association.
@@ -261,12 +262,11 @@ extension AppSyncClientTypes {
             self.domainName = domainName
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum ApiCachingBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ApiCachingBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullRequestCaching
         case perResolverCaching
         case sdkUnknown(Swift.String)
@@ -295,7 +295,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum CacheHealthMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CacheHealthMetricsConfig: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -324,7 +324,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum ApiCacheStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ApiCacheStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case creating
         case deleting
@@ -362,7 +362,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum ApiCacheType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ApiCacheType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case large
         case large12x
         case large2x
@@ -429,8 +429,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// The ApiCache object.
-    public struct ApiCache {
+    public struct ApiCache: Swift.Sendable {
         /// Caching behavior.
         ///
         /// * FULL_REQUEST_CACHING: All requests are fully cached.
@@ -519,10 +520,10 @@ extension AppSyncClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an API key. Customers invoke AppSync GraphQL API operations with API keys as an identity mechanism. There are two key versions: da1: We introduced this version at launch in November 2017. These keys always expire after 7 days. Amazon DynamoDB TTL manages key expiration. These keys ceased to be valid after February 21, 2018, and they should no longer be used.
     ///
     /// * ListApiKeys returns the expiration time in milliseconds.
@@ -549,7 +550,7 @@ extension AppSyncClientTypes {
     /// * Expiration is stored in DynamoDB as seconds. After the expiration time, using the key to authenticate will fail. However, you can reinstate the key before deletion.
     ///
     /// * Deletion is stored in DynamoDB as seconds. The key is deleted after deletion time.
-    public struct ApiKey {
+    public struct ApiKey: Swift.Sendable {
         /// The time after which the API key is deleted. The date is represented as seconds since the epoch, rounded down to the nearest hour.
         public var deletes: Swift.Int
         /// A description of the purpose of the API key.
@@ -572,7 +573,6 @@ extension AppSyncClientTypes {
             self.id = id
         }
     }
-
 }
 
 /// The API key exceeded a limit. Try your request again.
@@ -649,7 +649,7 @@ public struct ApiLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
 extension AppSyncClientTypes {
 
-    public enum RuntimeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RuntimeName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case appsyncJs
         case sdkUnknown(Swift.String)
 
@@ -674,8 +674,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a runtime used by an Amazon Web Services AppSync pipeline resolver or Amazon Web Services AppSync function. Specifies the name and version of the runtime to use. Note that if a runtime is specified, code must also be specified.
-    public struct AppSyncRuntime {
+    public struct AppSyncRuntime: Swift.Sendable {
         /// The name of the runtime to use. Currently, the only allowed value is APPSYNC_JS.
         /// This member is required.
         public var name: AppSyncClientTypes.RuntimeName?
@@ -692,12 +693,12 @@ extension AppSyncClientTypes {
             self.runtimeVersion = runtimeVersion
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes the location of the error in a code sample.
-    public struct CodeErrorLocation {
+    public struct CodeErrorLocation: Swift.Sendable {
         /// The column number in the code. Defaults to 0 if unknown.
         public var column: Swift.Int
         /// The line number in the code. Defaults to 0 if unknown.
@@ -716,12 +717,12 @@ extension AppSyncClientTypes {
             self.span = span
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an AppSync error.
-    public struct CodeError {
+    public struct CodeError: Swift.Sendable {
         /// The type of code error. Examples include, but aren't limited to: LINT_ERROR, PARSER_ERROR.
         public var errorType: Swift.String?
         /// The line, column, and span location of the error in the code.
@@ -740,12 +741,12 @@ extension AppSyncClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Provides further details for the reason behind the bad request. For reason type CODE_ERROR, the detail will contain a list of code errors.
-    public struct BadRequestDetail {
+    public struct BadRequestDetail: Swift.Sendable {
         /// Contains the list of errors in the request.
         public var codeErrors: [AppSyncClientTypes.CodeError]?
 
@@ -756,13 +757,12 @@ extension AppSyncClientTypes {
             self.codeErrors = codeErrors
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
     /// Provides context for the cause of the bad request. The only supported value is CODE_ERROR.
-    public enum BadRequestReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum BadRequestReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case codeError
         case sdkUnknown(Swift.String)
 
@@ -866,7 +866,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-public struct AssociateApiInput {
+public struct AssociateApiInput: Swift.Sendable {
     /// The API ID. Private APIs can not be associated with custom domains.
     /// This member is required.
     public var apiId: Swift.String?
@@ -884,7 +884,7 @@ public struct AssociateApiInput {
     }
 }
 
-public struct AssociateApiOutput {
+public struct AssociateApiOutput: Swift.Sendable {
     /// The ApiAssociation object.
     public var apiAssociation: AppSyncClientTypes.ApiAssociation?
 
@@ -970,7 +970,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension AppSyncClientTypes {
 
-    public enum MergeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MergeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoMerge
         case manualMerge
         case sdkUnknown(Swift.String)
@@ -998,8 +998,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes properties used to specify configurations related to a source API.
-    public struct SourceApiAssociationConfig {
+    public struct SourceApiAssociationConfig: Swift.Sendable {
         /// The property that indicates which merging option is enabled in the source API association. Valid merge types are MANUAL_MERGE (default) and AUTO_MERGE. Manual merges are the default behavior and require the user to trigger any changes from the source APIs to the merged API manually. Auto merges subscribe the merged API to the changes performed on the source APIs so that any change in the source APIs are also made to the merged API. Auto merges use MergedApiExecutionRoleArn to perform merge operations.
         public var mergeType: AppSyncClientTypes.MergeType?
 
@@ -1010,10 +1011,9 @@ extension AppSyncClientTypes {
             self.mergeType = mergeType
         }
     }
-
 }
 
-public struct AssociateMergedGraphqlApiInput {
+public struct AssociateMergedGraphqlApiInput: Swift.Sendable {
     /// The description field.
     public var description: Swift.String?
     /// The identifier of the AppSync Merged API. This is generated by the AppSync service. In most cases, Merged APIs (especially in your account) only require the API ID value or ARN of the merged API. However, Merged APIs in other accounts (cross-account use cases) strictly require the full resource ARN of the merged API.
@@ -1041,7 +1041,7 @@ public struct AssociateMergedGraphqlApiInput {
 
 extension AppSyncClientTypes {
 
-    public enum SourceApiAssociationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SourceApiAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoMergeScheduleFailed
         case deletionFailed
         case deletionInProgress
@@ -1087,8 +1087,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes the configuration of a source API. A source API is a GraphQL API that is linked to a merged API. There can be multiple source APIs attached to each merged API. When linked to a merged API, the source API's schema, data sources, and resolvers will be combined with other linked source API data to form a new, singular API. Source APIs can originate from your account or from other accounts via Amazon Web Services Resource Access Manager. For more information about sharing resources from other accounts, see [What is Amazon Web Services Resource Access Manager?](https://docs.aws.amazon.com/ram/latest/userguide/what-is.html) in the Amazon Web Services Resource Access Manager guide.
-    public struct SourceApiAssociation {
+    public struct SourceApiAssociation: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the source API association.
         public var associationArn: Swift.String?
         /// The ID generated by the AppSync service for the source API association.
@@ -1139,10 +1140,9 @@ extension AppSyncClientTypes {
             self.sourceApiId = sourceApiId
         }
     }
-
 }
 
-public struct AssociateMergedGraphqlApiOutput {
+public struct AssociateMergedGraphqlApiOutput: Swift.Sendable {
     /// The SourceApiAssociation object data.
     public var sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation?
 
@@ -1154,7 +1154,7 @@ public struct AssociateMergedGraphqlApiOutput {
     }
 }
 
-public struct AssociateSourceGraphqlApiInput {
+public struct AssociateSourceGraphqlApiInput: Swift.Sendable {
     /// The description field.
     public var description: Swift.String?
     /// The identifier of the AppSync Merged API. This is generated by the AppSync service. In most cases, Merged APIs (especially in your account) only require the API ID value or ARN of the merged API. However, Merged APIs in other accounts (cross-account use cases) strictly require the full resource ARN of the merged API.
@@ -1180,7 +1180,7 @@ public struct AssociateSourceGraphqlApiInput {
     }
 }
 
-public struct AssociateSourceGraphqlApiOutput {
+public struct AssociateSourceGraphqlApiOutput: Swift.Sendable {
     /// The SourceApiAssociation object data.
     public var sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation?
 
@@ -1194,7 +1194,7 @@ public struct AssociateSourceGraphqlApiOutput {
 
 extension AppSyncClientTypes {
 
-    public enum AuthorizationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AuthorizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsIam
         case sdkUnknown(Swift.String)
 
@@ -1219,8 +1219,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// The Identity and Access Management (IAM) configuration.
-    public struct AwsIamConfig {
+    public struct AwsIamConfig: Swift.Sendable {
         /// The signing Amazon Web Services Region for IAM authorization.
         public var signingRegion: Swift.String?
         /// The signing service name for IAM authorization.
@@ -1235,12 +1236,12 @@ extension AppSyncClientTypes {
             self.signingServiceName = signingServiceName
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// The authorization configuration in case the HTTP endpoint requires authorization.
-    public struct AuthorizationConfig {
+    public struct AuthorizationConfig: Swift.Sendable {
         /// The authorization type that the HTTP endpoint requires.
         ///
         /// * AWS_IAM: The authorization type is Signature Version 4 (SigV4).
@@ -1258,11 +1259,10 @@ extension AppSyncClientTypes {
             self.awsIamConfig = awsIamConfig
         }
     }
-
 }
 
 /// Represents the input of a CreateApiCache operation.
-public struct CreateApiCacheInput {
+public struct CreateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
     ///
     /// * FULL_REQUEST_CACHING: All requests are fully cached.
@@ -1347,7 +1347,7 @@ public struct CreateApiCacheInput {
 }
 
 /// Represents the output of a CreateApiCache operation.
-public struct CreateApiCacheOutput {
+public struct CreateApiCacheOutput: Swift.Sendable {
     /// The ApiCache object.
     public var apiCache: AppSyncClientTypes.ApiCache?
 
@@ -1359,7 +1359,7 @@ public struct CreateApiCacheOutput {
     }
 }
 
-public struct CreateApiKeyInput {
+public struct CreateApiKeyInput: Swift.Sendable {
     /// The ID for your GraphQL API.
     /// This member is required.
     public var apiId: Swift.String?
@@ -1380,7 +1380,7 @@ public struct CreateApiKeyInput {
     }
 }
 
-public struct CreateApiKeyOutput {
+public struct CreateApiKeyOutput: Swift.Sendable {
     /// The API key.
     public var apiKey: AppSyncClientTypes.ApiKey?
 
@@ -1393,8 +1393,9 @@ public struct CreateApiKeyOutput {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a Delta Sync configuration.
-    public struct DeltaSyncConfig {
+    public struct DeltaSyncConfig: Swift.Sendable {
         /// The number of minutes that an Item is stored in the data source.
         public var baseTableTTL: Swift.Int
         /// The Delta Sync table name.
@@ -1413,12 +1414,12 @@ extension AppSyncClientTypes {
             self.deltaSyncTableTTL = deltaSyncTableTTL
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an Amazon DynamoDB data source configuration.
-    public struct DynamodbDataSourceConfig {
+    public struct DynamodbDataSourceConfig: Swift.Sendable {
         /// The Amazon Web Services Region.
         /// This member is required.
         public var awsRegion: Swift.String?
@@ -1447,12 +1448,12 @@ extension AppSyncClientTypes {
             self.versioned = versioned
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an OpenSearch data source configuration. As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. For new data sources, use [OpenSearchServiceDataSourceConfig] to specify an OpenSearch data source.
-    public struct ElasticsearchDataSourceConfig {
+    public struct ElasticsearchDataSourceConfig: Swift.Sendable {
         /// The Amazon Web Services Region.
         /// This member is required.
         public var awsRegion: Swift.String?
@@ -1469,12 +1470,12 @@ extension AppSyncClientTypes {
             self.endpoint = endpoint
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an Amazon EventBridge bus data source configuration.
-    public struct EventBridgeDataSourceConfig {
+    public struct EventBridgeDataSourceConfig: Swift.Sendable {
         /// The ARN of the event bus. For more information about event buses, see [Amazon EventBridge event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus.html).
         /// This member is required.
         public var eventBusArn: Swift.String?
@@ -1486,12 +1487,12 @@ extension AppSyncClientTypes {
             self.eventBusArn = eventBusArn
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an HTTP data source configuration.
-    public struct HttpDataSourceConfig {
+    public struct HttpDataSourceConfig: Swift.Sendable {
         /// The authorization configuration in case the HTTP endpoint requires authorization.
         public var authorizationConfig: AppSyncClientTypes.AuthorizationConfig?
         /// The HTTP URL endpoint. You can specify either the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If you don't specify the port, AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
@@ -1506,12 +1507,12 @@ extension AppSyncClientTypes {
             self.endpoint = endpoint
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an Lambda data source configuration.
-    public struct LambdaDataSourceConfig {
+    public struct LambdaDataSourceConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the Lambda function.
         /// This member is required.
         public var lambdaFunctionArn: Swift.String?
@@ -1523,12 +1524,11 @@ extension AppSyncClientTypes {
             self.lambdaFunctionArn = lambdaFunctionArn
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum DataSourceLevelMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataSourceLevelMetricsConfig: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -1556,8 +1556,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an OpenSearch data source configuration.
-    public struct OpenSearchServiceDataSourceConfig {
+    public struct OpenSearchServiceDataSourceConfig: Swift.Sendable {
         /// The Amazon Web Services Region.
         /// This member is required.
         public var awsRegion: Swift.String?
@@ -1574,12 +1575,12 @@ extension AppSyncClientTypes {
             self.endpoint = endpoint
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// The Amazon Relational Database Service (Amazon RDS) HTTP endpoint configuration.
-    public struct RdsHttpEndpointConfig {
+    public struct RdsHttpEndpointConfig: Swift.Sendable {
         /// Amazon Web Services Region for Amazon RDS HTTP endpoint.
         public var awsRegion: Swift.String?
         /// Amazon Web Services secret store Amazon Resource Name (ARN) for database credentials.
@@ -1606,12 +1607,11 @@ extension AppSyncClientTypes {
             self.schema = schema
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum RelationalDatabaseSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RelationalDatabaseSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rdsHttpEndpoint
         case sdkUnknown(Swift.String)
 
@@ -1636,8 +1636,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a relational database data source configuration.
-    public struct RelationalDatabaseDataSourceConfig {
+    public struct RelationalDatabaseDataSourceConfig: Swift.Sendable {
         /// Amazon RDS HTTP endpoint settings.
         public var rdsHttpEndpointConfig: AppSyncClientTypes.RdsHttpEndpointConfig?
         /// Source type for the relational database.
@@ -1654,12 +1655,11 @@ extension AppSyncClientTypes {
             self.relationalDatabaseSourceType = relationalDatabaseSourceType
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum DataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonDynamodb
         case amazonElasticsearch
         case amazonEventbridge
@@ -1704,7 +1704,7 @@ extension AppSyncClientTypes {
     }
 }
 
-public struct CreateDataSourceInput {
+public struct CreateDataSourceInput: Swift.Sendable {
     /// The API ID for the GraphQL API for the DataSource.
     /// This member is required.
     public var apiId: Swift.String?
@@ -1768,8 +1768,9 @@ public struct CreateDataSourceInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a data source.
-    public struct DataSource {
+    public struct DataSource: Swift.Sendable {
         /// The data source Amazon Resource Name (ARN).
         public var dataSourceArn: Swift.String?
         /// The description of the data source.
@@ -1844,10 +1845,9 @@ extension AppSyncClientTypes {
             self.type = type
         }
     }
-
 }
 
-public struct CreateDataSourceOutput {
+public struct CreateDataSourceOutput: Swift.Sendable {
     /// The DataSource object.
     public var dataSource: AppSyncClientTypes.DataSource?
 
@@ -1859,7 +1859,7 @@ public struct CreateDataSourceOutput {
     }
 }
 
-public struct CreateDomainNameInput {
+public struct CreateDomainNameInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server certificate.
     /// This member is required.
     public var certificateArn: Swift.String?
@@ -1882,8 +1882,9 @@ public struct CreateDomainNameInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a configuration for a custom domain.
-    public struct DomainNameConfig {
+    public struct DomainNameConfig: Swift.Sendable {
         /// The domain name that AppSync provides.
         public var appsyncDomainName: Swift.String?
         /// The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server certificate.
@@ -1910,10 +1911,9 @@ extension AppSyncClientTypes {
             self.hostedZoneId = hostedZoneId
         }
     }
-
 }
 
-public struct CreateDomainNameOutput {
+public struct CreateDomainNameOutput: Swift.Sendable {
     /// The configuration for the DomainName.
     public var domainNameConfig: AppSyncClientTypes.DomainNameConfig?
 
@@ -1927,7 +1927,7 @@ public struct CreateDomainNameOutput {
 
 extension AppSyncClientTypes {
 
-    public enum ConflictDetectionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConflictDetectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case version
         case sdkUnknown(Swift.String)
@@ -1956,7 +1956,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum ConflictHandlerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConflictHandlerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automerge
         case lambda
         case `none`
@@ -1990,8 +1990,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// The LambdaConflictHandlerConfig object when configuring LAMBDA as the Conflict Handler.
-    public struct LambdaConflictHandlerConfig {
+    public struct LambdaConflictHandlerConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the Lambda function to use as the Conflict Handler.
         public var lambdaConflictHandlerArn: Swift.String?
 
@@ -2002,12 +2003,12 @@ extension AppSyncClientTypes {
             self.lambdaConflictHandlerArn = lambdaConflictHandlerArn
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a Sync configuration for a resolver. Specifies which Conflict Detection strategy and Resolution strategy to use when the resolver is invoked.
-    public struct SyncConfig {
+    public struct SyncConfig: Swift.Sendable {
         /// The Conflict Detection strategy to use.
         ///
         /// * VERSION: Detect conflicts based on object versions for this resolver.
@@ -2036,10 +2037,9 @@ extension AppSyncClientTypes {
             self.lambdaConflictHandlerConfig = lambdaConflictHandlerConfig
         }
     }
-
 }
 
-public struct CreateFunctionInput {
+public struct CreateFunctionInput: Swift.Sendable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -2095,8 +2095,9 @@ public struct CreateFunctionInput {
 }
 
 extension AppSyncClientTypes {
+
     /// A function is a reusable entity. You can use multiple functions to compose the resolver logic.
-    public struct FunctionConfiguration {
+    public struct FunctionConfiguration: Swift.Sendable {
         /// The function code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
         public var code: Swift.String?
         /// The name of the DataSource.
@@ -2151,10 +2152,9 @@ extension AppSyncClientTypes {
             self.syncConfig = syncConfig
         }
     }
-
 }
 
-public struct CreateFunctionOutput {
+public struct CreateFunctionOutput: Swift.Sendable {
     /// The Function object.
     public var functionConfiguration: AppSyncClientTypes.FunctionConfiguration?
 
@@ -2168,7 +2168,7 @@ public struct CreateFunctionOutput {
 
 extension AppSyncClientTypes {
 
-    public enum GraphQLApiType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GraphQLApiType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case graphql
         case merged
         case sdkUnknown(Swift.String)
@@ -2197,7 +2197,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum DataSourceLevelMetricsBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataSourceLevelMetricsBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullRequestDataSourceMetrics
         case perDataSourceMetrics
         case sdkUnknown(Swift.String)
@@ -2226,7 +2226,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum OperationLevelMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OperationLevelMetricsConfig: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -2255,7 +2255,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum ResolverLevelMetricsBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResolverLevelMetricsBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullRequestResolverMetrics
         case perResolverMetrics
         case sdkUnknown(Swift.String)
@@ -2283,6 +2283,7 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Enables and controls the enhanced metrics feature. Enhanced metrics emit granular data on API usage and performance such as AppSync request and error counts, latency, and cache hits/misses. All enhanced metric data is sent to your CloudWatch account, and you can configure the types of data that will be sent. Enhanced metrics can be configured at the resolver, data source, and operation levels. EnhancedMetricsConfig contains three required parameters, each controlling one of these categories:
     ///
     /// * resolverLevelMetricsBehavior: Controls how resolver metrics will be emitted to CloudWatch. Resolver metrics include:
@@ -2333,7 +2334,7 @@ extension AppSyncClientTypes {
     ///
     ///
     /// Metrics will be recorded by API ID and operation name. You can set the value to ENABLED or DISABLED.
-    public struct EnhancedMetricsConfig {
+    public struct EnhancedMetricsConfig: Swift.Sendable {
         /// Controls how data source metrics will be emitted to CloudWatch. Data source metrics include:
         ///
         /// * Requests: The number of invocations that occured during a request.
@@ -2392,12 +2393,11 @@ extension AppSyncClientTypes {
             self.resolverLevelMetricsBehavior = resolverLevelMetricsBehavior
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum GraphQLApiIntrospectionConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GraphQLApiIntrospectionConfig: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -2426,7 +2426,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum FieldLogLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FieldLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case debug
         case error
@@ -2463,8 +2463,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// The Amazon CloudWatch Logs configuration.
-    public struct LogConfig {
+    public struct LogConfig: Swift.Sendable {
         /// The service role that AppSync assumes to publish to CloudWatch logs in your account.
         /// This member is required.
         public var cloudWatchLogsRoleArn: Swift.String?
@@ -2526,12 +2527,11 @@ extension AppSyncClientTypes {
             self.fieldLogLevel = fieldLogLevel
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum DefaultAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DefaultAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case deny
         case sdkUnknown(Swift.String)
@@ -2559,8 +2559,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes an Amazon Cognito user pool configuration.
-    public struct UserPoolConfig {
+    public struct UserPoolConfig: Swift.Sendable {
         /// A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied.
         public var appIdClientRegex: Swift.String?
         /// The Amazon Web Services Region in which the user pool was created.
@@ -2586,12 +2587,11 @@ extension AppSyncClientTypes {
             self.userPoolId = userPoolId
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum GraphQLApiVisibility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GraphQLApiVisibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case global
         case `private`
         case sdkUnknown(Swift.String)
@@ -2618,7 +2618,7 @@ extension AppSyncClientTypes {
     }
 }
 
-public struct CreateGraphqlApiInput {
+public struct CreateGraphqlApiInput: Swift.Sendable {
     /// A list of additional authentication providers for the GraphqlApi API.
     public var additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]?
     /// The value that indicates whether the GraphQL API is a standard API (GRAPHQL) or merged API (MERGED).
@@ -2697,8 +2697,9 @@ public struct CreateGraphqlApiInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a GraphQL API.
-    public struct GraphqlApi {
+    public struct GraphqlApi: Swift.Sendable {
         /// A list of additional authentication providers for the GraphqlApi API.
         public var additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]?
         /// The API ID.
@@ -2797,10 +2798,9 @@ extension AppSyncClientTypes {
             self.xrayEnabled = xrayEnabled
         }
     }
-
 }
 
-public struct CreateGraphqlApiOutput {
+public struct CreateGraphqlApiOutput: Swift.Sendable {
     /// The GraphqlApi.
     public var graphqlApi: AppSyncClientTypes.GraphqlApi?
 
@@ -2813,8 +2813,9 @@ public struct CreateGraphqlApiOutput {
 }
 
 extension AppSyncClientTypes {
+
     /// The caching configuration for a resolver that has caching activated.
-    public struct CachingConfig {
+    public struct CachingConfig: Swift.Sendable {
         /// The caching keys for a resolver that has caching activated. Valid values are entries from the $context.arguments, $context.source, and $context.identity maps.
         public var cachingKeys: [Swift.String]?
         /// The TTL in seconds for a resolver that has caching activated. Valid values are 1–3,600 seconds.
@@ -2830,12 +2831,11 @@ extension AppSyncClientTypes {
             self.ttl = ttl
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum ResolverKind: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResolverKind: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pipeline
         case unit
         case sdkUnknown(Swift.String)
@@ -2864,7 +2864,7 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
-    public enum ResolverLevelMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResolverLevelMetricsConfig: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -2892,8 +2892,9 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+
     /// The pipeline configuration for a resolver of kind PIPELINE.
-    public struct PipelineConfig {
+    public struct PipelineConfig: Swift.Sendable {
         /// A list of Function objects.
         public var functions: [Swift.String]?
 
@@ -2904,10 +2905,9 @@ extension AppSyncClientTypes {
             self.functions = functions
         }
     }
-
 }
 
-public struct CreateResolverInput {
+public struct CreateResolverInput: Swift.Sendable {
     /// The ID for the GraphQL API for which the resolver is being created.
     /// This member is required.
     public var apiId: Swift.String?
@@ -2979,8 +2979,9 @@ public struct CreateResolverInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a resolver.
-    public struct Resolver {
+    public struct Resolver: Swift.Sendable {
         /// The caching configuration for the resolver.
         public var cachingConfig: AppSyncClientTypes.CachingConfig?
         /// The resolver code that contains the request and response functions. When code is used, the runtime is required. The runtime value must be APPSYNC_JS.
@@ -3047,10 +3048,9 @@ extension AppSyncClientTypes {
             self.typeName = typeName
         }
     }
-
 }
 
-public struct CreateResolverOutput {
+public struct CreateResolverOutput: Swift.Sendable {
     /// The Resolver object.
     public var resolver: AppSyncClientTypes.Resolver?
 
@@ -3064,7 +3064,7 @@ public struct CreateResolverOutput {
 
 extension AppSyncClientTypes {
 
-    public enum TypeDefinitionFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TypeDefinitionFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case json
         case sdl
         case sdkUnknown(Swift.String)
@@ -3091,7 +3091,7 @@ extension AppSyncClientTypes {
     }
 }
 
-public struct CreateTypeInput {
+public struct CreateTypeInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3115,8 +3115,9 @@ public struct CreateTypeInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes a type.
-    public struct ModelType {
+    public struct ModelType: Swift.Sendable {
         /// The type Amazon Resource Name (ARN).
         public var arn: Swift.String?
         /// The type definition.
@@ -3143,10 +3144,9 @@ extension AppSyncClientTypes {
             self.name = name
         }
     }
-
 }
 
-public struct CreateTypeOutput {
+public struct CreateTypeOutput: Swift.Sendable {
     /// The Type object.
     public var type: AppSyncClientTypes.ModelType?
 
@@ -3159,7 +3159,7 @@ public struct CreateTypeOutput {
 }
 
 /// Represents the input of a DeleteApiCache operation.
-public struct DeleteApiCacheInput {
+public struct DeleteApiCacheInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3173,12 +3173,12 @@ public struct DeleteApiCacheInput {
 }
 
 /// Represents the output of a DeleteApiCache operation.
-public struct DeleteApiCacheOutput {
+public struct DeleteApiCacheOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteApiKeyInput {
+public struct DeleteApiKeyInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3196,12 +3196,12 @@ public struct DeleteApiKeyInput {
     }
 }
 
-public struct DeleteApiKeyOutput {
+public struct DeleteApiKeyOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteDataSourceInput {
+public struct DeleteDataSourceInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3219,12 +3219,12 @@ public struct DeleteDataSourceInput {
     }
 }
 
-public struct DeleteDataSourceOutput {
+public struct DeleteDataSourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteDomainNameInput {
+public struct DeleteDomainNameInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3237,12 +3237,12 @@ public struct DeleteDomainNameInput {
     }
 }
 
-public struct DeleteDomainNameOutput {
+public struct DeleteDomainNameOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteFunctionInput {
+public struct DeleteFunctionInput: Swift.Sendable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3260,12 +3260,12 @@ public struct DeleteFunctionInput {
     }
 }
 
-public struct DeleteFunctionOutput {
+public struct DeleteFunctionOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteGraphqlApiInput {
+public struct DeleteGraphqlApiInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3278,12 +3278,12 @@ public struct DeleteGraphqlApiInput {
     }
 }
 
-public struct DeleteGraphqlApiOutput {
+public struct DeleteGraphqlApiOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteResolverInput {
+public struct DeleteResolverInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3306,12 +3306,12 @@ public struct DeleteResolverInput {
     }
 }
 
-public struct DeleteResolverOutput {
+public struct DeleteResolverOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteTypeInput {
+public struct DeleteTypeInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3329,12 +3329,12 @@ public struct DeleteTypeInput {
     }
 }
 
-public struct DeleteTypeOutput {
+public struct DeleteTypeOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DisassociateApiInput {
+public struct DisassociateApiInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3347,12 +3347,12 @@ public struct DisassociateApiInput {
     }
 }
 
-public struct DisassociateApiOutput {
+public struct DisassociateApiOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DisassociateMergedGraphqlApiInput {
+public struct DisassociateMergedGraphqlApiInput: Swift.Sendable {
     /// The ID generated by the AppSync service for the source API association.
     /// This member is required.
     public var associationId: Swift.String?
@@ -3370,7 +3370,7 @@ public struct DisassociateMergedGraphqlApiInput {
     }
 }
 
-public struct DisassociateMergedGraphqlApiOutput {
+public struct DisassociateMergedGraphqlApiOutput: Swift.Sendable {
     /// The state of the source API association.
     public var sourceApiAssociationStatus: AppSyncClientTypes.SourceApiAssociationStatus?
 
@@ -3382,7 +3382,7 @@ public struct DisassociateMergedGraphqlApiOutput {
     }
 }
 
-public struct DisassociateSourceGraphqlApiInput {
+public struct DisassociateSourceGraphqlApiInput: Swift.Sendable {
     /// The ID generated by the AppSync service for the source API association.
     /// This member is required.
     public var associationId: Swift.String?
@@ -3400,7 +3400,7 @@ public struct DisassociateSourceGraphqlApiInput {
     }
 }
 
-public struct DisassociateSourceGraphqlApiOutput {
+public struct DisassociateSourceGraphqlApiOutput: Swift.Sendable {
     /// The state of the source API association.
     public var sourceApiAssociationStatus: AppSyncClientTypes.SourceApiAssociationStatus?
 
@@ -3412,7 +3412,7 @@ public struct DisassociateSourceGraphqlApiOutput {
     }
 }
 
-public struct EvaluateCodeInput {
+public struct EvaluateCodeInput: Swift.Sendable {
     /// The code definition to be evaluated. Note that code and runtime are both required for this action. The runtime value must be APPSYNC_JS.
     /// This member is required.
     public var code: Swift.String?
@@ -3440,8 +3440,9 @@ public struct EvaluateCodeInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Contains the list of errors from a code evaluation response.
-    public struct EvaluateCodeErrorDetail {
+    public struct EvaluateCodeErrorDetail: Swift.Sendable {
         /// Contains the list of CodeError objects.
         public var codeErrors: [AppSyncClientTypes.CodeError]?
         /// The error payload.
@@ -3456,10 +3457,9 @@ extension AppSyncClientTypes {
             self.message = message
         }
     }
-
 }
 
-public struct EvaluateCodeOutput {
+public struct EvaluateCodeOutput: Swift.Sendable {
     /// Contains the payload of the response error.
     public var error: AppSyncClientTypes.EvaluateCodeErrorDetail?
     /// The result of the evaluation operation.
@@ -3479,7 +3479,7 @@ public struct EvaluateCodeOutput {
     }
 }
 
-public struct EvaluateMappingTemplateInput {
+public struct EvaluateMappingTemplateInput: Swift.Sendable {
     /// The map that holds all of the contextual information for your resolver invocation. A context is required for this action.
     /// This member is required.
     public var context: Swift.String?
@@ -3498,8 +3498,9 @@ public struct EvaluateMappingTemplateInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Contains the list of errors generated. When using JavaScript, this will apply to the request or response function evaluation.
-    public struct ErrorDetail {
+    public struct ErrorDetail: Swift.Sendable {
         /// The error payload.
         public var message: Swift.String?
 
@@ -3510,10 +3511,9 @@ extension AppSyncClientTypes {
             self.message = message
         }
     }
-
 }
 
-public struct EvaluateMappingTemplateOutput {
+public struct EvaluateMappingTemplateOutput: Swift.Sendable {
     /// The ErrorDetail object.
     public var error: AppSyncClientTypes.ErrorDetail?
     /// The mapping template; this can be a request or response template.
@@ -3534,7 +3534,7 @@ public struct EvaluateMappingTemplateOutput {
 }
 
 /// Represents the input of a FlushApiCache operation.
-public struct FlushApiCacheInput {
+public struct FlushApiCacheInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3548,12 +3548,12 @@ public struct FlushApiCacheInput {
 }
 
 /// Represents the output of a FlushApiCache operation.
-public struct FlushApiCacheOutput {
+public struct FlushApiCacheOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetApiAssociationInput {
+public struct GetApiAssociationInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3566,7 +3566,7 @@ public struct GetApiAssociationInput {
     }
 }
 
-public struct GetApiAssociationOutput {
+public struct GetApiAssociationOutput: Swift.Sendable {
     /// The ApiAssociation object.
     public var apiAssociation: AppSyncClientTypes.ApiAssociation?
 
@@ -3579,7 +3579,7 @@ public struct GetApiAssociationOutput {
 }
 
 /// Represents the input of a GetApiCache operation.
-public struct GetApiCacheInput {
+public struct GetApiCacheInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3593,7 +3593,7 @@ public struct GetApiCacheInput {
 }
 
 /// Represents the output of a GetApiCache operation.
-public struct GetApiCacheOutput {
+public struct GetApiCacheOutput: Swift.Sendable {
     /// The ApiCache object.
     public var apiCache: AppSyncClientTypes.ApiCache?
 
@@ -3605,7 +3605,7 @@ public struct GetApiCacheOutput {
     }
 }
 
-public struct GetDataSourceInput {
+public struct GetDataSourceInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3623,7 +3623,7 @@ public struct GetDataSourceInput {
     }
 }
 
-public struct GetDataSourceOutput {
+public struct GetDataSourceOutput: Swift.Sendable {
     /// The DataSource object.
     public var dataSource: AppSyncClientTypes.DataSource?
 
@@ -3635,7 +3635,7 @@ public struct GetDataSourceOutput {
     }
 }
 
-public struct GetDataSourceIntrospectionInput {
+public struct GetDataSourceIntrospectionInput: Swift.Sendable {
     /// A boolean flag that determines whether SDL should be generated for introspected types or not. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
     public var includeModelsSDL: Swift.Bool?
     /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
@@ -3661,8 +3661,9 @@ public struct GetDataSourceIntrospectionInput {
 }
 
 extension AppSyncClientTypes {
+
     /// The index that was retrieved from the introspected data.
-    public struct DataSourceIntrospectionModelIndex {
+    public struct DataSourceIntrospectionModelIndex: Swift.Sendable {
         /// The fields of the index.
         public var fields: [Swift.String]?
         /// The name of the index.
@@ -3677,12 +3678,11 @@ extension AppSyncClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension AppSyncClientTypes {
 
-    public enum DataSourceIntrospectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataSourceIntrospectionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case processing
         case success
@@ -3712,7 +3712,7 @@ extension AppSyncClientTypes {
     }
 }
 
-public struct GetDomainNameInput {
+public struct GetDomainNameInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3725,7 +3725,7 @@ public struct GetDomainNameInput {
     }
 }
 
-public struct GetDomainNameOutput {
+public struct GetDomainNameOutput: Swift.Sendable {
     /// The configuration for the DomainName.
     public var domainNameConfig: AppSyncClientTypes.DomainNameConfig?
 
@@ -3737,7 +3737,7 @@ public struct GetDomainNameOutput {
     }
 }
 
-public struct GetFunctionInput {
+public struct GetFunctionInput: Swift.Sendable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3755,7 +3755,7 @@ public struct GetFunctionInput {
     }
 }
 
-public struct GetFunctionOutput {
+public struct GetFunctionOutput: Swift.Sendable {
     /// The Function object.
     public var functionConfiguration: AppSyncClientTypes.FunctionConfiguration?
 
@@ -3767,7 +3767,7 @@ public struct GetFunctionOutput {
     }
 }
 
-public struct GetGraphqlApiInput {
+public struct GetGraphqlApiInput: Swift.Sendable {
     /// The API ID for the GraphQL API.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3780,7 +3780,7 @@ public struct GetGraphqlApiInput {
     }
 }
 
-public struct GetGraphqlApiOutput {
+public struct GetGraphqlApiOutput: Swift.Sendable {
     /// The GraphqlApi object.
     public var graphqlApi: AppSyncClientTypes.GraphqlApi?
 
@@ -3792,7 +3792,7 @@ public struct GetGraphqlApiOutput {
     }
 }
 
-public struct GetGraphqlApiEnvironmentVariablesInput {
+public struct GetGraphqlApiEnvironmentVariablesInput: Swift.Sendable {
     /// The ID of the API from which the environmental variable list will be retrieved.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3805,7 +3805,7 @@ public struct GetGraphqlApiEnvironmentVariablesInput {
     }
 }
 
-public struct GetGraphqlApiEnvironmentVariablesOutput {
+public struct GetGraphqlApiEnvironmentVariablesOutput: Swift.Sendable {
     /// The payload containing each environmental variable in the "key" : "value" format.
     public var environmentVariables: [Swift.String: Swift.String]?
 
@@ -3843,7 +3843,7 @@ public struct GraphQLSchemaException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension AppSyncClientTypes {
 
-    public enum OutputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OutputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case json
         case sdl
         case sdkUnknown(Swift.String)
@@ -3870,7 +3870,7 @@ extension AppSyncClientTypes {
     }
 }
 
-public struct GetIntrospectionSchemaInput {
+public struct GetIntrospectionSchemaInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3892,7 +3892,7 @@ public struct GetIntrospectionSchemaInput {
     }
 }
 
-public struct GetIntrospectionSchemaOutput {
+public struct GetIntrospectionSchemaOutput: Swift.Sendable {
     /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the [GraphQL SDL documentation](http://graphql.org/learn/schema/).
     public var schema: Foundation.Data?
 
@@ -3904,7 +3904,7 @@ public struct GetIntrospectionSchemaOutput {
     }
 }
 
-public struct GetResolverInput {
+public struct GetResolverInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3927,7 +3927,7 @@ public struct GetResolverInput {
     }
 }
 
-public struct GetResolverOutput {
+public struct GetResolverOutput: Swift.Sendable {
     /// The Resolver object.
     public var resolver: AppSyncClientTypes.Resolver?
 
@@ -3939,7 +3939,7 @@ public struct GetResolverOutput {
     }
 }
 
-public struct GetSchemaCreationStatusInput {
+public struct GetSchemaCreationStatusInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -3954,7 +3954,7 @@ public struct GetSchemaCreationStatusInput {
 
 extension AppSyncClientTypes {
 
-    public enum SchemaStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SchemaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case deleting
         case failed
@@ -3993,7 +3993,7 @@ extension AppSyncClientTypes {
     }
 }
 
-public struct GetSchemaCreationStatusOutput {
+public struct GetSchemaCreationStatusOutput: Swift.Sendable {
     /// Detailed information about the status of the schema creation operation.
     public var details: Swift.String?
     /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
@@ -4009,7 +4009,7 @@ public struct GetSchemaCreationStatusOutput {
     }
 }
 
-public struct GetSourceApiAssociationInput {
+public struct GetSourceApiAssociationInput: Swift.Sendable {
     /// The ID generated by the AppSync service for the source API association.
     /// This member is required.
     public var associationId: Swift.String?
@@ -4027,7 +4027,7 @@ public struct GetSourceApiAssociationInput {
     }
 }
 
-public struct GetSourceApiAssociationOutput {
+public struct GetSourceApiAssociationOutput: Swift.Sendable {
     /// The SourceApiAssociation object data.
     public var sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation?
 
@@ -4039,7 +4039,7 @@ public struct GetSourceApiAssociationOutput {
     }
 }
 
-public struct GetTypeInput {
+public struct GetTypeInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4062,7 +4062,7 @@ public struct GetTypeInput {
     }
 }
 
-public struct GetTypeOutput {
+public struct GetTypeOutput: Swift.Sendable {
     /// The Type object.
     public var type: AppSyncClientTypes.ModelType?
 
@@ -4074,7 +4074,7 @@ public struct GetTypeOutput {
     }
 }
 
-public struct ListApiKeysInput {
+public struct ListApiKeysInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4095,7 +4095,7 @@ public struct ListApiKeysInput {
     }
 }
 
-public struct ListApiKeysOutput {
+public struct ListApiKeysOutput: Swift.Sendable {
     /// The ApiKey objects.
     public var apiKeys: [AppSyncClientTypes.ApiKey]?
     /// An identifier to pass in the next request to this operation to return the next set of items in the list.
@@ -4111,7 +4111,7 @@ public struct ListApiKeysOutput {
     }
 }
 
-public struct ListDataSourcesInput {
+public struct ListDataSourcesInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4132,7 +4132,7 @@ public struct ListDataSourcesInput {
     }
 }
 
-public struct ListDataSourcesOutput {
+public struct ListDataSourcesOutput: Swift.Sendable {
     /// The DataSource objects.
     public var dataSources: [AppSyncClientTypes.DataSource]?
     /// An identifier to pass in the next request to this operation to return the next set of items in the list.
@@ -4148,7 +4148,7 @@ public struct ListDataSourcesOutput {
     }
 }
 
-public struct ListDomainNamesInput {
+public struct ListDomainNamesInput: Swift.Sendable {
     /// The maximum number of results that you want the request to return.
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
@@ -4164,7 +4164,7 @@ public struct ListDomainNamesInput {
     }
 }
 
-public struct ListDomainNamesOutput {
+public struct ListDomainNamesOutput: Swift.Sendable {
     /// Lists configurations for multiple domain names.
     public var domainNameConfigs: [AppSyncClientTypes.DomainNameConfig]?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
@@ -4180,7 +4180,7 @@ public struct ListDomainNamesOutput {
     }
 }
 
-public struct ListFunctionsInput {
+public struct ListFunctionsInput: Swift.Sendable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4201,7 +4201,7 @@ public struct ListFunctionsInput {
     }
 }
 
-public struct ListFunctionsOutput {
+public struct ListFunctionsOutput: Swift.Sendable {
     /// A list of Function objects.
     public var functions: [AppSyncClientTypes.FunctionConfiguration]?
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
@@ -4219,7 +4219,7 @@ public struct ListFunctionsOutput {
 
 extension AppSyncClientTypes {
 
-    public enum Ownership: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Ownership: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case currentAccount
         case otherAccounts
         case sdkUnknown(Swift.String)
@@ -4246,7 +4246,7 @@ extension AppSyncClientTypes {
     }
 }
 
-public struct ListGraphqlApisInput {
+public struct ListGraphqlApisInput: Swift.Sendable {
     /// The value that indicates whether the GraphQL API is a standard API (GRAPHQL) or merged API (MERGED).
     public var apiType: AppSyncClientTypes.GraphQLApiType?
     /// The maximum number of results that you want the request to return.
@@ -4270,7 +4270,7 @@ public struct ListGraphqlApisInput {
     }
 }
 
-public struct ListGraphqlApisOutput {
+public struct ListGraphqlApisOutput: Swift.Sendable {
     /// The GraphqlApi objects.
     public var graphqlApis: [AppSyncClientTypes.GraphqlApi]?
     /// An identifier to pass in the next request to this operation to return the next set of items in the list.
@@ -4286,7 +4286,7 @@ public struct ListGraphqlApisOutput {
     }
 }
 
-public struct ListResolversInput {
+public struct ListResolversInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4312,7 +4312,7 @@ public struct ListResolversInput {
     }
 }
 
-public struct ListResolversOutput {
+public struct ListResolversOutput: Swift.Sendable {
     /// An identifier to pass in the next request to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The Resolver objects.
@@ -4328,7 +4328,7 @@ public struct ListResolversOutput {
     }
 }
 
-public struct ListResolversByFunctionInput {
+public struct ListResolversByFunctionInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4354,7 +4354,7 @@ public struct ListResolversByFunctionInput {
     }
 }
 
-public struct ListResolversByFunctionOutput {
+public struct ListResolversByFunctionOutput: Swift.Sendable {
     /// An identifier that you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The list of resolvers.
@@ -4370,7 +4370,7 @@ public struct ListResolversByFunctionOutput {
     }
 }
 
-public struct ListSourceApiAssociationsInput {
+public struct ListSourceApiAssociationsInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4392,8 +4392,9 @@ public struct ListSourceApiAssociationsInput {
 }
 
 extension AppSyncClientTypes {
+
     /// Describes the ARNs and IDs of associations, Merged APIs, and source APIs.
-    public struct SourceApiAssociationSummary {
+    public struct SourceApiAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the source API association.
         public var associationArn: Swift.String?
         /// The ID generated by the AppSync service for the source API association.
@@ -4428,10 +4429,9 @@ extension AppSyncClientTypes {
             self.sourceApiId = sourceApiId
         }
     }
-
 }
 
-public struct ListSourceApiAssociationsOutput {
+public struct ListSourceApiAssociationsOutput: Swift.Sendable {
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The SourceApiAssociationSummary object data.
@@ -4447,7 +4447,7 @@ public struct ListSourceApiAssociationsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The GraphqlApi Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4460,7 +4460,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A TagMap object.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4472,7 +4472,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct ListTypesInput {
+public struct ListTypesInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4498,7 +4498,7 @@ public struct ListTypesInput {
     }
 }
 
-public struct ListTypesOutput {
+public struct ListTypesOutput: Swift.Sendable {
     /// An identifier to pass in the next request to this operation to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The Type objects.
@@ -4514,7 +4514,7 @@ public struct ListTypesOutput {
     }
 }
 
-public struct ListTypesByAssociationInput {
+public struct ListTypesByAssociationInput: Swift.Sendable {
     /// The ID generated by the AppSync service for the source API association.
     /// This member is required.
     public var associationId: Swift.String?
@@ -4545,7 +4545,7 @@ public struct ListTypesByAssociationInput {
     }
 }
 
-public struct ListTypesByAssociationOutput {
+public struct ListTypesByAssociationOutput: Swift.Sendable {
     /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// The Type objects.
@@ -4561,7 +4561,7 @@ public struct ListTypesByAssociationOutput {
     }
 }
 
-public struct PutGraphqlApiEnvironmentVariablesInput {
+public struct PutGraphqlApiEnvironmentVariablesInput: Swift.Sendable {
     /// The ID of the API to which the environmental variable list will be written.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4592,7 +4592,7 @@ public struct PutGraphqlApiEnvironmentVariablesInput {
     }
 }
 
-public struct PutGraphqlApiEnvironmentVariablesOutput {
+public struct PutGraphqlApiEnvironmentVariablesOutput: Swift.Sendable {
     /// The payload containing each environmental variable in the "key" : "value" format.
     public var environmentVariables: [Swift.String: Swift.String]?
 
@@ -4605,8 +4605,9 @@ public struct PutGraphqlApiEnvironmentVariablesOutput {
 }
 
 extension AppSyncClientTypes {
+
     /// Contains the metadata required to introspect the RDS cluster.
-    public struct RdsDataApiConfig {
+    public struct RdsDataApiConfig: Swift.Sendable {
         /// The name of the database in the cluster.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -4628,10 +4629,9 @@ extension AppSyncClientTypes {
             self.secretArn = secretArn
         }
     }
-
 }
 
-public struct StartDataSourceIntrospectionInput {
+public struct StartDataSourceIntrospectionInput: Swift.Sendable {
     /// The rdsDataApiConfig object data.
     public var rdsDataApiConfig: AppSyncClientTypes.RdsDataApiConfig?
 
@@ -4643,7 +4643,7 @@ public struct StartDataSourceIntrospectionInput {
     }
 }
 
-public struct StartDataSourceIntrospectionOutput {
+public struct StartDataSourceIntrospectionOutput: Swift.Sendable {
     /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
     public var introspectionId: Swift.String?
     /// The status of the introspection during creation. By default, when a new instrospection has been created, the status will be set to PROCESSING. Once the operation has been completed, the status will change to SUCCESS or FAILED depending on how the data was parsed. A FAILED operation will return an error and its details as an introspectionStatusDetail.
@@ -4663,7 +4663,7 @@ public struct StartDataSourceIntrospectionOutput {
     }
 }
 
-public struct StartSchemaCreationInput {
+public struct StartSchemaCreationInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4681,7 +4681,7 @@ public struct StartSchemaCreationInput {
     }
 }
 
-public struct StartSchemaCreationOutput {
+public struct StartSchemaCreationOutput: Swift.Sendable {
     /// The current state of the schema (PROCESSING, FAILED, SUCCESS, or NOT_APPLICABLE). When the schema is in the ACTIVE state, you can add data.
     public var status: AppSyncClientTypes.SchemaStatus?
 
@@ -4693,7 +4693,7 @@ public struct StartSchemaCreationOutput {
     }
 }
 
-public struct StartSchemaMergeInput {
+public struct StartSchemaMergeInput: Swift.Sendable {
     /// The ID generated by the AppSync service for the source API association.
     /// This member is required.
     public var associationId: Swift.String?
@@ -4711,7 +4711,7 @@ public struct StartSchemaMergeInput {
     }
 }
 
-public struct StartSchemaMergeOutput {
+public struct StartSchemaMergeOutput: Swift.Sendable {
     /// The state of the source API association.
     public var sourceApiAssociationStatus: AppSyncClientTypes.SourceApiAssociationStatus?
 
@@ -4723,7 +4723,7 @@ public struct StartSchemaMergeOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The GraphqlApi Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4741,12 +4741,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The GraphqlApi Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4764,13 +4764,13 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
 /// Represents the input of a UpdateApiCache operation.
-public struct UpdateApiCacheInput {
+public struct UpdateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
     ///
     /// * FULL_REQUEST_CACHING: All requests are fully cached.
@@ -4847,7 +4847,7 @@ public struct UpdateApiCacheInput {
 }
 
 /// Represents the output of a UpdateApiCache operation.
-public struct UpdateApiCacheOutput {
+public struct UpdateApiCacheOutput: Swift.Sendable {
     /// The ApiCache object.
     public var apiCache: AppSyncClientTypes.ApiCache?
 
@@ -4859,7 +4859,7 @@ public struct UpdateApiCacheOutput {
     }
 }
 
-public struct UpdateApiKeyInput {
+public struct UpdateApiKeyInput: Swift.Sendable {
     /// The ID for the GraphQL API.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4885,7 +4885,7 @@ public struct UpdateApiKeyInput {
     }
 }
 
-public struct UpdateApiKeyOutput {
+public struct UpdateApiKeyOutput: Swift.Sendable {
     /// The API key.
     public var apiKey: AppSyncClientTypes.ApiKey?
 
@@ -4897,7 +4897,7 @@ public struct UpdateApiKeyOutput {
     }
 }
 
-public struct UpdateDataSourceInput {
+public struct UpdateDataSourceInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -4960,7 +4960,7 @@ public struct UpdateDataSourceInput {
     }
 }
 
-public struct UpdateDataSourceOutput {
+public struct UpdateDataSourceOutput: Swift.Sendable {
     /// The updated DataSource object.
     public var dataSource: AppSyncClientTypes.DataSource?
 
@@ -4972,7 +4972,7 @@ public struct UpdateDataSourceOutput {
     }
 }
 
-public struct UpdateDomainNameInput {
+public struct UpdateDomainNameInput: Swift.Sendable {
     /// A description of the DomainName.
     public var description: Swift.String?
     /// The domain name.
@@ -4989,7 +4989,7 @@ public struct UpdateDomainNameInput {
     }
 }
 
-public struct UpdateDomainNameOutput {
+public struct UpdateDomainNameOutput: Swift.Sendable {
     /// The configuration for the DomainName.
     public var domainNameConfig: AppSyncClientTypes.DomainNameConfig?
 
@@ -5001,7 +5001,7 @@ public struct UpdateDomainNameOutput {
     }
 }
 
-public struct UpdateFunctionInput {
+public struct UpdateFunctionInput: Swift.Sendable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -5061,7 +5061,7 @@ public struct UpdateFunctionInput {
     }
 }
 
-public struct UpdateFunctionOutput {
+public struct UpdateFunctionOutput: Swift.Sendable {
     /// The Function object.
     public var functionConfiguration: AppSyncClientTypes.FunctionConfiguration?
 
@@ -5073,7 +5073,7 @@ public struct UpdateFunctionOutput {
     }
 }
 
-public struct UpdateGraphqlApiInput {
+public struct UpdateGraphqlApiInput: Swift.Sendable {
     /// A list of additional authentication providers for the GraphqlApi API.
     public var additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]?
     /// The API ID.
@@ -5144,7 +5144,7 @@ public struct UpdateGraphqlApiInput {
     }
 }
 
-public struct UpdateGraphqlApiOutput {
+public struct UpdateGraphqlApiOutput: Swift.Sendable {
     /// The updated GraphqlApi object.
     public var graphqlApi: AppSyncClientTypes.GraphqlApi?
 
@@ -5156,7 +5156,7 @@ public struct UpdateGraphqlApiOutput {
     }
 }
 
-public struct UpdateResolverInput {
+public struct UpdateResolverInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -5227,7 +5227,7 @@ public struct UpdateResolverInput {
     }
 }
 
-public struct UpdateResolverOutput {
+public struct UpdateResolverOutput: Swift.Sendable {
     /// The updated Resolver object.
     public var resolver: AppSyncClientTypes.Resolver?
 
@@ -5239,7 +5239,7 @@ public struct UpdateResolverOutput {
     }
 }
 
-public struct UpdateSourceApiAssociationInput {
+public struct UpdateSourceApiAssociationInput: Swift.Sendable {
     /// The ID generated by the AppSync service for the source API association.
     /// This member is required.
     public var associationId: Swift.String?
@@ -5265,7 +5265,7 @@ public struct UpdateSourceApiAssociationInput {
     }
 }
 
-public struct UpdateSourceApiAssociationOutput {
+public struct UpdateSourceApiAssociationOutput: Swift.Sendable {
     /// The SourceApiAssociation object data.
     public var sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation?
 
@@ -5277,7 +5277,7 @@ public struct UpdateSourceApiAssociationOutput {
     }
 }
 
-public struct UpdateTypeInput {
+public struct UpdateTypeInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
     public var apiId: Swift.String?
@@ -5304,7 +5304,7 @@ public struct UpdateTypeInput {
     }
 }
 
-public struct UpdateTypeOutput {
+public struct UpdateTypeOutput: Swift.Sendable {
     /// The updated Type object.
     public var type: AppSyncClientTypes.ModelType?
 
@@ -5317,8 +5317,9 @@ public struct UpdateTypeOutput {
 }
 
 extension AppSyncClientTypes {
+
     /// Represents the type data for each field retrieved from the introspection.
-    public struct DataSourceIntrospectionModelFieldType {
+    public struct DataSourceIntrospectionModelFieldType: Swift.Sendable {
         /// Specifies the classification of data. For example, this could be set to values like Scalar or NonNull to indicate a fundamental property of the field. Valid values include:
         ///
         /// * Scalar: Indicates the value is a primitive type (scalar).
@@ -5347,12 +5348,12 @@ extension AppSyncClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Represents the fields that were retrieved from the introspected data.
-    public struct DataSourceIntrospectionModelField {
+    public struct DataSourceIntrospectionModelField: Swift.Sendable {
         /// The length value of the introspected field.
         public var length: Swift.Int
         /// The name of the field that was retrieved from the introspected data.
@@ -5371,12 +5372,12 @@ extension AppSyncClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Contains the introspected data that was retrieved from the data source.
-    public struct DataSourceIntrospectionModel {
+    public struct DataSourceIntrospectionModel: Swift.Sendable {
         /// The DataSourceIntrospectionModelField object data.
         public var fields: [AppSyncClientTypes.DataSourceIntrospectionModelField]?
         /// The array of DataSourceIntrospectionModelIndex objects.
@@ -5403,12 +5404,12 @@ extension AppSyncClientTypes {
             self.sdl = sdl
         }
     }
-
 }
 
 extension AppSyncClientTypes {
+
     /// Represents the output of a DataSourceIntrospectionResult. This is the populated result of a GetDataSourceIntrospection operation.
-    public struct DataSourceIntrospectionResult {
+    public struct DataSourceIntrospectionResult: Swift.Sendable {
         /// The array of DataSourceIntrospectionModel objects.
         public var models: [AppSyncClientTypes.DataSourceIntrospectionModel]?
         /// Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response.
@@ -5423,10 +5424,9 @@ extension AppSyncClientTypes {
             self.nextToken = nextToken
         }
     }
-
 }
 
-public struct GetDataSourceIntrospectionOutput {
+public struct GetDataSourceIntrospectionOutput: Swift.Sendable {
     /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
     public var introspectionId: Swift.String?
     /// The DataSourceIntrospectionResult object data.
