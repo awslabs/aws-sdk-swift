@@ -172,7 +172,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-public struct AssociateDomainInput {
+public struct AssociateDomainInput: Swift.Sendable {
     /// The ARN of an issued ACM certificate that is valid for the domain being associated.
     /// This member is required.
     public var acmCertificateArn: Swift.String?
@@ -199,14 +199,14 @@ public struct AssociateDomainInput {
     }
 }
 
-public struct AssociateDomainOutput {
+public struct AssociateDomainOutput: Swift.Sendable {
 
     public init() { }
 }
 
 extension WorkLinkClientTypes {
 
-    public enum AuthorizationProviderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AuthorizationProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case saml
         case sdkUnknown(Swift.String)
 
@@ -230,7 +230,7 @@ extension WorkLinkClientTypes {
     }
 }
 
-public struct AssociateWebsiteAuthorizationProviderInput {
+public struct AssociateWebsiteAuthorizationProviderInput: Swift.Sendable {
     /// The authorization provider type.
     /// This member is required.
     public var authorizationProviderType: WorkLinkClientTypes.AuthorizationProviderType?
@@ -252,7 +252,7 @@ public struct AssociateWebsiteAuthorizationProviderInput {
     }
 }
 
-public struct AssociateWebsiteAuthorizationProviderOutput {
+public struct AssociateWebsiteAuthorizationProviderOutput: Swift.Sendable {
     /// A unique identifier for the authorization provider.
     public var authorizationProviderId: Swift.String?
 
@@ -264,7 +264,7 @@ public struct AssociateWebsiteAuthorizationProviderOutput {
     }
 }
 
-public struct AssociateWebsiteCertificateAuthorityInput {
+public struct AssociateWebsiteCertificateAuthorityInput: Swift.Sendable {
     /// The root certificate of the CA.
     /// This member is required.
     public var certificate: Swift.String?
@@ -286,7 +286,7 @@ public struct AssociateWebsiteCertificateAuthorityInput {
     }
 }
 
-public struct AssociateWebsiteCertificateAuthorityOutput {
+public struct AssociateWebsiteCertificateAuthorityOutput: Swift.Sendable {
     /// A unique identifier for the CA.
     public var websiteCaId: Swift.String?
 
@@ -298,7 +298,7 @@ public struct AssociateWebsiteCertificateAuthorityOutput {
     }
 }
 
-public struct CreateFleetInput {
+public struct CreateFleetInput: Swift.Sendable {
     /// The fleet name to display.
     public var displayName: Swift.String?
     /// A unique name for the fleet.
@@ -323,7 +323,7 @@ public struct CreateFleetInput {
     }
 }
 
-public struct CreateFleetOutput {
+public struct CreateFleetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var fleetArn: Swift.String?
 
@@ -335,7 +335,7 @@ public struct CreateFleetOutput {
     }
 }
 
-public struct DeleteFleetInput {
+public struct DeleteFleetInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -348,12 +348,12 @@ public struct DeleteFleetInput {
     }
 }
 
-public struct DeleteFleetOutput {
+public struct DeleteFleetOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DescribeAuditStreamConfigurationInput {
+public struct DescribeAuditStreamConfigurationInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -366,7 +366,7 @@ public struct DescribeAuditStreamConfigurationInput {
     }
 }
 
-public struct DescribeAuditStreamConfigurationOutput {
+public struct DescribeAuditStreamConfigurationOutput: Swift.Sendable {
     /// The ARN of the Amazon Kinesis data stream that will receive the audit events.
     public var auditStreamArn: Swift.String?
 
@@ -378,7 +378,7 @@ public struct DescribeAuditStreamConfigurationOutput {
     }
 }
 
-public struct DescribeCompanyNetworkConfigurationInput {
+public struct DescribeCompanyNetworkConfigurationInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -391,7 +391,7 @@ public struct DescribeCompanyNetworkConfigurationInput {
     }
 }
 
-public struct DescribeCompanyNetworkConfigurationOutput {
+public struct DescribeCompanyNetworkConfigurationOutput: Swift.Sendable {
     /// The security groups associated with access to the provided subnets.
     public var securityGroupIds: [Swift.String]?
     /// The subnets used for X-ENI connections from Amazon WorkLink rendering containers.
@@ -411,7 +411,7 @@ public struct DescribeCompanyNetworkConfigurationOutput {
     }
 }
 
-public struct DescribeDeviceInput {
+public struct DescribeDeviceInput: Swift.Sendable {
     /// A unique identifier for a registered user's device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -431,7 +431,7 @@ public struct DescribeDeviceInput {
 
 extension WorkLinkClientTypes {
 
-    public enum DeviceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DeviceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case signedOut
         case sdkUnknown(Swift.String)
@@ -458,7 +458,7 @@ extension WorkLinkClientTypes {
     }
 }
 
-public struct DescribeDeviceOutput {
+public struct DescribeDeviceOutput: Swift.Sendable {
     /// The date that the device first signed in to Amazon WorkLink.
     public var firstAccessedTime: Foundation.Date?
     /// The date that the device last accessed Amazon WorkLink.
@@ -502,7 +502,7 @@ public struct DescribeDeviceOutput {
     }
 }
 
-public struct DescribeDevicePolicyConfigurationInput {
+public struct DescribeDevicePolicyConfigurationInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -515,7 +515,7 @@ public struct DescribeDevicePolicyConfigurationInput {
     }
 }
 
-public struct DescribeDevicePolicyConfigurationOutput {
+public struct DescribeDevicePolicyConfigurationOutput: Swift.Sendable {
     /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
     public var deviceCaCertificate: Swift.String?
 
@@ -527,7 +527,7 @@ public struct DescribeDevicePolicyConfigurationOutput {
     }
 }
 
-public struct DescribeDomainInput {
+public struct DescribeDomainInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -547,7 +547,7 @@ public struct DescribeDomainInput {
 
 extension WorkLinkClientTypes {
 
-    public enum DomainStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DomainStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case associating
         case disassociated
@@ -592,7 +592,7 @@ extension WorkLinkClientTypes {
     }
 }
 
-public struct DescribeDomainOutput {
+public struct DescribeDomainOutput: Swift.Sendable {
     /// The ARN of an issued ACM certificate that is valid for the domain being associated.
     public var acmCertificateArn: Swift.String?
     /// The time that the domain was added.
@@ -620,7 +620,7 @@ public struct DescribeDomainOutput {
     }
 }
 
-public struct DescribeFleetMetadataInput {
+public struct DescribeFleetMetadataInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -635,7 +635,7 @@ public struct DescribeFleetMetadataInput {
 
 extension WorkLinkClientTypes {
 
-    public enum FleetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FleetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
         case deleted
@@ -674,7 +674,7 @@ extension WorkLinkClientTypes {
     }
 }
 
-public struct DescribeFleetMetadataOutput {
+public struct DescribeFleetMetadataOutput: Swift.Sendable {
     /// The identifier used by users to sign in to the Amazon WorkLink app.
     public var companyCode: Swift.String?
     /// The time that the fleet was created.
@@ -714,7 +714,7 @@ public struct DescribeFleetMetadataOutput {
     }
 }
 
-public struct DescribeIdentityProviderConfigurationInput {
+public struct DescribeIdentityProviderConfigurationInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -729,7 +729,7 @@ public struct DescribeIdentityProviderConfigurationInput {
 
 extension WorkLinkClientTypes {
 
-    public enum IdentityProviderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum IdentityProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case saml
         case sdkUnknown(Swift.String)
 
@@ -753,7 +753,7 @@ extension WorkLinkClientTypes {
     }
 }
 
-public struct DescribeIdentityProviderConfigurationOutput {
+public struct DescribeIdentityProviderConfigurationOutput: Swift.Sendable {
     /// The SAML metadata document provided by the user’s identity provider.
     public var identityProviderSamlMetadata: Swift.String?
     /// The type of identity provider.
@@ -773,7 +773,7 @@ public struct DescribeIdentityProviderConfigurationOutput {
     }
 }
 
-public struct DescribeWebsiteCertificateAuthorityInput {
+public struct DescribeWebsiteCertificateAuthorityInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -791,7 +791,7 @@ public struct DescribeWebsiteCertificateAuthorityInput {
     }
 }
 
-public struct DescribeWebsiteCertificateAuthorityOutput {
+public struct DescribeWebsiteCertificateAuthorityOutput: Swift.Sendable {
     /// The root certificate of the certificate authority.
     public var certificate: Swift.String?
     /// The time that the certificate authority was added.
@@ -812,8 +812,9 @@ public struct DescribeWebsiteCertificateAuthorityOutput {
 }
 
 extension WorkLinkClientTypes {
+
     /// The summary of devices.
-    public struct DeviceSummary {
+    public struct DeviceSummary: Swift.Sendable {
         /// The ID of the device.
         public var deviceId: Swift.String?
         /// The status of the device.
@@ -828,10 +829,9 @@ extension WorkLinkClientTypes {
             self.deviceStatus = deviceStatus
         }
     }
-
 }
 
-public struct DisassociateDomainInput {
+public struct DisassociateDomainInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -849,12 +849,12 @@ public struct DisassociateDomainInput {
     }
 }
 
-public struct DisassociateDomainOutput {
+public struct DisassociateDomainOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DisassociateWebsiteAuthorizationProviderInput {
+public struct DisassociateWebsiteAuthorizationProviderInput: Swift.Sendable {
     /// A unique identifier for the authorization provider.
     /// This member is required.
     public var authorizationProviderId: Swift.String?
@@ -872,12 +872,12 @@ public struct DisassociateWebsiteAuthorizationProviderInput {
     }
 }
 
-public struct DisassociateWebsiteAuthorizationProviderOutput {
+public struct DisassociateWebsiteAuthorizationProviderOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DisassociateWebsiteCertificateAuthorityInput {
+public struct DisassociateWebsiteCertificateAuthorityInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -895,14 +895,15 @@ public struct DisassociateWebsiteCertificateAuthorityInput {
     }
 }
 
-public struct DisassociateWebsiteCertificateAuthorityOutput {
+public struct DisassociateWebsiteCertificateAuthorityOutput: Swift.Sendable {
 
     public init() { }
 }
 
 extension WorkLinkClientTypes {
+
     /// The summary of the domain.
-    public struct DomainSummary {
+    public struct DomainSummary: Swift.Sendable {
         /// The time that the domain was created.
         /// This member is required.
         public var createdTime: Foundation.Date?
@@ -928,12 +929,12 @@ extension WorkLinkClientTypes {
             self.domainStatus = domainStatus
         }
     }
-
 }
 
 extension WorkLinkClientTypes {
+
     /// The summary of the fleet.
-    public struct FleetSummary {
+    public struct FleetSummary: Swift.Sendable {
         /// The identifier used by users to sign into the Amazon WorkLink app.
         public var companyCode: Swift.String?
         /// The time when the fleet was created.
@@ -972,10 +973,9 @@ extension WorkLinkClientTypes {
             self.tags = tags
         }
     }
-
 }
 
-public struct ListDevicesInput {
+public struct ListDevicesInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -996,7 +996,7 @@ public struct ListDevicesInput {
     }
 }
 
-public struct ListDevicesOutput {
+public struct ListDevicesOutput: Swift.Sendable {
     /// Information about the devices.
     public var devices: [WorkLinkClientTypes.DeviceSummary]?
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1012,7 +1012,7 @@ public struct ListDevicesOutput {
     }
 }
 
-public struct ListDomainsInput {
+public struct ListDomainsInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1033,7 +1033,7 @@ public struct ListDomainsInput {
     }
 }
 
-public struct ListDomainsOutput {
+public struct ListDomainsOutput: Swift.Sendable {
     /// Information about the domains.
     public var domains: [WorkLinkClientTypes.DomainSummary]?
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1049,7 +1049,7 @@ public struct ListDomainsOutput {
     }
 }
 
-public struct ListFleetsInput {
+public struct ListFleetsInput: Swift.Sendable {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -1065,7 +1065,7 @@ public struct ListFleetsInput {
     }
 }
 
-public struct ListFleetsOutput {
+public struct ListFleetsOutput: Swift.Sendable {
     /// The summary list of the fleets.
     public var fleetSummaryList: [WorkLinkClientTypes.FleetSummary]?
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1081,7 +1081,7 @@ public struct ListFleetsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1094,7 +1094,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The tags attached to the resource. A tag is a key-value pair.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1106,7 +1106,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct ListWebsiteAuthorizationProvidersInput {
+public struct ListWebsiteAuthorizationProvidersInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1128,8 +1128,9 @@ public struct ListWebsiteAuthorizationProvidersInput {
 }
 
 extension WorkLinkClientTypes {
+
     /// The summary of the website authorization provider.
-    public struct WebsiteAuthorizationProviderSummary {
+    public struct WebsiteAuthorizationProviderSummary: Swift.Sendable {
         /// A unique identifier for the authorization provider.
         public var authorizationProviderId: Swift.String?
         /// The authorization provider type.
@@ -1153,10 +1154,9 @@ extension WorkLinkClientTypes {
             self.domainName = domainName
         }
     }
-
 }
 
-public struct ListWebsiteAuthorizationProvidersOutput {
+public struct ListWebsiteAuthorizationProvidersOutput: Swift.Sendable {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
     /// The website authorization providers.
@@ -1172,7 +1172,7 @@ public struct ListWebsiteAuthorizationProvidersOutput {
     }
 }
 
-public struct ListWebsiteCertificateAuthoritiesInput {
+public struct ListWebsiteCertificateAuthoritiesInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1194,8 +1194,9 @@ public struct ListWebsiteCertificateAuthoritiesInput {
 }
 
 extension WorkLinkClientTypes {
+
     /// The summary of the certificate authority (CA).
-    public struct WebsiteCaSummary {
+    public struct WebsiteCaSummary: Swift.Sendable {
         /// The time when the CA was added.
         public var createdTime: Foundation.Date?
         /// The name to display.
@@ -1214,10 +1215,9 @@ extension WorkLinkClientTypes {
             self.websiteCaId = websiteCaId
         }
     }
-
 }
 
-public struct ListWebsiteCertificateAuthoritiesOutput {
+public struct ListWebsiteCertificateAuthoritiesOutput: Swift.Sendable {
     /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// Information about the certificates.
@@ -1233,7 +1233,7 @@ public struct ListWebsiteCertificateAuthoritiesOutput {
     }
 }
 
-public struct RestoreDomainAccessInput {
+public struct RestoreDomainAccessInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1251,12 +1251,12 @@ public struct RestoreDomainAccessInput {
     }
 }
 
-public struct RestoreDomainAccessOutput {
+public struct RestoreDomainAccessOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RevokeDomainAccessInput {
+public struct RevokeDomainAccessInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1274,12 +1274,12 @@ public struct RevokeDomainAccessInput {
     }
 }
 
-public struct RevokeDomainAccessOutput {
+public struct RevokeDomainAccessOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct SignOutUserInput {
+public struct SignOutUserInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1297,12 +1297,12 @@ public struct SignOutUserInput {
     }
 }
 
-public struct SignOutUserOutput {
+public struct SignOutUserOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1320,12 +1320,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1343,12 +1343,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateAuditStreamConfigurationInput {
+public struct UpdateAuditStreamConfigurationInput: Swift.Sendable {
     /// The ARN of the Amazon Kinesis data stream that receives the audit events.
     public var auditStreamArn: Swift.String?
     /// The ARN of the fleet.
@@ -1365,12 +1365,12 @@ public struct UpdateAuditStreamConfigurationInput {
     }
 }
 
-public struct UpdateAuditStreamConfigurationOutput {
+public struct UpdateAuditStreamConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateCompanyNetworkConfigurationInput {
+public struct UpdateCompanyNetworkConfigurationInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1398,12 +1398,12 @@ public struct UpdateCompanyNetworkConfigurationInput {
     }
 }
 
-public struct UpdateCompanyNetworkConfigurationOutput {
+public struct UpdateCompanyNetworkConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateDevicePolicyConfigurationInput {
+public struct UpdateDevicePolicyConfigurationInput: Swift.Sendable {
     /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
     public var deviceCaCertificate: Swift.String?
     /// The ARN of the fleet.
@@ -1420,12 +1420,12 @@ public struct UpdateDevicePolicyConfigurationInput {
     }
 }
 
-public struct UpdateDevicePolicyConfigurationOutput {
+public struct UpdateDevicePolicyConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateDomainMetadataInput {
+public struct UpdateDomainMetadataInput: Swift.Sendable {
     /// The name to display.
     public var displayName: Swift.String?
     /// The name of the domain.
@@ -1447,12 +1447,12 @@ public struct UpdateDomainMetadataInput {
     }
 }
 
-public struct UpdateDomainMetadataOutput {
+public struct UpdateDomainMetadataOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateFleetMetadataInput {
+public struct UpdateFleetMetadataInput: Swift.Sendable {
     /// The fleet name to display. The existing DisplayName is unset if null is passed.
     public var displayName: Swift.String?
     /// The ARN of the fleet.
@@ -1473,12 +1473,12 @@ public struct UpdateFleetMetadataInput {
     }
 }
 
-public struct UpdateFleetMetadataOutput {
+public struct UpdateFleetMetadataOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateIdentityProviderConfigurationInput {
+public struct UpdateIdentityProviderConfigurationInput: Swift.Sendable {
     /// The ARN of the fleet.
     /// This member is required.
     public var fleetArn: Swift.String?
@@ -1500,7 +1500,7 @@ public struct UpdateIdentityProviderConfigurationInput {
     }
 }
 
-public struct UpdateIdentityProviderConfigurationOutput {
+public struct UpdateIdentityProviderConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }

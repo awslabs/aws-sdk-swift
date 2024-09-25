@@ -50,7 +50,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 extension SupplyChainClientTypes {
 
     /// The status of the job.
-    public enum ConfigurationJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConfigurationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case inProgress
         case new
@@ -87,8 +87,9 @@ extension SupplyChainClientTypes {
 }
 
 extension SupplyChainClientTypes {
+
     /// The BillOfMaterialsImportJob details.
-    public struct BillOfMaterialsImportJob {
+    public struct BillOfMaterialsImportJob: Swift.Sendable {
         /// The BillOfMaterialsImportJob instanceId.
         /// This member is required.
         public var instanceId: Swift.String?
@@ -119,7 +120,6 @@ extension SupplyChainClientTypes {
             self.status = status
         }
     }
-
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
@@ -243,7 +243,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The request parameters for CreateBillOfMaterialsImportJob.
-public struct CreateBillOfMaterialsImportJobInput {
+public struct CreateBillOfMaterialsImportJobInput: Swift.Sendable {
     /// An idempotency token.
     public var clientToken: Swift.String?
     /// The AWS Supply Chain instance identifier.
@@ -266,7 +266,7 @@ public struct CreateBillOfMaterialsImportJobInput {
 }
 
 /// The response parameters of CreateBillOfMaterialsImportJob.
-public struct CreateBillOfMaterialsImportJobOutput {
+public struct CreateBillOfMaterialsImportJobOutput: Swift.Sendable {
     /// The new BillOfMaterialsImportJob identifier.
     /// This member is required.
     public var jobId: Swift.String?
@@ -304,7 +304,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request parameters for GetBillOfMaterialsImportJob.
-public struct GetBillOfMaterialsImportJobInput {
+public struct GetBillOfMaterialsImportJobInput: Swift.Sendable {
     /// The AWS Supply Chain instance identifier.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -323,7 +323,7 @@ public struct GetBillOfMaterialsImportJobInput {
 }
 
 /// The response parameters for GetBillOfMaterialsImportJob.
-public struct GetBillOfMaterialsImportJobOutput {
+public struct GetBillOfMaterialsImportJobOutput: Swift.Sendable {
     /// The BillOfMaterialsImportJob.
     /// This member is required.
     public var job: SupplyChainClientTypes.BillOfMaterialsImportJob?
@@ -338,7 +338,7 @@ public struct GetBillOfMaterialsImportJobOutput {
 
 extension SupplyChainClientTypes {
 
-    public enum DataIntegrationEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataIntegrationEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case forecast
         case inboundOrder
         case inboundOrderLine
@@ -405,7 +405,7 @@ extension SupplyChainClientTypes {
 }
 
 /// The request parameters for SendDataIntegrationEvent.
-public struct SendDataIntegrationEventInput {
+public struct SendDataIntegrationEventInput: Swift.Sendable {
     /// The idempotent client token.
     public var clientToken: Swift.String?
     /// The data payload of the event. For more information on the data schema to use, see [Data entities supported in AWS Supply Chain ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
@@ -447,7 +447,7 @@ extension SendDataIntegrationEventInput: Swift.CustomDebugStringConvertible {
 }
 
 /// The response parameters for SendDataIntegrationEvent.
-public struct SendDataIntegrationEventOutput {
+public struct SendDataIntegrationEventOutput: Swift.Sendable {
     /// The unique event identifier.
     /// This member is required.
     public var eventId: Swift.String?

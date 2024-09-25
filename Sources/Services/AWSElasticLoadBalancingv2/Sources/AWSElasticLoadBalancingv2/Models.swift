@@ -28,7 +28,7 @@ import protocol ClientRuntime.ModeledError
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum AuthenticateCognitoActionConditionalBehaviorEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AuthenticateCognitoActionConditionalBehaviorEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case authenticate
         case deny
@@ -59,8 +59,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Request parameters to use when integrating with Amazon Cognito to authenticate users.
-    public struct AuthenticateCognitoActionConfig {
+    public struct AuthenticateCognitoActionConfig: Swift.Sendable {
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
         public var authenticationRequestExtraParams: [Swift.String: Swift.String]?
         /// The behavior if the user is not authenticated. The following are possible values:
@@ -108,12 +109,11 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.userPoolDomain = userPoolDomain
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum AuthenticateOidcActionConditionalBehaviorEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AuthenticateOidcActionConditionalBehaviorEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case authenticate
         case deny
@@ -144,8 +144,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Request parameters when using an identity provider (IdP) that is compliant with OpenID Connect (OIDC) to authenticate users.
-    public struct AuthenticateOidcActionConfig {
+    public struct AuthenticateOidcActionConfig: Swift.Sendable {
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
         public var authenticationRequestExtraParams: [Swift.String: Swift.String]?
         /// The authorization endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
@@ -211,12 +212,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.userInfoEndpoint = userInfoEndpoint
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about an action that returns a custom HTTP response.
-    public struct FixedResponseActionConfig {
+    public struct FixedResponseActionConfig: Swift.Sendable {
         /// The content type. Valid Values: text/plain | text/css | text/html | application/javascript | application/json
         public var contentType: Swift.String?
         /// The message.
@@ -236,12 +237,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.statusCode = statusCode
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about how traffic will be distributed between multiple target groups in a forward rule.
-    public struct TargetGroupTuple {
+    public struct TargetGroupTuple: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the target group.
         public var targetGroupArn: Swift.String?
         /// The weight. The range is 0 to 999.
@@ -256,12 +257,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.weight = weight
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the target group stickiness for a rule.
-    public struct TargetGroupStickinessConfig {
+    public struct TargetGroupStickinessConfig: Swift.Sendable {
         /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
         public var durationSeconds: Swift.Int?
         /// Indicates whether target group stickiness is enabled.
@@ -276,12 +277,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.enabled = enabled
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a forward action.
-    public struct ForwardActionConfig {
+    public struct ForwardActionConfig: Swift.Sendable {
         /// The target group stickiness for the rule.
         public var targetGroupStickinessConfig: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig?
         /// The target groups. For Network Load Balancers, you can specify a single target group.
@@ -296,12 +297,11 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.targetGroups = targetGroups
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum RedirectActionStatusCodeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RedirectActionStatusCodeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case http301
         case http302
         case sdkUnknown(Swift.String)
@@ -329,6 +329,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a redirect action. A URI consists of the following components: protocol://hostname:port/path?query. You must modify at least one of the following components to avoid a redirect loop: protocol, hostname, port, or path. Any components that you do not modify retain their original values. You can reuse URI components using the following reserved keywords:
     ///
     /// * #{protocol}
@@ -343,7 +344,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     ///
     ///
     /// For example, you can change the path to "/new/#{path}", the hostname to "example.#{host}", or the query to "#{query}&value=xyz".
-    public struct RedirectActionConfig {
+    public struct RedirectActionConfig: Swift.Sendable {
         /// The hostname. This component is not percent-encoded. The hostname can contain #{host}.
         public var host: Swift.String?
         /// The absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}.
@@ -375,12 +376,11 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.statusCode = statusCode
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum ActionTypeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ActionTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authenticateCognito
         case authenticateOidc
         case fixedResponse
@@ -417,8 +417,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about an action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed.
-    public struct Action {
+    public struct Action: Swift.Sendable {
         /// [HTTPS listeners] Information for using Amazon Cognito to authenticate users. Specify only when Type is authenticate-cognito.
         public var authenticateCognitoConfig: ElasticLoadBalancingv2ClientTypes.AuthenticateCognitoActionConfig?
         /// [HTTPS listeners] Information about an identity provider that is compliant with OpenID Connect (OIDC). Specify only when Type is authenticate-oidc.
@@ -458,7 +459,6 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.type = type
         }
     }
-
 }
 
 /// The specified certificate does not exist.
@@ -534,8 +534,9 @@ public struct TooManyCertificatesException: ClientRuntime.ModeledError, AWSClien
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about an SSL server certificate.
-    public struct Certificate {
+    public struct Certificate: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the certificate.
         public var certificateArn: Swift.String?
         /// Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates.
@@ -550,10 +551,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.isDefault = isDefault
         }
     }
-
 }
 
-public struct AddListenerCertificatesInput {
+public struct AddListenerCertificatesInput: Swift.Sendable {
     /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
     /// This member is required.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
@@ -571,7 +571,7 @@ public struct AddListenerCertificatesInput {
     }
 }
 
-public struct AddListenerCertificatesOutput {
+public struct AddListenerCertificatesOutput: Swift.Sendable {
     /// Information about the certificates in the certificate list.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
 
@@ -728,8 +728,9 @@ public struct TrustStoreNotFoundException: ClientRuntime.ModeledError, AWSClient
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a tag.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -745,10 +746,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct AddTagsInput {
+public struct AddTagsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArns: [Swift.String]?
@@ -766,7 +766,7 @@ public struct AddTagsInput {
     }
 }
 
-public struct AddTagsOutput {
+public struct AddTagsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -845,7 +845,7 @@ public struct TooManyTrustStoreRevocationEntriesException: ClientRuntime.Modeled
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum RevocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RevocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case crl
         case sdkUnknown(Swift.String)
 
@@ -870,8 +870,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a revocation file.
-    public struct RevocationContent {
+    public struct RevocationContent: Swift.Sendable {
         /// The type of revocation file.
         public var revocationType: ElasticLoadBalancingv2ClientTypes.RevocationType?
         /// The Amazon S3 bucket for the revocation file.
@@ -894,10 +895,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.s3ObjectVersion = s3ObjectVersion
         }
     }
-
 }
 
-public struct AddTrustStoreRevocationsInput {
+public struct AddTrustStoreRevocationsInput: Swift.Sendable {
     /// The revocation file to add.
     public var revocationContents: [ElasticLoadBalancingv2ClientTypes.RevocationContent]?
     /// The Amazon Resource Name (ARN) of the trust store.
@@ -915,8 +915,9 @@ public struct AddTrustStoreRevocationsInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a revocation file in use by a trust store.
-    public struct TrustStoreRevocation {
+    public struct TrustStoreRevocation: Swift.Sendable {
         /// The number of revoked certificates.
         public var numberOfRevokedEntries: Swift.Int?
         /// The revocation ID of the revocation file.
@@ -939,10 +940,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.trustStoreArn = trustStoreArn
         }
     }
-
 }
 
-public struct AddTrustStoreRevocationsOutput {
+public struct AddTrustStoreRevocationsOutput: Swift.Sendable {
     /// Information about the revocation file added to the trust store.
     public var trustStoreRevocations: [ElasticLoadBalancingv2ClientTypes.TrustStoreRevocation]?
 
@@ -1004,7 +1004,7 @@ public struct ALPNPolicyNotSupportedException: ClientRuntime.ModeledError, AWSCl
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum MitigationInEffectEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MitigationInEffectEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case no
         case yes
         case sdkUnknown(Swift.String)
@@ -1033,7 +1033,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum AnomalyResultEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AnomalyResultEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anomalous
         case normal
         case sdkUnknown(Swift.String)
@@ -1061,8 +1061,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about anomaly detection and mitigation.
-    public struct AnomalyDetection {
+    public struct AnomalyDetection: Swift.Sendable {
         /// Indicates whether anomaly mitigation is in progress.
         public var mitigationInEffect: ElasticLoadBalancingv2ClientTypes.MitigationInEffectEnum?
         /// The latest anomaly detection result.
@@ -1077,12 +1078,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.result = result
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a static IP address for a load balancer.
-    public struct LoadBalancerAddress {
+    public struct LoadBalancerAddress: Swift.Sendable {
         /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internal-facing load balancer.
         public var allocationId: Swift.String?
         /// The static IP address.
@@ -1105,12 +1106,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.privateIPv4Address = privateIPv4Address
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about an Availability Zone.
-    public struct AvailabilityZone {
+    public struct AvailabilityZone: Swift.Sendable {
         /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
         public var loadBalancerAddresses: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress]?
         /// [Application Load Balancers on Outposts] The ID of the Outpost.
@@ -1133,7 +1134,6 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.zoneName = zoneName
         }
     }
-
 }
 
 /// The specified Availability Zone is not supported.
@@ -1185,8 +1185,9 @@ public struct CaCertificatesBundleNotFoundException: ClientRuntime.ModeledError,
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a cipher used in a policy.
-    public struct Cipher {
+    public struct Cipher: Swift.Sendable {
         /// The name of the cipher.
         public var name: Swift.String?
         /// The priority of the cipher.
@@ -1201,7 +1202,6 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.priority = priority
         }
     }
-
 }
 
 /// A listener with the specified port already exists.
@@ -1518,7 +1518,7 @@ public struct UnsupportedProtocolException: ClientRuntime.ModeledError, AWSClien
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum TrustStoreAssociationStatusEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TrustStoreAssociationStatusEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case removed
         case sdkUnknown(Swift.String)
@@ -1546,8 +1546,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the mutual authentication attributes of a listener.
-    public struct MutualAuthenticationAttributes {
+    public struct MutualAuthenticationAttributes: Swift.Sendable {
         /// Indicates whether expired client certificates are ignored.
         public var ignoreClientCertificateExpiry: Swift.Bool?
         /// The client certificate handling method. Options are off, passthrough or verify. The default value is off.
@@ -1570,12 +1571,11 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.trustStoreAssociationStatus = trustStoreAssociationStatus
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum ProtocolEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ProtocolEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case geneve
         case http
         case https
@@ -1617,7 +1617,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     }
 }
 
-public struct CreateListenerInput {
+public struct CreateListenerInput: Swift.Sendable {
     /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:
     ///
     /// * HTTP1Only
@@ -1677,8 +1677,9 @@ public struct CreateListenerInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a listener.
-    public struct Listener {
+    public struct Listener: Swift.Sendable {
         /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN) policy.
         public var alpnPolicy: [Swift.String]?
         /// [HTTPS or TLS listener] The default certificate for the listener.
@@ -1721,10 +1722,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.sslPolicy = sslPolicy
         }
     }
-
 }
 
-public struct CreateListenerOutput {
+public struct CreateListenerOutput: Swift.Sendable {
     /// Information about the listener.
     public var listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
 
@@ -1930,7 +1930,7 @@ public struct TooManyLoadBalancersException: ClientRuntime.ModeledError, AWSClie
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum IpAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
         case dualstackWithoutPublicIpv4
         case ipv4
@@ -1962,7 +1962,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum LoadBalancerSchemeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LoadBalancerSchemeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `internal`
         case internetFacing
         case sdkUnknown(Swift.String)
@@ -1990,8 +1990,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a subnet mapping.
-    public struct SubnetMapping {
+    public struct SubnetMapping: Swift.Sendable {
         /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internet-facing load balancer.
         public var allocationId: Swift.String?
         /// [Network Load Balancers] The IPv6 address.
@@ -2014,12 +2015,11 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.subnetId = subnetId
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum LoadBalancerTypeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LoadBalancerTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case application
         case gateway
         case network
@@ -2049,7 +2049,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     }
 }
 
-public struct CreateLoadBalancerInput {
+public struct CreateLoadBalancerInput: Swift.Sendable {
     /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
     public var customerOwnedIpv4Pool: Swift.String?
     /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
@@ -2096,7 +2096,7 @@ public struct CreateLoadBalancerInput {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum LoadBalancerStateEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LoadBalancerStateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case activeImpaired
         case failed
@@ -2130,8 +2130,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the state of the load balancer.
-    public struct LoadBalancerState {
+    public struct LoadBalancerState: Swift.Sendable {
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If load balancer is routing traffic but does not have the resources it needs to scale, its state isactive_impaired. If the load balancer could not be set up, its state is failed.
         public var code: ElasticLoadBalancingv2ClientTypes.LoadBalancerStateEnum?
         /// A description of the state.
@@ -2146,12 +2147,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.reason = reason
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a load balancer.
-    public struct LoadBalancer {
+    public struct LoadBalancer: Swift.Sendable {
         /// The subnets for the load balancer.
         public var availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
@@ -2214,10 +2215,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.vpcId = vpcId
         }
     }
-
 }
 
-public struct CreateLoadBalancerOutput {
+public struct CreateLoadBalancerOutput: Swift.Sendable {
     /// Information about the load balancer.
     public var loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]?
 
@@ -2302,8 +2302,9 @@ public struct TooManyTargetGroupsException: ClientRuntime.ModeledError, AWSClien
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a host header condition.
-    public struct HostHeaderConditionConfig {
+    public struct HostHeaderConditionConfig: Swift.Sendable {
         /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         public var values: [Swift.String]?
 
@@ -2314,12 +2315,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about an HTTP header condition. There is a set of standard HTTP header fields. You can also define custom HTTP header fields.
-    public struct HttpHeaderConditionConfig {
+    public struct HttpHeaderConditionConfig: Swift.Sendable {
         /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use [HostHeaderConditionConfig] to specify a host header condition.
         public var httpHeaderName: Swift.String?
         /// The strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
@@ -2334,12 +2335,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about an HTTP method condition. HTTP defines a set of request methods, also referred to as HTTP verbs. For more information, see the [HTTP Method Registry](https://www.iana.org/assignments/http-methods/http-methods.xhtml). You can also define custom HTTP methods.
-    public struct HttpRequestMethodConditionConfig {
+    public struct HttpRequestMethodConditionConfig: Swift.Sendable {
         /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
         public var values: [Swift.String]?
 
@@ -2350,12 +2351,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a path pattern condition.
-    public struct PathPatternConditionConfig {
+    public struct PathPatternConditionConfig: Swift.Sendable {
         /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use [QueryStringConditionConfig].
         public var values: [Swift.String]?
 
@@ -2366,12 +2367,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a key/value pair.
-    public struct QueryStringKeyValuePair {
+    public struct QueryStringKeyValuePair: Swift.Sendable {
         /// The key. You can omit the key.
         public var key: Swift.String?
         /// The value.
@@ -2386,12 +2387,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a query string condition. The query string component of a URI starts after the first '?' character and is terminated by either a '#' character or the end of the URI. A typical query string contains key/value pairs separated by '&' characters. The allowed characters are specified by RFC 3986. Any character can be percentage encoded.
-    public struct QueryStringConditionConfig {
+    public struct QueryStringConditionConfig: Swift.Sendable {
         /// The key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
         public var values: [ElasticLoadBalancingv2ClientTypes.QueryStringKeyValuePair]?
 
@@ -2402,12 +2403,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client.
-    public struct SourceIpConditionConfig {
+    public struct SourceIpConditionConfig: Swift.Sendable {
         /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use [HttpHeaderConditionConfig]. The total number of values must be less than, or equal to five.
         public var values: [Swift.String]?
 
@@ -2418,12 +2419,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition cannot be empty. For more information, see [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
-    public struct RuleCondition {
+    public struct RuleCondition: Swift.Sendable {
         /// The field in the HTTP request. The following are the possible values:
         ///
         /// * http-header
@@ -2495,10 +2496,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct CreateRuleInput {
+public struct CreateRuleInput: Swift.Sendable {
     /// The actions.
     /// This member is required.
     public var actions: [ElasticLoadBalancingv2ClientTypes.Action]?
@@ -2531,8 +2531,9 @@ public struct CreateRuleInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a rule.
-    public struct Rule {
+    public struct Rule: Swift.Sendable {
         /// The actions. Each rule must include exactly one of the following types of actions: forward, redirect, or fixed-response, and it must be the last action to be performed.
         public var actions: [ElasticLoadBalancingv2ClientTypes.Action]?
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
@@ -2559,10 +2560,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.ruleArn = ruleArn
         }
     }
-
 }
 
-public struct CreateRuleOutput {
+public struct CreateRuleOutput: Swift.Sendable {
     /// Information about the rule.
     public var rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 
@@ -2600,7 +2600,7 @@ public struct DuplicateTargetGroupNameException: ClientRuntime.ModeledError, AWS
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum TargetGroupIpAddressTypeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TargetGroupIpAddressTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ipv4
         case ipv6
         case sdkUnknown(Swift.String)
@@ -2628,8 +2628,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// The codes to use when checking for a successful response from a target. If the protocol version is gRPC, these are gRPC codes. Otherwise, these are HTTP codes.
-    public struct Matcher {
+    public struct Matcher: Swift.Sendable {
         /// You can specify values between 0 and 99. You can specify multiple values (for example, "0,1") or a range of values (for example, "0-5"). The default value is 12.
         public var grpcCode: Swift.String?
         /// For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200–399". Note that when using shorthand syntax, some values such as commas need to be escaped.
@@ -2644,12 +2645,11 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.httpCode = httpCode
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum TargetTypeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TargetTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alb
         case instance
         case ip
@@ -2682,7 +2682,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     }
 }
 
-public struct CreateTargetGroupInput {
+public struct CreateTargetGroupInput: Swift.Sendable {
     /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and cannot be disabled.
     public var healthCheckEnabled: Swift.Bool?
     /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is 35 seconds.
@@ -2768,8 +2768,9 @@ public struct CreateTargetGroupInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a target group.
-    public struct TargetGroup {
+    public struct TargetGroup: Swift.Sendable {
         /// Indicates whether health checks are enabled.
         public var healthCheckEnabled: Swift.Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target.
@@ -2848,10 +2849,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.vpcId = vpcId
         }
     }
-
 }
 
-public struct CreateTargetGroupOutput {
+public struct CreateTargetGroupOutput: Swift.Sendable {
     /// Information about the target group.
     public var targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]?
 
@@ -2935,7 +2935,7 @@ public struct TooManyTrustStoresException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-public struct CreateTrustStoreInput {
+public struct CreateTrustStoreInput: Swift.Sendable {
     /// The Amazon S3 bucket for the ca certificates bundle.
     /// This member is required.
     public var caCertificatesBundleS3Bucket: Swift.String?
@@ -2968,7 +2968,7 @@ public struct CreateTrustStoreInput {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum TrustStoreStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TrustStoreStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
         case sdkUnknown(Swift.String)
@@ -2996,8 +2996,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a trust store.
-    public struct TrustStore {
+    public struct TrustStore: Swift.Sendable {
         /// The name of the trust store.
         public var name: Swift.String?
         /// The number of ca certificates in the trust store.
@@ -3024,10 +3025,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.trustStoreArn = trustStoreArn
         }
     }
-
 }
 
-public struct CreateTrustStoreOutput {
+public struct CreateTrustStoreOutput: Swift.Sendable {
     /// Information about the trust store created.
     public var trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
 
@@ -3063,7 +3063,7 @@ public struct DeleteAssociationSameAccountException: ClientRuntime.ModeledError,
     }
 }
 
-public struct DeleteListenerInput {
+public struct DeleteListenerInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the listener.
     /// This member is required.
     public var listenerArn: Swift.String?
@@ -3076,12 +3076,12 @@ public struct DeleteListenerInput {
     }
 }
 
-public struct DeleteListenerOutput {
+public struct DeleteListenerOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteLoadBalancerInput {
+public struct DeleteLoadBalancerInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
@@ -3094,12 +3094,12 @@ public struct DeleteLoadBalancerInput {
     }
 }
 
-public struct DeleteLoadBalancerOutput {
+public struct DeleteLoadBalancerOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteRuleInput {
+public struct DeleteRuleInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the rule.
     /// This member is required.
     public var ruleArn: Swift.String?
@@ -3112,7 +3112,7 @@ public struct DeleteRuleInput {
     }
 }
 
-public struct DeleteRuleOutput {
+public struct DeleteRuleOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3141,7 +3141,7 @@ public struct TrustStoreAssociationNotFoundException: ClientRuntime.ModeledError
     }
 }
 
-public struct DeleteSharedTrustStoreAssociationInput {
+public struct DeleteSharedTrustStoreAssociationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3159,12 +3159,12 @@ public struct DeleteSharedTrustStoreAssociationInput {
     }
 }
 
-public struct DeleteSharedTrustStoreAssociationOutput {
+public struct DeleteSharedTrustStoreAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteTargetGroupInput {
+public struct DeleteTargetGroupInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the target group.
     /// This member is required.
     public var targetGroupArn: Swift.String?
@@ -3177,7 +3177,7 @@ public struct DeleteTargetGroupInput {
     }
 }
 
-public struct DeleteTargetGroupOutput {
+public struct DeleteTargetGroupOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3206,7 +3206,7 @@ public struct TrustStoreInUseException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-public struct DeleteTrustStoreInput {
+public struct DeleteTrustStoreInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trust store.
     /// This member is required.
     public var trustStoreArn: Swift.String?
@@ -3219,7 +3219,7 @@ public struct DeleteTrustStoreInput {
     }
 }
 
-public struct DeleteTrustStoreOutput {
+public struct DeleteTrustStoreOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3249,8 +3249,9 @@ public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a target.
-    public struct TargetDescription {
+    public struct TargetDescription: Swift.Sendable {
         /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. For Application Load Balancer target groups, the specified Availability Zone value is only applicable when cross-zone load balancing is off. Otherwise the parameter is ignored and treated as all. This parameter is not supported if the target type of the target group is instance or alb. If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. For Application Load Balancer target groups with cross-zone load balancing off, if the target type is ip and the IP address is outside of the VPC for the target group, this should be an Availability Zone inside the VPC for the target group. If the target type is lambda, this parameter is optional and the only supported value is all.
         public var availabilityZone: Swift.String?
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function. If the target type is alb, specify the ARN of the Application Load Balancer target.
@@ -3270,10 +3271,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.port = port
         }
     }
-
 }
 
-public struct DeregisterTargetsInput {
+public struct DeregisterTargetsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the target group.
     /// This member is required.
     public var targetGroupArn: Swift.String?
@@ -3291,12 +3291,12 @@ public struct DeregisterTargetsInput {
     }
 }
 
-public struct DeregisterTargetsOutput {
+public struct DeregisterTargetsOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DescribeAccountLimitsInput {
+public struct DescribeAccountLimitsInput: Swift.Sendable {
     /// The marker for the next set of results. (You received this marker from a previous call.)
     public var marker: Swift.String?
     /// The maximum number of results to return with this call.
@@ -3313,6 +3313,7 @@ public struct DescribeAccountLimitsInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about an Elastic Load Balancing resource limit for your Amazon Web Services account. For more information, see the following:
     ///
     /// * [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html)
@@ -3320,7 +3321,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     /// * [Quotas for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html)
     ///
     /// * [Quotas for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html)
-    public struct Limit {
+    public struct Limit: Swift.Sendable {
         /// The maximum value of the limit.
         public var max: Swift.String?
         /// The name of the limit. The possible values are:
@@ -3371,10 +3372,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.name = name
         }
     }
-
 }
 
-public struct DescribeAccountLimitsOutput {
+public struct DescribeAccountLimitsOutput: Swift.Sendable {
     /// Information about the limits.
     public var limits: [ElasticLoadBalancingv2ClientTypes.Limit]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -3390,7 +3390,7 @@ public struct DescribeAccountLimitsOutput {
     }
 }
 
-public struct DescribeListenerAttributesInput {
+public struct DescribeListenerAttributesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the listener.
     /// This member is required.
     public var listenerArn: Swift.String?
@@ -3404,8 +3404,9 @@ public struct DescribeListenerAttributesInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a listener attribute.
-    public struct ListenerAttribute {
+    public struct ListenerAttribute: Swift.Sendable {
         /// The name of the attribute. The following attribute is supported by Network Load Balancers, and Gateway Load Balancers.
         ///
         /// * tcp.idle_timeout.seconds - The tcp idle timeout value, in seconds. The valid range is 60-6000 seconds. The default is 350 seconds.
@@ -3422,10 +3423,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct DescribeListenerAttributesOutput {
+public struct DescribeListenerAttributesOutput: Swift.Sendable {
     /// Information about the listener attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]?
 
@@ -3437,7 +3437,7 @@ public struct DescribeListenerAttributesOutput {
     }
 }
 
-public struct DescribeListenerCertificatesInput {
+public struct DescribeListenerCertificatesInput: Swift.Sendable {
     /// The Amazon Resource Names (ARN) of the listener.
     /// This member is required.
     public var listenerArn: Swift.String?
@@ -3458,7 +3458,7 @@ public struct DescribeListenerCertificatesInput {
     }
 }
 
-public struct DescribeListenerCertificatesOutput {
+public struct DescribeListenerCertificatesOutput: Swift.Sendable {
     /// Information about the certificates.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -3474,7 +3474,7 @@ public struct DescribeListenerCertificatesOutput {
     }
 }
 
-public struct DescribeListenersInput {
+public struct DescribeListenersInput: Swift.Sendable {
     /// The Amazon Resource Names (ARN) of the listeners.
     public var listenerArns: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the load balancer.
@@ -3498,7 +3498,7 @@ public struct DescribeListenersInput {
     }
 }
 
-public struct DescribeListenersOutput {
+public struct DescribeListenersOutput: Swift.Sendable {
     /// Information about the listeners.
     public var listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -3514,7 +3514,7 @@ public struct DescribeListenersOutput {
     }
 }
 
-public struct DescribeLoadBalancerAttributesInput {
+public struct DescribeLoadBalancerAttributesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
@@ -3528,8 +3528,9 @@ public struct DescribeLoadBalancerAttributesInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a load balancer attribute.
-    public struct LoadBalancerAttribute {
+    public struct LoadBalancerAttribute: Swift.Sendable {
         /// The name of the attribute. The following attributes are supported by all load balancers:
         ///
         /// * deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.
@@ -3602,10 +3603,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct DescribeLoadBalancerAttributesOutput {
+public struct DescribeLoadBalancerAttributesOutput: Swift.Sendable {
     /// Information about the load balancer attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]?
 
@@ -3617,7 +3617,7 @@ public struct DescribeLoadBalancerAttributesOutput {
     }
 }
 
-public struct DescribeLoadBalancersInput {
+public struct DescribeLoadBalancersInput: Swift.Sendable {
     /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
     public var loadBalancerArns: [Swift.String]?
     /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -3641,7 +3641,7 @@ public struct DescribeLoadBalancersInput {
     }
 }
 
-public struct DescribeLoadBalancersOutput {
+public struct DescribeLoadBalancersOutput: Swift.Sendable {
     /// Information about the load balancers.
     public var loadBalancers: [ElasticLoadBalancingv2ClientTypes.LoadBalancer]?
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
@@ -3657,7 +3657,7 @@ public struct DescribeLoadBalancersOutput {
     }
 }
 
-public struct DescribeRulesInput {
+public struct DescribeRulesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the listener.
     public var listenerArn: Swift.String?
     /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -3681,7 +3681,7 @@ public struct DescribeRulesInput {
     }
 }
 
-public struct DescribeRulesOutput {
+public struct DescribeRulesOutput: Swift.Sendable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the rules.
@@ -3697,7 +3697,7 @@ public struct DescribeRulesOutput {
     }
 }
 
-public struct DescribeSSLPoliciesInput {
+public struct DescribeSSLPoliciesInput: Swift.Sendable {
     /// The type of load balancer. The default lists the SSL policies for all load balancers.
     public var loadBalancerType: ElasticLoadBalancingv2ClientTypes.LoadBalancerTypeEnum?
     /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -3722,8 +3722,9 @@ public struct DescribeSSLPoliciesInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a policy used for SSL negotiation.
-    public struct SslPolicy {
+    public struct SslPolicy: Swift.Sendable {
         /// The ciphers.
         public var ciphers: [ElasticLoadBalancingv2ClientTypes.Cipher]?
         /// The name of the policy.
@@ -3746,10 +3747,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.supportedLoadBalancerTypes = supportedLoadBalancerTypes
         }
     }
-
 }
 
-public struct DescribeSSLPoliciesOutput {
+public struct DescribeSSLPoliciesOutput: Swift.Sendable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the security policies.
@@ -3765,7 +3765,7 @@ public struct DescribeSSLPoliciesOutput {
     }
 }
 
-public struct DescribeTagsInput {
+public struct DescribeTagsInput: Swift.Sendable {
     /// The Amazon Resource Names (ARN) of the resources. You can specify up to 20 resources in a single call.
     /// This member is required.
     public var resourceArns: [Swift.String]?
@@ -3779,8 +3779,9 @@ public struct DescribeTagsInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// The tags associated with a resource.
-    public struct TagDescription {
+    public struct TagDescription: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the resource.
         public var resourceArn: Swift.String?
         /// Information about the tags.
@@ -3795,10 +3796,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.tags = tags
         }
     }
-
 }
 
-public struct DescribeTagsOutput {
+public struct DescribeTagsOutput: Swift.Sendable {
     /// Information about the tags.
     public var tagDescriptions: [ElasticLoadBalancingv2ClientTypes.TagDescription]?
 
@@ -3810,7 +3810,7 @@ public struct DescribeTagsOutput {
     }
 }
 
-public struct DescribeTargetGroupAttributesInput {
+public struct DescribeTargetGroupAttributesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the target group.
     /// This member is required.
     public var targetGroupArn: Swift.String?
@@ -3824,8 +3824,9 @@ public struct DescribeTargetGroupAttributesInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about a target group attribute.
-    public struct TargetGroupAttribute {
+    public struct TargetGroupAttribute: Swift.Sendable {
         /// The name of the attribute. The following attributes are supported by all load balancers:
         ///
         /// * deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.
@@ -3908,10 +3909,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct DescribeTargetGroupAttributesOutput {
+public struct DescribeTargetGroupAttributesOutput: Swift.Sendable {
     /// Information about the target group attributes
     public var attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
 
@@ -3923,7 +3923,7 @@ public struct DescribeTargetGroupAttributesOutput {
     }
 }
 
-public struct DescribeTargetGroupsInput {
+public struct DescribeTargetGroupsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the load balancer.
     public var loadBalancerArn: Swift.String?
     /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -3951,7 +3951,7 @@ public struct DescribeTargetGroupsInput {
     }
 }
 
-public struct DescribeTargetGroupsOutput {
+public struct DescribeTargetGroupsOutput: Swift.Sendable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the target groups.
@@ -3993,7 +3993,7 @@ public struct HealthUnavailableException: ClientRuntime.ModeledError, AWSClientR
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum DescribeTargetHealthInputIncludeEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DescribeTargetHealthInputIncludeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case anomaly
         case sdkUnknown(Swift.String)
@@ -4020,7 +4020,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     }
 }
 
-public struct DescribeTargetHealthInput {
+public struct DescribeTargetHealthInput: Swift.Sendable {
     /// Used to include anomaly detection information.
     public var include: [ElasticLoadBalancingv2ClientTypes.DescribeTargetHealthInputIncludeEnum]?
     /// The Amazon Resource Name (ARN) of the target group.
@@ -4043,7 +4043,7 @@ public struct DescribeTargetHealthInput {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum TargetHealthReasonEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TargetHealthReasonEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deregistrationInProgress
         case failedHealthChecks
         case healthCheckDisabled
@@ -4102,7 +4102,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum TargetHealthStateEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TargetHealthStateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case draining
         case healthy
         case initial
@@ -4145,8 +4145,9 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the current health of a target.
-    public struct TargetHealth {
+    public struct TargetHealth: Swift.Sendable {
         /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
         public var description: Swift.String?
         /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:
@@ -4203,12 +4204,12 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.state = state
         }
     }
-
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the health of a target.
-    public struct TargetHealthDescription {
+    public struct TargetHealthDescription: Swift.Sendable {
         /// The anomaly detection result for the target. If no anomalies were detected, the result is normal. If anomalies were detected, the result is anomalous.
         public var anomalyDetection: ElasticLoadBalancingv2ClientTypes.AnomalyDetection?
         /// The port to use to connect with the target.
@@ -4231,10 +4232,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.targetHealth = targetHealth
         }
     }
-
 }
 
-public struct DescribeTargetHealthOutput {
+public struct DescribeTargetHealthOutput: Swift.Sendable {
     /// Information about the health of the targets.
     public var targetHealthDescriptions: [ElasticLoadBalancingv2ClientTypes.TargetHealthDescription]?
 
@@ -4246,7 +4246,7 @@ public struct DescribeTargetHealthOutput {
     }
 }
 
-public struct DescribeTrustStoreAssociationsInput {
+public struct DescribeTrustStoreAssociationsInput: Swift.Sendable {
     /// The marker for the next set of results. (You received this marker from a previous call.)
     public var marker: Swift.String?
     /// The maximum number of results to return with this call.
@@ -4268,8 +4268,9 @@ public struct DescribeTrustStoreAssociationsInput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the resources a trust store is associated with.
-    public struct TrustStoreAssociation {
+    public struct TrustStoreAssociation: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the resource.
         public var resourceArn: Swift.String?
 
@@ -4280,10 +4281,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.resourceArn = resourceArn
         }
     }
-
 }
 
-public struct DescribeTrustStoreAssociationsOutput {
+public struct DescribeTrustStoreAssociationsOutput: Swift.Sendable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the resources the trust store is associated to.
@@ -4300,8 +4300,9 @@ public struct DescribeTrustStoreAssociationsOutput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the revocations used by a trust store.
-    public struct DescribeTrustStoreRevocation {
+    public struct DescribeTrustStoreRevocation: Swift.Sendable {
         /// The number of revoked certificates.
         public var numberOfRevokedEntries: Swift.Int?
         /// The revocation ID of a revocation file in use.
@@ -4324,7 +4325,6 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.trustStoreArn = trustStoreArn
         }
     }
-
 }
 
 /// The specified revocation ID does not exist.
@@ -4351,7 +4351,7 @@ public struct RevocationIdNotFoundException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-public struct DescribeTrustStoreRevocationsInput {
+public struct DescribeTrustStoreRevocationsInput: Swift.Sendable {
     /// The marker for the next set of results. (You received this marker from a previous call.)
     public var marker: Swift.String?
     /// The maximum number of results to return with this call.
@@ -4376,7 +4376,7 @@ public struct DescribeTrustStoreRevocationsInput {
     }
 }
 
-public struct DescribeTrustStoreRevocationsOutput {
+public struct DescribeTrustStoreRevocationsOutput: Swift.Sendable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the revocation file in the trust store.
@@ -4392,7 +4392,7 @@ public struct DescribeTrustStoreRevocationsOutput {
     }
 }
 
-public struct DescribeTrustStoresInput {
+public struct DescribeTrustStoresInput: Swift.Sendable {
     /// The marker for the next set of results. (You received this marker from a previous call.)
     public var marker: Swift.String?
     /// The names of the trust stores.
@@ -4416,7 +4416,7 @@ public struct DescribeTrustStoresInput {
     }
 }
 
-public struct DescribeTrustStoresOutput {
+public struct DescribeTrustStoresOutput: Swift.Sendable {
     /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
     public var nextMarker: Swift.String?
     /// Information about the trust stores.
@@ -4456,7 +4456,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-public struct GetResourcePolicyInput {
+public struct GetResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4469,7 +4469,7 @@ public struct GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyOutput {
+public struct GetResourcePolicyOutput: Swift.Sendable {
     /// The content of the resource policy.
     public var policy: Swift.String?
 
@@ -4481,7 +4481,7 @@ public struct GetResourcePolicyOutput {
     }
 }
 
-public struct GetTrustStoreCaCertificatesBundleInput {
+public struct GetTrustStoreCaCertificatesBundleInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trust store.
     /// This member is required.
     public var trustStoreArn: Swift.String?
@@ -4494,7 +4494,7 @@ public struct GetTrustStoreCaCertificatesBundleInput {
     }
 }
 
-public struct GetTrustStoreCaCertificatesBundleOutput {
+public struct GetTrustStoreCaCertificatesBundleOutput: Swift.Sendable {
     /// The ca certificate bundles Amazon S3 URI.
     public var location: Swift.String?
 
@@ -4506,7 +4506,7 @@ public struct GetTrustStoreCaCertificatesBundleOutput {
     }
 }
 
-public struct GetTrustStoreRevocationContentInput {
+public struct GetTrustStoreRevocationContentInput: Swift.Sendable {
     /// The revocation ID of the revocation file.
     /// This member is required.
     public var revocationId: Swift.Int?
@@ -4524,7 +4524,7 @@ public struct GetTrustStoreRevocationContentInput {
     }
 }
 
-public struct GetTrustStoreRevocationContentOutput {
+public struct GetTrustStoreRevocationContentOutput: Swift.Sendable {
     /// The revocation files Amazon S3 URI.
     public var location: Swift.String?
 
@@ -4536,7 +4536,7 @@ public struct GetTrustStoreRevocationContentOutput {
     }
 }
 
-public struct ModifyListenerInput {
+public struct ModifyListenerInput: Swift.Sendable {
     /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:
     ///
     /// * HTTP1Only
@@ -4590,7 +4590,7 @@ public struct ModifyListenerInput {
     }
 }
 
-public struct ModifyListenerOutput {
+public struct ModifyListenerOutput: Swift.Sendable {
     /// Information about the modified listener.
     public var listeners: [ElasticLoadBalancingv2ClientTypes.Listener]?
 
@@ -4602,7 +4602,7 @@ public struct ModifyListenerOutput {
     }
 }
 
-public struct ModifyListenerAttributesInput {
+public struct ModifyListenerAttributesInput: Swift.Sendable {
     /// The listener attributes.
     /// This member is required.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]?
@@ -4620,7 +4620,7 @@ public struct ModifyListenerAttributesInput {
     }
 }
 
-public struct ModifyListenerAttributesOutput {
+public struct ModifyListenerAttributesOutput: Swift.Sendable {
     /// Information about the listener attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.ListenerAttribute]?
 
@@ -4632,7 +4632,7 @@ public struct ModifyListenerAttributesOutput {
     }
 }
 
-public struct ModifyLoadBalancerAttributesInput {
+public struct ModifyLoadBalancerAttributesInput: Swift.Sendable {
     /// The load balancer attributes.
     /// This member is required.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]?
@@ -4650,7 +4650,7 @@ public struct ModifyLoadBalancerAttributesInput {
     }
 }
 
-public struct ModifyLoadBalancerAttributesOutput {
+public struct ModifyLoadBalancerAttributesOutput: Swift.Sendable {
     /// Information about the load balancer attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute]?
 
@@ -4662,7 +4662,7 @@ public struct ModifyLoadBalancerAttributesOutput {
     }
 }
 
-public struct ModifyRuleInput {
+public struct ModifyRuleInput: Swift.Sendable {
     /// The actions.
     public var actions: [ElasticLoadBalancingv2ClientTypes.Action]?
     /// The conditions.
@@ -4683,7 +4683,7 @@ public struct ModifyRuleInput {
     }
 }
 
-public struct ModifyRuleOutput {
+public struct ModifyRuleOutput: Swift.Sendable {
     /// Information about the modified rule.
     public var rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 
@@ -4695,7 +4695,7 @@ public struct ModifyRuleOutput {
     }
 }
 
-public struct ModifyTargetGroupInput {
+public struct ModifyTargetGroupInput: Swift.Sendable {
     /// Indicates whether health checks are enabled.
     public var healthCheckEnabled: Swift.Bool?
     /// The approximate amount of time, in seconds, between health checks of an individual target.
@@ -4744,7 +4744,7 @@ public struct ModifyTargetGroupInput {
     }
 }
 
-public struct ModifyTargetGroupOutput {
+public struct ModifyTargetGroupOutput: Swift.Sendable {
     /// Information about the modified target group.
     public var targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroup]?
 
@@ -4756,7 +4756,7 @@ public struct ModifyTargetGroupOutput {
     }
 }
 
-public struct ModifyTargetGroupAttributesInput {
+public struct ModifyTargetGroupAttributesInput: Swift.Sendable {
     /// The target group attributes.
     /// This member is required.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
@@ -4774,7 +4774,7 @@ public struct ModifyTargetGroupAttributesInput {
     }
 }
 
-public struct ModifyTargetGroupAttributesOutput {
+public struct ModifyTargetGroupAttributesOutput: Swift.Sendable {
     /// Information about the target group attributes.
     public var attributes: [ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute]?
 
@@ -4786,7 +4786,7 @@ public struct ModifyTargetGroupAttributesOutput {
     }
 }
 
-public struct ModifyTrustStoreInput {
+public struct ModifyTrustStoreInput: Swift.Sendable {
     /// The Amazon S3 bucket for the ca certificates bundle.
     /// This member is required.
     public var caCertificatesBundleS3Bucket: Swift.String?
@@ -4813,7 +4813,7 @@ public struct ModifyTrustStoreInput {
     }
 }
 
-public struct ModifyTrustStoreOutput {
+public struct ModifyTrustStoreOutput: Swift.Sendable {
     /// Information about the modified trust store.
     public var trustStores: [ElasticLoadBalancingv2ClientTypes.TrustStore]?
 
@@ -4825,7 +4825,7 @@ public struct ModifyTrustStoreOutput {
     }
 }
 
-public struct RegisterTargetsInput {
+public struct RegisterTargetsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the target group.
     /// This member is required.
     public var targetGroupArn: Swift.String?
@@ -4843,12 +4843,12 @@ public struct RegisterTargetsInput {
     }
 }
 
-public struct RegisterTargetsOutput {
+public struct RegisterTargetsOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RemoveListenerCertificatesInput {
+public struct RemoveListenerCertificatesInput: Swift.Sendable {
     /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
     /// This member is required.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
@@ -4866,12 +4866,12 @@ public struct RemoveListenerCertificatesInput {
     }
 }
 
-public struct RemoveListenerCertificatesOutput {
+public struct RemoveListenerCertificatesOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RemoveTagsInput {
+public struct RemoveTagsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArns: [Swift.String]?
@@ -4889,12 +4889,12 @@ public struct RemoveTagsInput {
     }
 }
 
-public struct RemoveTagsOutput {
+public struct RemoveTagsOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RemoveTrustStoreRevocationsInput {
+public struct RemoveTrustStoreRevocationsInput: Swift.Sendable {
     /// The revocation IDs of the revocation files you want to remove.
     /// This member is required.
     public var revocationIds: [Swift.Int]?
@@ -4912,12 +4912,12 @@ public struct RemoveTrustStoreRevocationsInput {
     }
 }
 
-public struct RemoveTrustStoreRevocationsOutput {
+public struct RemoveTrustStoreRevocationsOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct SetIpAddressTypeInput {
+public struct SetIpAddressTypeInput: Swift.Sendable {
     /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). Note: Application Load Balancer authentication only supports IPv4 addresses when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer cannot complete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     /// This member is required.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
@@ -4935,7 +4935,7 @@ public struct SetIpAddressTypeInput {
     }
 }
 
-public struct SetIpAddressTypeOutput {
+public struct SetIpAddressTypeOutput: Swift.Sendable {
     /// The IP address type.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 
@@ -4948,8 +4948,9 @@ public struct SetIpAddressTypeOutput {
 }
 
 extension ElasticLoadBalancingv2ClientTypes {
+
     /// Information about the priorities for the rules for a listener.
-    public struct RulePriorityPair {
+    public struct RulePriorityPair: Swift.Sendable {
         /// The rule priority.
         public var priority: Swift.Int?
         /// The Amazon Resource Name (ARN) of the rule.
@@ -4964,10 +4965,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.ruleArn = ruleArn
         }
     }
-
 }
 
-public struct SetRulePrioritiesInput {
+public struct SetRulePrioritiesInput: Swift.Sendable {
     /// The rule priorities.
     /// This member is required.
     public var rulePriorities: [ElasticLoadBalancingv2ClientTypes.RulePriorityPair]?
@@ -4980,7 +4980,7 @@ public struct SetRulePrioritiesInput {
     }
 }
 
-public struct SetRulePrioritiesOutput {
+public struct SetRulePrioritiesOutput: Swift.Sendable {
     /// Information about the rules.
     public var rules: [ElasticLoadBalancingv2ClientTypes.Rule]?
 
@@ -4994,7 +4994,7 @@ public struct SetRulePrioritiesOutput {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case on
         case sdkUnknown(Swift.String)
@@ -5021,7 +5021,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     }
 }
 
-public struct SetSecurityGroupsInput {
+public struct SetSecurityGroupsInput: Swift.Sendable {
     /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink. The default is on.
     public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
     /// The Amazon Resource Name (ARN) of the load balancer.
@@ -5043,7 +5043,7 @@ public struct SetSecurityGroupsInput {
     }
 }
 
-public struct SetSecurityGroupsOutput {
+public struct SetSecurityGroupsOutput: Swift.Sendable {
     /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink.
     public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
     /// The IDs of the security groups associated with the load balancer.
@@ -5059,7 +5059,7 @@ public struct SetSecurityGroupsOutput {
     }
 }
 
-public struct SetSubnetsInput {
+public struct SetSubnetsInput: Swift.Sendable {
     /// [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
@@ -5084,7 +5084,7 @@ public struct SetSubnetsInput {
     }
 }
 
-public struct SetSubnetsOutput {
+public struct SetSubnetsOutput: Swift.Sendable {
     /// Information about the subnets.
     public var availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]?
     /// [Application Load Balancers] The IP address type. [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.

@@ -24,8 +24,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 extension ChatbotClientTypes {
+
     /// Preferences related to AWS Chatbot usage in the calling AWS account.
-    public struct AccountPreferences {
+    public struct AccountPreferences: Swift.Sendable {
         /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AI technologies for AWS Chatbot.
         public var trainingDataCollectionEnabled: Swift.Bool?
         /// Enables use of a user role requirement in your chat configuration.
@@ -40,12 +41,12 @@ extension ChatbotClientTypes {
             self.userAuthorizationRequired = userAuthorizationRequired
         }
     }
-
 }
 
 extension ChatbotClientTypes {
+
     /// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Do not include confidential or sensitive information in this field. For more information, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the AWS Billing and Cost Management User Guide.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The key of the tag.
         /// This member is required.
         public var tagKey: Swift.String?
@@ -62,12 +63,12 @@ extension ChatbotClientTypes {
             self.tagValue = tagValue
         }
     }
-
 }
 
 extension ChatbotClientTypes {
+
     /// An AWS Chatbot configuration for Amazon Chime.
-    public struct ChimeWebhookConfiguration {
+    public struct ChimeWebhookConfiguration: Swift.Sendable {
         /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
@@ -106,7 +107,6 @@ extension ChatbotClientTypes {
             self.webhookDescription = webhookDescription
         }
     }
-
 }
 
 extension ChatbotClientTypes.ChimeWebhookConfiguration: Swift.CustomDebugStringConvertible {
@@ -115,8 +115,9 @@ extension ChatbotClientTypes.ChimeWebhookConfiguration: Swift.CustomDebugStringC
 }
 
 extension ChatbotClientTypes {
+
     /// A Microsoft Teams team that is authorized with AWS Chatbot.
-    public struct ConfiguredTeam {
+    public struct ConfiguredTeam: Swift.Sendable {
         /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var teamId: Swift.String?
@@ -137,7 +138,6 @@ extension ChatbotClientTypes {
             self.tenantId = tenantId
         }
     }
-
 }
 
 /// There was an issue processing your request.
@@ -260,7 +260,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-public struct CreateChimeWebhookConfigurationInput {
+public struct CreateChimeWebhookConfigurationInput: Swift.Sendable {
     /// The name of the configuration.
     /// This member is required.
     public var configurationName: Swift.String?
@@ -306,7 +306,7 @@ extension CreateChimeWebhookConfigurationInput: Swift.CustomDebugStringConvertib
         "CreateChimeWebhookConfigurationInput(configurationName: \(Swift.String(describing: configurationName)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), webhookDescription: \"CONTENT_REDACTED\", webhookUrl: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateChimeWebhookConfigurationOutput {
+public struct CreateChimeWebhookConfigurationOutput: Swift.Sendable {
     /// An Amazon Chime webhook configuration.
     public var webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 
@@ -342,7 +342,7 @@ public struct CreateTeamsChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-public struct CreateMicrosoftTeamsChannelConfigurationInput {
+public struct CreateMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
     /// The ID of the Microsoft Teams channel.
     /// This member is required.
     public var channelId: Swift.String?
@@ -409,8 +409,9 @@ extension CreateMicrosoftTeamsChannelConfigurationInput: Swift.CustomDebugString
 }
 
 extension ChatbotClientTypes {
+
     /// An AWS Chatbot configuration for Microsoft Teams.
-    public struct TeamsChannelConfiguration {
+    public struct TeamsChannelConfiguration: Swift.Sendable {
         /// The ID of the Microsoft Teams channel.
         /// This member is required.
         public var channelId: Swift.String?
@@ -475,7 +476,6 @@ extension ChatbotClientTypes {
             self.userAuthorizationRequired = userAuthorizationRequired
         }
     }
-
 }
 
 extension ChatbotClientTypes.TeamsChannelConfiguration: Swift.CustomDebugStringConvertible {
@@ -483,7 +483,7 @@ extension ChatbotClientTypes.TeamsChannelConfiguration: Swift.CustomDebugStringC
         "TeamsChannelConfiguration(channelId: \(Swift.String(describing: channelId)), chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), teamId: \(Swift.String(describing: teamId)), tenantId: \(Swift.String(describing: tenantId)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), channelName: \"CONTENT_REDACTED\", teamName: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateMicrosoftTeamsChannelConfigurationOutput {
+public struct CreateMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
     /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 
@@ -519,7 +519,7 @@ public struct CreateSlackChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-public struct CreateSlackChannelConfigurationInput {
+public struct CreateSlackChannelConfigurationInput: Swift.Sendable {
     /// The name of the configuration.
     /// This member is required.
     public var configurationName: Swift.String?
@@ -577,8 +577,9 @@ extension CreateSlackChannelConfigurationInput: Swift.CustomDebugStringConvertib
 }
 
 extension ChatbotClientTypes {
+
     /// An AWS Chatbot configuration for Slack.
-    public struct SlackChannelConfiguration {
+    public struct SlackChannelConfiguration: Swift.Sendable {
         /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
@@ -640,7 +641,6 @@ extension ChatbotClientTypes {
             self.userAuthorizationRequired = userAuthorizationRequired
         }
     }
-
 }
 
 extension ChatbotClientTypes.SlackChannelConfiguration: Swift.CustomDebugStringConvertible {
@@ -648,7 +648,7 @@ extension ChatbotClientTypes.SlackChannelConfiguration: Swift.CustomDebugStringC
         "SlackChannelConfiguration(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), slackChannelId: \(Swift.String(describing: slackChannelId)), slackTeamId: \(Swift.String(describing: slackTeamId)), slackTeamName: \(Swift.String(describing: slackTeamName)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), slackChannelName: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateSlackChannelConfigurationOutput {
+public struct CreateSlackChannelConfigurationOutput: Swift.Sendable {
     /// The configuration for a Slack channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration?
 
@@ -708,7 +708,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-public struct DeleteChimeWebhookConfigurationInput {
+public struct DeleteChimeWebhookConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -721,7 +721,7 @@ public struct DeleteChimeWebhookConfigurationInput {
     }
 }
 
-public struct DeleteChimeWebhookConfigurationOutput {
+public struct DeleteChimeWebhookConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -750,7 +750,7 @@ public struct DeleteTeamsChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-public struct DeleteMicrosoftTeamsChannelConfigurationInput {
+public struct DeleteMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -763,7 +763,7 @@ public struct DeleteMicrosoftTeamsChannelConfigurationInput {
     }
 }
 
-public struct DeleteMicrosoftTeamsChannelConfigurationOutput {
+public struct DeleteMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -792,7 +792,7 @@ public struct DeleteTeamsConfiguredTeamException: ClientRuntime.ModeledError, AW
     }
 }
 
-public struct DeleteMicrosoftTeamsConfiguredTeamInput {
+public struct DeleteMicrosoftTeamsConfiguredTeamInput: Swift.Sendable {
     /// The ID of the Microsoft Teams team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var teamId: Swift.String?
@@ -805,7 +805,7 @@ public struct DeleteMicrosoftTeamsConfiguredTeamInput {
     }
 }
 
-public struct DeleteMicrosoftTeamsConfiguredTeamOutput {
+public struct DeleteMicrosoftTeamsConfiguredTeamOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -834,7 +834,7 @@ public struct DeleteMicrosoftTeamsUserIdentityException: ClientRuntime.ModeledEr
     }
 }
 
-public struct DeleteMicrosoftTeamsUserIdentityInput {
+public struct DeleteMicrosoftTeamsUserIdentityInput: Swift.Sendable {
     /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -852,7 +852,7 @@ public struct DeleteMicrosoftTeamsUserIdentityInput {
     }
 }
 
-public struct DeleteMicrosoftTeamsUserIdentityOutput {
+public struct DeleteMicrosoftTeamsUserIdentityOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -881,7 +881,7 @@ public struct DeleteSlackChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-public struct DeleteSlackChannelConfigurationInput {
+public struct DeleteSlackChannelConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -894,7 +894,7 @@ public struct DeleteSlackChannelConfigurationInput {
     }
 }
 
-public struct DeleteSlackChannelConfigurationOutput {
+public struct DeleteSlackChannelConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -923,7 +923,7 @@ public struct DeleteSlackUserIdentityException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-public struct DeleteSlackUserIdentityInput {
+public struct DeleteSlackUserIdentityInput: Swift.Sendable {
     /// The ARN of the SlackChannelConfiguration associated with the user identity to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -946,7 +946,7 @@ public struct DeleteSlackUserIdentityInput {
     }
 }
 
-public struct DeleteSlackUserIdentityOutput {
+public struct DeleteSlackUserIdentityOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -975,7 +975,7 @@ public struct DeleteSlackWorkspaceAuthorizationFault: ClientRuntime.ModeledError
     }
 }
 
-public struct DeleteSlackWorkspaceAuthorizationInput {
+public struct DeleteSlackWorkspaceAuthorizationInput: Swift.Sendable {
     /// The ID of the Slack workspace authorized with AWS Chatbot.
     /// This member is required.
     public var slackTeamId: Swift.String?
@@ -988,7 +988,7 @@ public struct DeleteSlackWorkspaceAuthorizationInput {
     }
 }
 
-public struct DeleteSlackWorkspaceAuthorizationOutput {
+public struct DeleteSlackWorkspaceAuthorizationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1017,7 +1017,7 @@ public struct DescribeChimeWebhookConfigurationsException: ClientRuntime.Modeled
     }
 }
 
-public struct DescribeChimeWebhookConfigurationsInput {
+public struct DescribeChimeWebhookConfigurationsInput: Swift.Sendable {
     /// An optional Amazon Resource Number (ARN) of a ChimeWebhookConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -1037,7 +1037,7 @@ public struct DescribeChimeWebhookConfigurationsInput {
     }
 }
 
-public struct DescribeChimeWebhookConfigurationsOutput {
+public struct DescribeChimeWebhookConfigurationsOutput: Swift.Sendable {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Amazon Chime webhooks associated with the account.
@@ -1077,7 +1077,7 @@ public struct DescribeSlackChannelConfigurationsException: ClientRuntime.Modeled
     }
 }
 
-public struct DescribeSlackChannelConfigurationsInput {
+public struct DescribeSlackChannelConfigurationsInput: Swift.Sendable {
     /// An optional Amazon Resource Number (ARN) of a SlackChannelConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -1097,7 +1097,7 @@ public struct DescribeSlackChannelConfigurationsInput {
     }
 }
 
-public struct DescribeSlackChannelConfigurationsOutput {
+public struct DescribeSlackChannelConfigurationsOutput: Swift.Sendable {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Slack channel configurations.
@@ -1137,7 +1137,7 @@ public struct DescribeSlackUserIdentitiesException: ClientRuntime.ModeledError, 
     }
 }
 
-public struct DescribeSlackUserIdentitiesInput {
+public struct DescribeSlackUserIdentitiesInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated with the user identities to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -1158,8 +1158,9 @@ public struct DescribeSlackUserIdentitiesInput {
 }
 
 extension ChatbotClientTypes {
+
     /// Identifes a user level permission for a channel configuration.
-    public struct SlackUserIdentity {
+    public struct SlackUserIdentity: Swift.Sendable {
         /// The AWS user identity ARN used to associate a Slack user ID with an IAM Role.
         public var awsUserIdentity: Swift.String?
         /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated with the user identity to delete.
@@ -1190,10 +1191,9 @@ extension ChatbotClientTypes {
             self.slackUserId = slackUserId
         }
     }
-
 }
 
-public struct DescribeSlackUserIdentitiesOutput {
+public struct DescribeSlackUserIdentitiesOutput: Swift.Sendable {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Slack User Identities.
@@ -1233,7 +1233,7 @@ public struct DescribeSlackWorkspacesException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-public struct DescribeSlackWorkspacesInput {
+public struct DescribeSlackWorkspacesInput: Swift.Sendable {
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -1250,8 +1250,9 @@ public struct DescribeSlackWorkspacesInput {
 }
 
 extension ChatbotClientTypes {
+
     /// A Slack workspace.
-    public struct SlackWorkspace {
+    public struct SlackWorkspace: Swift.Sendable {
         /// The ID of the Slack workspace authorized with AWS Chatbot.
         /// This member is required.
         public var slackTeamId: Swift.String?
@@ -1268,10 +1269,9 @@ extension ChatbotClientTypes {
             self.slackTeamName = slackTeamName
         }
     }
-
 }
 
-public struct DescribeSlackWorkspacesOutput {
+public struct DescribeSlackWorkspacesOutput: Swift.Sendable {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Slack workspaces registered with AWS Chatbot.
@@ -1311,12 +1311,12 @@ public struct GetAccountPreferencesException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-public struct GetAccountPreferencesInput {
+public struct GetAccountPreferencesInput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetAccountPreferencesOutput {
+public struct GetAccountPreferencesOutput: Swift.Sendable {
     /// The preferences related to AWS Chatbot usage in the calling AWS account.
     public var accountPreferences: ChatbotClientTypes.AccountPreferences?
 
@@ -1352,7 +1352,7 @@ public struct GetTeamsChannelConfigurationException: ClientRuntime.ModeledError,
     }
 }
 
-public struct GetMicrosoftTeamsChannelConfigurationInput {
+public struct GetMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration to retrieve.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -1365,7 +1365,7 @@ public struct GetMicrosoftTeamsChannelConfigurationInput {
     }
 }
 
-public struct GetMicrosoftTeamsChannelConfigurationOutput {
+public struct GetMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
     /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 
@@ -1425,7 +1425,7 @@ public struct ListTeamsChannelConfigurationsException: ClientRuntime.ModeledErro
     }
 }
 
-public struct ListMicrosoftTeamsChannelConfigurationsInput {
+public struct ListMicrosoftTeamsChannelConfigurationsInput: Swift.Sendable {
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -1445,7 +1445,7 @@ public struct ListMicrosoftTeamsChannelConfigurationsInput {
     }
 }
 
-public struct ListMicrosoftTeamsChannelConfigurationsOutput {
+public struct ListMicrosoftTeamsChannelConfigurationsOutput: Swift.Sendable {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of AWS Chatbot channel configurations for Microsoft Teams.
@@ -1485,7 +1485,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsException: ClientRuntime.ModeledE
     }
 }
 
-public struct ListMicrosoftTeamsConfiguredTeamsInput {
+public struct ListMicrosoftTeamsConfiguredTeamsInput: Swift.Sendable {
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -1501,7 +1501,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsInput {
     }
 }
 
-public struct ListMicrosoftTeamsConfiguredTeamsOutput {
+public struct ListMicrosoftTeamsConfiguredTeamsOutput: Swift.Sendable {
     /// A list of teams in Microsoft Teams that are configured with AWS Chatbot.
     public var configuredTeams: [ChatbotClientTypes.ConfiguredTeam]?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -1541,7 +1541,7 @@ public struct ListMicrosoftTeamsUserIdentitiesException: ClientRuntime.ModeledEr
     }
 }
 
-public struct ListMicrosoftTeamsUserIdentitiesInput {
+public struct ListMicrosoftTeamsUserIdentitiesInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identities to list.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -1562,8 +1562,9 @@ public struct ListMicrosoftTeamsUserIdentitiesInput {
 }
 
 extension ChatbotClientTypes {
+
     /// Identifes a user level permission for a channel configuration.
-    public struct TeamsUserIdentity {
+    public struct TeamsUserIdentity: Swift.Sendable {
         /// The AWS user identity ARN used to associate a Microsoft Teams user Identity with an IAM Role.
         public var awsUserIdentity: Swift.String?
         /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
@@ -1601,10 +1602,9 @@ extension ChatbotClientTypes {
             self.userId = userId
         }
     }
-
 }
 
-public struct ListMicrosoftTeamsUserIdentitiesOutput {
+public struct ListMicrosoftTeamsUserIdentitiesOutput: Swift.Sendable {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// User level permissions associated to a channel configuration.
@@ -1644,7 +1644,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN you specified to list the tags of.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1657,7 +1657,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// Key-value pairs that are assigned to a resource, usually for the purpose of grouping and searching for items. Tags are metadata that you define.
     public var tags: [ChatbotClientTypes.Tag]?
 
@@ -1693,7 +1693,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the configuration.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1711,12 +1711,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1734,7 +1734,7 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1763,7 +1763,7 @@ public struct UpdateAccountPreferencesException: ClientRuntime.ModeledError, AWS
     }
 }
 
-public struct UpdateAccountPreferencesInput {
+public struct UpdateAccountPreferencesInput: Swift.Sendable {
     /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AI technologies for AWS Chatbot.
     public var trainingDataCollectionEnabled: Swift.Bool?
     /// Enables use of a user role requirement in your chat configuration.
@@ -1779,7 +1779,7 @@ public struct UpdateAccountPreferencesInput {
     }
 }
 
-public struct UpdateAccountPreferencesOutput {
+public struct UpdateAccountPreferencesOutput: Swift.Sendable {
     /// Preferences related to AWS Chatbot usage in the calling AWS account.
     public var accountPreferences: ChatbotClientTypes.AccountPreferences?
 
@@ -1815,7 +1815,7 @@ public struct UpdateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-public struct UpdateChimeWebhookConfigurationInput {
+public struct UpdateChimeWebhookConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -1853,7 +1853,7 @@ extension UpdateChimeWebhookConfigurationInput: Swift.CustomDebugStringConvertib
         "UpdateChimeWebhookConfigurationInput(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), webhookDescription: \"CONTENT_REDACTED\", webhookUrl: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateChimeWebhookConfigurationOutput {
+public struct UpdateChimeWebhookConfigurationOutput: Swift.Sendable {
     /// A Amazon Chime webhook configuration.
     public var webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 
@@ -1889,7 +1889,7 @@ public struct UpdateTeamsChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-public struct UpdateMicrosoftTeamsChannelConfigurationInput {
+public struct UpdateMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
     /// The ID of the Microsoft Teams channel.
     /// This member is required.
     public var channelId: Swift.String?
@@ -1936,7 +1936,7 @@ extension UpdateMicrosoftTeamsChannelConfigurationInput: Swift.CustomDebugString
         "UpdateMicrosoftTeamsChannelConfigurationInput(channelId: \(Swift.String(describing: channelId)), chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), channelName: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateMicrosoftTeamsChannelConfigurationOutput {
+public struct UpdateMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
     /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 
@@ -1972,7 +1972,7 @@ public struct UpdateSlackChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-public struct UpdateSlackChannelConfigurationInput {
+public struct UpdateSlackChannelConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -2019,7 +2019,7 @@ extension UpdateSlackChannelConfigurationInput: Swift.CustomDebugStringConvertib
         "UpdateSlackChannelConfigurationInput(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), slackChannelId: \(Swift.String(describing: slackChannelId)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), slackChannelName: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateSlackChannelConfigurationOutput {
+public struct UpdateSlackChannelConfigurationOutput: Swift.Sendable {
     /// The configuration for a Slack channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration?
 

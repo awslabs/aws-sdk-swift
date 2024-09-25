@@ -25,8 +25,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 extension TaxSettingsClientTypes {
+
     /// The details of the address associated with the TRN information.
-    public struct Address {
+    public struct Address: Swift.Sendable {
         /// The first line of the address.
         /// This member is required.
         public var addressLine1: Swift.String?
@@ -69,12 +70,11 @@ extension TaxSettingsClientTypes {
             self.stateOrRegion = stateOrRegion
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum AddressRoleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AddressRoleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case billingAddress
         case contactAddress
         case taxAddress
@@ -105,8 +105,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// The jurisdiction details of the TRN information of the customers. This doesn't contain full legal address, and contains only country code and state/region/province.
-    public struct Jurisdiction {
+    public struct Jurisdiction: Swift.Sendable {
         /// The country code of the jurisdiction.
         /// This member is required.
         public var countryCode: Swift.String?
@@ -122,12 +123,12 @@ extension TaxSettingsClientTypes {
             self.stateOrRegion = stateOrRegion
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// The meta data information associated with the account.
-    public struct AccountMetaData {
+    public struct AccountMetaData: Swift.Sendable {
         /// The Amazon Web Services accounts name.
         public var accountName: Swift.String?
         /// The details of the address associated with the TRN information.
@@ -154,7 +155,6 @@ extension TaxSettingsClientTypes {
             self.seller = seller
         }
     }
-
 }
 
 extension TaxSettingsClientTypes.AccountMetaData: Swift.CustomDebugStringConvertible {
@@ -164,8 +164,9 @@ extension TaxSettingsClientTypes.AccountMetaData: Swift.CustomDebugStringConvert
 }
 
 extension TaxSettingsClientTypes {
+
     /// Tax inheritance information associated with the account.
-    public struct TaxInheritanceDetails {
+    public struct TaxInheritanceDetails: Swift.Sendable {
         /// Tax inheritance reason information associated with the account.
         public var inheritanceObtainedReason: Swift.String?
         /// Tax inheritance parent account information associated with the account.
@@ -180,12 +181,12 @@ extension TaxSettingsClientTypes {
             self.parentEntityId = parentEntityId
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Brazil.
-    public struct BrazilAdditionalInfo {
+    public struct BrazilAdditionalInfo: Swift.Sendable {
         /// The Cadastro de Contribuintes Mobiliários (CCM) code for your TRN in Brazil. This only applies for a CNPJ tax type for the São Paulo municipality.
         public var ccmCode: Swift.String?
         /// Legal nature of business, based on your TRN in Brazil. This only applies for a CNPJ tax type.
@@ -200,12 +201,12 @@ extension TaxSettingsClientTypes {
             self.legalNatureCode = legalNatureCode
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Canada .
-    public struct CanadaAdditionalInfo {
+    public struct CanadaAdditionalInfo: Swift.Sendable {
         /// The Quebec Sales Tax ID number. Leave blank if you do not have a Quebec Sales Tax ID number.
         public var canadaQuebecSalesTaxNumber: Swift.String?
         /// Manitoba Retail Sales Tax ID number. Customers purchasing Amazon Web Services for resale in Manitoba must provide a valid Retail Sales Tax ID number for Manitoba. Leave this blank if you do not have a Retail Sales Tax ID number in Manitoba or are not purchasing Amazon Web Services for resale.
@@ -237,12 +238,12 @@ extension TaxSettingsClientTypes {
             self.provincialSalesTaxId = provincialSalesTaxId
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Estonia.
-    public struct EstoniaAdditionalInfo {
+    public struct EstoniaAdditionalInfo: Swift.Sendable {
         /// Registry commercial code (RCC) for your TRN in Estonia. This value is an eight-numeric string, such as 12345678.
         /// This member is required.
         public var registryCommercialCode: Swift.String?
@@ -254,12 +255,11 @@ extension TaxSettingsClientTypes {
             self.registryCommercialCode = registryCommercialCode
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum PersonType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PersonType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case business
         case legalPerson
         case physicalPerson
@@ -290,8 +290,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Georgia.
-    public struct GeorgiaAdditionalInfo {
+    public struct GeorgiaAdditionalInfo: Swift.Sendable {
         /// The legal person or physical person assigned to this TRN in Georgia.
         /// This member is required.
         public var personType: TaxSettingsClientTypes.PersonType?
@@ -303,12 +304,12 @@ extension TaxSettingsClientTypes {
             self.personType = personType
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information in India.
-    public struct IndiaAdditionalInfo {
+    public struct IndiaAdditionalInfo: Swift.Sendable {
         /// India pan information associated with the account.
         public var pan: Swift.String?
 
@@ -319,12 +320,11 @@ extension TaxSettingsClientTypes {
             self.pan = pan
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum IsraelCustomerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum IsraelCustomerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case business
         case individual
         case sdkUnknown(Swift.String)
@@ -353,7 +353,7 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
-    public enum IsraelDealerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum IsraelDealerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authorized
         case nonAuthorized
         case sdkUnknown(Swift.String)
@@ -381,8 +381,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Israel.
-    public struct IsraelAdditionalInfo {
+    public struct IsraelAdditionalInfo: Swift.Sendable {
         /// Customer type for your TRN in Israel. The value can be Business or Individual. Use Businessfor entities such as not-for-profit and financial institutions.
         /// This member is required.
         public var customerType: TaxSettingsClientTypes.IsraelCustomerType?
@@ -399,12 +400,12 @@ extension TaxSettingsClientTypes {
             self.dealerType = dealerType
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Italy.
-    public struct ItalyAdditionalInfo {
+    public struct ItalyAdditionalInfo: Swift.Sendable {
         /// The tender procedure identification code.
         public var cigNumber: Swift.String?
         /// Additional tax information to specify for a TRN in Italy. This is managed by the Interministerial Committee for Economic Planning (CIPE) which characterizes every public investment project (Individual Project Code).
@@ -427,12 +428,12 @@ extension TaxSettingsClientTypes {
             self.taxCode = taxCode
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Kenya.
-    public struct KenyaAdditionalInfo {
+    public struct KenyaAdditionalInfo: Swift.Sendable {
         /// The legal person or physical person assigned to this TRN in Kenya.
         /// This member is required.
         public var personType: TaxSettingsClientTypes.PersonType?
@@ -444,12 +445,11 @@ extension TaxSettingsClientTypes {
             self.personType = personType
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum MalaysiaServiceTaxCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MalaysiaServiceTaxCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case consultancy
         case digitalSvcElectronicMedium
         case itServices
@@ -483,8 +483,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Malaysia.
-    public struct MalaysiaAdditionalInfo {
+    public struct MalaysiaAdditionalInfo: Swift.Sendable {
         /// List of service tax codes for your TRN in Malaysia.
         /// This member is required.
         public var serviceTaxCodes: [TaxSettingsClientTypes.MalaysiaServiceTaxCode]?
@@ -496,12 +497,12 @@ extension TaxSettingsClientTypes {
             self.serviceTaxCodes = serviceTaxCodes
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Poland.
-    public struct PolandAdditionalInfo {
+    public struct PolandAdditionalInfo: Swift.Sendable {
         /// The individual tax registration number (NIP). Individual NIP is valid for other taxes excluding VAT purposes.
         public var individualRegistrationNumber: Swift.String?
         /// True if your business is a member of a VAT group with a NIP active for VAT purposes. Otherwise, this is false.
@@ -516,12 +517,11 @@ extension TaxSettingsClientTypes {
             self.isGroupVatEnabled = isGroupVatEnabled
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum TaxRegistrationNumberType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TaxRegistrationNumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case localRegistrationNumber
         case taxRegistrationNumber
         case sdkUnknown(Swift.String)
@@ -549,8 +549,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information to specify for a TRN in Romania.
-    public struct RomaniaAdditionalInfo {
+    public struct RomaniaAdditionalInfo: Swift.Sendable {
         /// The tax registration number type. The value can be TaxRegistrationNumber or LocalRegistrationNumber.
         /// This member is required.
         public var taxRegistrationNumberType: TaxSettingsClientTypes.TaxRegistrationNumberType?
@@ -562,12 +563,11 @@ extension TaxSettingsClientTypes {
             self.taxRegistrationNumberType = taxRegistrationNumberType
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum SaudiArabiaTaxRegistrationNumberType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SaudiArabiaTaxRegistrationNumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case commercialRegistrationNumber
         case taxIdentificationNumber
         case taxRegistrationNumber
@@ -598,8 +598,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Saudi Arabia.
-    public struct SaudiArabiaAdditionalInfo {
+    public struct SaudiArabiaAdditionalInfo: Swift.Sendable {
         /// The tax registration number type.
         public var taxRegistrationNumberType: TaxSettingsClientTypes.SaudiArabiaTaxRegistrationNumberType?
 
@@ -610,12 +611,12 @@ extension TaxSettingsClientTypes {
             self.taxRegistrationNumberType = taxRegistrationNumberType
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in South Korea.
-    public struct SouthKoreaAdditionalInfo {
+    public struct SouthKoreaAdditionalInfo: Swift.Sendable {
         /// The business legal name based on the most recently uploaded tax registration certificate.
         /// This member is required.
         public var businessRepresentativeName: Swift.String?
@@ -637,12 +638,11 @@ extension TaxSettingsClientTypes {
             self.lineOfBusiness = lineOfBusiness
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum RegistrationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RegistrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case intraEu
         case local
         case sdkUnknown(Swift.String)
@@ -670,8 +670,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Spain.
-    public struct SpainAdditionalInfo {
+    public struct SpainAdditionalInfo: Swift.Sendable {
         /// The registration type in Spain.
         /// This member is required.
         public var registrationType: TaxSettingsClientTypes.RegistrationType?
@@ -683,12 +684,11 @@ extension TaxSettingsClientTypes {
             self.registrationType = registrationType
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum Industries: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Industries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case banks
         case circulatingOrg
         case developmentAgencies
@@ -728,8 +728,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Turkey.
-    public struct TurkeyAdditionalInfo {
+    public struct TurkeyAdditionalInfo: Swift.Sendable {
         /// The industry information that tells the Tax Settings API if you're subject to additional withholding taxes. This information required for business-to-business (B2B) customers. This information is conditionally mandatory for B2B customers who are subject to KDV tax.
         public var industries: TaxSettingsClientTypes.Industries?
         /// The Registered Electronic Mail (REM) that is used to send notarized communication. This parameter is optional for business-to-business (B2B) and business-to-government (B2G) customers. It's not required for business-to-consumer (B2C) customers.
@@ -752,12 +753,11 @@ extension TaxSettingsClientTypes {
             self.taxOffice = taxOffice
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum UkraineTrnType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UkraineTrnType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case business
         case individual
         case sdkUnknown(Swift.String)
@@ -785,8 +785,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Ukraine.
-    public struct UkraineAdditionalInfo {
+    public struct UkraineAdditionalInfo: Swift.Sendable {
         /// The tax registration type.
         /// This member is required.
         public var ukraineTrnType: TaxSettingsClientTypes.UkraineTrnType?
@@ -798,12 +799,12 @@ extension TaxSettingsClientTypes {
             self.ukraineTrnType = ukraineTrnType
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN. The Tax Settings API returns country-specific information in the response when any additional information is present with your TRN for the following countries.
-    public struct AdditionalInfoResponse {
+    public struct AdditionalInfoResponse: Swift.Sendable {
         /// Additional tax information associated with your TRN in Brazil. The Tax Settings API returns this information in your response when any additional information is present with your TRN in Brazil.
         public var brazilAdditionalInfo: TaxSettingsClientTypes.BrazilAdditionalInfo?
         /// Additional tax information associated with your TRN in Canada.
@@ -874,12 +875,11 @@ extension TaxSettingsClientTypes {
             self.ukraineAdditionalInfo = ukraineAdditionalInfo
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
 
-    public enum TaxRegistrationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TaxRegistrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cnpj
         case cpf
         case gst
@@ -917,7 +917,7 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
-    public enum Sector: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Sector: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case business
         case individual
         case publicInstitutions
@@ -949,7 +949,7 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
-    public enum TaxRegistrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TaxRegistrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleted
         case pending
         case rejected
@@ -983,8 +983,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// The metadata for your tax document.
-    public struct TaxDocumentMetadata {
+    public struct TaxDocumentMetadata: Swift.Sendable {
         /// The tax document access token, which contains information that the Tax Settings API uses to locate the tax document. If you update your tax registration, the existing taxDocumentAccessToken won't be valid. To get the latest token, call the GetTaxRegistration or ListTaxRegistrations API operation. This token is valid for 24 hours.
         /// This member is required.
         public var taxDocumentAccessToken: Swift.String?
@@ -1001,12 +1002,12 @@ extension TaxSettingsClientTypes {
             self.taxDocumentName = taxDocumentName
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Your TRN information with jurisdiction details. This doesn't contain the full legal address associated with the TRN information.
-    public struct TaxRegistrationWithJurisdiction {
+    public struct TaxRegistrationWithJurisdiction: Swift.Sendable {
         /// Additional tax information associated with your TRN.
         public var additionalTaxInformation: TaxSettingsClientTypes.AdditionalInfoResponse?
         /// The email address to receive VAT invoices.
@@ -1054,7 +1055,6 @@ extension TaxSettingsClientTypes {
             self.taxDocumentMetadatas = taxDocumentMetadatas
         }
     }
-
 }
 
 extension TaxSettingsClientTypes.TaxRegistrationWithJurisdiction: Swift.CustomDebugStringConvertible {
@@ -1064,8 +1064,9 @@ extension TaxSettingsClientTypes.TaxRegistrationWithJurisdiction: Swift.CustomDe
 }
 
 extension TaxSettingsClientTypes {
+
     /// An object with your accountId and TRN information.
-    public struct AccountDetails {
+    public struct AccountDetails: Swift.Sendable {
         /// List of unique account identifiers.
         public var accountId: Swift.String?
         /// The meta data information associated with the account.
@@ -1088,7 +1089,6 @@ extension TaxSettingsClientTypes {
             self.taxRegistration = taxRegistration
         }
     }
-
 }
 
 extension TaxSettingsClientTypes.AccountDetails: Swift.CustomDebugStringConvertible {
@@ -1098,8 +1098,9 @@ extension TaxSettingsClientTypes.AccountDetails: Swift.CustomDebugStringConverti
 }
 
 extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your tax registration number (TRN). Depending on the TRN for a specific country, you might need to specify this information when you set your TRN. You can only specify one of the following parameters and the value can't be empty. The parameter that you specify must match the country for the TRN, if available. For example, if you set a TRN in Canada for specific provinces, you must also specify the canadaAdditionalInfo parameter.
-    public struct AdditionalInfoRequest {
+    public struct AdditionalInfoRequest: Swift.Sendable {
         /// Additional tax information associated with your TRN in Canada.
         public var canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Estonia.
@@ -1162,7 +1163,6 @@ extension TaxSettingsClientTypes {
             self.ukraineAdditionalInfo = ukraineAdditionalInfo
         }
     }
-
 }
 
 /// The exception when the input is creating conflict with the given state.
@@ -1237,7 +1237,7 @@ extension InternalServerException: Swift.CustomDebugStringConvertible {
 
 extension TaxSettingsClientTypes {
 
-    public enum ValidationExceptionErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case expiredToken
         case fieldValidationFailed
         case invalidToken
@@ -1274,8 +1274,9 @@ extension TaxSettingsClientTypes {
 }
 
 extension TaxSettingsClientTypes {
+
     /// The information about the specified parameter in the request that caused an error.
-    public struct ValidationExceptionField {
+    public struct ValidationExceptionField: Swift.Sendable {
         /// The name of the parameter that caused a ValidationException error.
         /// This member is required.
         public var name: Swift.String?
@@ -1287,7 +1288,6 @@ extension TaxSettingsClientTypes {
             self.name = name
         }
     }
-
 }
 
 /// The exception when the input doesn't pass validation for at least one of the input parameters.
@@ -1329,7 +1329,7 @@ extension ValidationException: Swift.CustomDebugStringConvertible {
         "ValidationException(errorCode: \(Swift.String(describing: properties.errorCode)), fieldList: \(Swift.String(describing: properties.fieldList)), message: \"CONTENT_REDACTED\")"}
 }
 
-public struct BatchDeleteTaxRegistrationInput {
+public struct BatchDeleteTaxRegistrationInput: Swift.Sendable {
     /// List of unique account identifiers.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -1343,8 +1343,9 @@ public struct BatchDeleteTaxRegistrationInput {
 }
 
 extension TaxSettingsClientTypes {
+
     /// The error object for representing failures in the BatchDeleteTaxRegistration operation.
-    public struct BatchDeleteTaxRegistrationError {
+    public struct BatchDeleteTaxRegistrationError: Swift.Sendable {
         /// The unique account identifier for the account whose tax registration couldn't be deleted during the BatchDeleteTaxRegistration operation.
         /// This member is required.
         public var accountId: Swift.String?
@@ -1365,7 +1366,6 @@ extension TaxSettingsClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension TaxSettingsClientTypes.BatchDeleteTaxRegistrationError: Swift.CustomDebugStringConvertible {
@@ -1373,7 +1373,7 @@ extension TaxSettingsClientTypes.BatchDeleteTaxRegistrationError: Swift.CustomDe
         "BatchDeleteTaxRegistrationError(accountId: \(Swift.String(describing: accountId)), code: \(Swift.String(describing: code)), message: \"CONTENT_REDACTED\")"}
 }
 
-public struct BatchDeleteTaxRegistrationOutput {
+public struct BatchDeleteTaxRegistrationOutput: Swift.Sendable {
     /// The list of errors for the accounts the TRN information could not be deleted for.
     /// This member is required.
     public var errors: [TaxSettingsClientTypes.BatchDeleteTaxRegistrationError]?
@@ -1387,8 +1387,9 @@ public struct BatchDeleteTaxRegistrationOutput {
 }
 
 extension TaxSettingsClientTypes {
+
     /// The Amazon S3 bucket in your account where your tax document is located.
-    public struct SourceS3Location {
+    public struct SourceS3Location: Swift.Sendable {
         /// The name of your Amazon S3 bucket that your tax document is located.
         /// This member is required.
         public var bucket: Swift.String?
@@ -1405,12 +1406,12 @@ extension TaxSettingsClientTypes {
             self.key = key
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Tax registration document information.
-    public struct TaxRegistrationDocument {
+    public struct TaxRegistrationDocument: Swift.Sendable {
         /// The Amazon S3 location where your tax registration document is stored.
         /// This member is required.
         public var s3Location: TaxSettingsClientTypes.SourceS3Location?
@@ -1422,12 +1423,12 @@ extension TaxSettingsClientTypes {
             self.s3Location = s3Location
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// Required information to verify your TRN.
-    public struct VerificationDetails {
+    public struct VerificationDetails: Swift.Sendable {
         /// Date of birth to verify your submitted TRN. Use the YYYY-MM-DD format.
         public var dateOfBirth: Swift.String?
         /// The tax registration document, which is required for specific countries such as Bangladesh, Kenya, South Korea and Spain.
@@ -1442,12 +1443,12 @@ extension TaxSettingsClientTypes {
             self.taxRegistrationDocuments = taxRegistrationDocuments
         }
     }
-
 }
 
 extension TaxSettingsClientTypes {
+
     /// The TRN information you provide when you add a new TRN, or update.
-    public struct TaxRegistrationEntry {
+    public struct TaxRegistrationEntry: Swift.Sendable {
         /// Additional tax information associated with your TRN. You only need to specify this parameter if Amazon Web Services collects any additional information for your country within [AdditionalInfoRequest].
         public var additionalTaxInformation: TaxSettingsClientTypes.AdditionalInfoRequest?
         /// The email address to receive VAT invoices.
@@ -1488,7 +1489,6 @@ extension TaxSettingsClientTypes {
             self.verificationDetails = verificationDetails
         }
     }
-
 }
 
 extension TaxSettingsClientTypes.TaxRegistrationEntry: Swift.CustomDebugStringConvertible {
@@ -1497,7 +1497,7 @@ extension TaxSettingsClientTypes.TaxRegistrationEntry: Swift.CustomDebugStringCo
     }
 }
 
-public struct BatchPutTaxRegistrationInput {
+public struct BatchPutTaxRegistrationInput: Swift.Sendable {
     /// List of unique account identifiers.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -1521,8 +1521,9 @@ extension BatchPutTaxRegistrationInput: Swift.CustomDebugStringConvertible {
 }
 
 extension TaxSettingsClientTypes {
+
     /// The error object for representing failures in the BatchPutTaxRegistration operation.
-    public struct BatchPutTaxRegistrationError {
+    public struct BatchPutTaxRegistrationError: Swift.Sendable {
         /// The unique account identifier for the account that the tax registration couldn't be added, or updated during the BatchPutTaxRegistration operation.
         /// This member is required.
         public var accountId: Swift.String?
@@ -1543,7 +1544,6 @@ extension TaxSettingsClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension TaxSettingsClientTypes.BatchPutTaxRegistrationError: Swift.CustomDebugStringConvertible {
@@ -1551,7 +1551,7 @@ extension TaxSettingsClientTypes.BatchPutTaxRegistrationError: Swift.CustomDebug
         "BatchPutTaxRegistrationError(accountId: \(Swift.String(describing: accountId)), code: \(Swift.String(describing: code)), message: \"CONTENT_REDACTED\")"}
 }
 
-public struct BatchPutTaxRegistrationOutput {
+public struct BatchPutTaxRegistrationOutput: Swift.Sendable {
     /// List of errors for the accounts the TRN information could not be added or updated to.
     /// This member is required.
     public var errors: [TaxSettingsClientTypes.BatchPutTaxRegistrationError]?
@@ -1603,7 +1603,7 @@ extension ResourceNotFoundException: Swift.CustomDebugStringConvertible {
         "ResourceNotFoundException(errorCode: \(Swift.String(describing: properties.errorCode)), message: \"CONTENT_REDACTED\")"}
 }
 
-public struct DeleteTaxRegistrationInput {
+public struct DeleteTaxRegistrationInput: Swift.Sendable {
     /// Unique account identifier for the TRN information that needs to be deleted. If this isn't passed, the account ID corresponding to the credentials of the API caller will be used for this parameter.
     public var accountId: Swift.String?
 
@@ -1615,14 +1615,15 @@ public struct DeleteTaxRegistrationInput {
     }
 }
 
-public struct DeleteTaxRegistrationOutput {
+public struct DeleteTaxRegistrationOutput: Swift.Sendable {
 
     public init() { }
 }
 
 extension TaxSettingsClientTypes {
+
     /// The location of the Amazon S3 bucket that you specify to download your tax documents to.
-    public struct DestinationS3Location {
+    public struct DestinationS3Location: Swift.Sendable {
         /// The name of your Amazon S3 bucket that you specify to download your tax documents to.
         /// This member is required.
         public var bucket: Swift.String?
@@ -1638,10 +1639,9 @@ extension TaxSettingsClientTypes {
             self.`prefix` = `prefix`
         }
     }
-
 }
 
-public struct GetTaxRegistrationInput {
+public struct GetTaxRegistrationInput: Swift.Sendable {
     /// Your unique account identifier.
     public var accountId: Swift.String?
 
@@ -1654,8 +1654,9 @@ public struct GetTaxRegistrationInput {
 }
 
 extension TaxSettingsClientTypes {
+
     /// Your TRN information.
-    public struct TaxRegistration {
+    public struct TaxRegistration: Swift.Sendable {
         /// Additional tax information associated with your TRN.
         public var additionalTaxInformation: TaxSettingsClientTypes.AdditionalInfoResponse?
         /// The email address to receive VAT invoices.
@@ -1703,7 +1704,6 @@ extension TaxSettingsClientTypes {
             self.taxDocumentMetadatas = taxDocumentMetadatas
         }
     }
-
 }
 
 extension TaxSettingsClientTypes.TaxRegistration: Swift.CustomDebugStringConvertible {
@@ -1712,7 +1712,7 @@ extension TaxSettingsClientTypes.TaxRegistration: Swift.CustomDebugStringConvert
     }
 }
 
-public struct GetTaxRegistrationOutput {
+public struct GetTaxRegistrationOutput: Swift.Sendable {
     /// TRN information of the account mentioned in the request.
     public var taxRegistration: TaxSettingsClientTypes.TaxRegistration?
 
@@ -1729,7 +1729,7 @@ extension GetTaxRegistrationOutput: Swift.CustomDebugStringConvertible {
         "GetTaxRegistrationOutput(taxRegistration: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetTaxRegistrationDocumentInput {
+public struct GetTaxRegistrationDocumentInput: Swift.Sendable {
     /// The Amazon S3 bucket that you specify to download your tax documents to.
     /// This member is required.
     public var destinationS3Location: TaxSettingsClientTypes.DestinationS3Location?
@@ -1747,7 +1747,7 @@ public struct GetTaxRegistrationDocumentInput {
     }
 }
 
-public struct GetTaxRegistrationDocumentOutput {
+public struct GetTaxRegistrationDocumentOutput: Swift.Sendable {
     /// The file path of the Amazon S3 bucket where you want to download your tax document to.
     public var destinationFilePath: Swift.String?
 
@@ -1759,7 +1759,7 @@ public struct GetTaxRegistrationDocumentOutput {
     }
 }
 
-public struct ListTaxRegistrationsInput {
+public struct ListTaxRegistrationsInput: Swift.Sendable {
     /// Number of accountDetails results you want in one response.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
@@ -1775,7 +1775,7 @@ public struct ListTaxRegistrationsInput {
     }
 }
 
-public struct ListTaxRegistrationsOutput {
+public struct ListTaxRegistrationsOutput: Swift.Sendable {
     /// The list of account details. This contains account Ids and TRN Information for each of the linked accounts.
     /// This member is required.
     public var accountDetails: [TaxSettingsClientTypes.AccountDetails]?
@@ -1797,7 +1797,7 @@ extension ListTaxRegistrationsOutput: Swift.CustomDebugStringConvertible {
         "ListTaxRegistrationsOutput(nextToken: \(Swift.String(describing: nextToken)), accountDetails: \"CONTENT_REDACTED\")"}
 }
 
-public struct PutTaxRegistrationInput {
+public struct PutTaxRegistrationInput: Swift.Sendable {
     /// Your unique account identifier.
     public var accountId: Swift.String?
     /// Your TRN information that will be stored to the account mentioned in accountId.
@@ -1819,7 +1819,7 @@ extension PutTaxRegistrationInput: Swift.CustomDebugStringConvertible {
         "PutTaxRegistrationInput(accountId: \(Swift.String(describing: accountId)), taxRegistrationEntry: \"CONTENT_REDACTED\")"}
 }
 
-public struct PutTaxRegistrationOutput {
+public struct PutTaxRegistrationOutput: Swift.Sendable {
     /// The status of your TRN stored in the system after processing. Based on the validation occurring on the TRN, the status can be Verified, Pending or Rejected.
     public var status: TaxSettingsClientTypes.TaxRegistrationStatus?
 

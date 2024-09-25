@@ -28,12 +28,13 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-public struct AddTagsOutput {
+
+public struct AddTagsOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RemoveTagsOutput {
+public struct RemoveTagsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -114,7 +115,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Container for the parameters to the AcceptInboundConnection operation.
-public struct AcceptInboundConnectionInput {
+public struct AcceptInboundConnectionInput: Swift.Sendable {
     /// The ID of the inbound connection to accept.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -134,7 +135,7 @@ extension OpenSearchClientTypes {
     /// * DIRECT - Used for cross-cluster search or cross-cluster replication.
     ///
     /// * VPC_ENDPOINT - Used for remote reindex between Amazon OpenSearch Service VPC domains.
-    public enum ConnectionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConnectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case direct
         case vpcEndpoint
         case sdkUnknown(Swift.String)
@@ -163,7 +164,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum InboundConnectionStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum InboundConnectionStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case approved
         case deleted
@@ -209,8 +210,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of an inbound cross-cluster connection for OpenSearch Service.
-    public struct InboundConnectionStatus {
+    public struct InboundConnectionStatus: Swift.Sendable {
         /// Information about the connection.
         public var message: Swift.String?
         /// The status code for the connection. Can be one of the following:
@@ -241,12 +243,12 @@ extension OpenSearchClientTypes {
             self.statusCode = statusCode
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about an Amazon OpenSearch Service domain.
-    public struct AWSDomainInformation {
+    public struct AWSDomainInformation: Swift.Sendable {
         /// Name of the domain.
         /// This member is required.
         public var domainName: Swift.String?
@@ -266,12 +268,12 @@ extension OpenSearchClientTypes {
             self.region = region
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for information about an OpenSearch Service domain.
-    public struct DomainInformationContainer {
+    public struct DomainInformationContainer: Swift.Sendable {
         /// Information about an Amazon OpenSearch Service domain.
         public var awsDomainInformation: OpenSearchClientTypes.AWSDomainInformation?
 
@@ -282,12 +284,12 @@ extension OpenSearchClientTypes {
             self.awsDomainInformation = awsDomainInformation
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Describes an inbound cross-cluster connection for Amazon OpenSearch Service. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
-    public struct InboundConnection {
+    public struct InboundConnection: Swift.Sendable {
         /// The unique identifier of the connection.
         public var connectionId: Swift.String?
         /// The connection mode.
@@ -314,11 +316,10 @@ extension OpenSearchClientTypes {
             self.remoteDomainInfo = remoteDomainInfo
         }
     }
-
 }
 
 /// Contains details about the accepted inbound connection.
-public struct AcceptInboundConnectionOutput {
+public struct AcceptInboundConnectionOutput: Swift.Sendable {
     /// Information about the accepted inbound connection.
     public var connection: OpenSearchClientTypes.InboundConnection?
 
@@ -362,7 +363,7 @@ extension OpenSearchClientTypes {
     /// * Processing - The requested change is still in progress.
     ///
     /// * Active - The requested change is processed and deployed to the domain.
-    public enum OptionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OptionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case processing
         case requiresindexdocuments
@@ -393,8 +394,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Provides the current status of an entity.
-    public struct OptionStatus {
+    public struct OptionStatus: Swift.Sendable {
         /// The timestamp when the entity was created.
         /// This member is required.
         public var creationDate: Foundation.Date?
@@ -424,12 +426,12 @@ extension OpenSearchClientTypes {
             self.updateVersion = updateVersion
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The configured access rules for the domain's search endpoint, and the current status of those rules.
-    public struct AccessPoliciesStatus {
+    public struct AccessPoliciesStatus: Swift.Sendable {
         /// The access policy configured for the domain. Access policies can be resource-based, IP-based, or IAM-based. For more information, see [Configuring access policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-access-policies).
         /// This member is required.
         public var options: Swift.String?
@@ -446,12 +448,11 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum ActionSeverity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ActionSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
         case low
         case medium
@@ -483,7 +484,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum ActionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ActionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case eligible
         case failed
@@ -524,7 +525,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum ActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case jvmHeapSizeTuning
         case jvmYoungGenTuning
         case serviceSoftwareUpdate
@@ -655,8 +656,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about the Amazon S3 Glue Data Catalog.
-    public struct S3GlueDataCatalog {
+    public struct S3GlueDataCatalog: Swift.Sendable {
         /// >The Amazon Resource Name (ARN) for the S3 Glue Data Catalog.
         public var roleArn: Swift.String?
 
@@ -667,21 +669,20 @@ extension OpenSearchClientTypes {
             self.roleArn = roleArn
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The type of data source.
-    public enum DataSourceType {
+    public enum DataSourceType: Swift.Sendable {
         /// An Amazon S3 data source.
         case s3gluedatacatalog(OpenSearchClientTypes.S3GlueDataCatalog)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 /// Container for the parameters to the AddDataSource operation.
-public struct AddDataSourceInput {
+public struct AddDataSourceInput: Swift.Sendable {
     /// The type of data source.
     /// This member is required.
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
@@ -709,7 +710,7 @@ public struct AddDataSourceInput {
 }
 
 /// The result of an AddDataSource operation.
-public struct AddDataSourceOutput {
+public struct AddDataSourceOutput: Swift.Sendable {
     /// A message associated with creation of the data source.
     public var message: Swift.String?
 
@@ -722,8 +723,9 @@ public struct AddDataSourceOutput {
 }
 
 extension OpenSearchClientTypes {
+
     /// List of limits that are specific to a given instance type.
-    public struct AdditionalLimit {
+    public struct AdditionalLimit: Swift.Sendable {
         /// * MaximumNumberOfDataNodesSupported - This attribute only applies to master nodes and specifies the maximum number of data nodes of a given instance type a master node can support.
         ///
         /// * MaximumNumberOfDataNodesWithoutMasterNode - This attribute only applies to data nodes and specifies the maximum number of data nodes of a given instance type can exist without a master node governing them.
@@ -740,12 +742,12 @@ extension OpenSearchClientTypes {
             self.limitValues = limitValues
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// A tag (key-value pair) for an Amazon OpenSearch Service resource.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The tag key. Tag keys must be unique for the domain to which they are attached.
         /// This member is required.
         public var key: Swift.String?
@@ -762,11 +764,10 @@ extension OpenSearchClientTypes {
             self.value = value
         }
     }
-
 }
 
 /// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain.
-public struct AddTagsInput {
+public struct AddTagsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to attach resource tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -785,6 +786,7 @@ public struct AddTagsInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Status of the advanced options for the specified domain. The following options are available:
     ///
     /// * "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.
@@ -797,7 +799,7 @@ extension OpenSearchClientTypes {
     ///
     ///
     /// For more information, see [Advanced cluster parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
-    public struct AdvancedOptionsStatus {
+    public struct AdvancedOptionsStatus: Swift.Sendable {
         /// The status of advanced options for the specified domain.
         /// This member is required.
         public var options: [Swift.String: Swift.String]?
@@ -814,12 +816,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Describes the JWT options configured for the domain.
-    public struct JWTOptionsOutput {
+    public struct JWTOptionsOutput: Swift.Sendable {
         /// True if JWT use is enabled.
         public var enabled: Swift.Bool?
         /// The key used to verify the signature of incoming JWT requests.
@@ -842,12 +844,12 @@ extension OpenSearchClientTypes {
             self.subjectKey = subjectKey
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The SAML identity povider information.
-    public struct SAMLIdp {
+    public struct SAMLIdp: Swift.Sendable {
         /// The unique entity ID of the application in the SAML identity provider.
         /// This member is required.
         public var entityId: Swift.String?
@@ -864,12 +866,12 @@ extension OpenSearchClientTypes {
             self.metadataContent = metadataContent
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Describes the SAML application configured for the domain.
-    public struct SAMLOptionsOutput {
+    public struct SAMLOptionsOutput: Swift.Sendable {
         /// True if SAML is enabled.
         public var enabled: Swift.Bool?
         /// Describes the SAML identity provider's information.
@@ -896,12 +898,12 @@ extension OpenSearchClientTypes {
             self.subjectKey = subjectKey
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for fine-grained access control settings.
-    public struct AdvancedSecurityOptions {
+    public struct AdvancedSecurityOptions: Swift.Sendable {
         /// Date and time when the migration period will be disabled. Only necessary when [enabling fine-grained access control on an existing domain](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing).
         public var anonymousAuthDisableDate: Foundation.Date?
         /// True if a 30-day migration period is enabled, during which administrators can create role mappings. Only necessary when [enabling fine-grained access control on an existing domain](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing).
@@ -932,12 +934,12 @@ extension OpenSearchClientTypes {
             self.samlOptions = samlOptions
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The JWT authentication and authorization configuration for an Amazon OpenSearch Service domain.
-    public struct JWTOptionsInput {
+    public struct JWTOptionsInput: Swift.Sendable {
         /// True to enable JWT authentication and authorization for a domain.
         public var enabled: Swift.Bool?
         /// Element of the JWT assertion used by the cluster to verify JWT signatures.
@@ -960,12 +962,12 @@ extension OpenSearchClientTypes {
             self.subjectKey = subjectKey
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Credentials for the master user for a domain.
-    public struct MasterUserOptions {
+    public struct MasterUserOptions: Swift.Sendable {
         /// Amazon Resource Name (ARN) for the master user. Only specify if InternalUserDatabaseEnabled is false.
         public var masterUserARN: Swift.String?
         /// User name for the master user. Only specify if InternalUserDatabaseEnabled is true.
@@ -984,7 +986,6 @@ extension OpenSearchClientTypes {
             self.masterUserPassword = masterUserPassword
         }
     }
-
 }
 
 extension OpenSearchClientTypes.MasterUserOptions: Swift.CustomDebugStringConvertible {
@@ -993,8 +994,9 @@ extension OpenSearchClientTypes.MasterUserOptions: Swift.CustomDebugStringConver
 }
 
 extension OpenSearchClientTypes {
+
     /// The SAML authentication configuration for an Amazon OpenSearch Service domain.
-    public struct SAMLOptionsInput {
+    public struct SAMLOptionsInput: Swift.Sendable {
         /// True to enable SAML authentication for a domain.
         public var enabled: Swift.Bool?
         /// The SAML Identity Provider's information.
@@ -1029,7 +1031,6 @@ extension OpenSearchClientTypes {
             self.subjectKey = subjectKey
         }
     }
-
 }
 
 extension OpenSearchClientTypes.SAMLOptionsInput: Swift.CustomDebugStringConvertible {
@@ -1038,8 +1039,9 @@ extension OpenSearchClientTypes.SAMLOptionsInput: Swift.CustomDebugStringConvert
 }
 
 extension OpenSearchClientTypes {
+
     /// Options for enabling and configuring fine-grained access control. For more information, see [Fine-grained access control in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html).
-    public struct AdvancedSecurityOptionsInput {
+    public struct AdvancedSecurityOptionsInput: Swift.Sendable {
         /// True to enable a 30-day migration period during which administrators can create role mappings. Only necessary when [enabling fine-grained access control on an existing domain](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/fgac.html#fgac-enabling-existing).
         public var anonymousAuthEnabled: Swift.Bool?
         /// True to enable fine-grained access control.
@@ -1070,12 +1072,12 @@ extension OpenSearchClientTypes {
             self.samlOptions = samlOptions
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of fine-grained access control settings for a domain.
-    public struct AdvancedSecurityOptionsStatus {
+    public struct AdvancedSecurityOptionsStatus: Swift.Sendable {
         /// Container for fine-grained access control settings.
         /// This member is required.
         public var options: OpenSearchClientTypes.AdvancedSecurityOptions?
@@ -1092,12 +1094,11 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum NaturalLanguageQueryGenerationDesiredState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NaturalLanguageQueryGenerationDesiredState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -1125,8 +1126,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for parameters required to enable the natural language query generation feature.
-    public struct NaturalLanguageQueryGenerationOptionsInput {
+    public struct NaturalLanguageQueryGenerationOptionsInput: Swift.Sendable {
         /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
         public var desiredState: OpenSearchClientTypes.NaturalLanguageQueryGenerationDesiredState?
 
@@ -1137,12 +1139,12 @@ extension OpenSearchClientTypes {
             self.desiredState = desiredState
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for parameters required to enable all machine learning features.
-    public struct AIMLOptionsInput {
+    public struct AIMLOptionsInput: Swift.Sendable {
         /// Container for parameters required for natural language query generation on the specified domain.
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput?
 
@@ -1153,12 +1155,11 @@ extension OpenSearchClientTypes {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum NaturalLanguageQueryGenerationCurrentState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NaturalLanguageQueryGenerationCurrentState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disablecomplete
         case disablefailed
         case disableinprogress
@@ -1201,8 +1202,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for parameters representing the state of the natural language query generation feature on the specified domain.
-    public struct NaturalLanguageQueryGenerationOptionsOutput {
+    public struct NaturalLanguageQueryGenerationOptionsOutput: Swift.Sendable {
         /// The current state of the natural language query generation feature, indicating completion, in progress, or failure.
         public var currentState: OpenSearchClientTypes.NaturalLanguageQueryGenerationCurrentState?
         /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
@@ -1217,12 +1219,12 @@ extension OpenSearchClientTypes {
             self.desiredState = desiredState
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for parameters representing the state of machine learning features on the specified domain.
-    public struct AIMLOptionsOutput {
+    public struct AIMLOptionsOutput: Swift.Sendable {
         /// Container for parameters required for natural language query generation on the specified domain.
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput?
 
@@ -1233,12 +1235,12 @@ extension OpenSearchClientTypes {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of machine learning options on the specified domain.
-    public struct AIMLOptionsStatus {
+    public struct AIMLOptionsStatus: Swift.Sendable {
         /// Machine learning options on the specified domain.
         public var options: OpenSearchClientTypes.AIMLOptionsOutput?
         /// Provides the current status of an entity.
@@ -1253,7 +1255,6 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 /// An error occurred because the client attempts to remove a resource that is currently in use.
@@ -1282,7 +1283,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Container for the request parameters to the AssociatePackage operation.
-public struct AssociatePackageInput {
+public struct AssociatePackageInput: Swift.Sendable {
     /// Name of the domain to associate the package with.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1302,7 +1303,7 @@ public struct AssociatePackageInput {
 
 extension OpenSearchClientTypes {
 
-    public enum DomainPackageStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DomainPackageStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case associating
         case associationFailed
@@ -1339,8 +1340,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Additional information if the package is in an error state. Null otherwise.
-    public struct ErrorDetails {
+    public struct ErrorDetails: Swift.Sendable {
         /// A message describing the error.
         public var errorMessage: Swift.String?
         /// The type of error that occurred.
@@ -1355,12 +1357,11 @@ extension OpenSearchClientTypes {
             self.errorType = errorType
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum PackageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PackageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case txtDictionary
         case zipPlugin
         case sdkUnknown(Swift.String)
@@ -1388,8 +1389,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about a package that is associated with a domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
-    public struct DomainPackageDetails {
+    public struct DomainPackageDetails: Swift.Sendable {
         /// Name of the domain that the package is associated with.
         public var domainName: Swift.String?
         /// State of the association.
@@ -1432,11 +1434,10 @@ extension OpenSearchClientTypes {
             self.referencePath = referencePath
         }
     }
-
 }
 
 /// Container for the response returned by the AssociatePackage operation.
-public struct AssociatePackageOutput {
+public struct AssociatePackageOutput: Swift.Sendable {
     /// Information about a package that is associated with a domain.
     public var domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails?
 
@@ -1448,7 +1449,7 @@ public struct AssociatePackageOutput {
     }
 }
 
-public struct AuthorizeVpcEndpointAccessInput {
+public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
     /// The Amazon Web Services account ID to grant access to.
     /// This member is required.
     public var account: Swift.String?
@@ -1468,7 +1469,7 @@ public struct AuthorizeVpcEndpointAccessInput {
 
 extension OpenSearchClientTypes {
 
-    public enum PrincipalType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsAccount
         case awsService
         case sdkUnknown(Swift.String)
@@ -1496,8 +1497,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about an Amazon Web Services account or service that has access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
-    public struct AuthorizedPrincipal {
+    public struct AuthorizedPrincipal: Swift.Sendable {
         /// The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html) that is allowed access to the domain.
         public var principal: Swift.String?
         /// The type of principal.
@@ -1512,10 +1514,9 @@ extension OpenSearchClientTypes {
             self.principalType = principalType
         }
     }
-
 }
 
-public struct AuthorizeVpcEndpointAccessOutput {
+public struct AuthorizeVpcEndpointAccessOutput: Swift.Sendable {
     /// Information about the Amazon Web Services account or service that was provided access to the domain.
     /// This member is required.
     public var authorizedPrincipal: OpenSearchClientTypes.AuthorizedPrincipal?
@@ -1528,7 +1529,7 @@ public struct AuthorizeVpcEndpointAccessOutput {
     }
 }
 
-public struct CancelDomainConfigChangeInput {
+public struct CancelDomainConfigChangeInput: Swift.Sendable {
     /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1546,8 +1547,9 @@ public struct CancelDomainConfigChangeInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// A property change that was cancelled for an Amazon OpenSearch Service domain.
-    public struct CancelledChangeProperty {
+    public struct CancelledChangeProperty: Swift.Sendable {
         /// The current value of the property, after the change was cancelled.
         public var activeValue: Swift.String?
         /// The pending value of the property that was cancelled. This would have been the eventual value of the property if the chance had not been cancelled.
@@ -1566,10 +1568,9 @@ extension OpenSearchClientTypes {
             self.propertyName = propertyName
         }
     }
-
 }
 
-public struct CancelDomainConfigChangeOutput {
+public struct CancelDomainConfigChangeOutput: Swift.Sendable {
     /// The unique identifiers of the changes that were cancelled.
     public var cancelledChangeIds: [Swift.String]?
     /// The domain change properties that were cancelled.
@@ -1590,7 +1591,7 @@ public struct CancelDomainConfigChangeOutput {
 }
 
 /// Container for the request parameters to cancel a service software update.
-public struct CancelServiceSoftwareUpdateInput {
+public struct CancelServiceSoftwareUpdateInput: Swift.Sendable {
     /// Name of the OpenSearch Service domain that you want to cancel the service software update on.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1605,7 +1606,7 @@ public struct CancelServiceSoftwareUpdateInput {
 
 extension OpenSearchClientTypes {
 
-    public enum DeploymentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DeploymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case eligible
         case inProgress
@@ -1642,8 +1643,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The current status of the service software for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
-    public struct ServiceSoftwareOptions {
+    public struct ServiceSoftwareOptions: Swift.Sendable {
         /// The timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public var automatedUpdateDate: Foundation.Date?
         /// True if you're able to cancel your service software version update. False if you can't cancel your service software update.
@@ -1682,11 +1684,10 @@ extension OpenSearchClientTypes {
             self.updateStatus = updateStatus
         }
     }
-
 }
 
 /// Container for the response to a CancelServiceSoftwareUpdate operation. Contains the status of the update.
-public struct CancelServiceSoftwareUpdateOutput {
+public struct CancelServiceSoftwareUpdateOutput: Swift.Sendable {
     /// Container for the state of your domain relative to the latest service software.
     public var serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions?
 
@@ -1751,7 +1752,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 extension OpenSearchClientTypes {
 
     /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
-    public enum AutoTuneDesiredState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AutoTuneDesiredState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -1781,7 +1782,7 @@ extension OpenSearchClientTypes {
 extension OpenSearchClientTypes {
 
     /// The unit of a maintenance schedule duration. Valid value is HOUR.
-    public enum TimeUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TimeUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hours
         case sdkUnknown(Swift.String)
 
@@ -1806,8 +1807,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The duration of a maintenance schedule. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct Duration {
+    public struct Duration: Swift.Sendable {
         /// The unit of measurement for the duration of a maintenance schedule.
         public var unit: OpenSearchClientTypes.TimeUnit?
         /// Integer to specify the value of a maintenance schedule duration.
@@ -1822,12 +1824,12 @@ extension OpenSearchClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// This object is deprecated. Use the domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html) to schedule Auto-Tune optimizations. For migration instructions, see [Migrating from Auto-Tune maintenance windows](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html#off-peak-migrate). The Auto-Tune maintenance schedule. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneMaintenanceSchedule {
+    public struct AutoTuneMaintenanceSchedule: Swift.Sendable {
         /// A cron expression for a recurring maintenance schedule during which Auto-Tune can deploy changes.
         public var cronExpressionForRecurrence: Swift.String?
         /// The duration of the maintenance schedule. For example, "Duration": {"Value": 2, "Unit": "HOURS"}.
@@ -1846,12 +1848,12 @@ extension OpenSearchClientTypes {
             self.startAt = startAt
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Options for configuring Auto-Tune. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html)
-    public struct AutoTuneOptionsInput {
+    public struct AutoTuneOptionsInput: Swift.Sendable {
         /// Whether Auto-Tune is enabled or disabled.
         public var desiredState: OpenSearchClientTypes.AutoTuneDesiredState?
         /// A list of maintenance schedules during which Auto-Tune can deploy changes. Maintenance windows are deprecated and have been replaced with [off-peak windows](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html).
@@ -1870,12 +1872,12 @@ extension OpenSearchClientTypes {
             self.useOffPeakWindow = useOffPeakWindow
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for the parameters required to enable cold storage for an OpenSearch Service domain. For more information, see [Cold storage for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cold-storage.html).
-    public struct ColdStorageOptions {
+    public struct ColdStorageOptions: Swift.Sendable {
         /// Whether to enable or disable cold storage on the domain. You must enable UltraWarm storage to enable cold storage.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -1887,12 +1889,11 @@ extension OpenSearchClientTypes {
             self.enabled = enabled
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum OpenSearchPartitionInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OpenSearchPartitionInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case c42xlargeSearch
         case c44xlargeSearch
         case c48xlargeSearch
@@ -2224,7 +2225,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum OpenSearchWarmPartitionInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OpenSearchWarmPartitionInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ultrawarm1LargeSearch
         case ultrawarm1MediumSearch
         case ultrawarm1XlargeSearch
@@ -2255,8 +2256,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The zone awareness configuration for an Amazon OpenSearch Service domain.
-    public struct ZoneAwarenessConfig {
+    public struct ZoneAwarenessConfig: Swift.Sendable {
         /// If you enabled multiple Availability Zones, this value is the number of zones that you want the domain to use. Valid values are 2 and 3. If your domain is provisioned within a VPC, this value be equal to number of subnets.
         public var availabilityZoneCount: Swift.Int?
 
@@ -2267,12 +2269,12 @@ extension OpenSearchClientTypes {
             self.availabilityZoneCount = availabilityZoneCount
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for the cluster configuration of an OpenSearch Service domain. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html).
-    public struct ClusterConfig {
+    public struct ClusterConfig: Swift.Sendable {
         /// Container for cold storage configuration options.
         public var coldStorageOptions: OpenSearchClientTypes.ColdStorageOptions?
         /// Number of dedicated master nodes in the cluster. This number must be greater than 2 and not 4, otherwise you receive a validation exception.
@@ -2327,12 +2329,12 @@ extension OpenSearchClientTypes {
             self.zoneAwarenessEnabled = zoneAwarenessEnabled
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for the parameters required to enable Cognito authentication for an OpenSearch Service domain. For more information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
-    public struct CognitoOptions {
+    public struct CognitoOptions: Swift.Sendable {
         /// Whether to enable or disable Amazon Cognito authentication for OpenSearch Dashboards.
         public var enabled: Swift.Bool?
         /// The Amazon Cognito identity pool ID that you want OpenSearch Service to use for OpenSearch Dashboards authentication.
@@ -2355,12 +2357,11 @@ extension OpenSearchClientTypes {
             self.userPoolId = userPoolId
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum TLSSecurityPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TLSSecurityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyMinTls10201907
         case policyMinTls12201907
         case policyMinTls12Pfs202310
@@ -2391,8 +2392,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Options to configure a custom endpoint for an OpenSearch Service domain.
-    public struct DomainEndpointOptions {
+    public struct DomainEndpointOptions: Swift.Sendable {
         /// The fully qualified URL for the custom endpoint.
         public var customEndpoint: Swift.String?
         /// The ARN for your security certificate, managed in Amazon Web Services Certificate Manager (ACM).
@@ -2425,13 +2427,12 @@ extension OpenSearchClientTypes {
             self.tlsSecurityPolicy = tlsSecurityPolicy
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
     /// The type of EBS volume that a domain uses. For more information, see [Configuring EBS-based storage](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs).
-    public enum VolumeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VolumeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gp2
         case gp3
         case io1
@@ -2465,8 +2466,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for the parameters required to enable EBS-based storage for an OpenSearch Service domain.
-    public struct EBSOptions {
+    public struct EBSOptions: Swift.Sendable {
         /// Indicates whether EBS volumes are attached to data nodes in an OpenSearch Service domain.
         public var ebsEnabled: Swift.Bool?
         /// Specifies the baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only for the gp3 and provisioned IOPS EBS volume types.
@@ -2493,12 +2495,12 @@ extension OpenSearchClientTypes {
             self.volumeType = volumeType
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Specifies whether the domain should encrypt data at rest, and if so, the Key Management Service (KMS) key to use. Can only be used when creating a new domain or enabling encryption at rest for the first time on an existing domain. You can't modify this parameter after it's already been specified.
-    public struct EncryptionAtRestOptions {
+    public struct EncryptionAtRestOptions: Swift.Sendable {
         /// True to enable encryption at rest.
         public var enabled: Swift.Bool?
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
@@ -2513,12 +2515,11 @@ extension OpenSearchClientTypes {
             self.kmsKeyId = kmsKeyId
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum IPAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
         case ipv4
         case sdkUnknown(Swift.String)
@@ -2556,7 +2557,7 @@ extension OpenSearchClientTypes {
     /// * ES_APPLICATION_LOGS - OpenSearch application logs contain information about errors and warnings raised during the operation of the service and can be useful for troubleshooting.
     ///
     /// * AUDIT_LOGS - Audit logs contain records of user requests for access to the domain.
-    public enum LogType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auditLogs
         case esApplicationLogs
         case indexSlowLogs
@@ -2590,8 +2591,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Specifies whether the Amazon OpenSearch Service domain publishes the OpenSearch application and slow logs to Amazon CloudWatch. For more information, see [Monitoring OpenSearch logs with Amazon CloudWatch Logs](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createdomain-configure-slow-logs.html). After you enable log publishing, you still have to enable the collection of slow logs using the OpenSearch REST API.
-    public struct LogPublishingOption {
+    public struct LogPublishingOption: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs group to publish logs to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// Whether the log should be published.
@@ -2606,12 +2608,12 @@ extension OpenSearchClientTypes {
             self.enabled = enabled
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Enables or disables node-to-node encryption. For more information, see [Node-to-node encryption for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ntn.html).
-    public struct NodeToNodeEncryptionOptions {
+    public struct NodeToNodeEncryptionOptions: Swift.Sendable {
         /// True to enable node-to-node encryption.
         public var enabled: Swift.Bool?
 
@@ -2622,12 +2624,12 @@ extension OpenSearchClientTypes {
             self.enabled = enabled
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The desired start time for an [off-peak maintenance window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html).
-    public struct WindowStartTime {
+    public struct WindowStartTime: Swift.Sendable {
         /// The start hour of the window in Coordinated Universal Time (UTC), using 24-hour time. For example, 17 refers to 5:00 P.M. UTC.
         /// This member is required.
         public var hours: Swift.Int
@@ -2644,12 +2646,12 @@ extension OpenSearchClientTypes {
             self.minutes = minutes
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// A custom 10-hour, low-traffic window during which OpenSearch Service can perform mandatory configuration changes on the domain. These actions can include scheduled service software updates and blue/green Auto-Tune enhancements. OpenSearch Service will schedule these actions during the window that you specify. If you don't specify a window start time, it defaults to 10:00 P.M. local time. For more information, see [Defining off-peak maintenance windows for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html).
-    public struct OffPeakWindow {
+    public struct OffPeakWindow: Swift.Sendable {
         /// A custom start time for the off-peak window, in Coordinated Universal Time (UTC). The window length will always be 10 hours, so you can't specify an end time. For example, if you specify 11:00 P.M. UTC as a start time, the end time will automatically be set to 9:00 A.M.
         public var windowStartTime: OpenSearchClientTypes.WindowStartTime?
 
@@ -2660,12 +2662,12 @@ extension OpenSearchClientTypes {
             self.windowStartTime = windowStartTime
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Options for a domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html), during which OpenSearch Service can perform mandatory configuration changes on the domain.
-    public struct OffPeakWindowOptions {
+    public struct OffPeakWindowOptions: Swift.Sendable {
         /// Whether to enable an off-peak window. This option is only available when modifying a domain created prior to February 16, 2023, not when creating a new domain. All domains created after this date have the off-peak window enabled by default. You can't disable the off-peak window after it's enabled for a domain.
         public var enabled: Swift.Bool?
         /// Off-peak window settings for the domain.
@@ -2680,12 +2682,12 @@ extension OpenSearchClientTypes {
             self.offPeakWindow = offPeakWindow
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The time, in UTC format, when OpenSearch Service takes a daily automated snapshot of the specified domain. Default is 0 hours.
-    public struct SnapshotOptions {
+    public struct SnapshotOptions: Swift.Sendable {
         /// The time, in UTC format, when OpenSearch Service takes a daily automated snapshot of the specified domain. Default is 0 hours.
         public var automatedSnapshotStartHour: Swift.Int?
 
@@ -2696,12 +2698,12 @@ extension OpenSearchClientTypes {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Options for configuring service software updates for a domain.
-    public struct SoftwareUpdateOptions {
+    public struct SoftwareUpdateOptions: Swift.Sendable {
         /// Whether automatic service software updates are enabled for the domain.
         public var autoSoftwareUpdateEnabled: Swift.Bool?
 
@@ -2712,12 +2714,12 @@ extension OpenSearchClientTypes {
             self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
-    public struct VPCOptions {
+    public struct VPCOptions: Swift.Sendable {
         /// The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one.
@@ -2732,10 +2734,9 @@ extension OpenSearchClientTypes {
             self.subnetIds = subnetIds
         }
     }
-
 }
 
-public struct CreateDomainInput {
+public struct CreateDomainInput: Swift.Sendable {
     /// Identity and Access Management (IAM) policy document specifying the access policies for the new domain.
     public var accessPolicies: Swift.String?
     /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:
@@ -2838,7 +2839,7 @@ public struct CreateDomainInput {
 extension OpenSearchClientTypes {
 
     /// The Auto-Tune state for the domain. For valid states see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public enum AutoTuneState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AutoTuneState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case disabledAndRollbackComplete
         case disabledAndRollbackError
@@ -2887,8 +2888,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The Auto-Tune settings for a domain, displayed when enabling or disabling Auto-Tune.
-    public struct AutoTuneOptionsOutput {
+    public struct AutoTuneOptionsOutput: Swift.Sendable {
         /// Any errors that occurred while enabling or disabling Auto-Tune.
         public var errorMessage: Swift.String?
         /// The current state of Auto-Tune on the domain.
@@ -2907,12 +2909,11 @@ extension OpenSearchClientTypes {
             self.useOffPeakWindow = useOffPeakWindow
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum ConfigChangeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConfigChangeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case applyingChanges
         case cancelled
         case completed
@@ -2959,7 +2960,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum InitiatedBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum InitiatedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customer
         case service
         case sdkUnknown(Swift.String)
@@ -2987,8 +2988,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for information about a configuration change happening on a domain.
-    public struct ChangeProgressDetails {
+    public struct ChangeProgressDetails: Swift.Sendable {
         /// The ID of the configuration change.
         public var changeId: Swift.String?
         /// The current status of the configuration change.
@@ -3019,12 +3021,11 @@ extension OpenSearchClientTypes {
             self.startTime = startTime
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum DomainProcessingStatusType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DomainProcessingStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
         case deleting
@@ -3068,7 +3069,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum PropertyValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PropertyValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plainText
         case stringifiedJson
         case sdkUnknown(Swift.String)
@@ -3096,8 +3097,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about the domain properties that are currently being modified.
-    public struct ModifyingProperties {
+    public struct ModifyingProperties: Swift.Sendable {
         /// The current value of the domain property that is being modified.
         public var activeValue: Swift.String?
         /// The name of the property that is currently being modified.
@@ -3124,12 +3126,12 @@ extension OpenSearchClientTypes {
             self.valueType = valueType
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about the subnets and security groups for an Amazon OpenSearch Service domain provisioned within a virtual private cloud (VPC). For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html). This information only exists if the domain was created with VPCOptions.
-    public struct VPCDerivedInfo {
+    public struct VPCDerivedInfo: Swift.Sendable {
         /// The list of Availability Zones associated with the VPC subnets.
         public var availabilityZones: [Swift.String]?
         /// The list of security group IDs associated with the VPC endpoints for the domain.
@@ -3152,12 +3154,12 @@ extension OpenSearchClientTypes {
             self.vpcId = vpcId
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The current status of an OpenSearch Service domain.
-    public struct DomainStatus {
+    public struct DomainStatus: Swift.Sendable {
         /// Identity and Access Management (IAM) policy document specifying the access policies for the domain.
         public var accessPolicies: Swift.String?
         /// Key-value pairs that specify advanced configuration options.
@@ -3304,11 +3306,10 @@ extension OpenSearchClientTypes {
             self.vpcOptions = vpcOptions
         }
     }
-
 }
 
 /// The result of a CreateDomain operation. Contains the status of the newly created domain.
-public struct CreateDomainOutput {
+public struct CreateDomainOutput: Swift.Sendable {
     /// The status of the newly created domain.
     public var domainStatus: OpenSearchClientTypes.DomainStatus?
 
@@ -3327,7 +3328,7 @@ extension OpenSearchClientTypes {
     /// * ENABLED - The SkipUnavailable setting is enabled for the connection.
     ///
     /// * DISABLED - The SkipUnavailable setting is disabled for the connection.
-    public enum SkipUnavailableStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SkipUnavailableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -3355,8 +3356,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Cross-cluster search specific connection properties.
-    public struct CrossClusterSearchConnectionProperties {
+    public struct CrossClusterSearchConnectionProperties: Swift.Sendable {
         /// The status of the SkipUnavailable setting for the outbound connection. This feature allows you to specify some clusters as optional and ensure that your cross-cluster queries return partial results despite failures on one or more remote clusters.
         public var skipUnavailable: OpenSearchClientTypes.SkipUnavailableStatus?
 
@@ -3367,12 +3369,12 @@ extension OpenSearchClientTypes {
             self.skipUnavailable = skipUnavailable
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The connection properties of an outbound connection.
-    public struct ConnectionProperties {
+    public struct ConnectionProperties: Swift.Sendable {
         /// The connection properties for cross cluster search.
         public var crossClusterSearch: OpenSearchClientTypes.CrossClusterSearchConnectionProperties?
         /// The Endpoint attribute cannot be modified. The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection mode.
@@ -3387,11 +3389,10 @@ extension OpenSearchClientTypes {
             self.endpoint = endpoint
         }
     }
-
 }
 
 /// Container for the parameters to the CreateOutboundConnection operation.
-public struct CreateOutboundConnectionInput {
+public struct CreateOutboundConnectionInput: Swift.Sendable {
     /// Name of the connection.
     /// This member is required.
     public var connectionAlias: Swift.String?
@@ -3424,7 +3425,7 @@ public struct CreateOutboundConnectionInput {
 
 extension OpenSearchClientTypes {
 
-    public enum OutboundConnectionStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OutboundConnectionStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case approved
         case deleted
@@ -3476,8 +3477,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of an outbound cross-cluster connection.
-    public struct OutboundConnectionStatus {
+    public struct OutboundConnectionStatus: Swift.Sendable {
         /// Verbose information for the outbound connection.
         public var message: Swift.String?
         /// The status code for the outbound connection. Can be one of the following:
@@ -3512,11 +3514,10 @@ extension OpenSearchClientTypes {
             self.statusCode = statusCode
         }
     }
-
 }
 
 /// The result of a CreateOutboundConnection request. Contains details about the newly created cross-cluster connection.
-public struct CreateOutboundConnectionOutput {
+public struct CreateOutboundConnectionOutput: Swift.Sendable {
     /// Name of the connection.
     public var connectionAlias: Swift.String?
     /// The unique identifier for the created outbound connection, which is used for subsequent operations on the connection.
@@ -3553,8 +3554,9 @@ public struct CreateOutboundConnectionOutput {
 }
 
 extension OpenSearchClientTypes {
+
     /// The Amazon S3 location to import the package from.
-    public struct PackageSource {
+    public struct PackageSource: Swift.Sendable {
         /// The name of the Amazon S3 bucket containing the package.
         public var s3BucketName: Swift.String?
         /// Key (file name) of the package.
@@ -3569,11 +3571,10 @@ extension OpenSearchClientTypes {
             self.s3Key = s3Key
         }
     }
-
 }
 
 /// Container for request parameters to the CreatePackage operation.
-public struct CreatePackageInput {
+public struct CreatePackageInput: Swift.Sendable {
     /// Description of the package.
     public var packageDescription: Swift.String?
     /// Unique name for the package.
@@ -3601,8 +3602,9 @@ public struct CreatePackageInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Basic information about the plugin.
-    public struct PluginProperties {
+    public struct PluginProperties: Swift.Sendable {
         /// The name of the class to load.
         public var className: Swift.String?
         /// The description of the plugin.
@@ -3629,12 +3631,11 @@ extension OpenSearchClientTypes {
             self.version = version
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum PackageStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PackageStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case copying
         case copyFailed
@@ -3680,8 +3681,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Basic information about a package.
-    public struct PackageDetails {
+    public struct PackageDetails: Swift.Sendable {
         /// The package version.
         public var availablePackageVersion: Swift.String?
         /// If the package is a ZIP-PLUGIN package, additional information about plugin properties.
@@ -3732,11 +3734,10 @@ extension OpenSearchClientTypes {
             self.packageType = packageType
         }
     }
-
 }
 
 /// Container for the response returned by the CreatePackage operation.
-public struct CreatePackageOutput {
+public struct CreatePackageOutput: Swift.Sendable {
     /// Basic information about an OpenSearch Service package.
     public var packageDetails: OpenSearchClientTypes.PackageDetails?
 
@@ -3748,7 +3749,7 @@ public struct CreatePackageOutput {
     }
 }
 
-public struct CreateVpcEndpointInput {
+public struct CreateVpcEndpointInput: Swift.Sendable {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the domain to create the endpoint for.
@@ -3772,7 +3773,7 @@ public struct CreateVpcEndpointInput {
 
 extension OpenSearchClientTypes {
 
-    public enum VpcEndpointStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VpcEndpointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case createFailed
         case creating
@@ -3815,8 +3816,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The connection endpoint for connecting to an Amazon OpenSearch Service domain through a proxy.
-    public struct VpcEndpoint {
+    public struct VpcEndpoint: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
         public var domainArn: Swift.String?
         /// The connection endpoint ID for connecting to the domain.
@@ -3847,10 +3849,9 @@ extension OpenSearchClientTypes {
             self.vpcOptions = vpcOptions
         }
     }
-
 }
 
-public struct CreateVpcEndpointOutput {
+public struct CreateVpcEndpointOutput: Swift.Sendable {
     /// Information about the newly created VPC endpoint.
     /// This member is required.
     public var vpcEndpoint: OpenSearchClientTypes.VpcEndpoint?
@@ -3864,7 +3865,7 @@ public struct CreateVpcEndpointOutput {
 }
 
 /// Container for the parameters to the DeleteDataSource operation.
-public struct DeleteDataSourceInput {
+public struct DeleteDataSourceInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3883,7 +3884,7 @@ public struct DeleteDataSourceInput {
 }
 
 /// The result of a GetDataSource operation.
-public struct DeleteDataSourceOutput {
+public struct DeleteDataSourceOutput: Swift.Sendable {
     /// A message associated with deletion of the data source.
     public var message: Swift.String?
 
@@ -3896,7 +3897,7 @@ public struct DeleteDataSourceOutput {
 }
 
 /// Container for the parameters to the DeleteDomain operation.
-public struct DeleteDomainInput {
+public struct DeleteDomainInput: Swift.Sendable {
     /// The name of the domain you want to permanently delete.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3910,7 +3911,7 @@ public struct DeleteDomainInput {
 }
 
 /// The results of a DeleteDomain request. Contains the status of the pending deletion, or a "domain not found" error if the domain and all of its resources have been deleted.
-public struct DeleteDomainOutput {
+public struct DeleteDomainOutput: Swift.Sendable {
     /// The status of the domain being deleted.
     public var domainStatus: OpenSearchClientTypes.DomainStatus?
 
@@ -3923,7 +3924,7 @@ public struct DeleteDomainOutput {
 }
 
 /// Container for the parameters to the DeleteInboundConnection operation.
-public struct DeleteInboundConnectionInput {
+public struct DeleteInboundConnectionInput: Swift.Sendable {
     /// The ID of the inbound connection to permanently delete.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -3937,7 +3938,7 @@ public struct DeleteInboundConnectionInput {
 }
 
 /// The results of a DeleteInboundConnection operation. Contains details about the deleted inbound connection.
-public struct DeleteInboundConnectionOutput {
+public struct DeleteInboundConnectionOutput: Swift.Sendable {
     /// The deleted inbound connection.
     public var connection: OpenSearchClientTypes.InboundConnection?
 
@@ -3950,7 +3951,7 @@ public struct DeleteInboundConnectionOutput {
 }
 
 /// Container for the parameters to the DeleteOutboundConnection operation.
-public struct DeleteOutboundConnectionInput {
+public struct DeleteOutboundConnectionInput: Swift.Sendable {
     /// The ID of the outbound connection you want to permanently delete.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -3964,8 +3965,9 @@ public struct DeleteOutboundConnectionInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Specifies details about an outbound cross-cluster connection.
-    public struct OutboundConnection {
+    public struct OutboundConnection: Swift.Sendable {
         /// Name of the connection.
         public var connectionAlias: Swift.String?
         /// Unique identifier of the connection.
@@ -4000,11 +4002,10 @@ extension OpenSearchClientTypes {
             self.remoteDomainInfo = remoteDomainInfo
         }
     }
-
 }
 
 /// Details about the deleted outbound connection.
-public struct DeleteOutboundConnectionOutput {
+public struct DeleteOutboundConnectionOutput: Swift.Sendable {
     /// The deleted inbound connection.
     public var connection: OpenSearchClientTypes.OutboundConnection?
 
@@ -4017,7 +4018,7 @@ public struct DeleteOutboundConnectionOutput {
 }
 
 /// Deletes a package from OpenSearch Service. The package can't be associated with any OpenSearch Service domain.
-public struct DeletePackageInput {
+public struct DeletePackageInput: Swift.Sendable {
     /// The internal ID of the package you want to delete. Use DescribePackages to find this value.
     /// This member is required.
     public var packageID: Swift.String?
@@ -4031,7 +4032,7 @@ public struct DeletePackageInput {
 }
 
 /// Container for the response parameters to the DeletePackage operation.
-public struct DeletePackageOutput {
+public struct DeletePackageOutput: Swift.Sendable {
     /// Information about the deleted package.
     public var packageDetails: OpenSearchClientTypes.PackageDetails?
 
@@ -4043,7 +4044,7 @@ public struct DeletePackageOutput {
     }
 }
 
-public struct DeleteVpcEndpointInput {
+public struct DeleteVpcEndpointInput: Swift.Sendable {
     /// The unique identifier of the endpoint.
     /// This member is required.
     public var vpcEndpointId: Swift.String?
@@ -4057,8 +4058,9 @@ public struct DeleteVpcEndpointInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
-    public struct VpcEndpointSummary {
+    public struct VpcEndpointSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
         public var domainArn: Swift.String?
         /// The current status of the endpoint.
@@ -4081,10 +4083,9 @@ extension OpenSearchClientTypes {
             self.vpcEndpointOwner = vpcEndpointOwner
         }
     }
-
 }
 
-public struct DeleteVpcEndpointOutput {
+public struct DeleteVpcEndpointOutput: Swift.Sendable {
     /// Information about the deleted endpoint, including its current status (DELETING or DELETE_FAILED).
     /// This member is required.
     public var vpcEndpointSummary: OpenSearchClientTypes.VpcEndpointSummary?
@@ -4098,7 +4099,7 @@ public struct DeleteVpcEndpointOutput {
 }
 
 /// Container for the parameters to the DescribeDomain operation.
-public struct DescribeDomainInput {
+public struct DescribeDomainInput: Swift.Sendable {
     /// The name of the domain that you want information about.
     /// This member is required.
     public var domainName: Swift.String?
@@ -4112,7 +4113,7 @@ public struct DescribeDomainInput {
 }
 
 /// Contains the status of the domain specified in the request.
-public struct DescribeDomainOutput {
+public struct DescribeDomainOutput: Swift.Sendable {
     /// List that contains the status of each specified OpenSearch Service domain.
     /// This member is required.
     public var domainStatus: OpenSearchClientTypes.DomainStatus?
@@ -4126,7 +4127,7 @@ public struct DescribeDomainOutput {
 }
 
 /// Container for the parameters to the DescribeDomainAutoTunes operation.
-public struct DescribeDomainAutoTunesInput {
+public struct DescribeDomainAutoTunesInput: Swift.Sendable {
     /// Name of the domain that you want Auto-Tune details about.
     /// This member is required.
     public var domainName: Swift.String?
@@ -4150,7 +4151,7 @@ public struct DescribeDomainAutoTunesInput {
 extension OpenSearchClientTypes {
 
     /// The Auto-Tune action type.
-    public enum ScheduledAutoTuneActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScheduledAutoTuneActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case jvmHeapSizeTuning
         case jvmYoungGenTuning
         case sdkUnknown(Swift.String)
@@ -4180,7 +4181,7 @@ extension OpenSearchClientTypes {
 extension OpenSearchClientTypes {
 
     /// The Auto-Tune action severity.
-    public enum ScheduledAutoTuneSeverityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScheduledAutoTuneSeverityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
         case low
         case medium
@@ -4211,8 +4212,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Specifies details about a scheduled Auto-Tune action. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct ScheduledAutoTuneDetails {
+    public struct ScheduledAutoTuneDetails: Swift.Sendable {
         /// A description of the Auto-Tune action.
         public var action: Swift.String?
         /// The type of Auto-Tune action.
@@ -4235,12 +4237,12 @@ extension OpenSearchClientTypes {
             self.severity = severity
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Specifies details about a scheduled Auto-Tune action. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneDetails {
+    public struct AutoTuneDetails: Swift.Sendable {
         /// Container for details about a scheduled Auto-Tune action.
         public var scheduledAutoTuneDetails: OpenSearchClientTypes.ScheduledAutoTuneDetails?
 
@@ -4251,13 +4253,12 @@ extension OpenSearchClientTypes {
             self.scheduledAutoTuneDetails = scheduledAutoTuneDetails
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
     /// Specifies the Auto-Tune type. Valid value is SCHEDULED_ACTION.
-    public enum AutoTuneType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AutoTuneType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case scheduledAction
         case sdkUnknown(Swift.String)
 
@@ -4282,8 +4283,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about an Auto-Tune action. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTune {
+    public struct AutoTune: Swift.Sendable {
         /// Details about an Auto-Tune action.
         public var autoTuneDetails: OpenSearchClientTypes.AutoTuneDetails?
         /// The type of Auto-Tune action.
@@ -4298,11 +4300,10 @@ extension OpenSearchClientTypes {
             self.autoTuneType = autoTuneType
         }
     }
-
 }
 
 /// The result of a DescribeDomainAutoTunes request.
-public struct DescribeDomainAutoTunesOutput {
+public struct DescribeDomainAutoTunesOutput: Swift.Sendable {
     /// The list of setting adjustments that Auto-Tune has made to the domain.
     public var autoTunes: [OpenSearchClientTypes.AutoTune]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -4319,7 +4320,7 @@ public struct DescribeDomainAutoTunesOutput {
 }
 
 /// Container for the parameters to the DescribeDomainChangeProgress operation.
-public struct DescribeDomainChangeProgressInput {
+public struct DescribeDomainChangeProgressInput: Swift.Sendable {
     /// The specific change ID for which you want to get progress information. If omitted, the request returns information about the most recent configuration change.
     public var changeId: Swift.String?
     /// The name of the domain to get progress information for.
@@ -4337,8 +4338,9 @@ public struct DescribeDomainChangeProgressInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Progress details for each stage of a domain update.
-    public struct ChangeProgressStage {
+    public struct ChangeProgressStage: Swift.Sendable {
         /// The description of the stage.
         public var description: Swift.String?
         /// The most recent updated timestamp of the stage.
@@ -4361,13 +4363,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
     /// The overall status value of the domain configuration change.
-    public enum OverallChangeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OverallChangeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
         case pending
@@ -4401,8 +4402,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// The progress details of a specific domain configuration change.
-    public struct ChangeProgressStatusDetails {
+    public struct ChangeProgressStatusDetails: Swift.Sendable {
         /// The unique change identifier associated with a specific domain configuration change.
         public var changeId: Swift.String?
         /// The specific stages that the domain is going through to perform the configuration change.
@@ -4449,11 +4451,10 @@ extension OpenSearchClientTypes {
             self.totalNumberOfStages = totalNumberOfStages
         }
     }
-
 }
 
 /// The result of a DescribeDomainChangeProgress request. Contains progress information for the requested domain change.
-public struct DescribeDomainChangeProgressOutput {
+public struct DescribeDomainChangeProgressOutput: Swift.Sendable {
     /// Container for information about the stages of a configuration change happening on a domain.
     public var changeProgressStatus: OpenSearchClientTypes.ChangeProgressStatusDetails?
 
@@ -4466,7 +4467,7 @@ public struct DescribeDomainChangeProgressOutput {
 }
 
 /// Container for the parameters to the DescribeDomainConfig operation.
-public struct DescribeDomainConfigInput {
+public struct DescribeDomainConfigInput: Swift.Sendable {
     /// Name of the OpenSearch Service domain configuration that you want to describe.
     /// This member is required.
     public var domainName: Swift.String?
@@ -4482,7 +4483,7 @@ public struct DescribeDomainConfigInput {
 extension OpenSearchClientTypes {
 
     /// The rollback state while disabling Auto-Tune for the domain.
-    public enum RollbackOnDisable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RollbackOnDisable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultRollback
         case noRollback
         case sdkUnknown(Swift.String)
@@ -4510,8 +4511,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Auto-Tune settings when updating a domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneOptions {
+    public struct AutoTuneOptions: Swift.Sendable {
         /// Whether Auto-Tune is enabled or disabled.
         public var desiredState: OpenSearchClientTypes.AutoTuneDesiredState?
         /// DEPRECATED. Use [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html) instead. A list of maintenance schedules during which Auto-Tune can deploy changes.
@@ -4534,12 +4536,12 @@ extension OpenSearchClientTypes {
             self.useOffPeakWindow = useOffPeakWindow
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The current status of Auto-Tune for the domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
-    public struct AutoTuneStatus {
+    public struct AutoTuneStatus: Swift.Sendable {
         /// Date and time when Auto-Tune was enabled for the domain.
         /// This member is required.
         public var creationDate: Foundation.Date?
@@ -4573,12 +4575,12 @@ extension OpenSearchClientTypes {
             self.updateVersion = updateVersion
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The Auto-Tune status for the domain.
-    public struct AutoTuneOptionsStatus {
+    public struct AutoTuneOptionsStatus: Swift.Sendable {
         /// Auto-Tune settings for updating a domain.
         public var options: OpenSearchClientTypes.AutoTuneOptions?
         /// The current status of Auto-Tune for a domain.
@@ -4593,12 +4595,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The cluster configuration status for a domain.
-    public struct ClusterConfigStatus {
+    public struct ClusterConfigStatus: Swift.Sendable {
         /// Cluster configuration options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.ClusterConfig?
@@ -4615,12 +4617,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of the Cognito options for the specified domain.
-    public struct CognitoOptionsStatus {
+    public struct CognitoOptionsStatus: Swift.Sendable {
         /// Cognito options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.CognitoOptions?
@@ -4637,12 +4639,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The configured endpoint options for a domain and their current status.
-    public struct DomainEndpointOptionsStatus {
+    public struct DomainEndpointOptionsStatus: Swift.Sendable {
         /// Options to configure the endpoint for a domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.DomainEndpointOptions?
@@ -4659,12 +4661,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of the EBS options for the specified OpenSearch Service domain.
-    public struct EBSOptionsStatus {
+    public struct EBSOptionsStatus: Swift.Sendable {
         /// The configured EBS options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.EBSOptions?
@@ -4681,12 +4683,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Status of the encryption at rest options for the specified OpenSearch Service domain.
-    public struct EncryptionAtRestOptionsStatus {
+    public struct EncryptionAtRestOptionsStatus: Swift.Sendable {
         /// Encryption at rest options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.EncryptionAtRestOptions?
@@ -4703,12 +4705,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of the the OpenSearch or Elasticsearch version options for the specified Amazon OpenSearch Service domain.
-    public struct VersionStatus {
+    public struct VersionStatus: Swift.Sendable {
         /// The OpenSearch or Elasticsearch version for the specified domain.
         /// This member is required.
         public var options: Swift.String?
@@ -4725,12 +4727,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The IP address type status for the domain.
-    public struct IPAddressTypeStatus {
+    public struct IPAddressTypeStatus: Swift.Sendable {
         /// The IP address options for the domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.IPAddressType?
@@ -4747,12 +4749,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The configured log publishing options for the domain and their current status.
-    public struct LogPublishingOptionsStatus {
+    public struct LogPublishingOptionsStatus: Swift.Sendable {
         /// The log publishing options configured for the domain.
         public var options: [Swift.String: OpenSearchClientTypes.LogPublishingOption]?
         /// The status of the log publishing options for the domain.
@@ -4767,12 +4769,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Status of the node-to-node encryption options for the specified domain.
-    public struct NodeToNodeEncryptionOptionsStatus {
+    public struct NodeToNodeEncryptionOptionsStatus: Swift.Sendable {
         /// The node-to-node encryption options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.NodeToNodeEncryptionOptions?
@@ -4789,12 +4791,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html) options for a domain.
-    public struct OffPeakWindowOptionsStatus {
+    public struct OffPeakWindowOptionsStatus: Swift.Sendable {
         /// The domain's off-peak window configuration.
         public var options: OpenSearchClientTypes.OffPeakWindowOptions?
         /// The current status of off-peak window options.
@@ -4809,12 +4811,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for information about a daily automated snapshot for an OpenSearch Service domain.
-    public struct SnapshotOptionsStatus {
+    public struct SnapshotOptionsStatus: Swift.Sendable {
         /// The daily snapshot options specified for the domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.SnapshotOptions?
@@ -4831,12 +4833,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// The status of the service software options for a domain.
-    public struct SoftwareUpdateOptionsStatus {
+    public struct SoftwareUpdateOptionsStatus: Swift.Sendable {
         /// The service software update options for a domain.
         public var options: OpenSearchClientTypes.SoftwareUpdateOptions?
         /// The status of service software update options, including creation date and last updated date.
@@ -4851,12 +4853,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Status of the VPC options for a specified domain.
-    public struct VPCDerivedInfoStatus {
+    public struct VPCDerivedInfoStatus: Swift.Sendable {
         /// The VPC options for the specified domain.
         /// This member is required.
         public var options: OpenSearchClientTypes.VPCDerivedInfo?
@@ -4873,12 +4875,12 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for the configuration of an OpenSearch Service domain.
-    public struct DomainConfig {
+    public struct DomainConfig: Swift.Sendable {
         /// Specifies the access policies for the domain.
         public var accessPolicies: OpenSearchClientTypes.AccessPoliciesStatus?
         /// Key-value pairs to specify advanced configuration options. For more information, see [Advanced options](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options).
@@ -4965,11 +4967,10 @@ extension OpenSearchClientTypes {
             self.vpcOptions = vpcOptions
         }
     }
-
 }
 
 /// Contains the configuration information of the requested domain.
-public struct DescribeDomainConfigOutput {
+public struct DescribeDomainConfigOutput: Swift.Sendable {
     /// Container for the configuration of the OpenSearch Service domain.
     /// This member is required.
     public var domainConfig: OpenSearchClientTypes.DomainConfig?
@@ -4983,7 +4984,7 @@ public struct DescribeDomainConfigOutput {
 }
 
 /// Container for the parameters to the DescribeDomainHealth operation.
-public struct DescribeDomainHealthInput {
+public struct DescribeDomainHealthInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -4998,7 +4999,7 @@ public struct DescribeDomainHealthInput {
 
 extension OpenSearchClientTypes {
 
-    public enum DomainHealth: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DomainHealth: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case green
         case notavailable
         case red
@@ -5033,7 +5034,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum DomainState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DomainState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case notavailable
         case processing
@@ -5065,7 +5066,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum ZoneStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ZoneStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case notavailable
         case standby
@@ -5096,8 +5097,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about an Availability Zone on a domain.
-    public struct AvailabilityZoneInfo {
+    public struct AvailabilityZoneInfo: Swift.Sendable {
         /// The name of the Availability Zone.
         public var availabilityZoneName: Swift.String?
         /// The number of data nodes active in the Availability Zone.
@@ -5134,12 +5136,12 @@ extension OpenSearchClientTypes {
             self.zoneStatus = zoneStatus
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about the active domain environment.
-    public struct EnvironmentInfo {
+    public struct EnvironmentInfo: Swift.Sendable {
         /// A list of AvailabilityZoneInfo for the domain.
         public var availabilityZoneInformation: [OpenSearchClientTypes.AvailabilityZoneInfo]?
 
@@ -5150,12 +5152,11 @@ extension OpenSearchClientTypes {
             self.availabilityZoneInformation = availabilityZoneInformation
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
 
-    public enum MasterNodeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MasterNodeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case unavailable
         case sdkUnknown(Swift.String)
@@ -5183,7 +5184,7 @@ extension OpenSearchClientTypes {
 }
 
 /// The result of a DescribeDomainHealth request. Contains health information for the requested domain.
-public struct DescribeDomainHealthOutput {
+public struct DescribeDomainHealthOutput: Swift.Sendable {
     /// The number of active Availability Zones configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
     public var activeAvailabilityZoneCount: Swift.String?
     /// The number of Availability Zones configured for the domain. If the service is unable to fetch this information, it will return NotAvailable.
@@ -5260,7 +5261,7 @@ public struct DescribeDomainHealthOutput {
 }
 
 /// Container for the parameters to the DescribeDomainNodes operation.
-public struct DescribeDomainNodesInput {
+public struct DescribeDomainNodesInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5275,7 +5276,7 @@ public struct DescribeDomainNodesInput {
 
 extension OpenSearchClientTypes {
 
-    public enum NodeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NodeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case notavailable
         case standby
@@ -5307,7 +5308,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum NodeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NodeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case data
         case master
         case ultrawarm
@@ -5338,8 +5339,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for information about nodes on the domain.
-    public struct DomainNodesStatus {
+    public struct DomainNodesStatus: Swift.Sendable {
         /// The Availability Zone of the node.
         public var availabilityZone: Swift.String?
         /// The instance type information of the node.
@@ -5378,11 +5380,10 @@ extension OpenSearchClientTypes {
             self.storageVolumeType = storageVolumeType
         }
     }
-
 }
 
 /// The result of a DescribeDomainNodes request. Contains information about the nodes on the requested domain.
-public struct DescribeDomainNodesOutput {
+public struct DescribeDomainNodesOutput: Swift.Sendable {
     /// Contains nodes information list DomainNodesStatusList with details about the all nodes on the requested domain.
     public var domainNodesStatusList: [OpenSearchClientTypes.DomainNodesStatus]?
 
@@ -5395,7 +5396,7 @@ public struct DescribeDomainNodesOutput {
 }
 
 /// Container for the parameters to the DescribeDomains operation.
-public struct DescribeDomainsInput {
+public struct DescribeDomainsInput: Swift.Sendable {
     /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name.
     /// This member is required.
     public var domainNames: [Swift.String]?
@@ -5409,7 +5410,7 @@ public struct DescribeDomainsInput {
 }
 
 /// Contains the status of the specified domains or all domains owned by the account.
-public struct DescribeDomainsOutput {
+public struct DescribeDomainsOutput: Swift.Sendable {
     /// The status of the requested domains.
     /// This member is required.
     public var domainStatusList: [OpenSearchClientTypes.DomainStatus]?
@@ -5422,7 +5423,7 @@ public struct DescribeDomainsOutput {
     }
 }
 
-public struct DescribeDryRunProgressInput {
+public struct DescribeDryRunProgressInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5444,8 +5445,9 @@ public struct DescribeDryRunProgressInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// A validation failure that occurred as the result of a pre-update validation check (verbose dry run) on a domain.
-    public struct ValidationFailure {
+    public struct ValidationFailure: Swift.Sendable {
         /// The error code of the failure.
         public var code: Swift.String?
         /// A message corresponding to the failure.
@@ -5460,12 +5462,12 @@ extension OpenSearchClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about the progress of a pre-upgrade dry run analysis.
-    public struct DryRunProgressStatus {
+    public struct DryRunProgressStatus: Swift.Sendable {
         /// The timestamp when the dry run was initiated.
         /// This member is required.
         public var creationDate: Swift.String?
@@ -5496,12 +5498,12 @@ extension OpenSearchClientTypes {
             self.validationFailures = validationFailures
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Results of a dry run performed in an update domain request.
-    public struct DryRunResults {
+    public struct DryRunResults: Swift.Sendable {
         /// Specifies the way in which OpenSearch Service will apply an update. Possible values are:
         ///
         /// * Blue/Green - The update requires a blue/green deployment.
@@ -5524,10 +5526,9 @@ extension OpenSearchClientTypes {
             self.message = message
         }
     }
-
 }
 
-public struct DescribeDryRunProgressOutput {
+public struct DescribeDryRunProgressOutput: Swift.Sendable {
     /// Details about the changes you're planning to make on the domain.
     public var dryRunConfig: OpenSearchClientTypes.DomainStatus?
     /// The current status of the dry run, including any validation errors.
@@ -5573,8 +5574,9 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 }
 
 extension OpenSearchClientTypes {
+
     /// A filter used to limit results when describing inbound or outbound cross-cluster connections. You can specify multiple values per filter. A cross-cluster connection must match at least one of the specified values for it to be returned from an operation.
-    public struct Filter {
+    public struct Filter: Swift.Sendable {
         /// The name of the filter.
         public var name: Swift.String?
         /// One or more values for the filter.
@@ -5589,11 +5591,10 @@ extension OpenSearchClientTypes {
             self.values = values
         }
     }
-
 }
 
 /// Container for the parameters to the DescribeInboundConnections operation.
-public struct DescribeInboundConnectionsInput {
+public struct DescribeInboundConnectionsInput: Swift.Sendable {
     /// A list of filters used to match properties for inbound cross-cluster connections.
     public var filters: [OpenSearchClientTypes.Filter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -5614,7 +5615,7 @@ public struct DescribeInboundConnectionsInput {
 }
 
 /// Contains a list of connections matching the filter criteria.
-public struct DescribeInboundConnectionsOutput {
+public struct DescribeInboundConnectionsOutput: Swift.Sendable {
     /// List of inbound connections.
     public var connections: [OpenSearchClientTypes.InboundConnection]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -5631,7 +5632,7 @@ public struct DescribeInboundConnectionsOutput {
 }
 
 /// Container for the parameters to the DescribeInstanceTypeLimits operation.
-public struct DescribeInstanceTypeLimitsInput {
+public struct DescribeInstanceTypeLimitsInput: Swift.Sendable {
     /// The name of the domain. Only specify if you need the limits for an existing domain.
     public var domainName: Swift.String?
     /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
@@ -5654,8 +5655,9 @@ public struct DescribeInstanceTypeLimitsInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Limits on the number of instances that can be created in OpenSearch Service for a given instance type.
-    public struct InstanceCountLimits {
+    public struct InstanceCountLimits: Swift.Sendable {
         /// The minimum allowed number of instances.
         public var maximumInstanceCount: Swift.Int
         /// The maximum allowed number of instances.
@@ -5670,12 +5672,12 @@ extension OpenSearchClientTypes {
             self.minimumInstanceCount = minimumInstanceCount
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Instance-related attributes that are available for a given instance type.
-    public struct InstanceLimits {
+    public struct InstanceLimits: Swift.Sendable {
         /// Limits on the number of instances that can be created for a given instance type.
         public var instanceCountLimits: OpenSearchClientTypes.InstanceCountLimits?
 
@@ -5686,12 +5688,12 @@ extension OpenSearchClientTypes {
             self.instanceCountLimits = instanceCountLimits
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Limits that are applicable for the given Amazon OpenSearch Service storage type.
-    public struct StorageTypeLimit {
+    public struct StorageTypeLimit: Swift.Sendable {
         /// Name of storage limits that are applicable for the given storage type. If StorageType is ebs, the following options are available:
         ///
         /// * MinimumVolumeSize - Minimum volume size that is available for the given storage type. Can be empty if not applicable.
@@ -5718,12 +5720,12 @@ extension OpenSearchClientTypes {
             self.limitValues = limitValues
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// A list of storage types for an Amazon OpenSearch Service domain that are available for a given intance type.
-    public struct StorageType {
+    public struct StorageType: Swift.Sendable {
         /// The storage sub-type, such as gp3 or io1.
         public var storageSubTypeName: Swift.String?
         /// Limits that are applicable for the given storage type.
@@ -5742,12 +5744,12 @@ extension OpenSearchClientTypes {
             self.storageTypeName = storageTypeName
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Limits for a given instance type and for each of its roles.
-    public struct Limits {
+    public struct Limits: Swift.Sendable {
         /// List of additional limits that are specific to a given instance type for each of its instance roles.
         public var additionalLimits: [OpenSearchClientTypes.AdditionalLimit]?
         /// The limits for a given instance type.
@@ -5766,11 +5768,10 @@ extension OpenSearchClientTypes {
             self.storageTypes = storageTypes
         }
     }
-
 }
 
 /// Container for the parameters received from the DescribeInstanceTypeLimits operation.
-public struct DescribeInstanceTypeLimitsOutput {
+public struct DescribeInstanceTypeLimitsOutput: Swift.Sendable {
     /// Map that contains all applicable instance type limits.data refers to data nodes.master refers to dedicated master nodes.
     public var limitsByRole: [Swift.String: OpenSearchClientTypes.Limits]?
 
@@ -5783,7 +5784,7 @@ public struct DescribeInstanceTypeLimitsOutput {
 }
 
 /// Container for the parameters to the DescribeOutboundConnections operation.
-public struct DescribeOutboundConnectionsInput {
+public struct DescribeOutboundConnectionsInput: Swift.Sendable {
     /// List of filter names and values that you can use for requests.
     public var filters: [OpenSearchClientTypes.Filter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -5804,7 +5805,7 @@ public struct DescribeOutboundConnectionsInput {
 }
 
 /// Contains a list of connections matching the filter criteria.
-public struct DescribeOutboundConnectionsOutput {
+public struct DescribeOutboundConnectionsOutput: Swift.Sendable {
     /// List of outbound connections that match the filter criteria.
     public var connections: [OpenSearchClientTypes.OutboundConnection]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -5822,7 +5823,7 @@ public struct DescribeOutboundConnectionsOutput {
 
 extension OpenSearchClientTypes {
 
-    public enum DescribePackagesFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DescribePackagesFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case engineversion
         case packageid
         case packagename
@@ -5859,8 +5860,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// A filter to apply to the DescribePackage response.
-    public struct DescribePackagesFilter {
+    public struct DescribePackagesFilter: Swift.Sendable {
         /// Any field from PackageDetails.
         public var name: OpenSearchClientTypes.DescribePackagesFilterName?
         /// A non-empty list of values for the specified filter field.
@@ -5875,11 +5877,10 @@ extension OpenSearchClientTypes {
             self.value = value
         }
     }
-
 }
 
 /// Container for the request parameters to the DescribePackage operation.
-public struct DescribePackagesInput {
+public struct DescribePackagesInput: Swift.Sendable {
     /// Only returns packages that match the DescribePackagesFilterList values.
     public var filters: [OpenSearchClientTypes.DescribePackagesFilter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -5900,7 +5901,7 @@ public struct DescribePackagesInput {
 }
 
 /// Container for the response returned by the DescribePackages operation.
-public struct DescribePackagesOutput {
+public struct DescribePackagesOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// Basic information about a package.
@@ -5917,7 +5918,7 @@ public struct DescribePackagesOutput {
 }
 
 /// Container for the request parameters to a DescribeReservedInstanceOfferings operation.
-public struct DescribeReservedInstanceOfferingsInput {
+public struct DescribeReservedInstanceOfferingsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial DescribeReservedInstanceOfferings operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstanceOfferings operations, which returns results in the next page.
@@ -5939,7 +5940,7 @@ public struct DescribeReservedInstanceOfferingsInput {
 
 extension OpenSearchClientTypes {
 
-    public enum ReservedInstancePaymentOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ReservedInstancePaymentOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allUpfront
         case noUpfront
         case partialUpfront
@@ -5970,8 +5971,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Contains the specific price and frequency of a recurring charges for an OpenSearch Reserved Instance, or for a Reserved Instance offering.
-    public struct RecurringCharge {
+    public struct RecurringCharge: Swift.Sendable {
         /// The monetary amount of the recurring charge.
         public var recurringChargeAmount: Swift.Double?
         /// The frequency of the recurring charge.
@@ -5986,12 +5988,12 @@ extension OpenSearchClientTypes {
             self.recurringChargeFrequency = recurringChargeFrequency
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// Details of an OpenSearch Reserved Instance offering.
-    public struct ReservedInstanceOffering {
+    public struct ReservedInstanceOffering: Swift.Sendable {
         /// The currency code for the Reserved Instance offering.
         public var currencyCode: Swift.String?
         /// The duration, in seconds, for which the offering will reserve the OpenSearch instance.
@@ -6030,11 +6032,10 @@ extension OpenSearchClientTypes {
             self.usagePrice = usagePrice
         }
     }
-
 }
 
 /// Container for results of a DescribeReservedInstanceOfferings request.
-public struct DescribeReservedInstanceOfferingsOutput {
+public struct DescribeReservedInstanceOfferingsOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// List of Reserved Instance offerings.
@@ -6051,7 +6052,7 @@ public struct DescribeReservedInstanceOfferingsOutput {
 }
 
 /// Container for the request parameters to the DescribeReservedInstances operation.
-public struct DescribeReservedInstancesInput {
+public struct DescribeReservedInstancesInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial DescribeReservedInstances operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstances operations, which returns results in the next page.
@@ -6072,8 +6073,9 @@ public struct DescribeReservedInstancesInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Details of an OpenSearch Reserved Instance.
-    public struct ReservedInstance {
+    public struct ReservedInstance: Swift.Sendable {
         /// The unique identifier of the billing subscription.
         public var billingSubscriptionId: Swift.Int?
         /// The currency code for the offering.
@@ -6136,11 +6138,10 @@ extension OpenSearchClientTypes {
             self.usagePrice = usagePrice
         }
     }
-
 }
 
 /// Container for results from DescribeReservedInstances
-public struct DescribeReservedInstancesOutput {
+public struct DescribeReservedInstancesOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// List of Reserved Instances in the current Region.
@@ -6156,7 +6157,7 @@ public struct DescribeReservedInstancesOutput {
     }
 }
 
-public struct DescribeVpcEndpointsInput {
+public struct DescribeVpcEndpointsInput: Swift.Sendable {
     /// The unique identifiers of the endpoints to get information about.
     /// This member is required.
     public var vpcEndpointIds: [Swift.String]?
@@ -6171,7 +6172,7 @@ public struct DescribeVpcEndpointsInput {
 
 extension OpenSearchClientTypes {
 
-    public enum VpcEndpointErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VpcEndpointErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case endpointNotFound
         case serverError
         case sdkUnknown(Swift.String)
@@ -6199,8 +6200,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Error information when attempting to describe an Amazon OpenSearch Service-managed VPC endpoint.
-    public struct VpcEndpointError {
+    public struct VpcEndpointError: Swift.Sendable {
         /// The code associated with the error.
         public var errorCode: OpenSearchClientTypes.VpcEndpointErrorCode?
         /// A message describing the error.
@@ -6219,10 +6221,9 @@ extension OpenSearchClientTypes {
             self.vpcEndpointId = vpcEndpointId
         }
     }
-
 }
 
-public struct DescribeVpcEndpointsOutput {
+public struct DescribeVpcEndpointsOutput: Swift.Sendable {
     /// Any errors associated with the request.
     /// This member is required.
     public var vpcEndpointErrors: [OpenSearchClientTypes.VpcEndpointError]?
@@ -6241,7 +6242,7 @@ public struct DescribeVpcEndpointsOutput {
 }
 
 /// Container for the request parameters to the DissociatePackage operation.
-public struct DissociatePackageInput {
+public struct DissociatePackageInput: Swift.Sendable {
     /// Name of the domain to dissociate the package from.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6260,7 +6261,7 @@ public struct DissociatePackageInput {
 }
 
 /// Container for the response returned by an DissociatePackage operation.
-public struct DissociatePackageOutput {
+public struct DissociatePackageOutput: Swift.Sendable {
     /// Information about a package that has been dissociated from the domain.
     public var domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails?
 
@@ -6273,7 +6274,7 @@ public struct DissociatePackageOutput {
 }
 
 /// Container for the request parameters to GetCompatibleVersions operation.
-public struct GetCompatibleVersionsInput {
+public struct GetCompatibleVersionsInput: Swift.Sendable {
     /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
     public var domainName: Swift.String?
 
@@ -6286,8 +6287,9 @@ public struct GetCompatibleVersionsInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// A map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
-    public struct CompatibleVersionsMap {
+    public struct CompatibleVersionsMap: Swift.Sendable {
         /// The current version that the OpenSearch Service domain is running.
         public var sourceVersion: Swift.String?
         /// The possible versions that you can upgrade the domain to.
@@ -6302,11 +6304,10 @@ extension OpenSearchClientTypes {
             self.targetVersions = targetVersions
         }
     }
-
 }
 
 /// Container for the response returned by the GetCompatibleVersions operation.
-public struct GetCompatibleVersionsOutput {
+public struct GetCompatibleVersionsOutput: Swift.Sendable {
     /// A map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     public var compatibleVersions: [OpenSearchClientTypes.CompatibleVersionsMap]?
 
@@ -6319,7 +6320,7 @@ public struct GetCompatibleVersionsOutput {
 }
 
 /// Container for the parameters to the GetDataSource operation.
-public struct GetDataSourceInput {
+public struct GetDataSourceInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6339,7 +6340,7 @@ public struct GetDataSourceInput {
 
 extension OpenSearchClientTypes {
 
-    public enum DataSourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataSourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case disabled
         case sdkUnknown(Swift.String)
@@ -6367,7 +6368,7 @@ extension OpenSearchClientTypes {
 }
 
 /// The result of a GetDataSource operation.
-public struct GetDataSourceOutput {
+public struct GetDataSourceOutput: Swift.Sendable {
     /// The type of data source.
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
     /// A description of the data source.
@@ -6392,7 +6393,7 @@ public struct GetDataSourceOutput {
 }
 
 /// Container for the parameters to the GetDomainMaintenanceStatus operation.
-public struct GetDomainMaintenanceStatusInput {
+public struct GetDomainMaintenanceStatusInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6412,7 +6413,7 @@ public struct GetDomainMaintenanceStatusInput {
 
 extension OpenSearchClientTypes {
 
-    public enum MaintenanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MaintenanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rebootNode
         case restartDashboard
         case restartSearchProcess
@@ -6444,7 +6445,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum MaintenanceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MaintenanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
         case inProgress
@@ -6481,7 +6482,7 @@ extension OpenSearchClientTypes {
 }
 
 /// The result of a GetDomainMaintenanceStatus request that information about the requested action.
-public struct GetDomainMaintenanceStatusOutput {
+public struct GetDomainMaintenanceStatusOutput: Swift.Sendable {
     /// The action name.
     public var action: OpenSearchClientTypes.MaintenanceType?
     /// The time at which the action was created.
@@ -6514,7 +6515,7 @@ public struct GetDomainMaintenanceStatusOutput {
 }
 
 /// Container for the request parameters to the GetPackageVersionHistory operation.
-public struct GetPackageVersionHistoryInput {
+public struct GetPackageVersionHistoryInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial GetPackageVersionHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetPackageVersionHistory operations, which returns results in the next page.
@@ -6536,8 +6537,9 @@ public struct GetPackageVersionHistoryInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Details about a package version.
-    public struct PackageVersionHistory {
+    public struct PackageVersionHistory: Swift.Sendable {
         /// A message associated with the package version when it was uploaded.
         public var commitMessage: Swift.String?
         /// The date and time when the package was created.
@@ -6560,11 +6562,10 @@ extension OpenSearchClientTypes {
             self.pluginProperties = pluginProperties
         }
     }
-
 }
 
 /// Container for response returned by GetPackageVersionHistory operation.
-public struct GetPackageVersionHistoryOutput {
+public struct GetPackageVersionHistoryOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The unique identifier of the package.
@@ -6585,7 +6586,7 @@ public struct GetPackageVersionHistoryOutput {
 }
 
 /// Container for the request parameters to the GetUpgradeHistory operation.
-public struct GetUpgradeHistoryInput {
+public struct GetUpgradeHistoryInput: Swift.Sendable {
     /// The name of an existing domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6608,7 +6609,7 @@ public struct GetUpgradeHistoryInput {
 
 extension OpenSearchClientTypes {
 
-    public enum UpgradeStep: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UpgradeStep: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case preUpgradeCheck
         case snapshot
         case upgrade
@@ -6640,7 +6641,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    public enum UpgradeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UpgradeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case inProgress
         case succeeded
@@ -6674,8 +6675,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Represents a single step of an upgrade or upgrade eligibility check workflow.
-    public struct UpgradeStepItem {
+    public struct UpgradeStepItem: Swift.Sendable {
         /// A list of strings containing detailed information about the errors encountered in a particular step.
         public var issues: [Swift.String]?
         /// The floating point value representing the progress percentage of a particular step.
@@ -6712,12 +6714,12 @@ extension OpenSearchClientTypes {
             self.upgradeStepStatus = upgradeStepStatus
         }
     }
-
 }
 
 extension OpenSearchClientTypes {
+
     /// History of the last 10 upgrades and upgrade eligibility checks for an Amazon OpenSearch Service domain.
-    public struct UpgradeHistory {
+    public struct UpgradeHistory: Swift.Sendable {
         /// UTC timestamp at which the upgrade API call was made, in the format yyyy-MM-ddTHH:mm:ssZ.
         public var startTimestamp: Foundation.Date?
         /// A list of each step performed as part of a specific upgrade or upgrade eligibility check.
@@ -6748,11 +6750,10 @@ extension OpenSearchClientTypes {
             self.upgradeStatus = upgradeStatus
         }
     }
-
 }
 
 /// Container for the response returned by the GetUpgradeHistory operation.
-public struct GetUpgradeHistoryOutput {
+public struct GetUpgradeHistoryOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of objects corresponding to each upgrade or upgrade eligibility check performed on a domain.
@@ -6769,7 +6770,7 @@ public struct GetUpgradeHistoryOutput {
 }
 
 /// Container for the request parameters to the GetUpgradeStatus operation.
-public struct GetUpgradeStatusInput {
+public struct GetUpgradeStatusInput: Swift.Sendable {
     /// The domain of the domain to get upgrade status information for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6783,7 +6784,7 @@ public struct GetUpgradeStatusInput {
 }
 
 /// Container for the response returned by the GetUpgradeStatus operation.
-public struct GetUpgradeStatusOutput {
+public struct GetUpgradeStatusOutput: Swift.Sendable {
     /// The status of the current step that an upgrade is on.
     public var stepStatus: OpenSearchClientTypes.UpgradeStatus?
     /// A string that describes the update.
@@ -6804,7 +6805,7 @@ public struct GetUpgradeStatusOutput {
 }
 
 /// Container for the parameters to the ListDataSources operation.
-public struct ListDataSourcesInput {
+public struct ListDataSourcesInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6818,8 +6819,9 @@ public struct ListDataSourcesInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Details about a direct-query data source.
-    public struct DataSourceDetails {
+    public struct DataSourceDetails: Swift.Sendable {
         /// The type of data source.
         public var dataSourceType: OpenSearchClientTypes.DataSourceType?
         /// A description of the data source.
@@ -6842,11 +6844,10 @@ extension OpenSearchClientTypes {
             self.status = status
         }
     }
-
 }
 
 /// The result of a ListDataSources operation.
-public struct ListDataSourcesOutput {
+public struct ListDataSourcesOutput: Swift.Sendable {
     /// A list of data sources associated with specified domain.
     public var dataSources: [OpenSearchClientTypes.DataSourceDetails]?
 
@@ -6859,7 +6860,7 @@ public struct ListDataSourcesOutput {
 }
 
 /// Container for the parameters to the ListDomainMaintenances operation.
-public struct ListDomainMaintenancesInput {
+public struct ListDomainMaintenancesInput: Swift.Sendable {
     /// The name of the action.
     public var action: OpenSearchClientTypes.MaintenanceType?
     /// The name of the domain.
@@ -6889,8 +6890,9 @@ public struct ListDomainMaintenancesInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Container for the domain maintenance details.
-    public struct DomainMaintenanceDetails {
+    public struct DomainMaintenanceDetails: Swift.Sendable {
         /// The name of the action.
         public var action: OpenSearchClientTypes.MaintenanceType?
         /// The time at which the action was created.
@@ -6929,11 +6931,10 @@ extension OpenSearchClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
 /// The result of a ListDomainMaintenances request that contains information about the requested actions.
-public struct ListDomainMaintenancesOutput {
+public struct ListDomainMaintenancesOutput: Swift.Sendable {
     /// A list of the submitted maintenance actions.
     public var domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -6951,7 +6952,7 @@ public struct ListDomainMaintenancesOutput {
 
 extension OpenSearchClientTypes {
 
-    public enum EngineType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EngineType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case elasticsearch
         case opensearch
         case sdkUnknown(Swift.String)
@@ -6979,7 +6980,7 @@ extension OpenSearchClientTypes {
 }
 
 /// Container for the parameters to the ListDomainNames operation.
-public struct ListDomainNamesInput {
+public struct ListDomainNamesInput: Swift.Sendable {
     /// Filters the output by domain engine type.
     public var engineType: OpenSearchClientTypes.EngineType?
 
@@ -6992,8 +6993,9 @@ public struct ListDomainNamesInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about an OpenSearch Service domain.
-    public struct DomainInfo {
+    public struct DomainInfo: Swift.Sendable {
         /// Name of the domain.
         public var domainName: Swift.String?
         /// The type of search engine that the domain is running.OpenSearch for an OpenSearch engine, or Elasticsearch for a legacy Elasticsearch OSS engine.
@@ -7008,11 +7010,10 @@ extension OpenSearchClientTypes {
             self.engineType = engineType
         }
     }
-
 }
 
 /// The results of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types.
-public struct ListDomainNamesOutput {
+public struct ListDomainNamesOutput: Swift.Sendable {
     /// The names of all OpenSearch Service domains owned by the current user and their respective engine types.
     public var domainNames: [OpenSearchClientTypes.DomainInfo]?
 
@@ -7025,7 +7026,7 @@ public struct ListDomainNamesOutput {
 }
 
 /// Container for the request parameters to the ListDomainsForPackage operation.
-public struct ListDomainsForPackageInput {
+public struct ListDomainsForPackageInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListDomainsForPackage operation returns a nextToken, you can include the returned nextToken in subsequent ListDomainsForPackage operations, which returns results in the next page.
@@ -7047,7 +7048,7 @@ public struct ListDomainsForPackageInput {
 }
 
 /// Container for the response parameters to the ListDomainsForPackage operation.
-public struct ListDomainsForPackageOutput {
+public struct ListDomainsForPackageOutput: Swift.Sendable {
     /// Information about all domains associated with a package.
     public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -7063,7 +7064,7 @@ public struct ListDomainsForPackageOutput {
     }
 }
 
-public struct ListInstanceTypeDetailsInput {
+public struct ListInstanceTypeDetailsInput: Swift.Sendable {
     /// The name of the domain.
     public var domainName: Swift.String?
     /// The version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
@@ -7097,8 +7098,9 @@ public struct ListInstanceTypeDetailsInput {
 }
 
 extension OpenSearchClientTypes {
+
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
-    public struct InstanceTypeDetails {
+    public struct InstanceTypeDetails: Swift.Sendable {
         /// Whether fine-grained access control is supported for the instance type.
         public var advancedSecurityEnabled: Swift.Bool?
         /// Whether logging is supported for the instance type.
@@ -7137,10 +7139,9 @@ extension OpenSearchClientTypes {
             self.warmEnabled = warmEnabled
         }
     }
-
 }
 
-public struct ListInstanceTypeDetailsOutput {
+public struct ListInstanceTypeDetailsOutput: Swift.Sendable {
     /// Lists all supported instance types and features for the given OpenSearch or Elasticsearch version.
     public var instanceTypeDetails: [OpenSearchClientTypes.InstanceTypeDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -7157,7 +7158,7 @@ public struct ListInstanceTypeDetailsOutput {
 }
 
 /// Container for the request parameters to the ListPackagesForDomain operation.
-public struct ListPackagesForDomainInput {
+public struct ListPackagesForDomainInput: Swift.Sendable {
     /// The name of the domain for which you want to list associated packages.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7179,7 +7180,7 @@ public struct ListPackagesForDomainInput {
 }
 
 /// Container for the response parameters to the ListPackagesForDomain operation.
-public struct ListPackagesForDomainOutput {
+public struct ListPackagesForDomainOutput: Swift.Sendable {
     /// List of all packages associated with a domain.
     public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
@@ -7195,7 +7196,7 @@ public struct ListPackagesForDomainOutput {
     }
 }
 
-public struct ListScheduledActionsInput {
+public struct ListScheduledActionsInput: Swift.Sendable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7218,7 +7219,7 @@ public struct ListScheduledActionsInput {
 
 extension OpenSearchClientTypes {
 
-    public enum ScheduledBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScheduledBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customer
         case system
         case sdkUnknown(Swift.String)
@@ -7246,8 +7247,9 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+
     /// Information about a scheduled configuration change for an OpenSearch Service domain. This actions can be a [service software update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
-    public struct ScheduledAction {
+    public struct ScheduledAction: Swift.Sendable {
         /// Whether or not the scheduled action is cancellable.
         public var cancellable: Swift.Bool?
         /// A description of the action to be taken.
@@ -7294,10 +7296,9 @@ extension OpenSearchClientTypes {
             self.type = type
         }
     }
-
 }
 
-public struct ListScheduledActionsOutput {
+public struct ListScheduledActionsOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of actions that are scheduled for the domain.
@@ -7314,7 +7315,7 @@ public struct ListScheduledActionsOutput {
 }
 
 /// Container for the parameters to the ListTags operation.
-public struct ListTagsInput {
+public struct ListTagsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) for the domain to view tags for.
     /// This member is required.
     public var arn: Swift.String?
@@ -7328,7 +7329,7 @@ public struct ListTagsInput {
 }
 
 /// The results of a ListTags operation.
-public struct ListTagsOutput {
+public struct ListTagsOutput: Swift.Sendable {
     /// List of resource tags associated with the specified domain.
     public var tagList: [OpenSearchClientTypes.Tag]?
 
@@ -7341,7 +7342,7 @@ public struct ListTagsOutput {
 }
 
 /// Container for the request parameters to the ListVersions operation.
-public struct ListVersionsInput {
+public struct ListVersionsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListVersions operation returns a nextToken, you can include the returned nextToken in subsequent ListVersions operations, which returns results in the next page.
@@ -7358,7 +7359,7 @@ public struct ListVersionsInput {
 }
 
 /// Container for the parameters for response received from the ListVersions operation.
-public struct ListVersionsOutput {
+public struct ListVersionsOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
@@ -7374,7 +7375,7 @@ public struct ListVersionsOutput {
     }
 }
 
-public struct ListVpcEndpointAccessInput {
+public struct ListVpcEndpointAccessInput: Swift.Sendable {
     /// The name of the OpenSearch Service domain to retrieve access information for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7391,7 +7392,7 @@ public struct ListVpcEndpointAccessInput {
     }
 }
 
-public struct ListVpcEndpointAccessOutput {
+public struct ListVpcEndpointAccessOutput: Swift.Sendable {
     /// A list of [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html) that can currently access the domain.
     /// This member is required.
     public var authorizedPrincipalList: [OpenSearchClientTypes.AuthorizedPrincipal]?
@@ -7409,7 +7410,7 @@ public struct ListVpcEndpointAccessOutput {
     }
 }
 
-public struct ListVpcEndpointsInput {
+public struct ListVpcEndpointsInput: Swift.Sendable {
     /// If your initial ListVpcEndpoints operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpoints operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
@@ -7421,7 +7422,7 @@ public struct ListVpcEndpointsInput {
     }
 }
 
-public struct ListVpcEndpointsOutput {
+public struct ListVpcEndpointsOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     /// This member is required.
     public var nextToken: Swift.String?
@@ -7439,7 +7440,7 @@ public struct ListVpcEndpointsOutput {
     }
 }
 
-public struct ListVpcEndpointsForDomainInput {
+public struct ListVpcEndpointsForDomainInput: Swift.Sendable {
     /// The name of the domain to list associated VPC endpoints for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7456,7 +7457,7 @@ public struct ListVpcEndpointsForDomainInput {
     }
 }
 
-public struct ListVpcEndpointsForDomainOutput {
+public struct ListVpcEndpointsForDomainOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     /// This member is required.
     public var nextToken: Swift.String?
@@ -7475,7 +7476,7 @@ public struct ListVpcEndpointsForDomainOutput {
 }
 
 /// Container for request parameters to the PurchaseReservedInstanceOffering operation.
-public struct PurchaseReservedInstanceOfferingInput {
+public struct PurchaseReservedInstanceOfferingInput: Swift.Sendable {
     /// The number of OpenSearch instances to reserve.
     public var instanceCount: Swift.Int?
     /// A customer-specified identifier to track this reservation.
@@ -7498,7 +7499,7 @@ public struct PurchaseReservedInstanceOfferingInput {
 }
 
 /// Represents the output of a PurchaseReservedInstanceOffering operation.
-public struct PurchaseReservedInstanceOfferingOutput {
+public struct PurchaseReservedInstanceOfferingOutput: Swift.Sendable {
     /// The customer-specified identifier used to track this reservation.
     public var reservationName: Swift.String?
     /// The ID of the Reserved Instance offering that was purchased.
@@ -7515,7 +7516,7 @@ public struct PurchaseReservedInstanceOfferingOutput {
 }
 
 /// Container for the request parameters to the RejectInboundConnection operation.
-public struct RejectInboundConnectionInput {
+public struct RejectInboundConnectionInput: Swift.Sendable {
     /// The unique identifier of the inbound connection to reject.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -7529,7 +7530,7 @@ public struct RejectInboundConnectionInput {
 }
 
 /// Represents the output of a RejectInboundConnection operation.
-public struct RejectInboundConnectionOutput {
+public struct RejectInboundConnectionOutput: Swift.Sendable {
     /// Contains details about the rejected inbound connection.
     public var connection: OpenSearchClientTypes.InboundConnection?
 
@@ -7542,7 +7543,7 @@ public struct RejectInboundConnectionOutput {
 }
 
 /// Container for the request parameters to the RemoveTags operation.
-public struct RemoveTagsInput {
+public struct RemoveTagsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the domain from which you want to delete the specified tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -7560,7 +7561,7 @@ public struct RemoveTagsInput {
     }
 }
 
-public struct RevokeVpcEndpointAccessInput {
+public struct RevokeVpcEndpointAccessInput: Swift.Sendable {
     /// The account ID to revoke access from.
     /// This member is required.
     public var account: Swift.String?
@@ -7578,13 +7579,13 @@ public struct RevokeVpcEndpointAccessInput {
     }
 }
 
-public struct RevokeVpcEndpointAccessOutput {
+public struct RevokeVpcEndpointAccessOutput: Swift.Sendable {
 
     public init() { }
 }
 
 /// Container for the parameters to the StartDomainMaintenance operation.
-public struct StartDomainMaintenanceInput {
+public struct StartDomainMaintenanceInput: Swift.Sendable {
     /// The name of the action.
     /// This member is required.
     public var action: OpenSearchClientTypes.MaintenanceType?
@@ -7607,7 +7608,7 @@ public struct StartDomainMaintenanceInput {
 }
 
 /// The result of a StartDomainMaintenance request that information about the requested action.
-public struct StartDomainMaintenanceOutput {
+public struct StartDomainMaintenanceOutput: Swift.Sendable {
     /// The request ID of requested action.
     public var maintenanceId: Swift.String?
 
@@ -7621,7 +7622,7 @@ public struct StartDomainMaintenanceOutput {
 
 extension OpenSearchClientTypes {
 
-    public enum ScheduleAt: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScheduleAt: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case now
         case offPeakWindow
         case timestamp
@@ -7652,7 +7653,7 @@ extension OpenSearchClientTypes {
 }
 
 /// Container for the request parameters to the StartServiceSoftwareUpdate operation.
-public struct StartServiceSoftwareUpdateInput {
+public struct StartServiceSoftwareUpdateInput: Swift.Sendable {
     /// The Epoch timestamp when you want the service software update to start. You only need to specify this parameter if you set ScheduleAt to TIMESTAMP.
     public var desiredStartTime: Swift.Int?
     /// The name of the domain that you want to update to the latest service software.
@@ -7683,7 +7684,7 @@ public struct StartServiceSoftwareUpdateInput {
 }
 
 /// Represents the output of a StartServiceSoftwareUpdate operation. Contains the status of the update.
-public struct StartServiceSoftwareUpdateOutput {
+public struct StartServiceSoftwareUpdateOutput: Swift.Sendable {
     /// The current status of the OpenSearch Service software update.
     public var serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions?
 
@@ -7696,7 +7697,7 @@ public struct StartServiceSoftwareUpdateOutput {
 }
 
 /// Container for the parameters to the UpdateDataSource operation.
-public struct UpdateDataSourceInput {
+public struct UpdateDataSourceInput: Swift.Sendable {
     /// The type of data source.
     /// This member is required.
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
@@ -7728,7 +7729,7 @@ public struct UpdateDataSourceInput {
 }
 
 /// The result of an UpdateDataSource operation.
-public struct UpdateDataSourceOutput {
+public struct UpdateDataSourceOutput: Swift.Sendable {
     /// A message associated with the updated data source.
     public var message: Swift.String?
 
@@ -7742,7 +7743,7 @@ public struct UpdateDataSourceOutput {
 
 extension OpenSearchClientTypes {
 
-    public enum DryRunMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DryRunMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case verbose
         case sdkUnknown(Swift.String)
@@ -7770,7 +7771,7 @@ extension OpenSearchClientTypes {
 }
 
 /// Container for the request parameters to the UpdateDomain operation.
-public struct UpdateDomainConfigInput {
+public struct UpdateDomainConfigInput: Swift.Sendable {
     /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
     public var accessPolicies: Swift.String?
     /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:
@@ -7873,7 +7874,7 @@ public struct UpdateDomainConfigInput {
 }
 
 /// The results of an UpdateDomain request. Contains the status of the domain being updated.
-public struct UpdateDomainConfigOutput {
+public struct UpdateDomainConfigOutput: Swift.Sendable {
     /// The status of the updated domain.
     /// This member is required.
     public var domainConfig: OpenSearchClientTypes.DomainConfig?
@@ -7895,7 +7896,7 @@ public struct UpdateDomainConfigOutput {
 }
 
 /// Container for request parameters to the UpdatePackage operation.
-public struct UpdatePackageInput {
+public struct UpdatePackageInput: Swift.Sendable {
     /// Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse.
     public var commitMessage: Swift.String?
     /// A new description of the package.
@@ -7922,7 +7923,7 @@ public struct UpdatePackageInput {
 }
 
 /// Container for the response returned by the UpdatePackage operation.
-public struct UpdatePackageOutput {
+public struct UpdatePackageOutput: Swift.Sendable {
     /// Information about a package.
     public var packageDetails: OpenSearchClientTypes.PackageDetails?
 
@@ -7963,7 +7964,7 @@ public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-public struct UpdateScheduledActionInput {
+public struct UpdateScheduledActionInput: Swift.Sendable {
     /// The unique identifier of the action to reschedule. To retrieve this ID, send a [ListScheduledActions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html) request.
     /// This member is required.
     public var actionID: Swift.String?
@@ -8001,7 +8002,7 @@ public struct UpdateScheduledActionInput {
     }
 }
 
-public struct UpdateScheduledActionOutput {
+public struct UpdateScheduledActionOutput: Swift.Sendable {
     /// Information about the rescheduled action.
     public var scheduledAction: OpenSearchClientTypes.ScheduledAction?
 
@@ -8013,7 +8014,7 @@ public struct UpdateScheduledActionOutput {
     }
 }
 
-public struct UpdateVpcEndpointInput {
+public struct UpdateVpcEndpointInput: Swift.Sendable {
     /// The unique identifier of the endpoint.
     /// This member is required.
     public var vpcEndpointId: Swift.String?
@@ -8031,7 +8032,7 @@ public struct UpdateVpcEndpointInput {
     }
 }
 
-public struct UpdateVpcEndpointOutput {
+public struct UpdateVpcEndpointOutput: Swift.Sendable {
     /// The endpoint to be updated.
     /// This member is required.
     public var vpcEndpoint: OpenSearchClientTypes.VpcEndpoint?
@@ -8045,7 +8046,7 @@ public struct UpdateVpcEndpointOutput {
 }
 
 /// Container for the request parameters to the UpgradeDomain operation.
-public struct UpgradeDomainInput {
+public struct UpgradeDomainInput: Swift.Sendable {
     /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when upgrading to an OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it continues to work with Elasticsearch OSS clients and plugins.
     public var advancedOptions: [Swift.String: Swift.String]?
     /// Name of the OpenSearch Service domain that you want to upgrade.
@@ -8072,7 +8073,7 @@ public struct UpgradeDomainInput {
 }
 
 /// Container for the response returned by UpgradeDomain operation.
-public struct UpgradeDomainOutput {
+public struct UpgradeDomainOutput: Swift.Sendable {
     /// The advanced options configuration for the domain.
     public var advancedOptions: [Swift.String: Swift.String]?
     /// Container for information about a configuration change happening on a domain.

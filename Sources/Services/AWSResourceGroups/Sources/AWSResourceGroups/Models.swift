@@ -24,14 +24,15 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 
-public struct GetAccountSettingsInput {
+
+public struct GetAccountSettingsInput: Swift.Sendable {
 
     public init() { }
 }
 
 extension ResourceGroupsClientTypes {
 
-    public enum GroupLifecycleEventsDesiredStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GroupLifecycleEventsDesiredStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case inactive
         case sdkUnknown(Swift.String)
@@ -60,7 +61,7 @@ extension ResourceGroupsClientTypes {
 
 extension ResourceGroupsClientTypes {
 
-    public enum GroupLifecycleEventsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GroupLifecycleEventsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case error
         case inactive
@@ -94,8 +95,9 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// The Resource Groups settings for this Amazon Web Services account.
-    public struct AccountSettings {
+    public struct AccountSettings: Swift.Sendable {
         /// The desired target status of the group lifecycle events feature. If
         public var groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
         /// The current status of the group lifecycle events feature.
@@ -114,7 +116,6 @@ extension ResourceGroupsClientTypes {
             self.groupLifecycleEventsStatusMessage = groupLifecycleEventsStatusMessage
         }
     }
-
 }
 
 /// The request includes one or more parameters that violate validation rules.
@@ -238,8 +239,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A parameter for a group configuration item. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
-    public struct GroupConfigurationParameter {
+    public struct GroupConfigurationParameter: Swift.Sendable {
         /// The name of the group configuration parameter. For the list of parameters that you can use with each configuration item type, see [Supported resource types and parameters](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types).
         /// This member is required.
         public var name: Swift.String?
@@ -255,12 +257,12 @@ extension ResourceGroupsClientTypes {
             self.values = values
         }
     }
-
 }
 
 extension ResourceGroupsClientTypes {
+
     /// An item in a group configuration. A group service configuration can have one or more items. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
-    public struct GroupConfigurationItem {
+    public struct GroupConfigurationItem: Swift.Sendable {
         /// A collection of parameters for this group configuration item. For the list of parameters that you can use with each configuration item type, see [Supported resource types and parameters](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types).
         public var parameters: [ResourceGroupsClientTypes.GroupConfigurationParameter]?
         /// Specifies the type of group configuration item. Each item must have a unique value for type. For the list of types that you can specify for a configuration item, see [Supported resource types and parameters](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types).
@@ -276,12 +278,11 @@ extension ResourceGroupsClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension ResourceGroupsClientTypes {
 
-    public enum QueryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum QueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloudformationStack10
         case tagFilters10
         case sdkUnknown(Swift.String)
@@ -309,8 +310,9 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// The query you can use to define a resource group or a search for resources. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. See the examples section for example JSON strings. For more information about creating a resource group with a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html) in the Resource Groups User Guide When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example: --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}' In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide. For example: "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
-    public struct ResourceQuery {
+    public struct ResourceQuery: Swift.Sendable {
         /// The query that defines a group or a search. The contents depends on the value of the Type element.
         ///
         /// * ResourceTypeFilters – Applies to all ResourceQuery objects of either Type. This element contains one of the following two items:
@@ -358,10 +360,9 @@ extension ResourceGroupsClientTypes {
             self.type = type
         }
     }
-
 }
 
-public struct CreateGroupInput {
+public struct CreateGroupInput: Swift.Sendable {
     /// A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For details about the syntax of service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
     public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
     /// The description of the resource group. Descriptions can consist of letters, numbers, hyphens, underscores, periods, and spaces.
@@ -391,12 +392,13 @@ public struct CreateGroupInput {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A resource group that contains Amazon Web Services resources. You can assign resources to the group by associating either of the following elements with the group:
     ///
     /// * [ResourceQuery] - Use a resource query to specify a set of tag keys and values. All resources in the same Amazon Web Services Region and Amazon Web Services account that have those keys with the same values are included in the group. You can add a resource query when you create the group, or later by using the [PutGroupConfiguration] operation.
     ///
     /// * [GroupConfiguration] - Use a service configuration to associate the group with an Amazon Web Services service. The configuration specifies which resource types can be included in the group.
-    public struct Group {
+    public struct Group: Swift.Sendable {
         /// The description of the resource group.
         public var description: Swift.String?
         /// The ARN of the resource group.
@@ -417,12 +419,11 @@ extension ResourceGroupsClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension ResourceGroupsClientTypes {
 
-    public enum GroupConfigurationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GroupConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case updateComplete
         case updateFailed
         case updating
@@ -453,8 +454,9 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A service configuration associated with a resource group. The configuration options are determined by the Amazon Web Services service that defines the Type, and specifies which resources can be included in the group. You can add a service configuration when you create the group by using [CreateGroup], or later by using the [PutGroupConfiguration] operation. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
-    public struct GroupConfiguration {
+    public struct GroupConfiguration: Swift.Sendable {
         /// The configuration currently associated with the group and in effect.
         public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
         /// If present, the reason why a request to update the group configuration failed.
@@ -477,10 +479,9 @@ extension ResourceGroupsClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct CreateGroupOutput {
+public struct CreateGroupOutput: Swift.Sendable {
     /// The description of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
     /// The service configuration associated with the resource group. For details about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
@@ -528,7 +529,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-public struct DeleteGroupInput {
+public struct DeleteGroupInput: Swift.Sendable {
     /// The name or the ARN of the resource group to delete.
     public var group: Swift.String?
     /// Deprecated - don't use this parameter. Use Group instead.
@@ -545,7 +546,7 @@ public struct DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupOutput {
+public struct DeleteGroupOutput: Swift.Sendable {
     /// A full description of the deleted resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
@@ -557,7 +558,7 @@ public struct DeleteGroupOutput {
     }
 }
 
-public struct GetAccountSettingsOutput {
+public struct GetAccountSettingsOutput: Swift.Sendable {
     /// The current settings for the optional features in Resource Groups.
     public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
 
@@ -569,7 +570,7 @@ public struct GetAccountSettingsOutput {
     }
 }
 
-public struct GetGroupInput {
+public struct GetGroupInput: Swift.Sendable {
     /// The name or the ARN of the resource group to retrieve.
     public var group: Swift.String?
     /// Deprecated - don't use this parameter. Use Group instead.
@@ -586,7 +587,7 @@ public struct GetGroupInput {
     }
 }
 
-public struct GetGroupOutput {
+public struct GetGroupOutput: Swift.Sendable {
     /// A structure that contains the metadata details for the specified resource group. Use [GetGroupQuery] and [GetGroupConfiguration] to get those additional details of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
@@ -598,7 +599,7 @@ public struct GetGroupOutput {
     }
 }
 
-public struct GetGroupConfigurationInput {
+public struct GetGroupConfigurationInput: Swift.Sendable {
     /// The name or the ARN of the resource group for which you want to retrive the service configuration.
     public var group: Swift.String?
 
@@ -610,7 +611,7 @@ public struct GetGroupConfigurationInput {
     }
 }
 
-public struct GetGroupConfigurationOutput {
+public struct GetGroupConfigurationOutput: Swift.Sendable {
     /// A structure that describes the service configuration attached with the specified group. For details about the service configuration syntax, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
     public var groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration?
 
@@ -622,7 +623,7 @@ public struct GetGroupConfigurationOutput {
     }
 }
 
-public struct GetGroupQueryInput {
+public struct GetGroupQueryInput: Swift.Sendable {
     /// The name or the ARN of the resource group to query.
     public var group: Swift.String?
     /// Don't use this parameter. Use Group instead.
@@ -640,8 +641,9 @@ public struct GetGroupQueryInput {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A mapping of a query attached to a resource group that determines the Amazon Web Services resources that are members of the group.
-    public struct GroupQuery {
+    public struct GroupQuery: Swift.Sendable {
         /// The name of the resource group that is associated with the specified resource query.
         /// This member is required.
         public var groupName: Swift.String?
@@ -658,10 +660,9 @@ extension ResourceGroupsClientTypes {
             self.resourceQuery = resourceQuery
         }
     }
-
 }
 
-public struct GetGroupQueryOutput {
+public struct GetGroupQueryOutput: Swift.Sendable {
     /// The resource query associated with the specified group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
     public var groupQuery: ResourceGroupsClientTypes.GroupQuery?
 
@@ -673,7 +674,7 @@ public struct GetGroupQueryOutput {
     }
 }
 
-public struct GetTagsInput {
+public struct GetTagsInput: Swift.Sendable {
     /// The ARN of the resource group whose tags you want to retrieve.
     /// This member is required.
     public var arn: Swift.String?
@@ -686,7 +687,7 @@ public struct GetTagsInput {
     }
 }
 
-public struct GetTagsOutput {
+public struct GetTagsOutput: Swift.Sendable {
     /// The ARN of the tagged resource group.
     public var arn: Swift.String?
     /// The tags associated with the specified resource group.
@@ -702,7 +703,7 @@ public struct GetTagsOutput {
     }
 }
 
-public struct GroupResourcesInput {
+public struct GroupResourcesInput: Swift.Sendable {
     /// The name or the ARN of the resource group to add resources to.
     /// This member is required.
     public var group: Swift.String?
@@ -721,8 +722,9 @@ public struct GroupResourcesInput {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A resource that failed to be added to or removed from a group.
-    public struct FailedResource {
+    public struct FailedResource: Swift.Sendable {
         /// The error code associated with the failure.
         public var errorCode: Swift.String?
         /// The error message text associated with the failure.
@@ -741,12 +743,12 @@ extension ResourceGroupsClientTypes {
             self.resourceArn = resourceArn
         }
     }
-
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A structure that identifies a resource that is currently pending addition to the group as a member. Adding a resource to a resource group happens asynchronously as a background task and this one isn't completed yet.
-    public struct PendingResource {
+    public struct PendingResource: Swift.Sendable {
         /// The Amazon resource name (ARN) of the resource that's in a pending state.
         public var resourceArn: Swift.String?
 
@@ -757,10 +759,9 @@ extension ResourceGroupsClientTypes {
             self.resourceArn = resourceArn
         }
     }
-
 }
 
-public struct GroupResourcesOutput {
+public struct GroupResourcesOutput: Swift.Sendable {
     /// A list of ARNs of any resources that this operation failed to add to the group.
     public var failed: [ResourceGroupsClientTypes.FailedResource]?
     /// A list of ARNs of any resources that this operation is still in the process adding to the group. These pending additions continue asynchronously. You can check the status of pending additions by using the [ListGroupResources] operation, and checking the Resources array in the response and the Status field of each object in that array.
@@ -806,7 +807,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ResourceGroupsClientTypes {
 
-    public enum ResourceFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResourceFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case resourcetype
         case sdkUnknown(Swift.String)
 
@@ -831,8 +832,9 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A filter name and value pair that is used to obtain more specific results from a list of resources.
-    public struct ResourceFilter {
+    public struct ResourceFilter: Swift.Sendable {
         /// The name of the filter. Filter names are case-sensitive.
         /// This member is required.
         public var name: ResourceGroupsClientTypes.ResourceFilterName?
@@ -849,10 +851,9 @@ extension ResourceGroupsClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct ListGroupResourcesInput {
+public struct ListGroupResourcesInput: Swift.Sendable {
     /// Filters, formatted as [ResourceFilter] objects, that you want to apply to a ListGroupResources operation. Filters the results to include only those of the specified resource types.
     ///
     /// * resource-type - Filter resources by their type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.
@@ -888,7 +889,7 @@ public struct ListGroupResourcesInput {
 
 extension ResourceGroupsClientTypes {
 
-    public enum QueryErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum QueryErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloudformationStackInactive
         case cloudformationStackNotExisting
         case cloudformationStackUnassumableRole
@@ -922,8 +923,9 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A two-part error structure that can occur in ListGroupResources or SearchResources.
-    public struct QueryError {
+    public struct QueryError: Swift.Sendable {
         /// Specifies the error code that was raised.
         public var errorCode: ResourceGroupsClientTypes.QueryErrorCode?
         /// A message that explains the ErrorCode.
@@ -938,12 +940,12 @@ extension ResourceGroupsClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A structure that contains the ARN of a resource and its resource type.
-    public struct ResourceIdentifier {
+    public struct ResourceIdentifier: Swift.Sendable {
         /// The ARN of a resource.
         public var resourceArn: Swift.String?
         /// The resource type of a resource, such as AWS::EC2::Instance.
@@ -958,12 +960,11 @@ extension ResourceGroupsClientTypes {
             self.resourceType = resourceType
         }
     }
-
 }
 
 extension ResourceGroupsClientTypes {
 
-    public enum ResourceStatusValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResourceStatusValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pending
         case sdkUnknown(Swift.String)
 
@@ -988,8 +989,9 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A structure that identifies the current group membership status for a resource. Adding a resource to a resource group is performed asynchronously as a background task. A PENDING status indicates, for this resource, that the process isn't completed yet.
-    public struct ResourceStatus {
+    public struct ResourceStatus: Swift.Sendable {
         /// The current status.
         public var name: ResourceGroupsClientTypes.ResourceStatusValue?
 
@@ -1000,12 +1002,12 @@ extension ResourceGroupsClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A structure returned by the [ListGroupResources] operation that contains identity and group membership status information for one of the resources in the group.
-    public struct ListGroupResourcesItem {
+    public struct ListGroupResourcesItem: Swift.Sendable {
         /// A structure that contains the ARN of a resource and its resource type.
         public var identifier: ResourceGroupsClientTypes.ResourceIdentifier?
         /// A structure that contains the status of this resource's membership in the group. This field is present in the response only if the group is of type AWS::EC2::HostManagement.
@@ -1020,10 +1022,9 @@ extension ResourceGroupsClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListGroupResourcesOutput {
+public struct ListGroupResourcesOutput: Swift.Sendable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of QueryError objects. Each error contains an ErrorCode and Message. Possible values for ErrorCode are CLOUDFORMATION_STACK_INACTIVE, CLOUDFORMATION_STACK_NOT_EXISTING, CLOUDFORMATION_STACK_UNASSUMABLE_ROLE and RESOURCE_TYPE_NOT_SUPPORTED.
@@ -1050,7 +1051,7 @@ public struct ListGroupResourcesOutput {
 
 extension ResourceGroupsClientTypes {
 
-    public enum GroupFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GroupFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case configurationtype
         case resourcetype
         case sdkUnknown(Swift.String)
@@ -1078,8 +1079,9 @@ extension ResourceGroupsClientTypes {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// A filter collection that you can use to restrict the results from a List operation to only those you want to include.
-    public struct GroupFilter {
+    public struct GroupFilter: Swift.Sendable {
         /// The name of the filter. Filter names are case-sensitive.
         /// This member is required.
         public var name: ResourceGroupsClientTypes.GroupFilterName?
@@ -1096,10 +1098,9 @@ extension ResourceGroupsClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct ListGroupsInput {
+public struct ListGroupsInput: Swift.Sendable {
     /// Filters, formatted as [GroupFilter] objects, that you want to apply to a ListGroups operation.
     ///
     /// * resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.
@@ -1136,8 +1137,9 @@ public struct ListGroupsInput {
 }
 
 extension ResourceGroupsClientTypes {
+
     /// The unique identifiers for a resource group.
-    public struct GroupIdentifier {
+    public struct GroupIdentifier: Swift.Sendable {
         /// The ARN of the resource group.
         public var groupArn: Swift.String?
         /// The name of the resource group.
@@ -1152,10 +1154,9 @@ extension ResourceGroupsClientTypes {
             self.groupName = groupName
         }
     }
-
 }
 
-public struct ListGroupsOutput {
+public struct ListGroupsOutput: Swift.Sendable {
     /// A list of [GroupIdentifier] objects. Each identifier is an object that contains both the Name and the GroupArn.
     public var groupIdentifiers: [ResourceGroupsClientTypes.GroupIdentifier]?
     /// Deprecated - don't use this field. Use the GroupIdentifiers response field instead.
@@ -1176,7 +1177,7 @@ public struct ListGroupsOutput {
     }
 }
 
-public struct PutGroupConfigurationInput {
+public struct PutGroupConfigurationInput: Swift.Sendable {
     /// The new configuration to associate with the specified group. A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For information about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
     public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
     /// The name or ARN of the resource group with the configuration that you want to update.
@@ -1192,12 +1193,12 @@ public struct PutGroupConfigurationInput {
     }
 }
 
-public struct PutGroupConfigurationOutput {
+public struct PutGroupConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct SearchResourcesInput {
+public struct SearchResourcesInput: Swift.Sendable {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value provided by a previous call's NextToken response to indicate where the output should continue from.
@@ -1218,7 +1219,7 @@ public struct SearchResourcesInput {
     }
 }
 
-public struct SearchResourcesOutput {
+public struct SearchResourcesOutput: Swift.Sendable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of QueryError objects. Each error contains an ErrorCode and Message. Possible values for ErrorCode:
@@ -1244,7 +1245,7 @@ public struct SearchResourcesOutput {
     }
 }
 
-public struct TagInput {
+public struct TagInput: Swift.Sendable {
     /// The ARN of the resource group to which to add tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -1262,7 +1263,7 @@ public struct TagInput {
     }
 }
 
-public struct TagOutput {
+public struct TagOutput: Swift.Sendable {
     /// The ARN of the tagged resource.
     public var arn: Swift.String?
     /// The tags that have been added to the specified resource group.
@@ -1278,7 +1279,7 @@ public struct TagOutput {
     }
 }
 
-public struct UngroupResourcesInput {
+public struct UngroupResourcesInput: Swift.Sendable {
     /// The name or the ARN of the resource group from which to remove the resources.
     /// This member is required.
     public var group: Swift.String?
@@ -1296,7 +1297,7 @@ public struct UngroupResourcesInput {
     }
 }
 
-public struct UngroupResourcesOutput {
+public struct UngroupResourcesOutput: Swift.Sendable {
     /// A list of any resources that failed to be removed from the group by this operation.
     public var failed: [ResourceGroupsClientTypes.FailedResource]?
     /// A list of any resources that are still in the process of being removed from the group by this operation. These pending removals continue asynchronously. You can check the status of pending removals by using the [ListGroupResources] operation. After the resource is successfully removed, it no longer appears in the response.
@@ -1316,7 +1317,7 @@ public struct UngroupResourcesOutput {
     }
 }
 
-public struct UntagInput {
+public struct UntagInput: Swift.Sendable {
     /// The ARN of the resource group from which to remove tags. The command removed both the specified keys and any values associated with those keys.
     /// This member is required.
     public var arn: Swift.String?
@@ -1334,7 +1335,7 @@ public struct UntagInput {
     }
 }
 
-public struct UntagOutput {
+public struct UntagOutput: Swift.Sendable {
     /// The ARN of the resource group from which tags have been removed.
     public var arn: Swift.String?
     /// The keys of the tags that were removed.
@@ -1350,7 +1351,7 @@ public struct UntagOutput {
     }
 }
 
-public struct UpdateAccountSettingsInput {
+public struct UpdateAccountSettingsInput: Swift.Sendable {
     /// Specifies whether you want to turn [group lifecycle events](https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html) on or off.
     public var groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
 
@@ -1362,7 +1363,7 @@ public struct UpdateAccountSettingsInput {
     }
 }
 
-public struct UpdateAccountSettingsOutput {
+public struct UpdateAccountSettingsOutput: Swift.Sendable {
     /// A structure that displays the status of the optional features in the account.
     public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
 
@@ -1374,7 +1375,7 @@ public struct UpdateAccountSettingsOutput {
     }
 }
 
-public struct UpdateGroupInput {
+public struct UpdateGroupInput: Swift.Sendable {
     /// The new description that you want to update the resource group with. Descriptions can contain letters, numbers, hyphens, underscores, periods, and spaces.
     public var description: Swift.String?
     /// The name or the ARN of the resource group to modify.
@@ -1395,7 +1396,7 @@ public struct UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupOutput {
+public struct UpdateGroupOutput: Swift.Sendable {
     /// The update description of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
@@ -1407,7 +1408,7 @@ public struct UpdateGroupOutput {
     }
 }
 
-public struct UpdateGroupQueryInput {
+public struct UpdateGroupQueryInput: Swift.Sendable {
     /// The name or the ARN of the resource group to query.
     public var group: Swift.String?
     /// Don't use this parameter. Use Group instead.
@@ -1429,7 +1430,7 @@ public struct UpdateGroupQueryInput {
     }
 }
 
-public struct UpdateGroupQueryOutput {
+public struct UpdateGroupQueryOutput: Swift.Sendable {
     /// The updated resource query associated with the resource group after the update.
     public var groupQuery: ResourceGroupsClientTypes.GroupQuery?
 

@@ -26,17 +26,18 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
-public struct DeleteFleetAdvisorCollectorOutput {
+
+public struct DeleteFleetAdvisorCollectorOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RunFleetAdvisorLsaAnalysisInput {
+public struct RunFleetAdvisorLsaAnalysisInput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct StartRecommendationsOutput {
+public struct StartRecommendationsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -67,8 +68,9 @@ public struct AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a quota for an Amazon Web Services account, for example the number of replication instances allowed.
-    public struct AccountQuota {
+    public struct AccountQuota: Swift.Sendable {
         /// The name of the DMS quota for this Amazon Web Services account.
         public var accountQuotaName: Swift.String?
         /// The maximum allowed value for the quota.
@@ -87,7 +89,6 @@ extension DatabaseMigrationClientTypes {
             self.used = used
         }
     }
-
 }
 
 /// The resource could not be found.
@@ -116,6 +117,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the following:
     ///
     /// * AddTagsToResource
@@ -123,7 +125,7 @@ extension DatabaseMigrationClientTypes {
     /// * ListTagsForResource
     ///
     /// * RemoveTagsFromResource
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public var key: Swift.String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the resource for which the tag is created.
@@ -142,11 +144,10 @@ extension DatabaseMigrationClientTypes {
             self.value = value
         }
     }
-
 }
 
 /// Associates a set of tags with an DMS resource.
-public struct AddTagsToResourceInput {
+public struct AddTagsToResourceInput: Swift.Sendable {
     /// Identifies the DMS resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For DMS, you can tag a replication instance, an endpoint, or a replication task.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -165,13 +166,13 @@ public struct AddTagsToResourceInput {
 }
 
 ///
-public struct AddTagsToResourceOutput {
+public struct AddTagsToResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
 ///
-public struct ApplyPendingMaintenanceActionInput {
+public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
     /// The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade
     /// This member is required.
     public var applyAction: Swift.String?
@@ -201,8 +202,9 @@ public struct ApplyPendingMaintenanceActionInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a maintenance action pending for an DMS resource, including when and how it will be applied. This data type is a response element to the DescribePendingMaintenanceActions operation.
-    public struct PendingMaintenanceAction {
+    public struct PendingMaintenanceAction: Swift.Sendable {
         /// The type of pending maintenance action that is available for the resource.
         public var action: Swift.String?
         /// The date of the maintenance window when the action is to be applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
@@ -233,12 +235,12 @@ extension DatabaseMigrationClientTypes {
             self.optInStatus = optInStatus
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Identifies an DMS resource and any pending actions for it.
-    public struct ResourcePendingMaintenanceActions {
+    public struct ResourcePendingMaintenanceActions: Swift.Sendable {
         /// Detailed information about the pending maintenance action.
         public var pendingMaintenanceActionDetails: [DatabaseMigrationClientTypes.PendingMaintenanceAction]?
         /// The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to. For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN) for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Introduction.AWS.ARN.html) in the DMS documentation.
@@ -253,11 +255,10 @@ extension DatabaseMigrationClientTypes {
             self.resourceIdentifier = resourceIdentifier
         }
     }
-
 }
 
 ///
-public struct ApplyPendingMaintenanceActionOutput {
+public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
     /// The DMS resource that the pending maintenance action will be applied to.
     public var resourcePendingMaintenanceActions: DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions?
 
@@ -295,8 +296,9 @@ public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about the required target engine settings.
-    public struct RecommendationSettings {
+    public struct RecommendationSettings: Swift.Sendable {
         /// The size of your target instance. Fleet Advisor calculates this value based on your data collection type, such as total capacity and resource utilization. Valid values include "total-capacity" and "utilization".
         /// This member is required.
         public var instanceSizingType: Swift.String?
@@ -313,12 +315,12 @@ extension DatabaseMigrationClientTypes {
             self.workloadType = workloadType
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about the source database to analyze and provide target recommendations according to the specified requirements.
-    public struct StartRecommendationsRequestEntry {
+    public struct StartRecommendationsRequestEntry: Swift.Sendable {
         /// The identifier of the source database.
         /// This member is required.
         public var databaseId: Swift.String?
@@ -335,10 +337,9 @@ extension DatabaseMigrationClientTypes {
             self.settings = settings
         }
     }
-
 }
 
-public struct BatchStartRecommendationsInput {
+public struct BatchStartRecommendationsInput: Swift.Sendable {
     /// Provides information about source databases to analyze. After this analysis, Fleet Advisor recommends target engines for each source database.
     public var data: [DatabaseMigrationClientTypes.StartRecommendationsRequestEntry]?
 
@@ -351,8 +352,9 @@ public struct BatchStartRecommendationsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about the errors that occurred during the analysis of the source database.
-    public struct BatchStartRecommendationsErrorEntry {
+    public struct BatchStartRecommendationsErrorEntry: Swift.Sendable {
         /// The code of an error that occurred during the analysis of the source database.
         public var code: Swift.String?
         /// The identifier of the source database.
@@ -371,10 +373,9 @@ extension DatabaseMigrationClientTypes {
             self.message = message
         }
     }
-
 }
 
-public struct BatchStartRecommendationsOutput {
+public struct BatchStartRecommendationsOutput: Swift.Sendable {
     /// A list with error details about the analysis of each source database.
     public var errorEntries: [DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry]?
 
@@ -387,7 +388,7 @@ public struct BatchStartRecommendationsOutput {
 }
 
 ///
-public struct CancelReplicationTaskAssessmentRunInput {
+public struct CancelReplicationTaskAssessmentRunInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the premigration assessment run to be canceled.
     /// This member is required.
     public var replicationTaskAssessmentRunArn: Swift.String?
@@ -401,8 +402,9 @@ public struct CancelReplicationTaskAssessmentRunInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// The progress values reported by the AssessmentProgress response element.
-    public struct ReplicationTaskAssessmentRunProgress {
+    public struct ReplicationTaskAssessmentRunProgress: Swift.Sendable {
         /// The number of individual assessments that have completed, successfully or not.
         public var individualAssessmentCompletedCount: Swift.Int
         /// The number of individual assessments that are specified to run.
@@ -417,12 +419,12 @@ extension DatabaseMigrationClientTypes {
             self.individualAssessmentCount = individualAssessmentCount
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes a premigration assessment run that you have started using the StartReplicationTaskAssessmentRun operation. Some of the information appears based on other operations that can return the ReplicationTaskAssessmentRun object.
-    public struct ReplicationTaskAssessmentRun {
+    public struct ReplicationTaskAssessmentRun: Swift.Sendable {
         /// Indication of the completion progress for the individual assessments specified to run.
         public var assessmentProgress: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress?
         /// Unique name of the assessment run.
@@ -497,11 +499,10 @@ extension DatabaseMigrationClientTypes {
             self.status = status
         }
     }
-
 }
 
 ///
-public struct CancelReplicationTaskAssessmentRunOutput {
+public struct CancelReplicationTaskAssessmentRunOutput: Swift.Sendable {
     /// The ReplicationTaskAssessmentRun object for the canceled assessment run.
     public var replicationTaskAssessmentRun: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun?
 
@@ -569,7 +570,7 @@ public struct ResourceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
 extension DatabaseMigrationClientTypes {
 
-    public enum DmsSslModeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DmsSslModeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case require
         case verifyCa
@@ -603,8 +604,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a DocumentDB data provider.
-    public struct DocDbDataProviderSettings {
+    public struct DocDbDataProviderSettings: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public var certificateArn: Swift.String?
         /// The database name on the DocumentDB data provider.
@@ -631,12 +633,12 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a MariaDB data provider.
-    public struct MariaDbDataProviderSettings {
+    public struct MariaDbDataProviderSettings: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public var certificateArn: Swift.String?
         /// The port value for the MariaDB data provider
@@ -659,12 +661,12 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a Microsoft SQL Server data provider.
-    public struct MicrosoftSqlServerDataProviderSettings {
+    public struct MicrosoftSqlServerDataProviderSettings: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public var certificateArn: Swift.String?
         /// The database name on the Microsoft SQL Server data provider.
@@ -691,12 +693,11 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
 
-    public enum AuthMechanismValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AuthMechanismValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case mongodbCr
         case scramSha1
@@ -728,7 +729,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum AuthTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AuthTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case no
         case password
         case sdkUnknown(Swift.String)
@@ -756,8 +757,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a MongoDB data provider.
-    public struct MongoDbDataProviderSettings {
+    public struct MongoDbDataProviderSettings: Swift.Sendable {
         /// The authentication method for connecting to the data provider. Valid values are DEFAULT, MONGODB_CR, or SCRAM_SHA_1.
         public var authMechanism: DatabaseMigrationClientTypes.AuthMechanismValue?
         /// The MongoDB database name. This setting isn't used when AuthType is set to "no". The default is "admin".
@@ -796,12 +798,12 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a MySQL data provider.
-    public struct MySqlDataProviderSettings {
+    public struct MySqlDataProviderSettings: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public var certificateArn: Swift.String?
         /// The port value for the MySQL data provider.
@@ -824,12 +826,12 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an Oracle data provider.
-    public struct OracleDataProviderSettings {
+    public struct OracleDataProviderSettings: Swift.Sendable {
         /// The address of your Oracle Automatic Storage Management (ASM) server. You can set this value from the asm_server value. You set asm_server as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see [Configuration for change data capture (CDC) on an Oracle source database](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration).
         public var asmServer: Swift.String?
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
@@ -876,12 +878,12 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a PostgreSQL data provider.
-    public struct PostgreSqlDataProviderSettings {
+    public struct PostgreSqlDataProviderSettings: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public var certificateArn: Swift.String?
         /// The database name on the PostgreSQL data provider.
@@ -908,12 +910,12 @@ extension DatabaseMigrationClientTypes {
             self.sslMode = sslMode
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an Amazon Redshift data provider.
-    public struct RedshiftDataProviderSettings {
+    public struct RedshiftDataProviderSettings: Swift.Sendable {
         /// The database name on the Amazon Redshift data provider.
         public var databaseName: Swift.String?
         /// The port value for the Amazon Redshift data provider.
@@ -932,12 +934,12 @@ extension DatabaseMigrationClientTypes {
             self.serverName = serverName
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a data provider.
-    public enum DataProviderSettings {
+    public enum DataProviderSettings: Swift.Sendable {
         /// Provides information that defines an Amazon Redshift data provider.
         case redshiftsettings(DatabaseMigrationClientTypes.RedshiftDataProviderSettings)
         /// Provides information that defines a PostgreSQL data provider.
@@ -956,10 +958,9 @@ extension DatabaseMigrationClientTypes {
         case mongodbsettings(DatabaseMigrationClientTypes.MongoDbDataProviderSettings)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct CreateDataProviderInput {
+public struct CreateDataProviderInput: Swift.Sendable {
     /// A user-friendly name for the data provider.
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
@@ -990,8 +991,9 @@ public struct CreateDataProviderInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a data provider.
-    public struct DataProvider {
+    public struct DataProvider: Swift.Sendable {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the data provider.
         public var dataProviderArn: Swift.String?
         /// The time the data provider was created.
@@ -1022,10 +1024,9 @@ extension DatabaseMigrationClientTypes {
             self.settings = settings
         }
     }
-
 }
 
-public struct CreateDataProviderOutput {
+public struct CreateDataProviderOutput: Swift.Sendable {
     /// The data provider that was created.
     public var dataProvider: DatabaseMigrationClientTypes.DataProvider?
 
@@ -1087,8 +1088,9 @@ public struct S3AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// The settings in JSON format for the DMS Transfer type source endpoint.
-    public struct DmsTransferSettings {
+    public struct DmsTransferSettings: Swift.Sendable {
         /// The name of the S3 bucket to use.
         public var bucketName: Swift.String?
         /// The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.
@@ -1103,12 +1105,11 @@ extension DatabaseMigrationClientTypes {
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
 
-    public enum NestingLevelValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NestingLevelValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case one
         case sdkUnknown(Swift.String)
@@ -1136,8 +1137,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a DocumentDB endpoint.
-    public struct DocDbSettings {
+    public struct DocDbSettings: Swift.Sendable {
         /// The database name on the DocumentDB source endpoint.
         public var databaseName: Swift.String?
         /// Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to "one". Must be a positive value greater than 0. Default value is 1000.
@@ -1200,7 +1202,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.DocDbSettings: Swift.CustomDebugStringConvertible {
@@ -1209,8 +1210,9 @@ extension DatabaseMigrationClientTypes.DocDbSettings: Swift.CustomDebugStringCon
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role used to define an Amazon DynamoDB target endpoint.
-    public struct DynamoDbSettings {
+    public struct DynamoDbSettings: Swift.Sendable {
         /// The Amazon Resource Name (ARN) used by the service to access the IAM role. The role must allow the iam:PassRole action.
         /// This member is required.
         public var serviceAccessRoleArn: Swift.String?
@@ -1222,12 +1224,12 @@ extension DatabaseMigrationClientTypes {
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an OpenSearch endpoint.
-    public struct ElasticsearchSettings {
+    public struct ElasticsearchSettings: Swift.Sendable {
         /// The endpoint for the OpenSearch cluster. DMS uses HTTPS if a transport protocol (http/https) is not specified.
         /// This member is required.
         public var endpointUri: Swift.String?
@@ -1256,12 +1258,11 @@ extension DatabaseMigrationClientTypes {
             self.useNewMappingType = useNewMappingType
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
 
-    public enum ReplicationEndpointTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ReplicationEndpointTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case source
         case target
         case sdkUnknown(Swift.String)
@@ -1290,7 +1291,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum TargetDbType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TargetDbType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case multipleDatabases
         case specificDatabase
         case sdkUnknown(Swift.String)
@@ -1318,8 +1319,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Settings in JSON format for the source GCP MySQL endpoint.
-    public struct GcpMySQLSettings {
+    public struct GcpMySQLSettings: Swift.Sendable {
         /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public var afterConnectScript: Swift.String?
         /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. For example, in a situation where running an alter DDL on the table could result in different information about the table cached in the replication instance.
@@ -1382,7 +1384,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.GcpMySQLSettings: Swift.CustomDebugStringConvertible {
@@ -1391,8 +1392,9 @@ extension DatabaseMigrationClientTypes.GcpMySQLSettings: Swift.CustomDebugString
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an IBM Db2 LUW endpoint.
-    public struct IBMDb2Settings {
+    public struct IBMDb2Settings: Swift.Sendable {
         /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence number (LSN) where you want the replication to start.
         public var currentLsn: Swift.String?
         /// Database name for the endpoint.
@@ -1455,7 +1457,6 @@ extension DatabaseMigrationClientTypes {
             self.writeBufferSize = writeBufferSize
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.CustomDebugStringConvertible {
@@ -1465,7 +1466,7 @@ extension DatabaseMigrationClientTypes.IBMDb2Settings: Swift.CustomDebugStringCo
 
 extension DatabaseMigrationClientTypes {
 
-    public enum MessageFormatValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MessageFormatValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case json
         case jsonUnformatted
         case sdkUnknown(Swift.String)
@@ -1494,7 +1495,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum KafkaSaslMechanism: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum KafkaSaslMechanism: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plain
         case scramSha512
         case sdkUnknown(Swift.String)
@@ -1523,7 +1524,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum KafkaSecurityProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum KafkaSecurityProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plaintext
         case saslSsl
         case sslAuthentication
@@ -1558,7 +1559,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum KafkaSslEndpointIdentificationAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum KafkaSslEndpointIdentificationAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case https
         case `none`
         case sdkUnknown(Swift.String)
@@ -1586,8 +1587,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes an Apache Kafka endpoint. This information includes the output format of records applied to the endpoint and details of transaction and control table data information.
-    public struct KafkaSettings {
+    public struct KafkaSettings: Swift.Sendable {
         /// A comma-separated list of one or more broker locations in your Kafka cluster that host your Kafka instance. Specify each broker location in the form  broker-hostname-or-ip:port . For example, "ec2-12-345-678-901.compute-1.amazonaws.com:2345". For more information and examples of specifying a list of broker locations, see [Using Apache Kafka as a target for Database Migration Service](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html) in the Database Migration Service User Guide.
         public var broker: Swift.String?
         /// Shows detailed control information for table definition, column definition, and table and column changes in the Kafka message output. The default is false.
@@ -1674,7 +1676,6 @@ extension DatabaseMigrationClientTypes {
             self.topic = topic
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.KafkaSettings: Swift.CustomDebugStringConvertible {
@@ -1683,8 +1684,9 @@ extension DatabaseMigrationClientTypes.KafkaSettings: Swift.CustomDebugStringCon
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes an Amazon Kinesis Data Stream endpoint. This information includes the output format of records applied to the endpoint and details of transaction and control table data information.
-    public struct KinesisSettings {
+    public struct KinesisSettings: Swift.Sendable {
         /// Shows detailed control information for table definition, column definition, and table and column changes in the Kinesis message output. The default is false.
         public var includeControlDetails: Swift.Bool?
         /// Include NULL and empty columns for records migrated to the endpoint. The default is false.
@@ -1731,12 +1733,11 @@ extension DatabaseMigrationClientTypes {
             self.streamArn = streamArn
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
 
-    public enum SafeguardPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SafeguardPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exclusiveAutomaticTruncation
         case relyOnSqlServerReplicationAgent
         case sharedAutomaticTruncation
@@ -1768,7 +1769,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum TlogAccessMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TlogAccessMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case backuponly
         case preferbackup
         case prefertlog
@@ -1802,8 +1803,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a Microsoft SQL Server endpoint.
-    public struct MicrosoftSQLServerSettings {
+    public struct MicrosoftSQLServerSettings: Swift.Sendable {
         /// The maximum size of the packets (in bytes) used to transfer data using BCP.
         public var bcpPacketSize: Swift.Int?
         /// Specifies a file group for the DMS internal tables. When the replication task starts, all the internal DMS control tables (awsdms_ apply_exception, awsdms_apply, awsdms_changes) are created for the specified file group.
@@ -1878,7 +1880,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.CustomDebugStringConvertible {
@@ -1887,8 +1888,9 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.CustomD
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a MongoDB endpoint.
-    public struct MongoDbSettings {
+    public struct MongoDbSettings: Swift.Sendable {
         /// The authentication mechanism you use to access the MongoDB source endpoint. For the default value, in MongoDB version 2.x, "default" is "mongodb_cr". For MongoDB version 3.x or later, "default" is "scram_sha_1". This setting isn't used when AuthType is set to "no".
         public var authMechanism: DatabaseMigrationClientTypes.AuthMechanismValue?
         /// The MongoDB database name. This setting isn't used when AuthType is set to "no". The default is "admin".
@@ -1963,7 +1965,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.CustomDebugStringConvertible {
@@ -1972,8 +1973,9 @@ extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.CustomDebugStringC
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a MySQL endpoint.
-    public struct MySQLSettings {
+    public struct MySQLSettings: Swift.Sendable {
         /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public var afterConnectScript: Swift.String?
         /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. For example, in a situation where running an alter DDL on the table could result in different information about the table cached in the replication instance.
@@ -2040,7 +2042,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.MySQLSettings: Swift.CustomDebugStringConvertible {
@@ -2049,8 +2050,9 @@ extension DatabaseMigrationClientTypes.MySQLSettings: Swift.CustomDebugStringCon
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an Amazon Neptune endpoint.
-    public struct NeptuneSettings {
+    public struct NeptuneSettings: Swift.Sendable {
         /// The number of milliseconds for DMS to wait to retry a bulk-load of migrated graph data to the Neptune target database before raising an error. The default is 250.
         public var errorRetryDuration: Swift.Int?
         /// If you want Identity and Access Management (IAM) authorization enabled for this endpoint, set this parameter to true. Then attach the appropriate IAM policy document to your service role specified by ServiceAccessRoleArn. The default is false.
@@ -2087,12 +2089,11 @@ extension DatabaseMigrationClientTypes {
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
 
-    public enum CharLengthSemantics: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CharLengthSemantics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case byte
         case char
         case `default`
@@ -2123,8 +2124,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an Oracle endpoint.
-    public struct OracleSettings {
+    public struct OracleSettings: Swift.Sendable {
         /// Set this attribute to false in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This tells the DMS instance to not access redo logs through any specified path prefix replacement using direct file access.
         public var accessAlternateDirectly: Swift.Bool?
         /// Set this attribute to set up table-level supplemental logging for the Oracle database. This attribute enables PRIMARY KEY supplemental logging on all tables selected for a migration task. If you use this option, you still need to enable database-level supplemental logging.
@@ -2303,7 +2305,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.OracleSettings: Swift.CustomDebugStringConvertible {
@@ -2313,7 +2314,7 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.CustomDebugStringCo
 
 extension DatabaseMigrationClientTypes {
 
-    public enum DatabaseMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DatabaseMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case babelfish
         case `default`
         case sdkUnknown(Swift.String)
@@ -2342,7 +2343,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum LongVarcharMappingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LongVarcharMappingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case clob
         case nclob
         case wstring
@@ -2374,7 +2375,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum PluginNameValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PluginNameValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case noPreference
         case pglogical
         case testDecoding
@@ -2405,8 +2406,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a PostgreSQL endpoint.
-    public struct PostgreSQLSettings {
+    public struct PostgreSQLSettings: Swift.Sendable {
         /// For use with change data capture (CDC) only, this attribute has DMS bypass foreign keys and user triggers to reduce the time it takes to bulk load data. Example: afterConnectScript=SET session_replication_role='replica'
         public var afterConnectScript: Swift.String?
         /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
@@ -2509,7 +2511,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.CustomDebugStringConvertible {
@@ -2519,7 +2520,7 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.CustomDebugStri
 
 extension DatabaseMigrationClientTypes {
 
-    public enum RedisAuthTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RedisAuthTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authRole
         case authToken
         case `none`
@@ -2551,7 +2552,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum SslSecurityProtocolValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SslSecurityProtocolValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plaintext
         case sslEncryption
         case sdkUnknown(Swift.String)
@@ -2579,8 +2580,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a Redis target endpoint.
-    public struct RedisSettings {
+    public struct RedisSettings: Swift.Sendable {
         /// The password provided with the auth-role and auth-token options of the AuthType setting for a Redis target endpoint.
         public var authPassword: Swift.String?
         /// The type of authentication to perform when connecting to a Redis target. Options include none, auth-token, and auth-role. The auth-token option requires an AuthPassword value to be provided. The auth-role option requires AuthUserName and AuthPassword values to be provided.
@@ -2617,7 +2619,6 @@ extension DatabaseMigrationClientTypes {
             self.sslSecurityProtocol = sslSecurityProtocol
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.RedisSettings: Swift.CustomDebugStringConvertible {
@@ -2627,7 +2628,7 @@ extension DatabaseMigrationClientTypes.RedisSettings: Swift.CustomDebugStringCon
 
 extension DatabaseMigrationClientTypes {
 
-    public enum EncryptionModeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EncryptionModeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sseKms
         case sseS3
         case sdkUnknown(Swift.String)
@@ -2655,8 +2656,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an Amazon Redshift endpoint.
-    public struct RedshiftSettings {
+    public struct RedshiftSettings: Swift.Sendable {
         /// A value that indicates to allow any date format, including invalid formats such as 00/00/00 00:00:00, to be loaded without generating an error. You can choose true or false (the default). This parameter applies only to TIMESTAMP and DATE columns. Always use ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data doesn't match the DATEFORMAT specification, Amazon Redshift inserts a NULL value into that field.
         public var acceptAnyDate: Swift.Bool?
         /// Code to run after connecting. This parameter should contain the code itself, not the name of a file containing the code.
@@ -2787,7 +2789,6 @@ extension DatabaseMigrationClientTypes {
             self.writeBufferSize = writeBufferSize
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.RedshiftSettings: Swift.CustomDebugStringConvertible {
@@ -2797,7 +2798,7 @@ extension DatabaseMigrationClientTypes.RedshiftSettings: Swift.CustomDebugString
 
 extension DatabaseMigrationClientTypes {
 
-    public enum CannedAclForObjectsValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CannedAclForObjectsValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authenticatedRead
         case awsExecRead
         case bucketOwnerFullControl
@@ -2844,7 +2845,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum CompressionTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CompressionTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gzip
         case `none`
         case sdkUnknown(Swift.String)
@@ -2873,7 +2874,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum DataFormatValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataFormatValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case parquet
         case sdkUnknown(Swift.String)
@@ -2902,7 +2903,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum DatePartitionDelimiterValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DatePartitionDelimiterValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dash
         case `none`
         case slash
@@ -2937,7 +2938,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum DatePartitionSequenceValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DatePartitionSequenceValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ddmmyyyy
         case mmyyyydd
         case yyyymm
@@ -2975,7 +2976,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum EncodingTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EncodingTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plain
         case plainDictionary
         case rleDictionary
@@ -3007,7 +3008,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum ParquetVersionValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ParquetVersionValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case parquet10
         case parquet20
         case sdkUnknown(Swift.String)
@@ -3035,8 +3036,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Settings for exporting data to Amazon S3.
-    public struct S3Settings {
+    public struct S3Settings: Swift.Sendable {
         /// An optional parameter that, when set to true or y, you can use to add column name information to the .csv output file. The default value is false. Valid values are true, false, y, and n.
         public var addColumnName: Swift.Bool?
         /// Use the S3 target endpoint setting AddTrailingPaddingCharacter to add padding on string data. The default value is false.
@@ -3239,12 +3241,12 @@ extension DatabaseMigrationClientTypes {
             self.useTaskStartTimeForFullLoadTimestamp = useTaskStartTimeForFullLoadTimestamp
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a SAP ASE endpoint.
-    public struct SybaseSettings {
+    public struct SybaseSettings: Swift.Sendable {
         /// Database name for the endpoint.
         public var databaseName: Swift.String?
         /// Endpoint connection password.
@@ -3279,7 +3281,6 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes.SybaseSettings: Swift.CustomDebugStringConvertible {
@@ -3288,8 +3289,9 @@ extension DatabaseMigrationClientTypes.SybaseSettings: Swift.CustomDebugStringCo
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an Amazon Timestream endpoint.
-    public struct TimestreamSettings {
+    public struct TimestreamSettings: Swift.Sendable {
         /// Set this attribute to true to specify that DMS only applies inserts and updates, and not deletes. Amazon Timestream does not allow deleting records, so if this value is false, DMS nulls out the corresponding record in the Timestream database rather than deleting it.
         public var cdcInsertsAndUpdates: Swift.Bool?
         /// Database name for the endpoint.
@@ -3319,11 +3321,10 @@ extension DatabaseMigrationClientTypes {
             self.memoryDuration = memoryDuration
         }
     }
-
 }
 
 ///
-public struct CreateEndpointInput {
+public struct CreateEndpointInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the certificate.
     public var certificateArn: Swift.String?
     /// The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName. To migrate to a specific database, use this setting and targetDbType.
@@ -3487,6 +3488,7 @@ extension CreateEndpointInput: Swift.CustomDebugStringConvertible {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes an endpoint of a database instance in response to operations such as the following:
     ///
     /// * CreateEndpoint
@@ -3494,7 +3496,7 @@ extension DatabaseMigrationClientTypes {
     /// * DescribeEndpoint
     ///
     /// * ModifyEndpoint
-    public struct Endpoint {
+    public struct Endpoint: Swift.Sendable {
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
         public var certificateArn: Swift.String?
         /// The name of the database at the endpoint.
@@ -3645,11 +3647,10 @@ extension DatabaseMigrationClientTypes {
             self.username = username
         }
     }
-
 }
 
 ///
-public struct CreateEndpointOutput {
+public struct CreateEndpointOutput: Swift.Sendable {
     /// The endpoint that was created.
     public var endpoint: DatabaseMigrationClientTypes.Endpoint?
 
@@ -3832,7 +3833,7 @@ public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 ///
-public struct CreateEventSubscriptionInput {
+public struct CreateEventSubscriptionInput: Swift.Sendable {
     /// A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it.
     public var enabled: Swift.Bool?
     /// A list of event categories for a source type that you want to subscribe to. For more information, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
@@ -3871,8 +3872,9 @@ public struct CreateEventSubscriptionInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes an event notification subscription created by the CreateEventSubscription operation.
-    public struct EventSubscription {
+    public struct EventSubscription: Swift.Sendable {
         /// The DMS event notification subscription Id.
         public var custSubscriptionId: Swift.String?
         /// The Amazon Web Services customer account associated with the DMS event notification subscription.
@@ -3915,11 +3917,10 @@ extension DatabaseMigrationClientTypes {
             self.subscriptionCreationTime = subscriptionCreationTime
         }
     }
-
 }
 
 ///
-public struct CreateEventSubscriptionOutput {
+public struct CreateEventSubscriptionOutput: Swift.Sendable {
     /// The event subscription that was created.
     public var eventSubscription: DatabaseMigrationClientTypes.EventSubscription?
 
@@ -3955,7 +3956,7 @@ public struct S3ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-public struct CreateFleetAdvisorCollectorInput {
+public struct CreateFleetAdvisorCollectorInput: Swift.Sendable {
     /// The name of your Fleet Advisor collector (for example, sample-collector).
     /// This member is required.
     public var collectorName: Swift.String?
@@ -3982,7 +3983,7 @@ public struct CreateFleetAdvisorCollectorInput {
     }
 }
 
-public struct CreateFleetAdvisorCollectorOutput {
+public struct CreateFleetAdvisorCollectorOutput: Swift.Sendable {
     /// The name of the new Fleet Advisor collector.
     public var collectorName: Swift.String?
     /// The unique ID of the new Fleet Advisor collector, for example: 22fda70c-40d5-4acf-b233-a495bd8eb7f5
@@ -4010,7 +4011,7 @@ public struct CreateFleetAdvisorCollectorOutput {
     }
 }
 
-public struct CreateInstanceProfileInput {
+public struct CreateInstanceProfileInput: Swift.Sendable {
     /// The Availability Zone where the instance profile will be created. The default value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your data provider is created, for examplem us-east-1d.
     public var availabilityZone: Swift.String?
     /// A user-friendly description of the instance profile.
@@ -4055,8 +4056,9 @@ public struct CreateInstanceProfileInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines an instance profile.
-    public struct InstanceProfile {
+    public struct InstanceProfile: Swift.Sendable {
         /// The Availability Zone where the instance profile runs.
         public var availabilityZone: Swift.String?
         /// A description of the instance profile. Descriptions can have up to 31 characters. A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
@@ -4103,10 +4105,9 @@ extension DatabaseMigrationClientTypes {
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
-
 }
 
-public struct CreateInstanceProfileOutput {
+public struct CreateInstanceProfileOutput: Swift.Sendable {
     /// The instance profile that was created.
     public var instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
 
@@ -4119,8 +4120,9 @@ public struct CreateInstanceProfileOutput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a schema conversion application.
-    public struct SCApplicationAttributes {
+    public struct SCApplicationAttributes: Swift.Sendable {
         /// The path for the Amazon S3 bucket that the application uses for exporting assessment reports.
         public var s3BucketPath: Swift.String?
         /// The ARN for the role the application uses to access its Amazon S3 bucket.
@@ -4135,12 +4137,12 @@ extension DatabaseMigrationClientTypes {
             self.s3BucketRoleArn = s3BucketRoleArn
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Information about a data provider.
-    public struct DataProviderDescriptorDefinition {
+    public struct DataProviderDescriptorDefinition: Swift.Sendable {
         /// The name or Amazon Resource Name (ARN) of the data provider.
         /// This member is required.
         public var dataProviderIdentifier: Swift.String?
@@ -4160,10 +4162,9 @@ extension DatabaseMigrationClientTypes {
             self.secretsManagerSecretId = secretsManagerSecretId
         }
     }
-
 }
 
-public struct CreateMigrationProjectInput {
+public struct CreateMigrationProjectInput: Swift.Sendable {
     /// A user-friendly description of the migration project.
     public var description: Swift.String?
     /// The identifier of the associated instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
@@ -4207,8 +4208,9 @@ public struct CreateMigrationProjectInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Information about a data provider.
-    public struct DataProviderDescriptor {
+    public struct DataProviderDescriptor: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the data provider.
         public var dataProviderArn: Swift.String?
         /// The user-friendly name of the data provider.
@@ -4231,12 +4233,12 @@ extension DatabaseMigrationClientTypes {
             self.secretsManagerSecretId = secretsManagerSecretId
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a migration project.
-    public struct MigrationProject {
+    public struct MigrationProject: Swift.Sendable {
         /// A user-friendly description of the migration project.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the instance profile for your migration project.
@@ -4283,10 +4285,9 @@ extension DatabaseMigrationClientTypes {
             self.transformationRules = transformationRules
         }
     }
-
 }
 
-public struct CreateMigrationProjectOutput {
+public struct CreateMigrationProjectOutput: Swift.Sendable {
     /// The migration project that was created.
     public var migrationProject: DatabaseMigrationClientTypes.MigrationProject?
 
@@ -4349,8 +4350,9 @@ public struct ReplicationSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.Modeled
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Configuration parameters for provisioning an DMS Serverless replication.
-    public struct ComputeConfig {
+    public struct ComputeConfig: Swift.Sendable {
         /// The Availability Zone where the DMS Serverless replication using this configuration will run. The default value is a random, system-chosen Availability Zone in the configuration's Amazon Web Services Region, for example, "us-west-2". You can't set this parameter if the MultiAZ parameter is set to true.
         public var availabilityZone: Swift.String?
         /// A list of custom DNS name servers supported for the DMS Serverless replication to access your source or target database. This list overrides the default name servers supported by the DMS Serverless replication. You can specify a comma-separated list of internet addresses for up to four DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
@@ -4393,12 +4395,11 @@ extension DatabaseMigrationClientTypes {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
 
-    public enum MigrationTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MigrationTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cdc
         case fullLoad
         case fullLoadAndCdc
@@ -4429,7 +4430,7 @@ extension DatabaseMigrationClientTypes {
 }
 
 ///
-public struct CreateReplicationConfigInput {
+public struct CreateReplicationConfigInput: Swift.Sendable {
     /// Configuration parameters for provisioning an DMS Serverless replication.
     /// This member is required.
     public var computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
@@ -4490,8 +4491,9 @@ public struct CreateReplicationConfigInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// This object provides configuration information about a serverless replication.
-    public struct ReplicationConfig {
+    public struct ReplicationConfig: Swift.Sendable {
         /// Configuration parameters for provisioning an DMS serverless replication.
         public var computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
         /// The Amazon Resource Name (ARN) of this DMS Serverless replication configuration.
@@ -4542,11 +4544,10 @@ extension DatabaseMigrationClientTypes {
             self.targetEndpointArn = targetEndpointArn
         }
     }
-
 }
 
 ///
-public struct CreateReplicationConfigOutput {
+public struct CreateReplicationConfigOutput: Swift.Sendable {
     /// Configuration parameters returned from the DMS Serverless replication after it is created.
     public var replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
 
@@ -4609,7 +4610,7 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 }
 
 ///
-public struct CreateReplicationInstanceInput {
+public struct CreateReplicationInstanceInput: Swift.Sendable {
     /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true
@@ -4693,8 +4694,9 @@ public struct CreateReplicationInstanceInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about the values of pending modifications to a replication instance. This data type is an object of the [ReplicationInstance](https://docs.aws.amazon.com/dms/latest/APIReference/API_ReplicationInstance.html) user-defined data type.
-    public struct ReplicationPendingModifiedValues {
+    public struct ReplicationPendingModifiedValues: Swift.Sendable {
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public var allocatedStorage: Swift.Int?
         /// The engine version number of the replication instance.
@@ -4721,12 +4723,12 @@ extension DatabaseMigrationClientTypes {
             self.replicationInstanceClass = replicationInstanceClass
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// The name of an Availability Zone for use during database migration. AvailabilityZone is an optional parameter to the [CreateReplicationInstance](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationInstance.html) operation, and it’s value relates to the Amazon Web Services Region of an endpoint. For example, the availability zone of an endpoint in the us-east-1 region might be us-east-1a, us-east-1b, us-east-1c, or us-east-1d.
-    public struct AvailabilityZone {
+    public struct AvailabilityZone: Swift.Sendable {
         /// The name of the Availability Zone.
         public var name: Swift.String?
 
@@ -4737,12 +4739,12 @@ extension DatabaseMigrationClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// In response to a request by the DescribeReplicationSubnetGroups operation, this object identifies a subnet by its given Availability Zone, subnet identifier, and status.
-    public struct Subnet {
+    public struct Subnet: Swift.Sendable {
         /// The Availability Zone of the subnet.
         public var subnetAvailabilityZone: DatabaseMigrationClientTypes.AvailabilityZone?
         /// The subnet identifier.
@@ -4761,12 +4763,12 @@ extension DatabaseMigrationClientTypes {
             self.subnetStatus = subnetStatus
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a subnet group in response to a request by the DescribeReplicationSubnetGroups operation.
-    public struct ReplicationSubnetGroup {
+    public struct ReplicationSubnetGroup: Swift.Sendable {
         /// A description for the replication subnet group.
         public var replicationSubnetGroupDescription: Swift.String?
         /// The identifier of the replication instance subnet group.
@@ -4797,12 +4799,12 @@ extension DatabaseMigrationClientTypes {
             self.vpcId = vpcId
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes the status of a security group associated with the virtual private cloud (VPC) hosting your replication and DB instances.
-    public struct VpcSecurityGroupMembership {
+    public struct VpcSecurityGroupMembership: Swift.Sendable {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The VPC security group ID.
@@ -4817,12 +4819,12 @@ extension DatabaseMigrationClientTypes {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a replication instance.
-    public struct ReplicationInstance {
+    public struct ReplicationInstance: Swift.Sendable {
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public var allocatedStorage: Swift.Int
         /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
@@ -4966,11 +4968,10 @@ extension DatabaseMigrationClientTypes {
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
-
 }
 
 ///
-public struct CreateReplicationInstanceOutput {
+public struct CreateReplicationInstanceOutput: Swift.Sendable {
     /// The replication instance that was created.
     public var replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance?
 
@@ -4983,7 +4984,7 @@ public struct CreateReplicationInstanceOutput {
 }
 
 ///
-public struct CreateReplicationSubnetGroupInput {
+public struct CreateReplicationSubnetGroupInput: Swift.Sendable {
     /// The description for the subnet group.
     /// This member is required.
     public var replicationSubnetGroupDescription: Swift.String?
@@ -5011,7 +5012,7 @@ public struct CreateReplicationSubnetGroupInput {
 }
 
 ///
-public struct CreateReplicationSubnetGroupOutput {
+public struct CreateReplicationSubnetGroupOutput: Swift.Sendable {
     /// The replication subnet group that was created.
     public var replicationSubnetGroup: DatabaseMigrationClientTypes.ReplicationSubnetGroup?
 
@@ -5024,7 +5025,7 @@ public struct CreateReplicationSubnetGroupOutput {
 }
 
 ///
-public struct CreateReplicationTaskInput {
+public struct CreateReplicationTaskInput: Swift.Sendable {
     /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373” When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
@@ -5097,8 +5098,9 @@ public struct CreateReplicationTaskInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// In response to a request by the DescribeReplicationTasks operation, this object provides a collection of statistics about a replication task.
-    public struct ReplicationTaskStats {
+    public struct ReplicationTaskStats: Swift.Sendable {
         /// The elapsed time of the task, in milliseconds.
         public var elapsedTimeMillis: Swift.Int
         /// The date the replication task was started either with a fresh start or a target reload.
@@ -5149,12 +5151,12 @@ extension DatabaseMigrationClientTypes {
             self.tablesQueued = tablesQueued
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes a replication task created by the CreateReplicationTask operation.
-    public struct ReplicationTask {
+    public struct ReplicationTask: Swift.Sendable {
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want the CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public var cdcStartPosition: Swift.String?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
@@ -5295,11 +5297,10 @@ extension DatabaseMigrationClientTypes {
             self.taskData = taskData
         }
     }
-
 }
 
 ///
-public struct CreateReplicationTaskOutput {
+public struct CreateReplicationTaskOutput: Swift.Sendable {
     /// The replication task that was created.
     public var replicationTask: DatabaseMigrationClientTypes.ReplicationTask?
 
@@ -5311,7 +5312,7 @@ public struct CreateReplicationTaskOutput {
     }
 }
 
-public struct DeleteCertificateInput {
+public struct DeleteCertificateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the certificate.
     /// This member is required.
     public var certificateArn: Swift.String?
@@ -5325,8 +5326,9 @@ public struct DeleteCertificateInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// The SSL certificate that can be used to encrypt connections between the endpoints and the replication instance.
-    public struct Certificate {
+    public struct Certificate: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the certificate.
         public var certificateArn: Swift.String?
         /// The date that the certificate was created.
@@ -5373,10 +5375,9 @@ extension DatabaseMigrationClientTypes {
             self.validToDate = validToDate
         }
     }
-
 }
 
-public struct DeleteCertificateOutput {
+public struct DeleteCertificateOutput: Swift.Sendable {
     /// The Secure Sockets Layer (SSL) certificate.
     public var certificate: DatabaseMigrationClientTypes.Certificate?
 
@@ -5389,7 +5390,7 @@ public struct DeleteCertificateOutput {
 }
 
 ///
-public struct DeleteConnectionInput {
+public struct DeleteConnectionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -5408,8 +5409,9 @@ public struct DeleteConnectionInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Status of the connection between an endpoint and a replication instance, including Amazon Resource Names (ARNs) and the last error message issued.
-    public struct Connection {
+    public struct Connection: Swift.Sendable {
         /// The ARN string that uniquely identifies the endpoint.
         public var endpointArn: Swift.String?
         /// The identifier of the endpoint. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
@@ -5448,11 +5450,10 @@ extension DatabaseMigrationClientTypes {
             self.status = status
         }
     }
-
 }
 
 ///
-public struct DeleteConnectionOutput {
+public struct DeleteConnectionOutput: Swift.Sendable {
     /// The connection that is being deleted.
     public var connection: DatabaseMigrationClientTypes.Connection?
 
@@ -5464,7 +5465,7 @@ public struct DeleteConnectionOutput {
     }
 }
 
-public struct DeleteDataProviderInput {
+public struct DeleteDataProviderInput: Swift.Sendable {
     /// The identifier of the data provider to delete.
     /// This member is required.
     public var dataProviderIdentifier: Swift.String?
@@ -5477,7 +5478,7 @@ public struct DeleteDataProviderInput {
     }
 }
 
-public struct DeleteDataProviderOutput {
+public struct DeleteDataProviderOutput: Swift.Sendable {
     /// The data provider that was deleted.
     public var dataProvider: DatabaseMigrationClientTypes.DataProvider?
 
@@ -5490,7 +5491,7 @@ public struct DeleteDataProviderOutput {
 }
 
 ///
-public struct DeleteEndpointInput {
+public struct DeleteEndpointInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -5504,7 +5505,7 @@ public struct DeleteEndpointInput {
 }
 
 ///
-public struct DeleteEndpointOutput {
+public struct DeleteEndpointOutput: Swift.Sendable {
     /// The endpoint that was deleted.
     public var endpoint: DatabaseMigrationClientTypes.Endpoint?
 
@@ -5517,7 +5518,7 @@ public struct DeleteEndpointOutput {
 }
 
 ///
-public struct DeleteEventSubscriptionInput {
+public struct DeleteEventSubscriptionInput: Swift.Sendable {
     /// The name of the DMS event notification subscription to be deleted.
     /// This member is required.
     public var subscriptionName: Swift.String?
@@ -5531,7 +5532,7 @@ public struct DeleteEventSubscriptionInput {
 }
 
 ///
-public struct DeleteEventSubscriptionOutput {
+public struct DeleteEventSubscriptionOutput: Swift.Sendable {
     /// The event subscription that was deleted.
     public var eventSubscription: DatabaseMigrationClientTypes.EventSubscription?
 
@@ -5567,7 +5568,7 @@ public struct CollectorNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-public struct DeleteFleetAdvisorCollectorInput {
+public struct DeleteFleetAdvisorCollectorInput: Swift.Sendable {
     /// The reference ID of the Fleet Advisor collector to delete.
     /// This member is required.
     public var collectorReferencedId: Swift.String?
@@ -5604,7 +5605,7 @@ public struct InvalidOperationFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-public struct DeleteFleetAdvisorDatabasesInput {
+public struct DeleteFleetAdvisorDatabasesInput: Swift.Sendable {
     /// The IDs of the Fleet Advisor collector databases to delete.
     /// This member is required.
     public var databaseIds: [Swift.String]?
@@ -5617,7 +5618,7 @@ public struct DeleteFleetAdvisorDatabasesInput {
     }
 }
 
-public struct DeleteFleetAdvisorDatabasesOutput {
+public struct DeleteFleetAdvisorDatabasesOutput: Swift.Sendable {
     /// The IDs of the databases that the operation deleted.
     public var databaseIds: [Swift.String]?
 
@@ -5629,7 +5630,7 @@ public struct DeleteFleetAdvisorDatabasesOutput {
     }
 }
 
-public struct DeleteInstanceProfileInput {
+public struct DeleteInstanceProfileInput: Swift.Sendable {
     /// The identifier of the instance profile to delete.
     /// This member is required.
     public var instanceProfileIdentifier: Swift.String?
@@ -5642,7 +5643,7 @@ public struct DeleteInstanceProfileInput {
     }
 }
 
-public struct DeleteInstanceProfileOutput {
+public struct DeleteInstanceProfileOutput: Swift.Sendable {
     /// The instance profile that was deleted.
     public var instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
 
@@ -5654,7 +5655,7 @@ public struct DeleteInstanceProfileOutput {
     }
 }
 
-public struct DeleteMigrationProjectInput {
+public struct DeleteMigrationProjectInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the migration project to delete.
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
@@ -5667,7 +5668,7 @@ public struct DeleteMigrationProjectInput {
     }
 }
 
-public struct DeleteMigrationProjectOutput {
+public struct DeleteMigrationProjectOutput: Swift.Sendable {
     /// The migration project that was deleted.
     public var migrationProject: DatabaseMigrationClientTypes.MigrationProject?
 
@@ -5680,7 +5681,7 @@ public struct DeleteMigrationProjectOutput {
 }
 
 ///
-public struct DeleteReplicationConfigInput {
+public struct DeleteReplicationConfigInput: Swift.Sendable {
     /// The replication config to delete.
     /// This member is required.
     public var replicationConfigArn: Swift.String?
@@ -5694,7 +5695,7 @@ public struct DeleteReplicationConfigInput {
 }
 
 ///
-public struct DeleteReplicationConfigOutput {
+public struct DeleteReplicationConfigOutput: Swift.Sendable {
     /// Configuration parameters returned for the DMS Serverless replication after it is deleted.
     public var replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
 
@@ -5707,7 +5708,7 @@ public struct DeleteReplicationConfigOutput {
 }
 
 ///
-public struct DeleteReplicationInstanceInput {
+public struct DeleteReplicationInstanceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
     /// This member is required.
     public var replicationInstanceArn: Swift.String?
@@ -5721,7 +5722,7 @@ public struct DeleteReplicationInstanceInput {
 }
 
 ///
-public struct DeleteReplicationInstanceOutput {
+public struct DeleteReplicationInstanceOutput: Swift.Sendable {
     /// The replication instance that was deleted.
     public var replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance?
 
@@ -5734,7 +5735,7 @@ public struct DeleteReplicationInstanceOutput {
 }
 
 ///
-public struct DeleteReplicationSubnetGroupInput {
+public struct DeleteReplicationSubnetGroupInput: Swift.Sendable {
     /// The subnet group name of the replication instance.
     /// This member is required.
     public var replicationSubnetGroupIdentifier: Swift.String?
@@ -5748,13 +5749,13 @@ public struct DeleteReplicationSubnetGroupInput {
 }
 
 ///
-public struct DeleteReplicationSubnetGroupOutput {
+public struct DeleteReplicationSubnetGroupOutput: Swift.Sendable {
 
     public init() { }
 }
 
 ///
-public struct DeleteReplicationTaskInput {
+public struct DeleteReplicationTaskInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the replication task to be deleted.
     /// This member is required.
     public var replicationTaskArn: Swift.String?
@@ -5768,7 +5769,7 @@ public struct DeleteReplicationTaskInput {
 }
 
 ///
-public struct DeleteReplicationTaskOutput {
+public struct DeleteReplicationTaskOutput: Swift.Sendable {
     /// The deleted replication task.
     public var replicationTask: DatabaseMigrationClientTypes.ReplicationTask?
 
@@ -5781,7 +5782,7 @@ public struct DeleteReplicationTaskOutput {
 }
 
 ///
-public struct DeleteReplicationTaskAssessmentRunInput {
+public struct DeleteReplicationTaskAssessmentRunInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the premigration assessment run to be deleted.
     /// This member is required.
     public var replicationTaskAssessmentRunArn: Swift.String?
@@ -5795,7 +5796,7 @@ public struct DeleteReplicationTaskAssessmentRunInput {
 }
 
 ///
-public struct DeleteReplicationTaskAssessmentRunOutput {
+public struct DeleteReplicationTaskAssessmentRunOutput: Swift.Sendable {
     /// The ReplicationTaskAssessmentRun object for the deleted assessment run.
     public var replicationTaskAssessmentRun: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun?
 
@@ -5808,13 +5809,13 @@ public struct DeleteReplicationTaskAssessmentRunOutput {
 }
 
 ///
-public struct DescribeAccountAttributesInput {
+public struct DescribeAccountAttributesInput: Swift.Sendable {
 
     public init() { }
 }
 
 ///
-public struct DescribeAccountAttributesOutput {
+public struct DescribeAccountAttributesOutput: Swift.Sendable {
     /// Account quota information.
     public var accountQuotas: [DatabaseMigrationClientTypes.AccountQuota]?
     /// A unique DMS identifier for an account in a particular Amazon Web Services Region. The value of this identifier has the following format: c99999999999. DMS uses this identifier to name artifacts. For example, DMS uses this identifier to name the default Amazon S3 bucket for storing task assessment reports in a given Amazon Web Services Region. The format of this S3 bucket name is the following: dms-AccountNumber-UniqueAccountIdentifier. Here is an example name for this default S3 bucket: dms-111122223333-c44445555666. DMS supports the UniqueAccountIdentifier parameter in versions 3.1.4 and later.
@@ -5831,7 +5832,7 @@ public struct DescribeAccountAttributesOutput {
 }
 
 ///
-public struct DescribeApplicableIndividualAssessmentsInput {
+public struct DescribeApplicableIndividualAssessmentsInput: Swift.Sendable {
     /// Optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// Maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
@@ -5868,7 +5869,7 @@ public struct DescribeApplicableIndividualAssessmentsInput {
 }
 
 ///
-public struct DescribeApplicableIndividualAssessmentsOutput {
+public struct DescribeApplicableIndividualAssessmentsOutput: Swift.Sendable {
     /// List of names for the individual assessments supported by the premigration assessment run that you start based on the specified request parameters. For more information on the available individual assessments, including compatibility with different migration task configurations, see [Working with premigration assessment runs](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html) in the Database Migration Service User Guide.
     public var individualAssessmentNames: [Swift.String]?
     /// Pagination token returned for you to pass to a subsequent request. If you pass this token as the Marker value in a subsequent request, the response includes only records beyond the marker, up to the value specified in the request by MaxRecords.
@@ -5885,8 +5886,9 @@ public struct DescribeApplicableIndividualAssessmentsOutput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are returned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API operations.
-    public struct Filter {
+    public struct Filter: Swift.Sendable {
         /// The name of the filter as specified for a Describe* or similar operation.
         /// This member is required.
         public var name: Swift.String?
@@ -5903,10 +5905,9 @@ extension DatabaseMigrationClientTypes {
             self.values = values
         }
     }
-
 }
 
-public struct DescribeCertificatesInput {
+public struct DescribeCertificatesInput: Swift.Sendable {
     /// Filters applied to the certificates described in the form of key-value pairs. Valid values are certificate-arn and certificate-id.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5926,7 +5927,7 @@ public struct DescribeCertificatesInput {
     }
 }
 
-public struct DescribeCertificatesOutput {
+public struct DescribeCertificatesOutput: Swift.Sendable {
     /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
     public var certificates: [DatabaseMigrationClientTypes.Certificate]?
     /// The pagination token.
@@ -5943,7 +5944,7 @@ public struct DescribeCertificatesOutput {
 }
 
 ///
-public struct DescribeConnectionsInput {
+public struct DescribeConnectionsInput: Swift.Sendable {
     /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5964,7 +5965,7 @@ public struct DescribeConnectionsInput {
 }
 
 ///
-public struct DescribeConnectionsOutput {
+public struct DescribeConnectionsOutput: Swift.Sendable {
     /// A description of the connections.
     public var connections: [DatabaseMigrationClientTypes.Connection]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5980,7 +5981,7 @@ public struct DescribeConnectionsOutput {
     }
 }
 
-public struct DescribeConversionConfigurationInput {
+public struct DescribeConversionConfigurationInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) for the schema conversion project to describe.
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
@@ -5993,7 +5994,7 @@ public struct DescribeConversionConfigurationInput {
     }
 }
 
-public struct DescribeConversionConfigurationOutput {
+public struct DescribeConversionConfigurationOutput: Swift.Sendable {
     /// The configuration parameters for the schema conversion project.
     public var conversionConfiguration: Swift.String?
     /// The name or Amazon Resource Name (ARN) for the schema conversion project.
@@ -6009,7 +6010,7 @@ public struct DescribeConversionConfigurationOutput {
     }
 }
 
-public struct DescribeDataProvidersInput {
+public struct DescribeDataProvidersInput: Swift.Sendable {
     /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names: data-provider-identifier
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -6029,7 +6030,7 @@ public struct DescribeDataProvidersInput {
     }
 }
 
-public struct DescribeDataProvidersOutput {
+public struct DescribeDataProvidersOutput: Swift.Sendable {
     /// A description of data providers.
     public var dataProviders: [DatabaseMigrationClientTypes.DataProvider]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -6046,7 +6047,7 @@ public struct DescribeDataProvidersOutput {
 }
 
 ///
-public struct DescribeEndpointsInput {
+public struct DescribeEndpointsInput: Swift.Sendable {
     /// Filters applied to the endpoints. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6067,7 +6068,7 @@ public struct DescribeEndpointsInput {
 }
 
 ///
-public struct DescribeEndpointsOutput {
+public struct DescribeEndpointsOutput: Swift.Sendable {
     /// Endpoint description.
     public var endpoints: [DatabaseMigrationClientTypes.Endpoint]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6083,7 +6084,7 @@ public struct DescribeEndpointsOutput {
     }
 }
 
-public struct DescribeEndpointSettingsInput {
+public struct DescribeEndpointSettingsInput: Swift.Sendable {
     /// The database engine used for your source or target endpoint.
     /// This member is required.
     public var engineName: Swift.String?
@@ -6106,7 +6107,7 @@ public struct DescribeEndpointSettingsInput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum EndpointSettingTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EndpointSettingTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case boolean
         case `enum`
         case integer
@@ -6140,8 +6141,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Endpoint settings.
-    public struct EndpointSetting {
+    public struct EndpointSetting: Swift.Sendable {
         /// The relevance or validity of an endpoint setting for an engine name and its endpoint type.
         public var applicability: Swift.String?
         /// The default value of the endpoint setting if no value is specified using CreateEndpoint or ModifyEndpoint.
@@ -6184,10 +6186,9 @@ extension DatabaseMigrationClientTypes {
             self.units = units
         }
     }
-
 }
 
-public struct DescribeEndpointSettingsOutput {
+public struct DescribeEndpointSettingsOutput: Swift.Sendable {
     /// Descriptions of the endpoint settings available for your source or target database engine.
     public var endpointSettings: [DatabaseMigrationClientTypes.EndpointSetting]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6204,7 +6205,7 @@ public struct DescribeEndpointSettingsOutput {
 }
 
 ///
-public struct DescribeEndpointTypesInput {
+public struct DescribeEndpointTypesInput: Swift.Sendable {
     /// Filters applied to the endpoint types. Valid filter names: engine-name | endpoint-type
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6225,8 +6226,9 @@ public struct DescribeEndpointTypesInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about types of supported endpoints in response to a request by the DescribeEndpointTypes operation. This information includes the type of endpoint, the database engine name, and whether change data capture (CDC) is supported.
-    public struct SupportedEndpointType {
+    public struct SupportedEndpointType: Swift.Sendable {
         /// The type of endpoint. Valid values are source and target.
         public var endpointType: DatabaseMigrationClientTypes.ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
@@ -6253,11 +6255,10 @@ extension DatabaseMigrationClientTypes {
             self.supportsCDC = supportsCDC
         }
     }
-
 }
 
 ///
-public struct DescribeEndpointTypesOutput {
+public struct DescribeEndpointTypesOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The types of endpoints that are supported.
@@ -6273,7 +6274,7 @@ public struct DescribeEndpointTypesOutput {
     }
 }
 
-public struct DescribeEngineVersionsInput {
+public struct DescribeEngineVersionsInput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
@@ -6291,7 +6292,7 @@ public struct DescribeEngineVersionsInput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum ReleaseStatusValues: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ReleaseStatusValues: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case beta
         case prod
         case sdkUnknown(Swift.String)
@@ -6319,8 +6320,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about a replication instance version.
-    public struct EngineVersion {
+    public struct EngineVersion: Swift.Sendable {
         /// The date when the replication instance will be automatically upgraded. This setting only applies if the auto-minor-version setting is enabled.
         public var autoUpgradeDate: Foundation.Date?
         /// The list of valid replication instance versions that you can upgrade to.
@@ -6359,10 +6361,9 @@ extension DatabaseMigrationClientTypes {
             self.version = version
         }
     }
-
 }
 
-public struct DescribeEngineVersionsOutput {
+public struct DescribeEngineVersionsOutput: Swift.Sendable {
     /// Returned EngineVersion objects that describe the replication instance engine versions used in the project.
     public var engineVersions: [DatabaseMigrationClientTypes.EngineVersion]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6379,7 +6380,7 @@ public struct DescribeEngineVersionsOutput {
 }
 
 ///
-public struct DescribeEventCategoriesInput {
+public struct DescribeEventCategoriesInput: Swift.Sendable {
     /// Filters applied to the event categories.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// The type of DMS resource that generates events. Valid values: replication-instance | replication-task
@@ -6396,8 +6397,9 @@ public struct DescribeEventCategoriesInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Lists categories of events subscribed to, and generated by, the applicable DMS resource type. This data type appears in response to the [DescribeEventCategories](https://docs.aws.amazon.com/dms/latest/APIReference/API_EventCategoryGroup.html) action.
-    public struct EventCategoryGroup {
+    public struct EventCategoryGroup: Swift.Sendable {
         /// A list of event categories from a source type that you've chosen.
         public var eventCategories: [Swift.String]?
         /// The type of DMS resource that generates events. Valid values: replication-instance | replication-server | security-group | replication-task
@@ -6412,11 +6414,10 @@ extension DatabaseMigrationClientTypes {
             self.sourceType = sourceType
         }
     }
-
 }
 
 ///
-public struct DescribeEventCategoriesOutput {
+public struct DescribeEventCategoriesOutput: Swift.Sendable {
     /// A list of event categories.
     public var eventCategoryGroupList: [DatabaseMigrationClientTypes.EventCategoryGroup]?
 
@@ -6430,7 +6431,7 @@ public struct DescribeEventCategoriesOutput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum SourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case replicationInstance
         case sdkUnknown(Swift.String)
 
@@ -6455,7 +6456,7 @@ extension DatabaseMigrationClientTypes {
 }
 
 ///
-public struct DescribeEventsInput {
+public struct DescribeEventsInput: Swift.Sendable {
     /// The duration of the events to be listed.
     public var duration: Swift.Int?
     /// The end time for the events to be listed.
@@ -6500,8 +6501,9 @@ public struct DescribeEventsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes an identifiable significant activity that affects a replication instance or task. This object can provide the message, the available event categories, the date and source of the event, and the DMS resource type.
-    public struct Event {
+    public struct Event: Swift.Sendable {
         /// The date of the event.
         public var date: Foundation.Date?
         /// The event categories available for the specified source type.
@@ -6528,11 +6530,10 @@ extension DatabaseMigrationClientTypes {
             self.sourceType = sourceType
         }
     }
-
 }
 
 ///
-public struct DescribeEventsOutput {
+public struct DescribeEventsOutput: Swift.Sendable {
     /// The events described.
     public var events: [DatabaseMigrationClientTypes.Event]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6549,7 +6550,7 @@ public struct DescribeEventsOutput {
 }
 
 ///
-public struct DescribeEventSubscriptionsInput {
+public struct DescribeEventSubscriptionsInput: Swift.Sendable {
     /// Filters applied to event subscriptions. Valid filter names: event-subscription-arn | event-subscription-id
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6574,7 +6575,7 @@ public struct DescribeEventSubscriptionsInput {
 }
 
 ///
-public struct DescribeEventSubscriptionsOutput {
+public struct DescribeEventSubscriptionsOutput: Swift.Sendable {
     /// A list of event subscriptions.
     public var eventSubscriptionsList: [DatabaseMigrationClientTypes.EventSubscription]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6590,7 +6591,7 @@ public struct DescribeEventSubscriptionsOutput {
     }
 }
 
-public struct DescribeExtensionPackAssociationsInput {
+public struct DescribeExtensionPackAssociationsInput: Swift.Sendable {
     /// Filters applied to the extension pack associations described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -6616,8 +6617,9 @@ public struct DescribeExtensionPackAssociationsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides error information about a schema conversion operation.
-    public struct DefaultErrorDetails {
+    public struct DefaultErrorDetails: Swift.Sendable {
         /// The error message.
         public var message: Swift.String?
 
@@ -6628,22 +6630,22 @@ extension DatabaseMigrationClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides error information about a project.
-    public enum ErrorDetails {
+    public enum ErrorDetails: Swift.Sendable {
         /// Error information about a project.
         case defaulterrordetails(DatabaseMigrationClientTypes.DefaultErrorDetails)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about a metadata model assessment exported to SQL.
-    public struct ExportSqlDetails {
+    public struct ExportSqlDetails: Swift.Sendable {
         /// The URL for the object containing the exported metadata model assessment.
         public var objectURL: Swift.String?
         /// The Amazon S3 object key for the object containing the exported metadata model assessment.
@@ -6658,12 +6660,12 @@ extension DatabaseMigrationClientTypes {
             self.s3ObjectKey = s3ObjectKey
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about a schema conversion action.
-    public struct SchemaConversionRequest {
+    public struct SchemaConversionRequest: Swift.Sendable {
         /// Provides error information about a project.
         public var error: DatabaseMigrationClientTypes.ErrorDetails?
         /// Provides information about a metadata model assessment exported to SQL.
@@ -6690,10 +6692,9 @@ extension DatabaseMigrationClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct DescribeExtensionPackAssociationsOutput {
+public struct DescribeExtensionPackAssociationsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A paginated list of extension pack associations for the specified migration project.
@@ -6709,7 +6710,7 @@ public struct DescribeExtensionPackAssociationsOutput {
     }
 }
 
-public struct DescribeFleetAdvisorCollectorsInput {
+public struct DescribeFleetAdvisorCollectorsInput: Swift.Sendable {
     /// If you specify any of the following filters, the output includes information for only those collectors that meet the filter criteria:
     ///
     /// * collector-referenced-id – The ID of the collector agent, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.
@@ -6738,7 +6739,7 @@ public struct DescribeFleetAdvisorCollectorsInput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum CollectorStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CollectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case unregistered
         case sdkUnknown(Swift.String)
@@ -6766,8 +6767,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes the last Fleet Advisor collector health check.
-    public struct CollectorHealthCheck {
+    public struct CollectorHealthCheck: Swift.Sendable {
         /// The status of the Fleet Advisor collector.
         public var collectorStatus: DatabaseMigrationClientTypes.CollectorStatus?
         /// Whether the local collector can access its Amazon S3 bucket.
@@ -6790,12 +6792,12 @@ extension DatabaseMigrationClientTypes {
             self.webCollectorS3Access = webCollectorS3Access
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a Fleet Advisor collector inventory.
-    public struct InventoryData {
+    public struct InventoryData: Swift.Sendable {
         /// The number of databases in the Fleet Advisor collector inventory.
         public var numberOfDatabases: Swift.Int?
         /// The number of schemas in the Fleet Advisor collector inventory.
@@ -6810,12 +6812,11 @@ extension DatabaseMigrationClientTypes {
             self.numberOfSchemas = numberOfSchemas
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
 
-    public enum VersionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case outdated
         case unsupported
         case upToDate
@@ -6846,8 +6847,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a Fleet Advisor collector.
-    public struct CollectorResponse {
+    public struct CollectorResponse: Swift.Sendable {
         /// Describes the last Fleet Advisor collector health check.
         public var collectorHealthCheck: DatabaseMigrationClientTypes.CollectorHealthCheck?
         /// The name of the Fleet Advisor collector .
@@ -6906,10 +6908,9 @@ extension DatabaseMigrationClientTypes {
             self.versionStatus = versionStatus
         }
     }
-
 }
 
-public struct DescribeFleetAdvisorCollectorsOutput {
+public struct DescribeFleetAdvisorCollectorsOutput: Swift.Sendable {
     /// Provides descriptions of the Fleet Advisor collectors, including the collectors' name and ID, and the latest inventory data.
     public var collectors: [DatabaseMigrationClientTypes.CollectorResponse]?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -6925,7 +6926,7 @@ public struct DescribeFleetAdvisorCollectorsOutput {
     }
 }
 
-public struct DescribeFleetAdvisorDatabasesInput {
+public struct DescribeFleetAdvisorDatabasesInput: Swift.Sendable {
     /// If you specify any of the following filters, the output includes information for only those databases that meet the filter criteria:
     ///
     /// * database-id – The ID of the database.
@@ -6961,8 +6962,9 @@ public struct DescribeFleetAdvisorDatabasesInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Briefly describes a Fleet Advisor collector.
-    public struct CollectorShortInfoResponse {
+    public struct CollectorShortInfoResponse: Swift.Sendable {
         /// The name of the Fleet Advisor collector.
         public var collectorName: Swift.String?
         /// The reference ID of the Fleet Advisor collector.
@@ -6977,12 +6979,12 @@ extension DatabaseMigrationClientTypes {
             self.collectorReferencedId = collectorReferencedId
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a server in a Fleet Advisor collector inventory.
-    public struct ServerShortInfoResponse {
+    public struct ServerShortInfoResponse: Swift.Sendable {
         /// The IP address of a server in a Fleet Advisor collector inventory.
         public var ipAddress: Swift.String?
         /// The ID of a server in a Fleet Advisor collector inventory.
@@ -7001,12 +7003,12 @@ extension DatabaseMigrationClientTypes {
             self.serverName = serverName
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes an inventory database instance for a Fleet Advisor collector.
-    public struct DatabaseInstanceSoftwareDetailsResponse {
+    public struct DatabaseInstanceSoftwareDetailsResponse: Swift.Sendable {
         /// The database engine of a database in a Fleet Advisor collector inventory, for example Microsoft SQL Server.
         public var engine: Swift.String?
         /// The database engine edition of a database in a Fleet Advisor collector inventory, for example Express.
@@ -7041,12 +7043,12 @@ extension DatabaseMigrationClientTypes {
             self.tooltip = tooltip
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a database in a Fleet Advisor collector inventory.
-    public struct DatabaseResponse {
+    public struct DatabaseResponse: Swift.Sendable {
         /// A list of collectors associated with the database.
         public var collectors: [DatabaseMigrationClientTypes.CollectorShortInfoResponse]?
         /// The ID of a database in a Fleet Advisor collector inventory.
@@ -7081,10 +7083,9 @@ extension DatabaseMigrationClientTypes {
             self.softwareDetails = softwareDetails
         }
     }
-
 }
 
-public struct DescribeFleetAdvisorDatabasesOutput {
+public struct DescribeFleetAdvisorDatabasesOutput: Swift.Sendable {
     /// Provides descriptions of the Fleet Advisor collector databases, including the database's collector, ID, and name.
     public var databases: [DatabaseMigrationClientTypes.DatabaseResponse]?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -7100,7 +7101,7 @@ public struct DescribeFleetAdvisorDatabasesOutput {
     }
 }
 
-public struct DescribeFleetAdvisorLsaAnalysisInput {
+public struct DescribeFleetAdvisorLsaAnalysisInput: Swift.Sendable {
     /// Sets the maximum number of records returned in the response.
     public var maxRecords: Swift.Int?
     /// If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -7117,8 +7118,9 @@ public struct DescribeFleetAdvisorLsaAnalysisInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a large-scale assessment (LSA) analysis run by a Fleet Advisor collector.
-    public struct FleetAdvisorLsaAnalysisResponse {
+    public struct FleetAdvisorLsaAnalysisResponse: Swift.Sendable {
         /// The ID of an LSA analysis run by a Fleet Advisor collector.
         public var lsaAnalysisId: Swift.String?
         /// The status of an LSA analysis run by a Fleet Advisor collector.
@@ -7133,10 +7135,9 @@ extension DatabaseMigrationClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct DescribeFleetAdvisorLsaAnalysisOutput {
+public struct DescribeFleetAdvisorLsaAnalysisOutput: Swift.Sendable {
     /// A list of FleetAdvisorLsaAnalysisResponse objects.
     public var analysis: [DatabaseMigrationClientTypes.FleetAdvisorLsaAnalysisResponse]?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -7152,7 +7153,7 @@ public struct DescribeFleetAdvisorLsaAnalysisOutput {
     }
 }
 
-public struct DescribeFleetAdvisorSchemaObjectSummaryInput {
+public struct DescribeFleetAdvisorSchemaObjectSummaryInput: Swift.Sendable {
     /// If you specify any of the following filters, the output includes information for only those schema objects that meet the filter criteria:
     ///
     /// * schema-id – The ID of the schema, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.
@@ -7178,8 +7179,9 @@ public struct DescribeFleetAdvisorSchemaObjectSummaryInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a schema object in a Fleet Advisor collector inventory.
-    public struct FleetAdvisorSchemaObjectResponse {
+    public struct FleetAdvisorSchemaObjectResponse: Swift.Sendable {
         /// The number of lines of code in a schema object in a Fleet Advisor collector inventory.
         public var codeLineCount: Swift.Int?
         /// The size level of the code in a schema object in a Fleet Advisor collector inventory.
@@ -7214,10 +7216,9 @@ extension DatabaseMigrationClientTypes {
             self.schemaId = schemaId
         }
     }
-
 }
 
-public struct DescribeFleetAdvisorSchemaObjectSummaryOutput {
+public struct DescribeFleetAdvisorSchemaObjectSummaryOutput: Swift.Sendable {
     /// A collection of FleetAdvisorSchemaObjectResponse objects.
     public var fleetAdvisorSchemaObjects: [DatabaseMigrationClientTypes.FleetAdvisorSchemaObjectResponse]?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -7233,7 +7234,7 @@ public struct DescribeFleetAdvisorSchemaObjectSummaryOutput {
     }
 }
 
-public struct DescribeFleetAdvisorSchemasInput {
+public struct DescribeFleetAdvisorSchemasInput: Swift.Sendable {
     /// If you specify any of the following filters, the output includes information for only those schemas that meet the filter criteria:
     ///
     /// * complexity – The schema's complexity, for example Simple.
@@ -7275,8 +7276,9 @@ public struct DescribeFleetAdvisorSchemasInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a database in a Fleet Advisor collector inventory.
-    public struct DatabaseShortInfoResponse {
+    public struct DatabaseShortInfoResponse: Swift.Sendable {
         /// The database engine of a database in a Fleet Advisor collector inventory, for example PostgreSQL.
         public var databaseEngine: Swift.String?
         /// The ID of a database in a Fleet Advisor collector inventory.
@@ -7299,12 +7301,12 @@ extension DatabaseMigrationClientTypes {
             self.databaseName = databaseName
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a schema in a Fleet Advisor collector inventory.
-    public struct SchemaShortInfoResponse {
+    public struct SchemaShortInfoResponse: Swift.Sendable {
         /// The ID of a database in a Fleet Advisor collector inventory.
         public var databaseId: Swift.String?
         /// The IP address of a database in a Fleet Advisor collector inventory.
@@ -7331,12 +7333,12 @@ extension DatabaseMigrationClientTypes {
             self.schemaName = schemaName
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Describes a schema in a Fleet Advisor collector inventory.
-    public struct SchemaResponse {
+    public struct SchemaResponse: Swift.Sendable {
         /// The number of lines of code in a schema in a Fleet Advisor collector inventory.
         public var codeLineCount: Swift.Int?
         /// The size level of the code in a schema in a Fleet Advisor collector inventory.
@@ -7379,10 +7381,9 @@ extension DatabaseMigrationClientTypes {
             self.similarity = similarity
         }
     }
-
 }
 
-public struct DescribeFleetAdvisorSchemasOutput {
+public struct DescribeFleetAdvisorSchemasOutput: Swift.Sendable {
     /// A collection of SchemaResponse objects.
     public var fleetAdvisorSchemas: [DatabaseMigrationClientTypes.SchemaResponse]?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -7398,7 +7399,7 @@ public struct DescribeFleetAdvisorSchemasOutput {
     }
 }
 
-public struct DescribeInstanceProfilesInput {
+public struct DescribeInstanceProfilesInput: Swift.Sendable {
     /// Filters applied to the instance profiles described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7418,7 +7419,7 @@ public struct DescribeInstanceProfilesInput {
     }
 }
 
-public struct DescribeInstanceProfilesOutput {
+public struct DescribeInstanceProfilesOutput: Swift.Sendable {
     /// A description of instance profiles.
     public var instanceProfiles: [DatabaseMigrationClientTypes.InstanceProfile]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7434,7 +7435,7 @@ public struct DescribeInstanceProfilesOutput {
     }
 }
 
-public struct DescribeMetadataModelAssessmentsInput {
+public struct DescribeMetadataModelAssessmentsInput: Swift.Sendable {
     /// Filters applied to the metadata model assessments described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7459,7 +7460,7 @@ public struct DescribeMetadataModelAssessmentsInput {
     }
 }
 
-public struct DescribeMetadataModelAssessmentsOutput {
+public struct DescribeMetadataModelAssessmentsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A paginated list of metadata model assessments for the specified migration project.
@@ -7475,7 +7476,7 @@ public struct DescribeMetadataModelAssessmentsOutput {
     }
 }
 
-public struct DescribeMetadataModelConversionsInput {
+public struct DescribeMetadataModelConversionsInput: Swift.Sendable {
     /// Filters applied to the metadata model conversions described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7500,7 +7501,7 @@ public struct DescribeMetadataModelConversionsInput {
     }
 }
 
-public struct DescribeMetadataModelConversionsOutput {
+public struct DescribeMetadataModelConversionsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A paginated list of metadata model conversions.
@@ -7516,7 +7517,7 @@ public struct DescribeMetadataModelConversionsOutput {
     }
 }
 
-public struct DescribeMetadataModelExportsAsScriptInput {
+public struct DescribeMetadataModelExportsAsScriptInput: Swift.Sendable {
     /// Filters applied to the metadata model exports described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7541,7 +7542,7 @@ public struct DescribeMetadataModelExportsAsScriptInput {
     }
 }
 
-public struct DescribeMetadataModelExportsAsScriptOutput {
+public struct DescribeMetadataModelExportsAsScriptOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A paginated list of metadata model exports.
@@ -7557,7 +7558,7 @@ public struct DescribeMetadataModelExportsAsScriptOutput {
     }
 }
 
-public struct DescribeMetadataModelExportsToTargetInput {
+public struct DescribeMetadataModelExportsToTargetInput: Swift.Sendable {
     /// Filters applied to the metadata model exports described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7582,7 +7583,7 @@ public struct DescribeMetadataModelExportsToTargetInput {
     }
 }
 
-public struct DescribeMetadataModelExportsToTargetOutput {
+public struct DescribeMetadataModelExportsToTargetOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A paginated list of metadata model exports.
@@ -7598,7 +7599,7 @@ public struct DescribeMetadataModelExportsToTargetOutput {
     }
 }
 
-public struct DescribeMetadataModelImportsInput {
+public struct DescribeMetadataModelImportsInput: Swift.Sendable {
     /// Filters applied to the metadata model imports described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7623,7 +7624,7 @@ public struct DescribeMetadataModelImportsInput {
     }
 }
 
-public struct DescribeMetadataModelImportsOutput {
+public struct DescribeMetadataModelImportsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A paginated list of metadata model imports.
@@ -7639,7 +7640,7 @@ public struct DescribeMetadataModelImportsOutput {
     }
 }
 
-public struct DescribeMigrationProjectsInput {
+public struct DescribeMigrationProjectsInput: Swift.Sendable {
     /// Filters applied to the migration projects described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7659,7 +7660,7 @@ public struct DescribeMigrationProjectsInput {
     }
 }
 
-public struct DescribeMigrationProjectsOutput {
+public struct DescribeMigrationProjectsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A description of migration projects.
@@ -7676,7 +7677,7 @@ public struct DescribeMigrationProjectsOutput {
 }
 
 ///
-public struct DescribeOrderableReplicationInstancesInput {
+public struct DescribeOrderableReplicationInstancesInput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -7693,8 +7694,9 @@ public struct DescribeOrderableReplicationInstancesInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// In response to the DescribeOrderableReplicationInstances operation, this object describes an available replication instance. This description includes the replication instance's type, engine version, and allocated storage.
-    public struct OrderableReplicationInstance {
+    public struct OrderableReplicationInstance: Swift.Sendable {
         /// List of Availability Zones for this replication instance.
         public var availabilityZones: [Swift.String]?
         /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
@@ -7737,11 +7739,10 @@ extension DatabaseMigrationClientTypes {
             self.storageType = storageType
         }
     }
-
 }
 
 ///
-public struct DescribeOrderableReplicationInstancesOutput {
+public struct DescribeOrderableReplicationInstancesOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The order-able replication instances available.
@@ -7758,7 +7759,7 @@ public struct DescribeOrderableReplicationInstancesOutput {
 }
 
 ///
-public struct DescribePendingMaintenanceActionsInput {
+public struct DescribePendingMaintenanceActionsInput: Swift.Sendable {
     ///
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7783,7 +7784,7 @@ public struct DescribePendingMaintenanceActionsInput {
 }
 
 ///
-public struct DescribePendingMaintenanceActionsOutput {
+public struct DescribePendingMaintenanceActionsOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The pending maintenance action.
@@ -7799,7 +7800,7 @@ public struct DescribePendingMaintenanceActionsOutput {
     }
 }
 
-public struct DescribeRecommendationLimitationsInput {
+public struct DescribeRecommendationLimitationsInput: Swift.Sendable {
     /// Filters applied to the limitations described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
@@ -7820,8 +7821,9 @@ public struct DescribeRecommendationLimitationsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about the limitations of target Amazon Web Services engines. Your source database might include features that the target Amazon Web Services engine doesn't support. Fleet Advisor lists these features as limitations. You should consider these limitations during database migration. For each limitation, Fleet Advisor recommends an action that you can take to address or avoid this limitation.
-    public struct Limitation {
+    public struct Limitation: Swift.Sendable {
         /// The identifier of the source database.
         public var databaseId: Swift.String?
         /// A description of the limitation. Provides additional information about the limitation, and includes recommended actions that you can take to address or avoid this limitation.
@@ -7852,10 +7854,9 @@ extension DatabaseMigrationClientTypes {
             self.type = type
         }
     }
-
 }
 
-public struct DescribeRecommendationLimitationsOutput {
+public struct DescribeRecommendationLimitationsOutput: Swift.Sendable {
     /// The list of limitations for recommendations of target Amazon Web Services engines.
     public var limitations: [DatabaseMigrationClientTypes.Limitation]?
     /// The unique pagination token returned for you to pass to a subsequent request. Fleet Advisor returns this token when the number of records in the response is greater than the MaxRecords value. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
@@ -7871,7 +7872,7 @@ public struct DescribeRecommendationLimitationsOutput {
     }
 }
 
-public struct DescribeRecommendationsInput {
+public struct DescribeRecommendationsInput: Swift.Sendable {
     /// Filters applied to the target engine recommendations described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the response so that you can retrieve the remaining results.
@@ -7892,8 +7893,9 @@ public struct DescribeRecommendationsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes the requirements to the target engine on Amazon RDS.
-    public struct RdsRequirements {
+    public struct RdsRequirements: Swift.Sendable {
         /// The required deployment option for the Amazon RDS DB instance. Valid values include "MULTI_AZ" for Multi-AZ deployments and "SINGLE_AZ" for Single-AZ deployments.
         public var deploymentOption: Swift.String?
         /// The required target Amazon RDS engine edition.
@@ -7928,12 +7930,12 @@ extension DatabaseMigrationClientTypes {
             self.storageSize = storageSize
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes the configuration of the recommended target engine on Amazon RDS.
-    public struct RdsConfiguration {
+    public struct RdsConfiguration: Swift.Sendable {
         /// Describes the deployment option for the recommended Amazon RDS DB instance. The deployment options include Multi-AZ and Single-AZ deployments. Valid values include "MULTI_AZ" and "SINGLE_AZ".
         public var deploymentOption: Swift.String?
         /// Describes the recommended target Amazon RDS engine edition.
@@ -7976,12 +7978,12 @@ extension DatabaseMigrationClientTypes {
             self.storageType = storageType
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes a recommendation of a target engine on Amazon RDS.
-    public struct RdsRecommendation {
+    public struct RdsRecommendation: Swift.Sendable {
         /// Supplemental information about the requirements to the recommended target database on Amazon RDS.
         public var requirementsToTarget: DatabaseMigrationClientTypes.RdsRequirements?
         /// Supplemental information about the configuration of the recommended target database on Amazon RDS.
@@ -7996,12 +7998,12 @@ extension DatabaseMigrationClientTypes {
             self.targetConfiguration = targetConfiguration
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about the target engine for the specified source database.
-    public struct RecommendationData {
+    public struct RecommendationData: Swift.Sendable {
         /// The recommendation of a target Amazon RDS database engine.
         public var rdsEngine: DatabaseMigrationClientTypes.RdsRecommendation?
 
@@ -8012,12 +8014,12 @@ extension DatabaseMigrationClientTypes {
             self.rdsEngine = rdsEngine
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes a recommendation of a target engine. A recommendation is a set of possible Amazon Web Services target engines that you can choose to migrate your source on-premises database. In this set, Fleet Advisor suggests a single target engine as the right sized migration destination. To determine this rightsized migration destination, Fleet Advisor uses the inventory metadata and metrics from data collector. You can use recommendations before the start of migration to save costs and reduce risks. With recommendations, you can explore different target options and compare metrics, so you can make an informed decision when you choose the migration target.
-    public struct Recommendation {
+    public struct Recommendation: Swift.Sendable {
         /// The date when Fleet Advisor created the target engine recommendation.
         public var createdDate: Swift.String?
         /// The recommendation of a target engine for the specified source database.
@@ -8052,10 +8054,9 @@ extension DatabaseMigrationClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct DescribeRecommendationsOutput {
+public struct DescribeRecommendationsOutput: Swift.Sendable {
     /// The unique pagination token returned for you to pass to a subsequent request. Fleet Advisor returns this token when the number of records in the response is greater than the MaxRecords value. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var nextToken: Swift.String?
     /// The list of recommendations of target engines that Fleet Advisor created for the source database.
@@ -8072,7 +8073,7 @@ public struct DescribeRecommendationsOutput {
 }
 
 ///
-public struct DescribeRefreshSchemasStatusInput {
+public struct DescribeRefreshSchemasStatusInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -8087,7 +8088,7 @@ public struct DescribeRefreshSchemasStatusInput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum RefreshSchemasStatusTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RefreshSchemasStatusTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case refreshing
         case successful
@@ -8118,8 +8119,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes status of a schema at an endpoint specified by the DescribeRefreshSchemaStatus operation.
-    public struct RefreshSchemasStatus {
+    public struct RefreshSchemasStatus: Swift.Sendable {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public var endpointArn: Swift.String?
         /// The last failure message for the schema.
@@ -8146,11 +8148,10 @@ extension DatabaseMigrationClientTypes {
             self.status = status
         }
     }
-
 }
 
 ///
-public struct DescribeRefreshSchemasStatusOutput {
+public struct DescribeRefreshSchemasStatusOutput: Swift.Sendable {
     /// The status of the schema.
     public var refreshSchemasStatus: DatabaseMigrationClientTypes.RefreshSchemasStatus?
 
@@ -8163,7 +8164,7 @@ public struct DescribeRefreshSchemasStatusOutput {
 }
 
 ///
-public struct DescribeReplicationConfigsInput {
+public struct DescribeReplicationConfigsInput: Swift.Sendable {
     /// Filters applied to the replication configs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8184,7 +8185,7 @@ public struct DescribeReplicationConfigsInput {
 }
 
 ///
-public struct DescribeReplicationConfigsOutput {
+public struct DescribeReplicationConfigsOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// Returned configuration parameters that describe each provisioned DMS Serverless replication.
@@ -8201,7 +8202,7 @@ public struct DescribeReplicationConfigsOutput {
 }
 
 ///
-public struct DescribeReplicationInstancesInput {
+public struct DescribeReplicationInstancesInput: Swift.Sendable {
     /// Filters applied to replication instances. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8222,7 +8223,7 @@ public struct DescribeReplicationInstancesInput {
 }
 
 ///
-public struct DescribeReplicationInstancesOutput {
+public struct DescribeReplicationInstancesOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The replication instances described.
@@ -8238,7 +8239,7 @@ public struct DescribeReplicationInstancesOutput {
     }
 }
 
-public struct DescribeReplicationInstanceTaskLogsInput {
+public struct DescribeReplicationInstanceTaskLogsInput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -8260,8 +8261,9 @@ public struct DescribeReplicationInstanceTaskLogsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Contains metadata for a replication instance task log.
-    public struct ReplicationInstanceTaskLog {
+    public struct ReplicationInstanceTaskLog: Swift.Sendable {
         /// The size, in bytes, of the replication task log.
         public var replicationInstanceTaskLogSize: Swift.Int
         /// The Amazon Resource Name (ARN) of the replication task.
@@ -8280,10 +8282,9 @@ extension DatabaseMigrationClientTypes {
             self.replicationTaskName = replicationTaskName
         }
     }
-
 }
 
-public struct DescribeReplicationInstanceTaskLogsOutput {
+public struct DescribeReplicationInstanceTaskLogsOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The Amazon Resource Name (ARN) of the replication instance.
@@ -8304,7 +8305,7 @@ public struct DescribeReplicationInstanceTaskLogsOutput {
 }
 
 ///
-public struct DescribeReplicationsInput {
+public struct DescribeReplicationsInput: Swift.Sendable {
     /// Filters applied to the replications.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8325,8 +8326,9 @@ public struct DescribeReplicationsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Information about provisioning resources for an DMS serverless replication.
-    public struct ProvisionData {
+    public struct ProvisionData: Swift.Sendable {
         /// The timestamp when provisioning became available.
         public var dateNewProvisioningDataAvailable: Foundation.Date?
         /// The timestamp when DMS provisioned replication resources.
@@ -8357,12 +8359,12 @@ extension DatabaseMigrationClientTypes {
             self.reasonForNewProvisioningData = reasonForNewProvisioningData
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// This object provides a collection of statistics about a serverless replication.
-    public struct ReplicationStats {
+    public struct ReplicationStats: Swift.Sendable {
         /// The elapsed time of the replication, in milliseconds.
         public var elapsedTimeMillis: Swift.Int
         /// The date the replication was started either with a fresh start or a target reload.
@@ -8413,12 +8415,12 @@ extension DatabaseMigrationClientTypes {
             self.tablesQueued = tablesQueued
         }
     }
-
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes a serverless replication created by the CreateReplication operation.
-    public struct Replication {
+    public struct Replication: Swift.Sendable {
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
         public var cdcStartPosition: Swift.String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
@@ -8529,11 +8531,10 @@ extension DatabaseMigrationClientTypes {
             self.targetEndpointArn = targetEndpointArn
         }
     }
-
 }
 
 ///
-public struct DescribeReplicationsOutput {
+public struct DescribeReplicationsOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The replication descriptions.
@@ -8550,7 +8551,7 @@ public struct DescribeReplicationsOutput {
 }
 
 ///
-public struct DescribeReplicationSubnetGroupsInput {
+public struct DescribeReplicationSubnetGroupsInput: Swift.Sendable {
     /// Filters applied to replication subnet groups. Valid filter names: replication-subnet-group-id
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8571,7 +8572,7 @@ public struct DescribeReplicationSubnetGroupsInput {
 }
 
 ///
-public struct DescribeReplicationSubnetGroupsOutput {
+public struct DescribeReplicationSubnetGroupsOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A description of the replication subnet groups.
@@ -8588,7 +8589,7 @@ public struct DescribeReplicationSubnetGroupsOutput {
 }
 
 ///
-public struct DescribeReplicationTableStatisticsInput {
+public struct DescribeReplicationTableStatisticsInput: Swift.Sendable {
     /// Filters applied to the replication table statistics.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8614,8 +8615,9 @@ public struct DescribeReplicationTableStatisticsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides a collection of table statistics in response to a request by the DescribeTableStatistics operation.
-    public struct TableStatistics {
+    public struct TableStatistics: Swift.Sendable {
         /// The number of data definition language (DDL) statements used to build and modify the structure of your tables applied on the target.
         public var appliedDdls: Swift.Int?
         /// The number of delete actions applied on a target table.
@@ -8736,11 +8738,10 @@ extension DatabaseMigrationClientTypes {
             self.validationSuspendedRecords = validationSuspendedRecords
         }
     }
-
 }
 
 ///
-public struct DescribeReplicationTableStatisticsOutput {
+public struct DescribeReplicationTableStatisticsOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The Amazon Resource Name of the replication config.
@@ -8761,7 +8762,7 @@ public struct DescribeReplicationTableStatisticsOutput {
 }
 
 ///
-public struct DescribeReplicationTaskAssessmentResultsInput {
+public struct DescribeReplicationTaskAssessmentResultsInput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -8782,8 +8783,9 @@ public struct DescribeReplicationTaskAssessmentResultsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// The task assessment report in JSON format.
-    public struct ReplicationTaskAssessmentResult {
+    public struct ReplicationTaskAssessmentResult: Swift.Sendable {
         /// The task assessment results in JSON format. The response object only contains this field if you provide [DescribeReplicationTaskAssessmentResultsMessage$ReplicationTaskArn] in the request.
         public var assessmentResults: Swift.String?
         /// The file containing the results of the task assessment.
@@ -8818,11 +8820,10 @@ extension DatabaseMigrationClientTypes {
             self.s3ObjectUrl = s3ObjectUrl
         }
     }
-
 }
 
 ///
-public struct DescribeReplicationTaskAssessmentResultsOutput {
+public struct DescribeReplicationTaskAssessmentResultsOutput: Swift.Sendable {
     /// - The Amazon S3 bucket where the task assessment report is located.
     public var bucketName: Swift.String?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8843,7 +8844,7 @@ public struct DescribeReplicationTaskAssessmentResultsOutput {
 }
 
 ///
-public struct DescribeReplicationTaskAssessmentRunsInput {
+public struct DescribeReplicationTaskAssessmentRunsInput: Swift.Sendable {
     /// Filters applied to the premigration assessment runs described in the form of key-value pairs. Valid filter names: replication-task-assessment-run-arn, replication-task-arn, replication-instance-arn, status
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8864,7 +8865,7 @@ public struct DescribeReplicationTaskAssessmentRunsInput {
 }
 
 ///
-public struct DescribeReplicationTaskAssessmentRunsOutput {
+public struct DescribeReplicationTaskAssessmentRunsOutput: Swift.Sendable {
     /// A pagination token returned for you to pass to a subsequent request. If you pass this token as the Marker value in a subsequent request, the response includes only records beyond the marker, up to the value specified in the request by MaxRecords.
     public var marker: Swift.String?
     /// One or more premigration assessment runs as specified by Filters.
@@ -8881,7 +8882,7 @@ public struct DescribeReplicationTaskAssessmentRunsOutput {
 }
 
 ///
-public struct DescribeReplicationTaskIndividualAssessmentsInput {
+public struct DescribeReplicationTaskIndividualAssessmentsInput: Swift.Sendable {
     /// Filters applied to the individual assessments described in the form of key-value pairs. Valid filter names: replication-task-assessment-run-arn, replication-task-arn, status
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8902,8 +8903,9 @@ public struct DescribeReplicationTaskIndividualAssessmentsInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information that describes an individual assessment from a premigration assessment run.
-    public struct ReplicationTaskIndividualAssessment {
+    public struct ReplicationTaskIndividualAssessment: Swift.Sendable {
         /// Name of this individual assessment.
         public var individualAssessmentName: Swift.String?
         /// ARN of the premigration assessment run that is created to run this individual assessment.
@@ -8942,11 +8944,10 @@ extension DatabaseMigrationClientTypes {
             self.status = status
         }
     }
-
 }
 
 ///
-public struct DescribeReplicationTaskIndividualAssessmentsOutput {
+public struct DescribeReplicationTaskIndividualAssessmentsOutput: Swift.Sendable {
     /// A pagination token returned for you to pass to a subsequent request. If you pass this token as the Marker value in a subsequent request, the response includes only records beyond the marker, up to the value specified in the request by MaxRecords.
     public var marker: Swift.String?
     /// One or more individual assessments as specified by Filters.
@@ -8963,7 +8964,7 @@ public struct DescribeReplicationTaskIndividualAssessmentsOutput {
 }
 
 ///
-public struct DescribeReplicationTasksInput {
+public struct DescribeReplicationTasksInput: Swift.Sendable {
     /// Filters applied to replication tasks. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8988,7 +8989,7 @@ public struct DescribeReplicationTasksInput {
 }
 
 ///
-public struct DescribeReplicationTasksOutput {
+public struct DescribeReplicationTasksOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A description of the replication tasks.
@@ -9005,7 +9006,7 @@ public struct DescribeReplicationTasksOutput {
 }
 
 ///
-public struct DescribeSchemasInput {
+public struct DescribeSchemasInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -9027,7 +9028,7 @@ public struct DescribeSchemasInput {
 }
 
 ///
-public struct DescribeSchemasOutput {
+public struct DescribeSchemasOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The described schema.
@@ -9044,7 +9045,7 @@ public struct DescribeSchemasOutput {
 }
 
 ///
-public struct DescribeTableStatisticsInput {
+public struct DescribeTableStatisticsInput: Swift.Sendable {
     /// Filters applied to table statistics. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -9070,7 +9071,7 @@ public struct DescribeTableStatisticsInput {
 }
 
 ///
-public struct DescribeTableStatisticsOutput {
+public struct DescribeTableStatisticsOutput: Swift.Sendable {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The Amazon Resource Name (ARN) of the replication task.
@@ -9092,7 +9093,7 @@ public struct DescribeTableStatisticsOutput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum AssessmentReportType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AssessmentReportType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case pdf
         case sdkUnknown(Swift.String)
@@ -9119,7 +9120,7 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
-public struct ExportMetadataModelAssessmentInput {
+public struct ExportMetadataModelAssessmentInput: Swift.Sendable {
     /// The file format of the assessment file.
     public var assessmentReportTypes: [DatabaseMigrationClientTypes.AssessmentReportType]?
     /// The name of the assessment file to create in your Amazon S3 bucket.
@@ -9146,8 +9147,9 @@ public struct ExportMetadataModelAssessmentInput {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides information about an exported metadata model assessment.
-    public struct ExportMetadataModelAssessmentResultEntry {
+    public struct ExportMetadataModelAssessmentResultEntry: Swift.Sendable {
         /// The URL for the object containing the exported metadata model assessment.
         public var objectURL: Swift.String?
         /// The object key for the object containing the exported metadata model assessment.
@@ -9162,10 +9164,9 @@ extension DatabaseMigrationClientTypes {
             self.s3ObjectKey = s3ObjectKey
         }
     }
-
 }
 
-public struct ExportMetadataModelAssessmentOutput {
+public struct ExportMetadataModelAssessmentOutput: Swift.Sendable {
     /// The Amazon S3 details for an assessment exported in CSV format.
     public var csvReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry?
     /// The Amazon S3 details for an assessment exported in PDF format.
@@ -9205,7 +9206,7 @@ public struct InvalidCertificateFault: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-public struct ImportCertificateInput {
+public struct ImportCertificateInput: Swift.Sendable {
     /// A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
     /// This member is required.
     public var certificateIdentifier: Swift.String?
@@ -9235,7 +9236,7 @@ extension ImportCertificateInput: Swift.CustomDebugStringConvertible {
         "ImportCertificateInput(certificateIdentifier: \(Swift.String(describing: certificateIdentifier)), certificateWallet: \(Swift.String(describing: certificateWallet)), tags: \(Swift.String(describing: tags)), certificatePem: \"CONTENT_REDACTED\")"}
 }
 
-public struct ImportCertificateOutput {
+public struct ImportCertificateOutput: Swift.Sendable {
     /// The certificate to be uploaded.
     public var certificate: DatabaseMigrationClientTypes.Certificate?
 
@@ -9248,7 +9249,7 @@ public struct ImportCertificateOutput {
 }
 
 ///
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the DMS resource to list tags for. This returns a list of keys (names of tags) created for the resource and their associated tag values.
     public var resourceArn: Swift.String?
     /// List of ARNs that identify multiple DMS resources that you want to list tags for. This returns a list of keys (tag names) and their associated tag values. It also returns each tag's associated ResourceArn value, which is the ARN of the resource for which each listed tag is created.
@@ -9265,7 +9266,7 @@ public struct ListTagsForResourceInput {
 }
 
 ///
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A list of tags for the resource.
     public var tagList: [DatabaseMigrationClientTypes.Tag]?
 
@@ -9277,7 +9278,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct ModifyConversionConfigurationInput {
+public struct ModifyConversionConfigurationInput: Swift.Sendable {
     /// The new conversion configuration.
     /// This member is required.
     public var conversionConfiguration: Swift.String?
@@ -9295,7 +9296,7 @@ public struct ModifyConversionConfigurationInput {
     }
 }
 
-public struct ModifyConversionConfigurationOutput {
+public struct ModifyConversionConfigurationOutput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the modified configuration.
     public var migrationProjectIdentifier: Swift.String?
 
@@ -9307,7 +9308,7 @@ public struct ModifyConversionConfigurationOutput {
     }
 }
 
-public struct ModifyDataProviderInput {
+public struct ModifyDataProviderInput: Swift.Sendable {
     /// The identifier of the data provider. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
     /// This member is required.
     public var dataProviderIdentifier: Swift.String?
@@ -9344,7 +9345,7 @@ public struct ModifyDataProviderInput {
     }
 }
 
-public struct ModifyDataProviderOutput {
+public struct ModifyDataProviderOutput: Swift.Sendable {
     /// The data provider that was modified.
     public var dataProvider: DatabaseMigrationClientTypes.DataProvider?
 
@@ -9357,7 +9358,7 @@ public struct ModifyDataProviderOutput {
 }
 
 ///
-public struct ModifyEndpointInput {
+public struct ModifyEndpointInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
     public var certificateArn: Swift.String?
     /// The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName.
@@ -9522,7 +9523,7 @@ extension ModifyEndpointInput: Swift.CustomDebugStringConvertible {
 }
 
 ///
-public struct ModifyEndpointOutput {
+public struct ModifyEndpointOutput: Swift.Sendable {
     /// The modified endpoint.
     public var endpoint: DatabaseMigrationClientTypes.Endpoint?
 
@@ -9535,7 +9536,7 @@ public struct ModifyEndpointOutput {
 }
 
 ///
-public struct ModifyEventSubscriptionInput {
+public struct ModifyEventSubscriptionInput: Swift.Sendable {
     /// A Boolean value; set to true to activate the subscription.
     public var enabled: Swift.Bool?
     /// A list of event categories for a source type that you want to subscribe to. Use the DescribeEventCategories action to see a list of event categories.
@@ -9565,7 +9566,7 @@ public struct ModifyEventSubscriptionInput {
 }
 
 ///
-public struct ModifyEventSubscriptionOutput {
+public struct ModifyEventSubscriptionOutput: Swift.Sendable {
     /// The modified event subscription.
     public var eventSubscription: DatabaseMigrationClientTypes.EventSubscription?
 
@@ -9577,7 +9578,7 @@ public struct ModifyEventSubscriptionOutput {
     }
 }
 
-public struct ModifyInstanceProfileInput {
+public struct ModifyInstanceProfileInput: Swift.Sendable {
     /// The Availability Zone where the instance profile runs.
     public var availabilityZone: Swift.String?
     /// A user-friendly description for the instance profile.
@@ -9622,7 +9623,7 @@ public struct ModifyInstanceProfileInput {
     }
 }
 
-public struct ModifyInstanceProfileOutput {
+public struct ModifyInstanceProfileOutput: Swift.Sendable {
     /// The instance profile that was modified.
     public var instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
 
@@ -9634,7 +9635,7 @@ public struct ModifyInstanceProfileOutput {
     }
 }
 
-public struct ModifyMigrationProjectInput {
+public struct ModifyMigrationProjectInput: Swift.Sendable {
     /// A user-friendly description of the migration project.
     public var description: Swift.String?
     /// The name or Amazon Resource Name (ARN) for the instance profile.
@@ -9675,7 +9676,7 @@ public struct ModifyMigrationProjectInput {
     }
 }
 
-public struct ModifyMigrationProjectOutput {
+public struct ModifyMigrationProjectOutput: Swift.Sendable {
     /// The migration project that was modified.
     public var migrationProject: DatabaseMigrationClientTypes.MigrationProject?
 
@@ -9688,7 +9689,7 @@ public struct ModifyMigrationProjectOutput {
 }
 
 ///
-public struct ModifyReplicationConfigInput {
+public struct ModifyReplicationConfigInput: Swift.Sendable {
     /// Configuration parameters for provisioning an DMS Serverless replication.
     public var computeConfig: DatabaseMigrationClientTypes.ComputeConfig?
     /// The Amazon Resource Name of the replication to modify.
@@ -9733,7 +9734,7 @@ public struct ModifyReplicationConfigInput {
     }
 }
 
-public struct ModifyReplicationConfigOutput {
+public struct ModifyReplicationConfigOutput: Swift.Sendable {
     /// Information about the serverless replication config that was modified.
     public var replicationConfig: DatabaseMigrationClientTypes.ReplicationConfig?
 
@@ -9771,7 +9772,7 @@ public struct UpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClie
 }
 
 ///
-public struct ModifyReplicationInstanceInput {
+public struct ModifyReplicationInstanceInput: Swift.Sendable {
     /// The amount of storage (in gigabytes) to be allocated for the replication instance.
     public var allocatedStorage: Swift.Int?
     /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage, and the change is asynchronously applied as soon as possible. This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
@@ -9835,7 +9836,7 @@ public struct ModifyReplicationInstanceInput {
 }
 
 ///
-public struct ModifyReplicationInstanceOutput {
+public struct ModifyReplicationInstanceOutput: Swift.Sendable {
     /// The modified replication instance.
     public var replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance?
 
@@ -9873,7 +9874,7 @@ public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 ///
-public struct ModifyReplicationSubnetGroupInput {
+public struct ModifyReplicationSubnetGroupInput: Swift.Sendable {
     /// A description for the replication instance subnet group.
     public var replicationSubnetGroupDescription: Swift.String?
     /// The name of the replication instance subnet group.
@@ -9896,7 +9897,7 @@ public struct ModifyReplicationSubnetGroupInput {
 }
 
 ///
-public struct ModifyReplicationSubnetGroupOutput {
+public struct ModifyReplicationSubnetGroupOutput: Swift.Sendable {
     /// The modified replication subnet group.
     public var replicationSubnetGroup: DatabaseMigrationClientTypes.ReplicationSubnetGroup?
 
@@ -9909,7 +9910,7 @@ public struct ModifyReplicationSubnetGroupOutput {
 }
 
 ///
-public struct ModifyReplicationTaskInput {
+public struct ModifyReplicationTaskInput: Swift.Sendable {
     /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373” When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
@@ -9961,7 +9962,7 @@ public struct ModifyReplicationTaskInput {
 }
 
 ///
-public struct ModifyReplicationTaskOutput {
+public struct ModifyReplicationTaskOutput: Swift.Sendable {
     /// The replication task that was modified.
     public var replicationTask: DatabaseMigrationClientTypes.ReplicationTask?
 
@@ -9974,7 +9975,7 @@ public struct ModifyReplicationTaskOutput {
 }
 
 ///
-public struct MoveReplicationTaskInput {
+public struct MoveReplicationTaskInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the task that you want to move.
     /// This member is required.
     public var replicationTaskArn: Swift.String?
@@ -9993,7 +9994,7 @@ public struct MoveReplicationTaskInput {
 }
 
 ///
-public struct MoveReplicationTaskOutput {
+public struct MoveReplicationTaskOutput: Swift.Sendable {
     /// The replication task that was moved.
     public var replicationTask: DatabaseMigrationClientTypes.ReplicationTask?
 
@@ -10005,7 +10006,7 @@ public struct MoveReplicationTaskOutput {
     }
 }
 
-public struct RebootReplicationInstanceInput {
+public struct RebootReplicationInstanceInput: Swift.Sendable {
     /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
     public var forceFailover: Swift.Bool?
     /// If this parameter is true, the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
@@ -10026,7 +10027,7 @@ public struct RebootReplicationInstanceInput {
     }
 }
 
-public struct RebootReplicationInstanceOutput {
+public struct RebootReplicationInstanceOutput: Swift.Sendable {
     /// The replication instance that is being rebooted.
     public var replicationInstance: DatabaseMigrationClientTypes.ReplicationInstance?
 
@@ -10039,7 +10040,7 @@ public struct RebootReplicationInstanceOutput {
 }
 
 ///
-public struct RefreshSchemasInput {
+public struct RefreshSchemasInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -10058,7 +10059,7 @@ public struct RefreshSchemasInput {
 }
 
 ///
-public struct RefreshSchemasOutput {
+public struct RefreshSchemasOutput: Swift.Sendable {
     /// The status of the refreshed schema.
     public var refreshSchemasStatus: DatabaseMigrationClientTypes.RefreshSchemasStatus?
 
@@ -10072,7 +10073,7 @@ public struct RefreshSchemasOutput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum ReloadOptionValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ReloadOptionValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dataReload
         case validateOnly
         case sdkUnknown(Swift.String)
@@ -10100,8 +10101,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+
     /// Provides the name of the schema and table to be reloaded.
-    public struct TableToReload {
+    public struct TableToReload: Swift.Sendable {
         /// The schema name of the table to be reloaded.
         /// This member is required.
         public var schemaName: Swift.String?
@@ -10118,11 +10120,10 @@ extension DatabaseMigrationClientTypes {
             self.tableName = tableName
         }
     }
-
 }
 
 ///
-public struct ReloadReplicationTablesInput {
+public struct ReloadReplicationTablesInput: Swift.Sendable {
     /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the replication.
     public var reloadOption: DatabaseMigrationClientTypes.ReloadOptionValue?
     /// The Amazon Resource Name of the replication config for which to reload tables.
@@ -10145,7 +10146,7 @@ public struct ReloadReplicationTablesInput {
 }
 
 ///
-public struct ReloadReplicationTablesOutput {
+public struct ReloadReplicationTablesOutput: Swift.Sendable {
     /// The Amazon Resource Name of the replication config for which to reload tables.
     public var replicationConfigArn: Swift.String?
 
@@ -10157,7 +10158,7 @@ public struct ReloadReplicationTablesOutput {
     }
 }
 
-public struct ReloadTablesInput {
+public struct ReloadTablesInput: Swift.Sendable {
     /// Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task. Valid values: data-reload, validate-only Default value is data-reload.
     public var reloadOption: DatabaseMigrationClientTypes.ReloadOptionValue?
     /// The Amazon Resource Name (ARN) of the replication task.
@@ -10179,7 +10180,7 @@ public struct ReloadTablesInput {
     }
 }
 
-public struct ReloadTablesOutput {
+public struct ReloadTablesOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the replication task.
     public var replicationTaskArn: Swift.String?
 
@@ -10192,7 +10193,7 @@ public struct ReloadTablesOutput {
 }
 
 /// Removes one or more tags from an DMS resource.
-public struct RemoveTagsFromResourceInput {
+public struct RemoveTagsFromResourceInput: Swift.Sendable {
     /// An DMS resource from which you want to remove tag(s). The value for this parameter is an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10211,12 +10212,12 @@ public struct RemoveTagsFromResourceInput {
 }
 
 ///
-public struct RemoveTagsFromResourceOutput {
+public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RunFleetAdvisorLsaAnalysisOutput {
+public struct RunFleetAdvisorLsaAnalysisOutput: Swift.Sendable {
     /// The ID of the LSA analysis run.
     public var lsaAnalysisId: Swift.String?
     /// The status of the LSA analysis, for example COMPLETED.
@@ -10232,7 +10233,7 @@ public struct RunFleetAdvisorLsaAnalysisOutput {
     }
 }
 
-public struct StartExtensionPackAssociationInput {
+public struct StartExtensionPackAssociationInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
@@ -10245,7 +10246,7 @@ public struct StartExtensionPackAssociationInput {
     }
 }
 
-public struct StartExtensionPackAssociationOutput {
+public struct StartExtensionPackAssociationOutput: Swift.Sendable {
     /// The identifier for the request operation.
     public var requestIdentifier: Swift.String?
 
@@ -10257,7 +10258,7 @@ public struct StartExtensionPackAssociationOutput {
     }
 }
 
-public struct StartMetadataModelAssessmentInput {
+public struct StartMetadataModelAssessmentInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
@@ -10275,7 +10276,7 @@ public struct StartMetadataModelAssessmentInput {
     }
 }
 
-public struct StartMetadataModelAssessmentOutput {
+public struct StartMetadataModelAssessmentOutput: Swift.Sendable {
     /// The identifier for the assessment operation.
     public var requestIdentifier: Swift.String?
 
@@ -10287,7 +10288,7 @@ public struct StartMetadataModelAssessmentOutput {
     }
 }
 
-public struct StartMetadataModelConversionInput {
+public struct StartMetadataModelConversionInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
@@ -10305,7 +10306,7 @@ public struct StartMetadataModelConversionInput {
     }
 }
 
-public struct StartMetadataModelConversionOutput {
+public struct StartMetadataModelConversionOutput: Swift.Sendable {
     /// The identifier for the conversion operation.
     public var requestIdentifier: Swift.String?
 
@@ -10319,7 +10320,7 @@ public struct StartMetadataModelConversionOutput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum OriginTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OriginTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case source
         case target
         case sdkUnknown(Swift.String)
@@ -10346,7 +10347,7 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
-public struct StartMetadataModelExportAsScriptInput {
+public struct StartMetadataModelExportAsScriptInput: Swift.Sendable {
     /// The name of the model file to create in the Amazon S3 bucket.
     public var fileName: Swift.String?
     /// The migration project name or Amazon Resource Name (ARN).
@@ -10373,7 +10374,7 @@ public struct StartMetadataModelExportAsScriptInput {
     }
 }
 
-public struct StartMetadataModelExportAsScriptOutput {
+public struct StartMetadataModelExportAsScriptOutput: Swift.Sendable {
     /// The identifier for the export operation.
     public var requestIdentifier: Swift.String?
 
@@ -10385,7 +10386,7 @@ public struct StartMetadataModelExportAsScriptOutput {
     }
 }
 
-public struct StartMetadataModelExportToTargetInput {
+public struct StartMetadataModelExportToTargetInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
@@ -10407,7 +10408,7 @@ public struct StartMetadataModelExportToTargetInput {
     }
 }
 
-public struct StartMetadataModelExportToTargetOutput {
+public struct StartMetadataModelExportToTargetOutput: Swift.Sendable {
     /// The identifier for the export operation.
     public var requestIdentifier: Swift.String?
 
@@ -10419,7 +10420,7 @@ public struct StartMetadataModelExportToTargetOutput {
     }
 }
 
-public struct StartMetadataModelImportInput {
+public struct StartMetadataModelImportInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
@@ -10446,7 +10447,7 @@ public struct StartMetadataModelImportInput {
     }
 }
 
-public struct StartMetadataModelImportOutput {
+public struct StartMetadataModelImportOutput: Swift.Sendable {
     /// The identifier for the import operation.
     public var requestIdentifier: Swift.String?
 
@@ -10458,7 +10459,7 @@ public struct StartMetadataModelImportOutput {
     }
 }
 
-public struct StartRecommendationsInput {
+public struct StartRecommendationsInput: Swift.Sendable {
     /// The identifier of the source database to analyze and provide recommendations for.
     /// This member is required.
     public var databaseId: Swift.String?
@@ -10477,7 +10478,7 @@ public struct StartRecommendationsInput {
 }
 
 ///
-public struct StartReplicationInput {
+public struct StartReplicationInput: Swift.Sendable {
     /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format.
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
@@ -10508,7 +10509,7 @@ public struct StartReplicationInput {
 }
 
 ///
-public struct StartReplicationOutput {
+public struct StartReplicationOutput: Swift.Sendable {
     /// The replication that DMS started.
     public var replication: DatabaseMigrationClientTypes.Replication?
 
@@ -10522,7 +10523,7 @@ public struct StartReplicationOutput {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum StartReplicationTaskTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StartReplicationTaskTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case reloadTarget
         case resumeProcessing
         case startReplication
@@ -10553,7 +10554,7 @@ extension DatabaseMigrationClientTypes {
 }
 
 ///
-public struct StartReplicationTaskInput {
+public struct StartReplicationTaskInput: Swift.Sendable {
     /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373” When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see [Extra Connection Attributes When Using PostgreSQL as a Source for DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
@@ -10584,7 +10585,7 @@ public struct StartReplicationTaskInput {
 }
 
 ///
-public struct StartReplicationTaskOutput {
+public struct StartReplicationTaskOutput: Swift.Sendable {
     /// The replication task started.
     public var replicationTask: DatabaseMigrationClientTypes.ReplicationTask?
 
@@ -10597,7 +10598,7 @@ public struct StartReplicationTaskOutput {
 }
 
 ///
-public struct StartReplicationTaskAssessmentInput {
+public struct StartReplicationTaskAssessmentInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the replication task.
     /// This member is required.
     public var replicationTaskArn: Swift.String?
@@ -10611,7 +10612,7 @@ public struct StartReplicationTaskAssessmentInput {
 }
 
 ///
-public struct StartReplicationTaskAssessmentOutput {
+public struct StartReplicationTaskAssessmentOutput: Swift.Sendable {
     /// The assessed replication task.
     public var replicationTask: DatabaseMigrationClientTypes.ReplicationTask?
 
@@ -10648,7 +10649,7 @@ public struct KMSFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceE
 }
 
 ///
-public struct StartReplicationTaskAssessmentRunInput {
+public struct StartReplicationTaskAssessmentRunInput: Swift.Sendable {
     /// Unique name to identify the assessment run.
     /// This member is required.
     public var assessmentRunName: Swift.String?
@@ -10701,7 +10702,7 @@ public struct StartReplicationTaskAssessmentRunInput {
 }
 
 ///
-public struct StartReplicationTaskAssessmentRunOutput {
+public struct StartReplicationTaskAssessmentRunOutput: Swift.Sendable {
     /// The premigration assessment run that was started.
     public var replicationTaskAssessmentRun: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun?
 
@@ -10714,7 +10715,7 @@ public struct StartReplicationTaskAssessmentRunOutput {
 }
 
 ///
-public struct StopReplicationInput {
+public struct StopReplicationInput: Swift.Sendable {
     /// The Amazon Resource Name of the replication to stop.
     /// This member is required.
     public var replicationConfigArn: Swift.String?
@@ -10727,7 +10728,7 @@ public struct StopReplicationInput {
     }
 }
 
-public struct StopReplicationOutput {
+public struct StopReplicationOutput: Swift.Sendable {
     /// The replication that DMS stopped.
     public var replication: DatabaseMigrationClientTypes.Replication?
 
@@ -10740,7 +10741,7 @@ public struct StopReplicationOutput {
 }
 
 ///
-public struct StopReplicationTaskInput {
+public struct StopReplicationTaskInput: Swift.Sendable {
     /// The Amazon Resource Name(ARN) of the replication task to be stopped.
     /// This member is required.
     public var replicationTaskArn: Swift.String?
@@ -10754,7 +10755,7 @@ public struct StopReplicationTaskInput {
 }
 
 ///
-public struct StopReplicationTaskOutput {
+public struct StopReplicationTaskOutput: Swift.Sendable {
     /// The replication task stopped.
     public var replicationTask: DatabaseMigrationClientTypes.ReplicationTask?
 
@@ -10767,7 +10768,7 @@ public struct StopReplicationTaskOutput {
 }
 
 ///
-public struct TestConnectionInput {
+public struct TestConnectionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -10786,7 +10787,7 @@ public struct TestConnectionInput {
 }
 
 ///
-public struct TestConnectionOutput {
+public struct TestConnectionOutput: Swift.Sendable {
     /// The connection tested.
     public var connection: DatabaseMigrationClientTypes.Connection?
 
@@ -10799,7 +10800,7 @@ public struct TestConnectionOutput {
 }
 
 ///
-public struct UpdateSubscriptionsToEventBridgeInput {
+public struct UpdateSubscriptionsToEventBridgeInput: Swift.Sendable {
     /// When set to true, this operation migrates DMS subscriptions for Amazon SNS notifications no matter what your replication instance version is. If not set or set to false, this operation runs only when all your replication instances are from DMS version 3.4.5 or higher.
     public var forceMove: Swift.Bool?
 
@@ -10812,7 +10813,7 @@ public struct UpdateSubscriptionsToEventBridgeInput {
 }
 
 ///
-public struct UpdateSubscriptionsToEventBridgeOutput {
+public struct UpdateSubscriptionsToEventBridgeOutput: Swift.Sendable {
     /// A string that indicates how many event subscriptions were migrated and how many remain to be migrated.
     public var result: Swift.String?
 

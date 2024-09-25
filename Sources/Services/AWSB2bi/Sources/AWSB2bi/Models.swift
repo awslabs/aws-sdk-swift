@@ -27,32 +27,33 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-public struct DeleteCapabilityOutput {
+
+public struct DeleteCapabilityOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeletePartnershipOutput {
+public struct DeletePartnershipOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteProfileOutput {
+public struct DeleteProfileOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteTransformerOutput {
+public struct DeleteTransformerOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -261,8 +262,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension B2biClientTypes {
+
     /// Specifies the details for the Amazon S3 file location that is being used with Amazon Web Services B2BI Data Interchange. File locations in Amazon S3 are identified using a combination of the bucket and key.
-    public struct S3Location {
+    public struct S3Location: Swift.Sendable {
         /// Specifies the name of the Amazon S3 bucket.
         public var bucketName: Swift.String?
         /// Specifies the Amazon S3 key for the file location.
@@ -277,12 +279,11 @@ extension B2biClientTypes {
             self.key = key
         }
     }
-
 }
 
 extension B2biClientTypes {
 
-    public enum X12TransactionSet: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum X12TransactionSet: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case x12110
         case x12180
         case x12204
@@ -530,7 +531,7 @@ extension B2biClientTypes {
 
 extension B2biClientTypes {
 
-    public enum X12Version: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum X12Version: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case version4010
         case version4030
         case version5010
@@ -564,8 +565,9 @@ extension B2biClientTypes {
 }
 
 extension B2biClientTypes {
+
     /// A structure that contains the X12 transaction set and version. The X12 structure is used when the system transforms an EDI (electronic data interchange) file. If an EDI input file contains more than one transaction, each transaction must have the same transaction set and version, for example 214/4010. If not, the transformer cannot parse the file.
-    public struct X12Details {
+    public struct X12Details: Swift.Sendable {
         /// Returns an enumerated type where each value identifies an X12 transaction set. Transaction sets are maintained by the X12 Accredited Standards Committee.
         public var transactionSet: B2biClientTypes.X12TransactionSet?
         /// Returns the version to use for the specified X12 transaction set.
@@ -580,22 +582,22 @@ extension B2biClientTypes {
             self.version = version
         }
     }
-
 }
 
 extension B2biClientTypes {
+
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
-    public enum EdiType {
+    public enum EdiType: Swift.Sendable {
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
         case x12details(B2biClientTypes.X12Details)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension B2biClientTypes {
+
     /// Specifies the details for the EDI (electronic data interchange) transformation.
-    public struct EdiConfiguration {
+    public struct EdiConfiguration: Swift.Sendable {
         /// Contains the Amazon S3 bucket and prefix for the location of the input file, which is contained in an S3Location object.
         /// This member is required.
         public var inputLocation: B2biClientTypes.S3Location?
@@ -622,22 +624,22 @@ extension B2biClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension B2biClientTypes {
+
     /// A capability object. Currently, only EDI (electronic data interchange) capabilities are supported. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
-    public enum CapabilityConfiguration {
+    public enum CapabilityConfiguration: Swift.Sendable {
         /// An EDI (electronic data interchange) configuration object.
         case edi(B2biClientTypes.EdiConfiguration)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension B2biClientTypes {
+
     /// Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partnerships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// Specifies the name assigned to the tag that you create.
         /// This member is required.
         public var key: Swift.String?
@@ -654,12 +656,11 @@ extension B2biClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension B2biClientTypes {
 
-    public enum CapabilityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CapabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case edi
         case sdkUnknown(Swift.String)
 
@@ -683,7 +684,7 @@ extension B2biClientTypes {
     }
 }
 
-public struct CreateCapabilityInput {
+public struct CreateCapabilityInput: Swift.Sendable {
     /// Reserved for future use.
     public var clientToken: Swift.String?
     /// Specifies a structure that contains the details for a capability.
@@ -718,7 +719,7 @@ public struct CreateCapabilityInput {
     }
 }
 
-public struct CreateCapabilityOutput {
+public struct CreateCapabilityOutput: Swift.Sendable {
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var capabilityArn: Swift.String?
@@ -760,7 +761,7 @@ public struct CreateCapabilityOutput {
     }
 }
 
-public struct DeleteCapabilityInput {
+public struct DeleteCapabilityInput: Swift.Sendable {
     /// Specifies a system-assigned unique identifier for the capability.
     /// This member is required.
     public var capabilityId: Swift.String?
@@ -773,7 +774,7 @@ public struct DeleteCapabilityInput {
     }
 }
 
-public struct GetCapabilityInput {
+public struct GetCapabilityInput: Swift.Sendable {
     /// Specifies a system-assigned unique identifier for the capability.
     /// This member is required.
     public var capabilityId: Swift.String?
@@ -786,7 +787,7 @@ public struct GetCapabilityInput {
     }
 }
 
-public struct GetCapabilityOutput {
+public struct GetCapabilityOutput: Swift.Sendable {
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var capabilityArn: Swift.String?
@@ -832,7 +833,7 @@ public struct GetCapabilityOutput {
     }
 }
 
-public struct ListCapabilitiesInput {
+public struct ListCapabilitiesInput: Swift.Sendable {
     /// Specifies the maximum number of capabilities to return.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -849,8 +850,9 @@ public struct ListCapabilitiesInput {
 }
 
 extension B2biClientTypes {
+
     /// Returns the capability summary details. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
-    public struct CapabilitySummary {
+    public struct CapabilitySummary: Swift.Sendable {
         /// Returns a system-assigned unique identifier for the capability.
         /// This member is required.
         public var capabilityId: Swift.String?
@@ -881,10 +883,9 @@ extension B2biClientTypes {
             self.type = type
         }
     }
-
 }
 
-public struct ListCapabilitiesOutput {
+public struct ListCapabilitiesOutput: Swift.Sendable {
     /// Returns one or more capabilities associated with this partnership.
     /// This member is required.
     public var capabilities: [B2biClientTypes.CapabilitySummary]?
@@ -901,7 +902,7 @@ public struct ListCapabilitiesOutput {
     }
 }
 
-public struct UpdateCapabilityInput {
+public struct UpdateCapabilityInput: Swift.Sendable {
     /// Specifies a system-assigned unique identifier for the capability.
     /// This member is required.
     public var capabilityId: Swift.String?
@@ -926,7 +927,7 @@ public struct UpdateCapabilityInput {
     }
 }
 
-public struct UpdateCapabilityOutput {
+public struct UpdateCapabilityOutput: Swift.Sendable {
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var capabilityArn: Swift.String?
@@ -972,7 +973,7 @@ public struct UpdateCapabilityOutput {
     }
 }
 
-public struct GetTransformerJobInput {
+public struct GetTransformerJobInput: Swift.Sendable {
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
     public var transformerId: Swift.String?
@@ -992,7 +993,7 @@ public struct GetTransformerJobInput {
 
 extension B2biClientTypes {
 
-    public enum TransformerJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TransformerJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case running
         case succeeded
@@ -1022,7 +1023,7 @@ extension B2biClientTypes {
     }
 }
 
-public struct GetTransformerJobOutput {
+public struct GetTransformerJobOutput: Swift.Sendable {
     /// Returns an optional error message, which gets populated when the job is not run successfully.
     public var message: Swift.String?
     /// Returns the location for the output files. If the caller specified a directory for the output, then this contains the full path to the output file, including the file name generated by the service.
@@ -1043,7 +1044,7 @@ public struct GetTransformerJobOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1056,7 +1057,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// Returns the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
     public var tags: [B2biClientTypes.Tag]?
 
@@ -1068,7 +1069,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct CreatePartnershipInput {
+public struct CreatePartnershipInput: Swift.Sendable {
     /// Specifies a list of the capabilities associated with this partnership.
     /// This member is required.
     public var capabilities: [Swift.String]?
@@ -1113,7 +1114,7 @@ extension CreatePartnershipInput: Swift.CustomDebugStringConvertible {
         "CreatePartnershipInput(capabilities: \(Swift.String(describing: capabilities)), clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), profileId: \(Swift.String(describing: profileId)), tags: \(Swift.String(describing: tags)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreatePartnershipOutput {
+public struct CreatePartnershipOutput: Swift.Sendable {
     /// Returns one or more capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// Returns a timestamp for creation date and time of the partnership.
@@ -1166,7 +1167,7 @@ extension CreatePartnershipOutput: Swift.CustomDebugStringConvertible {
         "CreatePartnershipOutput(capabilities: \(Swift.String(describing: capabilities)), createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), partnershipArn: \(Swift.String(describing: partnershipArn)), partnershipId: \(Swift.String(describing: partnershipId)), profileId: \(Swift.String(describing: profileId)), tradingPartnerId: \(Swift.String(describing: tradingPartnerId)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct DeletePartnershipInput {
+public struct DeletePartnershipInput: Swift.Sendable {
     /// Specifies the unique, system-generated identifier for a partnership.
     /// This member is required.
     public var partnershipId: Swift.String?
@@ -1179,7 +1180,7 @@ public struct DeletePartnershipInput {
     }
 }
 
-public struct GetPartnershipInput {
+public struct GetPartnershipInput: Swift.Sendable {
     /// Specifies the unique, system-generated identifier for a partnership.
     /// This member is required.
     public var partnershipId: Swift.String?
@@ -1192,7 +1193,7 @@ public struct GetPartnershipInput {
     }
 }
 
-public struct GetPartnershipOutput {
+public struct GetPartnershipOutput: Swift.Sendable {
     /// Returns one or more capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// Returns a timestamp for creation date and time of the partnership.
@@ -1249,7 +1250,7 @@ extension GetPartnershipOutput: Swift.CustomDebugStringConvertible {
         "GetPartnershipOutput(capabilities: \(Swift.String(describing: capabilities)), createdAt: \(Swift.String(describing: createdAt)), modifiedAt: \(Swift.String(describing: modifiedAt)), name: \(Swift.String(describing: name)), partnershipArn: \(Swift.String(describing: partnershipArn)), partnershipId: \(Swift.String(describing: partnershipId)), profileId: \(Swift.String(describing: profileId)), tradingPartnerId: \(Swift.String(describing: tradingPartnerId)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListPartnershipsInput {
+public struct ListPartnershipsInput: Swift.Sendable {
     /// Specifies the maximum number of capabilities to return.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -1270,8 +1271,9 @@ public struct ListPartnershipsInput {
 }
 
 extension B2biClientTypes {
+
     /// A structure that contains the details for a partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
-    public struct PartnershipSummary {
+    public struct PartnershipSummary: Swift.Sendable {
         /// Returns one or more capabilities associated with this partnership.
         public var capabilities: [Swift.String]?
         /// Returns a timestamp for creation date and time of the partnership.
@@ -1309,10 +1311,9 @@ extension B2biClientTypes {
             self.tradingPartnerId = tradingPartnerId
         }
     }
-
 }
 
-public struct ListPartnershipsOutput {
+public struct ListPartnershipsOutput: Swift.Sendable {
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
     public var nextToken: Swift.String?
     /// Specifies a list of your partnerships.
@@ -1329,7 +1330,7 @@ public struct ListPartnershipsOutput {
     }
 }
 
-public struct UpdatePartnershipInput {
+public struct UpdatePartnershipInput: Swift.Sendable {
     /// List of the capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// The name of the partnership, used to identify it.
@@ -1350,7 +1351,7 @@ public struct UpdatePartnershipInput {
     }
 }
 
-public struct UpdatePartnershipOutput {
+public struct UpdatePartnershipOutput: Swift.Sendable {
     /// Returns one or more capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// Returns a timestamp that identifies the most recent date and time that the partnership was modified.
@@ -1409,7 +1410,7 @@ extension UpdatePartnershipOutput: Swift.CustomDebugStringConvertible {
 
 extension B2biClientTypes {
 
-    public enum Logging: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Logging: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -1436,7 +1437,7 @@ extension B2biClientTypes {
     }
 }
 
-public struct CreateProfileInput {
+public struct CreateProfileInput: Swift.Sendable {
     /// Specifies the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -1481,7 +1482,7 @@ extension CreateProfileInput: Swift.CustomDebugStringConvertible {
         "CreateProfileInput(businessName: \(Swift.String(describing: businessName)), clientToken: \(Swift.String(describing: clientToken)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateProfileOutput {
+public struct CreateProfileOutput: Swift.Sendable {
     /// Returns the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -1536,7 +1537,7 @@ extension CreateProfileOutput: Swift.CustomDebugStringConvertible {
         "CreateProfileOutput(businessName: \(Swift.String(describing: businessName)), createdAt: \(Swift.String(describing: createdAt)), logGroupName: \(Swift.String(describing: logGroupName)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), profileArn: \(Swift.String(describing: profileArn)), profileId: \(Swift.String(describing: profileId)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct DeleteProfileInput {
+public struct DeleteProfileInput: Swift.Sendable {
     /// Specifies the unique, system-generated identifier for the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1549,7 +1550,7 @@ public struct DeleteProfileInput {
     }
 }
 
-public struct GetProfileInput {
+public struct GetProfileInput: Swift.Sendable {
     /// Specifies the unique, system-generated identifier for the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1562,7 +1563,7 @@ public struct GetProfileInput {
     }
 }
 
-public struct GetProfileOutput {
+public struct GetProfileOutput: Swift.Sendable {
     /// Returns the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -1621,7 +1622,7 @@ extension GetProfileOutput: Swift.CustomDebugStringConvertible {
         "GetProfileOutput(businessName: \(Swift.String(describing: businessName)), createdAt: \(Swift.String(describing: createdAt)), logGroupName: \(Swift.String(describing: logGroupName)), logging: \(Swift.String(describing: logging)), modifiedAt: \(Swift.String(describing: modifiedAt)), name: \(Swift.String(describing: name)), profileArn: \(Swift.String(describing: profileArn)), profileId: \(Swift.String(describing: profileId)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListProfilesInput {
+public struct ListProfilesInput: Swift.Sendable {
     /// Specifies the maximum number of profiles to return.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -1638,8 +1639,9 @@ public struct ListProfilesInput {
 }
 
 extension B2biClientTypes {
+
     /// Contains the details for a profile. A profile is the mechanism used to create the concept of a private network.
-    public struct ProfileSummary {
+    public struct ProfileSummary: Swift.Sendable {
         /// Returns the name for the business associated with this profile.
         /// This member is required.
         public var businessName: Swift.String?
@@ -1678,10 +1680,9 @@ extension B2biClientTypes {
             self.profileId = profileId
         }
     }
-
 }
 
-public struct ListProfilesOutput {
+public struct ListProfilesOutput: Swift.Sendable {
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
     public var nextToken: Swift.String?
     /// Returns an array of ProfileSummary objects.
@@ -1698,7 +1699,7 @@ public struct ListProfilesOutput {
     }
 }
 
-public struct UpdateProfileInput {
+public struct UpdateProfileInput: Swift.Sendable {
     /// Specifies the name for the business associated with this profile.
     public var businessName: Swift.String?
     /// Specifies the email address associated with this customer profile.
@@ -1732,7 +1733,7 @@ extension UpdateProfileInput: Swift.CustomDebugStringConvertible {
         "UpdateProfileInput(businessName: \(Swift.String(describing: businessName)), name: \(Swift.String(describing: name)), profileId: \(Swift.String(describing: profileId)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateProfileOutput {
+public struct UpdateProfileOutput: Swift.Sendable {
     /// Returns the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -1791,7 +1792,7 @@ extension UpdateProfileOutput: Swift.CustomDebugStringConvertible {
         "UpdateProfileOutput(businessName: \(Swift.String(describing: businessName)), createdAt: \(Swift.String(describing: createdAt)), logGroupName: \(Swift.String(describing: logGroupName)), logging: \(Swift.String(describing: logging)), modifiedAt: \(Swift.String(describing: modifiedAt)), name: \(Swift.String(describing: name)), profileArn: \(Swift.String(describing: profileArn)), profileId: \(Swift.String(describing: profileId)), email: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
-public struct StartTransformerJobInput {
+public struct StartTransformerJobInput: Swift.Sendable {
     /// Reserved for future use.
     public var clientToken: Swift.String?
     /// Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix.
@@ -1818,7 +1819,7 @@ public struct StartTransformerJobInput {
     }
 }
 
-public struct StartTransformerJobOutput {
+public struct StartTransformerJobOutput: Swift.Sendable {
     /// Returns the unique, system-generated identifier for a transformer run.
     /// This member is required.
     public var transformerJobId: Swift.String?
@@ -1831,7 +1832,7 @@ public struct StartTransformerJobOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1851,7 +1852,7 @@ public struct TagResourceInput {
 
 extension B2biClientTypes {
 
-    public enum FileFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FileFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case json
         case xml
         case sdkUnknown(Swift.String)
@@ -1878,7 +1879,7 @@ extension B2biClientTypes {
     }
 }
 
-public struct TestMappingInput {
+public struct TestMappingInput: Swift.Sendable {
     /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
     /// This member is required.
     public var fileFormat: B2biClientTypes.FileFormat?
@@ -1901,7 +1902,7 @@ public struct TestMappingInput {
     }
 }
 
-public struct TestMappingOutput {
+public struct TestMappingOutput: Swift.Sendable {
     /// Returns a string for the mapping that can be used to identify the mapping. Similar to a fingerprint
     /// This member is required.
     public var mappedFileContent: Swift.String?
@@ -1914,7 +1915,7 @@ public struct TestMappingOutput {
     }
 }
 
-public struct TestParsingInput {
+public struct TestParsingInput: Swift.Sendable {
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     /// This member is required.
     public var ediType: B2biClientTypes.EdiType?
@@ -1937,7 +1938,7 @@ public struct TestParsingInput {
     }
 }
 
-public struct TestParsingOutput {
+public struct TestParsingOutput: Swift.Sendable {
     /// Returns the contents of the input file being tested, parsed according to the specified EDI (electronic data interchange) type.
     /// This member is required.
     public var parsedFileContent: Swift.String?
@@ -1950,7 +1951,7 @@ public struct TestParsingOutput {
     }
 }
 
-public struct CreateTransformerInput {
+public struct CreateTransformerInput: Swift.Sendable {
     /// Reserved for future use.
     public var clientToken: Swift.String?
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
@@ -1992,7 +1993,7 @@ public struct CreateTransformerInput {
 
 extension B2biClientTypes {
 
-    public enum TransformerStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TransformerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case inactive
         case sdkUnknown(Swift.String)
@@ -2019,7 +2020,7 @@ extension B2biClientTypes {
     }
 }
 
-public struct CreateTransformerOutput {
+public struct CreateTransformerOutput: Swift.Sendable {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -2071,7 +2072,7 @@ public struct CreateTransformerOutput {
     }
 }
 
-public struct DeleteTransformerInput {
+public struct DeleteTransformerInput: Swift.Sendable {
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
     public var transformerId: Swift.String?
@@ -2084,7 +2085,7 @@ public struct DeleteTransformerInput {
     }
 }
 
-public struct GetTransformerInput {
+public struct GetTransformerInput: Swift.Sendable {
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
     public var transformerId: Swift.String?
@@ -2097,7 +2098,7 @@ public struct GetTransformerInput {
     }
 }
 
-public struct GetTransformerOutput {
+public struct GetTransformerOutput: Swift.Sendable {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -2153,7 +2154,7 @@ public struct GetTransformerOutput {
     }
 }
 
-public struct ListTransformersInput {
+public struct ListTransformersInput: Swift.Sendable {
     /// Specifies the number of items to return for the API response.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -2170,8 +2171,9 @@ public struct ListTransformersInput {
 }
 
 extension B2biClientTypes {
+
     /// Contains the details for a transformer object. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
-    public struct TransformerSummary {
+    public struct TransformerSummary: Swift.Sendable {
         /// Returns a timestamp indicating when the transformer was created. For example, 2023-07-20T19:58:44.624Z.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -2221,10 +2223,9 @@ extension B2biClientTypes {
             self.transformerId = transformerId
         }
     }
-
 }
 
-public struct ListTransformersOutput {
+public struct ListTransformersOutput: Swift.Sendable {
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
     public var nextToken: Swift.String?
     /// Returns an array of one or more transformer objects. For each transformer, a TransformerSummary object is returned. The TransformerSummary contains all the details for a specific transformer.
@@ -2241,7 +2242,7 @@ public struct ListTransformersOutput {
     }
 }
 
-public struct UpdateTransformerInput {
+public struct UpdateTransformerInput: Swift.Sendable {
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     public var ediType: B2biClientTypes.EdiType?
     /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
@@ -2278,7 +2279,7 @@ public struct UpdateTransformerInput {
     }
 }
 
-public struct UpdateTransformerOutput {
+public struct UpdateTransformerOutput: Swift.Sendable {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -2335,7 +2336,7 @@ public struct UpdateTransformerOutput {
     }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var resourceARN: Swift.String?

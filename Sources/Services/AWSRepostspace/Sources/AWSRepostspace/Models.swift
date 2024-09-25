@@ -28,27 +28,28 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-public struct DeleteSpaceOutput {
+
+public struct DeleteSpaceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeregisterAdminOutput {
+public struct DeregisterAdminOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct RegisterAdminOutput {
+public struct RegisterAdminOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct SendInvitesOutput {
+public struct SendInvitesOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateSpaceOutput {
+public struct UpdateSpaceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -80,7 +81,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension RepostspaceClientTypes {
 
-    public enum ConfigurationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case configured
         case unconfigured
         case sdkUnknown(Swift.String)
@@ -289,8 +290,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension RepostspaceClientTypes {
+
     /// Stores information about a field that’s passed inside a request that resulted in an exception.
-    public struct ValidationExceptionField {
+    public struct ValidationExceptionField: Swift.Sendable {
         /// The name of the field.
         /// This member is required.
         public var message: Swift.String?
@@ -307,12 +309,11 @@ extension RepostspaceClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension RepostspaceClientTypes {
 
-    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cannotParse
         case fieldValidationFailed
         case other
@@ -381,7 +382,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension RepostspaceClientTypes {
 
-    public enum TierLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TierLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case standard
         case sdkUnknown(Swift.String)
@@ -408,7 +409,7 @@ extension RepostspaceClientTypes {
     }
 }
 
-public struct CreateSpaceInput {
+public struct CreateSpaceInput: Swift.Sendable {
     /// A description for the private re:Post. This is used only to help you identify this private re:Post.
     public var description: Swift.String?
     /// The name for the private re:Post. This must be unique in your account.
@@ -452,7 +453,7 @@ extension CreateSpaceInput: Swift.CustomDebugStringConvertible {
         "CreateSpaceInput(roleArn: \(Swift.String(describing: roleArn)), subdomain: \(Swift.String(describing: subdomain)), tier: \(Swift.String(describing: tier)), userKMSKey: \(Swift.String(describing: userKMSKey)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateSpaceOutput {
+public struct CreateSpaceOutput: Swift.Sendable {
     /// The unique ID of the private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
@@ -465,7 +466,7 @@ public struct CreateSpaceOutput {
     }
 }
 
-public struct DeleteSpaceInput {
+public struct DeleteSpaceInput: Swift.Sendable {
     /// The unique ID of the private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
@@ -478,7 +479,7 @@ public struct DeleteSpaceInput {
     }
 }
 
-public struct DeregisterAdminInput {
+public struct DeregisterAdminInput: Swift.Sendable {
     /// The ID of the admin to remove.
     /// This member is required.
     public var adminId: Swift.String?
@@ -496,7 +497,7 @@ public struct DeregisterAdminInput {
     }
 }
 
-public struct GetSpaceInput {
+public struct GetSpaceInput: Swift.Sendable {
     /// The ID of the private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
@@ -511,7 +512,7 @@ public struct GetSpaceInput {
 
 extension RepostspaceClientTypes {
 
-    public enum VanityDomainStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VanityDomainStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approved
         case pending
         case unapproved
@@ -541,7 +542,7 @@ extension RepostspaceClientTypes {
     }
 }
 
-public struct GetSpaceOutput {
+public struct GetSpaceOutput: Swift.Sendable {
     /// The ARN of the private re:Post.
     /// This member is required.
     public var arn: Swift.String?
@@ -646,7 +647,7 @@ extension GetSpaceOutput: Swift.CustomDebugStringConvertible {
         "GetSpaceOutput(arn: \(Swift.String(describing: arn)), clientId: \(Swift.String(describing: clientId)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), customerRoleArn: \(Swift.String(describing: customerRoleArn)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), groupAdmins: \(Swift.String(describing: groupAdmins)), randomDomain: \(Swift.String(describing: randomDomain)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), tier: \(Swift.String(describing: tier)), userAdmins: \(Swift.String(describing: userAdmins)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListSpacesInput {
+public struct ListSpacesInput: Swift.Sendable {
     /// The maximum number of private re:Posts to include in the results.
     public var maxResults: Swift.Int?
     /// The token for the next set of private re:Posts to return. You receive this token from a previous ListSpaces operation.
@@ -663,8 +664,9 @@ public struct ListSpacesInput {
 }
 
 extension RepostspaceClientTypes {
+
     /// A structure that contains some information about a private re:Post in the account.
-    public struct SpaceData {
+    public struct SpaceData: Swift.Sendable {
         /// The ARN of the private re:Post.
         /// This member is required.
         public var arn: Swift.String?
@@ -746,7 +748,6 @@ extension RepostspaceClientTypes {
             self.vanityDomainStatus = vanityDomainStatus
         }
     }
-
 }
 
 extension RepostspaceClientTypes.SpaceData: Swift.CustomDebugStringConvertible {
@@ -754,7 +755,7 @@ extension RepostspaceClientTypes.SpaceData: Swift.CustomDebugStringConvertible {
         "SpaceData(arn: \(Swift.String(describing: arn)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), randomDomain: \(Swift.String(describing: randomDomain)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), tier: \(Swift.String(describing: tier)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListSpacesOutput {
+public struct ListSpacesOutput: Swift.Sendable {
     /// The token that you use when you request the next set of private re:Posts.
     public var nextToken: Swift.String?
     /// An array of structures that contain some information about the private re:Posts in the account.
@@ -771,7 +772,7 @@ public struct ListSpacesOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the resource that the tags are associated with.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -784,7 +785,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The list of tags that are associated with the resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -801,7 +802,7 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
         "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct RegisterAdminInput {
+public struct RegisterAdminInput: Swift.Sendable {
     /// The ID of the administrator.
     /// This member is required.
     public var adminId: Swift.String?
@@ -819,7 +820,7 @@ public struct RegisterAdminInput {
     }
 }
 
-public struct SendInvitesInput {
+public struct SendInvitesInput: Swift.Sendable {
     /// The array of identifiers for the users and groups.
     /// This member is required.
     public var accessorIds: [Swift.String]?
@@ -852,7 +853,7 @@ extension SendInvitesInput: Swift.CustomDebugStringConvertible {
         "SendInvitesInput(accessorIds: \(Swift.String(describing: accessorIds)), spaceId: \(Swift.String(describing: spaceId)), body: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the resource that the tag is associated with.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -875,12 +876,12 @@ extension TagResourceInput: Swift.CustomDebugStringConvertible {
         "TagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -898,12 +899,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateSpaceInput {
+public struct UpdateSpaceInput: Swift.Sendable {
     /// A description for the private re:Post. This is used only to help you identify this private re:Post.
     public var description: Swift.String?
     /// The IAM role that grants permissions to the private re:Post to convert unanswered questions into AWS support tickets.

@@ -23,12 +23,13 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
-public struct TagResourceOutput {
+
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -209,7 +210,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fieldValidationFailed
         case other
         case sdkUnknown(Swift.String)
@@ -268,7 +269,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum DbInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DbInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dbInflux12xlarge
         case dbInflux16xlarge
         case dbInflux2xlarge
@@ -315,7 +316,7 @@ extension TimestreamInfluxDBClientTypes {
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum DbStorageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DbStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case influxIoIncludedT1
         case influxIoIncludedT2
         case influxIoIncludedT3
@@ -347,7 +348,7 @@ extension TimestreamInfluxDBClientTypes {
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum DeploymentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case singleAz
         case withMultiazStandby
         case sdkUnknown(Swift.String)
@@ -375,8 +376,9 @@ extension TimestreamInfluxDBClientTypes {
 }
 
 extension TimestreamInfluxDBClientTypes {
+
     /// Configuration for S3 bucket log delivery.
-    public struct S3Configuration {
+    public struct S3Configuration: Swift.Sendable {
         /// The name of the S3 bucket to deliver logs to.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -393,12 +395,12 @@ extension TimestreamInfluxDBClientTypes {
             self.enabled = enabled
         }
     }
-
 }
 
 extension TimestreamInfluxDBClientTypes {
+
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
-    public struct LogDeliveryConfiguration {
+    public struct LogDeliveryConfiguration: Swift.Sendable {
         /// Configuration for S3 bucket log delivery.
         /// This member is required.
         public var s3Configuration: TimestreamInfluxDBClientTypes.S3Configuration?
@@ -410,10 +412,9 @@ extension TimestreamInfluxDBClientTypes {
             self.s3Configuration = s3Configuration
         }
     }
-
 }
 
-public struct CreateDbInstanceInput {
+public struct CreateDbInstanceInput: Swift.Sendable {
     /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
     /// This member is required.
     public var allocatedStorage: Swift.Int?
@@ -500,7 +501,7 @@ extension CreateDbInstanceInput: Swift.CustomDebugStringConvertible {
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case creating
         case deleted
@@ -548,7 +549,7 @@ extension TimestreamInfluxDBClientTypes {
     }
 }
 
-public struct CreateDbInstanceOutput {
+public struct CreateDbInstanceOutput: Swift.Sendable {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -628,7 +629,7 @@ public struct CreateDbInstanceOutput {
     }
 }
 
-public struct DeleteDbInstanceInput {
+public struct DeleteDbInstanceInput: Swift.Sendable {
     /// The id of the DB instance.
     /// This member is required.
     public var identifier: Swift.String?
@@ -641,7 +642,7 @@ public struct DeleteDbInstanceInput {
     }
 }
 
-public struct DeleteDbInstanceOutput {
+public struct DeleteDbInstanceOutput: Swift.Sendable {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -721,7 +722,7 @@ public struct DeleteDbInstanceOutput {
     }
 }
 
-public struct GetDbInstanceInput {
+public struct GetDbInstanceInput: Swift.Sendable {
     /// The id of the DB instance.
     /// This member is required.
     public var identifier: Swift.String?
@@ -734,7 +735,7 @@ public struct GetDbInstanceInput {
     }
 }
 
-public struct GetDbInstanceOutput {
+public struct GetDbInstanceOutput: Swift.Sendable {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -814,7 +815,7 @@ public struct GetDbInstanceOutput {
     }
 }
 
-public struct ListDbInstancesInput {
+public struct ListDbInstancesInput: Swift.Sendable {
     /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -831,8 +832,9 @@ public struct ListDbInstancesInput {
 }
 
 extension TimestreamInfluxDBClientTypes {
+
     /// Contains a summary of a DB instance.
-    public struct DbInstanceSummary {
+    public struct DbInstanceSummary: Swift.Sendable {
         /// The amount of storage to allocate for your DbStorageType in GiB (gibibytes).
         public var allocatedStorage: Swift.Int?
         /// The Amazon Resource Name (ARN) of the DB instance.
@@ -878,10 +880,9 @@ extension TimestreamInfluxDBClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListDbInstancesOutput {
+public struct ListDbInstancesOutput: Swift.Sendable {
     /// A list of Timestream for InfluxDB DB instance summaries.
     /// This member is required.
     public var items: [TimestreamInfluxDBClientTypes.DbInstanceSummary]?
@@ -898,7 +899,7 @@ public struct ListDbInstancesOutput {
     }
 }
 
-public struct UpdateDbInstanceInput {
+public struct UpdateDbInstanceInput: Swift.Sendable {
     /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
@@ -927,7 +928,7 @@ public struct UpdateDbInstanceInput {
     }
 }
 
-public struct UpdateDbInstanceOutput {
+public struct UpdateDbInstanceOutput: Swift.Sendable {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -1009,7 +1010,7 @@ public struct UpdateDbInstanceOutput {
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum LogLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case debug
         case error
         case info
@@ -1041,7 +1042,7 @@ extension TimestreamInfluxDBClientTypes {
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum TracingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TracingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case jaeger
         case log
         case sdkUnknown(Swift.String)
@@ -1069,8 +1070,9 @@ extension TimestreamInfluxDBClientTypes {
 }
 
 extension TimestreamInfluxDBClientTypes {
+
     /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
-    public struct InfluxDBv2Parameters {
+    public struct InfluxDBv2Parameters: Swift.Sendable {
         /// Include option to show detailed logs for Flux queries. Default: false
         public var fluxLogEnabled: Swift.Bool?
         /// Log output level. InfluxDB outputs log entries with severity levels greater than or equal to the level specified. Default: info
@@ -1105,20 +1107,19 @@ extension TimestreamInfluxDBClientTypes {
             self.tracingType = tracingType
         }
     }
-
 }
 
 extension TimestreamInfluxDBClientTypes {
+
     /// The parameters that comprise the parameter group.
-    public enum Parameters {
+    public enum Parameters: Swift.Sendable {
         /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
         case influxdbv2(TimestreamInfluxDBClientTypes.InfluxDBv2Parameters)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct CreateDbParameterGroupInput {
+public struct CreateDbParameterGroupInput: Swift.Sendable {
     /// A description of the DB parameter group.
     public var description: Swift.String?
     /// The name of the DB parameter group. The name must be unique per customer and per region.
@@ -1143,7 +1144,7 @@ public struct CreateDbParameterGroupInput {
     }
 }
 
-public struct CreateDbParameterGroupOutput {
+public struct CreateDbParameterGroupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARM) of the DB parameter group.
     /// This member is required.
     public var arn: Swift.String?
@@ -1174,7 +1175,7 @@ public struct CreateDbParameterGroupOutput {
     }
 }
 
-public struct GetDbParameterGroupInput {
+public struct GetDbParameterGroupInput: Swift.Sendable {
     /// The id of the DB parameter group.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1187,7 +1188,7 @@ public struct GetDbParameterGroupInput {
     }
 }
 
-public struct GetDbParameterGroupOutput {
+public struct GetDbParameterGroupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the DB parameter group.
     /// This member is required.
     public var arn: Swift.String?
@@ -1218,7 +1219,7 @@ public struct GetDbParameterGroupOutput {
     }
 }
 
-public struct ListDbParameterGroupsInput {
+public struct ListDbParameterGroupsInput: Swift.Sendable {
     /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -1235,8 +1236,9 @@ public struct ListDbParameterGroupsInput {
 }
 
 extension TimestreamInfluxDBClientTypes {
+
     /// Contains a summary of a DB parameter group.
-    public struct DbParameterGroupSummary {
+    public struct DbParameterGroupSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the DB parameter group.
         /// This member is required.
         public var arn: Swift.String?
@@ -1262,10 +1264,9 @@ extension TimestreamInfluxDBClientTypes {
             self.name = name
         }
     }
-
 }
 
-public struct ListDbParameterGroupsOutput {
+public struct ListDbParameterGroupsOutput: Swift.Sendable {
     /// A list of Timestream for InfluxDB DB parameter group summaries.
     /// This member is required.
     public var items: [TimestreamInfluxDBClientTypes.DbParameterGroupSummary]?
@@ -1282,7 +1283,7 @@ public struct ListDbParameterGroupsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1295,7 +1296,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A list of tags used to categorize and track resources.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1307,7 +1308,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1325,7 +1326,7 @@ public struct TagResourceInput {
     }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
