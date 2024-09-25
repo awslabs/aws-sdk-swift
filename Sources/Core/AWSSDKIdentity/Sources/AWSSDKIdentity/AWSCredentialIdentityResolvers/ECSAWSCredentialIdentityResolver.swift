@@ -50,7 +50,7 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByC
         let defaultHost = "169.254.170.2"
         var host = defaultHost
         var pathAndQuery = resolvedRelativeURI ?? ""
-        var resolvedAuthToken: String? = nil
+        var resolvedAuthToken: String?
 
         if let relative = resolvedRelativeURI {
             pathAndQuery = relative
@@ -102,7 +102,7 @@ private func isValidAbsoluteURI(_ uri: String?) -> Bool {
 
 private func resolveToken(_ authorizationToken: String?, _ env: ProcessEnvironment) throws -> String? {
     // Initialize token variable
-    var tokenFromFile: String? = nil
+    var tokenFromFile: String?
     if let tokenPath = env.environmentVariable(
         key: "AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE"
     ) {
