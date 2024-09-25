@@ -31,22 +31,23 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-public struct CancelSolNetworkOperationOutput {
+
+public struct CancelSolNetworkOperationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteSolFunctionPackageOutput {
+public struct DeleteSolFunctionPackageOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteSolNetworkInstanceOutput {
+public struct DeleteSolNetworkInstanceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteSolNetworkPackageOutput {
+public struct DeleteSolNetworkPackageOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -176,7 +177,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct CancelSolNetworkOperationInput {
+public struct CancelSolNetworkOperationInput: Swift.Sendable {
     /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
@@ -214,7 +215,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-public struct CreateSolFunctionPackageInput {
+public struct CreateSolFunctionPackageInput: Swift.Sendable {
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
 
@@ -233,7 +234,7 @@ extension CreateSolFunctionPackageInput: Swift.CustomDebugStringConvertible {
 
 extension TnbClientTypes {
 
-    public enum OnboardingState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OnboardingState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case error
         case onboarded
@@ -265,7 +266,7 @@ extension TnbClientTypes {
 
 extension TnbClientTypes {
 
-    public enum OperationalState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OperationalState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -294,7 +295,7 @@ extension TnbClientTypes {
 
 extension TnbClientTypes {
 
-    public enum UsageState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UsageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case inUse
         case notInUse
         case sdkUnknown(Swift.String)
@@ -321,7 +322,7 @@ extension TnbClientTypes {
     }
 }
 
-public struct CreateSolFunctionPackageOutput {
+public struct CreateSolFunctionPackageOutput: Swift.Sendable {
     /// Function package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -363,7 +364,7 @@ extension CreateSolFunctionPackageOutput: Swift.CustomDebugStringConvertible {
         "CreateSolFunctionPackageOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), onboardingState: \(Swift.String(describing: onboardingState)), operationalState: \(Swift.String(describing: operationalState)), usageState: \(Swift.String(describing: usageState)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateSolNetworkInstanceInput {
+public struct CreateSolNetworkInstanceInput: Swift.Sendable {
     /// Network instance description.
     public var nsDescription: Swift.String?
     /// Network instance name.
@@ -394,7 +395,7 @@ extension CreateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
         "CreateSolNetworkInstanceInput(nsDescription: \(Swift.String(describing: nsDescription)), nsName: \(Swift.String(describing: nsName)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateSolNetworkInstanceOutput {
+public struct CreateSolNetworkInstanceOutput: Swift.Sendable {
     /// Network instance ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -431,7 +432,7 @@ extension CreateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
         "CreateSolNetworkInstanceOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateSolNetworkPackageInput {
+public struct CreateSolNetworkPackageInput: Swift.Sendable {
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
 
@@ -450,7 +451,7 @@ extension CreateSolNetworkPackageInput: Swift.CustomDebugStringConvertible {
 
 extension TnbClientTypes {
 
-    public enum NsdOnboardingState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NsdOnboardingState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case error
         case onboarded
@@ -482,7 +483,7 @@ extension TnbClientTypes {
 
 extension TnbClientTypes {
 
-    public enum NsdOperationalState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NsdOperationalState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -511,7 +512,7 @@ extension TnbClientTypes {
 
 extension TnbClientTypes {
 
-    public enum NsdUsageState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NsdUsageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case inUse
         case notInUse
         case sdkUnknown(Swift.String)
@@ -538,7 +539,7 @@ extension TnbClientTypes {
     }
 }
 
-public struct CreateSolNetworkPackageOutput {
+public struct CreateSolNetworkPackageOutput: Swift.Sendable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -580,7 +581,7 @@ extension CreateSolNetworkPackageOutput: Swift.CustomDebugStringConvertible {
         "CreateSolNetworkPackageOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsdOnboardingState: \(Swift.String(describing: nsdOnboardingState)), nsdOperationalState: \(Swift.String(describing: nsdOperationalState)), nsdUsageState: \(Swift.String(describing: nsdUsageState)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct DeleteSolFunctionPackageInput {
+public struct DeleteSolFunctionPackageInput: Swift.Sendable {
     /// ID of the function package.
     /// This member is required.
     public var vnfPkgId: Swift.String?
@@ -593,7 +594,7 @@ public struct DeleteSolFunctionPackageInput {
     }
 }
 
-public struct DeleteSolNetworkInstanceInput {
+public struct DeleteSolNetworkInstanceInput: Swift.Sendable {
     /// Network instance ID.
     /// This member is required.
     public var nsInstanceId: Swift.String?
@@ -606,7 +607,7 @@ public struct DeleteSolNetworkInstanceInput {
     }
 }
 
-public struct DeleteSolNetworkPackageInput {
+public struct DeleteSolNetworkPackageInput: Swift.Sendable {
     /// ID of the network service descriptor in the network package.
     /// This member is required.
     public var nsdInfoId: Swift.String?
@@ -621,7 +622,7 @@ public struct DeleteSolNetworkPackageInput {
 
 extension TnbClientTypes {
 
-    public enum DescriptorContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DescriptorContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case textPlain
         case sdkUnknown(Swift.String)
 
@@ -646,8 +647,9 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes {
+
     /// Provides error information.
-    public struct ErrorInfo {
+    public struct ErrorInfo: Swift.Sendable {
         /// Error cause.
         public var cause: Swift.String?
         /// Error details.
@@ -662,12 +664,12 @@ extension TnbClientTypes {
             self.details = details
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Overrides of the TOSCA node.
-    public struct ToscaOverride {
+    public struct ToscaOverride: Swift.Sendable {
         /// Default value for the override.
         public var defaultValue: Swift.String?
         /// Name of the TOSCA override.
@@ -682,12 +684,12 @@ extension TnbClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Metadata for function package artifacts. Artifacts are the contents of the package descriptor file and the state of the package.
-    public struct FunctionArtifactMeta {
+    public struct FunctionArtifactMeta: Swift.Sendable {
         /// Lists of function package overrides.
         public var overrides: [TnbClientTypes.ToscaOverride]?
 
@@ -698,10 +700,9 @@ extension TnbClientTypes {
             self.overrides = overrides
         }
     }
-
 }
 
-public struct GetSolFunctionInstanceInput {
+public struct GetSolFunctionInstanceInput: Swift.Sendable {
     /// ID of the network function.
     /// This member is required.
     public var vnfInstanceId: Swift.String?
@@ -715,8 +716,9 @@ public struct GetSolFunctionInstanceInput {
 }
 
 extension TnbClientTypes {
+
     /// The metadata of a network function. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
-    public struct GetSolVnfcResourceInfoMetadata {
+    public struct GetSolVnfcResourceInfoMetadata: Swift.Sendable {
         /// Information about the cluster.
         public var cluster: Swift.String?
         /// Information about the helm chart.
@@ -735,12 +737,12 @@ extension TnbClientTypes {
             self.nodeGroup = nodeGroup
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Details of resource associated with a network function. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
-    public struct GetSolVnfcResourceInfo {
+    public struct GetSolVnfcResourceInfo: Swift.Sendable {
         /// The metadata of the network function compute.
         public var metadata: TnbClientTypes.GetSolVnfcResourceInfoMetadata?
 
@@ -751,12 +753,11 @@ extension TnbClientTypes {
             self.metadata = metadata
         }
     }
-
 }
 
 extension TnbClientTypes {
 
-    public enum VnfOperationalState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VnfOperationalState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case started
         case stopped
         case sdkUnknown(Swift.String)
@@ -784,8 +785,9 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes {
+
     /// Information about the network function. A network function instance is a function in a function package .
-    public struct GetSolVnfInfo {
+    public struct GetSolVnfInfo: Swift.Sendable {
         /// State of the network function instance.
         public var vnfState: TnbClientTypes.VnfOperationalState?
         /// Compute info used by the network function instance.
@@ -800,12 +802,11 @@ extension TnbClientTypes {
             self.vnfcResourceInfo = vnfcResourceInfo
         }
     }
-
 }
 
 extension TnbClientTypes {
 
-    public enum VnfInstantiationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VnfInstantiationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case instantiated
         case notInstantiated
         case sdkUnknown(Swift.String)
@@ -833,8 +834,9 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes {
+
     /// The metadata of a network function instance. A network function instance is a function in a function package .
-    public struct GetSolFunctionInstanceMetadata {
+    public struct GetSolFunctionInstanceMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -851,10 +853,9 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
-public struct GetSolFunctionInstanceOutput {
+public struct GetSolFunctionInstanceOutput: Swift.Sendable {
     /// Network function instance ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -922,7 +923,7 @@ extension GetSolFunctionInstanceOutput: Swift.CustomDebugStringConvertible {
         "GetSolFunctionInstanceOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), instantiatedVnfInfo: \(Swift.String(describing: instantiatedVnfInfo)), instantiationState: \(Swift.String(describing: instantiationState)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), vnfPkgId: \(Swift.String(describing: vnfPkgId)), vnfProductName: \(Swift.String(describing: vnfProductName)), vnfProvider: \(Swift.String(describing: vnfProvider)), vnfdId: \(Swift.String(describing: vnfdId)), vnfdVersion: \(Swift.String(describing: vnfdVersion)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetSolFunctionPackageInput {
+public struct GetSolFunctionPackageInput: Swift.Sendable {
     /// ID of the function package.
     /// This member is required.
     public var vnfPkgId: Swift.String?
@@ -936,8 +937,9 @@ public struct GetSolFunctionPackageInput {
 }
 
 extension TnbClientTypes {
+
     /// Metadata related to the function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
-    public struct GetSolFunctionPackageMetadata {
+    public struct GetSolFunctionPackageMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -958,10 +960,9 @@ extension TnbClientTypes {
             self.vnfd = vnfd
         }
     }
-
 }
 
-public struct GetSolFunctionPackageOutput {
+public struct GetSolFunctionPackageOutput: Swift.Sendable {
     /// Function package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -1025,7 +1026,7 @@ extension GetSolFunctionPackageOutput: Swift.CustomDebugStringConvertible {
 
 extension TnbClientTypes {
 
-    public enum PackageContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PackageContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case applicationZip
         case sdkUnknown(Swift.String)
 
@@ -1049,7 +1050,7 @@ extension TnbClientTypes {
     }
 }
 
-public struct GetSolFunctionPackageContentInput {
+public struct GetSolFunctionPackageContentInput: Swift.Sendable {
     /// The format of the package that you want to download from the function packages.
     /// This member is required.
     public var accept: TnbClientTypes.PackageContentType?
@@ -1067,7 +1068,7 @@ public struct GetSolFunctionPackageContentInput {
     }
 }
 
-public struct GetSolFunctionPackageContentOutput {
+public struct GetSolFunctionPackageContentOutput: Swift.Sendable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Contents of the function package.
@@ -1083,7 +1084,7 @@ public struct GetSolFunctionPackageContentOutput {
     }
 }
 
-public struct GetSolFunctionPackageDescriptorInput {
+public struct GetSolFunctionPackageDescriptorInput: Swift.Sendable {
     /// Indicates which content types, expressed as MIME types, the client is able to understand.
     /// This member is required.
     public var accept: TnbClientTypes.DescriptorContentType?
@@ -1101,7 +1102,7 @@ public struct GetSolFunctionPackageDescriptorInput {
     }
 }
 
-public struct GetSolFunctionPackageDescriptorOutput {
+public struct GetSolFunctionPackageDescriptorOutput: Swift.Sendable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.DescriptorContentType?
     /// Contents of the function package descriptor.
@@ -1118,8 +1119,9 @@ public struct GetSolFunctionPackageDescriptorOutput {
 }
 
 extension TnbClientTypes {
+
     /// Information about a network function. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
-    public struct GetSolInstantiatedVnfInfo {
+    public struct GetSolInstantiatedVnfInfo: Swift.Sendable {
         /// State of the network function.
         public var vnfState: TnbClientTypes.VnfOperationalState?
 
@@ -1130,10 +1132,9 @@ extension TnbClientTypes {
             self.vnfState = vnfState
         }
     }
-
 }
 
-public struct GetSolNetworkInstanceInput {
+public struct GetSolNetworkInstanceInput: Swift.Sendable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
@@ -1147,8 +1148,9 @@ public struct GetSolNetworkInstanceInput {
 }
 
 extension TnbClientTypes {
+
     /// Lifecycle management operation details on the network instance. Lifecycle management operations are deploy, update, or delete operations.
-    public struct LcmOperationInfo {
+    public struct LcmOperationInfo: Swift.Sendable {
         /// The identifier of the network operation.
         /// This member is required.
         public var nsLcmOpOccId: Swift.String?
@@ -1160,12 +1162,12 @@ extension TnbClientTypes {
             self.nsLcmOpOccId = nsLcmOpOccId
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// The metadata of a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
-    public struct GetSolNetworkInstanceMetadata {
+    public struct GetSolNetworkInstanceMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1182,12 +1184,11 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
 extension TnbClientTypes {
 
-    public enum NsState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NsState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleted
         case impaired
         case instantiated
@@ -1232,7 +1233,7 @@ extension TnbClientTypes {
     }
 }
 
-public struct GetSolNetworkInstanceOutput {
+public struct GetSolNetworkInstanceOutput: Swift.Sendable {
     /// Network instance ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -1292,7 +1293,7 @@ extension GetSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
         "GetSolNetworkInstanceOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), lcmOpInfo: \(Swift.String(describing: lcmOpInfo)), metadata: \(Swift.String(describing: metadata)), nsInstanceDescription: \(Swift.String(describing: nsInstanceDescription)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsState: \(Swift.String(describing: nsState)), nsdId: \(Swift.String(describing: nsdId)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetSolNetworkOperationInput {
+public struct GetSolNetworkOperationInput: Swift.Sendable {
     /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
@@ -1306,8 +1307,9 @@ public struct GetSolNetworkOperationInput {
 }
 
 extension TnbClientTypes {
+
     /// Details related to problems with AWS TNB resources.
-    public struct ProblemDetails {
+    public struct ProblemDetails: Swift.Sendable {
         /// A human-readable explanation specific to this occurrence of the problem.
         /// This member is required.
         public var detail: Swift.String?
@@ -1323,12 +1325,11 @@ extension TnbClientTypes {
             self.title = title
         }
     }
-
 }
 
 extension TnbClientTypes {
 
-    public enum LcmOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LcmOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case instantiate
         case terminate
         case update
@@ -1359,8 +1360,9 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes {
+
     /// Metadata related to a network operation occurrence. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
-    public struct GetSolNetworkOperationMetadata {
+    public struct GetSolNetworkOperationMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1377,12 +1379,11 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
 extension TnbClientTypes {
 
-    public enum NsLcmOperationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NsLcmOperationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case cancelling
         case completed
@@ -1420,7 +1421,7 @@ extension TnbClientTypes {
 
 extension TnbClientTypes {
 
-    public enum TaskStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TaskStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case completed
         case error
@@ -1463,8 +1464,9 @@ extension TnbClientTypes {
 }
 
 extension TnbClientTypes {
+
     /// Gets the details of a network operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
-    public struct GetSolNetworkOperationTaskDetails {
+    public struct GetSolNetworkOperationTaskDetails: Swift.Sendable {
         /// Context for the network operation task.
         public var taskContext: [Swift.String: Swift.String]?
         /// Task end time.
@@ -1495,10 +1497,9 @@ extension TnbClientTypes {
             self.taskStatus = taskStatus
         }
     }
-
 }
 
-public struct GetSolNetworkOperationOutput {
+public struct GetSolNetworkOperationOutput: Swift.Sendable {
     /// Network operation ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -1548,7 +1549,7 @@ extension GetSolNetworkOperationOutput: Swift.CustomDebugStringConvertible {
         "GetSolNetworkOperationOutput(arn: \(Swift.String(describing: arn)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lcmOperationType: \(Swift.String(describing: lcmOperationType)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), operationState: \(Swift.String(describing: operationState)), tasks: \(Swift.String(describing: tasks)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetSolNetworkPackageInput {
+public struct GetSolNetworkPackageInput: Swift.Sendable {
     /// ID of the network service descriptor in the network package.
     /// This member is required.
     public var nsdInfoId: Swift.String?
@@ -1562,8 +1563,9 @@ public struct GetSolNetworkPackageInput {
 }
 
 extension TnbClientTypes {
+
     /// Metadata for network package artifacts. Artifacts are the contents of the package descriptor file and the state of the package.
-    public struct NetworkArtifactMeta {
+    public struct NetworkArtifactMeta: Swift.Sendable {
         /// Lists network package overrides.
         public var overrides: [TnbClientTypes.ToscaOverride]?
 
@@ -1574,12 +1576,12 @@ extension TnbClientTypes {
             self.overrides = overrides
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Metadata associated with a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
-    public struct GetSolNetworkPackageMetadata {
+    public struct GetSolNetworkPackageMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1600,10 +1602,9 @@ extension TnbClientTypes {
             self.nsd = nsd
         }
     }
-
 }
 
-public struct GetSolNetworkPackageOutput {
+public struct GetSolNetworkPackageOutput: Swift.Sendable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -1670,7 +1671,7 @@ extension GetSolNetworkPackageOutput: Swift.CustomDebugStringConvertible {
         "GetSolNetworkPackageOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), metadata: \(Swift.String(describing: metadata)), nsdId: \(Swift.String(describing: nsdId)), nsdName: \(Swift.String(describing: nsdName)), nsdOnboardingState: \(Swift.String(describing: nsdOnboardingState)), nsdOperationalState: \(Swift.String(describing: nsdOperationalState)), nsdUsageState: \(Swift.String(describing: nsdUsageState)), nsdVersion: \(Swift.String(describing: nsdVersion)), vnfPkgIds: \(Swift.String(describing: vnfPkgIds)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetSolNetworkPackageContentInput {
+public struct GetSolNetworkPackageContentInput: Swift.Sendable {
     /// The format of the package you want to download from the network package.
     /// This member is required.
     public var accept: TnbClientTypes.PackageContentType?
@@ -1688,7 +1689,7 @@ public struct GetSolNetworkPackageContentInput {
     }
 }
 
-public struct GetSolNetworkPackageContentOutput {
+public struct GetSolNetworkPackageContentOutput: Swift.Sendable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Content of the network service descriptor in the network package.
@@ -1704,7 +1705,7 @@ public struct GetSolNetworkPackageContentOutput {
     }
 }
 
-public struct GetSolNetworkPackageDescriptorInput {
+public struct GetSolNetworkPackageDescriptorInput: Swift.Sendable {
     /// ID of the network service descriptor in the network package.
     /// This member is required.
     public var nsdInfoId: Swift.String?
@@ -1717,7 +1718,7 @@ public struct GetSolNetworkPackageDescriptorInput {
     }
 }
 
-public struct GetSolNetworkPackageDescriptorOutput {
+public struct GetSolNetworkPackageDescriptorOutput: Swift.Sendable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.DescriptorContentType?
     /// Contents of the network service descriptor in the network package.
@@ -1733,7 +1734,7 @@ public struct GetSolNetworkPackageDescriptorOutput {
     }
 }
 
-public struct InstantiateSolNetworkInstanceInput {
+public struct InstantiateSolNetworkInstanceInput: Swift.Sendable {
     /// Provides values for the configurable properties.
     public var additionalParamsForNs: Smithy.Document?
     /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1763,7 +1764,7 @@ extension InstantiateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible
         "InstantiateSolNetworkInstanceInput(additionalParamsForNs: \(Swift.String(describing: additionalParamsForNs)), dryRun: \(Swift.String(describing: dryRun)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct InstantiateSolNetworkInstanceOutput {
+public struct InstantiateSolNetworkInstanceOutput: Swift.Sendable {
     /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
@@ -1786,8 +1787,9 @@ extension InstantiateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertibl
 }
 
 extension TnbClientTypes {
+
     /// Lists network function instance metadata. A network function instance is a function in a function package .
-    public struct ListSolFunctionInstanceMetadata {
+    public struct ListSolFunctionInstanceMetadata: Swift.Sendable {
         /// When the network function instance was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1804,12 +1806,12 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Lists information about a network function instance. A network function instance is a function in a function package .
-    public struct ListSolFunctionInstanceInfo {
+    public struct ListSolFunctionInstanceInfo: Swift.Sendable {
         /// Network function instance ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -1854,10 +1856,9 @@ extension TnbClientTypes {
             self.vnfPkgName = vnfPkgName
         }
     }
-
 }
 
-public struct ListSolFunctionInstancesInput {
+public struct ListSolFunctionInstancesInput: Swift.Sendable {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -1873,7 +1874,7 @@ public struct ListSolFunctionInstancesInput {
     }
 }
 
-public struct ListSolFunctionInstancesOutput {
+public struct ListSolFunctionInstancesOutput: Swift.Sendable {
     /// Network function instances.
     public var functionInstances: [TnbClientTypes.ListSolFunctionInstanceInfo]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1890,8 +1891,9 @@ public struct ListSolFunctionInstancesOutput {
 }
 
 extension TnbClientTypes {
+
     /// Details for the function package metadata. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
-    public struct ListSolFunctionPackageMetadata {
+    public struct ListSolFunctionPackageMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1908,12 +1910,12 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Information about a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
-    public struct ListSolFunctionPackageInfo {
+    public struct ListSolFunctionPackageInfo: Swift.Sendable {
         /// Function package ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -1965,10 +1967,9 @@ extension TnbClientTypes {
             self.vnfdVersion = vnfdVersion
         }
     }
-
 }
 
-public struct ListSolFunctionPackagesInput {
+public struct ListSolFunctionPackagesInput: Swift.Sendable {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -1984,7 +1985,7 @@ public struct ListSolFunctionPackagesInput {
     }
 }
 
-public struct ListSolFunctionPackagesOutput {
+public struct ListSolFunctionPackagesOutput: Swift.Sendable {
     /// Function packages. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     /// This member is required.
     public var functionPackages: [TnbClientTypes.ListSolFunctionPackageInfo]?
@@ -2002,8 +2003,9 @@ public struct ListSolFunctionPackagesOutput {
 }
 
 extension TnbClientTypes {
+
     /// Metadata details for a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
-    public struct ListSolNetworkInstanceMetadata {
+    public struct ListSolNetworkInstanceMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -2020,12 +2022,12 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Info about the specific network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
-    public struct ListSolNetworkInstanceInfo {
+    public struct ListSolNetworkInstanceInfo: Swift.Sendable {
         /// Network instance ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -2072,10 +2074,9 @@ extension TnbClientTypes {
             self.nsdInfoId = nsdInfoId
         }
     }
-
 }
 
-public struct ListSolNetworkInstancesInput {
+public struct ListSolNetworkInstancesInput: Swift.Sendable {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -2091,7 +2092,7 @@ public struct ListSolNetworkInstancesInput {
     }
 }
 
-public struct ListSolNetworkInstancesOutput {
+public struct ListSolNetworkInstancesOutput: Swift.Sendable {
     /// Lists network instances.
     public var networkInstances: [TnbClientTypes.ListSolNetworkInstanceInfo]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2107,7 +2108,7 @@ public struct ListSolNetworkInstancesOutput {
     }
 }
 
-public struct ListSolNetworkOperationsInput {
+public struct ListSolNetworkOperationsInput: Swift.Sendable {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -2124,8 +2125,9 @@ public struct ListSolNetworkOperationsInput {
 }
 
 extension TnbClientTypes {
+
     /// Metadata related to a network operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
-    public struct ListSolNetworkOperationsMetadata {
+    public struct ListSolNetworkOperationsMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -2142,12 +2144,12 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Information parameters for a network operation.
-    public struct ListSolNetworkOperationsInfo {
+    public struct ListSolNetworkOperationsInfo: Swift.Sendable {
         /// Network operation ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -2187,10 +2189,9 @@ extension TnbClientTypes {
             self.operationState = operationState
         }
     }
-
 }
 
-public struct ListSolNetworkOperationsOutput {
+public struct ListSolNetworkOperationsOutput: Swift.Sendable {
     /// Lists network operation occurrences. Lifecycle management operations are deploy, update, or delete operations.
     public var networkOperations: [TnbClientTypes.ListSolNetworkOperationsInfo]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2207,8 +2208,9 @@ public struct ListSolNetworkOperationsOutput {
 }
 
 extension TnbClientTypes {
+
     /// Metadata related to a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
-    public struct ListSolNetworkPackageMetadata {
+    public struct ListSolNetworkPackageMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -2225,12 +2227,12 @@ extension TnbClientTypes {
             self.lastModified = lastModified
         }
     }
-
 }
 
 extension TnbClientTypes {
+
     /// Details of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
-    public struct ListSolNetworkPackageInfo {
+    public struct ListSolNetworkPackageInfo: Swift.Sendable {
         /// Network package ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -2291,10 +2293,9 @@ extension TnbClientTypes {
             self.vnfPkgIds = vnfPkgIds
         }
     }
-
 }
 
-public struct ListSolNetworkPackagesInput {
+public struct ListSolNetworkPackagesInput: Swift.Sendable {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -2310,7 +2311,7 @@ public struct ListSolNetworkPackagesInput {
     }
 }
 
-public struct ListSolNetworkPackagesOutput {
+public struct ListSolNetworkPackagesOutput: Swift.Sendable {
     /// Network packages. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     /// This member is required.
     public var networkPackages: [TnbClientTypes.ListSolNetworkPackageInfo]?
@@ -2327,7 +2328,7 @@ public struct ListSolNetworkPackagesOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// Resource ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2340,7 +2341,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
@@ -2358,7 +2359,7 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
         "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct PutSolFunctionPackageContentInput {
+public struct PutSolFunctionPackageContentInput: Swift.Sendable {
     /// Function package content type.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Function package file.
@@ -2381,8 +2382,9 @@ public struct PutSolFunctionPackageContentInput {
 }
 
 extension TnbClientTypes {
+
     /// Update metadata in a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
-    public struct PutSolFunctionPackageContentMetadata {
+    public struct PutSolFunctionPackageContentMetadata: Swift.Sendable {
         /// Metadata for function package artifacts. Artifacts are the contents of the package descriptor file and the state of the package.
         public var vnfd: TnbClientTypes.FunctionArtifactMeta?
 
@@ -2393,10 +2395,9 @@ extension TnbClientTypes {
             self.vnfd = vnfd
         }
     }
-
 }
 
-public struct PutSolFunctionPackageContentOutput {
+public struct PutSolFunctionPackageContentOutput: Swift.Sendable {
     /// Function package ID.
     /// This member is required.
     public var id: Swift.String?
@@ -2434,7 +2435,7 @@ public struct PutSolFunctionPackageContentOutput {
     }
 }
 
-public struct PutSolNetworkPackageContentInput {
+public struct PutSolNetworkPackageContentInput: Swift.Sendable {
     /// Network package content type.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Network package file.
@@ -2457,8 +2458,9 @@ public struct PutSolNetworkPackageContentInput {
 }
 
 extension TnbClientTypes {
+
     /// Update metadata in a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
-    public struct PutSolNetworkPackageContentMetadata {
+    public struct PutSolNetworkPackageContentMetadata: Swift.Sendable {
         /// Metadata for network package artifacts. Artifacts are the contents of the package descriptor file and the state of the package.
         public var nsd: TnbClientTypes.NetworkArtifactMeta?
 
@@ -2469,10 +2471,9 @@ extension TnbClientTypes {
             self.nsd = nsd
         }
     }
-
 }
 
-public struct PutSolNetworkPackageContentOutput {
+public struct PutSolNetworkPackageContentOutput: Swift.Sendable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -2515,7 +2516,7 @@ public struct PutSolNetworkPackageContentOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// Resource ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2538,12 +2539,12 @@ extension TagResourceInput: Swift.CustomDebugStringConvertible {
         "TagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct TerminateSolNetworkInstanceInput {
+public struct TerminateSolNetworkInstanceInput: Swift.Sendable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
@@ -2565,7 +2566,7 @@ extension TerminateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
         "TerminateSolNetworkInstanceInput(nsInstanceId: \(Swift.String(describing: nsInstanceId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct TerminateSolNetworkInstanceOutput {
+public struct TerminateSolNetworkInstanceOutput: Swift.Sendable {
     /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
@@ -2586,7 +2587,7 @@ extension TerminateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible 
         "TerminateSolNetworkInstanceOutput(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// Resource ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2604,12 +2605,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateSolFunctionPackageInput {
+public struct UpdateSolFunctionPackageInput: Swift.Sendable {
     /// Operational state of the function package.
     /// This member is required.
     public var operationalState: TnbClientTypes.OperationalState?
@@ -2627,7 +2628,7 @@ public struct UpdateSolFunctionPackageInput {
     }
 }
 
-public struct UpdateSolFunctionPackageOutput {
+public struct UpdateSolFunctionPackageOutput: Swift.Sendable {
     /// Operational state of the function package.
     /// This member is required.
     public var operationalState: TnbClientTypes.OperationalState?
@@ -2641,8 +2642,9 @@ public struct UpdateSolFunctionPackageOutput {
 }
 
 extension TnbClientTypes {
+
     /// Information parameters and/or the configurable properties for a network function. A network function instance is a function in a function package .
-    public struct UpdateSolNetworkModify {
+    public struct UpdateSolNetworkModify: Swift.Sendable {
         /// Provides values for the configurable properties declared in the function package descriptor.
         /// This member is required.
         public var vnfConfigurableProperties: Smithy.Document?
@@ -2659,12 +2661,11 @@ extension TnbClientTypes {
             self.vnfInstanceId = vnfInstanceId
         }
     }
-
 }
 
 extension TnbClientTypes {
 
-    public enum UpdateSolNetworkType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UpdateSolNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case modifyVnfInformation
         case sdkUnknown(Swift.String)
 
@@ -2688,7 +2689,7 @@ extension TnbClientTypes {
     }
 }
 
-public struct UpdateSolNetworkInstanceInput {
+public struct UpdateSolNetworkInstanceInput: Swift.Sendable {
     /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified.
     public var modifyVnfInfoData: TnbClientTypes.UpdateSolNetworkModify?
     /// ID of the network instance.
@@ -2719,7 +2720,7 @@ extension UpdateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
         "UpdateSolNetworkInstanceInput(modifyVnfInfoData: \(Swift.String(describing: modifyVnfInfoData)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), updateType: \(Swift.String(describing: updateType)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateSolNetworkInstanceOutput {
+public struct UpdateSolNetworkInstanceOutput: Swift.Sendable {
     /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
@@ -2740,7 +2741,7 @@ extension UpdateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
         "UpdateSolNetworkInstanceOutput(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateSolNetworkPackageInput {
+public struct UpdateSolNetworkPackageInput: Swift.Sendable {
     /// ID of the network service descriptor in the network package.
     /// This member is required.
     public var nsdInfoId: Swift.String?
@@ -2758,7 +2759,7 @@ public struct UpdateSolNetworkPackageInput {
     }
 }
 
-public struct UpdateSolNetworkPackageOutput {
+public struct UpdateSolNetworkPackageOutput: Swift.Sendable {
     /// Operational state of the network service descriptor in the network package.
     /// This member is required.
     public var nsdOperationalState: TnbClientTypes.NsdOperationalState?
@@ -2771,7 +2772,7 @@ public struct UpdateSolNetworkPackageOutput {
     }
 }
 
-public struct ValidateSolFunctionPackageContentInput {
+public struct ValidateSolFunctionPackageContentInput: Swift.Sendable {
     /// Function package content type.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Function package file.
@@ -2794,8 +2795,9 @@ public struct ValidateSolFunctionPackageContentInput {
 }
 
 extension TnbClientTypes {
+
     /// Validates function package content metadata. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
-    public struct ValidateSolFunctionPackageContentMetadata {
+    public struct ValidateSolFunctionPackageContentMetadata: Swift.Sendable {
         /// Metadata for function package artifacts. Artifacts are the contents of the package descriptor file and the state of the package.
         public var vnfd: TnbClientTypes.FunctionArtifactMeta?
 
@@ -2806,10 +2808,9 @@ extension TnbClientTypes {
             self.vnfd = vnfd
         }
     }
-
 }
 
-public struct ValidateSolFunctionPackageContentOutput {
+public struct ValidateSolFunctionPackageContentOutput: Swift.Sendable {
     /// Function package ID.
     /// This member is required.
     public var id: Swift.String?
@@ -2847,7 +2848,7 @@ public struct ValidateSolFunctionPackageContentOutput {
     }
 }
 
-public struct ValidateSolNetworkPackageContentInput {
+public struct ValidateSolNetworkPackageContentInput: Swift.Sendable {
     /// Network package content type.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Network package file.
@@ -2870,8 +2871,9 @@ public struct ValidateSolNetworkPackageContentInput {
 }
 
 extension TnbClientTypes {
+
     /// Validates network package content metadata. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
-    public struct ValidateSolNetworkPackageContentMetadata {
+    public struct ValidateSolNetworkPackageContentMetadata: Swift.Sendable {
         /// Metadata for network package artifacts. Artifacts are the contents of the package descriptor file and the state of the package.
         public var nsd: TnbClientTypes.NetworkArtifactMeta?
 
@@ -2882,10 +2884,9 @@ extension TnbClientTypes {
             self.nsd = nsd
         }
     }
-
 }
 
-public struct ValidateSolNetworkPackageContentOutput {
+public struct ValidateSolNetworkPackageContentOutput: Swift.Sendable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?

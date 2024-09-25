@@ -144,7 +144,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct ListRealtimeContactAnalysisSegmentsInput {
+public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -171,8 +171,9 @@ public struct ListRealtimeContactAnalysisSegmentsInput {
 }
 
 extension ConnectContactLensClientTypes {
+
     /// The section of the contact audio where that category rule was detected.
-    public struct PointOfInterest {
+    public struct PointOfInterest: Swift.Sendable {
         /// The beginning offset in milliseconds where the category rule was detected.
         /// This member is required.
         public var beginOffsetMillis: Swift.Int?
@@ -189,12 +190,12 @@ extension ConnectContactLensClientTypes {
             self.endOffsetMillis = endOffsetMillis
         }
     }
-
 }
 
 extension ConnectContactLensClientTypes {
+
     /// Provides information about the category rule that was matched.
-    public struct CategoryDetails {
+    public struct CategoryDetails: Swift.Sendable {
         /// The section of audio where the category rule was detected.
         /// This member is required.
         public var pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]?
@@ -206,12 +207,12 @@ extension ConnectContactLensClientTypes {
             self.pointsOfInterest = pointsOfInterest
         }
     }
-
 }
 
 extension ConnectContactLensClientTypes {
+
     /// Provides the category rules that are used to automatically categorize contacts based on uttered keywords and phrases.
-    public struct Categories {
+    public struct Categories: Swift.Sendable {
         /// The category rules that have been matched in the analyzed segment.
         /// This member is required.
         public var matchedCategories: [Swift.String]?
@@ -228,12 +229,12 @@ extension ConnectContactLensClientTypes {
             self.matchedDetails = matchedDetails
         }
     }
-
 }
 
 extension ConnectContactLensClientTypes {
+
     /// For characters that were detected as issues, where they occur in the transcript.
-    public struct CharacterOffsets {
+    public struct CharacterOffsets: Swift.Sendable {
         /// The beginning of the issue.
         /// This member is required.
         public var beginOffsetChar: Swift.Int?
@@ -250,12 +251,12 @@ extension ConnectContactLensClientTypes {
             self.endOffsetChar = endOffsetChar
         }
     }
-
 }
 
 extension ConnectContactLensClientTypes {
+
     /// Potential issues that are detected based on an artificial intelligence analysis of each turn in the conversation.
-    public struct IssueDetected {
+    public struct IssueDetected: Swift.Sendable {
         /// The offset for when the issue was detected in the segment.
         /// This member is required.
         public var characterOffsets: ConnectContactLensClientTypes.CharacterOffsets?
@@ -267,12 +268,11 @@ extension ConnectContactLensClientTypes {
             self.characterOffsets = characterOffsets
         }
     }
-
 }
 
 extension ConnectContactLensClientTypes {
 
-    public enum SentimentValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SentimentValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case negative
         case neutral
         case positive
@@ -303,8 +303,9 @@ extension ConnectContactLensClientTypes {
 }
 
 extension ConnectContactLensClientTypes {
+
     /// A list of messages in the session.
-    public struct Transcript {
+    public struct Transcript: Swift.Sendable {
         /// The beginning offset in the contact for this transcript.
         /// This member is required.
         public var beginOffsetMillis: Swift.Int?
@@ -350,12 +351,12 @@ extension ConnectContactLensClientTypes {
             self.sentiment = sentiment
         }
     }
-
 }
 
 extension ConnectContactLensClientTypes {
+
     /// An analyzed segment for a real-time analysis session.
-    public struct RealtimeContactAnalysisSegment {
+    public struct RealtimeContactAnalysisSegment: Swift.Sendable {
         /// The matched category rules.
         public var categories: ConnectContactLensClientTypes.Categories?
         /// The analyzed transcript.
@@ -370,10 +371,9 @@ extension ConnectContactLensClientTypes {
             self.transcript = transcript
         }
     }
-
 }
 
-public struct ListRealtimeContactAnalysisSegmentsOutput {
+public struct ListRealtimeContactAnalysisSegmentsOutput: Swift.Sendable {
     /// If there are additional results, this is the token for the next set of results. If response includes nextToken there are two possible scenarios:
     ///
     /// * There are more segments so another call is required to get them.

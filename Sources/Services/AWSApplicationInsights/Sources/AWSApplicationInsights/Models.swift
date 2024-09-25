@@ -149,7 +149,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension ApplicationInsightsClientTypes {
 
-    public enum Tier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Tier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activeDirectory
         case custom
         case `default`
@@ -234,8 +234,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// The configuration of the workload.
-    public struct WorkloadConfiguration {
+    public struct WorkloadConfiguration: Swift.Sendable {
         /// The configuration settings of the workload.
         public var configuration: Swift.String?
         /// The configuration of the workload tier.
@@ -254,10 +255,9 @@ extension ApplicationInsightsClientTypes {
             self.workloadName = workloadName
         }
     }
-
 }
 
-public struct AddWorkloadInput {
+public struct AddWorkloadInput: Swift.Sendable {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -280,7 +280,7 @@ public struct AddWorkloadInput {
     }
 }
 
-public struct AddWorkloadOutput {
+public struct AddWorkloadOutput: Swift.Sendable {
     /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
     public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
     /// The ID of the workload.
@@ -298,7 +298,7 @@ public struct AddWorkloadOutput {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum OsType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OsType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case linux
         case windows
         case sdkUnknown(Swift.String)
@@ -326,8 +326,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// Describes a standalone resource or similarly grouped resources that the application is made up of.
-    public struct ApplicationComponent {
+    public struct ApplicationComponent: Swift.Sendable {
         /// The name of the component.
         public var componentName: Swift.String?
         /// If logging is supported for the resource type, indicates whether the component has configured logs to be monitored.
@@ -362,12 +363,11 @@ extension ApplicationInsightsClientTypes {
             self.tier = tier
         }
     }
-
 }
 
 extension ApplicationInsightsClientTypes {
 
-    public enum DiscoveryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DiscoveryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountBased
         case resourceGroupBased
         case sdkUnknown(Swift.String)
@@ -395,8 +395,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// Describes the status of the application.
-    public struct ApplicationInfo {
+    public struct ApplicationInfo: Swift.Sendable {
         /// The AWS account ID for the owner of the application.
         public var accountId: Swift.String?
         /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
@@ -447,7 +448,6 @@ extension ApplicationInsightsClientTypes {
             self.resourceGroupName = resourceGroupName
         }
     }
-
 }
 
 /// The request is not understood by the server.
@@ -476,7 +476,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension ApplicationInsightsClientTypes {
 
-    public enum CloudWatchEventSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CloudWatchEventSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case codeDeploy
         case ec2
         case health
@@ -511,7 +511,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum ConfigurationEventResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConfigurationEventResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloudformation
         case cloudwatchAlarm
         case cloudwatchLog
@@ -546,7 +546,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum ConfigurationEventStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConfigurationEventStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case error
         case info
         case warn
@@ -577,8 +577,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// The event information.
-    public struct ConfigurationEvent {
+    public struct ConfigurationEvent: Swift.Sendable {
         /// The AWS account ID for the owner of the application to which the configuration event belongs.
         public var accountId: Swift.String?
         /// The details of the event in plain text.
@@ -617,7 +618,6 @@ extension ApplicationInsightsClientTypes {
             self.resourceGroupName = resourceGroupName
         }
     }
-
 }
 
 /// Tags are already registered for the specified application ARN.
@@ -646,7 +646,7 @@ public struct TagsAlreadyExistException: ClientRuntime.ModeledError, AWSClientRu
 
 extension ApplicationInsightsClientTypes {
 
-    public enum GroupingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GroupingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountBased
         case sdkUnknown(Swift.String)
 
@@ -671,6 +671,7 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// An object that defines the tags associated with an application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can contain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, digits, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags:
     ///
     /// * Tag keys and values are case sensitive.
@@ -678,7 +679,7 @@ extension ApplicationInsightsClientTypes {
     /// * For each associated resource, each tag key must be unique and it can have only one value.
     ///
     /// * The aws: prefix is reserved for use by AWS; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         /// This member is required.
         public var key: Swift.String?
@@ -695,10 +696,9 @@ extension ApplicationInsightsClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct CreateApplicationInput {
+public struct CreateApplicationInput: Swift.Sendable {
     /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
     public var attachMissingPermission: Swift.Bool?
     /// Indicates whether Application Insights automatically configures unmonitored resources in the resource group.
@@ -742,7 +742,7 @@ public struct CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationOutput {
+public struct CreateApplicationOutput: Swift.Sendable {
     /// Information about the application.
     public var applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 
@@ -754,7 +754,7 @@ public struct CreateApplicationOutput {
     }
 }
 
-public struct CreateComponentInput {
+public struct CreateComponentInput: Swift.Sendable {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -777,12 +777,12 @@ public struct CreateComponentInput {
     }
 }
 
-public struct CreateComponentOutput {
+public struct CreateComponentOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct CreateLogPatternInput {
+public struct CreateLogPatternInput: Swift.Sendable {
     /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
     /// This member is required.
     public var pattern: Swift.String?
@@ -816,8 +816,9 @@ public struct CreateLogPatternInput {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// An object that defines the log patterns that belongs to a LogPatternSet.
-    public struct LogPattern {
+    public struct LogPattern: Swift.Sendable {
         /// A regular expression that defines the log pattern. A log pattern can contain as many as 50 characters, and it cannot be empty. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public var pattern: Swift.String?
         /// The name of the log pattern. A log pattern name can contain as many as 50 characters, and it cannot be empty. The characters can be Unicode letters, digits, or one of the following symbols: period, dash, underscore.
@@ -840,10 +841,9 @@ extension ApplicationInsightsClientTypes {
             self.rank = rank
         }
     }
-
 }
 
-public struct CreateLogPatternOutput {
+public struct CreateLogPatternOutput: Swift.Sendable {
     /// The successfully created log pattern.
     public var logPattern: ApplicationInsightsClientTypes.LogPattern?
     /// The name of the resource group.
@@ -859,7 +859,7 @@ public struct CreateLogPatternOutput {
     }
 }
 
-public struct DeleteApplicationInput {
+public struct DeleteApplicationInput: Swift.Sendable {
     /// The name of the resource group.
     /// This member is required.
     public var resourceGroupName: Swift.String?
@@ -872,12 +872,12 @@ public struct DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationOutput {
+public struct DeleteApplicationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteComponentInput {
+public struct DeleteComponentInput: Swift.Sendable {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -895,12 +895,12 @@ public struct DeleteComponentInput {
     }
 }
 
-public struct DeleteComponentOutput {
+public struct DeleteComponentOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteLogPatternInput {
+public struct DeleteLogPatternInput: Swift.Sendable {
     /// The name of the log pattern.
     /// This member is required.
     public var patternName: Swift.String?
@@ -923,12 +923,12 @@ public struct DeleteLogPatternInput {
     }
 }
 
-public struct DeleteLogPatternOutput {
+public struct DeleteLogPatternOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DescribeApplicationInput {
+public struct DescribeApplicationInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the resource group.
@@ -945,7 +945,7 @@ public struct DescribeApplicationInput {
     }
 }
 
-public struct DescribeApplicationOutput {
+public struct DescribeApplicationOutput: Swift.Sendable {
     /// Information about the application.
     public var applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 
@@ -957,7 +957,7 @@ public struct DescribeApplicationOutput {
     }
 }
 
-public struct DescribeComponentInput {
+public struct DescribeComponentInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -979,7 +979,7 @@ public struct DescribeComponentInput {
     }
 }
 
-public struct DescribeComponentOutput {
+public struct DescribeComponentOutput: Swift.Sendable {
     /// Describes a standalone resource or similarly grouped resources that the application is made up of.
     public var applicationComponent: ApplicationInsightsClientTypes.ApplicationComponent?
     /// The list of resource ARNs that belong to the component.
@@ -995,7 +995,7 @@ public struct DescribeComponentOutput {
     }
 }
 
-public struct DescribeComponentConfigurationInput {
+public struct DescribeComponentConfigurationInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -1017,7 +1017,7 @@ public struct DescribeComponentConfigurationInput {
     }
 }
 
-public struct DescribeComponentConfigurationOutput {
+public struct DescribeComponentConfigurationOutput: Swift.Sendable {
     /// The configuration settings of the component. The value is the escaped JSON of the configuration.
     public var componentConfiguration: Swift.String?
     /// Indicates whether the application component is monitored.
@@ -1039,7 +1039,7 @@ public struct DescribeComponentConfigurationOutput {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum RecommendationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case infraOnly
         case workloadOnly
@@ -1069,7 +1069,7 @@ extension ApplicationInsightsClientTypes {
     }
 }
 
-public struct DescribeComponentConfigurationRecommendationInput {
+public struct DescribeComponentConfigurationRecommendationInput: Swift.Sendable {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -1100,7 +1100,7 @@ public struct DescribeComponentConfigurationRecommendationInput {
     }
 }
 
-public struct DescribeComponentConfigurationRecommendationOutput {
+public struct DescribeComponentConfigurationRecommendationOutput: Swift.Sendable {
     /// The recommended configuration settings of the component. The value is the escaped JSON of the configuration.
     public var componentConfiguration: Swift.String?
 
@@ -1112,7 +1112,7 @@ public struct DescribeComponentConfigurationRecommendationOutput {
     }
 }
 
-public struct DescribeLogPatternInput {
+public struct DescribeLogPatternInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the log pattern.
@@ -1139,7 +1139,7 @@ public struct DescribeLogPatternInput {
     }
 }
 
-public struct DescribeLogPatternOutput {
+public struct DescribeLogPatternOutput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The successfully created log pattern.
@@ -1159,7 +1159,7 @@ public struct DescribeLogPatternOutput {
     }
 }
 
-public struct DescribeObservationInput {
+public struct DescribeObservationInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The ID of the observation.
@@ -1178,7 +1178,7 @@ public struct DescribeObservationInput {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum LogFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LogFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case error
         case info
         case warn
@@ -1209,8 +1209,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// Describes an anomaly or error with the application.
-    public struct Observation {
+    public struct Observation: Swift.Sendable {
         /// The detail type of the CloudWatch Event-based observation, for example, EC2 Instance State-change Notification.
         public var cloudWatchEventDetailType: Swift.String?
         /// The ID of the CloudWatch Event-based observation related to the detected problem.
@@ -1397,10 +1398,9 @@ extension ApplicationInsightsClientTypes {
             self.xRayThrottlePercent = xRayThrottlePercent
         }
     }
-
 }
 
-public struct DescribeObservationOutput {
+public struct DescribeObservationOutput: Swift.Sendable {
     /// Information about the observation.
     public var observation: ApplicationInsightsClientTypes.Observation?
 
@@ -1412,7 +1412,7 @@ public struct DescribeObservationOutput {
     }
 }
 
-public struct DescribeProblemInput {
+public struct DescribeProblemInput: Swift.Sendable {
     /// The AWS account ID for the owner of the resource group affected by the problem.
     public var accountId: Swift.String?
     /// The ID of the problem.
@@ -1431,7 +1431,7 @@ public struct DescribeProblemInput {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum FeedbackKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FeedbackKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case insightsFeedback
         case sdkUnknown(Swift.String)
 
@@ -1457,7 +1457,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum FeedbackValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FeedbackValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case notSpecified
         case notUseful
         case useful
@@ -1489,7 +1489,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum ResolutionMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResolutionMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automatic
         case manual
         case unresolved
@@ -1521,7 +1521,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum SeverityLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SeverityLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
         case informative
         case low
@@ -1556,7 +1556,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ignore
         case pending
         case recovering
@@ -1594,7 +1594,7 @@ extension ApplicationInsightsClientTypes {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum Visibility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Visibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ignored
         case visible
         case sdkUnknown(Swift.String)
@@ -1622,8 +1622,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// Describes a problem that is detected by correlating observations.
-    public struct Problem {
+    public struct Problem: Swift.Sendable {
         /// The AWS account ID for the owner of the resource group affected by the problem.
         public var accountId: Swift.String?
         /// The resource affected by the problem.
@@ -1690,10 +1691,9 @@ extension ApplicationInsightsClientTypes {
             self.visibility = visibility
         }
     }
-
 }
 
-public struct DescribeProblemOutput {
+public struct DescribeProblemOutput: Swift.Sendable {
     /// Information about the problem.
     public var problem: ApplicationInsightsClientTypes.Problem?
 
@@ -1705,7 +1705,7 @@ public struct DescribeProblemOutput {
     }
 }
 
-public struct DescribeProblemObservationsInput {
+public struct DescribeProblemObservationsInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The ID of the problem.
@@ -1723,8 +1723,9 @@ public struct DescribeProblemObservationsInput {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// Describes observations related to the problem.
-    public struct RelatedObservations {
+    public struct RelatedObservations: Swift.Sendable {
         /// The list of observations related to the problem.
         public var observationList: [ApplicationInsightsClientTypes.Observation]?
 
@@ -1735,10 +1736,9 @@ extension ApplicationInsightsClientTypes {
             self.observationList = observationList
         }
     }
-
 }
 
-public struct DescribeProblemObservationsOutput {
+public struct DescribeProblemObservationsOutput: Swift.Sendable {
     /// Observations related to the problem.
     public var relatedObservations: ApplicationInsightsClientTypes.RelatedObservations?
 
@@ -1750,7 +1750,7 @@ public struct DescribeProblemObservationsOutput {
     }
 }
 
-public struct DescribeWorkloadInput {
+public struct DescribeWorkloadInput: Swift.Sendable {
     /// The AWS account ID for the workload owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -1777,7 +1777,7 @@ public struct DescribeWorkloadInput {
     }
 }
 
-public struct DescribeWorkloadOutput {
+public struct DescribeWorkloadOutput: Swift.Sendable {
     /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
     public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
     /// The ID of the workload.
@@ -1797,7 +1797,7 @@ public struct DescribeWorkloadOutput {
     }
 }
 
-public struct ListApplicationsInput {
+public struct ListApplicationsInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1817,7 +1817,7 @@ public struct ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsOutput {
+public struct ListApplicationsOutput: Swift.Sendable {
     /// The list of applications.
     public var applicationInfoList: [ApplicationInsightsClientTypes.ApplicationInfo]?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1833,7 +1833,7 @@ public struct ListApplicationsOutput {
     }
 }
 
-public struct ListComponentsInput {
+public struct ListComponentsInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1858,7 +1858,7 @@ public struct ListComponentsInput {
     }
 }
 
-public struct ListComponentsOutput {
+public struct ListComponentsOutput: Swift.Sendable {
     /// The list of application components.
     public var applicationComponentList: [ApplicationInsightsClientTypes.ApplicationComponent]?
     /// The token to request the next page of results.
@@ -1874,7 +1874,7 @@ public struct ListComponentsOutput {
     }
 }
 
-public struct ListConfigurationHistoryInput {
+public struct ListConfigurationHistoryInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The end time of the event.
@@ -1910,7 +1910,7 @@ public struct ListConfigurationHistoryInput {
     }
 }
 
-public struct ListConfigurationHistoryOutput {
+public struct ListConfigurationHistoryOutput: Swift.Sendable {
     /// The list of configuration events and their corresponding details.
     public var eventList: [ApplicationInsightsClientTypes.ConfigurationEvent]?
     /// The NextToken value to include in a future ListConfigurationHistory request. When the results of a ListConfigurationHistory request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1926,7 +1926,7 @@ public struct ListConfigurationHistoryOutput {
     }
 }
 
-public struct ListLogPatternsInput {
+public struct ListLogPatternsInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1955,7 +1955,7 @@ public struct ListLogPatternsInput {
     }
 }
 
-public struct ListLogPatternsOutput {
+public struct ListLogPatternsOutput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The list of log patterns.
@@ -1979,7 +1979,7 @@ public struct ListLogPatternsOutput {
     }
 }
 
-public struct ListLogPatternSetsInput {
+public struct ListLogPatternSetsInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -2004,7 +2004,7 @@ public struct ListLogPatternSetsInput {
     }
 }
 
-public struct ListLogPatternSetsOutput {
+public struct ListLogPatternSetsOutput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The list of log pattern sets.
@@ -2028,7 +2028,7 @@ public struct ListLogPatternSetsOutput {
     }
 }
 
-public struct ListProblemsInput {
+public struct ListProblemsInput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -2068,7 +2068,7 @@ public struct ListProblemsInput {
     }
 }
 
-public struct ListProblemsOutput {
+public struct ListProblemsOutput: Swift.Sendable {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2092,7 +2092,7 @@ public struct ListProblemsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2105,7 +2105,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// An array that lists all the tags that are associated with the application. Each tag consists of a required tag key (Key) and an associated tag value (Value).
     public var tags: [ApplicationInsightsClientTypes.Tag]?
 
@@ -2117,7 +2117,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct ListWorkloadsInput {
+public struct ListWorkloadsInput: Swift.Sendable {
     /// The AWS account ID of the owner of the workload.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -2148,8 +2148,9 @@ public struct ListWorkloadsInput {
 }
 
 extension ApplicationInsightsClientTypes {
+
     /// Describes the workloads on a component.
-    public struct Workload {
+    public struct Workload: Swift.Sendable {
         /// The name of the component.
         public var componentName: Swift.String?
         /// The tier of the workload.
@@ -2176,10 +2177,9 @@ extension ApplicationInsightsClientTypes {
             self.workloadRemarks = workloadRemarks
         }
     }
-
 }
 
-public struct ListWorkloadsOutput {
+public struct ListWorkloadsOutput: Swift.Sendable {
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
     /// The list of workloads.
@@ -2195,7 +2195,7 @@ public struct ListWorkloadsOutput {
     }
 }
 
-public struct RemoveWorkloadInput {
+public struct RemoveWorkloadInput: Swift.Sendable {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -2218,7 +2218,7 @@ public struct RemoveWorkloadInput {
     }
 }
 
-public struct RemoveWorkloadOutput {
+public struct RemoveWorkloadOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2251,7 +2251,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the application that you want to add one or more tags to.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2269,12 +2269,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the application that you want to remove one or more tags from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2292,12 +2292,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateApplicationInput {
+public struct UpdateApplicationInput: Swift.Sendable {
     /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
     public var attachMissingPermission: Swift.Bool?
     /// Turns auto-configuration on or off.
@@ -2334,7 +2334,7 @@ public struct UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationOutput {
+public struct UpdateApplicationOutput: Swift.Sendable {
     /// Information about the application.
     public var applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 
@@ -2346,7 +2346,7 @@ public struct UpdateApplicationOutput {
     }
 }
 
-public struct UpdateComponentInput {
+public struct UpdateComponentInput: Swift.Sendable {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -2372,12 +2372,12 @@ public struct UpdateComponentInput {
     }
 }
 
-public struct UpdateComponentOutput {
+public struct UpdateComponentOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateComponentConfigurationInput {
+public struct UpdateComponentConfigurationInput: Swift.Sendable {
     /// Automatically configures the component by applying the recommended configurations.
     public var autoConfigEnabled: Swift.Bool?
     /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see [Working with JSON](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/working-with-json.html). You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see [Component Configuration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/component-config.html).
@@ -2411,12 +2411,12 @@ public struct UpdateComponentConfigurationInput {
     }
 }
 
-public struct UpdateComponentConfigurationOutput {
+public struct UpdateComponentConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateLogPatternInput {
+public struct UpdateLogPatternInput: Swift.Sendable {
     /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
     public var pattern: Swift.String?
     /// The name of the log pattern.
@@ -2447,7 +2447,7 @@ public struct UpdateLogPatternInput {
     }
 }
 
-public struct UpdateLogPatternOutput {
+public struct UpdateLogPatternOutput: Swift.Sendable {
     /// The successfully created log pattern.
     public var logPattern: ApplicationInsightsClientTypes.LogPattern?
     /// The name of the resource group.
@@ -2465,7 +2465,7 @@ public struct UpdateLogPatternOutput {
 
 extension ApplicationInsightsClientTypes {
 
-    public enum UpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case resolved
         case sdkUnknown(Swift.String)
 
@@ -2489,7 +2489,7 @@ extension ApplicationInsightsClientTypes {
     }
 }
 
-public struct UpdateProblemInput {
+public struct UpdateProblemInput: Swift.Sendable {
     /// The ID of the problem.
     /// This member is required.
     public var problemId: Swift.String?
@@ -2510,12 +2510,12 @@ public struct UpdateProblemInput {
     }
 }
 
-public struct UpdateProblemOutput {
+public struct UpdateProblemOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateWorkloadInput {
+public struct UpdateWorkloadInput: Swift.Sendable {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -2542,7 +2542,7 @@ public struct UpdateWorkloadInput {
     }
 }
 
-public struct UpdateWorkloadOutput {
+public struct UpdateWorkloadOutput: Swift.Sendable {
     /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
     public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
     /// The ID of the workload.
