@@ -82,6 +82,10 @@ extension ChatbotClientTypes {
         /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration. For example, if Amazon Chime is disabled.
+        public var state: Swift.String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public var stateReason: Swift.String?
         /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public var tags: [ChatbotClientTypes.Tag]?
         /// A description of the webhook. We recommend using the convention RoomName/WebhookName. For more information, see [Tutorial: Get started with Amazon Chime](https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html) in the AWS Chatbot Administrator Guide.
@@ -94,6 +98,8 @@ extension ChatbotClientTypes {
             iamRoleArn: Swift.String? = nil,
             loggingLevel: Swift.String? = nil,
             snsTopicArns: [Swift.String]? = nil,
+            state: Swift.String? = nil,
+            stateReason: Swift.String? = nil,
             tags: [ChatbotClientTypes.Tag]? = nil,
             webhookDescription: Swift.String? = nil
         )
@@ -103,6 +109,8 @@ extension ChatbotClientTypes {
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.state = state
+            self.stateReason = stateReason
             self.tags = tags
             self.webhookDescription = webhookDescription
         }
@@ -111,13 +119,17 @@ extension ChatbotClientTypes {
 
 extension ChatbotClientTypes.ChimeWebhookConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ChimeWebhookConfiguration(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), webhookDescription: \"CONTENT_REDACTED\")"}
+        "ChimeWebhookConfiguration(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), webhookDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension ChatbotClientTypes {
 
     /// A Microsoft Teams team that is authorized with AWS Chatbot.
     public struct ConfiguredTeam: Swift.Sendable {
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration. For example, if Amazon Chime is disabled.
+        public var state: Swift.String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public var stateReason: Swift.String?
         /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var teamId: Swift.String?
@@ -128,11 +140,15 @@ extension ChatbotClientTypes {
         public var tenantId: Swift.String?
 
         public init(
+            state: Swift.String? = nil,
+            stateReason: Swift.String? = nil,
             teamId: Swift.String? = nil,
             teamName: Swift.String? = nil,
             tenantId: Swift.String? = nil
         )
         {
+            self.state = state
+            self.stateReason = stateReason
             self.teamId = teamId
             self.teamName = teamName
             self.tenantId = tenantId
@@ -432,6 +448,10 @@ extension ChatbotClientTypes {
         /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration. For example, if Amazon Chime is disabled.
+        public var state: Swift.String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public var stateReason: Swift.String?
         /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public var tags: [ChatbotClientTypes.Tag]?
         /// The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup) in the AWS Chatbot Administrator Guide.
@@ -454,6 +474,8 @@ extension ChatbotClientTypes {
             iamRoleArn: Swift.String? = nil,
             loggingLevel: Swift.String? = nil,
             snsTopicArns: [Swift.String]? = nil,
+            state: Swift.String? = nil,
+            stateReason: Swift.String? = nil,
             tags: [ChatbotClientTypes.Tag]? = nil,
             teamId: Swift.String? = nil,
             teamName: Swift.String? = nil,
@@ -469,6 +491,8 @@ extension ChatbotClientTypes {
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.state = state
+            self.stateReason = stateReason
             self.tags = tags
             self.teamId = teamId
             self.teamName = teamName
@@ -480,7 +504,7 @@ extension ChatbotClientTypes {
 
 extension ChatbotClientTypes.TeamsChannelConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TeamsChannelConfiguration(channelId: \(Swift.String(describing: channelId)), chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), teamId: \(Swift.String(describing: teamId)), tenantId: \(Swift.String(describing: tenantId)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), channelName: \"CONTENT_REDACTED\", teamName: \"CONTENT_REDACTED\")"}
+        "TeamsChannelConfiguration(channelId: \(Swift.String(describing: channelId)), chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), teamId: \(Swift.String(describing: teamId)), tenantId: \(Swift.String(describing: tenantId)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), channelName: \"CONTENT_REDACTED\", teamName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
@@ -607,6 +631,10 @@ extension ChatbotClientTypes {
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration. For example, if Amazon Chime is disabled.
+        public var state: Swift.String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public var stateReason: Swift.String?
         /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public var tags: [ChatbotClientTypes.Tag]?
         /// Enables use of a user role requirement in your chat configuration.
@@ -623,6 +651,8 @@ extension ChatbotClientTypes {
             slackTeamId: Swift.String? = nil,
             slackTeamName: Swift.String? = nil,
             snsTopicArns: [Swift.String]? = nil,
+            state: Swift.String? = nil,
+            stateReason: Swift.String? = nil,
             tags: [ChatbotClientTypes.Tag]? = nil,
             userAuthorizationRequired: Swift.Bool? = nil
         )
@@ -637,6 +667,8 @@ extension ChatbotClientTypes {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
             self.snsTopicArns = snsTopicArns
+            self.state = state
+            self.stateReason = stateReason
             self.tags = tags
             self.userAuthorizationRequired = userAuthorizationRequired
         }
@@ -645,7 +677,7 @@ extension ChatbotClientTypes {
 
 extension ChatbotClientTypes.SlackChannelConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SlackChannelConfiguration(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), slackChannelId: \(Swift.String(describing: slackChannelId)), slackTeamId: \(Swift.String(describing: slackTeamId)), slackTeamName: \(Swift.String(describing: slackTeamName)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), tags: \(Swift.String(describing: tags)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), slackChannelName: \"CONTENT_REDACTED\")"}
+        "SlackChannelConfiguration(chatConfigurationArn: \(Swift.String(describing: chatConfigurationArn)), configurationName: \(Swift.String(describing: configurationName)), guardrailPolicyArns: \(Swift.String(describing: guardrailPolicyArns)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), loggingLevel: \(Swift.String(describing: loggingLevel)), slackChannelId: \(Swift.String(describing: slackChannelId)), slackTeamId: \(Swift.String(describing: slackTeamId)), slackTeamName: \(Swift.String(describing: slackTeamName)), snsTopicArns: \(Swift.String(describing: snsTopicArns)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), userAuthorizationRequired: \(Swift.String(describing: userAuthorizationRequired)), slackChannelName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSlackChannelConfigurationOutput: Swift.Sendable {
@@ -1259,14 +1291,22 @@ extension ChatbotClientTypes {
         /// The name of the Slack workspace.
         /// This member is required.
         public var slackTeamName: Swift.String?
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration. For example, if Amazon Chime is disabled.
+        public var state: Swift.String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public var stateReason: Swift.String?
 
         public init(
             slackTeamId: Swift.String? = nil,
-            slackTeamName: Swift.String? = nil
+            slackTeamName: Swift.String? = nil,
+            state: Swift.String? = nil,
+            stateReason: Swift.String? = nil
         )
         {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
+            self.state = state
+            self.stateReason = stateReason
         }
     }
 }
@@ -3591,6 +3631,8 @@ extension ChatbotClientTypes.ChimeWebhookConfiguration {
         value.configurationName = try reader["ConfigurationName"].readIfPresent()
         value.loggingLevel = try reader["LoggingLevel"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
         return value
     }
 }
@@ -3630,6 +3672,8 @@ extension ChatbotClientTypes.TeamsChannelConfiguration {
         value.guardrailPolicyArns = try reader["GuardrailPolicyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userAuthorizationRequired = try reader["UserAuthorizationRequired"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
         return value
     }
 }
@@ -3651,6 +3695,8 @@ extension ChatbotClientTypes.SlackChannelConfiguration {
         value.guardrailPolicyArns = try reader["GuardrailPolicyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userAuthorizationRequired = try reader["UserAuthorizationRequired"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
         return value
     }
 }
@@ -3676,6 +3722,8 @@ extension ChatbotClientTypes.SlackWorkspace {
         var value = ChatbotClientTypes.SlackWorkspace()
         value.slackTeamId = try reader["SlackTeamId"].readIfPresent() ?? ""
         value.slackTeamName = try reader["SlackTeamName"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
         return value
     }
 }
@@ -3699,6 +3747,8 @@ extension ChatbotClientTypes.ConfiguredTeam {
         value.tenantId = try reader["TenantId"].readIfPresent() ?? ""
         value.teamId = try reader["TeamId"].readIfPresent() ?? ""
         value.teamName = try reader["TeamName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
         return value
     }
 }
