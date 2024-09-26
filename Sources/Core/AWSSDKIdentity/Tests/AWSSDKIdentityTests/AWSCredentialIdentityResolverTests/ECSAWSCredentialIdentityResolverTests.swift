@@ -21,6 +21,15 @@ class ECSAWSCredentialIdentityResolverTests: XCTestCase {
         unsetenv("AWS_CONTAINER_AUTHORIZATION_TOKEN")
     }
 
+    override func tearDown() {
+        // Unset the environment variables after each test
+        unsetenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        unsetenv("AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        unsetenv("AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE")
+        unsetenv("AWS_CONTAINER_AUTHORIZATION_TOKEN")
+
+        super.tearDown()
+    }
 
     func testGetCredentialsWithRelativeURI() async throws {
         // relative uri is preferred over absolute uri so we shouldn't get thrown an error
