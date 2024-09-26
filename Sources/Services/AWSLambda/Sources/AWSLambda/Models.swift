@@ -80,11 +80,6 @@ public struct DeleteProvisionedConcurrencyConfigOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct RemoveLayerVersionPermissionOutput: Swift.Sendable {
 
     public init() { }
@@ -461,34 +456,6 @@ public struct AddLayerVersionPermissionOutput: Swift.Sendable {
     }
 }
 
-/// Lambda prevented your policy from being created because it would grant public access to your function. If you intended to create a public policy, use the [PutPublicAccessBlockConfig] API action to configure your function's public-access settings to allow public policies.
-public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The exception type.
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "PublicPolicyException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
 extension LambdaClientTypes {
 
     public enum FunctionUrlAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -538,7 +505,7 @@ public struct AddPermissionInput: Swift.Sendable {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// The Amazon Web Servicesservice, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+    /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
     public var principal: Swift.String?
     /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
@@ -547,9 +514,9 @@ public struct AddPermissionInput: Swift.Sendable {
     public var qualifier: Swift.String?
     /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
     public var revisionId: Swift.String?
-    /// For Amazon Web Servicesservice, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
+    /// For Amazon Web Services service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
     public var sourceAccount: Swift.String?
-    /// For Amazon Web Servicesservices, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
+    /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
     public var sourceArn: Swift.String?
     /// A statement identifier that differentiates the statement from others in the same policy.
     /// This member is required.
@@ -3518,23 +3485,6 @@ public struct DeleteProvisionedConcurrencyConfigInput: Swift.Sendable {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the function you want to delete the policy from. You can use either a qualified or an unqualified ARN, but the value you specify must be a complete ARN and wildcard characters are not accepted.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// Delete the existing policy only if its revision ID matches the string you specify. To find the revision ID of the policy currently attached to your function, use the [GetResourcePolicy] action.
-    public var revisionId: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil,
-        revisionId: Swift.String? = nil
-    )
-    {
-        self.resourceArn = resourceArn
-        self.revisionId = revisionId
-    }
-}
-
 public struct GetAccountSettingsInput: Swift.Sendable {
 
     public init() { }
@@ -4824,80 +4774,6 @@ public struct GetProvisionedConcurrencyConfigOutput: Swift.Sendable {
         self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
         self.status = status
         self.statusReason = statusReason
-    }
-}
-
-public struct GetPublicAccessBlockConfigInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the function you want to retrieve public-access settings for.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    )
-    {
-        self.resourceArn = resourceArn
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// An object that defines the public-access settings for a function.
-    public struct PublicAccessBlockConfig: Swift.Sendable {
-        /// To block the creation of resource-based policies that would grant public access to your function, set BlockPublicPolicy to true. To allow the creation of resource-based policies that would grant public access to your function, set BlockPublicPolicy to false.
-        public var blockPublicPolicy: Swift.Bool?
-        /// To block public access to your function, even if its resource-based policy allows it, set RestrictPublicResource to true. To allow public access to a function with a resource-based policy that permits it, set RestrictPublicResource to false.
-        public var restrictPublicResource: Swift.Bool?
-
-        public init(
-            blockPublicPolicy: Swift.Bool? = nil,
-            restrictPublicResource: Swift.Bool? = nil
-        )
-        {
-            self.blockPublicPolicy = blockPublicPolicy
-            self.restrictPublicResource = restrictPublicResource
-        }
-    }
-}
-
-public struct GetPublicAccessBlockConfigOutput: Swift.Sendable {
-    /// The public-access settings configured for the function you specified
-    public var publicAccessBlockConfig: LambdaClientTypes.PublicAccessBlockConfig?
-
-    public init(
-        publicAccessBlockConfig: LambdaClientTypes.PublicAccessBlockConfig? = nil
-    )
-    {
-        self.publicAccessBlockConfig = publicAccessBlockConfig
-    }
-}
-
-public struct GetResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the function you want to retrieve the policy for. You can use either a qualified or an unqualified ARN, but the value you specify must be a complete ARN and wildcard characters are not accepted.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    )
-    {
-        self.resourceArn = resourceArn
-    }
-}
-
-public struct GetResourcePolicyOutput: Swift.Sendable {
-    /// The resource-based policy attached to the function you specified.
-    public var policy: Swift.String?
-    /// The revision ID of the policy.
-    public var revisionId: Swift.String?
-
-    public init(
-        policy: Swift.String? = nil,
-        revisionId: Swift.String? = nil
-    )
-    {
-        self.policy = policy
-        self.revisionId = revisionId
     }
 }
 
@@ -7463,74 +7339,6 @@ public struct PutProvisionedConcurrencyConfigOutput: Swift.Sendable {
     }
 }
 
-public struct PutPublicAccessBlockConfigInput: Swift.Sendable {
-    /// An object defining the public-access settings you want to apply. To block the creation of resource-based policies that would grant public access to your function, set BlockPublicPolicy to true. To allow the creation of resource-based policies that would grant public access to your function, set BlockPublicPolicy to false. To block public access to your function, even if its resource-based policy allows it, set RestrictPublicResource to true. To allow public access to a function with a resource-based policy that permits it, set RestrictPublicResource to false. The default setting for both BlockPublicPolicy and RestrictPublicResource is true.
-    /// This member is required.
-    public var publicAccessBlockConfig: LambdaClientTypes.PublicAccessBlockConfig?
-    /// The Amazon Resource Name (ARN) of the function you want to configure public-access settings for. Public-access settings are applied at the function level, so you can't apply different settings to function versions or aliases.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        publicAccessBlockConfig: LambdaClientTypes.PublicAccessBlockConfig? = nil,
-        resourceArn: Swift.String? = nil
-    )
-    {
-        self.publicAccessBlockConfig = publicAccessBlockConfig
-        self.resourceArn = resourceArn
-    }
-}
-
-public struct PutPublicAccessBlockConfigOutput: Swift.Sendable {
-    /// The public-access settings Lambda applied to your function.
-    public var publicAccessBlockConfig: LambdaClientTypes.PublicAccessBlockConfig?
-
-    public init(
-        publicAccessBlockConfig: LambdaClientTypes.PublicAccessBlockConfig? = nil
-    )
-    {
-        self.publicAccessBlockConfig = publicAccessBlockConfig
-    }
-}
-
-public struct PutResourcePolicyInput: Swift.Sendable {
-    /// The JSON resource-based policy you want to add to your function. To learn more about creating resource-based policies for controlling access to Lambda, see [Working with resource-based IAM policies in Lambda](https://docs.aws.amazon.com/) in the Lambda Developer Guide.
-    /// This member is required.
-    public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the function you want to add the policy to. You can use either a qualified or an unqualified ARN, but the value you specify must be a complete ARN and wildcard characters are not accepted.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// Replace the existing policy only if its revision ID matches the string you specify. To find the revision ID of the policy currently attached to your function, use the [GetResourcePolicy] action.
-    public var revisionId: Swift.String?
-
-    public init(
-        policy: Swift.String? = nil,
-        resourceArn: Swift.String? = nil,
-        revisionId: Swift.String? = nil
-    )
-    {
-        self.policy = policy
-        self.resourceArn = resourceArn
-        self.revisionId = revisionId
-    }
-}
-
-public struct PutResourcePolicyOutput: Swift.Sendable {
-    /// The policy Lambda added to your function.
-    public var policy: Swift.String?
-    /// The revision ID of the policy Lambda added to your function.
-    public var revisionId: Swift.String?
-
-    public init(
-        policy: Swift.String? = nil,
-        revisionId: Swift.String? = nil
-    )
-    {
-        self.policy = policy
-        self.revisionId = revisionId
-    }
-}
-
 public struct PutRuntimeManagementConfigInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -8925,28 +8733,6 @@ extension DeleteProvisionedConcurrencyConfigInput {
     }
 }
 
-extension DeleteResourcePolicyInput {
-
-    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
-        guard let resourceArn = value.resourceArn else {
-            return nil
-        }
-        return "/2024-09-16/resource-policy/\(resourceArn.urlPercentEncoding())"
-    }
-}
-
-extension DeleteResourcePolicyInput {
-
-    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        if let revisionId = value.revisionId {
-            let revisionIdQueryItem = Smithy.URIQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
-            items.append(revisionIdQueryItem)
-        }
-        return items
-    }
-}
-
 extension GetAccountSettingsInput {
 
     static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
@@ -9196,26 +8982,6 @@ extension GetProvisionedConcurrencyConfigInput {
         let qualifierQueryItem = Smithy.URIQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
         items.append(qualifierQueryItem)
         return items
-    }
-}
-
-extension GetPublicAccessBlockConfigInput {
-
-    static func urlPathProvider(_ value: GetPublicAccessBlockConfigInput) -> Swift.String? {
-        guard let resourceArn = value.resourceArn else {
-            return nil
-        }
-        return "/2024-09-16/public-access-block/\(resourceArn.urlPercentEncoding())"
-    }
-}
-
-extension GetResourcePolicyInput {
-
-    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
-        guard let resourceArn = value.resourceArn else {
-            return nil
-        }
-        return "/2024-09-16/resource-policy/\(resourceArn.urlPercentEncoding())"
     }
 }
 
@@ -9746,26 +9512,6 @@ extension PutProvisionedConcurrencyConfigInput {
     }
 }
 
-extension PutPublicAccessBlockConfigInput {
-
-    static func urlPathProvider(_ value: PutPublicAccessBlockConfigInput) -> Swift.String? {
-        guard let resourceArn = value.resourceArn else {
-            return nil
-        }
-        return "/2024-09-16/public-access-block/\(resourceArn.urlPercentEncoding())"
-    }
-}
-
-extension PutResourcePolicyInput {
-
-    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
-        guard let resourceArn = value.resourceArn else {
-            return nil
-        }
-        return "/2024-09-16/resource-policy/\(resourceArn.urlPercentEncoding())"
-    }
-}
-
 extension PutRuntimeManagementConfigInput {
 
     static func urlPathProvider(_ value: PutRuntimeManagementConfigInput) -> Swift.String? {
@@ -10188,23 +9934,6 @@ extension PutProvisionedConcurrencyConfigInput {
     }
 }
 
-extension PutPublicAccessBlockConfigInput {
-
-    static func write(value: PutPublicAccessBlockConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PublicAccessBlockConfig"].write(value.publicAccessBlockConfig, with: LambdaClientTypes.PublicAccessBlockConfig.write(value:to:))
-    }
-}
-
-extension PutResourcePolicyInput {
-
-    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Policy"].write(value.policy)
-        try writer["RevisionId"].write(value.revisionId)
-    }
-}
-
 extension PutRuntimeManagementConfigInput {
 
     static func write(value: PutRuntimeManagementConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -10590,13 +10319,6 @@ extension DeleteProvisionedConcurrencyConfigOutput {
     }
 }
 
-extension DeleteResourcePolicyOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
-        return DeleteResourcePolicyOutput()
-    }
-}
-
 extension GetAccountSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountSettingsOutput {
@@ -10892,31 +10614,6 @@ extension GetProvisionedConcurrencyConfigOutput {
         value.requestedProvisionedConcurrentExecutions = try reader["RequestedProvisionedConcurrentExecutions"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension GetPublicAccessBlockConfigOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPublicAccessBlockConfigOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = GetPublicAccessBlockConfigOutput()
-        value.publicAccessBlockConfig = try reader["PublicAccessBlockConfig"].readIfPresent(with: LambdaClientTypes.PublicAccessBlockConfig.read(from:))
-        return value
-    }
-}
-
-extension GetResourcePolicyOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = GetResourcePolicyOutput()
-        value.policy = try reader["Policy"].readIfPresent()
-        value.revisionId = try reader["RevisionId"].readIfPresent()
         return value
     }
 }
@@ -11282,31 +10979,6 @@ extension PutProvisionedConcurrencyConfigOutput {
     }
 }
 
-extension PutPublicAccessBlockConfigOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutPublicAccessBlockConfigOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = PutPublicAccessBlockConfigOutput()
-        value.publicAccessBlockConfig = try reader["PublicAccessBlockConfig"].readIfPresent(with: LambdaClientTypes.PublicAccessBlockConfig.read(from:))
-        return value
-    }
-}
-
-extension PutResourcePolicyOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = PutResourcePolicyOutput()
-        value.policy = try reader["Policy"].readIfPresent()
-        value.revisionId = try reader["RevisionId"].readIfPresent()
-        return value
-    }
-}
-
 extension PutRuntimeManagementConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutRuntimeManagementConfigOutput {
@@ -11578,7 +11250,6 @@ enum AddPermissionOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PolicyLengthExceededException": return try PolicyLengthExceededException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
-            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -11855,25 +11526,6 @@ enum DeleteProvisionedConcurrencyConfigOutputError {
     }
 }
 
-enum DeleteResourcePolicyOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
-            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
-            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
-            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum GetAccountSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12136,40 +11788,6 @@ enum GetProvisionedConcurrencyConfigOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ProvisionedConcurrencyConfigNotFoundException": return try ProvisionedConcurrencyConfigNotFoundException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
-            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum GetPublicAccessBlockConfigOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
-            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum GetResourcePolicyOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -12627,45 +12245,6 @@ enum PutProvisionedConcurrencyConfigOutputError {
     }
 }
 
-enum PutPublicAccessBlockConfigOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
-            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
-            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum PutResourcePolicyOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
-            case "PolicyLengthExceededException": return try PolicyLengthExceededException.makeError(baseError: baseError)
-            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
-            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
-            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
-            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum PutRuntimeManagementConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12712,7 +12291,6 @@ enum RemovePermissionOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
-            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -12988,20 +12566,6 @@ extension ResourceConflictException {
         var value = ResourceConflictException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PublicPolicyException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PublicPolicyException {
-        let reader = baseError.errorBodyReader
-        var value = PublicPolicyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -14052,23 +13616,6 @@ extension LambdaClientTypes.LayerVersionContentOutput {
         value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.PublicAccessBlockConfig {
-
-    static func write(value: LambdaClientTypes.PublicAccessBlockConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockPublicPolicy"].write(value.blockPublicPolicy)
-        try writer["RestrictPublicResource"].write(value.restrictPublicResource)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.PublicAccessBlockConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.PublicAccessBlockConfig()
-        value.blockPublicPolicy = try reader["BlockPublicPolicy"].readIfPresent()
-        value.restrictPublicResource = try reader["RestrictPublicResource"].readIfPresent()
         return value
     }
 }

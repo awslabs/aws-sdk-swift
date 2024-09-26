@@ -14178,6 +14178,35 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    public enum TagPropagation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagPropagation] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDomainInput: Swift.Sendable {
     /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.
     ///
@@ -14208,6 +14237,8 @@ public struct CreateDomainInput: Swift.Sendable {
     /// The VPC subnets that the domain uses for communication.
     /// This member is required.
     public var subnetIds: [Swift.String]?
+    /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
+    public var tagPropagation: SageMakerClientTypes.TagPropagation?
     /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
     public var tags: [SageMakerClientTypes.Tag]?
     /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
@@ -14225,6 +14256,7 @@ public struct CreateDomainInput: Swift.Sendable {
         homeEfsFileSystemKmsKeyId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
+        tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
     )
@@ -14239,6 +14271,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
         self.kmsKeyId = kmsKeyId
         self.subnetIds = subnetIds
+        self.tagPropagation = tagPropagation
         self.tags = tags
         self.vpcId = vpcId
     }
@@ -27195,6 +27228,8 @@ public struct DescribeDomainOutput: Swift.Sendable {
     public var status: SageMakerClientTypes.DomainStatus?
     /// The VPC subnets that the domain uses for communication.
     public var subnetIds: [Swift.String]?
+    /// Indicates whether custom tag propagation is supported for the domain.
+    public var tagPropagation: SageMakerClientTypes.TagPropagation?
     /// The domain's URL.
     public var url: Swift.String?
     /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
@@ -27221,6 +27256,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         singleSignOnManagedApplicationInstanceId: Swift.String? = nil,
         status: SageMakerClientTypes.DomainStatus? = nil,
         subnetIds: [Swift.String]? = nil,
+        tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         url: Swift.String? = nil,
         vpcId: Swift.String? = nil
     )
@@ -27245,6 +27281,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         self.singleSignOnManagedApplicationInstanceId = singleSignOnManagedApplicationInstanceId
         self.status = status
         self.subnetIds = subnetIds
+        self.tagPropagation = tagPropagation
         self.url = url
         self.vpcId = vpcId
     }
@@ -48065,6 +48102,8 @@ public struct UpdateDomainInput: Swift.Sendable {
     public var domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate?
     /// The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
     public var subnetIds: [Swift.String]?
+    /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
+    public var tagPropagation: SageMakerClientTypes.TagPropagation?
 
     public init(
         appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType? = nil,
@@ -48073,7 +48112,8 @@ public struct UpdateDomainInput: Swift.Sendable {
         defaultUserSettings: SageMakerClientTypes.UserSettings? = nil,
         domainId: Swift.String? = nil,
         domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate? = nil,
-        subnetIds: [Swift.String]? = nil
+        subnetIds: [Swift.String]? = nil,
+        tagPropagation: SageMakerClientTypes.TagPropagation? = nil
     )
     {
         self.appNetworkAccessType = appNetworkAccessType
@@ -48083,6 +48123,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         self.domainId = domainId
         self.domainSettingsForUpdate = domainSettingsForUpdate
         self.subnetIds = subnetIds
+        self.tagPropagation = tagPropagation
     }
 }
 
@@ -52045,6 +52086,7 @@ extension CreateDomainInput {
         try writer["HomeEfsFileSystemKmsKeyId"].write(value.homeEfsFileSystemKmsKeyId)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagPropagation"].write(value.tagPropagation)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcId"].write(value.vpcId)
     }
@@ -55324,6 +55366,7 @@ extension UpdateDomainInput {
         try writer["DomainId"].write(value.domainId)
         try writer["DomainSettingsForUpdate"].write(value.domainSettingsForUpdate, with: SageMakerClientTypes.DomainSettingsForUpdate.write(value:to:))
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagPropagation"].write(value.tagPropagation)
     }
 }
 
@@ -57219,6 +57262,7 @@ extension DescribeDomainOutput {
         value.singleSignOnManagedApplicationInstanceId = try reader["SingleSignOnManagedApplicationInstanceId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagPropagation = try reader["TagPropagation"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         value.vpcId = try reader["VpcId"].readIfPresent()
         return value
