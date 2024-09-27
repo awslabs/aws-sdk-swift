@@ -19,12 +19,15 @@ struct ReleaseNotesBuilder {
     // MARK: - Build
     
     func build() throws -> String {
-        let contents: [String] = (
+        let baseContent: [String] = (
             ["## What's Changed"] +
-            buildSDKChangeSection() +
-            (try buildServiceChangeSection()) +
-            ["\n**Full Changelog**: https://github.com/\(repoOrg.rawValue)/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"]
+            buildSDKChangeSection()
         )
+        let serviceClientChanges = repoType == .awsSdkSwift ? (try buildServiceChangeSection()) : []
+        let fullCommitLogLink = [
+            "\n**Full Changelog**: https://github.com/\(repoOrg.rawValue)/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"
+        ]
+        let contents = baseContent + serviceClientChanges + fullCommitLogLink
         return contents.joined(separator: .newline)
     }
 
