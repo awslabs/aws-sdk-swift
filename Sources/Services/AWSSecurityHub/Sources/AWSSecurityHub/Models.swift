@@ -759,7 +759,7 @@ extension SecurityHubClientTypes {
         ///
         /// * CRITICAL - The issue must be remediated immediately to avoid it escalating.
         public var label: SecurityHubClientTypes.SeverityLabel?
-        /// The normalized severity for the finding. This attribute is to be deprecated in favor of Label. If you provide Normalized and do not provide Label, Label is set automatically as follows.
+        /// The normalized severity for the finding. This attribute is to be deprecated in favor of Label. If you provide Normalized and don't provide Label, Label is set automatically as follows.
         ///
         /// * 0 - INFORMATIONAL
         ///
@@ -876,7 +876,7 @@ extension SecurityHubClientTypes {
         ///
         /// * RESOLVED - The finding was reviewed and remediated and is now considered resolved.
         ///
-        /// * SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The finding is no longer updated.
+        /// * SUPPRESSED - Indicates that you reviewed the finding and don't believe that any action is needed. The finding is no longer updated.
         public var status: SecurityHubClientTypes.WorkflowStatus?
 
         public init(
@@ -964,11 +964,11 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// One or more actions to update finding fields if a finding matches the defined criteria of the rule.
+    /// One or more actions that Security Hub takes when a finding matches the defined criteria of a rule.
     public struct AutomationRulesAction: Swift.Sendable {
         /// Specifies that the automation rule action is an update to a finding field.
         public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate?
-        /// Specifies that the rule action should update the Types finding field. The Types finding field classifies findings in the format of namespace/category/classifier. For more information, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
+        /// Specifies the type of action that Security Hub takes when a finding matches the defined criteria of a rule.
         public var type: SecurityHubClientTypes.AutomationRulesActionType?
 
         public init(
@@ -1684,7 +1684,7 @@ extension SecurityHubClientTypes {
         public var resourceApplicationName: [SecurityHubClientTypes.StringFilter]?
         /// Custom fields and values about the resource that a finding pertains to. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var resourceDetailsOther: [SecurityHubClientTypes.MapFilter]?
-        /// The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Servicesservice that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource. Array Members: Minimum number of 1 item. Maximum number of 100 items.
+        /// The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Services service that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var resourceId: [SecurityHubClientTypes.StringFilter]?
         /// The partition in which the resource that the finding pertains to is located. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var resourcePartition: [SecurityHubClientTypes.StringFilter]?
@@ -3527,7 +3527,7 @@ extension SecurityHubClientTypes {
     public struct AwsBackupBackupPlanRuleCopyActionsDetails: Swift.Sendable {
         /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup.
         public var destinationBackupVaultArn: Swift.String?
-        /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you do not specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
+        /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you don't specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
         public var lifecycle: SecurityHubClientTypes.AwsBackupBackupPlanLifecycleDetails?
 
         public init(
@@ -3551,7 +3551,7 @@ extension SecurityHubClientTypes {
         public var copyActions: [SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails]?
         /// Specifies whether Backup creates continuous backups capable of point-in-time restore (PITR).
         public var enableContinuousBackup: Swift.Bool?
-        /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you do not specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
+        /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you don't specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
         public var lifecycle: SecurityHubClientTypes.AwsBackupBackupPlanLifecycleDetails?
         /// Uniquely identifies a rule that is used to schedule the backup of a selection of resources.
         public var ruleId: Swift.String?
@@ -3679,7 +3679,7 @@ extension SecurityHubClientTypes {
         public var backupVaultArn: Swift.String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public var backupVaultName: Swift.String?
-        /// The unique ARN associated with the server-side encryption key. You can specify a key to encrypt your backups from services that support full Backup management. If you do not specify a key, Backup creates an KMS key for you by default.
+        /// The unique ARN associated with the server-side encryption key. You can specify a key to encrypt your backups from services that support full Backup management. If you don't specify a key, Backup creates an KMS key for you by default.
         public var encryptionKeyArn: Swift.String?
         /// The Amazon SNS event notifications for the specified backup vault.
         public var notifications: SecurityHubClientTypes.AwsBackupBackupVaultNotificationsDetails?
@@ -7717,7 +7717,7 @@ extension SecurityHubClientTypes {
         public var destinationCidrBlock: Swift.String?
         /// The IPv6 CIDR block used for the destination match.
         public var destinationIpv6CidrBlock: Swift.String?
-        /// The prefix of the destination Amazon Web Servicesservice.
+        /// The prefix of the destination Amazon Web Services service.
         public var destinationPrefixListId: Swift.String?
         /// The ID of the egress-only internet gateway.
         public var egressOnlyInternetGatewayId: Swift.String?
@@ -9359,7 +9359,7 @@ extension SecurityHubClientTypes {
         public var propagateTags: Swift.String?
         /// The ARN of the IAM role that is associated with the service. The role allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public var role: Swift.String?
-        /// The scheduling strategy to use for the service. The REPLICA scheduling strategy places and maintains the desired number of tasks across the cluster. By default, the service scheduler spreads tasks across Availability Zones. Task placement strategies and constraints are used to customize task placement decisions. The DAEMON scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that are specified in the cluster. The service scheduler also evaluates the task placement constraints for running tasks and stops tasks that do not meet the placement constraints. Valid values: REPLICA | DAEMON
+        /// The scheduling strategy to use for the service. The REPLICA scheduling strategy places and maintains the desired number of tasks across the cluster. By default, the service scheduler spreads tasks across Availability Zones. Task placement strategies and constraints are used to customize task placement decisions. The DAEMON scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that are specified in the cluster. The service scheduler also evaluates the task placement constraints for running tasks and stops tasks that don't meet the placement constraints. Valid values: REPLICA | DAEMON
         public var schedulingStrategy: Swift.String?
         /// The ARN of the service.
         public var serviceArn: Swift.String?
@@ -15280,7 +15280,7 @@ extension SecurityHubClientTypes {
         public var dbInstancePort: Swift.Int?
         /// The current status of the DB instance.
         public var dbInstanceStatus: Swift.String?
-        /// The meaning of this parameter differs according to the database engine you use. MySQL, MariaDB, SQL Server, PostgreSQL Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Oracle Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
+        /// The meaning of this parameter differs according to the database engine you use. MySQL, MariaDB, SQL Server, PostgreSQL Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Oracle Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters don't apply to an Oracle DB instance.
         public var dbName: Swift.String?
         /// A list of the DB parameter groups to assign to the DB instance.
         public var dbParameterGroups: [SecurityHubClientTypes.AwsRdsDbParameterGroup]?
@@ -17749,7 +17749,7 @@ extension SecurityHubClientTypes {
         public var associatedStandards: [SecurityHubClientTypes.AssociatedStandard]?
         /// Typically provides the industry or regulatory framework requirements that are related to a control. The check for that control is aligned with these requirements. Array Members: Maximum number of 32 items.
         public var relatedRequirements: [Swift.String]?
-        /// Typically provides the unique identifier of a control across standards. For Security Hub controls, this field consists of an Amazon Web Servicesservice and a unique number, such as APIGateway.5.
+        /// Typically provides the unique identifier of a control across standards. For Security Hub controls, this field consists of an Amazon Web Services service and a unique number, such as APIGateway.5.
         public var securityControlId: Swift.String?
         /// Typically an object that includes security control parameter names and values.
         public var securityControlParameters: [SecurityHubClientTypes.SecurityControlParameter]?
@@ -19995,9 +19995,9 @@ extension SecurityHubClientTypes {
         public var action: SecurityHubClientTypes.WafAction?
         /// Rules to exclude from a rule group.
         public var excludedRules: [SecurityHubClientTypes.WafExcludedRule]?
-        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted. ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a web ACL. In this case you do not use ActivatedRuleAction. For all other update requests, ActivatedRuleAction is used instead of ActivatedRuleOverrideAction.
+        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted. ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a web ACL. In this case you don't use ActivatedRuleAction. For all other update requests, ActivatedRuleAction is used instead of ActivatedRuleOverrideAction.
         public var overrideAction: SecurityHubClientTypes.WafOverrideAction?
-        /// Specifies the order in which the rules in a web ACL are evaluated. Rules with a lower value for Priority are evaluated before rules with a higher value. The value must be a unique integer. If you add multiple rules to a web ACL, the values do not need to be consecutive.
+        /// Specifies the order in which the rules in a web ACL are evaluated. Rules with a lower value for Priority are evaluated before rules with a higher value. The value must be a unique integer. If you add multiple rules to a web ACL, the values don't need to be consecutive.
         public var priority: Swift.Int?
         /// The identifier for a rule.
         public var ruleId: Swift.String?
@@ -20660,7 +20660,7 @@ extension SecurityHubClientTypes {
         /// * CRITICAL - The issue must be remediated immediately to avoid it escalating.
         ///
         ///
-        /// If you provide Normalized and do not provide Label, then Label is set automatically as follows.
+        /// If you provide Normalized and don't provide Label, then Label is set automatically as follows.
         ///
         /// * 0 - INFORMATIONAL
         ///
@@ -20672,7 +20672,7 @@ extension SecurityHubClientTypes {
         ///
         /// * 90–100 - CRITICAL
         public var label: SecurityHubClientTypes.SeverityLabel?
-        /// Deprecated. The normalized severity of a finding. Instead of providing Normalized, provide Label. The value of Normalized can be an integer between 0 and 100. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.
+        /// Deprecated. The normalized severity of a finding. Instead of providing Normalized, provide Label. The value of Normalized can be an integer between 0 and 100. If you provide Label and don't provide Normalized, then Normalized is set automatically as follows.
         ///
         /// * INFORMATIONAL - 0
         ///
@@ -21237,7 +21237,7 @@ extension SecurityHubClientTypes {
         ///
         /// * NOTIFIED - Indicates that you notified the resource owner about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.
         ///
-        /// * SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The finding is no longer updated.
+        /// * SUPPRESSED - Indicates that you reviewed the finding and don't believe that any action is needed. The finding is no longer updated.
         ///
         /// * RESOLVED - The finding was reviewed and remediated and is now considered resolved.
         public var status: SecurityHubClientTypes.WorkflowStatus?
@@ -21599,7 +21599,7 @@ extension SecurityHubClientTypes {
         public var companyName: [SecurityHubClientTypes.StringFilter]?
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
         public var complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]?
-        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Servicesservice and a number, such as APIGateway.5.
+        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Services service and a number, such as APIGateway.5.
         public var complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]?
         /// The name of a security control parameter.
         public var complianceSecurityControlParametersName: [SecurityHubClientTypes.StringFilter]?
@@ -21891,7 +21891,7 @@ extension SecurityHubClientTypes {
         ///
         ///
         ///
-        /// * SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The workflow status of a SUPPRESSED finding does not change if RecordState changes from ARCHIVED to ACTIVE.
+        /// * SUPPRESSED - Indicates that you reviewed the finding and don't believe that any action is needed. The workflow status of a SUPPRESSED finding does not change if RecordState changes from ARCHIVED to ACTIVE.
         ///
         /// * RESOLVED - The finding was reviewed and remediated and is now considered resolved. The finding remains RESOLVED unless one of the following occurs:
         ///
@@ -22775,7 +22775,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) for a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
         /// This member is required.
         public var securityControlArn: Swift.String?
-        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Servicesservice name and a number, such as APIGateway.3.
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Services service name and a number, such as APIGateway.3.
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The enablement status of a security control in a specific standard.
@@ -22942,7 +22942,7 @@ extension SecurityHubClientTypes {
         /// The ARN of a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
         /// This member is required.
         public var securityControlArn: Swift.String?
-        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Servicesservice name and a number, such as APIGateway.3.
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Services service name and a number, such as APIGateway.3.
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The Amazon Resource Name (ARN) of a security standard.
@@ -23852,7 +23852,7 @@ extension SecurityHubClientTypes {
 
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
     public enum Policy: Swift.Sendable {
-        /// The Amazon Web Servicesservice that the configuration policy applies to.
+        /// The Amazon Web Services service that the configuration policy applies to.
         case securityhub(SecurityHubClientTypes.SecurityHubPolicy)
         case sdkUnknown(Swift.String)
     }
@@ -23932,7 +23932,7 @@ public struct CreateFindingAggregatorInput: Swift.Sendable {
     /// * NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     /// This member is required.
     public var regionLinkingMode: Swift.String?
-    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
+    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do replicate and send findings to the home Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
     public var regions: [Swift.String]?
 
     public init(
@@ -23946,9 +23946,9 @@ public struct CreateFindingAggregatorInput: Swift.Sendable {
 }
 
 public struct CreateFindingAggregatorOutput: Swift.Sendable {
-    /// The aggregation Region.
+    /// The home Region. Findings generated in linked Regions are replicated and sent to the home Region.
     public var findingAggregationRegion: Swift.String?
-    /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and stop finding aggregation.
+    /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and stop cross-Region aggregation.
     public var findingAggregatorArn: Swift.String?
     /// Indicates whether to link all Regions, all Regions except for a list of excluded Regions, or a list of included Regions.
     public var regionLinkingMode: Swift.String?
@@ -24853,7 +24853,7 @@ public struct EnableOrganizationAdminAccountOutput: Swift.Sendable {
 public struct EnableSecurityHubInput: Swift.Sendable {
     /// This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
-    /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
+    /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you don't provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
     public var enableDefaultStandards: Swift.Bool?
     /// The tags to add to the hub resource when you enable Security Hub.
     public var tags: [Swift.String: Swift.String]?
@@ -24877,7 +24877,7 @@ public struct EnableSecurityHubOutput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    /// A finding aggregator. A finding aggregator contains the configuration for finding aggregation.
+    /// A finding aggregator is a Security Hub resource that specifies cross-Region aggregation settings, including the home Region and any linked Regions.
     public struct FindingAggregator: Swift.Sendable {
         /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and delete the finding aggregator.
         public var findingAggregatorArn: Swift.String?
@@ -24950,7 +24950,7 @@ extension SecurityHubClientTypes {
     public struct FindingHistoryUpdateSource: Swift.Sendable {
         /// The identity of the source that initiated the finding change event. For example, the Amazon Resource Name (ARN) of a partner that calls BatchImportFindings or of a customer that calls BatchUpdateFindings.
         public var identity: Swift.String?
-        /// Describes the type of finding change event, such as a call to [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) (by an integrated Amazon Web Servicesservice or third party partner integration) or [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) (by a Security Hub customer).
+        /// Describes the type of finding change event, such as a call to [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) (by an integrated Amazon Web Services service or third party partner integration) or [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) (by a Security Hub customer).
         public var type: SecurityHubClientTypes.FindingHistoryUpdateSourceType?
 
         public init(
@@ -24974,7 +24974,7 @@ extension SecurityHubClientTypes {
         public var findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier?
         /// A token for pagination purposes. Provide this token in the subsequent request to [GetFindingsHistory](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_GetFindingsHistory.html) to get up to an additional 100 results of history for the same finding that you specified in your initial request.
         public var nextToken: Swift.String?
-        /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Servicesservice or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
+        /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Services service or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
         public var updateSource: SecurityHubClientTypes.FindingHistoryUpdateSource?
         /// A timestamp that indicates when Security Hub processed the updated finding record. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
@@ -25203,7 +25203,7 @@ public struct GetFindingAggregatorInput: Swift.Sendable {
 }
 
 public struct GetFindingAggregatorOutput: Swift.Sendable {
-    /// The aggregation Region.
+    /// The home Region. Findings generated in linked Regions are replicated and sent to the home Region.
     public var findingAggregationRegion: Swift.String?
     /// The ARN of the finding aggregator.
     public var findingAggregatorArn: Swift.String?
@@ -25457,7 +25457,7 @@ public struct GetInsightResultsOutput: Swift.Sendable {
 }
 
 public struct GetInsightsInput: Swift.Sendable {
-    /// The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
+    /// The ARNs of the insights to describe. If you don't provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
     public var insightArns: [Swift.String]?
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
@@ -25724,7 +25724,7 @@ extension SecurityHubClientTypes {
         /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
-        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Servicesservice name and a number (for example, APIGateway.3). This parameter differs from SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Services service name and a number (for example, APIGateway.3). This parameter differs from SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
@@ -26129,7 +26129,7 @@ extension SecurityHubClientTypes {
         /// The ARN of a control, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
         /// This member is required.
         public var securityControlArn: Swift.String?
-        /// A unique standard-agnostic identifier for a control. Values for this field typically consist of an Amazon Web Servicesservice and a number, such as APIGateway.5. This field doesn't reference a specific standard.
+        /// A unique standard-agnostic identifier for a control. Values for this field typically consist of an Amazon Web Services service and a number, such as APIGateway.5. This field doesn't reference a specific standard.
         /// This member is required.
         public var securityControlId: Swift.String?
         /// The Amazon Resource Name (ARN) of a standard.
@@ -26466,7 +26466,7 @@ public struct UpdateFindingAggregatorInput: Swift.Sendable {
     /// * NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     /// This member is required.
     public var regionLinkingMode: Swift.String?
-    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
+    /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do replicate and send findings to the home Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
     public var regions: [Swift.String]?
 
     public init(
@@ -26482,7 +26482,7 @@ public struct UpdateFindingAggregatorInput: Swift.Sendable {
 }
 
 public struct UpdateFindingAggregatorOutput: Swift.Sendable {
-    /// The aggregation Region.
+    /// The home Region. Findings generated in linked Regions are replicated and sent to the home Region.
     public var findingAggregationRegion: Swift.String?
     /// The ARN of the finding aggregator.
     public var findingAggregatorArn: Swift.String?

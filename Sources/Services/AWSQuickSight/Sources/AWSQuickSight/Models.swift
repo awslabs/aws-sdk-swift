@@ -32911,6 +32911,68 @@ public struct DescribeNamespaceOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeQPersonalizationConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the personalization configuration that the user wants described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum PersonalizationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PersonalizationMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeQPersonalizationConfigurationOutput: Swift.Sendable {
+    /// A value that indicates whether personalization is enabled or not.
+    public var personalizationMode: QuickSightClientTypes.PersonalizationMode?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        personalizationMode: QuickSightClientTypes.PersonalizationMode? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.personalizationMode = personalizationMode
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DescribeRefreshScheduleInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
@@ -39047,6 +39109,44 @@ public struct UpdatePublicSharingSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateQPersonalizationConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// An option to allow Amazon QuickSight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
+    /// This member is required.
+    public var personalizationMode: QuickSightClientTypes.PersonalizationMode?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        personalizationMode: QuickSightClientTypes.PersonalizationMode? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.personalizationMode = personalizationMode
+    }
+}
+
+public struct UpdateQPersonalizationConfigurationOutput: Swift.Sendable {
+    /// The personalization mode that is used for the personalization configuration.
+    public var personalizationMode: QuickSightClientTypes.PersonalizationMode?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        personalizationMode: QuickSightClientTypes.PersonalizationMode? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.personalizationMode = personalizationMode
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateRefreshScheduleInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
@@ -41275,6 +41375,16 @@ extension DescribeNamespaceInput {
     }
 }
 
+extension DescribeQPersonalizationConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeQPersonalizationConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/q-personalization-configuration"
+    }
+}
+
 extension DescribeRefreshScheduleInput {
 
     static func urlPathProvider(_ value: DescribeRefreshScheduleInput) -> Swift.String? {
@@ -42941,6 +43051,16 @@ extension UpdatePublicSharingSettingsInput {
     }
 }
 
+extension UpdateQPersonalizationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateQPersonalizationConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/q-personalization-configuration"
+    }
+}
+
 extension UpdateRefreshScheduleInput {
 
     static func urlPathProvider(_ value: UpdateRefreshScheduleInput) -> Swift.String? {
@@ -43740,6 +43860,14 @@ extension UpdatePublicSharingSettingsInput {
     static func write(value: UpdatePublicSharingSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PublicSharingEnabled"].write(value.publicSharingEnabled)
+    }
+}
+
+extension UpdateQPersonalizationConfigurationInput {
+
+    static func write(value: UpdateQPersonalizationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PersonalizationMode"].write(value.personalizationMode)
     }
 }
 
@@ -45106,6 +45234,20 @@ extension DescribeNamespaceOutput {
     }
 }
 
+extension DescribeQPersonalizationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQPersonalizationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeQPersonalizationConfigurationOutput()
+        value.personalizationMode = try reader["PersonalizationMode"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeRefreshScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRefreshScheduleOutput {
@@ -46374,6 +46516,20 @@ extension UpdatePublicSharingSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdatePublicSharingSettingsOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateQPersonalizationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQPersonalizationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQPersonalizationConfigurationOutput()
+        value.personalizationMode = try reader["PersonalizationMode"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -48151,6 +48307,25 @@ enum DescribeNamespaceOutputError {
     }
 }
 
+enum DescribeQPersonalizationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeRefreshScheduleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -49812,6 +49987,26 @@ enum UpdatePublicSharingSettingsOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedPricingPlanException": return try UnsupportedPricingPlanException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQPersonalizationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

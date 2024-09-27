@@ -1647,17 +1647,54 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    /// The https policy to use for tracking open and click events. If the value is OPTIONAL or HttpsPolicy is not specified, the open trackers use HTTP and click tracker use the original protocol of the link. If the value is REQUIRE, both open and click tracker uses HTTPS and if the value is REQUIRE_OPEN_ONLY open tracker uses HTTPS and link tracker is same as original protocol of the link.
+    public enum HttpsPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `optional`
+        case require
+        case requireOpenOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HttpsPolicy] {
+            return [
+                .optional,
+                .require,
+                .requireOpenOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "OPTIONAL"
+            case .require: return "REQUIRE"
+            case .requireOpenOnly: return "REQUIRE_OPEN_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// An object that defines the tracking options for a configuration set. When you use the Amazon SES API v2 to send an email, it contains an invisible image that's used to track when recipients open your email. If your email contains links, those links are changed slightly in order to track when recipients click them. These images and links include references to a domain operated by Amazon Web Services. You can optionally configure the Amazon SES to use a domain that you operate for these images and links.
     public struct TrackingOptions: Swift.Sendable {
         /// The domain to use for tracking open and click events.
         /// This member is required.
         public var customRedirectDomain: Swift.String?
+        /// The https policy to use for tracking open and click events.
+        public var httpsPolicy: SESv2ClientTypes.HttpsPolicy?
 
         public init(
-            customRedirectDomain: Swift.String? = nil
+            customRedirectDomain: Swift.String? = nil,
+            httpsPolicy: SESv2ClientTypes.HttpsPolicy? = nil
         )
         {
             self.customRedirectDomain = customRedirectDomain
+            self.httpsPolicy = httpsPolicy
         }
     }
 }
@@ -6724,14 +6761,18 @@ public struct PutConfigurationSetTrackingOptionsInput: Swift.Sendable {
     public var configurationSetName: Swift.String?
     /// The domain to use to track open and click events.
     public var customRedirectDomain: Swift.String?
+    /// The https policy to use for tracking open and click events. If the value is OPTIONAL or HttpsPolicy is not specified, the open trackers use HTTP and click tracker use the original protocol of the link. If the value is REQUIRE, both open and click tracker uses HTTPS and if the value is REQUIRE_OPEN_ONLY open tracker uses HTTPS and link tracker is same as original protocol of the link.
+    public var httpsPolicy: SESv2ClientTypes.HttpsPolicy?
 
     public init(
         configurationSetName: Swift.String? = nil,
-        customRedirectDomain: Swift.String? = nil
+        customRedirectDomain: Swift.String? = nil,
+        httpsPolicy: SESv2ClientTypes.HttpsPolicy? = nil
     )
     {
         self.configurationSetName = configurationSetName
         self.customRedirectDomain = customRedirectDomain
+        self.httpsPolicy = httpsPolicy
     }
 }
 
@@ -8829,6 +8870,7 @@ extension PutConfigurationSetTrackingOptionsInput {
     static func write(value: PutConfigurationSetTrackingOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
+        try writer["HttpsPolicy"].write(value.httpsPolicy)
     }
 }
 
@@ -11828,12 +11870,14 @@ extension SESv2ClientTypes.TrackingOptions {
     static func write(value: SESv2ClientTypes.TrackingOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
+        try writer["HttpsPolicy"].write(value.httpsPolicy)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TrackingOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESv2ClientTypes.TrackingOptions()
         value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent() ?? ""
+        value.httpsPolicy = try reader["HttpsPolicy"].readIfPresent()
         return value
     }
 }
