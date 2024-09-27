@@ -172,7 +172,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct BatchDeleteEvaluationJobInput {
+public struct BatchDeleteEvaluationJobInput: Swift.Sendable {
     /// An array of model evaluation job ARNs to be deleted.
     /// This member is required.
     public var jobIdentifiers: [Swift.String]?
@@ -191,8 +191,9 @@ extension BatchDeleteEvaluationJobInput: Swift.CustomDebugStringConvertible {
 }
 
 extension BedrockClientTypes {
+
     /// A JSON array that provides the status of the model evaluation jobs being deleted.
-    public struct BatchDeleteEvaluationJobError {
+    public struct BatchDeleteEvaluationJobError: Swift.Sendable {
         /// A HTTP status code of the model evaluation job being deleted.
         /// This member is required.
         public var code: Swift.String?
@@ -213,7 +214,6 @@ extension BedrockClientTypes {
             self.message = message
         }
     }
-
 }
 
 extension BedrockClientTypes.BatchDeleteEvaluationJobError: Swift.CustomDebugStringConvertible {
@@ -223,7 +223,7 @@ extension BedrockClientTypes.BatchDeleteEvaluationJobError: Swift.CustomDebugStr
 
 extension BedrockClientTypes {
 
-    public enum EvaluationJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EvaluationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case deleting
         case failed
@@ -263,8 +263,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// An array of model evaluation jobs to be deleted, and their associated statuses.
-    public struct BatchDeleteEvaluationJobItem {
+    public struct BatchDeleteEvaluationJobItem: Swift.Sendable {
         /// The ARN of model evaluation job to be deleted.
         /// This member is required.
         public var jobIdentifier: Swift.String?
@@ -281,7 +282,6 @@ extension BedrockClientTypes {
             self.jobStatus = jobStatus
         }
     }
-
 }
 
 extension BedrockClientTypes.BatchDeleteEvaluationJobItem: Swift.CustomDebugStringConvertible {
@@ -289,7 +289,7 @@ extension BedrockClientTypes.BatchDeleteEvaluationJobItem: Swift.CustomDebugStri
         "BatchDeleteEvaluationJobItem(jobStatus: \(Swift.String(describing: jobStatus)), jobIdentifier: \"CONTENT_REDACTED\")"}
 }
 
-public struct BatchDeleteEvaluationJobOutput {
+public struct BatchDeleteEvaluationJobOutput: Swift.Sendable {
     /// A JSON object containing the HTTP status codes and the ARNs of model evaluation jobs that failed to be deleted.
     /// This member is required.
     public var errors: [BedrockClientTypes.BatchDeleteEvaluationJobError]?
@@ -332,18 +332,19 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 extension BedrockClientTypes {
+
     /// The location in Amazon S3 where your prompt dataset is stored.
-    public enum EvaluationDatasetLocation {
+    public enum EvaluationDatasetLocation: Swift.Sendable {
         /// The S3 URI of the S3 bucket specified in the job.
         case s3uri(Swift.String)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Used to specify the name of a built-in prompt dataset and optionally, the Amazon S3 bucket where a custom prompt dataset is saved.
-    public struct EvaluationDataset {
+    public struct EvaluationDataset: Swift.Sendable {
         /// For custom prompt datasets, you must specify the location in Amazon S3 where the prompt dataset is saved.
         public var datasetLocation: BedrockClientTypes.EvaluationDatasetLocation?
         /// Used to specify supported built-in prompt datasets. Valid values are Builtin.Bold, Builtin.BoolQ, Builtin.NaturalQuestions, Builtin.Gigaword, Builtin.RealToxicityPrompts, Builtin.TriviaQA, Builtin.T-Rex, Builtin.WomensEcommerceClothingReviews and Builtin.Wikitext2.
@@ -359,7 +360,6 @@ extension BedrockClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension BedrockClientTypes.EvaluationDataset: Swift.CustomDebugStringConvertible {
@@ -369,7 +369,7 @@ extension BedrockClientTypes.EvaluationDataset: Swift.CustomDebugStringConvertib
 
 extension BedrockClientTypes {
 
-    public enum EvaluationTaskType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EvaluationTaskType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case classification
         case custom
         case generation
@@ -406,8 +406,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// Defines the built-in prompt datasets, built-in metric names and custom metric names, and the task type.
-    public struct EvaluationDatasetMetricConfig {
+    public struct EvaluationDatasetMetricConfig: Swift.Sendable {
         /// Specifies the prompt dataset.
         /// This member is required.
         public var dataset: BedrockClientTypes.EvaluationDataset?
@@ -429,7 +430,6 @@ extension BedrockClientTypes {
             self.taskType = taskType
         }
     }
-
 }
 
 extension BedrockClientTypes.EvaluationDatasetMetricConfig: Swift.CustomDebugStringConvertible {
@@ -438,8 +438,9 @@ extension BedrockClientTypes.EvaluationDatasetMetricConfig: Swift.CustomDebugStr
 }
 
 extension BedrockClientTypes {
+
     /// Use to specify a automatic model evaluation job. The EvaluationDatasetMetricConfig object is used to specify the prompt datasets, task type, and metric names.
-    public struct AutomatedEvaluationConfig {
+    public struct AutomatedEvaluationConfig: Swift.Sendable {
         /// Specifies the required elements for an automatic model evaluation job.
         /// This member is required.
         public var datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]?
@@ -451,12 +452,12 @@ extension BedrockClientTypes {
             self.datasetMetricConfigs = datasetMetricConfigs
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// In a model evaluation job that uses human workers you must define the name of the metric, and how you want that metric rated ratingMethod, and an optional description of the metric.
-    public struct HumanEvaluationCustomMetric {
+    public struct HumanEvaluationCustomMetric: Swift.Sendable {
         /// An optional description of the metric. Use this parameter to provide more details about the metric.
         public var description: Swift.String?
         /// The name of the metric. Your human evaluators will see this name in the evaluation UI.
@@ -477,7 +478,6 @@ extension BedrockClientTypes {
             self.ratingMethod = ratingMethod
         }
     }
-
 }
 
 extension BedrockClientTypes.HumanEvaluationCustomMetric: Swift.CustomDebugStringConvertible {
@@ -486,8 +486,9 @@ extension BedrockClientTypes.HumanEvaluationCustomMetric: Swift.CustomDebugStrin
 }
 
 extension BedrockClientTypes {
+
     /// Contains SageMakerFlowDefinition object. The object is used to specify the prompt dataset, task type, rating method and metric names.
-    public struct HumanWorkflowConfig {
+    public struct HumanWorkflowConfig: Swift.Sendable {
         /// The Amazon Resource Number (ARN) for the flow definition
         /// This member is required.
         public var flowDefinitionArn: Swift.String?
@@ -503,7 +504,6 @@ extension BedrockClientTypes {
             self.instructions = instructions
         }
     }
-
 }
 
 extension BedrockClientTypes.HumanWorkflowConfig: Swift.CustomDebugStringConvertible {
@@ -512,8 +512,9 @@ extension BedrockClientTypes.HumanWorkflowConfig: Swift.CustomDebugStringConvert
 }
 
 extension BedrockClientTypes {
+
     /// Specifies the custom metrics, how tasks will be rated, the flow definition ARN, and your custom prompt datasets. Model evaluation jobs use human workers only support the use of custom prompt datasets. To learn more about custom prompt datasets and the required format, see [Custom prompt datasets](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-prompt-datasets-custom.html). When you create custom metrics in HumanEvaluationCustomMetric you must specify the metric's name. The list of names specified in the HumanEvaluationCustomMetric array, must match the metricNames array of strings specified in EvaluationDatasetMetricConfig. For example, if in the HumanEvaluationCustomMetric array your specified the names "accuracy", "toxicity", "readability" as custom metrics then the metricNames array would need to look like the following ["accuracy", "toxicity", "readability"] in EvaluationDatasetMetricConfig.
-    public struct HumanEvaluationConfig {
+    public struct HumanEvaluationConfig: Swift.Sendable {
         /// A HumanEvaluationCustomMetric object. It contains the names the metrics, how the metrics are to be evaluated, an optional description.
         public var customMetrics: [BedrockClientTypes.HumanEvaluationCustomMetric]?
         /// Use to specify the metrics, task, and prompt dataset to be used in your model evaluation job.
@@ -533,24 +534,24 @@ extension BedrockClientTypes {
             self.humanWorkflowConfig = humanWorkflowConfig
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Used to specify either a AutomatedEvaluationConfig or HumanEvaluationConfig object.
-    public enum EvaluationConfig {
+    public enum EvaluationConfig: Swift.Sendable {
         /// Used to specify an automated model evaluation job. See AutomatedEvaluationConfig to view the required parameters.
         case automated(BedrockClientTypes.AutomatedEvaluationConfig)
         /// Used to specify a model evaluation job that uses human workers.See HumanEvaluationConfig to view the required parameters.
         case human(BedrockClientTypes.HumanEvaluationConfig)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains the ARN of the Amazon Bedrock model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) specified in your model evaluation job. Each Amazon Bedrock model supports different inferenceParams. To learn more about supported inference parameters for Amazon Bedrock models, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). The inferenceParams are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, "temperature":"0.25" key value pair would need to be formatted as \"temperature\":\"0.25\" to successfully accepted in the request.
-    public struct EvaluationBedrockModel {
+    public struct EvaluationBedrockModel: Swift.Sendable {
         /// Each Amazon Bedrock support different inference parameters that change how the model behaves during inference.
         /// This member is required.
         public var inferenceParams: Swift.String?
@@ -567,7 +568,6 @@ extension BedrockClientTypes {
             self.modelIdentifier = modelIdentifier
         }
     }
-
 }
 
 extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConvertible {
@@ -576,28 +576,29 @@ extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConv
 }
 
 extension BedrockClientTypes {
+
     /// Defines the models used in the model evaluation job.
-    public enum EvaluationModelConfig {
+    public enum EvaluationModelConfig: Swift.Sendable {
         /// Defines the Amazon Bedrock model or inference profile and inference parameters you want used.
         case bedrockmodel(BedrockClientTypes.EvaluationBedrockModel)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Used to define the models you want used in your model evaluation job. Automated model evaluation jobs support only a single model. In a human-based model evaluation job, your annotator can compare the responses for up to two different models.
-    public enum EvaluationInferenceConfig {
+    public enum EvaluationInferenceConfig: Swift.Sendable {
         /// Used to specify the models.
         case models([BedrockClientTypes.EvaluationModelConfig])
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Definition of the key/value pair for a tag.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// Key for the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -614,12 +615,12 @@ extension BedrockClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The Amazon S3 location where the results of your model evaluation job are saved.
-    public struct EvaluationOutputDataConfig {
+    public struct EvaluationOutputDataConfig: Swift.Sendable {
         /// The Amazon S3 URI where the results of model evaluation job are saved.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -631,10 +632,9 @@ extension BedrockClientTypes {
             self.s3Uri = s3Uri
         }
     }
-
 }
 
-public struct CreateEvaluationJobInput {
+public struct CreateEvaluationJobInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
     /// Specify your customer managed key ARN that will be used to encrypt your model evaluation job.
@@ -688,7 +688,7 @@ extension CreateEvaluationJobInput: Swift.CustomDebugStringConvertible {
         "CreateEvaluationJobInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), customerEncryptionKeyId: \(Swift.String(describing: customerEncryptionKeyId)), evaluationConfig: \(Swift.String(describing: evaluationConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), jobName: \(Swift.String(describing: jobName)), jobTags: \(Swift.String(describing: jobTags)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), jobDescription: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateEvaluationJobOutput {
+public struct CreateEvaluationJobOutput: Swift.Sendable {
     /// The ARN of the model evaluation job.
     /// This member is required.
     public var jobArn: Swift.String?
@@ -701,7 +701,7 @@ public struct CreateEvaluationJobOutput {
     }
 }
 
-public struct GetEvaluationJobInput {
+public struct GetEvaluationJobInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the model evaluation job.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -721,7 +721,7 @@ extension GetEvaluationJobInput: Swift.CustomDebugStringConvertible {
 
 extension BedrockClientTypes {
 
-    public enum EvaluationJobType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EvaluationJobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automated
         case human
         case sdkUnknown(Swift.String)
@@ -748,7 +748,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct GetEvaluationJobOutput {
+public struct GetEvaluationJobOutput: Swift.Sendable {
     /// When the model evaluation job was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
@@ -824,7 +824,7 @@ extension GetEvaluationJobOutput: Swift.CustomDebugStringConvertible {
 
 extension BedrockClientTypes {
 
-    public enum SortJobsBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SortJobsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case sdkUnknown(Swift.String)
 
@@ -850,7 +850,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ascending
         case descending
         case sdkUnknown(Swift.String)
@@ -877,7 +877,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct ListEvaluationJobsInput {
+public struct ListEvaluationJobsInput: Swift.Sendable {
     /// A filter that includes model evaluation jobs created after the time specified.
     public var creationTimeAfter: Foundation.Date?
     /// A filter that includes model evaluation jobs created prior to the time specified.
@@ -918,8 +918,9 @@ public struct ListEvaluationJobsInput {
 }
 
 extension BedrockClientTypes {
+
     /// A summary of the model evaluation job.
-    public struct EvaluationSummary {
+    public struct EvaluationSummary: Swift.Sendable {
         /// When the model evaluation job was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
@@ -961,10 +962,9 @@ extension BedrockClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListEvaluationJobsOutput {
+public struct ListEvaluationJobsOutput: Swift.Sendable {
     /// A summary of the model evaluation jobs.
     public var jobSummaries: [BedrockClientTypes.EvaluationSummary]?
     /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
@@ -980,7 +980,7 @@ public struct ListEvaluationJobsOutput {
     }
 }
 
-public struct StopEvaluationJobInput {
+public struct StopEvaluationJobInput: Swift.Sendable {
     /// The ARN of the model evaluation job you want to stop.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -998,7 +998,7 @@ extension StopEvaluationJobInput: Swift.CustomDebugStringConvertible {
         "StopEvaluationJobInput(jobIdentifier: \"CONTENT_REDACTED\")"}
 }
 
-public struct StopEvaluationJobOutput {
+public struct StopEvaluationJobOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1033,7 +1033,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension BedrockClientTypes {
 
-    public enum GuardrailFilterStrength: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailFilterStrength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
         case low
         case medium
@@ -1068,7 +1068,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    public enum GuardrailContentFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailContentFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hate
         case insults
         case misconduct
@@ -1108,6 +1108,7 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// Contains filter strengths for harmful content. Guardrails support the following content filters to detect and filter harmful user inputs and FM-generated outputs.
     ///
     /// * Hate – Describes language or a statement that discriminates, criticizes, insults, denounces, or dehumanizes a person or group on the basis of an identity (such as race, ethnicity, gender, religion, sexual orientation, ability, and national origin).
@@ -1120,7 +1121,7 @@ extension BedrockClientTypes {
     ///
     ///
     /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html).
-    public struct GuardrailContentFilterConfig {
+    public struct GuardrailContentFilterConfig: Swift.Sendable {
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
@@ -1142,12 +1143,12 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about how to handle harmful content.
-    public struct GuardrailContentPolicyConfig {
+    public struct GuardrailContentPolicyConfig: Swift.Sendable {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         /// This member is required.
         public var filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]?
@@ -1159,12 +1160,11 @@ extension BedrockClientTypes {
             self.filtersConfig = filtersConfig
         }
     }
-
 }
 
 extension BedrockClientTypes {
 
-    public enum GuardrailContextualGroundingFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailContextualGroundingFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case grounding
         case relevance
         case sdkUnknown(Swift.String)
@@ -1192,8 +1192,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// The filter configuration details for the guardrails contextual grounding filter.
-    public struct GuardrailContextualGroundingFilterConfig {
+    public struct GuardrailContextualGroundingFilterConfig: Swift.Sendable {
         /// The threshold details for the guardrails contextual grounding filter.
         /// This member is required.
         public var threshold: Swift.Double?
@@ -1210,12 +1211,12 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The policy configuration details for the guardrails contextual grounding policy.
-    public struct GuardrailContextualGroundingPolicyConfig {
+    public struct GuardrailContextualGroundingPolicyConfig: Swift.Sendable {
         /// The filter configuration details for the guardrails contextual grounding policy.
         /// This member is required.
         public var filtersConfig: [BedrockClientTypes.GuardrailContextualGroundingFilterConfig]?
@@ -1227,12 +1228,11 @@ extension BedrockClientTypes {
             self.filtersConfig = filtersConfig
         }
     }
-
 }
 
 extension BedrockClientTypes {
 
-    public enum GuardrailSensitiveInformationAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailSensitiveInformationAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anonymize
         case block
         case sdkUnknown(Swift.String)
@@ -1261,7 +1261,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    public enum GuardrailPiiEntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailPiiEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case address
         case age
         case awsAccessKey
@@ -1376,8 +1376,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// The PII entity to configure for the guardrail.
-    public struct GuardrailPiiEntityConfig {
+    public struct GuardrailPiiEntityConfig: Swift.Sendable {
         /// Configure guardrail action when the PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
@@ -1490,12 +1491,12 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The regular expression to configure for the guardrail.
-    public struct GuardrailRegexConfig {
+    public struct GuardrailRegexConfig: Swift.Sendable {
         /// The guardrail action to configure when matching regular expression is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
@@ -1521,12 +1522,12 @@ extension BedrockClientTypes {
             self.pattern = pattern
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about PII entities and regular expressions to configure for the guardrail.
-    public struct GuardrailSensitiveInformationPolicyConfig {
+    public struct GuardrailSensitiveInformationPolicyConfig: Swift.Sendable {
         /// A list of PII entities to configure to the guardrail.
         public var piiEntitiesConfig: [BedrockClientTypes.GuardrailPiiEntityConfig]?
         /// A list of regular expressions to configure to the guardrail.
@@ -1541,12 +1542,11 @@ extension BedrockClientTypes {
             self.regexesConfig = regexesConfig
         }
     }
-
 }
 
 extension BedrockClientTypes {
 
-    public enum GuardrailTopicType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailTopicType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deny
         case sdkUnknown(Swift.String)
 
@@ -1571,8 +1571,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// Details about topics for the guardrail to identify and deny.
-    public struct GuardrailTopicConfig {
+    public struct GuardrailTopicConfig: Swift.Sendable {
         /// A definition of the topic to deny.
         /// This member is required.
         public var definition: Swift.String?
@@ -1598,7 +1599,6 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes.GuardrailTopicConfig: Swift.CustomDebugStringConvertible {
@@ -1607,8 +1607,9 @@ extension BedrockClientTypes.GuardrailTopicConfig: Swift.CustomDebugStringConver
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about topics that the guardrail should identify and deny.
-    public struct GuardrailTopicPolicyConfig {
+    public struct GuardrailTopicPolicyConfig: Swift.Sendable {
         /// A list of policies related to topics that the guardrail should deny.
         /// This member is required.
         public var topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]?
@@ -1620,12 +1621,11 @@ extension BedrockClientTypes {
             self.topicsConfig = topicsConfig
         }
     }
-
 }
 
 extension BedrockClientTypes {
 
-    public enum GuardrailManagedWordsType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailManagedWordsType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case profanity
         case sdkUnknown(Swift.String)
 
@@ -1650,8 +1650,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// The managed word list to configure for the guardrail.
-    public struct GuardrailManagedWordsConfig {
+    public struct GuardrailManagedWordsConfig: Swift.Sendable {
         /// The managed word type to configure for the guardrail.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailManagedWordsType?
@@ -1663,12 +1664,12 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// A word to configure for the guardrail.
-    public struct GuardrailWordConfig {
+    public struct GuardrailWordConfig: Swift.Sendable {
         /// Text of the word configured for the guardrail to block.
         /// This member is required.
         public var text: Swift.String?
@@ -1680,12 +1681,12 @@ extension BedrockClientTypes {
             self.text = text
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about the word policy to configured for the guardrail.
-    public struct GuardrailWordPolicyConfig {
+    public struct GuardrailWordPolicyConfig: Swift.Sendable {
         /// A list of managed words to configure for the guardrail.
         public var managedWordListsConfig: [BedrockClientTypes.GuardrailManagedWordsConfig]?
         /// A list of words to configure for the guardrail.
@@ -1700,10 +1701,9 @@ extension BedrockClientTypes {
             self.wordsConfig = wordsConfig
         }
     }
-
 }
 
-public struct CreateGuardrailInput {
+public struct CreateGuardrailInput: Swift.Sendable {
     /// The message to return when the guardrail blocks a prompt.
     /// This member is required.
     public var blockedInputMessaging: Swift.String?
@@ -1767,7 +1767,7 @@ extension CreateGuardrailInput: Swift.CustomDebugStringConvertible {
         "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateGuardrailOutput {
+public struct CreateGuardrailOutput: Swift.Sendable {
     /// The time at which the guardrail was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -1795,7 +1795,7 @@ public struct CreateGuardrailOutput {
     }
 }
 
-public struct CreateGuardrailVersionInput {
+public struct CreateGuardrailVersionInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than once. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon S3 User Guide.
     public var clientRequestToken: Swift.String?
     /// A description of the guardrail version.
@@ -1821,7 +1821,7 @@ extension CreateGuardrailVersionInput: Swift.CustomDebugStringConvertible {
         "CreateGuardrailVersionInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), description: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateGuardrailVersionOutput {
+public struct CreateGuardrailVersionOutput: Swift.Sendable {
     /// The unique identifier of the guardrail.
     /// This member is required.
     public var guardrailId: Swift.String?
@@ -1839,7 +1839,7 @@ public struct CreateGuardrailVersionOutput {
     }
 }
 
-public struct DeleteGuardrailInput {
+public struct DeleteGuardrailInput: Swift.Sendable {
     /// The unique identifier of the guardrail. This can be an ID or the ARN.
     /// This member is required.
     public var guardrailIdentifier: Swift.String?
@@ -1856,12 +1856,12 @@ public struct DeleteGuardrailInput {
     }
 }
 
-public struct DeleteGuardrailOutput {
+public struct DeleteGuardrailOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetGuardrailInput {
+public struct GetGuardrailInput: Swift.Sendable {
     /// The unique identifier of the guardrail for which to get details. This can be an ID or the ARN.
     /// This member is required.
     public var guardrailIdentifier: Swift.String?
@@ -1879,6 +1879,7 @@ public struct GetGuardrailInput {
 }
 
 extension BedrockClientTypes {
+
     /// Contains filter strengths for harmful content. Guardrails support the following content filters to detect and filter harmful user inputs and FM-generated outputs.
     ///
     /// * Hate – Describes language or a statement that discriminates, criticizes, insults, denounces, or dehumanizes a person or group on the basis of an identity (such as race, ethnicity, gender, religion, sexual orientation, ability, and national origin).
@@ -1893,7 +1894,7 @@ extension BedrockClientTypes {
     /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html). This data type is used in the following API operations:
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
-    public struct GuardrailContentFilter {
+    public struct GuardrailContentFilter: Swift.Sendable {
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
@@ -1915,14 +1916,14 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about how to handle harmful content. This data type is used in the following API operations:
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
-    public struct GuardrailContentPolicy {
+    public struct GuardrailContentPolicy: Swift.Sendable {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         public var filters: [BedrockClientTypes.GuardrailContentFilter]?
 
@@ -1933,12 +1934,12 @@ extension BedrockClientTypes {
             self.filters = filters
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The details for the guardrails contextual grounding filter.
-    public struct GuardrailContextualGroundingFilter {
+    public struct GuardrailContextualGroundingFilter: Swift.Sendable {
         /// The threshold details for the guardrails contextual grounding filter.
         /// This member is required.
         public var threshold: Swift.Double?
@@ -1955,12 +1956,12 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The details for the guardrails contextual grounding policy.
-    public struct GuardrailContextualGroundingPolicy {
+    public struct GuardrailContextualGroundingPolicy: Swift.Sendable {
         /// The filter details for the guardrails contextual grounding policy.
         /// This member is required.
         public var filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]?
@@ -1972,12 +1973,12 @@ extension BedrockClientTypes {
             self.filters = filters
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The PII entity configured for the guardrail.
-    public struct GuardrailPiiEntity {
+    public struct GuardrailPiiEntity: Swift.Sendable {
         /// The configured guardrail action when PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
@@ -1994,12 +1995,12 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The regular expression configured for the guardrail.
-    public struct GuardrailRegex {
+    public struct GuardrailRegex: Swift.Sendable {
         /// The action taken when a match to the regular expression is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
@@ -2025,12 +2026,12 @@ extension BedrockClientTypes {
             self.pattern = pattern
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about PII entities and regular expressions configured for the guardrail.
-    public struct GuardrailSensitiveInformationPolicy {
+    public struct GuardrailSensitiveInformationPolicy: Swift.Sendable {
         /// The list of PII entities configured for the guardrail.
         public var piiEntities: [BedrockClientTypes.GuardrailPiiEntity]?
         /// The list of regular expressions configured for the guardrail.
@@ -2045,12 +2046,11 @@ extension BedrockClientTypes {
             self.regexes = regexes
         }
     }
-
 }
 
 extension BedrockClientTypes {
 
-    public enum GuardrailStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum GuardrailStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creating
         case deleting
         case failed
@@ -2090,10 +2090,11 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// Details about topics for the guardrail to identify and deny. This data type is used in the following API operations:
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
-    public struct GuardrailTopic {
+    public struct GuardrailTopic: Swift.Sendable {
         /// A definition of the topic to deny.
         /// This member is required.
         public var definition: Swift.String?
@@ -2118,7 +2119,6 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes.GuardrailTopic: Swift.CustomDebugStringConvertible {
@@ -2127,10 +2127,11 @@ extension BedrockClientTypes.GuardrailTopic: Swift.CustomDebugStringConvertible 
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about topics that the guardrail should identify and deny. This data type is used in the following API operations:
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
-    public struct GuardrailTopicPolicy {
+    public struct GuardrailTopicPolicy: Swift.Sendable {
         /// A list of policies related to topics that the guardrail should deny.
         /// This member is required.
         public var topics: [BedrockClientTypes.GuardrailTopic]?
@@ -2142,12 +2143,12 @@ extension BedrockClientTypes {
             self.topics = topics
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The managed word list that was configured for the guardrail. (This is a list of words that are pre-defined and managed by guardrails only.)
-    public struct GuardrailManagedWords {
+    public struct GuardrailManagedWords: Swift.Sendable {
         /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailManagedWordsType?
@@ -2159,12 +2160,12 @@ extension BedrockClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// A word configured for the guardrail.
-    public struct GuardrailWord {
+    public struct GuardrailWord: Swift.Sendable {
         /// Text of the word configured for the guardrail to block.
         /// This member is required.
         public var text: Swift.String?
@@ -2176,12 +2177,12 @@ extension BedrockClientTypes {
             self.text = text
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about the word policy configured for the guardrail.
-    public struct GuardrailWordPolicy {
+    public struct GuardrailWordPolicy: Swift.Sendable {
         /// A list of managed words configured for the guardrail.
         public var managedWordLists: [BedrockClientTypes.GuardrailManagedWords]?
         /// A list of words configured for the guardrail.
@@ -2196,10 +2197,9 @@ extension BedrockClientTypes {
             self.words = words
         }
     }
-
 }
 
-public struct GetGuardrailOutput {
+public struct GetGuardrailOutput: Swift.Sendable {
     /// The message that the guardrail returns when it blocks a prompt.
     /// This member is required.
     public var blockedInputMessaging: Swift.String?
@@ -2293,7 +2293,7 @@ extension GetGuardrailOutput: Swift.CustomDebugStringConvertible {
         "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), contextualGroundingPolicy: \(Swift.String(describing: contextualGroundingPolicy)), createdAt: \(Swift.String(describing: createdAt)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", failureRecommendations: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", statusReasons: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListGuardrailsInput {
+public struct ListGuardrailsInput: Swift.Sendable {
     /// The unique identifier of the guardrail. This can be an ID or the ARN.
     public var guardrailIdentifier: Swift.String?
     /// The maximum number of results to return in the response.
@@ -2314,10 +2314,11 @@ public struct ListGuardrailsInput {
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about a guardrail. This data type is used in the following API operations:
     ///
     /// * [ListGuardrails response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListGuardrails.html#API_ListGuardrails_ResponseSyntax)
-    public struct GuardrailSummary {
+    public struct GuardrailSummary: Swift.Sendable {
         /// The ARN of the guardrail.
         /// This member is required.
         public var arn: Swift.String?
@@ -2363,7 +2364,6 @@ extension BedrockClientTypes {
             self.version = version
         }
     }
-
 }
 
 extension BedrockClientTypes.GuardrailSummary: Swift.CustomDebugStringConvertible {
@@ -2371,7 +2371,7 @@ extension BedrockClientTypes.GuardrailSummary: Swift.CustomDebugStringConvertibl
         "GuardrailSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListGuardrailsOutput {
+public struct ListGuardrailsOutput: Swift.Sendable {
     /// A list of objects, each of which contains details about a guardrail.
     /// This member is required.
     public var guardrails: [BedrockClientTypes.GuardrailSummary]?
@@ -2388,7 +2388,7 @@ public struct ListGuardrailsOutput {
     }
 }
 
-public struct UpdateGuardrailInput {
+public struct UpdateGuardrailInput: Swift.Sendable {
     /// The message to return when the guardrail blocks a prompt.
     /// This member is required.
     public var blockedInputMessaging: Swift.String?
@@ -2449,7 +2449,7 @@ extension UpdateGuardrailInput: Swift.CustomDebugStringConvertible {
         "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateGuardrailOutput {
+public struct UpdateGuardrailOutput: Swift.Sendable {
     /// The ARN of the guardrail.
     /// This member is required.
     public var guardrailArn: Swift.String?
@@ -2477,7 +2477,7 @@ public struct UpdateGuardrailOutput {
     }
 }
 
-public struct GetInferenceProfileInput {
+public struct GetInferenceProfileInput: Swift.Sendable {
     /// The unique identifier of the inference profile.
     /// This member is required.
     public var inferenceProfileIdentifier: Swift.String?
@@ -2491,8 +2491,9 @@ public struct GetInferenceProfileInput {
 }
 
 extension BedrockClientTypes {
+
     /// Contains information about a model.
-    public struct InferenceProfileModel {
+    public struct InferenceProfileModel: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the model.
         public var modelArn: Swift.String?
 
@@ -2503,12 +2504,11 @@ extension BedrockClientTypes {
             self.modelArn = modelArn
         }
     }
-
 }
 
 extension BedrockClientTypes {
 
-    public enum InferenceProfileStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum InferenceProfileStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case sdkUnknown(Swift.String)
 
@@ -2534,7 +2534,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    public enum InferenceProfileType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum InferenceProfileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case systemDefined
         case sdkUnknown(Swift.String)
 
@@ -2558,7 +2558,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct GetInferenceProfileOutput {
+public struct GetInferenceProfileOutput: Swift.Sendable {
     /// The time at which the inference profile was created.
     public var createdAt: Foundation.Date?
     /// The description of the inference profile.
@@ -2608,7 +2608,7 @@ public struct GetInferenceProfileOutput {
     }
 }
 
-public struct ListInferenceProfilesInput {
+public struct ListInferenceProfilesInput: Swift.Sendable {
     /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
@@ -2625,8 +2625,9 @@ public struct ListInferenceProfilesInput {
 }
 
 extension BedrockClientTypes {
+
     /// Contains information about an inference profile.
-    public struct InferenceProfileSummary {
+    public struct InferenceProfileSummary: Swift.Sendable {
         /// The time at which the inference profile was created.
         public var createdAt: Foundation.Date?
         /// The description of the inference profile.
@@ -2675,10 +2676,9 @@ extension BedrockClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct ListInferenceProfilesOutput {
+public struct ListInferenceProfilesOutput: Swift.Sendable {
     /// A list of information about each inference profile that you can use.
     public var inferenceProfileSummaries: [BedrockClientTypes.InferenceProfileSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -2694,24 +2694,25 @@ public struct ListInferenceProfilesOutput {
     }
 }
 
-public struct DeleteModelInvocationLoggingConfigurationInput {
+public struct DeleteModelInvocationLoggingConfigurationInput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteModelInvocationLoggingConfigurationOutput {
+public struct DeleteModelInvocationLoggingConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetModelInvocationLoggingConfigurationInput {
+public struct GetModelInvocationLoggingConfigurationInput: Swift.Sendable {
 
     public init() { }
 }
 
 extension BedrockClientTypes {
+
     /// S3 configuration for storing log data.
-    public struct S3Config {
+    public struct S3Config: Swift.Sendable {
         /// S3 bucket name.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -2727,12 +2728,12 @@ extension BedrockClientTypes {
             self.keyPrefix = keyPrefix
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// CloudWatch logging configuration.
-    public struct CloudWatchConfig {
+    public struct CloudWatchConfig: Swift.Sendable {
         /// S3 configuration for delivering a large amount of data.
         public var largeDataDeliveryS3Config: BedrockClientTypes.S3Config?
         /// The log group name.
@@ -2753,12 +2754,12 @@ extension BedrockClientTypes {
             self.roleArn = roleArn
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Configuration fields for invocation logging.
-    public struct LoggingConfig {
+    public struct LoggingConfig: Swift.Sendable {
         /// CloudWatch logging configuration.
         public var cloudWatchConfig: BedrockClientTypes.CloudWatchConfig?
         /// Set to include embeddings data in the log delivery.
@@ -2785,10 +2786,9 @@ extension BedrockClientTypes {
             self.textDataDeliveryEnabled = textDataDeliveryEnabled
         }
     }
-
 }
 
-public struct GetModelInvocationLoggingConfigurationOutput {
+public struct GetModelInvocationLoggingConfigurationOutput: Swift.Sendable {
     /// The current configuration values.
     public var loggingConfig: BedrockClientTypes.LoggingConfig?
 
@@ -2800,7 +2800,7 @@ public struct GetModelInvocationLoggingConfigurationOutput {
     }
 }
 
-public struct PutModelInvocationLoggingConfigurationInput {
+public struct PutModelInvocationLoggingConfigurationInput: Swift.Sendable {
     /// The logging configuration values to set.
     /// This member is required.
     public var loggingConfig: BedrockClientTypes.LoggingConfig?
@@ -2813,12 +2813,12 @@ public struct PutModelInvocationLoggingConfigurationInput {
     }
 }
 
-public struct PutModelInvocationLoggingConfigurationOutput {
+public struct PutModelInvocationLoggingConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct CreateModelCopyJobInput {
+public struct CreateModelCopyJobInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The ARN of the KMS key that you use to encrypt the model copy.
@@ -2848,7 +2848,7 @@ public struct CreateModelCopyJobInput {
     }
 }
 
-public struct CreateModelCopyJobOutput {
+public struct CreateModelCopyJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the model copy job.
     /// This member is required.
     public var jobArn: Swift.String?
@@ -2861,7 +2861,7 @@ public struct CreateModelCopyJobOutput {
     }
 }
 
-public struct GetModelCopyJobInput {
+public struct GetModelCopyJobInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the model copy job.
     /// This member is required.
     public var jobArn: Swift.String?
@@ -2876,7 +2876,7 @@ public struct GetModelCopyJobInput {
 
 extension BedrockClientTypes {
 
-    public enum ModelCopyJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ModelCopyJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
         case inProgress
@@ -2906,7 +2906,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct GetModelCopyJobOutput {
+public struct GetModelCopyJobOutput: Swift.Sendable {
     /// The time at which the model copy job was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
@@ -2964,7 +2964,7 @@ public struct GetModelCopyJobOutput {
     }
 }
 
-public struct ListModelCopyJobsInput {
+public struct ListModelCopyJobsInput: Swift.Sendable {
     /// Filters for model copy jobs created after the specified time.
     public var creationTimeAfter: Foundation.Date?
     /// Filters for model copy jobs created before the specified time.
@@ -3013,10 +3013,11 @@ public struct ListModelCopyJobsInput {
 }
 
 extension BedrockClientTypes {
+
     /// Contains details about each model copy job. This data type is used in the following API operations:
     ///
     /// * [ListModelCopyJobs response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListModelCopyJobs.html#API_ListModelCopyJobs_ResponseSyntax)
-    public struct ModelCopyJobSummary {
+    public struct ModelCopyJobSummary: Swift.Sendable {
         /// The time that the model copy job was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
@@ -3073,10 +3074,9 @@ extension BedrockClientTypes {
             self.targetModelTags = targetModelTags
         }
     }
-
 }
 
-public struct ListModelCopyJobsOutput {
+public struct ListModelCopyJobsOutput: Swift.Sendable {
     /// A list of information about each model copy job.
     public var modelCopyJobSummaries: [BedrockClientTypes.ModelCopyJobSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -3093,8 +3093,9 @@ public struct ListModelCopyJobsOutput {
 }
 
 extension BedrockClientTypes {
+
     /// The Amazon S3 data source of the imported job.
-    public struct S3DataSource {
+    public struct S3DataSource: Swift.Sendable {
         /// The URI of the Amazon S3 data source.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -3106,22 +3107,22 @@ extension BedrockClientTypes {
             self.s3Uri = s3Uri
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Data source for the imported model.
-    public enum ModelDataSource {
+    public enum ModelDataSource: Swift.Sendable {
         /// The Amazon S3 data source of the imported model.
         case s3datasource(BedrockClientTypes.S3DataSource)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The configuration of a virtual private cloud (VPC). For more information, see [Protect your data using Amazon Virtual Private Cloud and Amazon Web Services PrivateLink](https://docs.aws.amazon.com/bedrock/latest/userguide/usingVPC.html).
-    public struct VpcConfig {
+    public struct VpcConfig: Swift.Sendable {
         /// An array of IDs for each security group in the VPC to use.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
@@ -3138,10 +3139,9 @@ extension BedrockClientTypes {
             self.subnetIds = subnetIds
         }
     }
-
 }
 
-public struct CreateModelImportJobInput {
+public struct CreateModelImportJobInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The imported model is encrypted at rest using this key.
@@ -3189,7 +3189,7 @@ public struct CreateModelImportJobInput {
     }
 }
 
-public struct CreateModelImportJobOutput {
+public struct CreateModelImportJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the model import job.
     /// This member is required.
     public var jobArn: Swift.String?
@@ -3202,7 +3202,7 @@ public struct CreateModelImportJobOutput {
     }
 }
 
-public struct DeleteImportedModelInput {
+public struct DeleteImportedModelInput: Swift.Sendable {
     /// Name of the imported model to delete.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -3215,12 +3215,12 @@ public struct DeleteImportedModelInput {
     }
 }
 
-public struct DeleteImportedModelOutput {
+public struct DeleteImportedModelOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetImportedModelInput {
+public struct GetImportedModelInput: Swift.Sendable {
     /// Name or Amazon Resource Name (ARN) of the imported model.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -3233,7 +3233,7 @@ public struct GetImportedModelInput {
     }
 }
 
-public struct GetImportedModelOutput {
+public struct GetImportedModelOutput: Swift.Sendable {
     /// Creation time of the imported model.
     public var creationTime: Foundation.Date?
     /// Job Amazon Resource Name (ARN) associated with the imported model.
@@ -3273,7 +3273,7 @@ public struct GetImportedModelOutput {
     }
 }
 
-public struct GetModelImportJobInput {
+public struct GetModelImportJobInput: Swift.Sendable {
     /// The identifier of the import job.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -3288,7 +3288,7 @@ public struct GetModelImportJobInput {
 
 extension BedrockClientTypes {
 
-    public enum ModelImportJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ModelImportJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
         case inProgress
@@ -3318,7 +3318,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct GetModelImportJobOutput {
+public struct GetModelImportJobOutput: Swift.Sendable {
     /// The time the resource was created.
     public var creationTime: Foundation.Date?
     /// Time that the resource transitioned to terminal state.
@@ -3380,7 +3380,7 @@ public struct GetModelImportJobOutput {
 
 extension BedrockClientTypes {
 
-    public enum SortModelsBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SortModelsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case sdkUnknown(Swift.String)
 
@@ -3404,7 +3404,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct ListImportedModelsInput {
+public struct ListImportedModelsInput: Swift.Sendable {
     /// Return imported models that were created after the specified time.
     public var creationTimeAfter: Foundation.Date?
     /// Return imported models that created before the specified time.
@@ -3441,8 +3441,9 @@ public struct ListImportedModelsInput {
 }
 
 extension BedrockClientTypes {
+
     /// Information about tne imported model.
-    public struct ImportedModelSummary {
+    public struct ImportedModelSummary: Swift.Sendable {
         /// Creation time of the imported model.
         /// This member is required.
         public var creationTime: Foundation.Date?
@@ -3464,10 +3465,9 @@ extension BedrockClientTypes {
             self.modelName = modelName
         }
     }
-
 }
 
-public struct ListImportedModelsOutput {
+public struct ListImportedModelsOutput: Swift.Sendable {
     /// Model summaries.
     public var modelSummaries: [BedrockClientTypes.ImportedModelSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -3483,7 +3483,7 @@ public struct ListImportedModelsOutput {
     }
 }
 
-public struct ListModelImportJobsInput {
+public struct ListModelImportJobsInput: Swift.Sendable {
     /// Return import jobs that were created after the specified time.
     public var creationTimeAfter: Foundation.Date?
     /// Return import jobs that were created before the specified time.
@@ -3524,8 +3524,9 @@ public struct ListModelImportJobsInput {
 }
 
 extension BedrockClientTypes {
+
     /// Information about the import job.
-    public struct ModelImportJobSummary {
+    public struct ModelImportJobSummary: Swift.Sendable {
         /// The time import job was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
@@ -3568,10 +3569,9 @@ extension BedrockClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListModelImportJobsOutput {
+public struct ListModelImportJobsOutput: Swift.Sendable {
     /// Import job summaries.
     public var modelImportJobSummaries: [BedrockClientTypes.ModelImportJobSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
@@ -3589,7 +3589,7 @@ public struct ListModelImportJobsOutput {
 
 extension BedrockClientTypes {
 
-    public enum S3InputFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum S3InputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case jsonl
         case sdkUnknown(Swift.String)
 
@@ -3614,8 +3614,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// Contains the configuration of the S3 location of the input data.
-    public struct ModelInvocationJobS3InputDataConfig {
+    public struct ModelInvocationJobS3InputDataConfig: Swift.Sendable {
         /// The ID of the Amazon Web Services account that owns the S3 bucket containing the input data.
         public var s3BucketOwner: Swift.String?
         /// The format of the input data.
@@ -3635,22 +3636,22 @@ extension BedrockClientTypes {
             self.s3Uri = s3Uri
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Details about the location of the input to the batch inference job.
-    public enum ModelInvocationJobInputDataConfig {
+    public enum ModelInvocationJobInputDataConfig: Swift.Sendable {
         /// Contains the configuration of the S3 location of the input data.
         case s3inputdataconfig(BedrockClientTypes.ModelInvocationJobS3InputDataConfig)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains the configuration of the S3 location of the output data.
-    public struct ModelInvocationJobS3OutputDataConfig {
+    public struct ModelInvocationJobS3OutputDataConfig: Swift.Sendable {
         /// The ID of the Amazon Web Services account that owns the S3 bucket containing the output data.
         public var s3BucketOwner: Swift.String?
         /// The unique identifier of the key that encrypts the S3 location of the output data.
@@ -3670,20 +3671,19 @@ extension BedrockClientTypes {
             self.s3Uri = s3Uri
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Contains the configuration of the S3 location of the output data.
-    public enum ModelInvocationJobOutputDataConfig {
+    public enum ModelInvocationJobOutputDataConfig: Swift.Sendable {
         /// Contains the configuration of the S3 location of the output data.
         case s3outputdataconfig(BedrockClientTypes.ModelInvocationJobS3OutputDataConfig)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct CreateModelInvocationJobInput {
+public struct CreateModelInvocationJobInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
     /// Details about the location of the input to the batch inference job.
@@ -3732,7 +3732,7 @@ public struct CreateModelInvocationJobInput {
     }
 }
 
-public struct CreateModelInvocationJobOutput {
+public struct CreateModelInvocationJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the batch inference job.
     /// This member is required.
     public var jobArn: Swift.String?
@@ -3745,7 +3745,7 @@ public struct CreateModelInvocationJobOutput {
     }
 }
 
-public struct GetModelInvocationJobInput {
+public struct GetModelInvocationJobInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the batch inference job.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -3760,7 +3760,7 @@ public struct GetModelInvocationJobInput {
 
 extension BedrockClientTypes {
 
-    public enum ModelInvocationJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ModelInvocationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case expired
         case failed
@@ -3811,7 +3811,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct GetModelInvocationJobOutput {
+public struct GetModelInvocationJobOutput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The time at which the batch inference job ended.
@@ -3890,7 +3890,7 @@ extension GetModelInvocationJobOutput: Swift.CustomDebugStringConvertible {
         "GetModelInvocationJobOutput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListModelInvocationJobsInput {
+public struct ListModelInvocationJobsInput: Swift.Sendable {
     /// The maximum number of results to return. If there are more results than the number that you specify, a nextToken value is returned. Use the nextToken in a request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// Specify a string to filter for batch inference jobs whose names contain the string.
@@ -3931,8 +3931,9 @@ public struct ListModelInvocationJobsInput {
 }
 
 extension BedrockClientTypes {
+
     /// A summary of a batch inference job.
-    public struct ModelInvocationJobSummary {
+    public struct ModelInvocationJobSummary: Swift.Sendable {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
         public var clientRequestToken: Swift.String?
         /// The time at which the batch inference job ended.
@@ -4006,7 +4007,6 @@ extension BedrockClientTypes {
             self.vpcConfig = vpcConfig
         }
     }
-
 }
 
 extension BedrockClientTypes.ModelInvocationJobSummary: Swift.CustomDebugStringConvertible {
@@ -4014,7 +4014,7 @@ extension BedrockClientTypes.ModelInvocationJobSummary: Swift.CustomDebugStringC
         "ModelInvocationJobSummary(clientRequestToken: \(Swift.String(describing: clientRequestToken)), endTime: \(Swift.String(describing: endTime)), inputDataConfig: \(Swift.String(describing: inputDataConfig)), jobArn: \(Swift.String(describing: jobArn)), jobExpirationTime: \(Swift.String(describing: jobExpirationTime)), jobName: \(Swift.String(describing: jobName)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modelId: \(Swift.String(describing: modelId)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), timeoutDurationInHours: \(Swift.String(describing: timeoutDurationInHours)), vpcConfig: \(Swift.String(describing: vpcConfig)), message: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListModelInvocationJobsOutput {
+public struct ListModelInvocationJobsOutput: Swift.Sendable {
     /// A list of items, each of which contains a summary about a batch inference job.
     public var invocationJobSummaries: [BedrockClientTypes.ModelInvocationJobSummary]?
     /// If there are more results than can fit in the response, a nextToken is returned. Use the nextToken in a request to return the next batch of results.
@@ -4030,7 +4030,7 @@ public struct ListModelInvocationJobsOutput {
     }
 }
 
-public struct StopModelInvocationJobInput {
+public struct StopModelInvocationJobInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the batch inference job to stop.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -4043,12 +4043,12 @@ public struct StopModelInvocationJobInput {
     }
 }
 
-public struct StopModelInvocationJobOutput {
+public struct StopModelInvocationJobOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteCustomModelInput {
+public struct DeleteCustomModelInput: Swift.Sendable {
     /// Name of the model to delete.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -4061,12 +4061,12 @@ public struct DeleteCustomModelInput {
     }
 }
 
-public struct DeleteCustomModelOutput {
+public struct DeleteCustomModelOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetCustomModelInput {
+public struct GetCustomModelInput: Swift.Sendable {
     /// Name or Amazon Resource Name (ARN) of the custom model.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -4081,7 +4081,7 @@ public struct GetCustomModelInput {
 
 extension BedrockClientTypes {
 
-    public enum CustomizationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CustomizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case continuedPreTraining
         case fineTuning
         case sdkUnknown(Swift.String)
@@ -4109,8 +4109,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// S3 Location of the output data.
-    public struct OutputDataConfig {
+    public struct OutputDataConfig: Swift.Sendable {
         /// The S3 URI where the output data is stored.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -4122,12 +4123,12 @@ extension BedrockClientTypes {
             self.s3Uri = s3Uri
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// S3 Location of the training data.
-    public struct TrainingDataConfig {
+    public struct TrainingDataConfig: Swift.Sendable {
         /// The S3 URI where the training data is stored.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -4139,12 +4140,12 @@ extension BedrockClientTypes {
             self.s3Uri = s3Uri
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Metrics associated with the custom job.
-    public struct TrainingMetrics {
+    public struct TrainingMetrics: Swift.Sendable {
         /// Loss metric associated with the custom job.
         public var trainingLoss: Swift.Float?
 
@@ -4155,12 +4156,12 @@ extension BedrockClientTypes {
             self.trainingLoss = trainingLoss
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Information about a validator.
-    public struct Validator {
+    public struct Validator: Swift.Sendable {
         /// The S3 URI where the validation data is stored.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -4172,12 +4173,12 @@ extension BedrockClientTypes {
             self.s3Uri = s3Uri
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Array of up to 10 validators.
-    public struct ValidationDataConfig {
+    public struct ValidationDataConfig: Swift.Sendable {
         /// Information about the validators.
         /// This member is required.
         public var validators: [BedrockClientTypes.Validator]?
@@ -4189,12 +4190,12 @@ extension BedrockClientTypes {
             self.validators = validators
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// The metric for the validator.
-    public struct ValidatorMetric {
+    public struct ValidatorMetric: Swift.Sendable {
         /// The validation loss associated with this validator.
         public var validationLoss: Swift.Float?
 
@@ -4205,10 +4206,9 @@ extension BedrockClientTypes {
             self.validationLoss = validationLoss
         }
     }
-
 }
 
-public struct GetCustomModelOutput {
+public struct GetCustomModelOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the base model.
     /// This member is required.
     public var baseModelArn: Swift.String?
@@ -4279,7 +4279,7 @@ public struct GetCustomModelOutput {
     }
 }
 
-public struct GetFoundationModelInput {
+public struct GetFoundationModelInput: Swift.Sendable {
     /// The model identifier.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -4294,7 +4294,7 @@ public struct GetFoundationModelInput {
 
 extension BedrockClientTypes {
 
-    public enum ModelCustomization: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ModelCustomization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case continuedPreTraining
         case fineTuning
         case sdkUnknown(Swift.String)
@@ -4323,7 +4323,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    public enum InferenceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum InferenceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case onDemand
         case provisioned
         case sdkUnknown(Swift.String)
@@ -4352,7 +4352,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    public enum ModelModality: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ModelModality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case embedding
         case image
         case text
@@ -4384,7 +4384,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    public enum FoundationModelLifecycleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FoundationModelLifecycleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case legacy
         case sdkUnknown(Swift.String)
@@ -4412,8 +4412,9 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
+
     /// Details about whether a model version is available or deprecated.
-    public struct FoundationModelLifecycle {
+    public struct FoundationModelLifecycle: Swift.Sendable {
         /// Specifies whether a model version is available (ACTIVE) or deprecated (LEGACY.
         /// This member is required.
         public var status: BedrockClientTypes.FoundationModelLifecycleStatus?
@@ -4425,12 +4426,12 @@ extension BedrockClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension BedrockClientTypes {
+
     /// Information about a foundation model.
-    public struct FoundationModelDetails {
+    public struct FoundationModelDetails: Swift.Sendable {
         /// The customization that the model supports.
         public var customizationsSupported: [BedrockClientTypes.ModelCustomization]?
         /// The inference types that the model supports.
@@ -4479,10 +4480,9 @@ extension BedrockClientTypes {
             self.responseStreamingSupported = responseStreamingSupported
         }
     }
-
 }
 
-public struct GetFoundationModelOutput {
+public struct GetFoundationModelOutput: Swift.Sendable {
     /// Information about the foundation model.
     public var modelDetails: BedrockClientTypes.FoundationModelDetails?
 
@@ -4494,7 +4494,7 @@ public struct GetFoundationModelOutput {
     }
 }
 
-public struct ListCustomModelsInput {
+public struct ListCustomModelsInput: Swift.Sendable {
     /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
     public var baseModelArnEquals: Swift.String?
     /// Return custom models created after the specified time.
@@ -4543,8 +4543,9 @@ public struct ListCustomModelsInput {
 }
 
 extension BedrockClientTypes {
+
     /// Summary information for a custom model.
-    public struct CustomModelSummary {
+    public struct CustomModelSummary: Swift.Sendable {
         /// The base model Amazon Resource Name (ARN).
         /// This member is required.
         public var baseModelArn: Swift.String?
@@ -4584,10 +4585,9 @@ extension BedrockClientTypes {
             self.ownerAccountId = ownerAccountId
         }
     }
-
 }
 
-public struct ListCustomModelsOutput {
+public struct ListCustomModelsOutput: Swift.Sendable {
     /// Model summaries.
     public var modelSummaries: [BedrockClientTypes.CustomModelSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -4603,7 +4603,7 @@ public struct ListCustomModelsOutput {
     }
 }
 
-public struct ListFoundationModelsInput {
+public struct ListFoundationModelsInput: Swift.Sendable {
     /// Return models that support the customization type that you specify. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     public var byCustomizationType: BedrockClientTypes.ModelCustomization?
     /// Return models that support the inference type that you specify. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
@@ -4628,8 +4628,9 @@ public struct ListFoundationModelsInput {
 }
 
 extension BedrockClientTypes {
+
     /// Summary information for a foundation model.
-    public struct FoundationModelSummary {
+    public struct FoundationModelSummary: Swift.Sendable {
         /// Whether the model supports fine-tuning or continual pre-training.
         public var customizationsSupported: [BedrockClientTypes.ModelCustomization]?
         /// The inference types that the model supports.
@@ -4678,10 +4679,9 @@ extension BedrockClientTypes {
             self.responseStreamingSupported = responseStreamingSupported
         }
     }
-
 }
 
-public struct ListFoundationModelsOutput {
+public struct ListFoundationModelsOutput: Swift.Sendable {
     /// A list of Amazon Bedrock foundation models.
     public var modelSummaries: [BedrockClientTypes.FoundationModelSummary]?
 
@@ -4695,7 +4695,7 @@ public struct ListFoundationModelsOutput {
 
 extension BedrockClientTypes {
 
-    public enum CommitmentDuration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CommitmentDuration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case oneMonth
         case sixMonths
         case sdkUnknown(Swift.String)
@@ -4722,7 +4722,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct CreateProvisionedModelThroughputInput {
+public struct CreateProvisionedModelThroughputInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon S3 User Guide.
     public var clientRequestToken: Swift.String?
     /// The commitment duration requested for the Provisioned Throughput. Billing occurs hourly and is discounted for longer commitment terms. To request a no-commit Provisioned Throughput, omit this field. Custom models support all levels of commitment. To see which base models support no commitment, see [Supported regions and models for Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/pt-supported.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
@@ -4757,7 +4757,7 @@ public struct CreateProvisionedModelThroughputInput {
     }
 }
 
-public struct CreateProvisionedModelThroughputOutput {
+public struct CreateProvisionedModelThroughputOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for this Provisioned Throughput.
     /// This member is required.
     public var provisionedModelArn: Swift.String?
@@ -4770,7 +4770,7 @@ public struct CreateProvisionedModelThroughputOutput {
     }
 }
 
-public struct DeleteProvisionedModelThroughputInput {
+public struct DeleteProvisionedModelThroughputInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
     /// This member is required.
     public var provisionedModelId: Swift.String?
@@ -4783,12 +4783,12 @@ public struct DeleteProvisionedModelThroughputInput {
     }
 }
 
-public struct DeleteProvisionedModelThroughputOutput {
+public struct DeleteProvisionedModelThroughputOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetProvisionedModelThroughputInput {
+public struct GetProvisionedModelThroughputInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
     /// This member is required.
     public var provisionedModelId: Swift.String?
@@ -4803,7 +4803,7 @@ public struct GetProvisionedModelThroughputInput {
 
 extension BedrockClientTypes {
 
-    public enum ProvisionedModelStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ProvisionedModelStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creating
         case failed
         case inService
@@ -4836,7 +4836,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct GetProvisionedModelThroughputOutput {
+public struct GetProvisionedModelThroughputOutput: Swift.Sendable {
     /// Commitment duration of the Provisioned Throughput.
     public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
     /// The timestamp for when the commitment term for the Provisioned Throughput expires.
@@ -4908,7 +4908,7 @@ public struct GetProvisionedModelThroughputOutput {
 
 extension BedrockClientTypes {
 
-    public enum SortByProvisionedModels: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SortByProvisionedModels: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case sdkUnknown(Swift.String)
 
@@ -4932,7 +4932,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct ListProvisionedModelThroughputsInput {
+public struct ListProvisionedModelThroughputsInput: Swift.Sendable {
     /// A filter that returns Provisioned Throughputs created after the specified time.
     public var creationTimeAfter: Foundation.Date?
     /// A filter that returns Provisioned Throughputs created before the specified time.
@@ -4977,10 +4977,11 @@ public struct ListProvisionedModelThroughputsInput {
 }
 
 extension BedrockClientTypes {
+
     /// A summary of information about a Provisioned Throughput. This data type is used in the following API operations:
     ///
     /// * [ListProvisionedThroughputs response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListProvisionedModelThroughputs.html#API_ListProvisionedModelThroughputs_ResponseSyntax)
-    public struct ProvisionedModelSummary {
+    public struct ProvisionedModelSummary: Swift.Sendable {
         /// The duration for which the Provisioned Throughput was committed.
         public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
         /// The timestamp for when the commitment term of the Provisioned Throughput expires.
@@ -5045,10 +5046,9 @@ extension BedrockClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListProvisionedModelThroughputsOutput {
+public struct ListProvisionedModelThroughputsOutput: Swift.Sendable {
     /// If there are more results than the number you specified in the maxResults field, this value is returned. To see the next batch of results, include this value in the nextToken field in another list request.
     public var nextToken: Swift.String?
     /// A list of summaries, one for each Provisioned Throughput in the response.
@@ -5064,7 +5064,7 @@ public struct ListProvisionedModelThroughputsOutput {
     }
 }
 
-public struct UpdateProvisionedModelThroughputInput {
+public struct UpdateProvisionedModelThroughputInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the new model to associate with this Provisioned Throughput. You can't specify this field if this Provisioned Throughput is associated with a base model. If this Provisioned Throughput is associated with a custom model, you can specify one of the following options:
     ///
     /// * The base model from which the custom model was customized.
@@ -5089,12 +5089,12 @@ public struct UpdateProvisionedModelThroughputInput {
     }
 }
 
-public struct UpdateProvisionedModelThroughputOutput {
+public struct UpdateProvisionedModelThroughputOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5107,7 +5107,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// An array of the tags associated with this resource.
     public var tags: [BedrockClientTypes.Tag]?
 
@@ -5119,7 +5119,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5137,12 +5137,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to untag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5160,12 +5160,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct CreateModelCustomizationJobInput {
+public struct CreateModelCustomizationJobInput: Swift.Sendable {
     /// Name of the base model.
     /// This member is required.
     public var baseModelIdentifier: Swift.String?
@@ -5236,7 +5236,7 @@ public struct CreateModelCustomizationJobInput {
     }
 }
 
-public struct CreateModelCustomizationJobOutput {
+public struct CreateModelCustomizationJobOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the fine tuning job
     /// This member is required.
     public var jobArn: Swift.String?
@@ -5249,7 +5249,7 @@ public struct CreateModelCustomizationJobOutput {
     }
 }
 
-public struct GetModelCustomizationJobInput {
+public struct GetModelCustomizationJobInput: Swift.Sendable {
     /// Identifier for the customization job.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -5264,7 +5264,7 @@ public struct GetModelCustomizationJobInput {
 
 extension BedrockClientTypes {
 
-    public enum ModelCustomizationJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ModelCustomizationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
         case inProgress
@@ -5300,7 +5300,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct GetModelCustomizationJobOutput {
+public struct GetModelCustomizationJobOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the base model.
     /// This member is required.
     public var baseModelArn: Swift.String?
@@ -5404,7 +5404,7 @@ public struct GetModelCustomizationJobOutput {
 
 extension BedrockClientTypes {
 
-    public enum FineTuningJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum FineTuningJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
         case inProgress
@@ -5440,7 +5440,7 @@ extension BedrockClientTypes {
     }
 }
 
-public struct ListModelCustomizationJobsInput {
+public struct ListModelCustomizationJobsInput: Swift.Sendable {
     /// Return customization jobs created after the specified time.
     public var creationTimeAfter: Foundation.Date?
     /// Return customization jobs created before the specified time.
@@ -5481,8 +5481,9 @@ public struct ListModelCustomizationJobsInput {
 }
 
 extension BedrockClientTypes {
+
     /// Information about one customization job
-    public struct ModelCustomizationJobSummary {
+    public struct ModelCustomizationJobSummary: Swift.Sendable {
         /// Amazon Resource Name (ARN) of the base model.
         /// This member is required.
         public var baseModelArn: Swift.String?
@@ -5534,10 +5535,9 @@ extension BedrockClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListModelCustomizationJobsOutput {
+public struct ListModelCustomizationJobsOutput: Swift.Sendable {
     /// Job summaries.
     public var modelCustomizationJobSummaries: [BedrockClientTypes.ModelCustomizationJobSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -5553,7 +5553,7 @@ public struct ListModelCustomizationJobsOutput {
     }
 }
 
-public struct StopModelCustomizationJobInput {
+public struct StopModelCustomizationJobInput: Swift.Sendable {
     /// Job identifier of the job to stop.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -5566,7 +5566,7 @@ public struct StopModelCustomizationJobInput {
     }
 }
 
-public struct StopModelCustomizationJobOutput {
+public struct StopModelCustomizationJobOutput: Swift.Sendable {
 
     public init() { }
 }

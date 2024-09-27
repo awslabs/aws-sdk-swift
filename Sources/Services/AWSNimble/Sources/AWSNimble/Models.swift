@@ -262,7 +262,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct AcceptEulasInput {
+public struct AcceptEulasInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The EULA ID.
@@ -284,8 +284,9 @@ public struct AcceptEulasInput {
 }
 
 extension NimbleClientTypes {
+
     /// The acceptance of a EULA, required to use Amazon-provided streaming images.
-    public struct EulaAcceptance {
+    public struct EulaAcceptance: Swift.Sendable {
         /// The ISO timestamp in seconds for when the EULA was accepted.
         public var acceptedAt: Foundation.Date?
         /// The ID of the person who accepted the EULA.
@@ -312,10 +313,9 @@ extension NimbleClientTypes {
             self.eulaId = eulaId
         }
     }
-
 }
 
-public struct AcceptEulasOutput {
+public struct AcceptEulasOutput: Swift.Sendable {
     /// A collection of EULA acceptances.
     public var eulaAcceptances: [NimbleClientTypes.EulaAcceptance]?
 
@@ -328,8 +328,9 @@ public struct AcceptEulasOutput {
 }
 
 extension NimbleClientTypes {
+
     /// An LDAP attribute of an Active Directory computer account, in the form of a name:value pair.
-    public struct ActiveDirectoryComputerAttribute {
+    public struct ActiveDirectoryComputerAttribute: Swift.Sendable {
         /// The name for the LDAP attribute.
         public var name: Swift.String?
         /// The value for the LDAP attribute.
@@ -344,12 +345,12 @@ extension NimbleClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension NimbleClientTypes {
+
     /// The configuration for a Directory Service for Microsoft Active Directory studio resource.
-    public struct ActiveDirectoryConfiguration {
+    public struct ActiveDirectoryConfiguration: Swift.Sendable {
         /// A collection of custom attributes for an Active Directory computer.
         public var computerAttributes: [NimbleClientTypes.ActiveDirectoryComputerAttribute]?
         /// The directory ID of the Directory Service for Microsoft Active Directory to access using this studio component.
@@ -368,7 +369,6 @@ extension NimbleClientTypes {
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
         }
     }
-
 }
 
 extension NimbleClientTypes.ActiveDirectoryConfiguration: Swift.CustomDebugStringConvertible {
@@ -378,7 +378,7 @@ extension NimbleClientTypes.ActiveDirectoryConfiguration: Swift.CustomDebugStrin
 
 extension NimbleClientTypes {
 
-    public enum AutomaticTerminationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AutomaticTerminationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activated
         case deactivated
         case sdkUnknown(Swift.String)
@@ -406,8 +406,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// The configuration for a render farm that is associated with a studio resource.
-    public struct ComputeFarmConfiguration {
+    public struct ComputeFarmConfiguration: Swift.Sendable {
         /// The name of an Active Directory user that is used on ComputeFarm worker instances.
         public var activeDirectoryUser: Swift.String?
         /// The endpoint of the ComputeFarm that is accessed by the studio component resource.
@@ -422,7 +423,6 @@ extension NimbleClientTypes {
             self.endpoint = endpoint
         }
     }
-
 }
 
 extension NimbleClientTypes.ComputeFarmConfiguration: Swift.CustomDebugStringConvertible {
@@ -432,7 +432,7 @@ extension NimbleClientTypes.ComputeFarmConfiguration: Swift.CustomDebugStringCon
 
 extension NimbleClientTypes {
 
-    public enum StreamingClipboardMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingClipboardMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -461,7 +461,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum StreamingInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case g34xlarge
         case g3sXlarge
         case g4dn12xlarge
@@ -523,7 +523,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum SessionBackupMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SessionBackupMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automatic
         case deactivated
         case sdkUnknown(Swift.String)
@@ -551,8 +551,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// Configures how streaming sessions are backed up when launched from this launch profile.
-    public struct StreamConfigurationSessionBackup {
+    public struct StreamConfigurationSessionBackup: Swift.Sendable {
         /// The maximum number of backups that each streaming session created from this launch profile can have.
         public var maxBackupsToRetain: Swift.Int?
         /// Specifies how artists sessions are backed up. Configures backups for streaming sessions launched with this launch profile. The default value is DEACTIVATED, which means that backups are deactivated. To allow backups, set this value to AUTOMATIC.
@@ -567,12 +568,11 @@ extension NimbleClientTypes {
             self.mode = mode
         }
     }
-
 }
 
 extension NimbleClientTypes {
 
-    public enum SessionPersistenceMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SessionPersistenceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activated
         case deactivated
         case sdkUnknown(Swift.String)
@@ -601,7 +601,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum StreamingSessionStorageMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingSessionStorageMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case upload
         case sdkUnknown(Swift.String)
 
@@ -626,8 +626,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// The upload storage root location (folder) on streaming workstations where files are uploaded.
-    public struct StreamingSessionStorageRoot {
+    public struct StreamingSessionStorageRoot: Swift.Sendable {
         /// The folder path in Linux workstations where files are uploaded.
         public var linux: Swift.String?
         /// The folder path in Windows workstations where files are uploaded.
@@ -642,7 +643,6 @@ extension NimbleClientTypes {
             self.windows = windows
         }
     }
-
 }
 
 extension NimbleClientTypes.StreamingSessionStorageRoot: Swift.CustomDebugStringConvertible {
@@ -651,8 +651,9 @@ extension NimbleClientTypes.StreamingSessionStorageRoot: Swift.CustomDebugString
 }
 
 extension NimbleClientTypes {
+
     /// The configuration for a streaming session’s upload storage.
-    public struct StreamConfigurationSessionStorage {
+    public struct StreamConfigurationSessionStorage: Swift.Sendable {
         /// Allows artists to upload files to their workstations. The only valid option is UPLOAD.
         /// This member is required.
         public var mode: [NimbleClientTypes.StreamingSessionStorageMode]?
@@ -668,12 +669,12 @@ extension NimbleClientTypes {
             self.root = root
         }
     }
-
 }
 
 extension NimbleClientTypes {
+
     /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
-    public struct VolumeConfiguration {
+    public struct VolumeConfiguration: Swift.Sendable {
         /// The number of I/O operations per second for the root volume that is attached to streaming session.
         public var iops: Swift.Int?
         /// The size of the root volume that is attached to the streaming session. The root volume size is measured in GiBs.
@@ -692,12 +693,12 @@ extension NimbleClientTypes {
             self.throughput = throughput
         }
     }
-
 }
 
 extension NimbleClientTypes {
+
     /// Configuration for streaming workstations created using this launch profile.
-    public struct StreamConfigurationCreate {
+    public struct StreamConfigurationCreate: Swift.Sendable {
         /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.
         ///
         /// * When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.
@@ -754,10 +755,9 @@ extension NimbleClientTypes {
             self.volumeConfiguration = volumeConfiguration
         }
     }
-
 }
 
-public struct CreateLaunchProfileInput {
+public struct CreateLaunchProfileInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description.
@@ -814,7 +814,7 @@ extension CreateLaunchProfileInput: Swift.CustomDebugStringConvertible {
 
 extension NimbleClientTypes {
 
-    public enum LaunchProfileState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LaunchProfileState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case createInProgress
         case deleted
@@ -861,7 +861,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum LaunchProfileStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LaunchProfileStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case encryptionKeyAccessDenied
         case encryptionKeyNotFound
         case internalError
@@ -928,8 +928,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// A configuration for a streaming session.
-    public struct StreamConfiguration {
+    public struct StreamConfiguration: Swift.Sendable {
         /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.
         ///
         /// * When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.
@@ -986,12 +987,11 @@ extension NimbleClientTypes {
             self.volumeConfiguration = volumeConfiguration
         }
     }
-
 }
 
 extension NimbleClientTypes {
 
-    public enum LaunchProfileValidationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LaunchProfileValidationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case validationFailed
         case validationFailedInternalServerError
         case validationInProgress
@@ -1029,7 +1029,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum LaunchProfileValidationStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LaunchProfileValidationStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case validationFailedInternalServerError
         case validationFailedInvalidActiveDirectory
         case validationFailedInvalidSecurityGroupAssociation
@@ -1079,7 +1079,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum LaunchProfileValidationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LaunchProfileValidationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case validateActiveDirectoryStudioComponent
         case validateNetworkAclAssociation
         case validateSecurityGroupAssociation
@@ -1113,8 +1113,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// The launch profile validation result.
-    public struct ValidationResult {
+    public struct ValidationResult: Swift.Sendable {
         /// The current state.
         /// This member is required.
         public var state: NimbleClientTypes.LaunchProfileValidationState?
@@ -1141,12 +1142,12 @@ extension NimbleClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension NimbleClientTypes {
+
     /// A launch profile controls your artist workforce’s access to studio components, like compute farms, shared file systems, managed file systems, and license server configurations, as well as instance types and Amazon Machine Images (AMIs). Studio administrators create launch profiles in the Nimble Studio console. Artists can use their launch profiles to launch an instance from the Nimble Studio portal. Each user’s launch profile defines how they can launch a streaming session. By default, studio admins can use all launch profiles.
-    public struct LaunchProfile {
+    public struct LaunchProfile: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
         /// The ISO timestamp in seconds for when the resource was created.
@@ -1221,7 +1222,6 @@ extension NimbleClientTypes {
             self.validationResults = validationResults
         }
     }
-
 }
 
 extension NimbleClientTypes.LaunchProfile: Swift.CustomDebugStringConvertible {
@@ -1229,7 +1229,7 @@ extension NimbleClientTypes.LaunchProfile: Swift.CustomDebugStringConvertible {
         "LaunchProfile(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), ec2SubnetIds: \(Swift.String(describing: ec2SubnetIds)), launchProfileId: \(Swift.String(describing: launchProfileId)), launchProfileProtocolVersions: \(Swift.String(describing: launchProfileProtocolVersions)), state: \(Swift.String(describing: state)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), streamConfiguration: \(Swift.String(describing: streamConfiguration)), studioComponentIds: \(Swift.String(describing: studioComponentIds)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), validationResults: \(Swift.String(describing: validationResults)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateLaunchProfileOutput {
+public struct CreateLaunchProfileOutput: Swift.Sendable {
     /// The launch profile.
     public var launchProfile: NimbleClientTypes.LaunchProfile?
 
@@ -1241,7 +1241,7 @@ public struct CreateLaunchProfileOutput {
     }
 }
 
-public struct CreateStreamingImageInput {
+public struct CreateStreamingImageInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// A human-readable description of the streaming image.
@@ -1283,7 +1283,7 @@ extension CreateStreamingImageInput: Swift.CustomDebugStringConvertible {
 
 extension NimbleClientTypes {
 
-    public enum StreamingImageEncryptionConfigurationKeyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingImageEncryptionConfigurationKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customerManagedKey
         case sdkUnknown(Swift.String)
 
@@ -1308,8 +1308,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// Specifies how a streaming image is encrypted.
-    public struct StreamingImageEncryptionConfiguration {
+    public struct StreamingImageEncryptionConfiguration: Swift.Sendable {
         /// The ARN for a KMS key that is used to encrypt studio data.
         public var keyArn: Swift.String?
         /// The type of KMS key that is used to encrypt studio data.
@@ -1325,12 +1326,11 @@ extension NimbleClientTypes {
             self.keyType = keyType
         }
     }
-
 }
 
 extension NimbleClientTypes {
 
-    public enum StreamingImageState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingImageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case createInProgress
         case deleted
@@ -1378,7 +1378,7 @@ extension NimbleClientTypes {
 extension NimbleClientTypes {
 
     /// The status code.
-    public enum StreamingImageStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingImageStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case internalError
         case streamingImageCreateInProgress
@@ -1421,8 +1421,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon EC2 machine image that you create for this purpose. You can also include software that your users require.
-    public struct StreamingImage {
+    public struct StreamingImage: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
         /// A human-readable description of the streaming image.
@@ -1481,7 +1482,6 @@ extension NimbleClientTypes {
             self.tags = tags
         }
     }
-
 }
 
 extension NimbleClientTypes.StreamingImage: Swift.CustomDebugStringConvertible {
@@ -1489,7 +1489,7 @@ extension NimbleClientTypes.StreamingImage: Swift.CustomDebugStringConvertible {
         "StreamingImage(arn: \(Swift.String(describing: arn)), ec2ImageId: \(Swift.String(describing: ec2ImageId)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), eulaIds: \(Swift.String(describing: eulaIds)), owner: \(Swift.String(describing: owner)), platform: \(Swift.String(describing: platform)), state: \(Swift.String(describing: state)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), streamingImageId: \(Swift.String(describing: streamingImageId)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateStreamingImageOutput {
+public struct CreateStreamingImageOutput: Swift.Sendable {
     /// The streaming image.
     public var streamingImage: NimbleClientTypes.StreamingImage?
 
@@ -1501,7 +1501,7 @@ public struct CreateStreamingImageOutput {
     }
 }
 
-public struct CreateStreamingSessionInput {
+public struct CreateStreamingSessionInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The EC2 Instance type used for the streaming session.
@@ -1542,7 +1542,7 @@ public struct CreateStreamingSessionInput {
 extension NimbleClientTypes {
 
     /// The streaming session state.
-    public enum StreamingSessionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingSessionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case createInProgress
         case deleted
@@ -1598,7 +1598,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum StreamingSessionStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingSessionStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activeDirectoryDomainJoinError
         case amiValidationError
         case decryptStreamingImageError
@@ -1669,7 +1669,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum VolumeRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum VolumeRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case delete
         case retain
         case sdkUnknown(Swift.String)
@@ -1697,8 +1697,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// A streaming session is a virtual workstation created using a particular launch profile.
-    public struct StreamingSession {
+    public struct StreamingSession: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
         /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.
@@ -1820,10 +1821,9 @@ extension NimbleClientTypes {
             self.volumeRetentionMode = volumeRetentionMode
         }
     }
-
 }
 
-public struct CreateStreamingSessionOutput {
+public struct CreateStreamingSessionOutput: Swift.Sendable {
     /// The session.
     public var session: NimbleClientTypes.StreamingSession?
 
@@ -1835,7 +1835,7 @@ public struct CreateStreamingSessionOutput {
     }
 }
 
-public struct CreateStreamingSessionStreamInput {
+public struct CreateStreamingSessionStreamInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The expiration time in seconds.
@@ -1863,7 +1863,7 @@ public struct CreateStreamingSessionStreamInput {
 
 extension NimbleClientTypes {
 
-    public enum StreamingSessionStreamState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingSessionStreamState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case createInProgress
         case deleted
@@ -1904,7 +1904,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum StreamingSessionStreamStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StreamingSessionStreamStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case internalError
         case networkConnectionError
         case streamCreateInProgress
@@ -1944,8 +1944,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// A stream is an active connection to a streaming session, enabling a studio user to control the streaming session using a compatible client. Streaming session streams are compatible with the NICE DCV web client, included in the Nimble Studio portal, or the NICE DCV desktop client.
-    public struct StreamingSessionStream {
+    public struct StreamingSessionStream: Swift.Sendable {
         /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: Foundation.Date?
         /// The user ID of the user that created the streaming session stream.
@@ -1984,7 +1985,6 @@ extension NimbleClientTypes {
             self.url = url
         }
     }
-
 }
 
 extension NimbleClientTypes.StreamingSessionStream: Swift.CustomDebugStringConvertible {
@@ -1992,7 +1992,7 @@ extension NimbleClientTypes.StreamingSessionStream: Swift.CustomDebugStringConve
         "StreamingSessionStream(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), expiresAt: \(Swift.String(describing: expiresAt)), ownedBy: \(Swift.String(describing: ownedBy)), state: \(Swift.String(describing: state)), statusCode: \(Swift.String(describing: statusCode)), streamId: \(Swift.String(describing: streamId)), url: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateStreamingSessionStreamOutput {
+public struct CreateStreamingSessionStreamOutput: Swift.Sendable {
     /// The stream.
     public var stream: NimbleClientTypes.StreamingSessionStream?
 
@@ -2007,7 +2007,7 @@ public struct CreateStreamingSessionStreamOutput {
 extension NimbleClientTypes {
 
     /// The type of KMS key that is used to encrypt studio data.
-    public enum StudioEncryptionConfigurationKeyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioEncryptionConfigurationKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsOwnedKey
         case customerManagedKey
         case sdkUnknown(Swift.String)
@@ -2035,8 +2035,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// Configuration of the encryption method that is used for the studio.
-    public struct StudioEncryptionConfiguration {
+    public struct StudioEncryptionConfiguration: Swift.Sendable {
         /// The ARN for a KMS key that is used to encrypt studio data.
         public var keyArn: Swift.String?
         /// The type of KMS key that is used to encrypt studio data.
@@ -2052,10 +2053,9 @@ extension NimbleClientTypes {
             self.keyType = keyType
         }
     }
-
 }
 
-public struct CreateStudioInput {
+public struct CreateStudioInput: Swift.Sendable {
     /// The IAM role that studio admins will assume when logging in to the Nimble Studio portal.
     /// This member is required.
     public var adminRoleArn: Swift.String?
@@ -2102,7 +2102,7 @@ extension CreateStudioInput: Swift.CustomDebugStringConvertible {
 
 extension NimbleClientTypes {
 
-    public enum StudioState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case createInProgress
         case deleted
@@ -2150,7 +2150,7 @@ extension NimbleClientTypes {
 extension NimbleClientTypes {
 
     /// The status code.
-    public enum StudioStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsSsoAccessDenied
         case awsSsoConfigurationRepaired
         case awsSsoConfigurationRepairInProgress
@@ -2229,8 +2229,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// Represents a studio resource. A studio is the core resource used with Nimble Studio. You must create a studio first, before any other resource type can be created. All other resources you create and manage in Nimble Studio are contained within a studio. When creating a studio, you must provides two IAM roles for use with the Nimble Studio portal. These roles are assumed by your users when they log in to the Nimble Studio portal via IAM Identity Center and your identity source. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The admin role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. Your studio roles must trust the identity.nimble.amazonaws.com service principal to function properly.
-    public struct Studio {
+    public struct Studio: Swift.Sendable {
         /// The IAM role that studio admins assume when logging in to the Nimble Studio portal.
         public var adminRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
@@ -2301,7 +2302,6 @@ extension NimbleClientTypes {
             self.userRoleArn = userRoleArn
         }
     }
-
 }
 
 extension NimbleClientTypes.Studio: Swift.CustomDebugStringConvertible {
@@ -2309,7 +2309,7 @@ extension NimbleClientTypes.Studio: Swift.CustomDebugStringConvertible {
         "Studio(adminRoleArn: \(Swift.String(describing: adminRoleArn)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), homeRegion: \(Swift.String(describing: homeRegion)), ssoClientId: \(Swift.String(describing: ssoClientId)), state: \(Swift.String(describing: state)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), studioEncryptionConfiguration: \(Swift.String(describing: studioEncryptionConfiguration)), studioId: \(Swift.String(describing: studioId)), studioName: \(Swift.String(describing: studioName)), studioUrl: \(Swift.String(describing: studioUrl)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), userRoleArn: \(Swift.String(describing: userRoleArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateStudioOutput {
+public struct CreateStudioOutput: Swift.Sendable {
     /// Information about a studio.
     public var studio: NimbleClientTypes.Studio?
 
@@ -2322,8 +2322,9 @@ public struct CreateStudioOutput {
 }
 
 extension NimbleClientTypes {
+
     /// The configuration for a license service that is associated with a studio resource.
-    public struct LicenseServiceConfiguration {
+    public struct LicenseServiceConfiguration: Swift.Sendable {
         /// The endpoint of the license service that is accessed by the studio component resource.
         public var endpoint: Swift.String?
 
@@ -2334,7 +2335,6 @@ extension NimbleClientTypes {
             self.endpoint = endpoint
         }
     }
-
 }
 
 extension NimbleClientTypes.LicenseServiceConfiguration: Swift.CustomDebugStringConvertible {
@@ -2343,8 +2343,9 @@ extension NimbleClientTypes.LicenseServiceConfiguration: Swift.CustomDebugString
 }
 
 extension NimbleClientTypes {
+
     /// The configuration for a shared file storage system that is associated with a studio resource.
-    public struct SharedFileSystemConfiguration {
+    public struct SharedFileSystemConfiguration: Swift.Sendable {
         /// The endpoint of the shared file system that is accessed by the studio component resource.
         public var endpoint: Swift.String?
         /// The unique identifier for a file system.
@@ -2371,7 +2372,6 @@ extension NimbleClientTypes {
             self.windowsMountDrive = windowsMountDrive
         }
     }
-
 }
 
 extension NimbleClientTypes.SharedFileSystemConfiguration: Swift.CustomDebugStringConvertible {
@@ -2380,8 +2380,9 @@ extension NimbleClientTypes.SharedFileSystemConfiguration: Swift.CustomDebugStri
 }
 
 extension NimbleClientTypes {
+
     /// The configuration of the studio component, based on component type.
-    public enum StudioComponentConfiguration {
+    public enum StudioComponentConfiguration: Swift.Sendable {
         /// The configuration for a Directory Service for Microsoft Active Directory studio resource.
         case activedirectoryconfiguration(NimbleClientTypes.ActiveDirectoryConfiguration)
         /// The configuration for a render farm that is associated with a studio resource.
@@ -2392,12 +2393,11 @@ extension NimbleClientTypes {
         case sharedfilesystemconfiguration(NimbleClientTypes.SharedFileSystemConfiguration)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension NimbleClientTypes {
 
-    public enum LaunchProfilePlatform: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LaunchProfilePlatform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case linux
         case windows
         case sdkUnknown(Swift.String)
@@ -2426,7 +2426,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum StudioComponentInitializationScriptRunContext: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioComponentInitializationScriptRunContext: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case systemInitialization
         case userInitialization
         case sdkUnknown(Swift.String)
@@ -2454,8 +2454,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// Initialization scripts for studio components.
-    public struct StudioComponentInitializationScript {
+    public struct StudioComponentInitializationScript: Swift.Sendable {
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public var launchProfileProtocolVersion: Swift.String?
         /// The platform of the initialization script, either Windows or Linux.
@@ -2478,7 +2479,6 @@ extension NimbleClientTypes {
             self.script = script
         }
     }
-
 }
 
 extension NimbleClientTypes.StudioComponentInitializationScript: Swift.CustomDebugStringConvertible {
@@ -2487,8 +2487,9 @@ extension NimbleClientTypes.StudioComponentInitializationScript: Swift.CustomDeb
 }
 
 extension NimbleClientTypes {
+
     /// A parameter for a studio component script, in the form of a key-value pair.
-    public struct ScriptParameterKeyValue {
+    public struct ScriptParameterKeyValue: Swift.Sendable {
         /// A script parameter key.
         public var key: Swift.String?
         /// A script parameter value.
@@ -2503,12 +2504,11 @@ extension NimbleClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension NimbleClientTypes {
 
-    public enum StudioComponentSubtype: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioComponentSubtype: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonFsxForLustre
         case amazonFsxForWindows
         case awsManagedMicrosoftAd
@@ -2543,7 +2543,7 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes {
 
-    public enum StudioComponentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioComponentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activeDirectory
         case computeFarm
         case custom
@@ -2579,7 +2579,7 @@ extension NimbleClientTypes {
     }
 }
 
-public struct CreateStudioComponentInput {
+public struct CreateStudioComponentInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The configuration of the studio component, based on component type.
@@ -2650,7 +2650,7 @@ extension CreateStudioComponentInput: Swift.CustomDebugStringConvertible {
 extension NimbleClientTypes {
 
     /// The current state of the studio component resource. While a studio component is being created, modified, or deleted, its state will be CREATE_IN_PROGRESS, UPDATE_IN_PROGRESS, or DELETE_IN_PROGRESS. These are called transition states. No modifications may be made to the studio component while it is in a transition state. If creation of the resource fails, the state will change to CREATE_FAILED. The resource StatusCode and StatusMessage will provide more information of why creation failed. The resource in this state will automatically be deleted from your account after a period of time. If updating the resource fails, the state will change to UPDATE_FAILED. The resource StatusCode and StatusMessage will provide more information of why the update failed. The resource will be returned to the state it was in when the update request was invoked. If deleting the resource fails, the state will change to DELETE_FAILED. The resource StatusCode and StatusMessage will provide more information of why the update failed. The resource will be returned to the state it was in when the update request was invoked. After the resource is deleted successfully, it will change to the DELETED state. The resource will no longer count against service quotas and cannot be used or acted upon any futher. It will be removed from your account after a period of time.
-    public enum StudioComponentState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioComponentState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case createInProgress
         case deleted
@@ -2698,7 +2698,7 @@ extension NimbleClientTypes {
 extension NimbleClientTypes {
 
     /// The current status of the studio component resource. When the resource is in the READY state, the status code signals what the last mutation made to the resource was. When the resource is in a CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED state, the status code signals what went wrong and why the mutation failed.
-    public enum StudioComponentStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioComponentStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activeDirectoryAlreadyExists
         case encryptionKeyAccessDenied
         case encryptionKeyNotFound
@@ -2750,8 +2750,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// A studio component represents a network resource to be used by a studio's users and workflows. A typical studio contains studio components for each of the following: render farm, Active Directory, licensing, and file system. Access to a studio component is managed by specifying security groups for the resource, as well as its endpoint. A studio component also has a set of initialization scripts that are returned by GetLaunchProfileInitialization. These initialization scripts run on streaming sessions when they start. They provide users with flexibility in controlling how the studio resources are configured on a streaming session.
-    public struct StudioComponent {
+    public struct StudioComponent: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
         /// The configuration of the studio component, based on component type.
@@ -2838,7 +2839,6 @@ extension NimbleClientTypes {
             self.updatedBy = updatedBy
         }
     }
-
 }
 
 extension NimbleClientTypes.StudioComponent: Swift.CustomDebugStringConvertible {
@@ -2846,7 +2846,7 @@ extension NimbleClientTypes.StudioComponent: Swift.CustomDebugStringConvertible 
         "StudioComponent(arn: \(Swift.String(describing: arn)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), ec2SecurityGroupIds: \(Swift.String(describing: ec2SecurityGroupIds)), initializationScripts: \(Swift.String(describing: initializationScripts)), runtimeRoleArn: \(Swift.String(describing: runtimeRoleArn)), secureInitializationRoleArn: \(Swift.String(describing: secureInitializationRoleArn)), state: \(Swift.String(describing: state)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), studioComponentId: \(Swift.String(describing: studioComponentId)), subtype: \(Swift.String(describing: subtype)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", scriptParameters: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateStudioComponentOutput {
+public struct CreateStudioComponentOutput: Swift.Sendable {
     /// Information about the studio component.
     public var studioComponent: NimbleClientTypes.StudioComponent?
 
@@ -2858,7 +2858,7 @@ public struct CreateStudioComponentOutput {
     }
 }
 
-public struct DeleteLaunchProfileInput {
+public struct DeleteLaunchProfileInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The ID of the launch profile used to control access from the streaming session.
@@ -2880,7 +2880,7 @@ public struct DeleteLaunchProfileInput {
     }
 }
 
-public struct DeleteLaunchProfileOutput {
+public struct DeleteLaunchProfileOutput: Swift.Sendable {
     /// The launch profile.
     public var launchProfile: NimbleClientTypes.LaunchProfile?
 
@@ -2892,7 +2892,7 @@ public struct DeleteLaunchProfileOutput {
     }
 }
 
-public struct DeleteLaunchProfileMemberInput {
+public struct DeleteLaunchProfileMemberInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The ID of the launch profile used to control access from the streaming session.
@@ -2919,12 +2919,12 @@ public struct DeleteLaunchProfileMemberInput {
     }
 }
 
-public struct DeleteLaunchProfileMemberOutput {
+public struct DeleteLaunchProfileMemberOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteStreamingImageInput {
+public struct DeleteStreamingImageInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The streaming image ID.
@@ -2946,7 +2946,7 @@ public struct DeleteStreamingImageInput {
     }
 }
 
-public struct DeleteStreamingImageOutput {
+public struct DeleteStreamingImageOutput: Swift.Sendable {
     /// The streaming image.
     public var streamingImage: NimbleClientTypes.StreamingImage?
 
@@ -2958,7 +2958,7 @@ public struct DeleteStreamingImageOutput {
     }
 }
 
-public struct DeleteStreamingSessionInput {
+public struct DeleteStreamingSessionInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The streaming session ID.
@@ -2980,7 +2980,7 @@ public struct DeleteStreamingSessionInput {
     }
 }
 
-public struct DeleteStreamingSessionOutput {
+public struct DeleteStreamingSessionOutput: Swift.Sendable {
     /// The session.
     public var session: NimbleClientTypes.StreamingSession?
 
@@ -2992,7 +2992,7 @@ public struct DeleteStreamingSessionOutput {
     }
 }
 
-public struct DeleteStudioInput {
+public struct DeleteStudioInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The studio ID.
@@ -3009,7 +3009,7 @@ public struct DeleteStudioInput {
     }
 }
 
-public struct DeleteStudioOutput {
+public struct DeleteStudioOutput: Swift.Sendable {
     /// Information about a studio.
     /// This member is required.
     public var studio: NimbleClientTypes.Studio?
@@ -3022,7 +3022,7 @@ public struct DeleteStudioOutput {
     }
 }
 
-public struct DeleteStudioComponentInput {
+public struct DeleteStudioComponentInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The studio component ID.
@@ -3044,7 +3044,7 @@ public struct DeleteStudioComponentInput {
     }
 }
 
-public struct DeleteStudioComponentOutput {
+public struct DeleteStudioComponentOutput: Swift.Sendable {
     /// Information about the studio component.
     public var studioComponent: NimbleClientTypes.StudioComponent?
 
@@ -3056,7 +3056,7 @@ public struct DeleteStudioComponentOutput {
     }
 }
 
-public struct DeleteStudioMemberInput {
+public struct DeleteStudioMemberInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The principal ID. This currently supports a IAM Identity Center UserId.
@@ -3078,14 +3078,15 @@ public struct DeleteStudioMemberInput {
     }
 }
 
-public struct DeleteStudioMemberOutput {
+public struct DeleteStudioMemberOutput: Swift.Sendable {
 
     public init() { }
 }
 
 extension NimbleClientTypes {
+
     /// Represents a EULA resource.
-    public struct Eula {
+    public struct Eula: Swift.Sendable {
         /// The EULA content.
         public var content: Swift.String?
         /// The ISO timestamp in seconds for when the resource was created.
@@ -3112,10 +3113,9 @@ extension NimbleClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct ListEulaAcceptancesInput {
+public struct ListEulaAcceptancesInput: Swift.Sendable {
     /// The list of EULA IDs that have been previously accepted.
     public var eulaIds: [Swift.String]?
     /// The token for the next set of results, or null if there are no more results.
@@ -3136,7 +3136,7 @@ public struct ListEulaAcceptancesInput {
     }
 }
 
-public struct ListEulaAcceptancesOutput {
+public struct ListEulaAcceptancesOutput: Swift.Sendable {
     /// A collection of EULA acceptances.
     public var eulaAcceptances: [NimbleClientTypes.EulaAcceptance]?
     /// The token for the next set of results, or null if there are no more results.
@@ -3152,7 +3152,7 @@ public struct ListEulaAcceptancesOutput {
     }
 }
 
-public struct GetEulaInput {
+public struct GetEulaInput: Swift.Sendable {
     /// The EULA ID.
     /// This member is required.
     public var eulaId: Swift.String?
@@ -3165,7 +3165,7 @@ public struct GetEulaInput {
     }
 }
 
-public struct GetEulaOutput {
+public struct GetEulaOutput: Swift.Sendable {
     /// The EULA.
     public var eula: NimbleClientTypes.Eula?
 
@@ -3177,7 +3177,7 @@ public struct GetEulaOutput {
     }
 }
 
-public struct ListEulasInput {
+public struct ListEulasInput: Swift.Sendable {
     /// The list of EULA IDs that should be returned
     public var eulaIds: [Swift.String]?
     /// The token for the next set of results, or null if there are no more results.
@@ -3193,7 +3193,7 @@ public struct ListEulasInput {
     }
 }
 
-public struct ListEulasOutput {
+public struct ListEulasOutput: Swift.Sendable {
     /// A collection of EULA resources.
     public var eulas: [NimbleClientTypes.Eula]?
     /// The token for the next set of results, or null if there are no more results.
@@ -3209,7 +3209,7 @@ public struct ListEulasOutput {
     }
 }
 
-public struct GetLaunchProfileInput {
+public struct GetLaunchProfileInput: Swift.Sendable {
     /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
@@ -3227,7 +3227,7 @@ public struct GetLaunchProfileInput {
     }
 }
 
-public struct GetLaunchProfileOutput {
+public struct GetLaunchProfileOutput: Swift.Sendable {
     /// The launch profile.
     public var launchProfile: NimbleClientTypes.LaunchProfile?
 
@@ -3239,7 +3239,7 @@ public struct GetLaunchProfileOutput {
     }
 }
 
-public struct GetLaunchProfileDetailsInput {
+public struct GetLaunchProfileDetailsInput: Swift.Sendable {
     /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
@@ -3258,8 +3258,9 @@ public struct GetLaunchProfileDetailsInput {
 }
 
 extension NimbleClientTypes {
+
     /// The studio component's summary.
-    public struct StudioComponentSummary {
+    public struct StudioComponentSummary: Swift.Sendable {
         /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: Foundation.Date?
         /// The user ID of the user that created the studio component.
@@ -3302,7 +3303,6 @@ extension NimbleClientTypes {
             self.updatedBy = updatedBy
         }
     }
-
 }
 
 extension NimbleClientTypes.StudioComponentSummary: Swift.CustomDebugStringConvertible {
@@ -3310,7 +3310,7 @@ extension NimbleClientTypes.StudioComponentSummary: Swift.CustomDebugStringConve
         "StudioComponentSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), studioComponentId: \(Swift.String(describing: studioComponentId)), subtype: \(Swift.String(describing: subtype)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetLaunchProfileDetailsOutput {
+public struct GetLaunchProfileDetailsOutput: Swift.Sendable {
     /// The launch profile.
     public var launchProfile: NimbleClientTypes.LaunchProfile?
     /// A collection of streaming images.
@@ -3330,7 +3330,7 @@ public struct GetLaunchProfileDetailsOutput {
     }
 }
 
-public struct GetLaunchProfileInitializationInput {
+public struct GetLaunchProfileInitializationInput: Swift.Sendable {
     /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
@@ -3364,8 +3364,9 @@ public struct GetLaunchProfileInitializationInput {
 }
 
 extension NimbleClientTypes {
+
     /// The launch profile initialization Active Directory contains information required for the launch profile to connect to the Active Directory.
-    public struct LaunchProfileInitializationActiveDirectory {
+    public struct LaunchProfileInitializationActiveDirectory: Swift.Sendable {
         /// A collection of custom attributes for an Active Directory computer.
         public var computerAttributes: [NimbleClientTypes.ActiveDirectoryComputerAttribute]?
         /// The directory ID of the Directory Service for Microsoft Active Directory to access using this launch profile.
@@ -3400,7 +3401,6 @@ extension NimbleClientTypes {
             self.studioComponentName = studioComponentName
         }
     }
-
 }
 
 extension NimbleClientTypes.LaunchProfileInitializationActiveDirectory: Swift.CustomDebugStringConvertible {
@@ -3409,8 +3409,9 @@ extension NimbleClientTypes.LaunchProfileInitializationActiveDirectory: Swift.Cu
 }
 
 extension NimbleClientTypes {
+
     /// The launch profile initialization script is used when start streaming session runs.
-    public struct LaunchProfileInitializationScript {
+    public struct LaunchProfileInitializationScript: Swift.Sendable {
         /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
         public var runtimeRoleArn: Swift.String?
         /// The initialization script.
@@ -3437,7 +3438,6 @@ extension NimbleClientTypes {
             self.studioComponentName = studioComponentName
         }
     }
-
 }
 
 extension NimbleClientTypes.LaunchProfileInitializationScript: Swift.CustomDebugStringConvertible {
@@ -3446,8 +3446,9 @@ extension NimbleClientTypes.LaunchProfileInitializationScript: Swift.CustomDebug
 }
 
 extension NimbleClientTypes {
+
     /// A launch profile initialization contains information required for a workstation or server to connect to a launch profile. This includes scripts, endpoints, security groups, subnets, and other configuration.
-    public struct LaunchProfileInitialization {
+    public struct LaunchProfileInitialization: Swift.Sendable {
         /// A LaunchProfileInitializationActiveDirectory resource.
         public var activeDirectory: NimbleClientTypes.LaunchProfileInitializationActiveDirectory?
         /// The EC2 security groups that control access to the studio component.
@@ -3490,7 +3491,6 @@ extension NimbleClientTypes {
             self.userInitializationScripts = userInitializationScripts
         }
     }
-
 }
 
 extension NimbleClientTypes.LaunchProfileInitialization: Swift.CustomDebugStringConvertible {
@@ -3498,7 +3498,7 @@ extension NimbleClientTypes.LaunchProfileInitialization: Swift.CustomDebugString
         "LaunchProfileInitialization(activeDirectory: \(Swift.String(describing: activeDirectory)), ec2SecurityGroupIds: \(Swift.String(describing: ec2SecurityGroupIds)), launchProfileId: \(Swift.String(describing: launchProfileId)), launchProfileProtocolVersion: \(Swift.String(describing: launchProfileProtocolVersion)), launchPurpose: \(Swift.String(describing: launchPurpose)), platform: \(Swift.String(describing: platform)), systemInitializationScripts: \(Swift.String(describing: systemInitializationScripts)), userInitializationScripts: \(Swift.String(describing: userInitializationScripts)), name: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetLaunchProfileInitializationOutput {
+public struct GetLaunchProfileInitializationOutput: Swift.Sendable {
     /// The launch profile initialization.
     public var launchProfileInitialization: NimbleClientTypes.LaunchProfileInitialization?
 
@@ -3510,7 +3510,7 @@ public struct GetLaunchProfileInitializationOutput {
     }
 }
 
-public struct GetLaunchProfileMemberInput {
+public struct GetLaunchProfileMemberInput: Swift.Sendable {
     /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
@@ -3535,7 +3535,7 @@ public struct GetLaunchProfileMemberInput {
 
 extension NimbleClientTypes {
 
-    public enum LaunchProfilePersona: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LaunchProfilePersona: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case user
         case sdkUnknown(Swift.String)
 
@@ -3560,6 +3560,7 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// Studio admins can use launch profile membership to delegate launch profile access to studio users in the Nimble Studio portal without writing or maintaining complex IAM policies. A launch profile member is a user association from your studio identity source who is granted permissions to a launch profile. A launch profile member (type USER) provides the following permissions to that launch profile:
     ///
     /// * GetLaunchProfile
@@ -3573,7 +3574,7 @@ extension NimbleClientTypes {
     /// * CreateStreamingSession
     ///
     /// * GetLaunchProfileDetails
-    public struct LaunchProfileMembership {
+    public struct LaunchProfileMembership: Swift.Sendable {
         /// The ID of the identity store.
         public var identityStoreId: Swift.String?
         /// The persona.
@@ -3596,10 +3597,9 @@ extension NimbleClientTypes {
             self.sid = sid
         }
     }
-
 }
 
-public struct GetLaunchProfileMemberOutput {
+public struct GetLaunchProfileMemberOutput: Swift.Sendable {
     /// The member.
     public var member: NimbleClientTypes.LaunchProfileMembership?
 
@@ -3611,7 +3611,7 @@ public struct GetLaunchProfileMemberOutput {
     }
 }
 
-public struct GetStreamingImageInput {
+public struct GetStreamingImageInput: Swift.Sendable {
     /// The streaming image ID.
     /// This member is required.
     public var streamingImageId: Swift.String?
@@ -3629,7 +3629,7 @@ public struct GetStreamingImageInput {
     }
 }
 
-public struct GetStreamingImageOutput {
+public struct GetStreamingImageOutput: Swift.Sendable {
     /// The streaming image.
     public var streamingImage: NimbleClientTypes.StreamingImage?
 
@@ -3641,7 +3641,7 @@ public struct GetStreamingImageOutput {
     }
 }
 
-public struct GetStreamingSessionInput {
+public struct GetStreamingSessionInput: Swift.Sendable {
     /// The streaming session ID.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -3659,7 +3659,7 @@ public struct GetStreamingSessionInput {
     }
 }
 
-public struct GetStreamingSessionOutput {
+public struct GetStreamingSessionOutput: Swift.Sendable {
     /// The session.
     public var session: NimbleClientTypes.StreamingSession?
 
@@ -3671,7 +3671,7 @@ public struct GetStreamingSessionOutput {
     }
 }
 
-public struct GetStreamingSessionBackupInput {
+public struct GetStreamingSessionBackupInput: Swift.Sendable {
     /// The ID of the backup.
     /// This member is required.
     public var backupId: Swift.String?
@@ -3690,8 +3690,9 @@ public struct GetStreamingSessionBackupInput {
 }
 
 extension NimbleClientTypes {
+
     /// Information about the streaming session backup.
-    public struct StreamingSessionBackup {
+    public struct StreamingSessionBackup: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
         /// The ID of the backup.
@@ -3738,10 +3739,9 @@ extension NimbleClientTypes {
             self.tags = tags
         }
     }
-
 }
 
-public struct GetStreamingSessionBackupOutput {
+public struct GetStreamingSessionBackupOutput: Swift.Sendable {
     /// Information about the streaming session backup.
     public var streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup?
 
@@ -3753,7 +3753,7 @@ public struct GetStreamingSessionBackupOutput {
     }
 }
 
-public struct GetStreamingSessionStreamInput {
+public struct GetStreamingSessionStreamInput: Swift.Sendable {
     /// The streaming session ID.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -3776,7 +3776,7 @@ public struct GetStreamingSessionStreamInput {
     }
 }
 
-public struct GetStreamingSessionStreamOutput {
+public struct GetStreamingSessionStreamOutput: Swift.Sendable {
     /// The stream.
     public var stream: NimbleClientTypes.StreamingSessionStream?
 
@@ -3788,7 +3788,7 @@ public struct GetStreamingSessionStreamOutput {
     }
 }
 
-public struct GetStudioInput {
+public struct GetStudioInput: Swift.Sendable {
     /// The studio ID.
     /// This member is required.
     public var studioId: Swift.String?
@@ -3801,7 +3801,7 @@ public struct GetStudioInput {
     }
 }
 
-public struct GetStudioOutput {
+public struct GetStudioOutput: Swift.Sendable {
     /// Information about a studio.
     /// This member is required.
     public var studio: NimbleClientTypes.Studio?
@@ -3814,7 +3814,7 @@ public struct GetStudioOutput {
     }
 }
 
-public struct GetStudioComponentInput {
+public struct GetStudioComponentInput: Swift.Sendable {
     /// The studio component ID.
     /// This member is required.
     public var studioComponentId: Swift.String?
@@ -3832,7 +3832,7 @@ public struct GetStudioComponentInput {
     }
 }
 
-public struct GetStudioComponentOutput {
+public struct GetStudioComponentOutput: Swift.Sendable {
     /// Information about the studio component.
     public var studioComponent: NimbleClientTypes.StudioComponent?
 
@@ -3844,7 +3844,7 @@ public struct GetStudioComponentOutput {
     }
 }
 
-public struct GetStudioMemberInput {
+public struct GetStudioMemberInput: Swift.Sendable {
     /// The principal ID. This currently supports a IAM Identity Center UserId.
     /// This member is required.
     public var principalId: Swift.String?
@@ -3864,7 +3864,7 @@ public struct GetStudioMemberInput {
 
 extension NimbleClientTypes {
 
-    public enum StudioPersona: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum StudioPersona: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case administrator
         case sdkUnknown(Swift.String)
 
@@ -3889,8 +3889,9 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
+
     /// A studio member is an association of a user from your studio identity source to elevated permissions that they are granted in the studio. When you add a user to your studio using the Nimble Studio console, they are given access to the studio's IAM Identity Center application and are given access to log in to the Nimble Studio portal. These users have the permissions provided by the studio's user IAM role and do not appear in the studio membership collection. Only studio admins appear in studio membership. When you add a user to studio membership with the ADMIN persona, upon logging in to the Nimble Studio portal, they are granted permissions specified by the Studio's Admin IAM role.
-    public struct StudioMembership {
+    public struct StudioMembership: Swift.Sendable {
         /// The ID of the identity store.
         public var identityStoreId: Swift.String?
         /// The persona.
@@ -3913,10 +3914,9 @@ extension NimbleClientTypes {
             self.sid = sid
         }
     }
-
 }
 
-public struct GetStudioMemberOutput {
+public struct GetStudioMemberOutput: Swift.Sendable {
     /// The member.
     public var member: NimbleClientTypes.StudioMembership?
 
@@ -3928,7 +3928,7 @@ public struct GetStudioMemberOutput {
     }
 }
 
-public struct ListLaunchProfileMembersInput {
+public struct ListLaunchProfileMembersInput: Swift.Sendable {
     /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
@@ -3954,7 +3954,7 @@ public struct ListLaunchProfileMembersInput {
     }
 }
 
-public struct ListLaunchProfileMembersOutput {
+public struct ListLaunchProfileMembersOutput: Swift.Sendable {
     /// A list of members.
     public var members: [NimbleClientTypes.LaunchProfileMembership]?
     /// The token for the next set of results, or null if there are no more results.
@@ -3970,7 +3970,7 @@ public struct ListLaunchProfileMembersOutput {
     }
 }
 
-public struct ListLaunchProfilesInput {
+public struct ListLaunchProfilesInput: Swift.Sendable {
     /// The max number of results to return in the response.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null if there are no more results.
@@ -3999,7 +3999,7 @@ public struct ListLaunchProfilesInput {
     }
 }
 
-public struct ListLaunchProfilesOutput {
+public struct ListLaunchProfilesOutput: Swift.Sendable {
     /// A collection of launch profiles.
     public var launchProfiles: [NimbleClientTypes.LaunchProfile]?
     /// The token for the next set of results, or null if there are no more results.
@@ -4016,8 +4016,9 @@ public struct ListLaunchProfilesOutput {
 }
 
 extension NimbleClientTypes {
+
     /// A new member that is added to a launch profile.
-    public struct NewLaunchProfileMember {
+    public struct NewLaunchProfileMember: Swift.Sendable {
         /// The persona.
         /// This member is required.
         public var persona: NimbleClientTypes.LaunchProfilePersona?
@@ -4034,10 +4035,9 @@ extension NimbleClientTypes {
             self.principalId = principalId
         }
     }
-
 }
 
-public struct PutLaunchProfileMembersInput {
+public struct PutLaunchProfileMembersInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The ID of the identity store.
@@ -4069,12 +4069,12 @@ public struct PutLaunchProfileMembersInput {
     }
 }
 
-public struct PutLaunchProfileMembersOutput {
+public struct PutLaunchProfileMembersOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateLaunchProfileInput {
+public struct UpdateLaunchProfileInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description.
@@ -4121,7 +4121,7 @@ extension UpdateLaunchProfileInput: Swift.CustomDebugStringConvertible {
         "UpdateLaunchProfileInput(clientToken: \(Swift.String(describing: clientToken)), launchProfileId: \(Swift.String(describing: launchProfileId)), launchProfileProtocolVersions: \(Swift.String(describing: launchProfileProtocolVersions)), streamConfiguration: \(Swift.String(describing: streamConfiguration)), studioComponentIds: \(Swift.String(describing: studioComponentIds)), studioId: \(Swift.String(describing: studioId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateLaunchProfileOutput {
+public struct UpdateLaunchProfileOutput: Swift.Sendable {
     /// The launch profile.
     public var launchProfile: NimbleClientTypes.LaunchProfile?
 
@@ -4133,7 +4133,7 @@ public struct UpdateLaunchProfileOutput {
     }
 }
 
-public struct UpdateLaunchProfileMemberInput {
+public struct UpdateLaunchProfileMemberInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The ID of the launch profile used to control access from the streaming session.
@@ -4165,7 +4165,7 @@ public struct UpdateLaunchProfileMemberInput {
     }
 }
 
-public struct UpdateLaunchProfileMemberOutput {
+public struct UpdateLaunchProfileMemberOutput: Swift.Sendable {
     /// The updated member.
     public var member: NimbleClientTypes.LaunchProfileMembership?
 
@@ -4177,7 +4177,7 @@ public struct UpdateLaunchProfileMemberOutput {
     }
 }
 
-public struct ListStreamingImagesInput {
+public struct ListStreamingImagesInput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Filter this request to streaming images with the given owner
@@ -4198,7 +4198,7 @@ public struct ListStreamingImagesInput {
     }
 }
 
-public struct ListStreamingImagesOutput {
+public struct ListStreamingImagesOutput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of streaming images.
@@ -4214,7 +4214,7 @@ public struct ListStreamingImagesOutput {
     }
 }
 
-public struct ListStreamingSessionBackupsInput {
+public struct ListStreamingSessionBackupsInput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The user ID of the user that owns the streaming session.
@@ -4235,7 +4235,7 @@ public struct ListStreamingSessionBackupsInput {
     }
 }
 
-public struct ListStreamingSessionBackupsOutput {
+public struct ListStreamingSessionBackupsOutput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Information about the streaming session backups.
@@ -4251,7 +4251,7 @@ public struct ListStreamingSessionBackupsOutput {
     }
 }
 
-public struct ListStreamingSessionsInput {
+public struct ListStreamingSessionsInput: Swift.Sendable {
     /// Filters the request to streaming sessions created by the given user.
     public var createdBy: Swift.String?
     /// The token for the next set of results, or null if there are no more results.
@@ -4280,7 +4280,7 @@ public struct ListStreamingSessionsInput {
     }
 }
 
-public struct ListStreamingSessionsOutput {
+public struct ListStreamingSessionsOutput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of streaming sessions.
@@ -4296,7 +4296,7 @@ public struct ListStreamingSessionsOutput {
     }
 }
 
-public struct ListStudioComponentsInput {
+public struct ListStudioComponentsInput: Swift.Sendable {
     /// The max number of results to return in the response.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null if there are no more results.
@@ -4325,7 +4325,7 @@ public struct ListStudioComponentsInput {
     }
 }
 
-public struct ListStudioComponentsOutput {
+public struct ListStudioComponentsOutput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of studio components.
@@ -4341,7 +4341,7 @@ public struct ListStudioComponentsOutput {
     }
 }
 
-public struct ListStudioMembersInput {
+public struct ListStudioMembersInput: Swift.Sendable {
     /// The max number of results to return in the response.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null if there are no more results.
@@ -4362,7 +4362,7 @@ public struct ListStudioMembersInput {
     }
 }
 
-public struct ListStudioMembersOutput {
+public struct ListStudioMembersOutput: Swift.Sendable {
     /// A list of admin members.
     public var members: [NimbleClientTypes.StudioMembership]?
     /// The token for the next set of results, or null if there are no more results.
@@ -4378,7 +4378,7 @@ public struct ListStudioMembersOutput {
     }
 }
 
-public struct ListStudiosInput {
+public struct ListStudiosInput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
@@ -4390,7 +4390,7 @@ public struct ListStudiosInput {
     }
 }
 
-public struct ListStudiosOutput {
+public struct ListStudiosOutput: Swift.Sendable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of studios.
@@ -4407,7 +4407,7 @@ public struct ListStudiosOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4420,7 +4420,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4433,8 +4433,9 @@ public struct ListTagsForResourceOutput {
 }
 
 extension NimbleClientTypes {
+
     /// A new studio user's membership.
-    public struct NewStudioMember {
+    public struct NewStudioMember: Swift.Sendable {
         /// The persona.
         /// This member is required.
         public var persona: NimbleClientTypes.StudioPersona?
@@ -4451,10 +4452,9 @@ extension NimbleClientTypes {
             self.principalId = principalId
         }
     }
-
 }
 
-public struct UpdateStreamingImageInput {
+public struct UpdateStreamingImageInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description.
@@ -4489,7 +4489,7 @@ extension UpdateStreamingImageInput: Swift.CustomDebugStringConvertible {
         "UpdateStreamingImageInput(clientToken: \(Swift.String(describing: clientToken)), streamingImageId: \(Swift.String(describing: streamingImageId)), studioId: \(Swift.String(describing: studioId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateStreamingImageOutput {
+public struct UpdateStreamingImageOutput: Swift.Sendable {
     /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon EC2 machine image that you create for this purpose. You can also include software that your users require.
     public var streamingImage: NimbleClientTypes.StreamingImage?
 
@@ -4501,7 +4501,7 @@ public struct UpdateStreamingImageOutput {
     }
 }
 
-public struct StartStreamingSessionInput {
+public struct StartStreamingSessionInput: Swift.Sendable {
     /// The ID of the backup.
     public var backupId: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
@@ -4527,7 +4527,7 @@ public struct StartStreamingSessionInput {
     }
 }
 
-public struct StartStreamingSessionOutput {
+public struct StartStreamingSessionOutput: Swift.Sendable {
     /// A streaming session is a virtual workstation created using a particular launch profile.
     public var session: NimbleClientTypes.StreamingSession?
 
@@ -4539,7 +4539,7 @@ public struct StartStreamingSessionOutput {
     }
 }
 
-public struct StopStreamingSessionInput {
+public struct StopStreamingSessionInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The streaming session ID for the StopStreamingSessionRequest.
@@ -4565,7 +4565,7 @@ public struct StopStreamingSessionInput {
     }
 }
 
-public struct StopStreamingSessionOutput {
+public struct StopStreamingSessionOutput: Swift.Sendable {
     /// A streaming session is a virtual workstation created using a particular launch profile.
     public var session: NimbleClientTypes.StreamingSession?
 
@@ -4577,7 +4577,7 @@ public struct StopStreamingSessionOutput {
     }
 }
 
-public struct UpdateStudioComponentInput {
+public struct UpdateStudioComponentInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The configuration of the studio component, based on component type.
@@ -4644,7 +4644,7 @@ extension UpdateStudioComponentInput: Swift.CustomDebugStringConvertible {
         "UpdateStudioComponentInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), ec2SecurityGroupIds: \(Swift.String(describing: ec2SecurityGroupIds)), initializationScripts: \(Swift.String(describing: initializationScripts)), runtimeRoleArn: \(Swift.String(describing: runtimeRoleArn)), secureInitializationRoleArn: \(Swift.String(describing: secureInitializationRoleArn)), studioComponentId: \(Swift.String(describing: studioComponentId)), studioId: \(Swift.String(describing: studioId)), subtype: \(Swift.String(describing: subtype)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", scriptParameters: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateStudioComponentOutput {
+public struct UpdateStudioComponentOutput: Swift.Sendable {
     /// Information about the studio component.
     public var studioComponent: NimbleClientTypes.StudioComponent?
 
@@ -4656,7 +4656,7 @@ public struct UpdateStudioComponentOutput {
     }
 }
 
-public struct PutStudioMembersInput {
+public struct PutStudioMembersInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The ID of the identity store.
@@ -4683,12 +4683,12 @@ public struct PutStudioMembersInput {
     }
 }
 
-public struct PutStudioMembersOutput {
+public struct PutStudioMembersOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct StartStudioSSOConfigurationRepairInput {
+public struct StartStudioSSOConfigurationRepairInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The studio ID.
@@ -4705,7 +4705,7 @@ public struct StartStudioSSOConfigurationRepairInput {
     }
 }
 
-public struct StartStudioSSOConfigurationRepairOutput {
+public struct StartStudioSSOConfigurationRepairOutput: Swift.Sendable {
     /// Information about a studio.
     /// This member is required.
     public var studio: NimbleClientTypes.Studio?
@@ -4718,7 +4718,7 @@ public struct StartStudioSSOConfigurationRepairOutput {
     }
 }
 
-public struct UpdateStudioInput {
+public struct UpdateStudioInput: Swift.Sendable {
     /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
     public var adminRoleArn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
@@ -4752,7 +4752,7 @@ extension UpdateStudioInput: Swift.CustomDebugStringConvertible {
         "UpdateStudioInput(adminRoleArn: \(Swift.String(describing: adminRoleArn)), clientToken: \(Swift.String(describing: clientToken)), studioId: \(Swift.String(describing: studioId)), userRoleArn: \(Swift.String(describing: userRoleArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateStudioOutput {
+public struct UpdateStudioOutput: Swift.Sendable {
     /// Information about a studio.
     /// This member is required.
     public var studio: NimbleClientTypes.Studio?
@@ -4765,7 +4765,7 @@ public struct UpdateStudioOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4782,12 +4782,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// Identifies the Amazon Resource Name(ARN) key from which you are removing tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4805,7 +4805,7 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }

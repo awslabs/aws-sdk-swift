@@ -32,37 +32,38 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-public struct CancelJobOutput {
+
+public struct CancelJobOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteAssetOutput {
+public struct DeleteAssetOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteDataSetOutput {
+public struct DeleteDataSetOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteEventActionOutput {
+public struct DeleteEventActionOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteRevisionOutput {
+public struct DeleteRevisionOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -95,7 +96,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension DataExchangeClientTypes {
 
-    public enum ServerSideEncryptionTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ServerSideEncryptionTypes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes256
         case awsKms
         case sdkUnknown(Swift.String)
@@ -123,8 +124,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// Encryption configuration of the export job. Includes the encryption type in addition to the AWS KMS key. The KMS key is only necessary if you chose the KMS encryption type.
-    public struct ExportServerSideEncryption {
+    public struct ExportServerSideEncryption: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
         public var kmsKeyArn: Swift.String?
         /// The type of server side encryption used for encrypting the objects in Amazon S3.
@@ -140,12 +142,12 @@ extension DataExchangeClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// A revision destination is the Amazon S3 bucket folder destination to where the export will be sent.
-    public struct AutoExportRevisionDestinationEntry {
+    public struct AutoExportRevisionDestinationEntry: Swift.Sendable {
         /// The Amazon S3 bucket that is the destination for the event action.
         /// This member is required.
         public var bucket: Swift.String?
@@ -161,12 +163,12 @@ extension DataExchangeClientTypes {
             self.keyPattern = keyPattern
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details of the operation to be performed by the job.
-    public struct AutoExportRevisionToS3RequestDetails {
+    public struct AutoExportRevisionToS3RequestDetails: Swift.Sendable {
         /// Encryption configuration for the auto export job.
         public var encryption: DataExchangeClientTypes.ExportServerSideEncryption?
         /// A revision destination is the Amazon S3 bucket folder destination to where the export will be sent.
@@ -182,12 +184,12 @@ extension DataExchangeClientTypes {
             self.revisionDestination = revisionDestination
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// What occurs after a certain event.
-    public struct Action {
+    public struct Action: Swift.Sendable {
         /// Details for the export revision to Amazon S3 action.
         public var exportRevisionToS3: DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails?
 
@@ -198,12 +200,11 @@ extension DataExchangeClientTypes {
             self.exportRevisionToS3 = exportRevisionToS3
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum ProtocolType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rest
         case sdkUnknown(Swift.String)
 
@@ -228,8 +229,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// The API Gateway API that is the asset.
-    public struct ApiGatewayApiAsset {
+    public struct ApiGatewayApiAsset: Swift.Sendable {
         /// The API description of the API asset.
         public var apiDescription: Swift.String?
         /// The API endpoint of the API asset.
@@ -272,12 +274,12 @@ extension DataExchangeClientTypes {
             self.stage = stage
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The destination for the asset.
-    public struct AssetDestinationEntry {
+    public struct AssetDestinationEntry: Swift.Sendable {
         /// The unique identifier for the asset.
         /// This member is required.
         public var assetId: Swift.String?
@@ -298,12 +300,12 @@ extension DataExchangeClientTypes {
             self.key = key
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// A structure that allows an LF-admin to grant permissions on certain conditions.
-    public struct LFTag {
+    public struct LFTag: Swift.Sendable {
         /// The key name for the LF-tag.
         /// This member is required.
         public var tagKey: Swift.String?
@@ -320,12 +322,12 @@ extension DataExchangeClientTypes {
             self.tagValues = tagValues
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The LF-tag policy for database resources.
-    public struct DatabaseLFTagPolicy {
+    public struct DatabaseLFTagPolicy: Swift.Sendable {
         /// A list of LF-tag conditions that apply to database resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -337,12 +339,12 @@ extension DataExchangeClientTypes {
             self.expression = expression
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The LF-tag policy for a table resource.
-    public struct TableLFTagPolicy {
+    public struct TableLFTagPolicy: Swift.Sendable {
         /// A list of LF-tag conditions that apply to table resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -354,12 +356,12 @@ extension DataExchangeClientTypes {
             self.expression = expression
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the AWS Lake Formation resource (Table or Database) included in the AWS Lake Formation data permission.
-    public struct LFResourceDetails {
+    public struct LFResourceDetails: Swift.Sendable {
         /// Details about the database resource included in the AWS Lake Formation data permission.
         public var database: DataExchangeClientTypes.DatabaseLFTagPolicy?
         /// Details about the table resource included in the AWS Lake Formation data permission.
@@ -374,12 +376,11 @@ extension DataExchangeClientTypes {
             self.table = table
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum LFResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LFResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case database
         case table
         case sdkUnknown(Swift.String)
@@ -407,8 +408,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the LF-tag policy.
-    public struct LFTagPolicyDetails {
+    public struct LFTagPolicyDetails: Swift.Sendable {
         /// The identifier for the AWS Glue Data Catalog.
         /// This member is required.
         public var catalogId: Swift.String?
@@ -430,12 +432,12 @@ extension DataExchangeClientTypes {
             self.resourceType = resourceType
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the AWS Lake Formation data permission.
-    public struct LakeFormationDataPermissionDetails {
+    public struct LakeFormationDataPermissionDetails: Swift.Sendable {
         /// Details about the LF-tag policy.
         public var lfTagPolicy: DataExchangeClientTypes.LFTagPolicyDetails?
 
@@ -446,12 +448,11 @@ extension DataExchangeClientTypes {
             self.lfTagPolicy = lfTagPolicy
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum LakeFormationDataPermissionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LakeFormationDataPermissionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lftagpolicy
         case sdkUnknown(Swift.String)
 
@@ -477,7 +478,7 @@ extension DataExchangeClientTypes {
 
 extension DataExchangeClientTypes {
 
-    public enum LFPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LFPermission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case describe
         case select
         case sdkUnknown(Swift.String)
@@ -505,8 +506,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// The AWS Lake Formation data permission asset.
-    public struct LakeFormationDataPermissionAsset {
+    public struct LakeFormationDataPermissionAsset: Swift.Sendable {
         /// Details about the AWS Lake Formation data permission.
         /// This member is required.
         public var lakeFormationDataPermissionDetails: DataExchangeClientTypes.LakeFormationDataPermissionDetails?
@@ -532,12 +534,12 @@ extension DataExchangeClientTypes {
             self.roleArn = roleArn
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The Amazon Redshift datashare asset.
-    public struct RedshiftDataShareAsset {
+    public struct RedshiftDataShareAsset: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the datashare asset.
         /// This member is required.
         public var arn: Swift.String?
@@ -549,12 +551,12 @@ extension DataExchangeClientTypes {
             self.arn = arn
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the shared S3 objects.
-    public struct KmsKeyToGrant {
+    public struct KmsKeyToGrant: Swift.Sendable {
         /// The AWS KMS CMK (Key Management System Customer Managed Key) used to encrypt S3 objects in the shared S3 Bucket. AWS Data exchange will create a KMS grant for each subscriber to allow them to access and decrypt their entitled data that is encrypted using this KMS key specified.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
@@ -566,12 +568,12 @@ extension DataExchangeClientTypes {
             self.kmsKeyArn = kmsKeyArn
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The Amazon S3 data access that is the asset.
-    public struct S3DataAccessAsset {
+    public struct S3DataAccessAsset: Swift.Sendable {
         /// The Amazon S3 bucket hosting data to be shared in the S3 data access.
         /// This member is required.
         public var bucket: Swift.String?
@@ -603,12 +605,12 @@ extension DataExchangeClientTypes {
             self.s3AccessPointArn = s3AccessPointArn
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The Amazon S3 object that is the asset.
-    public struct S3SnapshotAsset {
+    public struct S3SnapshotAsset: Swift.Sendable {
         /// The size of the Amazon S3 object that is the object.
         /// This member is required.
         public var size: Swift.Double?
@@ -620,12 +622,12 @@ extension DataExchangeClientTypes {
             self.size = size
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the asset.
-    public struct AssetDetails {
+    public struct AssetDetails: Swift.Sendable {
         /// Information about the API Gateway API asset.
         public var apiGatewayApiAsset: DataExchangeClientTypes.ApiGatewayApiAsset?
         /// The AWS Lake Formation data permission that is the asset.
@@ -652,12 +654,11 @@ extension DataExchangeClientTypes {
             self.s3SnapshotAsset = s3SnapshotAsset
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum AssetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AssetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case apiGatewayApi
         case lakeFormationDataPermission
         case redshiftDataShare
@@ -694,8 +695,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// An asset in AWS Data Exchange is a piece of data (Amazon S3 object) or a means of fulfilling data (Amazon Redshift datashare or Amazon API Gateway API, AWS Lake Formation data permission, or Amazon S3 data access). The asset can be a structured data file, an image file, or some other data file that can be stored as an Amazon S3 object, an Amazon API Gateway API, or an Amazon Redshift datashare, an AWS Lake Formation data permission, or an Amazon S3 data access. When you create an import job for your files, API Gateway APIs, Amazon Redshift datashares, AWS Lake Formation data permission, or Amazon S3 data access, you create an asset in AWS Data Exchange.
-    public struct AssetEntry {
+    public struct AssetEntry: Swift.Sendable {
         /// The ARN for the asset.
         /// This member is required.
         public var arn: Swift.String?
@@ -751,12 +753,12 @@ extension DataExchangeClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The source of the assets.
-    public struct AssetSourceEntry {
+    public struct AssetSourceEntry: Swift.Sendable {
         /// The Amazon S3 bucket that's part of the source of the asset.
         /// This member is required.
         public var bucket: Swift.String?
@@ -773,12 +775,11 @@ extension DataExchangeClientTypes {
             self.key = key
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asset
         case dataSet
         case eventAction
@@ -936,7 +937,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension DataExchangeClientTypes {
 
-    public enum ExceptionCause: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ExceptionCause: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case insufficients3bucketpolicy
         case s3accessdenied
         case sdkUnknown(Swift.String)
@@ -993,7 +994,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct CancelJobInput {
+public struct CancelJobInput: Swift.Sendable {
     /// The unique identifier for a job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1008,7 +1009,7 @@ public struct CancelJobInput {
 
 extension DataExchangeClientTypes {
 
-    public enum Code: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Code: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDeniedException
         case internalServerException
         case malwareDetected
@@ -1052,7 +1053,7 @@ extension DataExchangeClientTypes {
 
 extension DataExchangeClientTypes {
 
-    public enum LimitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LimitName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsLakeFormationDataPermissionAssetsPerRevision
         case amazonApiGatewayApiAssetsPerRevision
         case amazonRedshiftDatashareAssetsPerImportJobFromRedshift
@@ -1191,7 +1192,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-public struct CreateDataSetInput {
+public struct CreateDataSetInput: Swift.Sendable {
     /// The type of asset that is added to a data set.
     /// This member is required.
     public var assetType: DataExchangeClientTypes.AssetType?
@@ -1220,7 +1221,7 @@ public struct CreateDataSetInput {
 
 extension DataExchangeClientTypes {
 
-    public enum Origin: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Origin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case entitled
         case owned
         case sdkUnknown(Swift.String)
@@ -1248,8 +1249,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the origin of the data set.
-    public struct OriginDetails {
+    public struct OriginDetails: Swift.Sendable {
         /// The product ID of the origin of the data set.
         public var productId: Swift.String?
 
@@ -1260,10 +1262,9 @@ extension DataExchangeClientTypes {
             self.productId = productId
         }
     }
-
 }
 
-public struct CreateDataSetOutput {
+public struct CreateDataSetOutput: Swift.Sendable {
     /// The ARN for the data set.
     public var arn: Swift.String?
     /// The type of asset that is added to a data set.
@@ -1316,8 +1317,9 @@ public struct CreateDataSetOutput {
 }
 
 extension DataExchangeClientTypes {
+
     /// Information about the published revision.
-    public struct RevisionPublished {
+    public struct RevisionPublished: Swift.Sendable {
         /// The data set ID of the published revision.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -1329,12 +1331,12 @@ extension DataExchangeClientTypes {
             self.dataSetId = dataSetId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// What occurs to start an action.
-    public struct Event {
+    public struct Event: Swift.Sendable {
         /// What occurs to start the revision publish action.
         public var revisionPublished: DataExchangeClientTypes.RevisionPublished?
 
@@ -1345,10 +1347,9 @@ extension DataExchangeClientTypes {
             self.revisionPublished = revisionPublished
         }
     }
-
 }
 
-public struct CreateEventActionInput {
+public struct CreateEventActionInput: Swift.Sendable {
     /// What occurs after a certain event.
     /// This member is required.
     public var action: DataExchangeClientTypes.Action?
@@ -1366,7 +1367,7 @@ public struct CreateEventActionInput {
     }
 }
 
-public struct CreateEventActionOutput {
+public struct CreateEventActionOutput: Swift.Sendable {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The ARN for the event action.
@@ -1399,8 +1400,9 @@ public struct CreateEventActionOutput {
 }
 
 extension DataExchangeClientTypes {
+
     /// Source details for an Amazon S3 data access asset.
-    public struct S3DataAccessAssetSourceEntry {
+    public struct S3DataAccessAssetSourceEntry: Swift.Sendable {
         /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data access.
         /// This member is required.
         public var bucket: Swift.String?
@@ -1424,12 +1426,12 @@ extension DataExchangeClientTypes {
             self.kmsKeysToGrant = kmsKeysToGrant
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details of the operation to create an Amazon S3 data access from an S3 bucket.
-    public struct CreateS3DataAccessFromS3BucketRequestDetails {
+    public struct CreateS3DataAccessFromS3BucketRequestDetails: Swift.Sendable {
         /// Details about the S3 data access source asset.
         /// This member is required.
         public var assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?
@@ -1451,12 +1453,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details of the operation to be performed by the job.
-    public struct ExportAssetsToS3RequestDetails {
+    public struct ExportAssetsToS3RequestDetails: Swift.Sendable {
         /// The destination for the asset.
         /// This member is required.
         public var assetDestinations: [DataExchangeClientTypes.AssetDestinationEntry]?
@@ -1482,12 +1484,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details of the operation to be performed by the job.
-    public struct ExportAssetToSignedUrlRequestDetails {
+    public struct ExportAssetToSignedUrlRequestDetails: Swift.Sendable {
         /// The unique identifier for the asset that is exported to a signed URL.
         /// This member is required.
         public var assetId: Swift.String?
@@ -1509,12 +1511,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The destination where the assets in the revision will be exported.
-    public struct RevisionDestinationEntry {
+    public struct RevisionDestinationEntry: Swift.Sendable {
         /// The Amazon S3 bucket that is the destination for the assets in the revision.
         /// This member is required.
         public var bucket: Swift.String?
@@ -1535,12 +1537,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details of the operation to be performed by the job.
-    public struct ExportRevisionsToS3RequestDetails {
+    public struct ExportRevisionsToS3RequestDetails: Swift.Sendable {
         /// The unique identifier for the data set associated with this export job.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -1561,12 +1563,12 @@ extension DataExchangeClientTypes {
             self.revisionDestinations = revisionDestinations
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The request details.
-    public struct ImportAssetFromApiGatewayApiRequestDetails {
+    public struct ImportAssetFromApiGatewayApiRequestDetails: Swift.Sendable {
         /// The API description. Markdown supported.
         public var apiDescription: Swift.String?
         /// The API Gateway API ID.
@@ -1616,12 +1618,12 @@ extension DataExchangeClientTypes {
             self.stage = stage
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details of the operation to be performed by the job.
-    public struct ImportAssetFromSignedUrlRequestDetails {
+    public struct ImportAssetFromSignedUrlRequestDetails: Swift.Sendable {
         /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name.
         /// This member is required.
         public var assetName: Swift.String?
@@ -1648,12 +1650,11 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum DatabaseLFTagPolicyPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DatabaseLFTagPolicyPermission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case describe
         case sdkUnknown(Swift.String)
 
@@ -1678,8 +1679,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// The LF-tag policy and permissions for database resources.
-    public struct DatabaseLFTagPolicyAndPermissions {
+    public struct DatabaseLFTagPolicyAndPermissions: Swift.Sendable {
         /// A list of LF-tag conditions that apply to database resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -1696,12 +1698,11 @@ extension DataExchangeClientTypes {
             self.permissions = permissions
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum TableTagPolicyLFPermission: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TableTagPolicyLFPermission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case describe
         case select
         case sdkUnknown(Swift.String)
@@ -1729,8 +1730,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// The LF-tag policy and permissions that apply to table resources.
-    public struct TableLFTagPolicyAndPermissions {
+    public struct TableLFTagPolicyAndPermissions: Swift.Sendable {
         /// A list of LF-tag conditions that apply to table resources.
         /// This member is required.
         public var expression: [DataExchangeClientTypes.LFTag]?
@@ -1747,12 +1749,12 @@ extension DataExchangeClientTypes {
             self.permissions = permissions
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the assets imported from an AWS Lake Formation tag policy request.
-    public struct ImportAssetsFromLakeFormationTagPolicyRequestDetails {
+    public struct ImportAssetsFromLakeFormationTagPolicyRequestDetails: Swift.Sendable {
         /// The identifier for the AWS Glue Data Catalog.
         /// This member is required.
         public var catalogId: Swift.String?
@@ -1787,12 +1789,12 @@ extension DataExchangeClientTypes {
             self.table = table
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The source of the Amazon Redshift datashare asset.
-    public struct RedshiftDataShareAssetSourceEntry {
+    public struct RedshiftDataShareAssetSourceEntry: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the datashare asset.
         /// This member is required.
         public var dataShareArn: Swift.String?
@@ -1804,12 +1806,12 @@ extension DataExchangeClientTypes {
             self.dataShareArn = dataShareArn
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details from an import from Amazon Redshift datashare request.
-    public struct ImportAssetsFromRedshiftDataSharesRequestDetails {
+    public struct ImportAssetsFromRedshiftDataSharesRequestDetails: Swift.Sendable {
         /// A list of Amazon Redshift datashare assets.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry]?
@@ -1831,12 +1833,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details of the operation to be performed by the job.
-    public struct ImportAssetsFromS3RequestDetails {
+    public struct ImportAssetsFromS3RequestDetails: Swift.Sendable {
         /// Is a list of Amazon S3 bucket and object key pairs.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.AssetSourceEntry]?
@@ -1858,12 +1860,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The details for the request.
-    public struct RequestDetails {
+    public struct RequestDetails: Swift.Sendable {
         /// Details of the request to create S3 data access from the Amazon S3 bucket.
         public var createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails?
         /// Details about the export to signed URL request.
@@ -1906,12 +1908,11 @@ extension DataExchangeClientTypes {
             self.importAssetsFromS3 = importAssetsFromS3
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createS3DataAccessFromS3Bucket
         case exportAssetsToS3
         case exportAssetToSignedUrl
@@ -1959,7 +1960,7 @@ extension DataExchangeClientTypes {
     }
 }
 
-public struct CreateJobInput {
+public struct CreateJobInput: Swift.Sendable {
     /// The details for the CreateJob request.
     /// This member is required.
     public var details: DataExchangeClientTypes.RequestDetails?
@@ -1978,8 +1979,9 @@ public struct CreateJobInput {
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the response of the operation to create an S3 data access from an S3 bucket.
-    public struct CreateS3DataAccessFromS3BucketResponseDetails {
+    public struct CreateS3DataAccessFromS3BucketResponseDetails: Swift.Sendable {
         /// Details about the asset source from an Amazon S3 bucket.
         /// This member is required.
         public var assetSource: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?
@@ -2001,12 +2003,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the export to Amazon S3 response.
-    public struct ExportAssetsToS3ResponseDetails {
+    public struct ExportAssetsToS3ResponseDetails: Swift.Sendable {
         /// The destination in Amazon S3 where the asset is exported.
         /// This member is required.
         public var assetDestinations: [DataExchangeClientTypes.AssetDestinationEntry]?
@@ -2032,12 +2034,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The details of the export to signed URL response.
-    public struct ExportAssetToSignedUrlResponseDetails {
+    public struct ExportAssetToSignedUrlResponseDetails: Swift.Sendable {
         /// The unique identifier for the asset associated with this export job.
         /// This member is required.
         public var assetId: Swift.String?
@@ -2067,12 +2069,12 @@ extension DataExchangeClientTypes {
             self.signedUrlExpiresAt = signedUrlExpiresAt
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the export revisions to Amazon S3 response.
-    public struct ExportRevisionsToS3ResponseDetails {
+    public struct ExportRevisionsToS3ResponseDetails: Swift.Sendable {
         /// The unique identifier for the data set associated with this export job.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -2097,12 +2099,12 @@ extension DataExchangeClientTypes {
             self.revisionDestinations = revisionDestinations
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The response details.
-    public struct ImportAssetFromApiGatewayApiResponseDetails {
+    public struct ImportAssetFromApiGatewayApiResponseDetails: Swift.Sendable {
         /// The API description.
         public var apiDescription: Swift.String?
         /// The API ID.
@@ -2162,12 +2164,12 @@ extension DataExchangeClientTypes {
             self.stage = stage
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// The details in the response for an import request, including the signed URL and other information.
-    public struct ImportAssetFromSignedUrlResponseDetails {
+    public struct ImportAssetFromSignedUrlResponseDetails: Swift.Sendable {
         /// The name for the asset associated with this import job.
         /// This member is required.
         public var assetName: Swift.String?
@@ -2201,12 +2203,12 @@ extension DataExchangeClientTypes {
             self.signedUrlExpiresAt = signedUrlExpiresAt
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details from an import AWS Lake Formation tag policy job response.
-    public struct ImportAssetsFromLakeFormationTagPolicyResponseDetails {
+    public struct ImportAssetsFromLakeFormationTagPolicyResponseDetails: Swift.Sendable {
         /// The identifier for the AWS Glue Data Catalog.
         /// This member is required.
         public var catalogId: Swift.String?
@@ -2241,12 +2243,12 @@ extension DataExchangeClientTypes {
             self.table = table
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details from an import from Amazon Redshift datashare response.
-    public struct ImportAssetsFromRedshiftDataSharesResponseDetails {
+    public struct ImportAssetsFromRedshiftDataSharesResponseDetails: Swift.Sendable {
         /// A list of Amazon Redshift datashare asset sources.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry]?
@@ -2268,12 +2270,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details from an import from Amazon S3 response.
-    public struct ImportAssetsFromS3ResponseDetails {
+    public struct ImportAssetsFromS3ResponseDetails: Swift.Sendable {
         /// Is a list of Amazon S3 bucket and object key pairs.
         /// This member is required.
         public var assetSources: [DataExchangeClientTypes.AssetSourceEntry]?
@@ -2295,12 +2297,12 @@ extension DataExchangeClientTypes {
             self.revisionId = revisionId
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details for the response.
-    public struct ResponseDetails {
+    public struct ResponseDetails: Swift.Sendable {
         /// Response details from the CreateS3DataAccessFromS3Bucket job.
         public var createS3DataAccessFromS3Bucket: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails?
         /// Details for the export to signed URL response.
@@ -2343,12 +2345,12 @@ extension DataExchangeClientTypes {
             self.importAssetsFromS3 = importAssetsFromS3
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the job error.
-    public struct ImportAssetFromSignedUrlJobErrorDetails {
+    public struct ImportAssetFromSignedUrlJobErrorDetails: Swift.Sendable {
         /// Details about the job error.
         /// This member is required.
         public var assetName: Swift.String?
@@ -2360,12 +2362,12 @@ extension DataExchangeClientTypes {
             self.assetName = assetName
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Information about the job error.
-    public struct Details {
+    public struct Details: Swift.Sendable {
         /// Information about the job error.
         public var importAssetFromSignedUrlJobErrorDetails: DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails?
         /// Details about the job error.
@@ -2380,12 +2382,11 @@ extension DataExchangeClientTypes {
             self.importAssetsFromS3JobErrorDetails = importAssetsFromS3JobErrorDetails
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum JobErrorLimitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum JobErrorLimitName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsLakeFormationDataPermissionAssetsPerRevision
         case amazonRedshiftDatashareAssetsPerRevision
         case amazonS3DataAccessAssetsPerRevision
@@ -2423,7 +2424,7 @@ extension DataExchangeClientTypes {
 
 extension DataExchangeClientTypes {
 
-    public enum JobErrorResourceTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum JobErrorResourceTypes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asset
         case dataSet
         case revision
@@ -2454,8 +2455,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// An error that occurred with the job request.
-    public struct JobError {
+    public struct JobError: Swift.Sendable {
         /// The code for the job error.
         /// This member is required.
         public var code: DataExchangeClientTypes.Code?
@@ -2492,12 +2494,11 @@ extension DataExchangeClientTypes {
             self.resourceType = resourceType
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum State: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case completed
         case error
@@ -2536,7 +2537,7 @@ extension DataExchangeClientTypes {
     }
 }
 
-public struct CreateJobOutput {
+public struct CreateJobOutput: Swift.Sendable {
     /// The ARN for the job.
     public var arn: Swift.String?
     /// The date and time that the job was created, in ISO 8601 format.
@@ -2576,7 +2577,7 @@ public struct CreateJobOutput {
     }
 }
 
-public struct CreateRevisionInput {
+public struct CreateRevisionInput: Swift.Sendable {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The unique identifier for a data set.
@@ -2597,7 +2598,7 @@ public struct CreateRevisionInput {
     }
 }
 
-public struct CreateRevisionOutput {
+public struct CreateRevisionOutput: Swift.Sendable {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.
@@ -2653,7 +2654,7 @@ public struct CreateRevisionOutput {
     }
 }
 
-public struct DeleteAssetInput {
+public struct DeleteAssetInput: Swift.Sendable {
     /// The unique identifier for an asset.
     /// This member is required.
     public var assetId: Swift.String?
@@ -2676,7 +2677,7 @@ public struct DeleteAssetInput {
     }
 }
 
-public struct DeleteDataSetInput {
+public struct DeleteDataSetInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -2689,7 +2690,7 @@ public struct DeleteDataSetInput {
     }
 }
 
-public struct DeleteEventActionInput {
+public struct DeleteEventActionInput: Swift.Sendable {
     /// The unique identifier for the event action.
     /// This member is required.
     public var eventActionId: Swift.String?
@@ -2702,7 +2703,7 @@ public struct DeleteEventActionInput {
     }
 }
 
-public struct DeleteRevisionInput {
+public struct DeleteRevisionInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -2720,7 +2721,7 @@ public struct DeleteRevisionInput {
     }
 }
 
-public struct GetAssetInput {
+public struct GetAssetInput: Swift.Sendable {
     /// The unique identifier for an asset.
     /// This member is required.
     public var assetId: Swift.String?
@@ -2743,7 +2744,7 @@ public struct GetAssetInput {
     }
 }
 
-public struct GetAssetOutput {
+public struct GetAssetOutput: Swift.Sendable {
     /// The ARN for the asset.
     public var arn: Swift.String?
     /// Details about the asset.
@@ -2791,7 +2792,7 @@ public struct GetAssetOutput {
     }
 }
 
-public struct GetDataSetInput {
+public struct GetDataSetInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -2804,7 +2805,7 @@ public struct GetDataSetInput {
     }
 }
 
-public struct GetDataSetOutput {
+public struct GetDataSetOutput: Swift.Sendable {
     /// The ARN for the data set.
     public var arn: Swift.String?
     /// The type of asset that is added to a data set.
@@ -2856,7 +2857,7 @@ public struct GetDataSetOutput {
     }
 }
 
-public struct GetEventActionInput {
+public struct GetEventActionInput: Swift.Sendable {
     /// The unique identifier for the event action.
     /// This member is required.
     public var eventActionId: Swift.String?
@@ -2869,7 +2870,7 @@ public struct GetEventActionInput {
     }
 }
 
-public struct GetEventActionOutput {
+public struct GetEventActionOutput: Swift.Sendable {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The ARN for the event action.
@@ -2901,7 +2902,7 @@ public struct GetEventActionOutput {
     }
 }
 
-public struct GetJobInput {
+public struct GetJobInput: Swift.Sendable {
     /// The unique identifier for a job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2914,7 +2915,7 @@ public struct GetJobInput {
     }
 }
 
-public struct GetJobOutput {
+public struct GetJobOutput: Swift.Sendable {
     /// The ARN for the job.
     public var arn: Swift.String?
     /// The date and time that the job was created, in ISO 8601 format.
@@ -2954,7 +2955,7 @@ public struct GetJobOutput {
     }
 }
 
-public struct GetRevisionInput {
+public struct GetRevisionInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -2972,7 +2973,7 @@ public struct GetRevisionInput {
     }
 }
 
-public struct GetRevisionOutput {
+public struct GetRevisionOutput: Swift.Sendable {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.
@@ -3028,7 +3029,7 @@ public struct GetRevisionOutput {
     }
 }
 
-public struct ListDataSetRevisionsInput {
+public struct ListDataSetRevisionsInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -3050,8 +3051,9 @@ public struct ListDataSetRevisionsInput {
 }
 
 extension DataExchangeClientTypes {
+
     /// A revision is a container for one or more assets.
-    public struct RevisionEntry {
+    public struct RevisionEntry: Swift.Sendable {
         /// The ARN for the revision.
         /// This member is required.
         public var arn: Swift.String?
@@ -3107,10 +3109,9 @@ extension DataExchangeClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct ListDataSetRevisionsOutput {
+public struct ListDataSetRevisionsOutput: Swift.Sendable {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// The asset objects listed by the request.
@@ -3126,7 +3127,7 @@ public struct ListDataSetRevisionsOutput {
     }
 }
 
-public struct ListDataSetsInput {
+public struct ListDataSetsInput: Swift.Sendable {
     /// The maximum number of results returned by a single call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3147,8 +3148,9 @@ public struct ListDataSetsInput {
 }
 
 extension DataExchangeClientTypes {
+
     /// A data set is an AWS resource with one or more revisions.
-    public struct DataSetEntry {
+    public struct DataSetEntry: Swift.Sendable {
         /// The ARN for the data set.
         /// This member is required.
         public var arn: Swift.String?
@@ -3203,10 +3205,9 @@ extension DataExchangeClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct ListDataSetsOutput {
+public struct ListDataSetsOutput: Swift.Sendable {
     /// The data set objects listed by the request.
     public var dataSets: [DataExchangeClientTypes.DataSetEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3222,7 +3223,7 @@ public struct ListDataSetsOutput {
     }
 }
 
-public struct ListEventActionsInput {
+public struct ListEventActionsInput: Swift.Sendable {
     /// The unique identifier for the event source.
     public var eventSourceId: Swift.String?
     /// The maximum number of results returned by a single call.
@@ -3243,8 +3244,9 @@ public struct ListEventActionsInput {
 }
 
 extension DataExchangeClientTypes {
+
     /// An event action is an object that defines the relationship between a specific event and an automated action that will be taken on behalf of the customer.
-    public struct EventActionEntry {
+    public struct EventActionEntry: Swift.Sendable {
         /// What occurs after a certain event.
         /// This member is required.
         public var action: DataExchangeClientTypes.Action?
@@ -3281,10 +3283,9 @@ extension DataExchangeClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct ListEventActionsOutput {
+public struct ListEventActionsOutput: Swift.Sendable {
     /// The event action objects listed by the request.
     public var eventActions: [DataExchangeClientTypes.EventActionEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3300,7 +3301,7 @@ public struct ListEventActionsOutput {
     }
 }
 
-public struct ListJobsInput {
+public struct ListJobsInput: Swift.Sendable {
     /// The unique identifier for a data set.
     public var dataSetId: Swift.String?
     /// The maximum number of results returned by a single call.
@@ -3325,8 +3326,9 @@ public struct ListJobsInput {
 }
 
 extension DataExchangeClientTypes {
+
     /// AWS Data Exchange Jobs are asynchronous import or export operations used to create or copy assets. A data set owner can both import and export as they see fit. Someone with an entitlement to a data set can only export. Jobs are deleted 90 days after they are created.
-    public struct JobEntry {
+    public struct JobEntry: Swift.Sendable {
         /// The ARN for the job.
         /// This member is required.
         public var arn: Swift.String?
@@ -3372,10 +3374,9 @@ extension DataExchangeClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct ListJobsOutput {
+public struct ListJobsOutput: Swift.Sendable {
     /// The jobs listed by the request.
     public var jobs: [DataExchangeClientTypes.JobEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3391,7 +3392,7 @@ public struct ListJobsOutput {
     }
 }
 
-public struct ListRevisionAssetsInput {
+public struct ListRevisionAssetsInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -3417,7 +3418,7 @@ public struct ListRevisionAssetsInput {
     }
 }
 
-public struct ListRevisionAssetsOutput {
+public struct ListRevisionAssetsOutput: Swift.Sendable {
     /// The asset objects listed by the request.
     public var assets: [DataExchangeClientTypes.AssetEntry]?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3433,7 +3434,7 @@ public struct ListRevisionAssetsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3446,7 +3447,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A label that consists of a customer-defined key and an optional value.
     public var tags: [Swift.String: Swift.String]?
 
@@ -3458,7 +3459,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct RevokeRevisionInput {
+public struct RevokeRevisionInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -3481,7 +3482,7 @@ public struct RevokeRevisionInput {
     }
 }
 
-public struct RevokeRevisionOutput {
+public struct RevokeRevisionOutput: Swift.Sendable {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.
@@ -3533,7 +3534,7 @@ public struct RevokeRevisionOutput {
     }
 }
 
-public struct SendApiAssetInput {
+public struct SendApiAssetInput: Swift.Sendable {
     /// Asset ID value for the API request.
     /// This member is required.
     public var assetId: Swift.String?
@@ -3576,7 +3577,7 @@ public struct SendApiAssetInput {
     }
 }
 
-public struct SendApiAssetOutput {
+public struct SendApiAssetOutput: Swift.Sendable {
     /// The response body from the underlying API tracked by the API asset.
     public var body: Swift.String?
     /// The response headers from the underlying API tracked by the API asset.
@@ -3593,8 +3594,9 @@ public struct SendApiAssetOutput {
 }
 
 extension DataExchangeClientTypes {
+
     /// Extra details specific to a data update type notification.
-    public struct DataUpdateRequestDetails {
+    public struct DataUpdateRequestDetails: Swift.Sendable {
         /// A datetime in the past when the data was updated. This typically means that the underlying resource supporting the data set was updated.
         public var dataUpdatedAt: Foundation.Date?
 
@@ -3605,12 +3607,12 @@ extension DataExchangeClientTypes {
             self.dataUpdatedAt = dataUpdatedAt
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Extra details specific to a deprecation type notification.
-    public struct DeprecationRequestDetails {
+    public struct DeprecationRequestDetails: Swift.Sendable {
         /// A datetime in the future when the data set will be deprecated.
         /// This member is required.
         public var deprecationAt: Foundation.Date?
@@ -3622,12 +3624,11 @@ extension DataExchangeClientTypes {
             self.deprecationAt = deprecationAt
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum SchemaChangeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SchemaChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case add
         case modify
         case remove
@@ -3658,8 +3659,9 @@ extension DataExchangeClientTypes {
 }
 
 extension DataExchangeClientTypes {
+
     /// Object encompassing information about a schema change to a single, particular field, a notification can have up to 100 of these.
-    public struct SchemaChangeDetails {
+    public struct SchemaChangeDetails: Swift.Sendable {
         /// Description of what's changing about this field. This value can be up to 512 characters long.
         public var description: Swift.String?
         /// Name of the changing field. This value can be up to 255 characters long.
@@ -3680,12 +3682,12 @@ extension DataExchangeClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Extra details specific to this schema change type notification.
-    public struct SchemaChangeRequestDetails {
+    public struct SchemaChangeRequestDetails: Swift.Sendable {
         /// List of schema changes happening in the scope of this notification. This can have up to 100 entries.
         public var changes: [DataExchangeClientTypes.SchemaChangeDetails]?
         /// A date in the future when the schema change is taking effect.
@@ -3701,12 +3703,12 @@ extension DataExchangeClientTypes {
             self.schemaChangeAt = schemaChangeAt
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Extra details specific to this notification.
-    public struct NotificationDetails {
+    public struct NotificationDetails: Swift.Sendable {
         /// Extra details specific to a data update type notification.
         public var dataUpdate: DataExchangeClientTypes.DataUpdateRequestDetails?
         /// Extra details specific to a deprecation type notification.
@@ -3725,12 +3727,12 @@ extension DataExchangeClientTypes {
             self.schemaChange = schemaChange
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Extra details specific to the affected scope in this LF data set.
-    public struct LakeFormationTagPolicyDetails {
+    public struct LakeFormationTagPolicyDetails: Swift.Sendable {
         /// The underlying Glue database that the notification is referring to.
         public var database: Swift.String?
         /// The underlying Glue table that the notification is referring to.
@@ -3745,12 +3747,12 @@ extension DataExchangeClientTypes {
             self.table = table
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Extra details specific to the affected scope in this Redshift data set.
-    public struct RedshiftDataShareDetails {
+    public struct RedshiftDataShareDetails: Swift.Sendable {
         /// The ARN of the underlying Redshift data share that is being affected by this notification.
         /// This member is required.
         public var arn: Swift.String?
@@ -3783,12 +3785,12 @@ extension DataExchangeClientTypes {
             self.view = view
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Extra details specific to the affected scope in this S3 Data Access data set.
-    public struct S3DataAccessDetails {
+    public struct S3DataAccessDetails: Swift.Sendable {
         /// A list of the key prefixes affected by this notification. This can have up to 50 entries.
         public var keyPrefixes: [Swift.String]?
         /// A list of the keys affected by this notification. This can have up to 50 entries.
@@ -3803,12 +3805,12 @@ extension DataExchangeClientTypes {
             self.keys = keys
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
+
     /// Details about the scope of the notifications such as the affected resources.
-    public struct ScopeDetails {
+    public struct ScopeDetails: Swift.Sendable {
         /// Underlying LF resources that will be affected by this notification.
         public var lakeFormationTagPolicies: [DataExchangeClientTypes.LakeFormationTagPolicyDetails]?
         /// Underlying Redshift resources that will be affected by this notification.
@@ -3827,12 +3829,11 @@ extension DataExchangeClientTypes {
             self.s3DataAccesses = s3DataAccesses
         }
     }
-
 }
 
 extension DataExchangeClientTypes {
 
-    public enum NotificationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NotificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dataDelay
         case dataUpdate
         case deprecation
@@ -3865,7 +3866,7 @@ extension DataExchangeClientTypes {
     }
 }
 
-public struct SendDataSetNotificationInput {
+public struct SendDataSetNotificationInput: Swift.Sendable {
     /// Idempotency key for the notification, this key allows us to deduplicate notifications that are sent in quick succession erroneously.
     public var clientToken: Swift.String?
     /// Free-form text field for providers to add information about their notifications.
@@ -3899,12 +3900,12 @@ public struct SendDataSetNotificationInput {
     }
 }
 
-public struct SendDataSetNotificationOutput {
+public struct SendDataSetNotificationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct StartJobInput {
+public struct StartJobInput: Swift.Sendable {
     /// The unique identifier for a job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3917,12 +3918,12 @@ public struct StartJobInput {
     }
 }
 
-public struct StartJobOutput {
+public struct StartJobOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3940,7 +3941,7 @@ public struct TagResourceInput {
     }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3958,7 +3959,7 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UpdateAssetInput {
+public struct UpdateAssetInput: Swift.Sendable {
     /// The unique identifier for an asset.
     /// This member is required.
     public var assetId: Swift.String?
@@ -3986,7 +3987,7 @@ public struct UpdateAssetInput {
     }
 }
 
-public struct UpdateAssetOutput {
+public struct UpdateAssetOutput: Swift.Sendable {
     /// The ARN for the asset.
     public var arn: Swift.String?
     /// Details about the asset.
@@ -4034,7 +4035,7 @@ public struct UpdateAssetOutput {
     }
 }
 
-public struct UpdateDataSetInput {
+public struct UpdateDataSetInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -4055,7 +4056,7 @@ public struct UpdateDataSetInput {
     }
 }
 
-public struct UpdateDataSetOutput {
+public struct UpdateDataSetOutput: Swift.Sendable {
     /// The ARN for the data set.
     public var arn: Swift.String?
     /// The type of asset that is added to a data set.
@@ -4103,7 +4104,7 @@ public struct UpdateDataSetOutput {
     }
 }
 
-public struct UpdateEventActionInput {
+public struct UpdateEventActionInput: Swift.Sendable {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The unique identifier for the event action.
@@ -4120,7 +4121,7 @@ public struct UpdateEventActionInput {
     }
 }
 
-public struct UpdateEventActionOutput {
+public struct UpdateEventActionOutput: Swift.Sendable {
     /// What occurs after a certain event.
     public var action: DataExchangeClientTypes.Action?
     /// The ARN for the event action.
@@ -4152,7 +4153,7 @@ public struct UpdateEventActionOutput {
     }
 }
 
-public struct UpdateRevisionInput {
+public struct UpdateRevisionInput: Swift.Sendable {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The unique identifier for a data set.
@@ -4178,7 +4179,7 @@ public struct UpdateRevisionInput {
     }
 }
 
-public struct UpdateRevisionOutput {
+public struct UpdateRevisionOutput: Swift.Sendable {
     /// The ARN for the revision.
     public var arn: Swift.String?
     /// An optional comment about the revision.

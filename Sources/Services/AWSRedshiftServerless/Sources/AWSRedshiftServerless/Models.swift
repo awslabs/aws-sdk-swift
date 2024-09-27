@@ -56,8 +56,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// An object that represents the custom domain name association.
-    public struct Association {
+    public struct Association: Swift.Sendable {
         /// The custom domain name’s certificate Amazon resource name (ARN).
         public var customDomainCertificateArn: Swift.String?
         /// The expiration time for the certificate.
@@ -80,12 +81,12 @@ extension RedshiftServerlessClientTypes {
             self.workgroupName = workgroupName
         }
     }
-
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
-    public struct ConfigParameter {
+    public struct ConfigParameter: Swift.Sendable {
         /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
@@ -100,7 +101,6 @@ extension RedshiftServerlessClientTypes {
             self.parameterValue = parameterValue
         }
     }
-
 }
 
 /// The submitted action has conflicts.
@@ -261,8 +261,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// A map of key-value pairs.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The key to use in the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -279,10 +280,9 @@ extension RedshiftServerlessClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct ConvertRecoveryPointToSnapshotInput {
+public struct ConvertRecoveryPointToSnapshotInput: Swift.Sendable {
     /// The unique identifier of the recovery point.
     /// This member is required.
     public var recoveryPointId: Swift.String?
@@ -310,7 +310,7 @@ public struct ConvertRecoveryPointToSnapshotInput {
 
 extension RedshiftServerlessClientTypes {
 
-    public enum SnapshotStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SnapshotStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case cancelled
         case copying
@@ -350,8 +350,9 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// A snapshot object that contains databases.
-    public struct Snapshot {
+    public struct Snapshot: Swift.Sendable {
         /// All of the Amazon Web Services accounts that have access to restore a snapshot to a provisioned cluster.
         public var accountsWithProvisionedRestoreAccess: [Swift.String]?
         /// All of the Amazon Web Services accounts that have access to restore a snapshot to a namespace.
@@ -446,10 +447,9 @@ extension RedshiftServerlessClientTypes {
             self.totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytes
         }
     }
-
 }
 
-public struct ConvertRecoveryPointToSnapshotOutput {
+public struct ConvertRecoveryPointToSnapshotOutput: Swift.Sendable {
     /// The snapshot converted from the recovery point.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -488,7 +488,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct CreateCustomDomainAssociationInput {
+public struct CreateCustomDomainAssociationInput: Swift.Sendable {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     /// This member is required.
     public var customDomainCertificateArn: Swift.String?
@@ -511,7 +511,7 @@ public struct CreateCustomDomainAssociationInput {
     }
 }
 
-public struct CreateCustomDomainAssociationOutput {
+public struct CreateCustomDomainAssociationOutput: Swift.Sendable {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The expiration time for the certificate.
@@ -535,7 +535,7 @@ public struct CreateCustomDomainAssociationOutput {
     }
 }
 
-public struct CreateEndpointAccessInput {
+public struct CreateEndpointAccessInput: Swift.Sendable {
     /// The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -567,8 +567,9 @@ public struct CreateEndpointAccessInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// Contains information about a network interface in an Amazon Redshift Serverless managed VPC endpoint.
-    public struct NetworkInterface {
+    public struct NetworkInterface: Swift.Sendable {
         /// The availability Zone.
         public var availabilityZone: Swift.String?
         /// The unique identifier of the network interface.
@@ -591,12 +592,12 @@ extension RedshiftServerlessClientTypes {
             self.subnetId = subnetId
         }
     }
-
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The connection endpoint for connecting to Amazon Redshift Serverless through the proxy.
-    public struct VpcEndpoint {
+    public struct VpcEndpoint: Swift.Sendable {
         /// One or more network interfaces of the endpoint. Also known as an interface endpoint.
         public var networkInterfaces: [RedshiftServerlessClientTypes.NetworkInterface]?
         /// The connection endpoint ID for connecting to Amazon Redshift Serverless.
@@ -615,12 +616,12 @@ extension RedshiftServerlessClientTypes {
             self.vpcId = vpcId
         }
     }
-
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// Describes the members of a VPC security group.
-    public struct VpcSecurityGroupMembership {
+    public struct VpcSecurityGroupMembership: Swift.Sendable {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The unique identifier of the VPC security group.
@@ -635,12 +636,12 @@ extension RedshiftServerlessClientTypes {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
     }
-
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// Information about an Amazon Redshift Serverless VPC endpoint.
-    public struct EndpointAccess {
+    public struct EndpointAccess: Swift.Sendable {
         /// The DNS address of the endpoint.
         public var address: Swift.String?
         /// The Amazon Resource Name (ARN) of the VPC endpoint.
@@ -687,10 +688,9 @@ extension RedshiftServerlessClientTypes {
             self.workgroupName = workgroupName
         }
     }
-
 }
 
-public struct CreateEndpointAccessOutput {
+public struct CreateEndpointAccessOutput: Swift.Sendable {
     /// The created VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -704,7 +704,7 @@ public struct CreateEndpointAccessOutput {
 
 extension RedshiftServerlessClientTypes {
 
-    public enum LogExport: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum LogExport: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connectionLog
         case userActivityLog
         case userLog
@@ -734,7 +734,7 @@ extension RedshiftServerlessClientTypes {
     }
 }
 
-public struct CreateNamespaceInput {
+public struct CreateNamespaceInput: Swift.Sendable {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     public var adminPasswordSecretKmsKeyId: Swift.String?
     /// The password of the administrator for the first database created in the namespace. You can't use adminUserPassword if manageAdminPassword is true.
@@ -798,7 +798,7 @@ extension CreateNamespaceInput: Swift.CustomDebugStringConvertible {
 
 extension RedshiftServerlessClientTypes {
 
-    public enum NamespaceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NamespaceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deleting
         case modifying
@@ -829,8 +829,9 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// A collection of database objects and users.
-    public struct Namespace {
+    public struct Namespace: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the namespace's admin user credentials secret.
         public var adminPasswordSecretArn: Swift.String?
         /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
@@ -889,7 +890,6 @@ extension RedshiftServerlessClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension RedshiftServerlessClientTypes.Namespace: Swift.CustomDebugStringConvertible {
@@ -897,7 +897,7 @@ extension RedshiftServerlessClientTypes.Namespace: Swift.CustomDebugStringConver
         "Namespace(adminPasswordSecretArn: \(Swift.String(describing: adminPasswordSecretArn)), adminPasswordSecretKmsKeyId: \(Swift.String(describing: adminPasswordSecretKmsKeyId)), creationDate: \(Swift.String(describing: creationDate)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), namespaceArn: \(Swift.String(describing: namespaceArn)), namespaceId: \(Swift.String(describing: namespaceId)), namespaceName: \(Swift.String(describing: namespaceName)), status: \(Swift.String(describing: status)), adminUsername: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateNamespaceOutput {
+public struct CreateNamespaceOutput: Swift.Sendable {
     /// The created namespace object.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
 
@@ -910,20 +910,21 @@ public struct CreateNamespaceOutput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The schedule of when Amazon Redshift Serverless should run the scheduled action.
-    public enum Schedule {
+    public enum Schedule: Swift.Sendable {
         /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
         case at(Foundation.Date)
         /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
         case cron(Swift.String)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The parameters that you can use to configure a [scheduled action](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html) to create a snapshot. For more information about creating a scheduled action, see [CreateScheduledAction](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html).
-    public struct CreateSnapshotScheduleActionParameters {
+    public struct CreateSnapshotScheduleActionParameters: Swift.Sendable {
         /// The name of the namespace for which you want to configure a scheduled action to create a snapshot.
         /// This member is required.
         public var namespaceName: Swift.String?
@@ -948,20 +949,19 @@ extension RedshiftServerlessClientTypes {
             self.tags = tags
         }
     }
-
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// A JSON format string of the Amazon Redshift Serverless API operation with input parameters. The following is an example of a target action. "{"CreateSnapshot": {"NamespaceName": "sampleNamespace","SnapshotName": "sampleSnapshot", "retentionPeriod": "1"}}"
-    public enum TargetAction {
+    public enum TargetAction: Swift.Sendable {
         /// The parameters that you can use to configure a [scheduled action](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html) to create a snapshot. For more information about creating a scheduled action, see [CreateScheduledAction](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_CreateScheduledAction.html).
         case createsnapshot(RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters)
         case sdkUnknown(Swift.String)
     }
-
 }
 
-public struct CreateScheduledActionInput {
+public struct CreateScheduledActionInput: Swift.Sendable {
     /// Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see [ScheduledAction](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_ScheduledAction.html).
     public var enabled: Swift.Bool?
     /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
@@ -1016,7 +1016,7 @@ public struct CreateScheduledActionInput {
 
 extension RedshiftServerlessClientTypes {
 
-    public enum State: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case disabled
         case sdkUnknown(Swift.String)
@@ -1044,8 +1044,9 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The returned scheduled action object.
-    public struct ScheduledActionResponse {
+    public struct ScheduledActionResponse: Swift.Sendable {
         /// The end time of
         public var endTime: Foundation.Date?
         /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
@@ -1100,10 +1101,9 @@ extension RedshiftServerlessClientTypes {
             self.targetAction = targetAction
         }
     }
-
 }
 
-public struct CreateScheduledActionOutput {
+public struct CreateScheduledActionOutput: Swift.Sendable {
     /// The returned ScheduledAction object that describes the properties of a scheduled action.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -1115,7 +1115,7 @@ public struct CreateScheduledActionOutput {
     }
 }
 
-public struct CreateSnapshotInput {
+public struct CreateSnapshotInput: Swift.Sendable {
     /// The namespace to create a snapshot for.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -1141,7 +1141,7 @@ public struct CreateSnapshotInput {
     }
 }
 
-public struct CreateSnapshotOutput {
+public struct CreateSnapshotOutput: Swift.Sendable {
     /// The created snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -1153,7 +1153,7 @@ public struct CreateSnapshotOutput {
     }
 }
 
-public struct CreateSnapshotCopyConfigurationInput {
+public struct CreateSnapshotCopyConfigurationInput: Swift.Sendable {
     /// The KMS key to use to encrypt your snapshots in the destination Amazon Web Services Region.
     public var destinationKmsKeyId: Swift.String?
     /// The destination Amazon Web Services Region that you want to copy snapshots to.
@@ -1180,8 +1180,9 @@ public struct CreateSnapshotCopyConfigurationInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The object that you configure to copy snapshots from one namespace to a namespace in another Amazon Web Services Region.
-    public struct SnapshotCopyConfiguration {
+    public struct SnapshotCopyConfiguration: Swift.Sendable {
         /// The ID of the KMS key to use to encrypt your snapshots in the destination Amazon Web Services Region.
         public var destinationKmsKeyId: Swift.String?
         /// The destination Amazon Web Services Region to copy snapshots to.
@@ -1212,10 +1213,9 @@ extension RedshiftServerlessClientTypes {
             self.snapshotRetentionPeriod = snapshotRetentionPeriod
         }
     }
-
 }
 
-public struct CreateSnapshotCopyConfigurationOutput {
+public struct CreateSnapshotCopyConfigurationOutput: Swift.Sendable {
     /// The snapshot copy configuration object that is returned.
     /// This member is required.
     public var snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
@@ -1230,7 +1230,7 @@ public struct CreateSnapshotCopyConfigurationOutput {
 
 extension RedshiftServerlessClientTypes {
 
-    public enum UsageLimitBreachAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UsageLimitBreachAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deactivate
         case emitMetric
         case log
@@ -1262,7 +1262,7 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes {
 
-    public enum UsageLimitPeriod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UsageLimitPeriod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case daily
         case monthly
         case weekly
@@ -1294,7 +1294,7 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes {
 
-    public enum UsageLimitUsageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum UsageLimitUsageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case crossRegionDatasharing
         case serverlessCompute
         case sdkUnknown(Swift.String)
@@ -1321,7 +1321,7 @@ extension RedshiftServerlessClientTypes {
     }
 }
 
-public struct CreateUsageLimitInput {
+public struct CreateUsageLimitInput: Swift.Sendable {
     /// The limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     /// This member is required.
     public var amount: Swift.Int?
@@ -1353,8 +1353,9 @@ public struct CreateUsageLimitInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The usage limit object.
-    public struct UsageLimit {
+    public struct UsageLimit: Swift.Sendable {
         /// The limit amount. If time-based, this amount is in RPUs consumed per hour. If data-based, this amount is in terabytes (TB). The value must be a positive number.
         public var amount: Swift.Int?
         /// The action that Amazon Redshift Serverless takes when the limit is reached.
@@ -1389,10 +1390,9 @@ extension RedshiftServerlessClientTypes {
             self.usageType = usageType
         }
     }
-
 }
 
-public struct CreateUsageLimitOutput {
+public struct CreateUsageLimitOutput: Swift.Sendable {
     /// The returned usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -1429,7 +1429,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-public struct CreateWorkgroupInput {
+public struct CreateWorkgroupInput: Swift.Sendable {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
     /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
@@ -1484,8 +1484,9 @@ public struct CreateWorkgroupInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The VPC endpoint object.
-    public struct Endpoint {
+    public struct Endpoint: Swift.Sendable {
         /// The DNS address of the VPC endpoint.
         public var address: Swift.String?
         /// The port that Amazon Redshift Serverless listens on.
@@ -1504,12 +1505,11 @@ extension RedshiftServerlessClientTypes {
             self.vpcEndpoints = vpcEndpoints
         }
     }
-
 }
 
 extension RedshiftServerlessClientTypes {
 
-    public enum WorkgroupStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum WorkgroupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case creating
         case deleting
@@ -1543,8 +1543,9 @@ extension RedshiftServerlessClientTypes {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The collection of computing resources from which an endpoint is created.
-    public struct Workgroup {
+    public struct Workgroup: Swift.Sendable {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public var baseCapacity: Swift.Int?
         /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
@@ -1635,10 +1636,9 @@ extension RedshiftServerlessClientTypes {
             self.workgroupVersion = workgroupVersion
         }
     }
-
 }
 
-public struct CreateWorkgroupOutput {
+public struct CreateWorkgroupOutput: Swift.Sendable {
     /// The created workgroup object.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?
 
@@ -1650,7 +1650,7 @@ public struct CreateWorkgroupOutput {
     }
 }
 
-public struct DeleteEndpointAccessInput {
+public struct DeleteEndpointAccessInput: Swift.Sendable {
     /// The name of the VPC endpoint to delete.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -1663,7 +1663,7 @@ public struct DeleteEndpointAccessInput {
     }
 }
 
-public struct DeleteEndpointAccessOutput {
+public struct DeleteEndpointAccessOutput: Swift.Sendable {
     /// The deleted VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -1675,7 +1675,7 @@ public struct DeleteEndpointAccessOutput {
     }
 }
 
-public struct GetEndpointAccessInput {
+public struct GetEndpointAccessInput: Swift.Sendable {
     /// The name of the VPC endpoint to return information for.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -1688,7 +1688,7 @@ public struct GetEndpointAccessInput {
     }
 }
 
-public struct GetEndpointAccessOutput {
+public struct GetEndpointAccessOutput: Swift.Sendable {
     /// The returned VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -1700,7 +1700,7 @@ public struct GetEndpointAccessOutput {
     }
 }
 
-public struct ListEndpointAccessInput {
+public struct ListEndpointAccessInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in following ListEndpointAccess operations, which returns results in the next page.
@@ -1728,7 +1728,7 @@ public struct ListEndpointAccessInput {
     }
 }
 
-public struct ListEndpointAccessOutput {
+public struct ListEndpointAccessOutput: Swift.Sendable {
     /// The returned VPC endpoints.
     /// This member is required.
     public var endpoints: [RedshiftServerlessClientTypes.EndpointAccess]?
@@ -1745,7 +1745,7 @@ public struct ListEndpointAccessOutput {
     }
 }
 
-public struct UpdateEndpointAccessInput {
+public struct UpdateEndpointAccessInput: Swift.Sendable {
     /// The name of the VPC endpoint to update.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -1762,7 +1762,7 @@ public struct UpdateEndpointAccessInput {
     }
 }
 
-public struct UpdateEndpointAccessOutput {
+public struct UpdateEndpointAccessOutput: Swift.Sendable {
     /// The updated VPC endpoint.
     public var endpoint: RedshiftServerlessClientTypes.EndpointAccess?
 
@@ -1774,7 +1774,7 @@ public struct UpdateEndpointAccessOutput {
     }
 }
 
-public struct DeleteCustomDomainAssociationInput {
+public struct DeleteCustomDomainAssociationInput: Swift.Sendable {
     /// The custom domain name associated with the workgroup.
     /// This member is required.
     public var customDomainName: Swift.String?
@@ -1792,12 +1792,12 @@ public struct DeleteCustomDomainAssociationInput {
     }
 }
 
-public struct DeleteCustomDomainAssociationOutput {
+public struct DeleteCustomDomainAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteNamespaceInput {
+public struct DeleteNamespaceInput: Swift.Sendable {
     /// The name of the snapshot to be created before the namespace is deleted.
     public var finalSnapshotName: Swift.String?
     /// How long to retain the final snapshot.
@@ -1818,7 +1818,7 @@ public struct DeleteNamespaceInput {
     }
 }
 
-public struct DeleteNamespaceOutput {
+public struct DeleteNamespaceOutput: Swift.Sendable {
     /// The deleted namespace object.
     /// This member is required.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
@@ -1831,7 +1831,7 @@ public struct DeleteNamespaceOutput {
     }
 }
 
-public struct DeleteResourcePolicyInput {
+public struct DeleteResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the policy to delete.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1844,12 +1844,12 @@ public struct DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyOutput {
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct DeleteScheduledActionInput {
+public struct DeleteScheduledActionInput: Swift.Sendable {
     /// The name of the scheduled action to delete.
     /// This member is required.
     public var scheduledActionName: Swift.String?
@@ -1862,7 +1862,7 @@ public struct DeleteScheduledActionInput {
     }
 }
 
-public struct DeleteScheduledActionOutput {
+public struct DeleteScheduledActionOutput: Swift.Sendable {
     /// The deleted scheduled action object.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -1874,7 +1874,7 @@ public struct DeleteScheduledActionOutput {
     }
 }
 
-public struct DeleteSnapshotInput {
+public struct DeleteSnapshotInput: Swift.Sendable {
     /// The name of the snapshot to be deleted.
     /// This member is required.
     public var snapshotName: Swift.String?
@@ -1887,7 +1887,7 @@ public struct DeleteSnapshotInput {
     }
 }
 
-public struct DeleteSnapshotOutput {
+public struct DeleteSnapshotOutput: Swift.Sendable {
     /// The deleted snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -1899,7 +1899,7 @@ public struct DeleteSnapshotOutput {
     }
 }
 
-public struct DeleteSnapshotCopyConfigurationInput {
+public struct DeleteSnapshotCopyConfigurationInput: Swift.Sendable {
     /// The ID of the snapshot copy configuration to delete.
     /// This member is required.
     public var snapshotCopyConfigurationId: Swift.String?
@@ -1912,7 +1912,7 @@ public struct DeleteSnapshotCopyConfigurationInput {
     }
 }
 
-public struct DeleteSnapshotCopyConfigurationOutput {
+public struct DeleteSnapshotCopyConfigurationOutput: Swift.Sendable {
     /// The deleted snapshot copy configuration object.
     /// This member is required.
     public var snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
@@ -1925,7 +1925,7 @@ public struct DeleteSnapshotCopyConfigurationOutput {
     }
 }
 
-public struct DeleteUsageLimitInput {
+public struct DeleteUsageLimitInput: Swift.Sendable {
     /// The unique identifier of the usage limit to delete.
     /// This member is required.
     public var usageLimitId: Swift.String?
@@ -1938,7 +1938,7 @@ public struct DeleteUsageLimitInput {
     }
 }
 
-public struct DeleteUsageLimitOutput {
+public struct DeleteUsageLimitOutput: Swift.Sendable {
     /// The deleted usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -1950,7 +1950,7 @@ public struct DeleteUsageLimitOutput {
     }
 }
 
-public struct DeleteWorkgroupInput {
+public struct DeleteWorkgroupInput: Swift.Sendable {
     /// The name of the workgroup to be deleted.
     /// This member is required.
     public var workgroupName: Swift.String?
@@ -1963,7 +1963,7 @@ public struct DeleteWorkgroupInput {
     }
 }
 
-public struct DeleteWorkgroupOutput {
+public struct DeleteWorkgroupOutput: Swift.Sendable {
     /// The deleted workgroup object.
     /// This member is required.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?
@@ -1976,7 +1976,7 @@ public struct DeleteWorkgroupOutput {
     }
 }
 
-public struct GetCredentialsInput {
+public struct GetCredentialsInput: Swift.Sendable {
     /// The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
     public var customDomainName: Swift.String?
     /// The name of the database to get temporary authorization to log on to. Constraints:
@@ -2010,7 +2010,7 @@ public struct GetCredentialsInput {
     }
 }
 
-public struct GetCredentialsOutput {
+public struct GetCredentialsOutput: Swift.Sendable {
     /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName.
     public var dbPassword: Swift.String?
     /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the specified DbUser exists in the database, the new user name has the same database privileges as the the user named in DbUser. By default, the user is added to PUBLIC.
@@ -2039,7 +2039,7 @@ extension GetCredentialsOutput: Swift.CustomDebugStringConvertible {
         "GetCredentialsOutput(expiration: \(Swift.String(describing: expiration)), nextRefreshTime: \(Swift.String(describing: nextRefreshTime)), dbPassword: \"CONTENT_REDACTED\", dbUser: \"CONTENT_REDACTED\")"}
 }
 
-public struct GetCustomDomainAssociationInput {
+public struct GetCustomDomainAssociationInput: Swift.Sendable {
     /// The custom domain name associated with the workgroup.
     /// This member is required.
     public var customDomainName: Swift.String?
@@ -2057,7 +2057,7 @@ public struct GetCustomDomainAssociationInput {
     }
 }
 
-public struct GetCustomDomainAssociationOutput {
+public struct GetCustomDomainAssociationOutput: Swift.Sendable {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The expiration time for the certificate.
@@ -2081,7 +2081,7 @@ public struct GetCustomDomainAssociationOutput {
     }
 }
 
-public struct GetNamespaceInput {
+public struct GetNamespaceInput: Swift.Sendable {
     /// The name of the namespace to retrieve information for.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -2094,7 +2094,7 @@ public struct GetNamespaceInput {
     }
 }
 
-public struct GetNamespaceOutput {
+public struct GetNamespaceOutput: Swift.Sendable {
     /// The returned namespace object.
     /// This member is required.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
@@ -2107,7 +2107,7 @@ public struct GetNamespaceOutput {
     }
 }
 
-public struct GetRecoveryPointInput {
+public struct GetRecoveryPointInput: Swift.Sendable {
     /// The unique identifier of the recovery point to return information for.
     /// This member is required.
     public var recoveryPointId: Swift.String?
@@ -2121,8 +2121,9 @@ public struct GetRecoveryPointInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The automatically created recovery point of a namespace. Recovery points are created every 30 minutes and kept for 24 hours.
-    public struct RecoveryPoint {
+    public struct RecoveryPoint: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the namespace the recovery point is associated with.
         public var namespaceArn: Swift.String?
         /// The name of the namespace the recovery point is associated with.
@@ -2153,10 +2154,9 @@ extension RedshiftServerlessClientTypes {
             self.workgroupName = workgroupName
         }
     }
-
 }
 
-public struct GetRecoveryPointOutput {
+public struct GetRecoveryPointOutput: Swift.Sendable {
     /// The returned recovery point object.
     public var recoveryPoint: RedshiftServerlessClientTypes.RecoveryPoint?
 
@@ -2168,7 +2168,7 @@ public struct GetRecoveryPointOutput {
     }
 }
 
-public struct GetResourcePolicyInput {
+public struct GetResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to return.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2182,8 +2182,9 @@ public struct GetResourcePolicyInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// The resource policy object. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
-    public struct ResourcePolicy {
+    public struct ResourcePolicy: Swift.Sendable {
         /// The resource policy.
         public var policy: Swift.String?
         /// The Amazon Resource Name (ARN) of the policy.
@@ -2198,10 +2199,9 @@ extension RedshiftServerlessClientTypes {
             self.resourceArn = resourceArn
         }
     }
-
 }
 
-public struct GetResourcePolicyOutput {
+public struct GetResourcePolicyOutput: Swift.Sendable {
     /// The returned resource policy.
     public var resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy?
 
@@ -2213,7 +2213,7 @@ public struct GetResourcePolicyOutput {
     }
 }
 
-public struct GetScheduledActionInput {
+public struct GetScheduledActionInput: Swift.Sendable {
     /// The name of the scheduled action.
     /// This member is required.
     public var scheduledActionName: Swift.String?
@@ -2226,7 +2226,7 @@ public struct GetScheduledActionInput {
     }
 }
 
-public struct GetScheduledActionOutput {
+public struct GetScheduledActionOutput: Swift.Sendable {
     /// The returned scheduled action object.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -2238,7 +2238,7 @@ public struct GetScheduledActionOutput {
     }
 }
 
-public struct GetSnapshotInput {
+public struct GetSnapshotInput: Swift.Sendable {
     /// The owner Amazon Web Services account of a snapshot shared with another user.
     public var ownerAccount: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot to return.
@@ -2258,7 +2258,7 @@ public struct GetSnapshotInput {
     }
 }
 
-public struct GetSnapshotOutput {
+public struct GetSnapshotOutput: Swift.Sendable {
     /// The returned snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -2270,7 +2270,7 @@ public struct GetSnapshotOutput {
     }
 }
 
-public struct GetTableRestoreStatusInput {
+public struct GetTableRestoreStatusInput: Swift.Sendable {
     /// The ID of the RestoreTableFromSnapshot request to return status for.
     /// This member is required.
     public var tableRestoreRequestId: Swift.String?
@@ -2284,8 +2284,9 @@ public struct GetTableRestoreStatusInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// Contains information about a table restore request.
-    public struct TableRestoreStatus {
+    public struct TableRestoreStatus: Swift.Sendable {
         /// A message that explains the returned status. For example, if the status of the operation is FAILED, the message explains why the operation failed.
         public var message: Swift.String?
         /// The namespace of the table being restored from.
@@ -2356,10 +2357,9 @@ extension RedshiftServerlessClientTypes {
             self.workgroupName = workgroupName
         }
     }
-
 }
 
-public struct GetTableRestoreStatusOutput {
+public struct GetTableRestoreStatusOutput: Swift.Sendable {
     /// The returned TableRestoreStatus object that contains information about the status of your RestoreTableFromSnapshot request.
     public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 
@@ -2371,7 +2371,7 @@ public struct GetTableRestoreStatusOutput {
     }
 }
 
-public struct GetUsageLimitInput {
+public struct GetUsageLimitInput: Swift.Sendable {
     /// The unique identifier of the usage limit to return information for.
     /// This member is required.
     public var usageLimitId: Swift.String?
@@ -2384,7 +2384,7 @@ public struct GetUsageLimitInput {
     }
 }
 
-public struct GetUsageLimitOutput {
+public struct GetUsageLimitOutput: Swift.Sendable {
     /// The returned usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -2396,7 +2396,7 @@ public struct GetUsageLimitOutput {
     }
 }
 
-public struct GetWorkgroupInput {
+public struct GetWorkgroupInput: Swift.Sendable {
     /// The name of the workgroup to return information for.
     /// This member is required.
     public var workgroupName: Swift.String?
@@ -2409,7 +2409,7 @@ public struct GetWorkgroupInput {
     }
 }
 
-public struct GetWorkgroupOutput {
+public struct GetWorkgroupOutput: Swift.Sendable {
     /// The returned workgroup object.
     /// This member is required.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?
@@ -2447,7 +2447,7 @@ public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-public struct ListCustomDomainAssociationsInput {
+public struct ListCustomDomainAssociationsInput: Swift.Sendable {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The custom domain name associated with the workgroup.
@@ -2471,7 +2471,7 @@ public struct ListCustomDomainAssociationsInput {
     }
 }
 
-public struct ListCustomDomainAssociationsOutput {
+public struct ListCustomDomainAssociationsOutput: Swift.Sendable {
     /// A list of Association objects.
     public var associations: [RedshiftServerlessClientTypes.Association]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
@@ -2487,7 +2487,7 @@ public struct ListCustomDomainAssociationsOutput {
     }
 }
 
-public struct ListNamespacesInput {
+public struct ListNamespacesInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
@@ -2503,7 +2503,7 @@ public struct ListNamespacesInput {
     }
 }
 
-public struct ListNamespacesOutput {
+public struct ListNamespacesOutput: Swift.Sendable {
     /// The list of returned namespaces.
     /// This member is required.
     public var namespaces: [RedshiftServerlessClientTypes.Namespace]?
@@ -2520,7 +2520,7 @@ public struct ListNamespacesOutput {
     }
 }
 
-public struct ListRecoveryPointsInput {
+public struct ListRecoveryPointsInput: Swift.Sendable {
     /// The time when creation of the recovery point finished.
     public var endTime: Foundation.Date?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
@@ -2552,7 +2552,7 @@ public struct ListRecoveryPointsInput {
     }
 }
 
-public struct ListRecoveryPointsOutput {
+public struct ListRecoveryPointsOutput: Swift.Sendable {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The returned recovery point objects.
@@ -2568,7 +2568,7 @@ public struct ListRecoveryPointsOutput {
     }
 }
 
-public struct ListScheduledActionsInput {
+public struct ListScheduledActionsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. Use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// The name of namespace associated with the scheduled action to retrieve.
@@ -2589,8 +2589,9 @@ public struct ListScheduledActionsInput {
 }
 
 extension RedshiftServerlessClientTypes {
+
     /// Contains names of objects associated with a scheduled action.
-    public struct ScheduledActionAssociation {
+    public struct ScheduledActionAssociation: Swift.Sendable {
         /// Name of associated Amazon Redshift Serverless namespace.
         public var namespaceName: Swift.String?
         /// Name of associated scheduled action.
@@ -2605,10 +2606,9 @@ extension RedshiftServerlessClientTypes {
             self.scheduledActionName = scheduledActionName
         }
     }
-
 }
 
-public struct ListScheduledActionsOutput {
+public struct ListScheduledActionsOutput: Swift.Sendable {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// All of the returned scheduled action association objects.
@@ -2624,7 +2624,7 @@ public struct ListScheduledActionsOutput {
     }
 }
 
-public struct ListSnapshotCopyConfigurationsInput {
+public struct ListSnapshotCopyConfigurationsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// The namespace from which to list all snapshot copy configurations.
@@ -2644,7 +2644,7 @@ public struct ListSnapshotCopyConfigurationsInput {
     }
 }
 
-public struct ListSnapshotCopyConfigurationsOutput {
+public struct ListSnapshotCopyConfigurationsOutput: Swift.Sendable {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// All of the returned snapshot copy configurations.
@@ -2661,7 +2661,7 @@ public struct ListSnapshotCopyConfigurationsOutput {
     }
 }
 
-public struct ListSnapshotsInput {
+public struct ListSnapshotsInput: Swift.Sendable {
     /// The timestamp showing when the snapshot creation finished.
     public var endTime: Foundation.Date?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
@@ -2697,7 +2697,7 @@ public struct ListSnapshotsInput {
     }
 }
 
-public struct ListSnapshotsOutput {
+public struct ListSnapshotsOutput: Swift.Sendable {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// All of the returned snapshot objects.
@@ -2713,7 +2713,7 @@ public struct ListSnapshotsOutput {
     }
 }
 
-public struct ListTableRestoreStatusInput {
+public struct ListTableRestoreStatusInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
@@ -2737,7 +2737,7 @@ public struct ListTableRestoreStatusInput {
     }
 }
 
-public struct ListTableRestoreStatusOutput {
+public struct ListTableRestoreStatusOutput: Swift.Sendable {
     /// If your initial ListTableRestoreStatus operation returns a nextToken, you can include the returned nextToken in following ListTableRestoreStatus operations. This will returns results on the next page.
     public var nextToken: Swift.String?
     /// The array of returned TableRestoreStatus objects.
@@ -2753,7 +2753,7 @@ public struct ListTableRestoreStatusOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to list tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2766,7 +2766,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A map of the key-value pairs assigned to the resource.
     public var tags: [RedshiftServerlessClientTypes.Tag]?
 
@@ -2778,7 +2778,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct ListUsageLimitsInput {
+public struct ListUsageLimitsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 100.
     public var maxResults: Swift.Int?
     /// If your initial ListUsageLimits operation returns a nextToken, you can include the returned nextToken in following ListUsageLimits operations, which returns results in the next page.
@@ -2802,7 +2802,7 @@ public struct ListUsageLimitsInput {
     }
 }
 
-public struct ListUsageLimitsOutput {
+public struct ListUsageLimitsOutput: Swift.Sendable {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// An array of returned usage limit objects.
@@ -2818,7 +2818,7 @@ public struct ListUsageLimitsOutput {
     }
 }
 
-public struct ListWorkgroupsInput {
+public struct ListWorkgroupsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
     /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
@@ -2838,7 +2838,7 @@ public struct ListWorkgroupsInput {
     }
 }
 
-public struct ListWorkgroupsOutput {
+public struct ListWorkgroupsOutput: Swift.Sendable {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
     public var nextToken: Swift.String?
     /// The returned array of workgroups.
@@ -2855,7 +2855,7 @@ public struct ListWorkgroupsOutput {
     }
 }
 
-public struct UpdateNamespaceInput {
+public struct UpdateNamespaceInput: Swift.Sendable {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     public var adminPasswordSecretKmsKeyId: Swift.String?
     /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.
@@ -2905,7 +2905,7 @@ extension UpdateNamespaceInput: Swift.CustomDebugStringConvertible {
         "UpdateNamespaceInput(adminPasswordSecretKmsKeyId: \(Swift.String(describing: adminPasswordSecretKmsKeyId)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), manageAdminPassword: \(Swift.String(describing: manageAdminPassword)), namespaceName: \(Swift.String(describing: namespaceName)), adminUserPassword: \"CONTENT_REDACTED\", adminUsername: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateNamespaceOutput {
+public struct UpdateNamespaceOutput: Swift.Sendable {
     /// A list of tag instances.
     /// This member is required.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
@@ -2918,7 +2918,7 @@ public struct UpdateNamespaceOutput {
     }
 }
 
-public struct PutResourcePolicyInput {
+public struct PutResourcePolicyInput: Swift.Sendable {
     /// The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot. "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
     /// This member is required.
     public var policy: Swift.String?
@@ -2936,7 +2936,7 @@ public struct PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyOutput {
+public struct PutResourcePolicyOutput: Swift.Sendable {
     /// The policy that was created or updated.
     public var resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy?
 
@@ -2948,7 +2948,7 @@ public struct PutResourcePolicyOutput {
     }
 }
 
-public struct RestoreFromRecoveryPointInput {
+public struct RestoreFromRecoveryPointInput: Swift.Sendable {
     /// The name of the namespace to restore data into.
     /// This member is required.
     public var namespaceName: Swift.String?
@@ -2971,7 +2971,7 @@ public struct RestoreFromRecoveryPointInput {
     }
 }
 
-public struct RestoreFromRecoveryPointOutput {
+public struct RestoreFromRecoveryPointOutput: Swift.Sendable {
     /// The namespace that data was restored into.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
     /// The unique identifier of the recovery point used for the restore.
@@ -2987,7 +2987,7 @@ public struct RestoreFromRecoveryPointOutput {
     }
 }
 
-public struct RestoreTableFromRecoveryPointInput {
+public struct RestoreTableFromRecoveryPointInput: Swift.Sendable {
     /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
     public var activateCaseSensitiveIdentifier: Swift.Bool?
     /// Namespace of the recovery point to restore from.
@@ -3041,7 +3041,7 @@ public struct RestoreTableFromRecoveryPointInput {
     }
 }
 
-public struct RestoreTableFromRecoveryPointOutput {
+public struct RestoreTableFromRecoveryPointOutput: Swift.Sendable {
     /// Contains information about a table restore request.
     public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 
@@ -3053,7 +3053,7 @@ public struct RestoreTableFromRecoveryPointOutput {
     }
 }
 
-public struct UpdateScheduledActionInput {
+public struct UpdateScheduledActionInput: Swift.Sendable {
     /// Specifies whether to enable the scheduled action.
     public var enabled: Swift.Bool?
     /// The end time in UTC of the scheduled action to update.
@@ -3098,7 +3098,7 @@ public struct UpdateScheduledActionInput {
     }
 }
 
-public struct UpdateScheduledActionOutput {
+public struct UpdateScheduledActionOutput: Swift.Sendable {
     /// The ScheduledAction object that was updated.
     public var scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse?
 
@@ -3110,7 +3110,7 @@ public struct UpdateScheduledActionOutput {
     }
 }
 
-public struct RestoreFromSnapshotInput {
+public struct RestoreFromSnapshotInput: Swift.Sendable {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
     public var adminPasswordSecretKmsKeyId: Swift.String?
     /// If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
@@ -3148,7 +3148,7 @@ public struct RestoreFromSnapshotInput {
     }
 }
 
-public struct RestoreFromSnapshotOutput {
+public struct RestoreFromSnapshotOutput: Swift.Sendable {
     /// A collection of database objects and users.
     public var namespace: RedshiftServerlessClientTypes.Namespace?
     /// The owner Amazon Web Services; account of the snapshot that was restored.
@@ -3168,7 +3168,7 @@ public struct RestoreFromSnapshotOutput {
     }
 }
 
-public struct RestoreTableFromSnapshotInput {
+public struct RestoreTableFromSnapshotInput: Swift.Sendable {
     /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
     public var activateCaseSensitiveIdentifier: Swift.Bool?
     /// The namespace of the snapshot to restore from.
@@ -3222,7 +3222,7 @@ public struct RestoreTableFromSnapshotInput {
     }
 }
 
-public struct RestoreTableFromSnapshotOutput {
+public struct RestoreTableFromSnapshotOutput: Swift.Sendable {
     /// The TableRestoreStatus object that contains the status of the restore operation.
     public var tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus?
 
@@ -3234,7 +3234,7 @@ public struct RestoreTableFromSnapshotOutput {
     }
 }
 
-public struct UpdateSnapshotInput {
+public struct UpdateSnapshotInput: Swift.Sendable {
     /// The new retention period of the snapshot.
     public var retentionPeriod: Swift.Int?
     /// The name of the snapshot.
@@ -3251,7 +3251,7 @@ public struct UpdateSnapshotInput {
     }
 }
 
-public struct UpdateSnapshotOutput {
+public struct UpdateSnapshotOutput: Swift.Sendable {
     /// The updated snapshot object.
     public var snapshot: RedshiftServerlessClientTypes.Snapshot?
 
@@ -3263,7 +3263,7 @@ public struct UpdateSnapshotOutput {
     }
 }
 
-public struct UpdateSnapshotCopyConfigurationInput {
+public struct UpdateSnapshotCopyConfigurationInput: Swift.Sendable {
     /// The ID of the snapshot copy configuration to update.
     /// This member is required.
     public var snapshotCopyConfigurationId: Swift.String?
@@ -3280,7 +3280,7 @@ public struct UpdateSnapshotCopyConfigurationInput {
     }
 }
 
-public struct UpdateSnapshotCopyConfigurationOutput {
+public struct UpdateSnapshotCopyConfigurationOutput: Swift.Sendable {
     /// The updated snapshot copy configuration object.
     /// This member is required.
     public var snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration?
@@ -3293,7 +3293,7 @@ public struct UpdateSnapshotCopyConfigurationOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3311,12 +3311,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3334,12 +3334,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateCustomDomainAssociationInput {
+public struct UpdateCustomDomainAssociationInput: Swift.Sendable {
     /// The custom domain name’s certificate Amazon resource name (ARN). This is optional.
     /// This member is required.
     public var customDomainCertificateArn: Swift.String?
@@ -3362,7 +3362,7 @@ public struct UpdateCustomDomainAssociationInput {
     }
 }
 
-public struct UpdateCustomDomainAssociationOutput {
+public struct UpdateCustomDomainAssociationOutput: Swift.Sendable {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
     /// The expiration time for the certificate.
@@ -3386,7 +3386,7 @@ public struct UpdateCustomDomainAssociationOutput {
     }
 }
 
-public struct UpdateUsageLimitInput {
+public struct UpdateUsageLimitInput: Swift.Sendable {
     /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     public var amount: Swift.Int?
     /// The new action that Amazon Redshift Serverless takes when the limit is reached.
@@ -3407,7 +3407,7 @@ public struct UpdateUsageLimitInput {
     }
 }
 
-public struct UpdateUsageLimitOutput {
+public struct UpdateUsageLimitOutput: Swift.Sendable {
     /// The updated usage limit object.
     public var usageLimit: RedshiftServerlessClientTypes.UsageLimit?
 
@@ -3419,7 +3419,7 @@ public struct UpdateUsageLimitOutput {
     }
 }
 
-public struct UpdateWorkgroupInput {
+public struct UpdateWorkgroupInput: Swift.Sendable {
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
     /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
@@ -3464,7 +3464,7 @@ public struct UpdateWorkgroupInput {
     }
 }
 
-public struct UpdateWorkgroupOutput {
+public struct UpdateWorkgroupOutput: Swift.Sendable {
     /// The updated workgroup object.
     /// This member is required.
     public var workgroup: RedshiftServerlessClientTypes.Workgroup?

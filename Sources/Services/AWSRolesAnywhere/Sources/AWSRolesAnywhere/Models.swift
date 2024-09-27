@@ -53,7 +53,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension RolesAnywhereClientTypes {
 
-    public enum CertificateField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CertificateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case x509issuer
         case x509san
         case x509subject
@@ -84,8 +84,9 @@ extension RolesAnywhereClientTypes {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// A single mapping entry for each supported specifier or sub-field.
-    public struct MappingRule {
+    public struct MappingRule: Swift.Sendable {
         /// Specifier within a certificate field, such as CN, OU, or UID from the Subject field.
         /// This member is required.
         public var specifier: Swift.String?
@@ -97,12 +98,12 @@ extension RolesAnywhereClientTypes {
             self.specifier = specifier
         }
     }
-
 }
 
 extension RolesAnywhereClientTypes {
+
     /// A mapping applied to the authenticating end-entity certificate.
-    public struct AttributeMapping {
+    public struct AttributeMapping: Swift.Sendable {
         /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
         public var certificateField: RolesAnywhereClientTypes.CertificateField?
         /// A list of mapping entries for every supported specifier or sub-field.
@@ -117,7 +118,6 @@ extension RolesAnywhereClientTypes {
             self.mappingRules = mappingRules
         }
     }
-
 }
 
 /// Validation exception error.
@@ -145,8 +145,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension RolesAnywhereClientTypes {
+
     /// A label that consists of a key and value you define.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -163,7 +164,6 @@ extension RolesAnywhereClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension RolesAnywhereClientTypes.Tag: Swift.CustomDebugStringConvertible {
@@ -171,7 +171,7 @@ extension RolesAnywhereClientTypes.Tag: Swift.CustomDebugStringConvertible {
         "Tag(key: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateProfileInput {
+public struct CreateProfileInput: Swift.Sendable {
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// Specifies whether the profile is enabled.
@@ -214,8 +214,9 @@ public struct CreateProfileInput {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// The state of the profile after a read or write operation.
-    public struct ProfileDetail {
+    public struct ProfileDetail: Swift.Sendable {
         /// A mapping applied to the authenticating end-entity certificate.
         public var attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
@@ -274,10 +275,9 @@ extension RolesAnywhereClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct CreateProfileOutput {
+public struct CreateProfileOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -291,7 +291,7 @@ public struct CreateProfileOutput {
 
 extension RolesAnywhereClientTypes {
 
-    public enum NotificationChannel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NotificationChannel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case sdkUnknown(Swift.String)
 
@@ -317,7 +317,7 @@ extension RolesAnywhereClientTypes {
 
 extension RolesAnywhereClientTypes {
 
-    public enum NotificationEvent: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum NotificationEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case caCertificateExpiry
         case endEntityCertificateExpiry
         case sdkUnknown(Swift.String)
@@ -345,8 +345,9 @@ extension RolesAnywhereClientTypes {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// Customizable notification settings that will be applied to notification events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard.
-    public struct NotificationSetting {
+    public struct NotificationSetting: Swift.Sendable {
         /// The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels.
         public var channel: RolesAnywhereClientTypes.NotificationChannel?
         /// Indicates whether the notification setting is enabled.
@@ -371,24 +372,23 @@ extension RolesAnywhereClientTypes {
             self.threshold = threshold
         }
     }
-
 }
 
 extension RolesAnywhereClientTypes {
+
     /// The data field of the trust anchor depending on its type.
-    public enum SourceData {
+    public enum SourceData: Swift.Sendable {
         /// The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE.
         case x509certificatedata(Swift.String)
         /// The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for temporary credential requests. Included for trust anchors of type AWS_ACM_PCA.
         case acmpcaarn(Swift.String)
         case sdkUnknown(Swift.String)
     }
-
 }
 
 extension RolesAnywhereClientTypes {
 
-    public enum TrustAnchorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TrustAnchorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsAcmPca
         case certificateBundle
         case selfSignedRepository
@@ -419,8 +419,9 @@ extension RolesAnywhereClientTypes {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// The trust anchor type and its related certificate data.
-    public struct Source {
+    public struct Source: Swift.Sendable {
         /// The data field of the trust anchor depending on its type.
         public var sourceData: RolesAnywhereClientTypes.SourceData?
         /// The type of the trust anchor.
@@ -435,10 +436,9 @@ extension RolesAnywhereClientTypes {
             self.sourceType = sourceType
         }
     }
-
 }
 
-public struct CreateTrustAnchorInput {
+public struct CreateTrustAnchorInput: Swift.Sendable {
     /// Specifies whether the trust anchor is enabled.
     public var enabled: Swift.Bool?
     /// The name of the trust anchor.
@@ -469,8 +469,9 @@ public struct CreateTrustAnchorInput {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// The state of a notification setting. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify.
-    public struct NotificationSettingDetail {
+    public struct NotificationSettingDetail: Swift.Sendable {
         /// The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels.
         public var channel: RolesAnywhereClientTypes.NotificationChannel?
         /// The principal that configured the notification setting. For default settings configured by IAM Roles Anywhere, the value is rolesanywhere.amazonaws.com, and for customized notifications settings, it is the respective account ID.
@@ -499,12 +500,12 @@ extension RolesAnywhereClientTypes {
             self.threshold = threshold
         }
     }
-
 }
 
 extension RolesAnywhereClientTypes {
+
     /// The state of the trust anchor after a read or write operation.
-    public struct TrustAnchorDetail {
+    public struct TrustAnchorDetail: Swift.Sendable {
         /// The ISO-8601 timestamp when the trust anchor was created.
         public var createdAt: Foundation.Date?
         /// Indicates whether the trust anchor is enabled.
@@ -543,10 +544,9 @@ extension RolesAnywhereClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct CreateTrustAnchorOutput {
+public struct CreateTrustAnchorOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -560,8 +560,9 @@ public struct CreateTrustAnchorOutput {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// A record of a presented X509 credential from a temporary credential request.
-    public struct CredentialSummary {
+    public struct CredentialSummary: Swift.Sendable {
         /// Indicates whether the credential is enabled.
         public var enabled: Swift.Bool?
         /// Indicates whether the temporary credential request was successful.
@@ -592,7 +593,6 @@ extension RolesAnywhereClientTypes {
             self.x509CertificateData = x509CertificateData
         }
     }
-
 }
 
 /// The resource could not be found.
@@ -619,7 +619,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-public struct DeleteCrlInput {
+public struct DeleteCrlInput: Swift.Sendable {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -633,8 +633,9 @@ public struct DeleteCrlInput {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// The state of the certificate revocation list (CRL) after a read or write operation.
-    public struct CrlDetail {
+    public struct CrlDetail: Swift.Sendable {
         /// The ISO-8601 timestamp when the certificate revocation list (CRL) was created.
         public var createdAt: Foundation.Date?
         /// The ARN of the certificate revocation list (CRL).
@@ -673,10 +674,9 @@ extension RolesAnywhereClientTypes {
             self.updatedAt = updatedAt
         }
     }
-
 }
 
-public struct DeleteCrlOutput {
+public struct DeleteCrlOutput: Swift.Sendable {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -689,7 +689,7 @@ public struct DeleteCrlOutput {
     }
 }
 
-public struct DisableCrlInput {
+public struct DisableCrlInput: Swift.Sendable {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -702,7 +702,7 @@ public struct DisableCrlInput {
     }
 }
 
-public struct DisableCrlOutput {
+public struct DisableCrlOutput: Swift.Sendable {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -715,7 +715,7 @@ public struct DisableCrlOutput {
     }
 }
 
-public struct EnableCrlInput {
+public struct EnableCrlInput: Swift.Sendable {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -728,7 +728,7 @@ public struct EnableCrlInput {
     }
 }
 
-public struct EnableCrlOutput {
+public struct EnableCrlOutput: Swift.Sendable {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -741,7 +741,7 @@ public struct EnableCrlOutput {
     }
 }
 
-public struct GetCrlInput {
+public struct GetCrlInput: Swift.Sendable {
     /// The unique identifier of the certificate revocation list (CRL).
     /// This member is required.
     public var crlId: Swift.String?
@@ -754,7 +754,7 @@ public struct GetCrlInput {
     }
 }
 
-public struct GetCrlOutput {
+public struct GetCrlOutput: Swift.Sendable {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -767,7 +767,7 @@ public struct GetCrlOutput {
     }
 }
 
-public struct ImportCrlInput {
+public struct ImportCrlInput: Swift.Sendable {
     /// The x509 v3 specified certificate revocation list (CRL).
     /// This member is required.
     public var crlData: Foundation.Data?
@@ -798,7 +798,7 @@ public struct ImportCrlInput {
     }
 }
 
-public struct ImportCrlOutput {
+public struct ImportCrlOutput: Swift.Sendable {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -811,7 +811,7 @@ public struct ImportCrlOutput {
     }
 }
 
-public struct ListCrlsInput {
+public struct ListCrlsInput: Swift.Sendable {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -827,7 +827,7 @@ public struct ListCrlsInput {
     }
 }
 
-public struct ListCrlsOutput {
+public struct ListCrlsOutput: Swift.Sendable {
     /// A list of certificate revocation lists (CRL).
     public var crls: [RolesAnywhereClientTypes.CrlDetail]?
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
@@ -843,7 +843,7 @@ public struct ListCrlsOutput {
     }
 }
 
-public struct UpdateCrlInput {
+public struct UpdateCrlInput: Swift.Sendable {
     /// The x509 v3 specified certificate revocation list (CRL).
     public var crlData: Foundation.Data?
     /// The unique identifier of the certificate revocation list (CRL).
@@ -864,7 +864,7 @@ public struct UpdateCrlInput {
     }
 }
 
-public struct UpdateCrlOutput {
+public struct UpdateCrlOutput: Swift.Sendable {
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     /// This member is required.
     public var crl: RolesAnywhereClientTypes.CrlDetail?
@@ -877,7 +877,7 @@ public struct UpdateCrlOutput {
     }
 }
 
-public struct DeleteAttributeMappingInput {
+public struct DeleteAttributeMappingInput: Swift.Sendable {
     /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
     /// This member is required.
     public var certificateField: RolesAnywhereClientTypes.CertificateField?
@@ -899,7 +899,7 @@ public struct DeleteAttributeMappingInput {
     }
 }
 
-public struct DeleteAttributeMappingOutput {
+public struct DeleteAttributeMappingOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     /// This member is required.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
@@ -912,7 +912,7 @@ public struct DeleteAttributeMappingOutput {
     }
 }
 
-public struct DeleteProfileInput {
+public struct DeleteProfileInput: Swift.Sendable {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -925,7 +925,7 @@ public struct DeleteProfileInput {
     }
 }
 
-public struct DeleteProfileOutput {
+public struct DeleteProfileOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -937,7 +937,7 @@ public struct DeleteProfileOutput {
     }
 }
 
-public struct DeleteTrustAnchorInput {
+public struct DeleteTrustAnchorInput: Swift.Sendable {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -950,7 +950,7 @@ public struct DeleteTrustAnchorInput {
     }
 }
 
-public struct DeleteTrustAnchorOutput {
+public struct DeleteTrustAnchorOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -963,7 +963,7 @@ public struct DeleteTrustAnchorOutput {
     }
 }
 
-public struct DisableProfileInput {
+public struct DisableProfileInput: Swift.Sendable {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -976,7 +976,7 @@ public struct DisableProfileInput {
     }
 }
 
-public struct DisableProfileOutput {
+public struct DisableProfileOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -988,7 +988,7 @@ public struct DisableProfileOutput {
     }
 }
 
-public struct DisableTrustAnchorInput {
+public struct DisableTrustAnchorInput: Swift.Sendable {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -1001,7 +1001,7 @@ public struct DisableTrustAnchorInput {
     }
 }
 
-public struct DisableTrustAnchorOutput {
+public struct DisableTrustAnchorOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1014,7 +1014,7 @@ public struct DisableTrustAnchorOutput {
     }
 }
 
-public struct EnableProfileInput {
+public struct EnableProfileInput: Swift.Sendable {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1027,7 +1027,7 @@ public struct EnableProfileInput {
     }
 }
 
-public struct EnableProfileOutput {
+public struct EnableProfileOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -1039,7 +1039,7 @@ public struct EnableProfileOutput {
     }
 }
 
-public struct EnableTrustAnchorInput {
+public struct EnableTrustAnchorInput: Swift.Sendable {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -1052,7 +1052,7 @@ public struct EnableTrustAnchorInput {
     }
 }
 
-public struct EnableTrustAnchorOutput {
+public struct EnableTrustAnchorOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1065,7 +1065,7 @@ public struct EnableTrustAnchorOutput {
     }
 }
 
-public struct GetProfileInput {
+public struct GetProfileInput: Swift.Sendable {
     /// The unique identifier of the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1078,7 +1078,7 @@ public struct GetProfileInput {
     }
 }
 
-public struct GetProfileOutput {
+public struct GetProfileOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -1090,7 +1090,7 @@ public struct GetProfileOutput {
     }
 }
 
-public struct GetSubjectInput {
+public struct GetSubjectInput: Swift.Sendable {
     /// The unique identifier of the subject.
     /// This member is required.
     public var subjectId: Swift.String?
@@ -1104,8 +1104,9 @@ public struct GetSubjectInput {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// A key-value pair you set that identifies a property of the authenticating instance.
-    public struct InstanceProperty {
+    public struct InstanceProperty: Swift.Sendable {
         /// Indicates whether the temporary credential request was successful.
         public var failed: Swift.Bool?
         /// A list of instanceProperty objects.
@@ -1124,12 +1125,12 @@ extension RolesAnywhereClientTypes {
             self.seenAt = seenAt
         }
     }
-
 }
 
 extension RolesAnywhereClientTypes {
+
     /// The state of the subject after a read or write operation.
-    public struct SubjectDetail {
+    public struct SubjectDetail: Swift.Sendable {
         /// The ISO-8601 timestamp when the subject was created.
         public var createdAt: Foundation.Date?
         /// The temporary session credentials vended at the last authenticating call with this subject.
@@ -1172,10 +1173,9 @@ extension RolesAnywhereClientTypes {
             self.x509Subject = x509Subject
         }
     }
-
 }
 
-public struct GetSubjectOutput {
+public struct GetSubjectOutput: Swift.Sendable {
     /// The state of the subject after a read or write operation.
     public var subject: RolesAnywhereClientTypes.SubjectDetail?
 
@@ -1187,7 +1187,7 @@ public struct GetSubjectOutput {
     }
 }
 
-public struct GetTrustAnchorInput {
+public struct GetTrustAnchorInput: Swift.Sendable {
     /// The unique identifier of the trust anchor.
     /// This member is required.
     public var trustAnchorId: Swift.String?
@@ -1200,7 +1200,7 @@ public struct GetTrustAnchorInput {
     }
 }
 
-public struct GetTrustAnchorOutput {
+public struct GetTrustAnchorOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1213,7 +1213,7 @@ public struct GetTrustAnchorOutput {
     }
 }
 
-public struct ListProfilesInput {
+public struct ListProfilesInput: Swift.Sendable {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -1229,7 +1229,7 @@ public struct ListProfilesInput {
     }
 }
 
-public struct ListProfilesOutput {
+public struct ListProfilesOutput: Swift.Sendable {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of profiles.
@@ -1245,7 +1245,7 @@ public struct ListProfilesOutput {
     }
 }
 
-public struct ListSubjectsInput {
+public struct ListSubjectsInput: Swift.Sendable {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -1262,8 +1262,9 @@ public struct ListSubjectsInput {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// A summary representation of subjects.
-    public struct SubjectSummary {
+    public struct SubjectSummary: Swift.Sendable {
         /// The ISO-8601 time stamp of when the certificate was first used in a temporary credential request.
         public var createdAt: Foundation.Date?
         /// The enabled status of the subject.
@@ -1298,10 +1299,9 @@ extension RolesAnywhereClientTypes {
             self.x509Subject = x509Subject
         }
     }
-
 }
 
-public struct ListSubjectsOutput {
+public struct ListSubjectsOutput: Swift.Sendable {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of subjects.
@@ -1317,7 +1317,7 @@ public struct ListSubjectsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1330,7 +1330,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A list of tags attached to the resource.
     public var tags: [RolesAnywhereClientTypes.Tag]?
 
@@ -1342,7 +1342,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct ListTrustAnchorsInput {
+public struct ListTrustAnchorsInput: Swift.Sendable {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// The number of resources in the paginated list.
@@ -1358,7 +1358,7 @@ public struct ListTrustAnchorsInput {
     }
 }
 
-public struct ListTrustAnchorsOutput {
+public struct ListTrustAnchorsOutput: Swift.Sendable {
     /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
     public var nextToken: Swift.String?
     /// A list of trust anchors.
@@ -1375,8 +1375,9 @@ public struct ListTrustAnchorsOutput {
 }
 
 extension RolesAnywhereClientTypes {
+
     /// A notification setting key to reset. A notification setting key includes the event and the channel.
-    public struct NotificationSettingKey {
+    public struct NotificationSettingKey: Swift.Sendable {
         /// The specified channel of notification.
         public var channel: RolesAnywhereClientTypes.NotificationChannel?
         /// The notification setting event to reset.
@@ -1392,10 +1393,9 @@ extension RolesAnywhereClientTypes {
             self.event = event
         }
     }
-
 }
 
-public struct PutAttributeMappingInput {
+public struct PutAttributeMappingInput: Swift.Sendable {
     /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
     /// This member is required.
     public var certificateField: RolesAnywhereClientTypes.CertificateField?
@@ -1418,7 +1418,7 @@ public struct PutAttributeMappingInput {
     }
 }
 
-public struct PutAttributeMappingOutput {
+public struct PutAttributeMappingOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     /// This member is required.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
@@ -1431,7 +1431,7 @@ public struct PutAttributeMappingOutput {
     }
 }
 
-public struct UpdateProfileInput {
+public struct UpdateProfileInput: Swift.Sendable {
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// A list of managed policy ARNs that apply to the vended session credentials.
@@ -1464,7 +1464,7 @@ public struct UpdateProfileInput {
     }
 }
 
-public struct UpdateProfileOutput {
+public struct UpdateProfileOutput: Swift.Sendable {
     /// The state of the profile after a read or write operation.
     public var profile: RolesAnywhereClientTypes.ProfileDetail?
 
@@ -1476,7 +1476,7 @@ public struct UpdateProfileOutput {
     }
 }
 
-public struct PutNotificationSettingsInput {
+public struct PutNotificationSettingsInput: Swift.Sendable {
     /// A list of notification settings to be associated to the trust anchor.
     /// This member is required.
     public var notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]?
@@ -1494,7 +1494,7 @@ public struct PutNotificationSettingsInput {
     }
 }
 
-public struct PutNotificationSettingsOutput {
+public struct PutNotificationSettingsOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1507,7 +1507,7 @@ public struct PutNotificationSettingsOutput {
     }
 }
 
-public struct ResetNotificationSettingsInput {
+public struct ResetNotificationSettingsInput: Swift.Sendable {
     /// A list of notification setting keys to reset. A notification setting key includes the event and the channel.
     /// This member is required.
     public var notificationSettingKeys: [RolesAnywhereClientTypes.NotificationSettingKey]?
@@ -1525,7 +1525,7 @@ public struct ResetNotificationSettingsInput {
     }
 }
 
-public struct ResetNotificationSettingsOutput {
+public struct ResetNotificationSettingsOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1562,7 +1562,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1580,12 +1580,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateTrustAnchorInput {
+public struct UpdateTrustAnchorInput: Swift.Sendable {
     /// The name of the trust anchor.
     public var name: Swift.String?
     /// The trust anchor type and its related certificate data.
@@ -1606,7 +1606,7 @@ public struct UpdateTrustAnchorInput {
     }
 }
 
-public struct UpdateTrustAnchorOutput {
+public struct UpdateTrustAnchorOutput: Swift.Sendable {
     /// The state of the trust anchor after a read or write operation.
     /// This member is required.
     public var trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail?
@@ -1619,7 +1619,7 @@ public struct UpdateTrustAnchorOutput {
     }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1642,7 +1642,7 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
         "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
