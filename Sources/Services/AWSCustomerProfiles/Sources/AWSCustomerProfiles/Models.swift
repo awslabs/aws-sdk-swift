@@ -3859,6 +3859,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var objectTypeName: Swift.String?
     /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event. It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders, ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
     public var objectTypeNames: [Swift.String: Swift.String]?
+    /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+    public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
     /// The URI of the S3 bucket or any other type of data source.
@@ -3874,6 +3876,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         objectTypeName: Swift.String? = nil,
         objectTypeNames: [Swift.String: Swift.String]? = nil,
+        roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil,
         workflowId: Swift.String? = nil
@@ -3885,6 +3888,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.objectTypeName = objectTypeName
         self.objectTypeNames = objectTypeNames
+        self.roleArn = roleArn
         self.tags = tags
         self.uri = uri
         self.workflowId = workflowId
@@ -4400,6 +4404,8 @@ extension CustomerProfilesClientTypes {
         public var objectTypeName: Swift.String?
         /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event. It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders, ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
         public var objectTypeNames: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+        public var roleArn: Swift.String?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
         /// The URI of the S3 bucket or any other type of data source.
@@ -4415,6 +4421,7 @@ extension CustomerProfilesClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             objectTypeName: Swift.String? = nil,
             objectTypeNames: [Swift.String: Swift.String]? = nil,
+            roleArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             uri: Swift.String? = nil,
             workflowId: Swift.String? = nil
@@ -4426,6 +4433,7 @@ extension CustomerProfilesClientTypes {
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
+            self.roleArn = roleArn
             self.tags = tags
             self.uri = uri
             self.workflowId = workflowId
@@ -5383,6 +5391,8 @@ public struct PutIntegrationInput: Swift.Sendable {
     public var objectTypeName: Swift.String?
     /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event. It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders, ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
     public var objectTypeNames: [Swift.String: Swift.String]?
+    /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+    public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
     /// The URI of the S3 bucket or any other type of data source.
@@ -5393,6 +5403,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         flowDefinition: CustomerProfilesClientTypes.FlowDefinition? = nil,
         objectTypeName: Swift.String? = nil,
         objectTypeNames: [Swift.String: Swift.String]? = nil,
+        roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil
     )
@@ -5401,6 +5412,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         self.flowDefinition = flowDefinition
         self.objectTypeName = objectTypeName
         self.objectTypeNames = objectTypeNames
+        self.roleArn = roleArn
         self.tags = tags
         self.uri = uri
     }
@@ -5408,7 +5420,7 @@ public struct PutIntegrationInput: Swift.Sendable {
 
 extension PutIntegrationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutIntegrationInput(domainName: \(Swift.String(describing: domainName)), objectTypeName: \(Swift.String(describing: objectTypeName)), objectTypeNames: \(Swift.String(describing: objectTypeNames)), tags: \(Swift.String(describing: tags)), uri: \(Swift.String(describing: uri)), flowDefinition: \"CONTENT_REDACTED\")"}
+        "PutIntegrationInput(domainName: \(Swift.String(describing: domainName)), objectTypeName: \(Swift.String(describing: objectTypeName)), objectTypeNames: \(Swift.String(describing: objectTypeNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), uri: \(Swift.String(describing: uri)), flowDefinition: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutIntegrationOutput: Swift.Sendable {
@@ -5427,6 +5439,8 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public var objectTypeName: Swift.String?
     /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event. It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders, ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
     public var objectTypeNames: [Swift.String: Swift.String]?
+    /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+    public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
     /// The URI of the S3 bucket or any other type of data source.
@@ -5442,6 +5456,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         objectTypeName: Swift.String? = nil,
         objectTypeNames: [Swift.String: Swift.String]? = nil,
+        roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil,
         workflowId: Swift.String? = nil
@@ -5453,6 +5468,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.objectTypeName = objectTypeName
         self.objectTypeNames = objectTypeNames
+        self.roleArn = roleArn
         self.tags = tags
         self.uri = uri
         self.workflowId = workflowId
@@ -7320,6 +7336,7 @@ extension PutIntegrationInput {
         try writer["FlowDefinition"].write(value.flowDefinition, with: CustomerProfilesClientTypes.FlowDefinition.write(value:to:))
         try writer["ObjectTypeName"].write(value.objectTypeName)
         try writer["ObjectTypeNames"].writeMap(value.objectTypeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RoleArn"].write(value.roleArn)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Uri"].write(value.uri)
     }
@@ -7744,6 +7761,7 @@ extension GetIntegrationOutput {
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
         value.objectTypeNames = try reader["ObjectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.roleArn = try reader["RoleArn"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.uri = try reader["Uri"].readIfPresent() ?? ""
         value.workflowId = try reader["WorkflowId"].readIfPresent()
@@ -8053,6 +8071,7 @@ extension PutIntegrationOutput {
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
         value.objectTypeNames = try reader["ObjectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.roleArn = try reader["RoleArn"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.uri = try reader["Uri"].readIfPresent() ?? ""
         value.workflowId = try reader["WorkflowId"].readIfPresent()
@@ -9627,6 +9646,7 @@ extension CustomerProfilesClientTypes.ListIntegrationItem {
         value.objectTypeNames = try reader["ObjectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.workflowId = try reader["WorkflowId"].readIfPresent()
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
     }
 }
