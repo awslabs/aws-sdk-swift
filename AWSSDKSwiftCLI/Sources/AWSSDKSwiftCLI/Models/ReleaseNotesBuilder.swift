@@ -15,6 +15,7 @@ struct ReleaseNotesBuilder {
     let repoOrg: PrepareRelease.Org
     let repoType: PrepareRelease.Repo
     let commits: [String]
+    var isTest: Bool = false
     
     // MARK: - Build
     
@@ -45,8 +46,14 @@ struct ReleaseNotesBuilder {
     func buildServiceChangeSection() throws -> [String] {
         var features: Features
         var mapping: [String: String]
-        features = try Features.fromFile("build-request.json")
-        mapping = try Features.mappingFromFile("feature-service-id.json")
+        // At this point, FileManager.default's current working directory is aws-sdk-swift/.
+        // The JSON files we need are located one level above it, in the workspace directory.
+        // For tests, due to sandboxing, the dummy files are created in current directory instead of
+        //  in parent directory. Therefore, fetch them from current directory for tests.
+        let buildRequestLocation = isTest ? "build-request.json" : "../build-request.json"
+        let mappingLocation = isTest ? "feature-service-id.json" : "../feature-service-id.json"
+        features = try Features.fromFile(buildRequestLocation)
+        mapping = try Features.mappingFromFile(mappingLocation)
         return buildServiceFeatureSection(features, mapping) + buildServiceDocSection(features, mapping)
     }
 

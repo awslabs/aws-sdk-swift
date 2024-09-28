@@ -173,7 +173,8 @@ class ReleaseNotesBuilderTests: XCTestCase {
             newVersion: Version("1.0.1"),
             repoOrg: .awslabs,
             repoType: .awsSdkSwift,
-            commits: testCommits
+            commits: testCommits,
+            isTest: true
         )
     }
 }
