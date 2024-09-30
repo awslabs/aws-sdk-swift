@@ -13,7 +13,10 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
+import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -22,6 +25,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have the required privileges to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -244,7 +249,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 /// The request parameters for CreateBillOfMaterialsImportJob.
 public struct CreateBillOfMaterialsImportJobInput: Swift.Sendable {
-    /// An idempotency token.
+    /// An idempotency token ensures the API request is only completed no more than once. This way, retrying the request will not trigger the operation multiple times. A client token is a unique, case-sensitive string of 33 to 128 ASCII characters. To make an idempotent API request, specify a client token in the request. You should not reuse the same client token for other requests. If you retry a successful request with the same client token, the request will succeed with no further actions being taken, and you will receive the same API response as the original successful request.
     public var clientToken: Swift.String?
     /// The AWS Supply Chain instance identifier.
     /// This member is required.
@@ -333,6 +338,627 @@ public struct GetBillOfMaterialsImportJobOutput: Swift.Sendable {
     )
     {
         self.job = job
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    public enum DataIntegrationFlowLoadType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case incremental
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataIntegrationFlowLoadType] {
+            return [
+                .incremental,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .incremental: return "INCREMENTAL"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The dataset options used in dataset source and target configurations.
+    public struct DataIntegrationFlowDatasetOptions: Swift.Sendable {
+        /// The dataset load option to remove duplicates.
+        public var dedupeRecords: Swift.Bool?
+        /// The dataset data load type in dataset options.
+        public var loadType: SupplyChainClientTypes.DataIntegrationFlowLoadType?
+
+        public init(
+            dedupeRecords: Swift.Bool? = nil,
+            loadType: SupplyChainClientTypes.DataIntegrationFlowLoadType? = nil
+        )
+        {
+            self.dedupeRecords = dedupeRecords
+            self.loadType = loadType
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The dataset DataIntegrationFlow source configuration parameters.
+    public struct DataIntegrationFlowDatasetSourceConfiguration: Swift.Sendable {
+        /// The ARN of the dataset.
+        /// This member is required.
+        public var datasetIdentifier: Swift.String?
+        /// The dataset DataIntegrationFlow source options.
+        public var options: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions?
+
+        public init(
+            datasetIdentifier: Swift.String? = nil,
+            options: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions? = nil
+        )
+        {
+            self.datasetIdentifier = datasetIdentifier
+            self.options = options
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    public enum DataIntegrationFlowFileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case json
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataIntegrationFlowFileType] {
+            return [
+                .csv,
+                .json,
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .json: return "JSON"
+            case .parquet: return "PARQUET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The Amazon S3 options used in S3 source and target configurations.
+    public struct DataIntegrationFlowS3Options: Swift.Sendable {
+        /// The Amazon S3 file type in S3 options.
+        public var fileType: SupplyChainClientTypes.DataIntegrationFlowFileType?
+
+        public init(
+            fileType: SupplyChainClientTypes.DataIntegrationFlowFileType? = nil
+        )
+        {
+            self.fileType = fileType
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The S3 DataIntegrationFlow source configuration parameters.
+    public struct DataIntegrationFlowS3SourceConfiguration: Swift.Sendable {
+        /// The bucketName of the S3 source objects.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        /// The other options of the S3 DataIntegrationFlow source.
+        public var options: SupplyChainClientTypes.DataIntegrationFlowS3Options?
+        /// The prefix of the S3 source objects.
+        /// This member is required.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            options: SupplyChainClientTypes.DataIntegrationFlowS3Options? = nil,
+            `prefix`: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.options = options
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    public enum DataIntegrationFlowSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataset
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataIntegrationFlowSourceType] {
+            return [
+                .dataset,
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataset: return "DATASET"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The DataIntegrationFlow source parameters.
+    public struct DataIntegrationFlowSource: Swift.Sendable {
+        /// The dataset DataIntegrationFlow source.
+        public var datasetSource: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration?
+        /// The S3 DataIntegrationFlow source.
+        public var s3Source: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration?
+        /// The DataIntegrationFlow source name that can be used as table alias in SQL transformation query.
+        /// This member is required.
+        public var sourceName: Swift.String?
+        /// The DataIntegrationFlow source type.
+        /// This member is required.
+        public var sourceType: SupplyChainClientTypes.DataIntegrationFlowSourceType?
+
+        public init(
+            datasetSource: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration? = nil,
+            s3Source: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration? = nil,
+            sourceName: Swift.String? = nil,
+            sourceType: SupplyChainClientTypes.DataIntegrationFlowSourceType? = nil
+        )
+        {
+            self.datasetSource = datasetSource
+            self.s3Source = s3Source
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The dataset DataIntegrationFlow target configuration parameters.
+    public struct DataIntegrationFlowDatasetTargetConfiguration: Swift.Sendable {
+        /// The dataset ARN.
+        /// This member is required.
+        public var datasetIdentifier: Swift.String?
+        /// The dataset DataIntegrationFlow target options.
+        public var options: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions?
+
+        public init(
+            datasetIdentifier: Swift.String? = nil,
+            options: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions? = nil
+        )
+        {
+            self.datasetIdentifier = datasetIdentifier
+            self.options = options
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The S3 DataIntegrationFlow target configuration parameters.
+    public struct DataIntegrationFlowS3TargetConfiguration: Swift.Sendable {
+        /// The bucketName of the S3 target objects.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        /// The S3 DataIntegrationFlow target options.
+        public var options: SupplyChainClientTypes.DataIntegrationFlowS3Options?
+        /// The prefix of the S3 target objects.
+        /// This member is required.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            options: SupplyChainClientTypes.DataIntegrationFlowS3Options? = nil,
+            `prefix`: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.options = options
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    public enum DataIntegrationFlowTargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataset
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataIntegrationFlowTargetType] {
+            return [
+                .dataset,
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataset: return "DATASET"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The DataIntegrationFlow target parameters.
+    public struct DataIntegrationFlowTarget: Swift.Sendable {
+        /// The dataset DataIntegrationFlow target.
+        public var datasetTarget: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration?
+        /// The S3 DataIntegrationFlow target.
+        public var s3Target: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration?
+        /// The DataIntegrationFlow target type.
+        /// This member is required.
+        public var targetType: SupplyChainClientTypes.DataIntegrationFlowTargetType?
+
+        public init(
+            datasetTarget: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration? = nil,
+            s3Target: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration? = nil,
+            targetType: SupplyChainClientTypes.DataIntegrationFlowTargetType? = nil
+        )
+        {
+            self.datasetTarget = datasetTarget
+            self.s3Target = s3Target
+            self.targetType = targetType
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The SQL DataIntegrationFlow transformation configuration parameters.
+    public struct DataIntegrationFlowSQLTransformationConfiguration: Swift.Sendable {
+        /// The transformation SQL query body based on SparkSQL.
+        /// This member is required.
+        public var query: Swift.String?
+
+        public init(
+            query: Swift.String? = nil
+        )
+        {
+            self.query = query
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    public enum DataIntegrationFlowTransformationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case sql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataIntegrationFlowTransformationType] {
+            return [
+                .none,
+                .sql
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .sql: return "SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The DataIntegrationFlow transformation parameters.
+    public struct DataIntegrationFlowTransformation: Swift.Sendable {
+        /// The SQL DataIntegrationFlow transformation configuration.
+        public var sqlTransformation: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration?
+        /// The DataIntegrationFlow transformation type.
+        /// This member is required.
+        public var transformationType: SupplyChainClientTypes.DataIntegrationFlowTransformationType?
+
+        public init(
+            sqlTransformation: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration? = nil,
+            transformationType: SupplyChainClientTypes.DataIntegrationFlowTransformationType? = nil
+        )
+        {
+            self.sqlTransformation = sqlTransformation
+            self.transformationType = transformationType
+        }
+    }
+}
+
+/// The request parameters for CreateDataIntegrationFlow.
+public struct CreateDataIntegrationFlowInput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Name of the DataIntegrationFlow.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The source configurations for DataIntegrationFlow.
+    /// This member is required.
+    public var sources: [SupplyChainClientTypes.DataIntegrationFlowSource]?
+    /// The tags of the DataIntegrationFlow to be created
+    public var tags: [Swift.String: Swift.String]?
+    /// The target configurations for DataIntegrationFlow.
+    /// This member is required.
+    public var target: SupplyChainClientTypes.DataIntegrationFlowTarget?
+    /// The transformation configurations for DataIntegrationFlow.
+    /// This member is required.
+    public var transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        sources: [SupplyChainClientTypes.DataIntegrationFlowSource]? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        target: SupplyChainClientTypes.DataIntegrationFlowTarget? = nil,
+        transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+        self.sources = sources
+        self.tags = tags
+        self.target = target
+        self.transformation = transformation
+    }
+}
+
+/// The response parameters for CreateDataIntegrationFlow.
+public struct CreateDataIntegrationFlowOutput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the DataIntegrationFlow created.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    public enum DataLakeDatasetSchemaFieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case double
+        case int
+        case string
+        case timestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataLakeDatasetSchemaFieldType] {
+            return [
+                .double,
+                .int,
+                .string,
+                .timestamp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .double: return "DOUBLE"
+            case .int: return "INT"
+            case .string: return "STRING"
+            case .timestamp: return "TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The dataset field details.
+    public struct DataLakeDatasetSchemaField: Swift.Sendable {
+        /// Indicate if the field is required or not.
+        /// This member is required.
+        public var isRequired: Swift.Bool?
+        /// The dataset field name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The dataset field type.
+        /// This member is required.
+        public var type: SupplyChainClientTypes.DataLakeDatasetSchemaFieldType?
+
+        public init(
+            isRequired: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            type: SupplyChainClientTypes.DataLakeDatasetSchemaFieldType? = nil
+        )
+        {
+            self.isRequired = isRequired
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The schema details of the dataset.
+    public struct DataLakeDatasetSchema: Swift.Sendable {
+        /// The list of field details of the dataset schema.
+        /// This member is required.
+        public var fields: [SupplyChainClientTypes.DataLakeDatasetSchemaField]?
+        /// The name of the dataset schema.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            fields: [SupplyChainClientTypes.DataLakeDatasetSchemaField]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.fields = fields
+            self.name = name
+        }
+    }
+}
+
+/// The request parameters for CreateDataLakeDataset.
+public struct CreateDataLakeDatasetInput: Swift.Sendable {
+    /// The description of the dataset.
+    public var description: Swift.String?
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the dataset. For asc name space, the name must be one of the supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name space of the dataset.
+    ///
+    /// * asc - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    ///
+    /// * default - For datasets with custom user-defined schemas.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The custom schema of the data lake dataset and is only required when the name space is default.
+    public var schema: SupplyChainClientTypes.DataLakeDatasetSchema?
+    /// The tags of the dataset.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        schema: SupplyChainClientTypes.DataLakeDatasetSchema? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.namespace = namespace
+        self.schema = schema
+        self.tags = tags
+    }
+}
+
+extension SupplyChainClientTypes {
+
+    /// The data lake dataset details.
+    public struct DataLakeDataset: Swift.Sendable {
+        /// The arn of the dataset.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The creation time of the dataset.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The description of the dataset.
+        public var description: Swift.String?
+        /// The Amazon Web Services Supply Chain instance identifier.
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// The last modified time of the dataset.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name space of the dataset. The available values are:
+        ///
+        /// * asc - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+        ///
+        /// * default - For datasets with custom user-defined schemas.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// The schema of the dataset.
+        /// This member is required.
+        public var schema: SupplyChainClientTypes.DataLakeDatasetSchema?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            schema: SupplyChainClientTypes.DataLakeDatasetSchema? = nil
+        )
+        {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.namespace = namespace
+            self.schema = schema
+        }
+    }
+}
+
+/// The response parameters of CreateDataLakeDataset.
+public struct CreateDataLakeDatasetOutput: Swift.Sendable {
+    /// The detail of created dataset.
+    /// This member is required.
+    public var dataset: SupplyChainClientTypes.DataLakeDataset?
+
+    public init(
+        dataset: SupplyChainClientTypes.DataLakeDataset? = nil
+    )
+    {
+        self.dataset = dataset
     }
 }
 
@@ -460,6 +1086,476 @@ public struct SendDataIntegrationEventOutput: Swift.Sendable {
     }
 }
 
+extension SupplyChainClientTypes {
+
+    /// The DataIntegrationFlow details.
+    public struct DataIntegrationFlow: Swift.Sendable {
+        /// The DataIntegrationFlow creation timestamp.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The DataIntegrationFlow instance ID.
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// The DataIntegrationFlow last modified timestamp.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The DataIntegrationFlow name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The DataIntegrationFlow source configurations.
+        /// This member is required.
+        public var sources: [SupplyChainClientTypes.DataIntegrationFlowSource]?
+        /// The DataIntegrationFlow target configuration.
+        /// This member is required.
+        public var target: SupplyChainClientTypes.DataIntegrationFlowTarget?
+        /// The DataIntegrationFlow transformation configurations.
+        /// This member is required.
+        public var transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation?
+
+        public init(
+            createdTime: Foundation.Date? = nil,
+            instanceId: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            sources: [SupplyChainClientTypes.DataIntegrationFlowSource]? = nil,
+            target: SupplyChainClientTypes.DataIntegrationFlowTarget? = nil,
+            transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.sources = sources
+            self.target = target
+            self.transformation = transformation
+        }
+    }
+}
+
+/// The request parameters for DeleteDataIntegrationFlow.
+public struct DeleteDataIntegrationFlowInput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the DataIntegrationFlow to be deleted.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+/// The response parameters for DeleteDataIntegrationFlow.
+public struct DeleteDataIntegrationFlowOutput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the DataIntegrationFlow deleted.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+/// The request parameters for GetDataIntegrationFlow.
+public struct GetDataIntegrationFlowInput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the DataIntegrationFlow created.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+/// The response parameters for GetDataIntegrationFlow.
+public struct GetDataIntegrationFlowOutput: Swift.Sendable {
+    /// The details of the DataIntegrationFlow returned.
+    /// This member is required.
+    public var flow: SupplyChainClientTypes.DataIntegrationFlow?
+
+    public init(
+        flow: SupplyChainClientTypes.DataIntegrationFlow? = nil
+    )
+    {
+        self.flow = flow
+    }
+}
+
+/// The request parameters for ListDataIntegrationFlows.
+public struct ListDataIntegrationFlowsInput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Specify the maximum number of DataIntegrationFlows to fetch in one paginated request.
+    public var maxResults: Swift.Int?
+    /// The pagination token to fetch the next page of the DataIntegrationFlows.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = 10,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// The response parameters for ListDataIntegrationFlows.
+public struct ListDataIntegrationFlowsOutput: Swift.Sendable {
+    /// The response parameters for ListDataIntegrationFlows.
+    /// This member is required.
+    public var flows: [SupplyChainClientTypes.DataIntegrationFlow]?
+    /// The pagination token to fetch the next page of the DataIntegrationFlows.
+    public var nextToken: Swift.String?
+
+    public init(
+        flows: [SupplyChainClientTypes.DataIntegrationFlow]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.flows = flows
+        self.nextToken = nextToken
+    }
+}
+
+/// The request parameters for UpdateDataIntegrationFlow.
+public struct UpdateDataIntegrationFlowInput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the DataIntegrationFlow to be updated.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The new source configurations for the DataIntegrationFlow.
+    public var sources: [SupplyChainClientTypes.DataIntegrationFlowSource]?
+    /// The new target configurations for the DataIntegrationFlow.
+    public var target: SupplyChainClientTypes.DataIntegrationFlowTarget?
+    /// The new transformation configurations for the DataIntegrationFlow.
+    public var transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        sources: [SupplyChainClientTypes.DataIntegrationFlowSource]? = nil,
+        target: SupplyChainClientTypes.DataIntegrationFlowTarget? = nil,
+        transformation: SupplyChainClientTypes.DataIntegrationFlowTransformation? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+        self.sources = sources
+        self.target = target
+        self.transformation = transformation
+    }
+}
+
+/// The response parameters for UpdateDataIntegrationFlow.
+public struct UpdateDataIntegrationFlowOutput: Swift.Sendable {
+    /// The details of the updated DataIntegrationFlow.
+    /// This member is required.
+    public var flow: SupplyChainClientTypes.DataIntegrationFlow?
+
+    public init(
+        flow: SupplyChainClientTypes.DataIntegrationFlow? = nil
+    )
+    {
+        self.flow = flow
+    }
+}
+
+/// The request parameters of DeleteDataLakeDataset.
+public struct DeleteDataLakeDatasetInput: Swift.Sendable {
+    /// The AWS Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the dataset. If the namespace is asc, the name must be one of the supported [data entities ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The namespace of the dataset. The available values are:
+    ///
+    /// * asc: for [ AWS Supply Chain supported datasets ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    ///
+    /// * default: for datasets with custom user-defined schemas.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+        self.namespace = namespace
+    }
+}
+
+/// The response parameters of DeleteDataLakeDataset.
+public struct DeleteDataLakeDatasetOutput: Swift.Sendable {
+    /// The AWS Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of deleted dataset.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The namespace of deleted dataset.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+        self.namespace = namespace
+    }
+}
+
+/// The request parameters for GetDataLakeDataset.
+public struct GetDataLakeDatasetInput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the dataset. For asc name space, the name must be one of the supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name space of the dataset. The available values are:
+    ///
+    /// * asc - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    ///
+    /// * default - For datasets with custom user-defined schemas.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+        self.namespace = namespace
+    }
+}
+
+/// The response parameters for UpdateDataLakeDataset.
+public struct GetDataLakeDatasetOutput: Swift.Sendable {
+    /// The fetched dataset details.
+    /// This member is required.
+    public var dataset: SupplyChainClientTypes.DataLakeDataset?
+
+    public init(
+        dataset: SupplyChainClientTypes.DataLakeDataset? = nil
+    )
+    {
+        self.dataset = dataset
+    }
+}
+
+/// The request parameters of ListDataLakeDatasets.
+public struct ListDataLakeDatasetsInput: Swift.Sendable {
+    /// The Amazon Web Services Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The max number of datasets to fetch in this paginated request.
+    public var maxResults: Swift.Int?
+    /// The namespace of the dataset. The available values are:
+    ///
+    /// * asc: for [ AWS Supply Chain supported datasets ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    ///
+    /// * default: for datasets with custom user-defined schemas.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The pagination token to fetch next page of datasets.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = 10,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+    }
+}
+
+/// The response parameters of ListDataLakeDatasets.
+public struct ListDataLakeDatasetsOutput: Swift.Sendable {
+    /// The list of fetched dataset details.
+    /// This member is required.
+    public var datasets: [SupplyChainClientTypes.DataLakeDataset]?
+    /// The pagination token to fetch next page of datasets.
+    public var nextToken: Swift.String?
+
+    public init(
+        datasets: [SupplyChainClientTypes.DataLakeDataset]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.datasets = datasets
+        self.nextToken = nextToken
+    }
+}
+
+/// The request parameters of UpdateDataLakeDataset.
+public struct UpdateDataLakeDatasetInput: Swift.Sendable {
+    /// The updated description of the data lake dataset.
+    public var description: Swift.String?
+    /// The Amazon Web Services Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the dataset. For asc name space, the name must be one of the supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name space of the dataset. The available values are:
+    ///
+    /// * asc - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    ///
+    /// * default - For datasets with custom user-defined schemas.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.namespace = namespace
+    }
+}
+
+/// The response parameters of UpdateDataLakeDataset.
+public struct UpdateDataLakeDatasetOutput: Swift.Sendable {
+    /// The updated dataset details.
+    /// This member is required.
+    public var dataset: SupplyChainClientTypes.DataLakeDataset?
+
+    public init(
+        dataset: SupplyChainClientTypes.DataLakeDataset? = nil
+    )
+    {
+        self.dataset = dataset
+    }
+}
+
+/// The request parameters of ListTagsForResource.
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Web Services Supply chain resource ARN that needs tags to be listed.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+/// The response parameters of ListTagsForResource.
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The tags added to an Amazon Web Services Supply Chain resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+/// The request parameters of TagResource.
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Web Services Supply chain resource ARN that needs to be tagged.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The tags of the Amazon Web Services Supply chain resource to be created.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+/// The response parameters for TagResource.
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The request parameters of UntagResource.
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Web Services Supply chain resource ARN that needs to be untagged.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The list of tag keys to be deleted for an Amazon Web Services Supply Chain resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+/// The response parameters of UntagResource.
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension CreateBillOfMaterialsImportJobInput {
 
     static func urlPathProvider(_ value: CreateBillOfMaterialsImportJobInput) -> Swift.String? {
@@ -467,6 +1563,64 @@ extension CreateBillOfMaterialsImportJobInput {
             return nil
         }
         return "/api/configuration/instances/\(instanceId.urlPercentEncoding())/bill-of-materials-import-jobs"
+    }
+}
+
+extension CreateDataIntegrationFlowInput {
+
+    static func urlPathProvider(_ value: CreateDataIntegrationFlowInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/data-integration/instance/\(instanceId.urlPercentEncoding())/data-integration-flows/\(name.urlPercentEncoding())"
+    }
+}
+
+extension CreateDataLakeDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDataLakeDatasetInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/datalake/instance/\(instanceId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/datasets/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDataIntegrationFlowInput {
+
+    static func urlPathProvider(_ value: DeleteDataIntegrationFlowInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/data-integration/instance/\(instanceId.urlPercentEncoding())/data-integration-flows/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDataLakeDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDataLakeDatasetInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/datalake/instance/\(instanceId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/datasets/\(name.urlPercentEncoding())"
     }
 }
 
@@ -483,6 +1637,100 @@ extension GetBillOfMaterialsImportJobInput {
     }
 }
 
+extension GetDataIntegrationFlowInput {
+
+    static func urlPathProvider(_ value: GetDataIntegrationFlowInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/data-integration/instance/\(instanceId.urlPercentEncoding())/data-integration-flows/\(name.urlPercentEncoding())"
+    }
+}
+
+extension GetDataLakeDatasetInput {
+
+    static func urlPathProvider(_ value: GetDataLakeDatasetInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/datalake/instance/\(instanceId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/datasets/\(name.urlPercentEncoding())"
+    }
+}
+
+extension ListDataIntegrationFlowsInput {
+
+    static func urlPathProvider(_ value: ListDataIntegrationFlowsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/api/data-integration/instance/\(instanceId.urlPercentEncoding())/data-integration-flows"
+    }
+}
+
+extension ListDataIntegrationFlowsInput {
+
+    static func queryItemProvider(_ value: ListDataIntegrationFlowsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDataLakeDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDataLakeDatasetsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/api/datalake/instance/\(instanceId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/datasets"
+    }
+}
+
+extension ListDataLakeDatasetsInput {
+
+    static func queryItemProvider(_ value: ListDataLakeDatasetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/api/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension SendDataIntegrationEventInput {
 
     static func urlPathProvider(_ value: SendDataIntegrationEventInput) -> Swift.String? {
@@ -493,12 +1741,98 @@ extension SendDataIntegrationEventInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/api/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/api/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension UpdateDataIntegrationFlowInput {
+
+    static func urlPathProvider(_ value: UpdateDataIntegrationFlowInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/data-integration/instance/\(instanceId.urlPercentEncoding())/data-integration-flows/\(name.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDataLakeDatasetInput {
+
+    static func urlPathProvider(_ value: UpdateDataLakeDatasetInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/api/datalake/instance/\(instanceId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/datasets/\(name.urlPercentEncoding())"
+    }
+}
+
 extension CreateBillOfMaterialsImportJobInput {
 
     static func write(value: CreateBillOfMaterialsImportJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["s3uri"].write(value.s3uri)
+    }
+}
+
+extension CreateDataIntegrationFlowInput {
+
+    static func write(value: CreateDataIntegrationFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sources"].writeList(value.sources, memberWritingClosure: SupplyChainClientTypes.DataIntegrationFlowSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["target"].write(value.target, with: SupplyChainClientTypes.DataIntegrationFlowTarget.write(value:to:))
+        try writer["transformation"].write(value.transformation, with: SupplyChainClientTypes.DataIntegrationFlowTransformation.write(value:to:))
+    }
+}
+
+extension CreateDataLakeDatasetInput {
+
+    static func write(value: CreateDataLakeDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["schema"].write(value.schema, with: SupplyChainClientTypes.DataLakeDatasetSchema.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -514,6 +1848,32 @@ extension SendDataIntegrationEventInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateDataIntegrationFlowInput {
+
+    static func write(value: UpdateDataIntegrationFlowInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sources"].writeList(value.sources, memberWritingClosure: SupplyChainClientTypes.DataIntegrationFlowSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["target"].write(value.target, with: SupplyChainClientTypes.DataIntegrationFlowTarget.write(value:to:))
+        try writer["transformation"].write(value.transformation, with: SupplyChainClientTypes.DataIntegrationFlowTransformation.write(value:to:))
+    }
+}
+
+extension UpdateDataLakeDatasetInput {
+
+    static func write(value: UpdateDataLakeDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+    }
+}
+
 extension CreateBillOfMaterialsImportJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBillOfMaterialsImportJobOutput {
@@ -522,6 +1882,58 @@ extension CreateBillOfMaterialsImportJobOutput {
         let reader = responseReader
         var value = CreateBillOfMaterialsImportJobOutput()
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateDataIntegrationFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataIntegrationFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataIntegrationFlowOutput()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateDataLakeDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataLakeDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataLakeDatasetOutput()
+        value.dataset = try reader["dataset"].readIfPresent(with: SupplyChainClientTypes.DataLakeDataset.read(from:))
+        return value
+    }
+}
+
+extension DeleteDataIntegrationFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataIntegrationFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDataIntegrationFlowOutput()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteDataLakeDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataLakeDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDataLakeDatasetOutput()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
         return value
     }
 }
@@ -538,6 +1950,68 @@ extension GetBillOfMaterialsImportJobOutput {
     }
 }
 
+extension GetDataIntegrationFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataIntegrationFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataIntegrationFlowOutput()
+        value.flow = try reader["flow"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlow.read(from:))
+        return value
+    }
+}
+
+extension GetDataLakeDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataLakeDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataLakeDatasetOutput()
+        value.dataset = try reader["dataset"].readIfPresent(with: SupplyChainClientTypes.DataLakeDataset.read(from:))
+        return value
+    }
+}
+
+extension ListDataIntegrationFlowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataIntegrationFlowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataIntegrationFlowsOutput()
+        value.flows = try reader["flows"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataIntegrationFlow.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataLakeDatasetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataLakeDatasetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataLakeDatasetsOutput()
+        value.datasets = try reader["datasets"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDataset.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
 extension SendDataIntegrationEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendDataIntegrationEventOutput {
@@ -546,6 +2020,44 @@ extension SendDataIntegrationEventOutput {
         let reader = responseReader
         var value = SendDataIntegrationEventOutput()
         value.eventId = try reader["eventId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+extension UpdateDataIntegrationFlowOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataIntegrationFlowOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataIntegrationFlowOutput()
+        value.flow = try reader["flow"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlow.read(from:))
+        return value
+    }
+}
+
+extension UpdateDataLakeDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataLakeDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataLakeDatasetOutput()
+        value.dataset = try reader["dataset"].readIfPresent(with: SupplyChainClientTypes.DataLakeDataset.read(from:))
         return value
     }
 }
@@ -583,7 +2095,178 @@ enum CreateBillOfMaterialsImportJobOutputError {
     }
 }
 
+enum CreateDataIntegrationFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataLakeDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDataIntegrationFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDataLakeDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBillOfMaterialsImportJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataIntegrationFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataLakeDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataIntegrationFlowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataLakeDatasetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -616,6 +2299,82 @@ enum SendDataIntegrationEventOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataIntegrationFlowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataLakeDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -714,6 +2473,59 @@ extension ResourceNotFoundException {
     }
 }
 
+extension SupplyChainClientTypes.DataLakeDataset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDataset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataLakeDataset()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.schema = try reader["schema"].readIfPresent(with: SupplyChainClientTypes.DataLakeDatasetSchema.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataLakeDatasetSchema {
+
+    static func write(value: SupplyChainClientTypes.DataLakeDatasetSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: SupplyChainClientTypes.DataLakeDatasetSchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDatasetSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataLakeDatasetSchema()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDatasetSchemaField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataLakeDatasetSchemaField {
+
+    static func write(value: SupplyChainClientTypes.DataLakeDatasetSchemaField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isRequired"].write(value.isRequired)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDatasetSchemaField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataLakeDatasetSchemaField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.isRequired = try reader["isRequired"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension SupplyChainClientTypes.BillOfMaterialsImportJob {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.BillOfMaterialsImportJob {
@@ -724,6 +2536,198 @@ extension SupplyChainClientTypes.BillOfMaterialsImportJob {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.s3uri = try reader["s3uri"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlow()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataIntegrationFlowSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.transformation = try reader["transformation"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowTransformation.read(from:))
+        value.target = try reader["target"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowTarget.read(from:))
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowTarget {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetTarget"].write(value.datasetTarget, with: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration.write(value:to:))
+        try writer["s3Target"].write(value.s3Target, with: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration.write(value:to:))
+        try writer["targetType"].write(value.targetType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowTarget()
+        value.targetType = try reader["targetType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Target = try reader["s3Target"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration.read(from:))
+        value.datasetTarget = try reader["datasetTarget"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetIdentifier"].write(value.datasetIdentifier)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration()
+        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDatasetOptions {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dedupeRecords"].write(value.dedupeRecords)
+        try writer["loadType"].write(value.loadType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetOptions()
+        value.loadType = try reader["loadType"].readIfPresent()
+        value.dedupeRecords = try reader["dedupeRecords"].readIfPresent()
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowS3Options.write(value:to:))
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Options.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowS3Options {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3Options?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileType"].write(value.fileType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3Options {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowS3Options()
+        value.fileType = try reader["fileType"].readIfPresent()
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowTransformation {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowTransformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sqlTransformation"].write(value.sqlTransformation, with: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration.write(value:to:))
+        try writer["transformationType"].write(value.transformationType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowTransformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowTransformation()
+        value.transformationType = try reader["transformationType"].readIfPresent() ?? .sdkUnknown("")
+        value.sqlTransformation = try reader["sqlTransformation"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["query"].write(value.query)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration()
+        value.query = try reader["query"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowSource {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetSource"].write(value.datasetSource, with: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration.write(value:to:))
+        try writer["s3Source"].write(value.s3Source, with: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration.write(value:to:))
+        try writer["sourceName"].write(value.sourceName)
+        try writer["sourceType"].write(value.sourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowSource()
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceName = try reader["sourceName"].readIfPresent() ?? ""
+        value.s3Source = try reader["s3Source"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration.read(from:))
+        value.datasetSource = try reader["datasetSource"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetIdentifier"].write(value.datasetIdentifier)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration()
+        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowS3Options.write(value:to:))
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Options.read(from:))
         return value
     }
 }
