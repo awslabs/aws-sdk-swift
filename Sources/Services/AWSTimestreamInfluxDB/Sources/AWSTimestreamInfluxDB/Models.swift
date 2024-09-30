@@ -445,6 +445,8 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in AWS SecretManager in your account.
     /// This member is required.
     public var password: Swift.String?
+    /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+    public var port: Swift.Int?
     /// Configures the DB instance with a public IP to facilitate access.
     public var publiclyAccessible: Swift.Bool?
     /// A list of key-value pairs to associate with the DB instance.
@@ -469,6 +471,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
         name: Swift.String? = nil,
         organization: Swift.String? = nil,
         password: Swift.String? = nil,
+        port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         username: Swift.String? = nil,
@@ -486,6 +489,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
         self.name = name
         self.organization = organization
         self.password = password
+        self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.tags = tags
         self.username = username
@@ -496,7 +500,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
 
 extension CreateDbInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDbInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), bucket: \(Swift.String(describing: bucket)), dbInstanceType: \(Swift.String(describing: dbInstanceType)), dbParameterGroupIdentifier: \(Swift.String(describing: dbParameterGroupIdentifier)), dbStorageType: \(Swift.String(describing: dbStorageType)), deploymentType: \(Swift.String(describing: deploymentType)), logDeliveryConfiguration: \(Swift.String(describing: logDeliveryConfiguration)), name: \(Swift.String(describing: name)), organization: \(Swift.String(describing: organization)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), vpcSubnetIds: \(Swift.String(describing: vpcSubnetIds)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "CreateDbInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), bucket: \(Swift.String(describing: bucket)), dbInstanceType: \(Swift.String(describing: dbInstanceType)), dbParameterGroupIdentifier: \(Swift.String(describing: dbParameterGroupIdentifier)), dbStorageType: \(Swift.String(describing: dbStorageType)), deploymentType: \(Swift.String(describing: deploymentType)), logDeliveryConfiguration: \(Swift.String(describing: logDeliveryConfiguration)), name: \(Swift.String(describing: name)), organization: \(Swift.String(describing: organization)), port: \(Swift.String(describing: port)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), vpcSubnetIds: \(Swift.String(describing: vpcSubnetIds)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension TimestreamInfluxDBClientTypes {
@@ -577,6 +581,8 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// The port number on which InfluxDB accepts connections. The default value is 8086.
+    public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
     public var publiclyAccessible: Swift.Bool?
     /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -602,6 +608,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
@@ -621,6 +628,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
         self.status = status
@@ -670,6 +678,8 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// The port number on which InfluxDB accepts connections.
+    public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
     public var publiclyAccessible: Swift.Bool?
     /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -695,6 +705,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
@@ -714,6 +725,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
         self.status = status
@@ -763,6 +775,8 @@ public struct GetDbInstanceOutput: Swift.Sendable {
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// The port number on which InfluxDB accepts connections.
+    public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
     public var publiclyAccessible: Swift.Bool?
     /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -788,6 +802,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
@@ -807,6 +822,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
         self.status = status
@@ -854,6 +870,8 @@ extension TimestreamInfluxDBClientTypes {
         /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
         /// This member is required.
         public var name: Swift.String?
+        /// The port number on which InfluxDB accepts connections.
+        public var port: Swift.Int?
         /// The status of the DB instance.
         public var status: TimestreamInfluxDBClientTypes.Status?
 
@@ -866,6 +884,7 @@ extension TimestreamInfluxDBClientTypes {
             endpoint: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            port: Swift.Int? = nil,
             status: TimestreamInfluxDBClientTypes.Status? = nil
         )
         {
@@ -877,6 +896,7 @@ extension TimestreamInfluxDBClientTypes {
             self.endpoint = endpoint
             self.id = id
             self.name = name
+            self.port = port
             self.status = status
         }
     }
@@ -911,13 +931,16 @@ public struct UpdateDbInstanceInput: Swift.Sendable {
     public var identifier: Swift.String?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// The port number on which InfluxDB accepts connections. If you change the Port value, your database restarts immediately. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+    public var port: Swift.Int?
 
     public init(
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.DeploymentType? = nil,
         identifier: Swift.String? = nil,
-        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        port: Swift.Int? = nil
     )
     {
         self.dbInstanceType = dbInstanceType
@@ -925,6 +948,7 @@ public struct UpdateDbInstanceInput: Swift.Sendable {
         self.deploymentType = deploymentType
         self.identifier = identifier
         self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.port = port
     }
 }
 
@@ -956,6 +980,8 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
     /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// The port number on which InfluxDB accepts connections.
+    public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
     public var publiclyAccessible: Swift.Bool?
     /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -981,6 +1007,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
@@ -1000,11 +1027,69 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
         self.status = status
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
         self.vpcSubnetIds = vpcSubnetIds
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum DurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hours
+        case milliseconds
+        case minutes
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DurationType] {
+            return [
+                .hours,
+                .milliseconds,
+                .minutes,
+                .seconds
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hours: return "hours"
+            case .milliseconds: return "milliseconds"
+            case .minutes: return "minutes"
+            case .seconds: return "seconds"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Duration for InfluxDB parameters in Timestream for InfluxDB.
+    public struct Duration: Swift.Sendable {
+        /// The type of duration for InfluxDB parameters.
+        /// This member is required.
+        public var durationType: TimestreamInfluxDBClientTypes.DurationType?
+        /// The value of duration for InfluxDB parameters.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            durationType: TimestreamInfluxDBClientTypes.DurationType? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.durationType = durationType
+            self.value = value
+        }
     }
 }
 
@@ -1075,36 +1160,144 @@ extension TimestreamInfluxDBClientTypes {
     public struct InfluxDBv2Parameters: Swift.Sendable {
         /// Include option to show detailed logs for Flux queries. Default: false
         public var fluxLogEnabled: Swift.Bool?
+        /// Maximum duration the server should keep established connections alive while waiting for new requests. Set to 0 for no timeout. Default: 3 minutes
+        public var httpIdleTimeout: TimestreamInfluxDBClientTypes.Duration?
+        /// Maximum duration the server should try to read HTTP headers for new requests. Set to 0 for no timeout. Default: 10 seconds
+        public var httpReadHeaderTimeout: TimestreamInfluxDBClientTypes.Duration?
+        /// Maximum duration the server should try to read the entirety of new requests. Set to 0 for no timeout. Default: 0
+        public var httpReadTimeout: TimestreamInfluxDBClientTypes.Duration?
+        /// Maximum duration the server should spend processing and responding to write requests. Set to 0 for no timeout. Default: 0
+        public var httpWriteTimeout: TimestreamInfluxDBClientTypes.Duration?
+        /// Maximum number of group by time buckets a SELECT statement can create. 0 allows an unlimited number of buckets. Default: 0
+        public var influxqlMaxSelectBuckets: Swift.Int?
+        /// Maximum number of points a SELECT statement can process. 0 allows an unlimited number of points. InfluxDB checks the point count every second (so queries exceeding the maximum aren’t immediately aborted). Default: 0
+        public var influxqlMaxSelectPoint: Swift.Int?
+        /// Maximum number of series a SELECT statement can return. 0 allows an unlimited number of series. Default: 0
+        public var influxqlMaxSelectSeries: Swift.Int?
         /// Log output level. InfluxDB outputs log entries with severity levels greater than or equal to the level specified. Default: info
         public var logLevel: TimestreamInfluxDBClientTypes.LogLevel?
         /// Disable the HTTP /metrics endpoint which exposes [internal InfluxDB metrics](https://docs.influxdata.com/influxdb/v2/reference/internals/metrics/). Default: false
         public var metricsDisabled: Swift.Bool?
         /// Disable the task scheduler. If problematic tasks prevent InfluxDB from starting, use this option to start InfluxDB without scheduling or executing tasks. Default: false
         public var noTasks: Swift.Bool?
+        /// Disable the /debug/pprof HTTP endpoint. This endpoint provides runtime profiling data and can be helpful when debugging. Default: false
+        public var pprofDisabled: Swift.Bool?
         /// Number of queries allowed to execute concurrently. Setting to 0 allows an unlimited number of concurrent queries. Default: 0
         public var queryConcurrency: Swift.Int?
+        /// Initial bytes of memory allocated for a query. Default: 0
+        public var queryInitialMemoryBytes: Swift.Int?
+        /// Maximum number of queries allowed in execution queue. When queue limit is reached, new queries are rejected. Setting to 0 allows an unlimited number of queries in the queue. Default: 0
+        public var queryMaxMemoryBytes: Swift.Int?
+        /// Maximum bytes of memory allowed for a single query. Must be greater or equal to queryInitialMemoryBytes. Default: 0
+        public var queryMemoryBytes: Swift.Int?
         /// Maximum number of queries allowed in execution queue. When queue limit is reached, new queries are rejected. Setting to 0 allows an unlimited number of queries in the queue. Default: 0
         public var queryQueueSize: Swift.Int?
+        /// Specifies the Time to Live (TTL) in minutes for newly created user sessions. Default: 60
+        public var sessionLength: Swift.Int?
+        /// Disables automatically extending a user’s session TTL on each request. By default, every request sets the session’s expiration time to five minutes from now. When disabled, sessions expire after the specified [session length](https://docs.influxdata.com/influxdb/v2/reference/config-options/#session-length) and the user is redirected to the login page, even if recently active. Default: false
+        public var sessionRenewDisabled: Swift.Bool?
+        /// Maximum size (in bytes) a shard’s cache can reach before it starts rejecting writes. Must be greater than storageCacheSnapShotMemorySize and lower than instance’s total memory capacity. We recommend setting it to below 15% of the total memory capacity. Default: 1073741824
+        public var storageCacheMaxMemorySize: Swift.Int?
+        /// Size (in bytes) at which the storage engine will snapshot the cache and write it to a TSM file to make more memory available. Must not be greater than storageCacheMaxMemorySize. Default: 26214400
+        public var storageCacheSnapshotMemorySize: Swift.Int?
+        /// Duration at which the storage engine will snapshot the cache and write it to a new TSM file if the shard hasn’t received writes or deletes. Default: 10 minutes
+        public var storageCacheSnapshotWriteColdDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Duration at which the storage engine will compact all TSM files in a shard if it hasn't received writes or deletes. Default: 4 hours
+        public var storageCompactFullWriteColdDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Rate limit (in bytes per second) that TSM compactions can write to disk. Default: 50331648
+        public var storageCompactThroughputBurst: Swift.Int?
+        /// Maximum number of full and level compactions that can run concurrently. A value of 0 results in 50% of runtime.GOMAXPROCS(0) used at runtime. Any number greater than zero limits compactions to that value. This setting does not apply to cache snapshotting. Default: 0
+        public var storageMaxConcurrentCompactions: Swift.Int?
+        /// Size (in bytes) at which an index write-ahead log (WAL) file will compact into an index file. Lower sizes will cause log files to be compacted more quickly and result in lower heap usage at the expense of write throughput. Default: 1048576
+        public var storageMaxIndexLogFileSize: Swift.Int?
+        /// Skip field size validation on incoming write requests. Default: false
+        public var storageNoValidateFieldSize: Swift.Bool?
+        /// Interval of retention policy enforcement checks. Must be greater than 0. Default: 30 minutes
+        public var storageRetentionCheckInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Maximum number of snapshot compactions that can run concurrently across all series partitions in a database. Default: 0
+        public var storageSeriesFileMaxConcurrentSnapshotCompactions: Swift.Int?
+        /// Size of the internal cache used in the TSI index to store previously calculated series results. Cached results are returned quickly rather than needing to be recalculated when a subsequent query with the same tag key/value predicate is executed. Setting this value to 0 will disable the cache and may decrease query performance. Default: 100
+        public var storageSeriesIdSetCacheSize: Swift.Int?
+        /// Maximum number writes to the WAL directory to attempt at the same time. Setting this value to 0 results in number of processing units available x2. Default: 0
+        public var storageWalMaxConcurrentWrites: Swift.Int?
+        /// Maximum amount of time a write request to the WAL directory will wait when the [maximum number of concurrent active writes to the WAL directory has been met](https://docs.influxdata.com/influxdb/v2/reference/config-options/#storage-wal-max-concurrent-writes). Set to 0 to disable the timeout. Default: 10 minutes
+        public var storageWalMaxWriteDelay: TimestreamInfluxDBClientTypes.Duration?
         /// Enable tracing in InfluxDB and specifies the tracing type. Tracing is disabled by default.
         public var tracingType: TimestreamInfluxDBClientTypes.TracingType?
+        /// Disable the InfluxDB user interface (UI). The UI is enabled by default. Default: false
+        public var uiDisabled: Swift.Bool?
 
         public init(
             fluxLogEnabled: Swift.Bool? = nil,
+            httpIdleTimeout: TimestreamInfluxDBClientTypes.Duration? = nil,
+            httpReadHeaderTimeout: TimestreamInfluxDBClientTypes.Duration? = nil,
+            httpReadTimeout: TimestreamInfluxDBClientTypes.Duration? = nil,
+            httpWriteTimeout: TimestreamInfluxDBClientTypes.Duration? = nil,
+            influxqlMaxSelectBuckets: Swift.Int? = nil,
+            influxqlMaxSelectPoint: Swift.Int? = nil,
+            influxqlMaxSelectSeries: Swift.Int? = nil,
             logLevel: TimestreamInfluxDBClientTypes.LogLevel? = nil,
             metricsDisabled: Swift.Bool? = nil,
             noTasks: Swift.Bool? = nil,
+            pprofDisabled: Swift.Bool? = nil,
             queryConcurrency: Swift.Int? = nil,
+            queryInitialMemoryBytes: Swift.Int? = nil,
+            queryMaxMemoryBytes: Swift.Int? = nil,
+            queryMemoryBytes: Swift.Int? = nil,
             queryQueueSize: Swift.Int? = nil,
-            tracingType: TimestreamInfluxDBClientTypes.TracingType? = nil
+            sessionLength: Swift.Int? = nil,
+            sessionRenewDisabled: Swift.Bool? = nil,
+            storageCacheMaxMemorySize: Swift.Int? = nil,
+            storageCacheSnapshotMemorySize: Swift.Int? = nil,
+            storageCacheSnapshotWriteColdDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            storageCompactFullWriteColdDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            storageCompactThroughputBurst: Swift.Int? = nil,
+            storageMaxConcurrentCompactions: Swift.Int? = nil,
+            storageMaxIndexLogFileSize: Swift.Int? = nil,
+            storageNoValidateFieldSize: Swift.Bool? = nil,
+            storageRetentionCheckInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            storageSeriesFileMaxConcurrentSnapshotCompactions: Swift.Int? = nil,
+            storageSeriesIdSetCacheSize: Swift.Int? = nil,
+            storageWalMaxConcurrentWrites: Swift.Int? = nil,
+            storageWalMaxWriteDelay: TimestreamInfluxDBClientTypes.Duration? = nil,
+            tracingType: TimestreamInfluxDBClientTypes.TracingType? = nil,
+            uiDisabled: Swift.Bool? = nil
         )
         {
             self.fluxLogEnabled = fluxLogEnabled
+            self.httpIdleTimeout = httpIdleTimeout
+            self.httpReadHeaderTimeout = httpReadHeaderTimeout
+            self.httpReadTimeout = httpReadTimeout
+            self.httpWriteTimeout = httpWriteTimeout
+            self.influxqlMaxSelectBuckets = influxqlMaxSelectBuckets
+            self.influxqlMaxSelectPoint = influxqlMaxSelectPoint
+            self.influxqlMaxSelectSeries = influxqlMaxSelectSeries
             self.logLevel = logLevel
             self.metricsDisabled = metricsDisabled
             self.noTasks = noTasks
+            self.pprofDisabled = pprofDisabled
             self.queryConcurrency = queryConcurrency
+            self.queryInitialMemoryBytes = queryInitialMemoryBytes
+            self.queryMaxMemoryBytes = queryMaxMemoryBytes
+            self.queryMemoryBytes = queryMemoryBytes
             self.queryQueueSize = queryQueueSize
+            self.sessionLength = sessionLength
+            self.sessionRenewDisabled = sessionRenewDisabled
+            self.storageCacheMaxMemorySize = storageCacheMaxMemorySize
+            self.storageCacheSnapshotMemorySize = storageCacheSnapshotMemorySize
+            self.storageCacheSnapshotWriteColdDuration = storageCacheSnapshotWriteColdDuration
+            self.storageCompactFullWriteColdDuration = storageCompactFullWriteColdDuration
+            self.storageCompactThroughputBurst = storageCompactThroughputBurst
+            self.storageMaxConcurrentCompactions = storageMaxConcurrentCompactions
+            self.storageMaxIndexLogFileSize = storageMaxIndexLogFileSize
+            self.storageNoValidateFieldSize = storageNoValidateFieldSize
+            self.storageRetentionCheckInterval = storageRetentionCheckInterval
+            self.storageSeriesFileMaxConcurrentSnapshotCompactions = storageSeriesFileMaxConcurrentSnapshotCompactions
+            self.storageSeriesIdSetCacheSize = storageSeriesIdSetCacheSize
+            self.storageWalMaxConcurrentWrites = storageWalMaxConcurrentWrites
+            self.storageWalMaxWriteDelay = storageWalMaxWriteDelay
             self.tracingType = tracingType
+            self.uiDisabled = uiDisabled
         }
     }
 }
@@ -1435,6 +1628,7 @@ extension CreateDbInstanceInput {
         try writer["name"].write(value.name)
         try writer["organization"].write(value.organization)
         try writer["password"].write(value.password)
+        try writer["port"].write(value.port)
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["username"].write(value.username)
@@ -1530,6 +1724,7 @@ extension UpdateDbInstanceInput {
         try writer["deploymentType"].write(value.deploymentType)
         try writer["identifier"].write(value.identifier)
         try writer["logDeliveryConfiguration"].write(value.logDeliveryConfiguration, with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.write(value:to:))
+        try writer["port"].write(value.port)
     }
 }
 
@@ -1552,6 +1747,7 @@ extension CreateDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -1596,6 +1792,7 @@ extension DeleteDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -1624,6 +1821,7 @@ extension GetDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -1720,6 +1918,7 @@ extension UpdateDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -2082,12 +2281,39 @@ extension TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
     static func write(value: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fluxLogEnabled"].write(value.fluxLogEnabled)
+        try writer["httpIdleTimeout"].write(value.httpIdleTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["httpReadHeaderTimeout"].write(value.httpReadHeaderTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["httpReadTimeout"].write(value.httpReadTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["httpWriteTimeout"].write(value.httpWriteTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["influxqlMaxSelectBuckets"].write(value.influxqlMaxSelectBuckets)
+        try writer["influxqlMaxSelectPoint"].write(value.influxqlMaxSelectPoint)
+        try writer["influxqlMaxSelectSeries"].write(value.influxqlMaxSelectSeries)
         try writer["logLevel"].write(value.logLevel)
         try writer["metricsDisabled"].write(value.metricsDisabled)
         try writer["noTasks"].write(value.noTasks)
+        try writer["pprofDisabled"].write(value.pprofDisabled)
         try writer["queryConcurrency"].write(value.queryConcurrency)
+        try writer["queryInitialMemoryBytes"].write(value.queryInitialMemoryBytes)
+        try writer["queryMaxMemoryBytes"].write(value.queryMaxMemoryBytes)
+        try writer["queryMemoryBytes"].write(value.queryMemoryBytes)
         try writer["queryQueueSize"].write(value.queryQueueSize)
+        try writer["sessionLength"].write(value.sessionLength)
+        try writer["sessionRenewDisabled"].write(value.sessionRenewDisabled)
+        try writer["storageCacheMaxMemorySize"].write(value.storageCacheMaxMemorySize)
+        try writer["storageCacheSnapshotMemorySize"].write(value.storageCacheSnapshotMemorySize)
+        try writer["storageCacheSnapshotWriteColdDuration"].write(value.storageCacheSnapshotWriteColdDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["storageCompactFullWriteColdDuration"].write(value.storageCompactFullWriteColdDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["storageCompactThroughputBurst"].write(value.storageCompactThroughputBurst)
+        try writer["storageMaxConcurrentCompactions"].write(value.storageMaxConcurrentCompactions)
+        try writer["storageMaxIndexLogFileSize"].write(value.storageMaxIndexLogFileSize)
+        try writer["storageNoValidateFieldSize"].write(value.storageNoValidateFieldSize)
+        try writer["storageRetentionCheckInterval"].write(value.storageRetentionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["storageSeriesFileMaxConcurrentSnapshotCompactions"].write(value.storageSeriesFileMaxConcurrentSnapshotCompactions)
+        try writer["storageSeriesIdSetCacheSize"].write(value.storageSeriesIdSetCacheSize)
+        try writer["storageWalMaxConcurrentWrites"].write(value.storageWalMaxConcurrentWrites)
+        try writer["storageWalMaxWriteDelay"].write(value.storageWalMaxWriteDelay, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
         try writer["tracingType"].write(value.tracingType)
+        try writer["uiDisabled"].write(value.uiDisabled)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
@@ -2100,6 +2326,50 @@ extension TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
         value.queryQueueSize = try reader["queryQueueSize"].readIfPresent()
         value.tracingType = try reader["tracingType"].readIfPresent()
         value.metricsDisabled = try reader["metricsDisabled"].readIfPresent()
+        value.httpIdleTimeout = try reader["httpIdleTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.httpReadHeaderTimeout = try reader["httpReadHeaderTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.httpReadTimeout = try reader["httpReadTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.httpWriteTimeout = try reader["httpWriteTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.influxqlMaxSelectBuckets = try reader["influxqlMaxSelectBuckets"].readIfPresent()
+        value.influxqlMaxSelectPoint = try reader["influxqlMaxSelectPoint"].readIfPresent()
+        value.influxqlMaxSelectSeries = try reader["influxqlMaxSelectSeries"].readIfPresent()
+        value.pprofDisabled = try reader["pprofDisabled"].readIfPresent()
+        value.queryInitialMemoryBytes = try reader["queryInitialMemoryBytes"].readIfPresent()
+        value.queryMaxMemoryBytes = try reader["queryMaxMemoryBytes"].readIfPresent()
+        value.queryMemoryBytes = try reader["queryMemoryBytes"].readIfPresent()
+        value.sessionLength = try reader["sessionLength"].readIfPresent()
+        value.sessionRenewDisabled = try reader["sessionRenewDisabled"].readIfPresent()
+        value.storageCacheMaxMemorySize = try reader["storageCacheMaxMemorySize"].readIfPresent()
+        value.storageCacheSnapshotMemorySize = try reader["storageCacheSnapshotMemorySize"].readIfPresent()
+        value.storageCacheSnapshotWriteColdDuration = try reader["storageCacheSnapshotWriteColdDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.storageCompactFullWriteColdDuration = try reader["storageCompactFullWriteColdDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.storageCompactThroughputBurst = try reader["storageCompactThroughputBurst"].readIfPresent()
+        value.storageMaxConcurrentCompactions = try reader["storageMaxConcurrentCompactions"].readIfPresent()
+        value.storageMaxIndexLogFileSize = try reader["storageMaxIndexLogFileSize"].readIfPresent()
+        value.storageNoValidateFieldSize = try reader["storageNoValidateFieldSize"].readIfPresent()
+        value.storageRetentionCheckInterval = try reader["storageRetentionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.storageSeriesFileMaxConcurrentSnapshotCompactions = try reader["storageSeriesFileMaxConcurrentSnapshotCompactions"].readIfPresent()
+        value.storageSeriesIdSetCacheSize = try reader["storageSeriesIdSetCacheSize"].readIfPresent()
+        value.storageWalMaxConcurrentWrites = try reader["storageWalMaxConcurrentWrites"].readIfPresent()
+        value.storageWalMaxWriteDelay = try reader["storageWalMaxWriteDelay"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.uiDisabled = try reader["uiDisabled"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.Duration {
+
+    static func write(value: TimestreamInfluxDBClientTypes.Duration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["durationType"].write(value.durationType)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.Duration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.Duration()
+        value.durationType = try reader["durationType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -2114,6 +2384,7 @@ extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()

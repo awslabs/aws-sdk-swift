@@ -886,7 +886,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         /// The resource type of the resource referenced in the failed request.
         /// This member is required.
         public internal(set) var resourceType: VerifiedPermissionsClientTypes.ResourceType? = nil
-        /// The code for the Amazon Web Service that owns the quota.
+        /// The code for the Amazon Web Services service that owns the quota.
         public internal(set) var serviceCode: Swift.String? = nil
     }
 
@@ -2209,7 +2209,7 @@ public struct UpdateIdentitySourceInput: Swift.Sendable {
     public var policyStoreId: Swift.String?
     /// Specifies the data type of principals generated for identities authenticated by the identity source.
     public var principalEntityType: Swift.String?
-    /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a userPoolArn, and optionally, a ClientId.
+    /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
     /// This member is required.
     public var updateConfiguration: VerifiedPermissionsClientTypes.UpdateConfiguration?
 
@@ -2481,9 +2481,9 @@ extension VerifiedPermissionsClientTypes {
         public var policyStoreId: Swift.String?
         /// The type of the policy. This is one of the following values:
         ///
-        /// * static
+        /// * STATIC
         ///
-        /// * templateLinked
+        /// * TEMPLATE_LINKED
         /// This member is required.
         public var policyType: VerifiedPermissionsClientTypes.PolicyType?
         /// The principal associated with the policy.
@@ -2902,7 +2902,7 @@ extension VerifiedPermissionsClientTypes {
 
     /// Contains a list of principal types, resource types, and actions that can be specified in policies stored in the same policy store. If the validation mode for the policy store is set to STRICT, then policies that can't be validated by this schema are rejected by Verified Permissions and can't be stored in the policy store.
     public enum SchemaDefinition: Swift.Sendable {
-        /// A JSON string representation of the schema supported by applications that use this policy store. For more information, see [Policy store schema](https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/schema.html) in the Amazon Verified Permissions User Guide.
+        /// A JSON string representation of the schema supported by applications that use this policy store. To delete the schema, run [PutSchema](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PutSchema.html) with {} for this parameter. For more information, see [Policy store schema](https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/schema.html) in the Amazon Verified Permissions User Guide.
         case cedarjson(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -3022,7 +3022,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         public internal(set) var message: Swift.String? = nil
         /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public internal(set) var quotaCode: Swift.String? = nil
-        /// The code for the Amazon Web Service that owns the quota.
+        /// The code for the Amazon Web Services service that owns the quota.
         public internal(set) var serviceCode: Swift.String? = nil
     }
 
