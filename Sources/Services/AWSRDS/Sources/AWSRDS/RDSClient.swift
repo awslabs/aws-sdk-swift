@@ -2089,6 +2089,7 @@ extension RDSClient {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     /// - `MaxDBShardGroupLimitReached` : The maximum number of DB shard groups for your Amazon Web Services account in the specified Amazon Web Services Region has been reached.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
     /// - `UnsupportedDBEngineVersionFault` : The specified DB engine version isn't supported for Aurora Limitless Database.
     public func createDBShardGroup(input: CreateDBShardGroupInput) async throws -> CreateDBShardGroupOutput {
         let context = Smithy.ContextBuilder()

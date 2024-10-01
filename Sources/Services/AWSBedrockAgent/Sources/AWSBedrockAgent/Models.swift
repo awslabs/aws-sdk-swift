@@ -3660,7 +3660,7 @@ public struct GetDataSourceInput: Swift.Sendable {
     /// The unique identifier of the data source.
     /// This member is required.
     public var dataSourceId: Swift.String?
-    /// The unique identifier of the knowledge base that the data source was added to.
+    /// The unique identifier of the knowledge base for the data source.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -5769,13 +5769,13 @@ public struct UpdateFlowOutput: Swift.Sendable {
 }
 
 public struct GetIngestionJobInput: Swift.Sendable {
-    /// The unique identifier of the data source in the ingestion job.
+    /// The unique identifier of the data source for the data ingestion job you want to get information on.
     /// This member is required.
     public var dataSourceId: Swift.String?
-    /// The unique identifier of the ingestion job.
+    /// The unique identifier of the data ingestion job you want to get information on.
     /// This member is required.
     public var ingestionJobId: Swift.String?
-    /// The unique identifier of the knowledge base for which the ingestion job applies.
+    /// The unique identifier of the knowledge base for the data ingestion job you want to get information on.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -5793,9 +5793,9 @@ public struct GetIngestionJobInput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains the statistics for the ingestion job.
+    /// Contains the statistics for the data ingestion job.
     public struct IngestionJobStatistics: Swift.Sendable {
-        /// The number of source documents that was deleted.
+        /// The number of source documents that were deleted.
         public var numberOfDocumentsDeleted: Swift.Int
         /// The number of source documents that failed to be ingested.
         public var numberOfDocumentsFailed: Swift.Int
@@ -5838,6 +5838,8 @@ extension BedrockAgentClientTypes {
         case failed
         case inProgress
         case starting
+        case stopped
+        case stopping
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IngestionJobStatus] {
@@ -5845,7 +5847,9 @@ extension BedrockAgentClientTypes {
                 .complete,
                 .failed,
                 .inProgress,
-                .starting
+                .starting,
+                .stopped,
+                .stopping
             ]
         }
 
@@ -5860,6 +5864,8 @@ extension BedrockAgentClientTypes {
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5868,7 +5874,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains details about an ingestion job, which converts a data source to embeddings for a vector store in knowledge base. This data type is used in the following API operations:
+    /// Contains details about a data ingestion job. Data sources are ingested into a knowledge base so that Large Language Models (LLMs) can use your data. This data type is used in the following API operations:
     ///
     /// * [StartIngestionJob response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_StartIngestionJob.html#API_agent_StartIngestionJob_ResponseSyntax)
     ///
@@ -5876,28 +5882,28 @@ extension BedrockAgentClientTypes {
     ///
     /// * [ListIngestionJob response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListIngestionJobs.html#API_agent_ListIngestionJobs_ResponseSyntax)
     public struct IngestionJob: Swift.Sendable {
-        /// The unique identifier of the ingested data source.
+        /// The unique identifier of the data source for the data ingestion job.
         /// This member is required.
         public var dataSourceId: Swift.String?
-        /// The description of the ingestion job.
+        /// The description of the data ingestion job.
         public var description: Swift.String?
-        /// A list of reasons that the ingestion job failed.
+        /// A list of reasons that the data ingestion job failed.
         public var failureReasons: [Swift.String]?
-        /// The unique identifier of the ingestion job.
+        /// The unique identifier of the data ingestion job.
         /// This member is required.
         public var ingestionJobId: Swift.String?
-        /// The unique identifier of the knowledge base to which the data source is being added.
+        /// The unique identifier of the knowledge for the data ingestion job.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
-        /// The time at which the ingestion job started.
+        /// The time the data ingestion job started. If you stop a data ingestion job, the startedAt time is the time the job was started before the job was stopped.
         /// This member is required.
         public var startedAt: Foundation.Date?
-        /// Contains statistics about the ingestion job.
+        /// Contains statistics about the data ingestion job.
         public var statistics: BedrockAgentClientTypes.IngestionJobStatistics?
-        /// The status of the ingestion job.
+        /// The status of the data ingestion job.
         /// This member is required.
         public var status: BedrockAgentClientTypes.IngestionJobStatus?
-        /// The time at which the ingestion job was last updated.
+        /// The time the data ingestion job was last updated. If you stop a data ingestion job, the updatedAt time is the time the job was stopped.
         /// This member is required.
         public var updatedAt: Foundation.Date?
 
@@ -5927,7 +5933,7 @@ extension BedrockAgentClientTypes {
 }
 
 public struct GetIngestionJobOutput: Swift.Sendable {
-    /// Contains details about the ingestion job.
+    /// Contains details about the data ingestion job.
     /// This member is required.
     public var ingestionJob: BedrockAgentClientTypes.IngestionJob?
 
@@ -5993,15 +5999,15 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Defines a filter by which to filter the results.
+    /// The definition of a filter to filter the data.
     public struct IngestionJobFilter: Swift.Sendable {
-        /// The attribute by which to filter the results.
+        /// The name of field or attribute to apply the filter.
         /// This member is required.
         public var attribute: BedrockAgentClientTypes.IngestionJobFilterAttribute?
-        /// The operation to carry out between the attribute and the values.
+        /// The operation to apply to the field or attribute.
         /// This member is required.
         public var `operator`: BedrockAgentClientTypes.IngestionJobFilterOperator?
-        /// A list of values for the attribute.
+        /// A list of values that belong to the field or attribute.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -6078,12 +6084,12 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Parameters by which to sort the results.
+    /// The parameters of sorting the data.
     public struct IngestionJobSortBy: Swift.Sendable {
-        /// The attribute by which to sort the results.
+        /// The name of field or attribute to apply sorting of data.
         /// This member is required.
         public var attribute: BedrockAgentClientTypes.IngestionJobSortByAttribute?
-        /// The order by which to sort the results.
+        /// The order for sorting the data.
         /// This member is required.
         public var order: BedrockAgentClientTypes.SortOrder?
 
@@ -6099,19 +6105,19 @@ extension BedrockAgentClientTypes {
 }
 
 public struct ListIngestionJobsInput: Swift.Sendable {
-    /// The unique identifier of the data source for which to return ingestion jobs.
+    /// The unique identifier of the data source for the list of data ingestion jobs.
     /// This member is required.
     public var dataSourceId: Swift.String?
-    /// Contains a definition of a filter for which to filter the results.
+    /// Contains information about the filters for filtering the data.
     public var filters: [BedrockAgentClientTypes.IngestionJobFilter]?
-    /// The unique identifier of the knowledge base for which to return ingestion jobs.
+    /// The unique identifier of the knowledge base for the list of data ingestion jobs.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     public var nextToken: Swift.String?
-    /// Contains details about how to sort the results.
+    /// Contains details about how to sort the data.
     public var sortBy: BedrockAgentClientTypes.IngestionJobSortBy?
 
     public init(
@@ -6134,28 +6140,28 @@ public struct ListIngestionJobsInput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains details about an ingestion job.
+    /// Contains details about a data ingestion job.
     public struct IngestionJobSummary: Swift.Sendable {
-        /// The unique identifier of the data source in the ingestion job.
+        /// The unique identifier of the data source for the data ingestion job.
         /// This member is required.
         public var dataSourceId: Swift.String?
-        /// The description of the ingestion job.
+        /// The description of the data ingestion job.
         public var description: Swift.String?
-        /// The unique identifier of the ingestion job.
+        /// The unique identifier of the data ingestion job.
         /// This member is required.
         public var ingestionJobId: Swift.String?
-        /// The unique identifier of the knowledge base to which the data source is added.
+        /// The unique identifier of the knowledge base for the data ingestion job.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
-        /// The time at which the ingestion job was started.
+        /// The time the data ingestion job started.
         /// This member is required.
         public var startedAt: Foundation.Date?
-        /// Contains statistics for the ingestion job.
+        /// Contains statistics for the data ingestion job.
         public var statistics: BedrockAgentClientTypes.IngestionJobStatistics?
-        /// The status of the ingestion job.
+        /// The status of the data ingestion job.
         /// This member is required.
         public var status: BedrockAgentClientTypes.IngestionJobStatus?
-        /// The time at which the ingestion job was last updated.
+        /// The time the data ingestion job was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
 
@@ -6183,7 +6189,7 @@ extension BedrockAgentClientTypes {
 }
 
 public struct ListIngestionJobsOutput: Swift.Sendable {
-    /// A list of objects, each of which contains information about an ingestion job.
+    /// A list of data ingestion jobs with information about each job.
     /// This member is required.
     public var ingestionJobSummaries: [BedrockAgentClientTypes.IngestionJobSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -6202,12 +6208,12 @@ public struct ListIngestionJobsOutput: Swift.Sendable {
 public struct StartIngestionJobInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
-    /// The unique identifier of the data source to ingest.
+    /// The unique identifier of the data source you want to ingest into your knowledge base.
     /// This member is required.
     public var dataSourceId: Swift.String?
-    /// A description of the ingestion job.
+    /// A description of the data ingestion job.
     public var description: Swift.String?
-    /// The unique identifier of the knowledge base to which to add the data source.
+    /// The unique identifier of the knowledge base for the data ingestion job.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -6226,7 +6232,43 @@ public struct StartIngestionJobInput: Swift.Sendable {
 }
 
 public struct StartIngestionJobOutput: Swift.Sendable {
-    /// An object containing information about the ingestion job.
+    /// Contains information about the data ingestion job.
+    /// This member is required.
+    public var ingestionJob: BedrockAgentClientTypes.IngestionJob?
+
+    public init(
+        ingestionJob: BedrockAgentClientTypes.IngestionJob? = nil
+    )
+    {
+        self.ingestionJob = ingestionJob
+    }
+}
+
+public struct StopIngestionJobInput: Swift.Sendable {
+    /// The unique identifier of the data source for the data ingestion job you want to stop.
+    /// This member is required.
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the data ingestion job you want to stop.
+    /// This member is required.
+    public var ingestionJobId: Swift.String?
+    /// The unique identifier of the knowledge base for the data ingestion job you want to stop.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        dataSourceId: Swift.String? = nil,
+        ingestionJobId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.dataSourceId = dataSourceId
+        self.ingestionJobId = ingestionJobId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+public struct StopIngestionJobOutput: Swift.Sendable {
+    /// Contains information about the stopped data ingestion job.
     /// This member is required.
     public var ingestionJob: BedrockAgentClientTypes.IngestionJob?
 
@@ -6364,12 +6406,12 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains details about the embeddings configuration of the knowledge base.
+    /// Contains details about the vector embeddings configuration of the knowledge base.
     public struct KnowledgeBaseConfiguration: Swift.Sendable {
         /// The type of data that the data source is converted into for the knowledge base.
         /// This member is required.
         public var type: BedrockAgentClientTypes.KnowledgeBaseType?
-        /// Contains details about the embeddings model that'sused to convert the data source.
+        /// Contains details about the model that's used to convert the data source into vector embeddings.
         public var vectorKnowledgeBaseConfiguration: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration?
 
         public init(
@@ -6851,7 +6893,7 @@ extension BedrockAgentClientTypes {
 
     /// Contains information about a knowledge base.
     public struct KnowledgeBase: Swift.Sendable {
-        /// The time at which the knowledge base was created.
+        /// The time the knowledge base was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
         /// The description of the knowledge base.
@@ -6889,7 +6931,7 @@ extension BedrockAgentClientTypes {
         /// Contains details about the storage configuration of the knowledge base.
         /// This member is required.
         public var storageConfiguration: BedrockAgentClientTypes.StorageConfiguration?
-        /// The time at which the knowledge base was last updated.
+        /// The time the knowledge base was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
 
@@ -7031,7 +7073,7 @@ public struct GetAgentKnowledgeBaseOutput: Swift.Sendable {
 }
 
 public struct GetKnowledgeBaseInput: Swift.Sendable {
-    /// The unique identifier of the knowledge base for which to get information.
+    /// The unique identifier of the knowledge base you want to get information on.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -7130,7 +7172,7 @@ extension BedrockAgentClientTypes {
         /// The status of the knowledge base.
         /// This member is required.
         public var status: BedrockAgentClientTypes.KnowledgeBaseStatus?
-        /// The time at which the knowledge base was last updated.
+        /// The time the knowledge base was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
 
@@ -7152,7 +7194,7 @@ extension BedrockAgentClientTypes {
 }
 
 public struct ListKnowledgeBasesOutput: Swift.Sendable {
-    /// A list of objects, each of which contains information about a knowledge base.
+    /// A list of knowledge bases with information about each knowledge base.
     /// This member is required.
     public var knowledgeBaseSummaries: [BedrockAgentClientTypes.KnowledgeBaseSummary]?
     /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
@@ -8703,6 +8745,22 @@ extension StartIngestionJobInput {
     }
 }
 
+extension StopIngestionJobInput {
+
+    static func urlPathProvider(_ value: StopIngestionJobInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let dataSourceId = value.dataSourceId else {
+            return nil
+        }
+        guard let ingestionJobId = value.ingestionJobId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/ingestionjobs/\(ingestionJobId.urlPercentEncoding())/stop"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -9890,6 +9948,18 @@ extension StartIngestionJobOutput {
     }
 }
 
+extension StopIngestionJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopIngestionJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopIngestionJobOutput()
+        value.ingestionJob = try reader["ingestionJob"].readIfPresent(with: BedrockAgentClientTypes.IngestionJob.read(from:))
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -10962,6 +11032,25 @@ enum StartIngestionJobOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopIngestionJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
