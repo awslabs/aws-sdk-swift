@@ -634,6 +634,14 @@ extension CodeartifactClientTypes {
         /// * maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
         ///
         /// * nuget: A NuGet package.
+        ///
+        /// * generic: A generic package.
+        ///
+        /// * ruby: A Ruby package.
+        ///
+        /// * swift: A Swift package.
+        ///
+        /// * cargo: A Cargo package.
         public var packageFormat: CodeartifactClientTypes.PackageFormat?
         /// The status of the external connection of a repository. There is one valid value, Available.
         public var status: CodeartifactClientTypes.ExternalConnectionStatus?
@@ -2696,12 +2704,43 @@ public struct GetPackageVersionReadmeOutput: Swift.Sendable {
     }
 }
 
+extension CodeartifactClientTypes {
+
+    public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetRepositoryEndpointInput: Swift.Sendable {
     /// The name of the domain that contains the repository.
     /// This member is required.
     public var domain: Swift.String?
     /// The 12-digit account number of the Amazon Web Services account that owns the domain that contains the repository. It does not include dashes or spaces.
     public var domainOwner: Swift.String?
+    /// A string that specifies the type of endpoint.
+    public var endpointType: CodeartifactClientTypes.EndpointType?
     /// Returns which endpoint of a repository to return. A repository has one endpoint for each package format.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
@@ -2712,12 +2751,14 @@ public struct GetRepositoryEndpointInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
+        endpointType: CodeartifactClientTypes.EndpointType? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         repository: Swift.String? = nil
     )
     {
         self.domain = domain
         self.domainOwner = domainOwner
+        self.endpointType = endpointType
         self.format = format
         self.repository = repository
     }
@@ -5181,6 +5222,10 @@ extension GetRepositoryEndpointInput {
 
     static func queryItemProvider(_ value: GetRepositoryEndpointInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let endpointType = value.endpointType {
+            let endpointTypeQueryItem = Smithy.URIQueryItem(name: "endpointType".urlPercentEncoding(), value: Swift.String(endpointType.rawValue).urlPercentEncoding())
+            items.append(endpointTypeQueryItem)
+        }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
