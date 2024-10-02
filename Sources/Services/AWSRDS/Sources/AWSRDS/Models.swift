@@ -3759,6 +3759,35 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
 extension RDSClientTypes {
 
+    public enum ClusterScalabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case limitless
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterScalabilityType] {
+            return [
+                .limitless,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .limitless: return "limitless"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum ReplicaMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mounted
         case openReadOnly
@@ -3888,6 +3917,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// The name of the character set (CharacterSet) to associate the DB cluster with. Valid for Cluster Type: Aurora DB clusters only
     public var characterSetName: Swift.String?
+    /// Specifies the scalability mode of the Aurora DB cluster. When set to limitless, the cluster operates as an Aurora Limitless Database. When set to standard (the default), the cluster uses normal DB instance creation. Valid for: Aurora DB clusters only You can't modify this setting after you create the DB cluster.
+    public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
     /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
@@ -4148,6 +4179,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         backupRetentionPeriod: Swift.Int? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         characterSetName: Swift.String? = nil,
+        clusterScalabilityType: RDSClientTypes.ClusterScalabilityType? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         databaseName: Swift.String? = nil,
         dbClusterIdentifier: Swift.String? = nil,
@@ -4204,6 +4236,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.caCertificateIdentifier = caCertificateIdentifier
         self.characterSetName = characterSetName
+        self.clusterScalabilityType = clusterScalabilityType
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.databaseName = databaseName
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -4767,6 +4800,8 @@ extension RDSClientTypes {
         public var cloneGroupId: Swift.String?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public var clusterCreateTime: Foundation.Date?
+        /// The scalability mode of the Aurora DB cluster. When set to limitless, the cluster operates as an Aurora Limitless Database. When set to standard (the default), the cluster uses normal DB instance creation.
+        public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
         /// Indicates whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public var copyTagsToSnapshot: Swift.Bool?
         /// Indicates whether the DB cluster is a clone of a DB cluster owned by a different Amazon Web Services account.
@@ -4920,6 +4955,7 @@ extension RDSClientTypes {
             characterSetName: Swift.String? = nil,
             cloneGroupId: Swift.String? = nil,
             clusterCreateTime: Foundation.Date? = nil,
+            clusterScalabilityType: RDSClientTypes.ClusterScalabilityType? = nil,
             copyTagsToSnapshot: Swift.Bool? = nil,
             crossAccountClone: Swift.Bool? = nil,
             customEndpoints: [Swift.String]? = nil,
@@ -5002,6 +5038,7 @@ extension RDSClientTypes {
             self.characterSetName = characterSetName
             self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
+            self.clusterScalabilityType = clusterScalabilityType
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.crossAccountClone = crossAccountClone
             self.customEndpoints = customEndpoints
@@ -8266,6 +8303,8 @@ public struct CreateDBShardGroupInput: Swift.Sendable {
     ///
     /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB shard group is public.
     public var publiclyAccessible: Swift.Bool?
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+    public var tags: [RDSClientTypes.Tag]?
 
     public init(
         computeRedundancy: Swift.Int? = nil,
@@ -8273,7 +8312,8 @@ public struct CreateDBShardGroupInput: Swift.Sendable {
         dbShardGroupIdentifier: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
         minACU: Swift.Double? = nil,
-        publiclyAccessible: Swift.Bool? = nil
+        publiclyAccessible: Swift.Bool? = nil,
+        tags: [RDSClientTypes.Tag]? = nil
     )
     {
         self.computeRedundancy = computeRedundancy
@@ -8282,6 +8322,7 @@ public struct CreateDBShardGroupInput: Swift.Sendable {
         self.maxACU = maxACU
         self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
+        self.tags = tags
     }
 }
 
@@ -8312,6 +8353,8 @@ public struct CreateDBShardGroupOutput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
     public var status: Swift.String?
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+    public var tagList: [RDSClientTypes.Tag]?
 
     public init(
         computeRedundancy: Swift.Int? = nil,
@@ -8323,7 +8366,8 @@ public struct CreateDBShardGroupOutput: Swift.Sendable {
         maxACU: Swift.Double? = nil,
         minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
-        status: Swift.String? = nil
+        status: Swift.String? = nil,
+        tagList: [RDSClientTypes.Tag]? = nil
     )
     {
         self.computeRedundancy = computeRedundancy
@@ -8336,6 +8380,7 @@ public struct CreateDBShardGroupOutput: Swift.Sendable {
         self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
+        self.tagList = tagList
     }
 }
 
@@ -10790,6 +10835,8 @@ public struct DeleteDBShardGroupOutput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
     public var status: Swift.String?
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+    public var tagList: [RDSClientTypes.Tag]?
 
     public init(
         computeRedundancy: Swift.Int? = nil,
@@ -10801,7 +10848,8 @@ public struct DeleteDBShardGroupOutput: Swift.Sendable {
         maxACU: Swift.Double? = nil,
         minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
-        status: Swift.String? = nil
+        status: Swift.String? = nil,
+        tagList: [RDSClientTypes.Tag]? = nil
     )
     {
         self.computeRedundancy = computeRedundancy
@@ -10814,6 +10862,7 @@ public struct DeleteDBShardGroupOutput: Swift.Sendable {
         self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
+        self.tagList = tagList
     }
 }
 
@@ -13767,6 +13816,8 @@ extension RDSClientTypes {
         public var publiclyAccessible: Swift.Bool?
         /// The status of the DB shard group.
         public var status: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
 
         public init(
             computeRedundancy: Swift.Int? = nil,
@@ -13778,7 +13829,8 @@ extension RDSClientTypes {
             maxACU: Swift.Double? = nil,
             minACU: Swift.Double? = nil,
             publiclyAccessible: Swift.Bool? = nil,
-            status: Swift.String? = nil
+            status: Swift.String? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil
         )
         {
             self.computeRedundancy = computeRedundancy
@@ -13791,6 +13843,7 @@ extension RDSClientTypes {
             self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
             self.status = status
+            self.tagList = tagList
         }
     }
 }
@@ -18136,6 +18189,8 @@ public struct ModifyDBShardGroupOutput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
     public var status: Swift.String?
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+    public var tagList: [RDSClientTypes.Tag]?
 
     public init(
         computeRedundancy: Swift.Int? = nil,
@@ -18147,7 +18202,8 @@ public struct ModifyDBShardGroupOutput: Swift.Sendable {
         maxACU: Swift.Double? = nil,
         minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
-        status: Swift.String? = nil
+        status: Swift.String? = nil,
+        tagList: [RDSClientTypes.Tag]? = nil
     )
     {
         self.computeRedundancy = computeRedundancy
@@ -18160,6 +18216,7 @@ public struct ModifyDBShardGroupOutput: Swift.Sendable {
         self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
+        self.tagList = tagList
     }
 }
 
@@ -18882,6 +18939,8 @@ public struct RebootDBShardGroupOutput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// The status of the DB shard group.
     public var status: Swift.String?
+    /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+    public var tagList: [RDSClientTypes.Tag]?
 
     public init(
         computeRedundancy: Swift.Int? = nil,
@@ -18893,7 +18952,8 @@ public struct RebootDBShardGroupOutput: Swift.Sendable {
         maxACU: Swift.Double? = nil,
         minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
-        status: Swift.String? = nil
+        status: Swift.String? = nil,
+        tagList: [RDSClientTypes.Tag]? = nil
     )
     {
         self.computeRedundancy = computeRedundancy
@@ -18906,6 +18966,7 @@ public struct RebootDBShardGroupOutput: Swift.Sendable {
         self.minACU = minACU
         self.publiclyAccessible = publiclyAccessible
         self.status = status
+        self.tagList = tagList
     }
 }
 
@@ -23012,6 +23073,7 @@ extension CreateDBClusterInput {
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CharacterSetName"].write(value.characterSetName)
+        try writer["ClusterScalabilityType"].write(value.clusterScalabilityType)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
@@ -23299,6 +23361,7 @@ extension CreateDBShardGroupInput {
         try writer["MaxACU"].write(value.maxACU)
         try writer["MinACU"].write(value.minACU)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateDBShardGroup")
         try writer["Version"].write("2014-10-31")
     }
@@ -25703,6 +25766,7 @@ extension CreateDBShardGroupOutput {
         value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -26002,6 +26066,7 @@ extension DeleteDBShardGroupOutput {
         value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -26989,6 +27054,7 @@ extension ModifyDBShardGroupOutput {
         value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -27177,6 +27243,7 @@ extension RebootDBShardGroupOutput {
         value.minACU = try reader["MinACU"].readIfPresent()
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -28010,6 +28077,7 @@ enum CreateDBShardGroupOutputError {
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "MaxDBShardGroupLimitReached": return try MaxDBShardGroupLimitReached.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "UnsupportedDBEngineVersion": return try UnsupportedDBEngineVersionFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -32637,6 +32705,7 @@ extension RDSClientTypes.DBCluster {
         value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
         value.limitlessDatabase = try reader["LimitlessDatabase"].readIfPresent(with: RDSClientTypes.LimitlessDatabase.read(from:))
         value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.clusterScalabilityType = try reader["ClusterScalabilityType"].readIfPresent()
         value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
         value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
         return value
@@ -33729,6 +33798,7 @@ extension RDSClientTypes.DBShardGroup {
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
         value.dbShardGroupArn = try reader["DBShardGroupArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
