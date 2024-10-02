@@ -3090,17 +3090,25 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The foundation model output from the post-processing step.
     public struct PostProcessingModelInvocationOutput: Swift.Sendable {
+        /// Provides details of the foundation model.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// Details about the response from the Lambda parsing of the output of the post-processing step.
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse?
+        /// Contains the raw output from the foundation model.
+        public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             parsedResponse: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse? = nil,
+            rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
             traceId: Swift.String? = nil
         )
         {
+            self.metadata = metadata
             self.parsedResponse = parsedResponse
+            self.rawResponse = rawResponse
             self.traceId = traceId
         }
     }
@@ -3160,17 +3168,25 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The foundation model output from the pre-processing step.
     public struct PreProcessingModelInvocationOutput: Swift.Sendable {
+        /// Provides details of the foundation model.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// Details about the response from the Lambda parsing of the output of the pre-processing step.
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse?
+        /// Contains the raw output from the foundation model.
+        public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             parsedResponse: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse? = nil,
+            rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
             traceId: Swift.String? = nil
         )
         {
+            self.metadata = metadata
             self.parsedResponse = parsedResponse
+            self.rawResponse = rawResponse
             self.traceId = traceId
         }
     }
@@ -3701,10 +3717,10 @@ extension BedrockAgentRuntimeClientTypes {
     public struct ExternalSourcesRetrieveAndGenerateConfiguration: Swift.Sendable {
         /// The prompt used with the external source wrapper object with the retrieveAndGenerate function.
         public var generationConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration?
-        /// The modelArn used with the external source wrapper object in the retrieveAndGenerate function.
+        /// The model Amazon Resource Name (ARN) for the external source wrapper object in the retrieveAndGenerate function.
         /// This member is required.
         public var modelArn: Swift.String?
-        /// The document used with the external source wrapper object in the retrieveAndGenerate function.
+        /// The document for the external source wrapper object in the retrieveAndGenerate function.
         /// This member is required.
         public var sources: [BedrockAgentRuntimeClientTypes.ExternalSource]?
 
@@ -4220,11 +4236,11 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the retrieveAndGenerateConfiguration field
     public struct RetrieveAndGenerateConfiguration: Swift.Sendable {
-        /// The configuration used with the external source wrapper object in the retrieveAndGenerate function.
+        /// The configuration for the external source wrapper object in the retrieveAndGenerate function.
         public var externalSourcesConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration?
-        /// Contains details about the resource being queried.
+        /// Contains details about the knowledge base for retrieving information and generating responses.
         public var knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration?
-        /// The type of resource that is queried by the request.
+        /// The type of resource that contains your data for retrieving information and generating responses. If you choose ot use EXTERNAL_SOURCES, then currently only Claude 3 Sonnet models for knowledge bases are supported.
         /// This member is required.
         public var type: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateType?
 
@@ -5295,6 +5311,39 @@ extension BedrockAgentRuntimeClientTypes.PostProcessingModelInvocationOutput {
         var value = BedrockAgentRuntimeClientTypes.PostProcessingModelInvocationOutput()
         value.traceId = try reader["traceId"].readIfPresent()
         value.parsedResponse = try reader["parsedResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse.read(from:))
+        value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Metadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.Metadata()
+        value.usage = try reader["usage"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Usage.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Usage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Usage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.Usage()
+        value.inputTokens = try reader["inputTokens"].readIfPresent()
+        value.outputTokens = try reader["outputTokens"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RawResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RawResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.RawResponse()
+        value.content = try reader["content"].readIfPresent()
         return value
     }
 }
@@ -5369,37 +5418,6 @@ extension BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput {
         value.traceId = try reader["traceId"].readIfPresent()
         value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes.Metadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Metadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentRuntimeClientTypes.Metadata()
-        value.usage = try reader["usage"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Usage.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes.Usage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Usage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentRuntimeClientTypes.Usage()
-        value.inputTokens = try reader["inputTokens"].readIfPresent()
-        value.outputTokens = try reader["outputTokens"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes.RawResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RawResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentRuntimeClientTypes.RawResponse()
-        value.content = try reader["content"].readIfPresent()
         return value
     }
 }
@@ -5658,6 +5676,8 @@ extension BedrockAgentRuntimeClientTypes.PreProcessingModelInvocationOutput {
         var value = BedrockAgentRuntimeClientTypes.PreProcessingModelInvocationOutput()
         value.traceId = try reader["traceId"].readIfPresent()
         value.parsedResponse = try reader["parsedResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse.read(from:))
+        value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
         return value
     }
 }

@@ -212,9 +212,9 @@ extension IVSRealTimeClientTypes {
         public var bitrate: Swift.Int?
         /// Video frame rate, in fps. Default: 30.
         public var framerate: Swift.Float?
-        /// Video-resolution height. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 720.
+        /// Video-resolution height. This must be an even number. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 720.
         public var height: Swift.Int?
-        /// Video-resolution width. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 1280.
+        /// Video-resolution width. This must be an even number. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 1280.
         public var width: Swift.Int?
 
         public init(
@@ -2288,8 +2288,11 @@ extension IVSRealTimeClientTypes {
 
     public enum EventErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bitrateExceeded
+        case bFramePresent
         case insufficientCapabilities
+        case internalServerException
         case invalidAudioCodec
+        case invalidInput
         case invalidProtocol
         case invalidStreamKey
         case invalidVideoCodec
@@ -2303,8 +2306,11 @@ extension IVSRealTimeClientTypes {
         public static var allCases: [EventErrorCode] {
             return [
                 .bitrateExceeded,
+                .bFramePresent,
                 .insufficientCapabilities,
+                .internalServerException,
                 .invalidAudioCodec,
+                .invalidInput,
                 .invalidProtocol,
                 .invalidStreamKey,
                 .invalidVideoCodec,
@@ -2324,8 +2330,11 @@ extension IVSRealTimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bitrateExceeded: return "BITRATE_EXCEEDED"
+            case .bFramePresent: return "B_FRAME_PRESENT"
             case .insufficientCapabilities: return "INSUFFICIENT_CAPABILITIES"
+            case .internalServerException: return "INTERNAL_SERVER_EXCEPTION"
             case .invalidAudioCodec: return "INVALID_AUDIO_CODEC"
+            case .invalidInput: return "INVALID_INPUT"
             case .invalidProtocol: return "INVALID_PROTOCOL"
             case .invalidStreamKey: return "INVALID_STREAM_KEY"
             case .invalidVideoCodec: return "INVALID_VIDEO_CODEC"
@@ -2394,7 +2403,35 @@ extension IVSRealTimeClientTypes {
 
     /// An occurrence during a stage session.
     public struct Event: Swift.Sendable {
-        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null. INSUFFICIENT_CAPABILITIES indicates that the participant tried to take an action that the participant’s token is not allowed to do. For more information about participant capabilities, see the capabilities field in [CreateParticipantToken]. QUOTA_EXCEEDED indicates that the number of participants who want to publish/subscribe to a stage exceeds the quota; for more information, see [Service Quotas](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/service-quotas.html). PUBLISHER_NOT_FOUND indicates that the participant tried to subscribe to a publisher that doesn’t exist.
+        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.
+        ///
+        /// * B_FRAME_PRESENT — The participant's stream includes B-frames. For details, see [ IVS RTMP Publishing](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-rtmp-publishing.html).
+        ///
+        /// * BITRATE_EXCEEDED — The participant exceeded the maximum supported bitrate. For details, see [ Service Quotas](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/service-quotas.html).
+        ///
+        /// * INSUFFICIENT_CAPABILITIES — The participant tried to take an action that the participant’s token is not allowed to do. For details on participant capabilities, see the capabilities field in [CreateParticipantToken].
+        ///
+        /// * INTERNAL_SERVER_EXCEPTION — The participant failed to publish to the stage due to an internal server error.
+        ///
+        /// * INVALID_AUDIO_CODEC — The participant is using an invalid audio codec. For details, see [ Stream Ingest](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-stream-ingest.html).
+        ///
+        /// * INVALID_INPUT — The participant is using an invalid input stream.
+        ///
+        /// * INVALID_PROTOCOL — The participant's IngestConfiguration resource is configured for RTMPS but they tried streaming with RTMP. For details, see [ IVS RTMP Publishing](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-rtmp-publishing.html).
+        ///
+        /// * INVALID_STREAM_KEY — The participant is using an invalid stream key. For details, see [ IVS RTMP Publishing](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-rtmp-publishing.html).
+        ///
+        /// * INVALID_VIDEO_CODEC — The participant is using an invalid video codec. For details, see [ Stream Ingest](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-stream-ingest.html).
+        ///
+        /// * PUBLISHER_NOT_FOUND — The participant tried to subscribe to a publisher that doesn’t exist.
+        ///
+        /// * QUOTA_EXCEEDED — The number of participants who want to publish/subscribe to a stage exceeds the quota. For details, see [ Service Quotas](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/service-quotas.html).
+        ///
+        /// * RESOLUTION_EXCEEDED — The participant exceeded the maximum supported resolution. For details, see [ Service Quotas](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/service-quotas.html).
+        ///
+        /// * REUSE_OF_STREAM_KEY — The participant tried to use a stream key that is associated with another active stage session.
+        ///
+        /// * STREAM_DURATION_EXCEEDED — The participant exceeded the maximum allowed stream duration. For details, see [ Service Quotas](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/service-quotas.html).
         public var errorCode: IVSRealTimeClientTypes.EventErrorCode?
         /// ISO 8601 timestamp (returned as a string) for when the event occurred.
         public var eventTime: Foundation.Date?

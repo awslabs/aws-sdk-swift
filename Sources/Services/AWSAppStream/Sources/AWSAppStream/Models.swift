@@ -77,6 +77,7 @@ extension AppStreamClientTypes {
 extension AppStreamClientTypes {
 
     public enum Action: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoTimeZoneRedirection
         case clipboardCopyFromLocalDevice
         case clipboardCopyToLocalDevice
         case domainPasswordSignin
@@ -88,6 +89,7 @@ extension AppStreamClientTypes {
 
         public static var allCases: [Action] {
             return [
+                .autoTimeZoneRedirection,
                 .clipboardCopyFromLocalDevice,
                 .clipboardCopyToLocalDevice,
                 .domainPasswordSignin,
@@ -105,6 +107,7 @@ extension AppStreamClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .autoTimeZoneRedirection: return "AUTO_TIME_ZONE_REDIRECTION"
             case .clipboardCopyFromLocalDevice: return "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
             case .clipboardCopyToLocalDevice: return "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
             case .domainPasswordSignin: return "DOMAIN_PASSWORD_SIGNIN"
