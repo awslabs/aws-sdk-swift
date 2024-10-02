@@ -234,6 +234,8 @@ extension IotDeviceAdvisorClientTypes {
 }
 
 public struct CreateSuiteDefinitionInput: Swift.Sendable {
+    /// The client token for the test suite definition creation. This token is used for tracking test suite definition creation using retries and obtaining its status. This parameter is optional.
+    public var clientToken: Swift.String?
     /// Creates a Device Advisor test suite with suite definition configuration.
     /// This member is required.
     public var suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?
@@ -241,10 +243,12 @@ public struct CreateSuiteDefinitionInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        clientToken: Swift.String? = nil,
         suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
+        self.clientToken = clientToken
         self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
         self.tags = tags
     }
@@ -1465,6 +1469,7 @@ extension CreateSuiteDefinitionInput {
 
     static func write(value: CreateSuiteDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["suiteDefinitionConfiguration"].write(value.suiteDefinitionConfiguration, with: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }

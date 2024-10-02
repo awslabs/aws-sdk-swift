@@ -393,6 +393,41 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum GuardrailContentFilterStrength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentFilterStrength] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum GuardrailContentFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hate
         case insults
@@ -442,6 +477,8 @@ extension BedrockRuntimeClientTypes {
         /// The guardrail confidence.
         /// This member is required.
         public var confidence: BedrockRuntimeClientTypes.GuardrailContentFilterConfidence?
+        /// The filter strength setting for the guardrail content filter.
+        public var filterStrength: BedrockRuntimeClientTypes.GuardrailContentFilterStrength?
         /// The guardrail type.
         /// This member is required.
         public var type: BedrockRuntimeClientTypes.GuardrailContentFilterType?
@@ -449,11 +486,13 @@ extension BedrockRuntimeClientTypes {
         public init(
             action: BedrockRuntimeClientTypes.GuardrailContentPolicyAction? = nil,
             confidence: BedrockRuntimeClientTypes.GuardrailContentFilterConfidence? = nil,
+            filterStrength: BedrockRuntimeClientTypes.GuardrailContentFilterStrength? = nil,
             type: BedrockRuntimeClientTypes.GuardrailContentFilterType? = nil
         )
         {
             self.action = action
             self.confidence = confidence
+            self.filterStrength = filterStrength
             self.type = type
         }
     }
@@ -578,6 +617,108 @@ extension BedrockRuntimeClientTypes {
         )
         {
             self.filters = filters
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The guardrail coverage for the text characters.
+    public struct GuardrailTextCharactersCoverage: Swift.Sendable {
+        /// The text characters that were guarded by the guardrail coverage.
+        public var guarded: Swift.Int?
+        /// The total text characters by the guardrail coverage.
+        public var total: Swift.Int?
+
+        public init(
+            guarded: Swift.Int? = nil,
+            total: Swift.Int? = nil
+        )
+        {
+            self.guarded = guarded
+            self.total = total
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The action of the guardrail coverage details.
+    public struct GuardrailCoverage: Swift.Sendable {
+        /// The text characters of the guardrail coverage details.
+        public var textCharacters: BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage?
+
+        public init(
+            textCharacters: BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage? = nil
+        )
+        {
+            self.textCharacters = textCharacters
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The details on the use of the guardrail.
+    public struct GuardrailUsage: Swift.Sendable {
+        /// The content policy units processed by the guardrail.
+        /// This member is required.
+        public var contentPolicyUnits: Swift.Int?
+        /// The contextual grounding policy units processed by the guardrail.
+        /// This member is required.
+        public var contextualGroundingPolicyUnits: Swift.Int?
+        /// The sensitive information policy free units processed by the guardrail.
+        /// This member is required.
+        public var sensitiveInformationPolicyFreeUnits: Swift.Int?
+        /// The sensitive information policy units processed by the guardrail.
+        /// This member is required.
+        public var sensitiveInformationPolicyUnits: Swift.Int?
+        /// The topic policy units processed by the guardrail.
+        /// This member is required.
+        public var topicPolicyUnits: Swift.Int?
+        /// The word policy units processed by the guardrail.
+        /// This member is required.
+        public var wordPolicyUnits: Swift.Int?
+
+        public init(
+            contentPolicyUnits: Swift.Int? = nil,
+            contextualGroundingPolicyUnits: Swift.Int? = nil,
+            sensitiveInformationPolicyFreeUnits: Swift.Int? = nil,
+            sensitiveInformationPolicyUnits: Swift.Int? = nil,
+            topicPolicyUnits: Swift.Int? = nil,
+            wordPolicyUnits: Swift.Int? = nil
+        )
+        {
+            self.contentPolicyUnits = contentPolicyUnits
+            self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
+            self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
+            self.sensitiveInformationPolicyUnits = sensitiveInformationPolicyUnits
+            self.topicPolicyUnits = topicPolicyUnits
+            self.wordPolicyUnits = wordPolicyUnits
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The invocation metrics for the guardrail.
+    public struct GuardrailInvocationMetrics: Swift.Sendable {
+        /// The coverage details for the guardrail invocation metrics.
+        public var guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage?
+        /// The processing latency details for the guardrail invocation metrics.
+        public var guardrailProcessingLatency: Swift.Int?
+        /// The usage details for the guardrail invocation metrics.
+        public var usage: BedrockRuntimeClientTypes.GuardrailUsage?
+
+        public init(
+            guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage? = nil,
+            guardrailProcessingLatency: Swift.Int? = nil,
+            usage: BedrockRuntimeClientTypes.GuardrailUsage? = nil
+        )
+        {
+            self.guardrailCoverage = guardrailCoverage
+            self.guardrailProcessingLatency = guardrailProcessingLatency
+            self.usage = usage
         }
     }
 }
@@ -1032,6 +1173,8 @@ extension BedrockRuntimeClientTypes {
         public var contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment?
         /// The contextual grounding policy used for the guardrail assessment.
         public var contextualGroundingPolicy: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment?
+        /// The invocation metrics for the guardrail assessment.
+        public var invocationMetrics: BedrockRuntimeClientTypes.GuardrailInvocationMetrics?
         /// The sensitive information policy.
         public var sensitiveInformationPolicy: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment?
         /// The topic policy.
@@ -1042,6 +1185,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment? = nil,
             contextualGroundingPolicy: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment? = nil,
+            invocationMetrics: BedrockRuntimeClientTypes.GuardrailInvocationMetrics? = nil,
             sensitiveInformationPolicy: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment? = nil,
             topicPolicy: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
             wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
@@ -1049,6 +1193,7 @@ extension BedrockRuntimeClientTypes {
         {
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
+            self.invocationMetrics = invocationMetrics
             self.sensitiveInformationPolicy = sensitiveInformationPolicy
             self.topicPolicy = topicPolicy
             self.wordPolicy = wordPolicy
@@ -1072,48 +1217,6 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
-extension BedrockRuntimeClientTypes {
-
-    /// The details on the use of the guardrail.
-    public struct GuardrailUsage: Swift.Sendable {
-        /// The content policy units processed by the guardrail.
-        /// This member is required.
-        public var contentPolicyUnits: Swift.Int?
-        /// The contextual grounding policy units processed by the guardrail.
-        /// This member is required.
-        public var contextualGroundingPolicyUnits: Swift.Int?
-        /// The sensitive information policy free units processed by the guardrail.
-        /// This member is required.
-        public var sensitiveInformationPolicyFreeUnits: Swift.Int?
-        /// The sensitive information policy units processed by the guardrail.
-        /// This member is required.
-        public var sensitiveInformationPolicyUnits: Swift.Int?
-        /// The topic policy units processed by the guardrail.
-        /// This member is required.
-        public var topicPolicyUnits: Swift.Int?
-        /// The word policy units processed by the guardrail.
-        /// This member is required.
-        public var wordPolicyUnits: Swift.Int?
-
-        public init(
-            contentPolicyUnits: Swift.Int? = nil,
-            contextualGroundingPolicyUnits: Swift.Int? = nil,
-            sensitiveInformationPolicyFreeUnits: Swift.Int? = nil,
-            sensitiveInformationPolicyUnits: Swift.Int? = nil,
-            topicPolicyUnits: Swift.Int? = nil,
-            wordPolicyUnits: Swift.Int? = nil
-        )
-        {
-            self.contentPolicyUnits = contentPolicyUnits
-            self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
-            self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
-            self.sensitiveInformationPolicyUnits = sensitiveInformationPolicyUnits
-            self.topicPolicyUnits = topicPolicyUnits
-            self.wordPolicyUnits = wordPolicyUnits
-        }
-    }
-}
-
 public struct ApplyGuardrailOutput: Swift.Sendable {
     /// The action taken in the response from the guardrail.
     /// This member is required.
@@ -1121,6 +1224,8 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
     /// The assessment details in the response from the guardrail.
     /// This member is required.
     public var assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]?
+    /// The guardrail coverage details in the apply guardrail response.
+    public var guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage?
     /// The output details in the response from the guardrail.
     /// This member is required.
     public var outputs: [BedrockRuntimeClientTypes.GuardrailOutputContent]?
@@ -1131,12 +1236,14 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
     public init(
         action: BedrockRuntimeClientTypes.GuardrailAction? = nil,
         assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]? = nil,
+        guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage? = nil,
         outputs: [BedrockRuntimeClientTypes.GuardrailOutputContent]? = nil,
         usage: BedrockRuntimeClientTypes.GuardrailUsage? = nil
     )
     {
         self.action = action
         self.assessments = assessments
+        self.guardrailCoverage = guardrailCoverage
         self.outputs = outputs
         self.usage = usage
     }
@@ -2860,6 +2967,7 @@ extension ApplyGuardrailOutput {
         var value = ApplyGuardrailOutput()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         value.assessments = try reader["assessments"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.guardrailCoverage = try reader["guardrailCoverage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailCoverage.read(from:))
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailOutputContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailUsage.read(from:))
         return value
@@ -3335,6 +3443,40 @@ extension BedrockRuntimeClientTypes.GuardrailAssessment {
         value.wordPolicy = try reader["wordPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment.read(from:))
         value.sensitiveInformationPolicy = try reader["sensitiveInformationPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment.read(from:))
         value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment.read(from:))
+        value.invocationMetrics = try reader["invocationMetrics"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailInvocationMetrics.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailInvocationMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailInvocationMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailInvocationMetrics()
+        value.guardrailProcessingLatency = try reader["guardrailProcessingLatency"].readIfPresent()
+        value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailUsage.read(from:))
+        value.guardrailCoverage = try reader["guardrailCoverage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailCoverage.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailCoverage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailCoverage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailCoverage()
+        value.textCharacters = try reader["textCharacters"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage()
+        value.guarded = try reader["guarded"].readIfPresent()
+        value.total = try reader["total"].readIfPresent()
         return value
     }
 }
@@ -3449,6 +3591,7 @@ extension BedrockRuntimeClientTypes.GuardrailContentFilter {
         var value = BedrockRuntimeClientTypes.GuardrailContentFilter()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.confidence = try reader["confidence"].readIfPresent() ?? .sdkUnknown("")
+        value.filterStrength = try reader["filterStrength"].readIfPresent()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
