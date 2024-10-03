@@ -542,14 +542,18 @@ extension CodePipelineClientTypes {
 
     /// Represents information about the output of an action.
     public struct OutputArtifact: Swift.Sendable {
+        /// The files that you want to associate with the output artifact that will be exported from the compute action.
+        public var files: [Swift.String]?
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         /// This member is required.
         public var name: Swift.String?
 
         public init(
+            files: [Swift.String]? = nil,
             name: Swift.String? = nil
         )
         {
+            self.files = files
             self.name = name
         }
     }
@@ -562,6 +566,8 @@ extension CodePipelineClientTypes {
         /// Specifies the action type and the provider of the action.
         /// This member is required.
         public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
+        /// The shell commands to run with your compute action in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild. Using compute time for this action will incur separate charges in CodeBuild.
+        public var commands: [Swift.String]?
         /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see [Action Structure Requirements in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements). For the list of configuration properties for the CloudFormation action type in CodePipeline, see [Configuration Properties Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html) in the CloudFormation User Guide. For template snippets with examples, see [Using Parameter Override Functions with CodePipeline Pipelines](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html) in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows: JSON: "Configuration" : { Key : Value },
         public var configuration: [Swift.String: Swift.String]?
         /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
@@ -573,6 +579,8 @@ extension CodePipelineClientTypes {
         public var namespace: Swift.String?
         /// The name or ID of the result of the action declaration, such as a test or build artifact.
         public var outputArtifacts: [CodePipelineClientTypes.OutputArtifact]?
+        /// The list of variables that are to be exported from the compute action. This is specifically CodeBuild environment variables as used for that action.
+        public var outputVariables: [Swift.String]?
         /// The action declaration's Amazon Web Services Region, such as us-east-1.
         public var region: Swift.String?
         /// The ARN of the IAM service role that performs the declared action. This is assumed through the roleArn for the pipeline.
@@ -584,11 +592,13 @@ extension CodePipelineClientTypes {
 
         public init(
             actionTypeId: CodePipelineClientTypes.ActionTypeId? = nil,
+            commands: [Swift.String]? = nil,
             configuration: [Swift.String: Swift.String]? = nil,
             inputArtifacts: [CodePipelineClientTypes.InputArtifact]? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
             outputArtifacts: [CodePipelineClientTypes.OutputArtifact]? = nil,
+            outputVariables: [Swift.String]? = nil,
             region: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             runOrder: Swift.Int? = nil,
@@ -596,11 +606,13 @@ extension CodePipelineClientTypes {
         )
         {
             self.actionTypeId = actionTypeId
+            self.commands = commands
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
             self.name = name
             self.namespace = namespace
             self.outputArtifacts = outputArtifacts
+            self.outputVariables = outputVariables
             self.region = region
             self.roleArn = roleArn
             self.runOrder = runOrder
@@ -9378,11 +9390,13 @@ extension CodePipelineClientTypes.ActionDeclaration {
     static func write(value: CodePipelineClientTypes.ActionDeclaration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionTypeId"].write(value.actionTypeId, with: CodePipelineClientTypes.ActionTypeId.write(value:to:))
+        try writer["commands"].writeList(value.commands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["inputArtifacts"].writeList(value.inputArtifacts, memberWritingClosure: CodePipelineClientTypes.InputArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["namespace"].write(value.namespace)
         try writer["outputArtifacts"].writeList(value.outputArtifacts, memberWritingClosure: CodePipelineClientTypes.OutputArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputVariables"].writeList(value.outputVariables, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["region"].write(value.region)
         try writer["roleArn"].write(value.roleArn)
         try writer["runOrder"].write(value.runOrder)
@@ -9396,8 +9410,10 @@ extension CodePipelineClientTypes.ActionDeclaration {
         value.actionTypeId = try reader["actionTypeId"].readIfPresent(with: CodePipelineClientTypes.ActionTypeId.read(from:))
         value.runOrder = try reader["runOrder"].readIfPresent()
         value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.commands = try reader["commands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputArtifacts = try reader["outputArtifacts"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.OutputArtifact.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputArtifacts = try reader["inputArtifacts"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.InputArtifact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputVariables = try reader["outputVariables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
@@ -9410,6 +9426,7 @@ extension CodePipelineClientTypes.OutputArtifact {
 
     static func write(value: CodePipelineClientTypes.OutputArtifact?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["files"].writeList(value.files, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
     }
 
@@ -9417,6 +9434,7 @@ extension CodePipelineClientTypes.OutputArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.OutputArtifact()
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.files = try reader["files"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -273,6 +273,7 @@ extension MediaPackageV2ClientTypes {
 
     public enum ValidationExceptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cencIvIncompatible
+        case clipStartTimeWithStartOrEnd
         case containerTypeImmutable
         case directModeWithTimingSource
         case drmSignalingMismatchSegmentEncryptionStatus
@@ -307,6 +308,7 @@ extension MediaPackageV2ClientTypes {
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
         case sourceDisruptionsEnabledIncorrectly
+        case startTagTimeOffsetInvalid
         case timingSourceMissing
         case tsContainerTypeWithDashManifest
         case updatePeriodSmallerThanSegmentDuration
@@ -324,6 +326,7 @@ extension MediaPackageV2ClientTypes {
         public static var allCases: [ValidationExceptionType] {
             return [
                 .cencIvIncompatible,
+                .clipStartTimeWithStartOrEnd,
                 .containerTypeImmutable,
                 .directModeWithTimingSource,
                 .drmSignalingMismatchSegmentEncryptionStatus,
@@ -358,6 +361,7 @@ extension MediaPackageV2ClientTypes {
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
                 .sourceDisruptionsEnabledIncorrectly,
+                .startTagTimeOffsetInvalid,
                 .timingSourceMissing,
                 .tsContainerTypeWithDashManifest,
                 .updatePeriodSmallerThanSegmentDuration,
@@ -381,6 +385,7 @@ extension MediaPackageV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cencIvIncompatible: return "CENC_IV_INCOMPATIBLE"
+            case .clipStartTimeWithStartOrEnd: return "CLIP_START_TIME_WITH_START_OR_END"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
             case .directModeWithTimingSource: return "DIRECT_MODE_WITH_TIMING_SOURCE"
             case .drmSignalingMismatchSegmentEncryptionStatus: return "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
@@ -415,6 +420,7 @@ extension MediaPackageV2ClientTypes {
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
             case .sourceDisruptionsEnabledIncorrectly: return "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
+            case .startTagTimeOffsetInvalid: return "START_TAG_TIME_OFFSET_INVALID"
             case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
             case .tsContainerTypeWithDashManifest: return "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
             case .updatePeriodSmallerThanSegmentDuration: return "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
@@ -1028,6 +1034,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
     public struct FilterConfiguration: Swift.Sendable {
+        /// Optionally specify the clip start time for all of your manifest egress requests. When you include clip start time, note that you cannot use clip start time query parameters for this manifest's endpoint URL.
+        public var clipStartTime: Foundation.Date?
         /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
         public var end: Foundation.Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
@@ -1038,12 +1046,14 @@ extension MediaPackageV2ClientTypes {
         public var timeDelaySeconds: Swift.Int?
 
         public init(
+            clipStartTime: Foundation.Date? = nil,
             end: Foundation.Date? = nil,
             manifestFilter: Swift.String? = nil,
             start: Foundation.Date? = nil,
             timeDelaySeconds: Swift.Int? = nil
         )
         {
+            self.clipStartTime = clipStartTime
             self.end = end
             self.manifestFilter = manifestFilter
             self.start = start
@@ -1329,6 +1339,27 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+    public struct StartTag: Swift.Sendable {
+        /// Specify the value for PRECISE within your EXT-X-START tag. Leave blank, or choose false, to use the default value NO. Choose yes to use the value YES.
+        public var precise: Swift.Bool?
+        /// Specify the value for TIME-OFFSET within your EXT-X-START tag. Enter a signed floating point value which, if positive, must be less than the configured manifest duration minus three times the configured segment target duration. If negative, the absolute value must be larger than three times the configured segment target duration, and the absolute value must be smaller than the configured manifest duration.
+        /// This member is required.
+        public var timeOffset: Swift.Float?
+
+        public init(
+            precise: Swift.Bool? = nil,
+            timeOffset: Swift.Float? = nil
+        )
+        {
+            self.precise = precise
+            self.timeOffset = timeOffset
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// Create an HTTP live streaming (HLS) manifest configuration.
     public struct CreateHlsManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
@@ -1344,6 +1375,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -1351,7 +1384,8 @@ extension MediaPackageV2ClientTypes {
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
-            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil
+            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil
         )
         {
             self.childManifestName = childManifestName
@@ -1360,6 +1394,7 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
         }
     }
 }
@@ -1381,6 +1416,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -1388,7 +1425,8 @@ extension MediaPackageV2ClientTypes {
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
-            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil
+            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil
         )
         {
             self.childManifestName = childManifestName
@@ -1397,6 +1435,7 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
         }
     }
 }
@@ -1484,6 +1523,7 @@ extension MediaPackageV2ClientTypes {
     public enum DrmSystem: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case clearKeyAes128
         case fairplay
+        case irdeto
         case playready
         case widevine
         case sdkUnknown(Swift.String)
@@ -1492,6 +1532,7 @@ extension MediaPackageV2ClientTypes {
             return [
                 .clearKeyAes128,
                 .fairplay,
+                .irdeto,
                 .playready,
                 .widevine
             ]
@@ -1506,6 +1547,7 @@ extension MediaPackageV2ClientTypes {
             switch self {
             case .clearKeyAes128: return "CLEAR_KEY_AES_128"
             case .fairplay: return "FAIRPLAY"
+            case .irdeto: return "IRDETO"
             case .playready: return "PLAYREADY"
             case .widevine: return "WIDEVINE"
             case let .sdkUnknown(s): return s
@@ -1976,6 +2018,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -1987,6 +2031,7 @@ extension MediaPackageV2ClientTypes {
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
         )
         {
@@ -1996,6 +2041,7 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
             self.url = url
         }
     }
@@ -2018,6 +2064,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2029,6 +2077,7 @@ extension MediaPackageV2ClientTypes {
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
         )
         {
@@ -2038,6 +2087,7 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
             self.url = url
         }
     }
@@ -4601,6 +4651,24 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
         value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
         value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.StartTag {
+
+    static func write(value: MediaPackageV2ClientTypes.StartTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Precise"].write(value.precise)
+        try writer["TimeOffset"].write(value.timeOffset)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.StartTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.StartTag()
+        value.timeOffset = try reader["TimeOffset"].readIfPresent() ?? 0.0
+        value.precise = try reader["Precise"].readIfPresent()
         return value
     }
 }
@@ -4609,6 +4677,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClipStartTime"].writeTimestamp(value.clipStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["End"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["ManifestFilter"].write(value.manifestFilter)
         try writer["Start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4622,6 +4691,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
         value.start = try reader["Start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.end = try reader["End"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.timeDelaySeconds = try reader["TimeDelaySeconds"].readIfPresent()
+        value.clipStartTime = try reader["ClipStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4653,6 +4723,7 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
         value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
         value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
         return value
     }
 }
@@ -4821,6 +4892,7 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
+        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
     }
 }
 
@@ -4834,6 +4906,7 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
+        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
     }
 }
 

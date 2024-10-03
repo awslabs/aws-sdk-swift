@@ -531,6 +531,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMarketplaceMetering](../../../../../swift/api/awsmarketplacemetering/latest)
 
+[AWSMarketplaceReporting](../../../../../swift/api/awsmarketplacereporting/latest)
+
 [AWSMediaConnect](../../../../../swift/api/awsmediaconnect/latest)
 
 [AWSMediaConvert](../../../../../swift/api/awsmediaconvert/latest)
