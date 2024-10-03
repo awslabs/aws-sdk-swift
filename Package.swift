@@ -249,6 +249,7 @@ let serviceTargets: [String] = [
     "AWSMarketplaceDeployment",
     "AWSMarketplaceEntitlementService",
     "AWSMarketplaceMetering",
+    "AWSMarketplaceReporting",
     "AWSMediaConnect",
     "AWSMediaConvert",
     "AWSMediaLive",
