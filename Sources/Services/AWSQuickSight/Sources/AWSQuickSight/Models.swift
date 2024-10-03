@@ -18611,6 +18611,57 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum AssetBundleExportJobFolderPropertyToOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case parentFolderArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobFolderPropertyToOverride] {
+            return [
+                .name,
+                .parentFolderArn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "Name"
+            case .parentFolderArn: return "ParentFolderArn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Controls how a specific Folder resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobFolderOverrideProperties: Swift.Sendable {
+        /// The ARN of the specific Folder resource whose override properties are configured in this structure.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// A list of Folder resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobFolderPropertyToOverride]?
+
+        public init(
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobFolderPropertyToOverride]? = nil
+        )
+        {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum AssetBundleExportJobRefreshSchedulePropertyToOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case startAfterDateTime
         case sdkUnknown(Swift.String)
@@ -18787,6 +18838,8 @@ extension QuickSightClientTypes {
         public var dataSets: [QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties]?
         /// An optional list of structures that control how DataSource resources are parameterized in the returned CloudFormation template.
         public var dataSources: [QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties]?
+        /// An optional list of structures that controls how Folder resources are parameterized in the returned CloudFormation template.
+        public var folders: [QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties]?
         /// An optional list of structures that control how RefreshSchedule resources are parameterized in the returned CloudFormation template.
         public var refreshSchedules: [QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties]?
         /// An optional list of structures that control how resource IDs are parameterized in the returned CloudFormation template.
@@ -18801,6 +18854,7 @@ extension QuickSightClientTypes {
             dashboards: [QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties]? = nil,
             dataSets: [QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties]? = nil,
             dataSources: [QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties]? = nil,
+            folders: [QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties]? = nil,
             refreshSchedules: [QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties]? = nil,
             resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration? = nil,
             themes: [QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]? = nil,
@@ -18811,6 +18865,7 @@ extension QuickSightClientTypes {
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.refreshSchedules = refreshSchedules
             self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
             self.themes = themes
@@ -20216,6 +20271,74 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The override parameters for a single folder that is being imported.
+    public struct AssetBundleImportJobFolderOverrideParameters: Swift.Sendable {
+        /// The ID of the folder that you want to apply overrides to.
+        /// This member is required.
+        public var folderId: Swift.String?
+        /// A new name for the folder.
+        public var name: Swift.String?
+        /// A new parent folder arn. This change can only be applied if the import creates a brand new folder. Existing folders cannot be moved.
+        public var parentFolderArn: Swift.String?
+
+        public init(
+            folderId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parentFolderArn: Swift.String? = nil
+        )
+        {
+            self.folderId = folderId
+            self.name = name
+            self.parentFolderArn = parentFolderArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An object that contains a list of permissions to be applied to a list of folder IDs.
+    public struct AssetBundleImportJobFolderOverridePermissions: Swift.Sendable {
+        /// A list of folder IDs that you want to apply overrides to. You can use * to override all folders in this asset bundle.
+        /// This member is required.
+        public var folderIds: [Swift.String]?
+        /// A structure that contains the permissions for the resource that you want to override in an asset bundle import job.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+
+        public init(
+            folderIds: [Swift.String]? = nil,
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
+        )
+        {
+            self.folderIds = folderIds
+            self.permissions = permissions
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An object that contains a list of tags to be assigned to a list of folder IDs.
+    public struct AssetBundleImportJobFolderOverrideTags: Swift.Sendable {
+        /// A list of folder IDs that you want to apply overrides to. You can use * to override all folders in this asset bundle.
+        /// This member is required.
+        public var folderIds: [Swift.String]?
+        /// A list of tags for the folders that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+
+        public init(
+            folderIds: [Swift.String]? = nil,
+            tags: [QuickSightClientTypes.Tag]? = nil
+        )
+        {
+            self.folderIds = folderIds
+            self.tags = tags
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A list of overrides for a specific RefreshsSchedule resource that is present in the asset bundle that is imported.
     public struct AssetBundleImportJobRefreshScheduleOverrideParameters: Swift.Sendable {
         /// A partial identifier for the specific RefreshSchedule resource that is being overridden. This structure is used together with the ScheduleID structure.
@@ -20326,6 +20449,8 @@ extension QuickSightClientTypes {
         public var dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters]?
         /// A list of overrides for any DataSource resources that are present in the asset bundle that is imported.
         public var dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters]?
+        /// A list of overrides for any Folder resources that are present in the asset bundle that is imported.
+        public var folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters]?
         /// A list of overrides for any RefreshSchedule resources that are present in the asset bundle that is imported.
         public var refreshSchedules: [QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters]?
         /// An optional structure that configures resource ID overrides to be applied within the import job.
@@ -20340,6 +20465,7 @@ extension QuickSightClientTypes {
             dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters]? = nil,
             dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters]? = nil,
             dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters]? = nil,
+            folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters]? = nil,
             refreshSchedules: [QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters]? = nil,
             resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]? = nil,
@@ -20350,6 +20476,7 @@ extension QuickSightClientTypes {
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.refreshSchedules = refreshSchedules
             self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
             self.themes = themes
@@ -20392,6 +20519,8 @@ extension QuickSightClientTypes {
         public var dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions]?
         /// A list of permissions overrides for any DataSource resources that are present in the asset bundle that is imported.
         public var dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]?
+        /// A list of permissions for the folders that you want to apply overrides to.
+        public var folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions]?
         /// A list of permissions overrides for any Theme resources that are present in the asset bundle that is imported.
         public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]?
 
@@ -20400,6 +20529,7 @@ extension QuickSightClientTypes {
             dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions]? = nil,
             dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions]? = nil,
             dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]? = nil,
+            folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions]? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]? = nil
         )
         {
@@ -20407,6 +20537,7 @@ extension QuickSightClientTypes {
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.themes = themes
         }
     }
@@ -20468,6 +20599,8 @@ extension QuickSightClientTypes {
         public var dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags]?
         /// A list of tag overrides for any DataSource resources that are present in the asset bundle that is imported.
         public var dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags]?
+        /// A list of tag overrides for any Folder resources that are present in the asset bundle that is imported.
+        public var folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags]?
         /// A list of tag overrides for any Theme resources that are present in the asset bundle that is imported.
         public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]?
         /// A list of tag overrides for any VPCConnection resources that are present in the asset bundle that is imported.
@@ -20478,6 +20611,7 @@ extension QuickSightClientTypes {
             dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags]? = nil,
             dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags]? = nil,
             dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags]? = nil,
+            folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags]? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]? = nil,
             vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]? = nil
         )
@@ -20486,6 +20620,7 @@ extension QuickSightClientTypes {
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.themes = themes
             self.vpcConnections = vpcConnections
         }
@@ -27250,6 +27385,22 @@ public struct CreateThemeAliasOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    /// Configuration options for a Topic.
+    public struct TopicConfigOptions: Swift.Sendable {
+        /// Enables Amazon Q Business Insights for a Topic.
+        public var qBusinessInsightsEnabled: Swift.Bool?
+
+        public init(
+            qBusinessInsightsEnabled: Swift.Bool? = nil
+        )
+        {
+            self.qBusinessInsightsEnabled = qBusinessInsightsEnabled
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum DefaultAggregation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case average
         case count
@@ -28303,6 +28454,8 @@ extension QuickSightClientTypes {
 
     /// A structure that describes the details of a topic, such as its name, description, and associated data sets.
     public struct TopicDetails: Swift.Sendable {
+        /// Configuration options for a Topic.
+        public var configOptions: QuickSightClientTypes.TopicConfigOptions?
         /// The data sets that the topic is associated with.
         public var dataSets: [QuickSightClientTypes.DatasetMetadata]?
         /// The description of the topic.
@@ -28313,12 +28466,14 @@ extension QuickSightClientTypes {
         public var userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion?
 
         public init(
+            configOptions: QuickSightClientTypes.TopicConfigOptions? = nil,
             dataSets: [QuickSightClientTypes.DatasetMetadata]? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion? = nil
         )
         {
+            self.configOptions = configOptions
             self.dataSets = dataSets
             self.description = description
             self.name = name
@@ -31002,6 +31157,38 @@ public struct DescribeAssetBundleExportJobInput: Swift.Sendable {
     }
 }
 
+extension QuickSightClientTypes {
+
+    public enum IncludeFolderMembers: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case oneLevel
+        case recurse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeFolderMembers] {
+            return [
+                .none,
+                .oneLevel,
+                .recurse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .oneLevel: return "ONE_LEVEL"
+            case .recurse: return "RECURSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeAssetBundleExportJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the export job.
     public var arn: Swift.String?
@@ -31021,6 +31208,10 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Sendable {
     public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
     /// The include dependencies flag.
     public var includeAllDependencies: Swift.Bool
+    /// A setting that determines whether folder members are included.
+    public var includeFolderMembers: QuickSightClientTypes.IncludeFolderMembers?
+    /// The include folder memberships flag.
+    public var includeFolderMemberships: Swift.Bool
     /// The include permissions flag.
     public var includePermissions: Swift.Bool
     /// The include tags flag.
@@ -31048,6 +31239,8 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Sendable {
         errors: [QuickSightClientTypes.AssetBundleExportJobError]? = nil,
         exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
         includeAllDependencies: Swift.Bool = false,
+        includeFolderMembers: QuickSightClientTypes.IncludeFolderMembers? = nil,
+        includeFolderMemberships: Swift.Bool = false,
         includePermissions: Swift.Bool = false,
         includeTags: Swift.Bool = false,
         jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus? = nil,
@@ -31067,6 +31260,8 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Sendable {
         self.errors = errors
         self.exportFormat = exportFormat
         self.includeAllDependencies = includeAllDependencies
+        self.includeFolderMembers = includeFolderMembers
+        self.includeFolderMemberships = includeFolderMemberships
         self.includePermissions = includePermissions
         self.includeTags = includeTags
         self.jobStatus = jobStatus
@@ -31080,7 +31275,7 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Sendable {
 
 extension DescribeAssetBundleExportJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeAssetBundleExportJobOutput(arn: \(Swift.String(describing: arn)), assetBundleExportJobId: \(Swift.String(describing: assetBundleExportJobId)), awsAccountId: \(Swift.String(describing: awsAccountId)), cloudFormationOverridePropertyConfiguration: \(Swift.String(describing: cloudFormationOverridePropertyConfiguration)), createdTime: \(Swift.String(describing: createdTime)), errors: \(Swift.String(describing: errors)), exportFormat: \(Swift.String(describing: exportFormat)), includeAllDependencies: \(Swift.String(describing: includeAllDependencies)), includePermissions: \(Swift.String(describing: includePermissions)), includeTags: \(Swift.String(describing: includeTags)), jobStatus: \(Swift.String(describing: jobStatus)), requestId: \(Swift.String(describing: requestId)), resourceArns: \(Swift.String(describing: resourceArns)), status: \(Swift.String(describing: status)), validationStrategy: \(Swift.String(describing: validationStrategy)), warnings: \(Swift.String(describing: warnings)), downloadUrl: \"CONTENT_REDACTED\")"}
+        "DescribeAssetBundleExportJobOutput(arn: \(Swift.String(describing: arn)), assetBundleExportJobId: \(Swift.String(describing: assetBundleExportJobId)), awsAccountId: \(Swift.String(describing: awsAccountId)), cloudFormationOverridePropertyConfiguration: \(Swift.String(describing: cloudFormationOverridePropertyConfiguration)), createdTime: \(Swift.String(describing: createdTime)), errors: \(Swift.String(describing: errors)), exportFormat: \(Swift.String(describing: exportFormat)), includeAllDependencies: \(Swift.String(describing: includeAllDependencies)), includeFolderMembers: \(Swift.String(describing: includeFolderMembers)), includeFolderMemberships: \(Swift.String(describing: includeFolderMemberships)), includePermissions: \(Swift.String(describing: includePermissions)), includeTags: \(Swift.String(describing: includeTags)), jobStatus: \(Swift.String(describing: jobStatus)), requestId: \(Swift.String(describing: requestId)), resourceArns: \(Swift.String(describing: resourceArns)), status: \(Swift.String(describing: status)), validationStrategy: \(Swift.String(describing: validationStrategy)), warnings: \(Swift.String(describing: warnings)), downloadUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeAssetBundleImportJobInput: Swift.Sendable {
@@ -37660,6 +37855,10 @@ public struct StartAssetBundleExportJobInput: Swift.Sendable {
     public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
     /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
     public var includeAllDependencies: Swift.Bool?
+    /// A setting that indicates whether you want to include folder assets. You can also use this setting to recusrsively include all subfolders of an exported folder.
+    public var includeFolderMembers: QuickSightClientTypes.IncludeFolderMembers?
+    /// A Boolean that determines if the exported asset carries over information about the folders that the asset is a member of.
+    public var includeFolderMemberships: Swift.Bool?
     /// A Boolean that determines whether all permissions for each resource ARN are exported with the job. If you set IncludePermissions to TRUE, any permissions associated with each resource are exported.
     public var includePermissions: Swift.Bool?
     /// A Boolean that determines whether all tags for each resource ARN are exported with the job. If you set IncludeTags to TRUE, any tags associated with each resource are exported.
@@ -37693,6 +37892,8 @@ public struct StartAssetBundleExportJobInput: Swift.Sendable {
         cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration? = nil,
         exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
         includeAllDependencies: Swift.Bool? = false,
+        includeFolderMembers: QuickSightClientTypes.IncludeFolderMembers? = nil,
+        includeFolderMemberships: Swift.Bool? = false,
         includePermissions: Swift.Bool? = false,
         includeTags: Swift.Bool? = false,
         resourceArns: [Swift.String]? = nil,
@@ -37704,6 +37905,8 @@ public struct StartAssetBundleExportJobInput: Swift.Sendable {
         self.cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfiguration
         self.exportFormat = exportFormat
         self.includeAllDependencies = includeAllDependencies
+        self.includeFolderMembers = includeFolderMembers
+        self.includeFolderMemberships = includeFolderMemberships
         self.includePermissions = includePermissions
         self.includeTags = includeTags
         self.resourceArns = resourceArns
@@ -43632,6 +43835,8 @@ extension StartAssetBundleExportJobInput {
         try writer["CloudFormationOverridePropertyConfiguration"].write(value.cloudFormationOverridePropertyConfiguration, with: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration.write(value:to:))
         try writer["ExportFormat"].write(value.exportFormat)
         try writer["IncludeAllDependencies"].write(value.includeAllDependencies)
+        try writer["IncludeFolderMembers"].write(value.includeFolderMembers)
+        try writer["IncludeFolderMemberships"].write(value.includeFolderMemberships)
         try writer["IncludePermissions"].write(value.includePermissions)
         try writer["IncludeTags"].write(value.includeTags)
         try writer["ResourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -44878,6 +45083,8 @@ extension DescribeAssetBundleExportJobOutput {
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.exportFormat = try reader["ExportFormat"].readIfPresent()
         value.includeAllDependencies = try reader["IncludeAllDependencies"].readIfPresent() ?? false
+        value.includeFolderMembers = try reader["IncludeFolderMembers"].readIfPresent()
+        value.includeFolderMemberships = try reader["IncludeFolderMemberships"].readIfPresent() ?? false
         value.includePermissions = try reader["IncludePermissions"].readIfPresent() ?? false
         value.includeTags = try reader["IncludeTags"].readIfPresent() ?? false
         value.jobStatus = try reader["JobStatus"].readIfPresent()
@@ -60425,6 +60632,7 @@ extension QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfigu
         try writer["Dashboards"].writeList(value.dashboards, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSets"].writeList(value.dataSets, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSources"].writeList(value.dataSources, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Folders"].writeList(value.folders, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RefreshSchedules"].writeList(value.refreshSchedules, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceIdOverrideConfiguration"].write(value.resourceIdOverrideConfiguration, with: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration.write(value:to:))
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -60442,6 +60650,24 @@ extension QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfigu
         value.themes = try reader["Themes"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties {
+
+    static func write(value: QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Properties"].writeList(value.properties, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.AssetBundleExportJobFolderPropertyToOverride>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobFolderPropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60637,6 +60863,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideParameters {
         try writer["Dashboards"].writeList(value.dashboards, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSets"].writeList(value.dataSets, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSources"].writeList(value.dataSources, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Folders"].writeList(value.folders, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RefreshSchedules"].writeList(value.refreshSchedules, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceIdOverrideConfiguration"].write(value.resourceIdOverrideConfiguration, with: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration.write(value:to:))
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -60654,6 +60881,26 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideParameters {
         value.themes = try reader["Themes"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters {
+
+    static func write(value: QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FolderId"].write(value.folderId)
+        try writer["Name"].write(value.name)
+        try writer["ParentFolderArn"].write(value.parentFolderArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters()
+        value.folderId = try reader["FolderId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.parentFolderArn = try reader["ParentFolderArn"].readIfPresent()
         return value
     }
 }
@@ -61527,6 +61774,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverridePermissions {
         try writer["Dashboards"].writeList(value.dashboards, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSets"].writeList(value.dataSets, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSources"].writeList(value.dataSources, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Folders"].writeList(value.folders, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -61538,6 +61786,41 @@ extension QuickSightClientTypes.AssetBundleImportJobOverridePermissions {
         value.themes = try reader["Themes"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions {
+
+    static func write(value: QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FolderIds"].writeList(value.folderIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Permissions"].write(value.permissions, with: QuickSightClientTypes.AssetBundleResourcePermissions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions()
+        value.folderIds = try reader["FolderIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleResourcePermissions {
+
+    static func write(value: QuickSightClientTypes.AssetBundleResourcePermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Principals"].writeList(value.principals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleResourcePermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleResourcePermissions()
+        value.principals = try reader["Principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61572,23 +61855,6 @@ extension QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration()
         value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.AssetBundleResourcePermissions {
-
-    static func write(value: QuickSightClientTypes.AssetBundleResourcePermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Principals"].writeList(value.principals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleResourcePermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AssetBundleResourcePermissions()
-        value.principals = try reader["Principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -61669,6 +61935,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideTags {
         try writer["Dashboards"].writeList(value.dashboards, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSets"].writeList(value.dataSets, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSources"].writeList(value.dataSources, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Folders"].writeList(value.folders, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VPCConnections"].writeList(value.vpcConnections, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -61682,22 +61949,23 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideTags {
         value.themes = try reader["Themes"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags {
+extension QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags {
 
-    static func write(value: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DashboardIds"].writeList(value.dashboardIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FolderIds"].writeList(value.folderIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags {
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags()
-        value.dashboardIds = try reader["DashboardIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags()
+        value.folderIds = try reader["FolderIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -61716,6 +61984,23 @@ extension QuickSightClientTypes.Tag {
         var value = QuickSightClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags {
+
+    static func write(value: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardIds"].writeList(value.dashboardIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags()
+        value.dashboardIds = try reader["DashboardIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -63950,6 +64235,7 @@ extension QuickSightClientTypes.TopicDetails {
 
     static func write(value: QuickSightClientTypes.TopicDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConfigOptions"].write(value.configOptions, with: QuickSightClientTypes.TopicConfigOptions.write(value:to:))
         try writer["DataSets"].writeList(value.dataSets, memberWritingClosure: QuickSightClientTypes.DatasetMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
@@ -63963,6 +64249,22 @@ extension QuickSightClientTypes.TopicDetails {
         value.description = try reader["Description"].readIfPresent()
         value.userExperienceVersion = try reader["UserExperienceVersion"].readIfPresent()
         value.dataSets = try reader["DataSets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DatasetMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configOptions = try reader["ConfigOptions"].readIfPresent(with: QuickSightClientTypes.TopicConfigOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicConfigOptions {
+
+    static func write(value: QuickSightClientTypes.TopicConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QBusinessInsightsEnabled"].write(value.qBusinessInsightsEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicConfigOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicConfigOptions()
+        value.qBusinessInsightsEnabled = try reader["QBusinessInsightsEnabled"].readIfPresent()
         return value
     }
 }

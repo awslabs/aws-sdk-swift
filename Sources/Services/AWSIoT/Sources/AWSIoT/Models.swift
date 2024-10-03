@@ -2398,6 +2398,41 @@ extension IoTClientTypes {
     }
 }
 
+extension IoTClientTypes {
+
+    public enum ApplicationProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case https
+        case mqttWss
+        case secureMqtt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationProtocol] {
+            return [
+                .default,
+                .https,
+                .mqttWss,
+                .secureMqtt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .https: return "HTTPS"
+            case .mqttWss: return "MQTT_WSS"
+            case .secureMqtt: return "SECURE_MQTT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// A resource with the same name already exists.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2524,7 +2559,7 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
-    /// The Amazon S3 location for the software bill of materials associated with a software package version.
+    /// A specific software bill of matrerials associated with a software package version.
     public struct Sbom: Swift.Sendable {
         /// The S3 location.
         public var s3Location: IoTClientTypes.S3Location?
@@ -2544,7 +2579,7 @@ public struct AssociateSbomWithPackageVersionInput: Swift.Sendable {
     /// The name of the new software package.
     /// This member is required.
     public var packageName: Swift.String?
-    /// The Amazon S3 location for the software bill of materials associated with a software package version.
+    /// A specific software bill of matrerials associated with a software package version.
     /// This member is required.
     public var sbom: IoTClientTypes.Sbom?
     /// The name of the new package version.
@@ -2600,9 +2635,9 @@ extension IoTClientTypes {
 public struct AssociateSbomWithPackageVersionOutput: Swift.Sendable {
     /// The name of the new software package.
     public var packageName: Swift.String?
-    /// The Amazon S3 location for the software bill of materials associated with a software package version.
+    /// A specific software bill of matrerials associated with a software package version.
     public var sbom: IoTClientTypes.Sbom?
-    /// The status of the initial validation for the SBOM against the Software Package Data Exchange (SPDX) and CycloneDX industry standard format.
+    /// The status of the initial validation for the software bill of materials against the Software Package Data Exchange (SPDX) and CycloneDX industry standard formats.
     public var sbomValidationStatus: IoTClientTypes.SbomValidationStatus?
     /// The name of the new package version.
     public var versionName: Swift.String?
@@ -3649,6 +3684,44 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsSigv4
+        case awsX509
+        case customAuth
+        case customAuthX509
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationType] {
+            return [
+                .awsSigv4,
+                .awsX509,
+                .customAuth,
+                .customAuthX509,
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsSigv4: return "AWS_SIGV4"
+            case .awsX509: return "AWS_X509"
+            case .customAuth: return "CUSTOM_AUTH"
+            case .customAuthX509: return "CUSTOM_AUTH_X509"
+            case .default: return "DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// A collection of authorization information.
     public struct AuthInfo: Swift.Sendable {
         /// The type of action for which the principal is being authorized.
@@ -4652,6 +4725,22 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
 
 extension IoTClientTypes {
 
+    /// An object that speciﬁes the client certificate conﬁguration for a domain.
+    public struct ClientCertificateConfig: Swift.Sendable {
+        /// The ARN of the Lambda function that IoT invokes after mutual TLS authentication during the connection.
+        public var clientCertificateCallbackArn: Swift.String?
+
+        public init(
+            clientCertificateCallbackArn: Swift.String? = nil
+        )
+        {
+            self.clientCertificateCallbackArn = clientCertificateCallbackArn
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The server certificate configuration.
     public struct ServerCertificateConfig: Swift.Sendable {
         /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
@@ -4715,8 +4804,53 @@ extension IoTClientTypes {
 }
 
 public struct CreateDomainConfigurationInput: Swift.Sendable {
+    /// An enumerated string that speciﬁes the application-layer protocol.
+    ///
+    /// * SECURE_MQTT - MQTT over TLS.
+    ///
+    ///
+    ///
+    ///
+    /// * MQTT_WSS - MQTT over WebSocket.
+    ///
+    ///
+    ///
+    ///
+    /// * HTTPS - HTTP over TLS.
+    ///
+    ///
+    ///
+    ///
+    /// * DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+    public var applicationProtocol: IoTClientTypes.ApplicationProtocol?
+    /// An enumerated string that speciﬁes the authentication type.
+    ///
+    /// * CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.
+    ///
+    ///
+    ///
+    ///
+    /// * CUSTOM_AUTH - Use custom authentication and authorization. For more information, see [Custom authentication and authorization](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+    ///
+    ///
+    ///
+    ///
+    /// * AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see [X.509 client certificates](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html).
+    ///
+    ///
+    ///
+    ///
+    /// * AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see [IAM users, groups, and roles](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+    ///
+    ///
+    ///
+    ///
+    /// * DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+    public var authenticationType: IoTClientTypes.AuthenticationType?
     /// An object that specifies the authorization service for a domain.
     public var authorizerConfig: IoTClientTypes.AuthorizerConfig?
+    /// An object that speciﬁes the client certificate conﬁguration for a domain.
+    public var clientCertificateConfig: IoTClientTypes.ClientCertificateConfig?
     /// The name of the domain configuration. This value must be unique to a region.
     /// This member is required.
     public var domainConfigurationName: Swift.String?
@@ -4736,7 +4870,10 @@ public struct CreateDomainConfigurationInput: Swift.Sendable {
     public var validationCertificateArn: Swift.String?
 
     public init(
+        applicationProtocol: IoTClientTypes.ApplicationProtocol? = nil,
+        authenticationType: IoTClientTypes.AuthenticationType? = nil,
         authorizerConfig: IoTClientTypes.AuthorizerConfig? = nil,
+        clientCertificateConfig: IoTClientTypes.ClientCertificateConfig? = nil,
         domainConfigurationName: Swift.String? = nil,
         domainName: Swift.String? = nil,
         serverCertificateArns: [Swift.String]? = nil,
@@ -4747,7 +4884,10 @@ public struct CreateDomainConfigurationInput: Swift.Sendable {
         validationCertificateArn: Swift.String? = nil
     )
     {
+        self.applicationProtocol = applicationProtocol
+        self.authenticationType = authenticationType
         self.authorizerConfig = authorizerConfig
+        self.clientCertificateConfig = clientCertificateConfig
         self.domainConfigurationName = domainConfigurationName
         self.domainName = domainName
         self.serverCertificateArns = serverCertificateArns
@@ -6593,7 +6733,7 @@ extension CreatePackageOutput: Swift.CustomDebugStringConvertible {
 
 extension IoTClientTypes {
 
-    /// The Amazon S3 location for the artifacts associated with a software package version.
+    /// A specific package version artifact associated with a software package version.
     public struct PackageVersionArtifact: Swift.Sendable {
         /// The S3 location.
         public var s3Location: IoTClientTypes.S3Location?
@@ -6619,7 +6759,7 @@ public struct CreatePackageVersionInput: Swift.Sendable {
     /// The name of the associated software package.
     /// This member is required.
     public var packageName: Swift.String?
-    /// The inline job document associated with a software package version used for a quick job deployment via IoT Jobs.
+    /// The inline job document associated with a software package version used for a quick job deployment.
     public var recipe: Swift.String?
     /// Metadata that can be used to manage the package version.
     public var tags: [Swift.String: Swift.String]?
@@ -9757,8 +9897,53 @@ extension IoTClientTypes {
 }
 
 public struct DescribeDomainConfigurationOutput: Swift.Sendable {
+    /// An enumerated string that speciﬁes the application-layer protocol.
+    ///
+    /// * SECURE_MQTT - MQTT over TLS.
+    ///
+    ///
+    ///
+    ///
+    /// * MQTT_WSS - MQTT over WebSocket.
+    ///
+    ///
+    ///
+    ///
+    /// * HTTPS - HTTP over TLS.
+    ///
+    ///
+    ///
+    ///
+    /// * DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+    public var applicationProtocol: IoTClientTypes.ApplicationProtocol?
+    /// An enumerated string that speciﬁes the authentication type.
+    ///
+    /// * CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.
+    ///
+    ///
+    ///
+    ///
+    /// * CUSTOM_AUTH - Use custom authentication and authorization. For more information, see [Custom authentication and authorization](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+    ///
+    ///
+    ///
+    ///
+    /// * AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see [X.509 client certificates](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html).
+    ///
+    ///
+    ///
+    ///
+    /// * AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see [IAM users, groups, and roles](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+    ///
+    ///
+    ///
+    ///
+    /// * DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+    public var authenticationType: IoTClientTypes.AuthenticationType?
     /// An object that specifies the authorization service for a domain.
     public var authorizerConfig: IoTClientTypes.AuthorizerConfig?
+    /// An object that speciﬁes the client certificate conﬁguration for a domain.
+    public var clientCertificateConfig: IoTClientTypes.ClientCertificateConfig?
     /// The ARN of the domain configuration.
     public var domainConfigurationArn: Swift.String?
     /// The name of the domain configuration.
@@ -9781,7 +9966,10 @@ public struct DescribeDomainConfigurationOutput: Swift.Sendable {
     public var tlsConfig: IoTClientTypes.TlsConfig?
 
     public init(
+        applicationProtocol: IoTClientTypes.ApplicationProtocol? = nil,
+        authenticationType: IoTClientTypes.AuthenticationType? = nil,
         authorizerConfig: IoTClientTypes.AuthorizerConfig? = nil,
+        clientCertificateConfig: IoTClientTypes.ClientCertificateConfig? = nil,
         domainConfigurationArn: Swift.String? = nil,
         domainConfigurationName: Swift.String? = nil,
         domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus? = nil,
@@ -9794,7 +9982,10 @@ public struct DescribeDomainConfigurationOutput: Swift.Sendable {
         tlsConfig: IoTClientTypes.TlsConfig? = nil
     )
     {
+        self.applicationProtocol = applicationProtocol
+        self.authenticationType = authenticationType
         self.authorizerConfig = authorizerConfig
+        self.clientCertificateConfig = clientCertificateConfig
         self.domainConfigurationArn = domainConfigurationArn
         self.domainConfigurationName = domainConfigurationName
         self.domainConfigurationStatus = domainConfigurationStatus
@@ -12588,7 +12779,7 @@ public struct GetPackageVersionOutput: Swift.Sendable {
     public var packageName: Swift.String?
     /// The ARN for the package version.
     public var packageVersionArn: Swift.String?
-    /// The inline job document associated with a software package version used for a quick job deployment via IoT Jobs.
+    /// The inline job document associated with a software package version used for a quick job deployment.
     public var recipe: Swift.String?
     /// The software bill of materials for a software package version.
     public var sbom: IoTClientTypes.Sbom?
@@ -17192,7 +17383,7 @@ extension IoTClientTypes {
         public var deviceDefender: Swift.String?
         /// The unnamed shadow and named shadow. For more information about shadows, see [IoT Device Shadow service.](https://docs.aws.amazon.com/iot/latest/developerguide/iot-device-shadows.html)
         public var shadow: Swift.String?
-        /// Thing group names.
+        /// Thing group and billing group names.
         public var thingGroupNames: [Swift.String]?
         /// The thing ID.
         public var thingId: Swift.String?
@@ -18192,8 +18383,53 @@ public struct UpdateDimensionOutput: Swift.Sendable {
 }
 
 public struct UpdateDomainConfigurationInput: Swift.Sendable {
+    /// An enumerated string that speciﬁes the application-layer protocol.
+    ///
+    /// * SECURE_MQTT - MQTT over TLS.
+    ///
+    ///
+    ///
+    ///
+    /// * MQTT_WSS - MQTT over WebSocket.
+    ///
+    ///
+    ///
+    ///
+    /// * HTTPS - HTTP over TLS.
+    ///
+    ///
+    ///
+    ///
+    /// * DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+    public var applicationProtocol: IoTClientTypes.ApplicationProtocol?
+    /// An enumerated string that speciﬁes the authentication type.
+    ///
+    /// * CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.
+    ///
+    ///
+    ///
+    ///
+    /// * CUSTOM_AUTH - Use custom authentication and authorization. For more information, see [Custom authentication and authorization](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+    ///
+    ///
+    ///
+    ///
+    /// * AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see [X.509 client certificates](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html).
+    ///
+    ///
+    ///
+    ///
+    /// * AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see [IAM users, groups, and roles](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+    ///
+    ///
+    ///
+    ///
+    /// * DEFAULT  - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+    public var authenticationType: IoTClientTypes.AuthenticationType?
     /// An object that specifies the authorization service for a domain.
     public var authorizerConfig: IoTClientTypes.AuthorizerConfig?
+    /// An object that speciﬁes the client certificate conﬁguration for a domain.
+    public var clientCertificateConfig: IoTClientTypes.ClientCertificateConfig?
     /// The name of the domain configuration to be updated.
     /// This member is required.
     public var domainConfigurationName: Swift.String?
@@ -18207,7 +18443,10 @@ public struct UpdateDomainConfigurationInput: Swift.Sendable {
     public var tlsConfig: IoTClientTypes.TlsConfig?
 
     public init(
+        applicationProtocol: IoTClientTypes.ApplicationProtocol? = nil,
+        authenticationType: IoTClientTypes.AuthenticationType? = nil,
         authorizerConfig: IoTClientTypes.AuthorizerConfig? = nil,
+        clientCertificateConfig: IoTClientTypes.ClientCertificateConfig? = nil,
         domainConfigurationName: Swift.String? = nil,
         domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus? = nil,
         removeAuthorizerConfig: Swift.Bool? = false,
@@ -18215,7 +18454,10 @@ public struct UpdateDomainConfigurationInput: Swift.Sendable {
         tlsConfig: IoTClientTypes.TlsConfig? = nil
     )
     {
+        self.applicationProtocol = applicationProtocol
+        self.authenticationType = authenticationType
         self.authorizerConfig = authorizerConfig
+        self.clientCertificateConfig = clientCertificateConfig
         self.domainConfigurationName = domainConfigurationName
         self.domainConfigurationStatus = domainConfigurationStatus
         self.removeAuthorizerConfig = removeAuthorizerConfig
@@ -18555,7 +18797,7 @@ public struct UpdatePackageVersionInput: Swift.Sendable {
     /// The name of the associated software package.
     /// This member is required.
     public var packageName: Swift.String?
-    /// The inline job document associated with a software package version used for a quick job deployment via IoT Jobs.
+    /// The inline job document associated with a software package version used for a quick job deployment.
     public var recipe: Swift.String?
     /// The name of the target package version.
     /// This member is required.
@@ -23509,7 +23751,10 @@ extension CreateDomainConfigurationInput {
 
     static func write(value: CreateDomainConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["applicationProtocol"].write(value.applicationProtocol)
+        try writer["authenticationType"].write(value.authenticationType)
         try writer["authorizerConfig"].write(value.authorizerConfig, with: IoTClientTypes.AuthorizerConfig.write(value:to:))
+        try writer["clientCertificateConfig"].write(value.clientCertificateConfig, with: IoTClientTypes.ClientCertificateConfig.write(value:to:))
         try writer["domainName"].write(value.domainName)
         try writer["serverCertificateArns"].writeList(value.serverCertificateArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serverCertificateConfig"].write(value.serverCertificateConfig, with: IoTClientTypes.ServerCertificateConfig.write(value:to:))
@@ -24195,7 +24440,10 @@ extension UpdateDomainConfigurationInput {
 
     static func write(value: UpdateDomainConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["applicationProtocol"].write(value.applicationProtocol)
+        try writer["authenticationType"].write(value.authenticationType)
         try writer["authorizerConfig"].write(value.authorizerConfig, with: IoTClientTypes.AuthorizerConfig.write(value:to:))
+        try writer["clientCertificateConfig"].write(value.clientCertificateConfig, with: IoTClientTypes.ClientCertificateConfig.write(value:to:))
         try writer["domainConfigurationStatus"].write(value.domainConfigurationStatus)
         try writer["removeAuthorizerConfig"].write(value.removeAuthorizerConfig)
         try writer["serverCertificateConfig"].write(value.serverCertificateConfig, with: IoTClientTypes.ServerCertificateConfig.write(value:to:))
@@ -25428,7 +25676,10 @@ extension DescribeDomainConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeDomainConfigurationOutput()
+        value.applicationProtocol = try reader["applicationProtocol"].readIfPresent()
+        value.authenticationType = try reader["authenticationType"].readIfPresent()
         value.authorizerConfig = try reader["authorizerConfig"].readIfPresent(with: IoTClientTypes.AuthorizerConfig.read(from:))
+        value.clientCertificateConfig = try reader["clientCertificateConfig"].readIfPresent(with: IoTClientTypes.ClientCertificateConfig.read(from:))
         value.domainConfigurationArn = try reader["domainConfigurationArn"].readIfPresent()
         value.domainConfigurationName = try reader["domainConfigurationName"].readIfPresent()
         value.domainConfigurationStatus = try reader["domainConfigurationStatus"].readIfPresent()
@@ -33220,6 +33471,21 @@ extension IoTClientTypes.ServerCertificateConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ServerCertificateConfig()
         value.enableOCSPCheck = try reader["enableOCSPCheck"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.ClientCertificateConfig {
+
+    static func write(value: IoTClientTypes.ClientCertificateConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientCertificateCallbackArn"].write(value.clientCertificateCallbackArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ClientCertificateConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.ClientCertificateConfig()
+        value.clientCertificateCallbackArn = try reader["clientCertificateCallbackArn"].readIfPresent()
         return value
     }
 }
