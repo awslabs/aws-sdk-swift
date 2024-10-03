@@ -15,20 +15,17 @@ struct ReleaseNotesBuilder {
     let repoOrg: PrepareRelease.Org
     let repoType: PrepareRelease.Repo
     let commits: [String]
-    var isTest: Bool = false
-    
+    var featuresReader: FeaturesReader = FeaturesReader()
+
     // MARK: - Build
-    
+
     func build() throws -> String {
-        let baseContent: [String] = (
-            ["## What's Changed"] +
-            buildSDKChangeSection()
-        )
+        let sdkChanges: [String] = buildSDKChangeSection()
         let serviceClientChanges = repoType == .awsSdkSwift ? (try buildServiceChangeSection()) : []
         let fullCommitLogLink = [
             "\n**Full Changelog**: https://github.com/\(repoOrg.rawValue)/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"
         ]
-        let contents = baseContent + serviceClientChanges + fullCommitLogLink
+        let contents = ["## What's Changed"] + serviceClientChanges + sdkChanges + fullCommitLogLink
         return contents.joined(separator: .newline)
     }
 
@@ -44,16 +41,8 @@ struct ReleaseNotesBuilder {
     }
 
     func buildServiceChangeSection() throws -> [String] {
-        var features: Features
-        var mapping: [String: String]
-        // At this point, FileManager.default's current working directory is aws-sdk-swift/.
-        // The JSON files we need are located one level above it, in the workspace directory.
-        // For tests, due to sandboxing, the dummy files are created in current directory instead of
-        //  in parent directory. Therefore, fetch them from current directory for tests.
-        let buildRequestLocation = isTest ? "build-request.json" : "../build-request.json"
-        let mappingLocation = isTest ? "feature-service-id.json" : "../feature-service-id.json"
-        features = try Features.fromFile(buildRequestLocation)
-        mapping = try Features.mappingFromFile(mappingLocation)
+        let features = try featuresReader.getFeaturesFromFile()
+        let mapping = try featuresReader.getFeaturesIDToServiceNameDictFromFile()
         return buildServiceFeatureSection(features, mapping) + buildServiceDocSection(features, mapping)
     }
 
@@ -62,8 +51,8 @@ struct ReleaseNotesBuilder {
         _ mapping: [String: String]
     ) -> [String] {
         let formattedFeatures = features.features
-            .filter { $0.featureType == "NEW_FEATURE" }
-            .map { "* **AWS \(mapping[$0.featureId]!)**: \($0.releaseNotes)" }
+            .filter { $0.featureMetadata.trebuchet.featureType == "NEW_FEATURE" }
+            .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes)" }
             .joined(separator: .newline)
         if (!formattedFeatures.isEmpty) {
             return ["### Service Features", formattedFeatures]
@@ -76,8 +65,8 @@ struct ReleaseNotesBuilder {
         _ mapping: [String: String]
     ) -> [String] {
         let formattedDocUpdates = features.features
-            .filter { $0.featureType == "DOC_UPDATE" }
-            .map { "* **AWS \(mapping[$0.featureId]!)**: \($0.releaseNotes)" }
+            .filter { $0.featureMetadata.trebuchet.featureType == "DOC_UPDATE" }
+            .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes)" }
             .joined(separator: .newline)
         if (!formattedDocUpdates.isEmpty) {
             return ["### Service Documentation", formattedDocUpdates]

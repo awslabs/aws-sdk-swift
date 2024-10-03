@@ -72,14 +72,14 @@ class ReleaseNotesBuilderTests: XCTestCase {
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
-        ### AWS SDK for Swift
-        * fix: Fix X
-        * feat: Feat Y
         ### Service Features
         * **AWS Service 1**: New feature description A.
         * **AWS Service 2**: New feature description B.
         ### Service Documentation
         * **AWS Service 3**: Doc update description C.
+        ### AWS SDK for Swift
+        * fix: Fix X
+        * feat: Feat Y
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
@@ -95,11 +95,11 @@ class ReleaseNotesBuilderTests: XCTestCase {
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
+        ### Service Documentation
+        * **AWS Service 3**: Doc update description C.
         ### AWS SDK for Swift
         * fix: Fix X
         * feat: Feat Y
-        ### Service Documentation
-        * **AWS Service 3**: Doc update description C.
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
@@ -115,12 +115,12 @@ class ReleaseNotesBuilderTests: XCTestCase {
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
-        ### AWS SDK for Swift
-        * fix: Fix X
-        * feat: Feat Y
         ### Service Features
         * **AWS Service 1**: New feature description A.
         * **AWS Service 2**: New feature description B.
+        ### AWS SDK for Swift
+        * fix: Fix X
+        * feat: Feat Y
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
@@ -163,6 +163,9 @@ class ReleaseNotesBuilderTests: XCTestCase {
     }
 
     private func setUpBuildRequestAndMappingJSONs(_ buildRequest: String, _ mapping: String) {
+        // In real scenario, the JSON files we need are located one level above, in the workspace directory.
+        // For tests, due to sandboxing, the dummy files are created in current directory instead of
+        //  in parent directory.
         FileManager.default.createFile(atPath: "build-request.json", contents: Data(buildRequest.utf8))
         FileManager.default.createFile(atPath: "feature-service-id.json", contents: Data(mapping.utf8))
     }
@@ -174,7 +177,11 @@ class ReleaseNotesBuilderTests: XCTestCase {
             repoOrg: .awslabs,
             repoType: .awsSdkSwift,
             commits: testCommits,
-            isTest: true
+            // Parametrize behavior of FeaturesReader with paths used to create JSON test files
+            featuresReader: FeaturesReader(
+                requestFilePath: "build-request.json",
+                mappingFilePath: "feature-service-id.json"
+            )
         )
     }
 }
