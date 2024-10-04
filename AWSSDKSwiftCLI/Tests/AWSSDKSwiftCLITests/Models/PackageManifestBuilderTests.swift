@@ -12,7 +12,6 @@ class PackageManifestBuilderTests: XCTestCase {
 
     let expected = """
 <contents of prefix>
-
 // MARK: - Dynamic Content
 
 let clientRuntimeVersion: Version = "1.2.3"
