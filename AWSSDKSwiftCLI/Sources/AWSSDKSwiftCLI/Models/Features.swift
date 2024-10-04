@@ -36,7 +36,7 @@ struct Features: Decodable {
 }
 
 struct Feature: Decodable {
-    let releaseNotes: String
+    let releaseNotes: String?
     let featureMetadata: FeatureMetadata
 
     struct FeatureMetadata: Decodable {

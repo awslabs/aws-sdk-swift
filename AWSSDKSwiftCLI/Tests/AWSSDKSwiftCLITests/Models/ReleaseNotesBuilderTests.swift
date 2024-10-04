@@ -54,12 +54,26 @@ class ReleaseNotesBuilderTests: XCTestCase {
     }
     """
 
+    // Feature with null releaseNotes field
+    private let feature4 = """
+    {
+        "releaseNotes": null,
+        "featureMetadata": {
+            "trebuchet": {
+                "featureId": "feature-id-d",
+                "featureType": "DOC_UPDATE",
+            }
+        }
+    }
+    """
+
     // Dictionary of feature ID to name of the service
     private let mapping = """
     {
         "feature-id-a": "Service 1",
         "feature-id-b": "Service 2",
-        "feature-id-c": "Service 3"
+        "feature-id-c": "Service 3",
+        "feature-id-d": "Service 4"
     }
     """
 
@@ -156,6 +170,23 @@ class ReleaseNotesBuilderTests: XCTestCase {
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
+
+        **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
+        """
+        XCTAssertEqual(releaseNotes, expected)
+    }
+
+    func testNullReleaseNotesFieldGetsHandledWithoutError() throws {
+        let buildRequest = """
+        { "features": [\(feature4)] }
+        """
+        setUpBuildRequestAndMappingJSONs(buildRequest, mapping)
+        let builder = try setUpBuilder()
+        let releaseNotes = try builder.build()
+        let expected = """
+        ## What's Changed
+        ### Service Documentation
+        * **AWS Service 4**: No description provided.
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """

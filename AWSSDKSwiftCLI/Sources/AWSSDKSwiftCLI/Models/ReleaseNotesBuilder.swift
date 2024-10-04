@@ -52,7 +52,7 @@ struct ReleaseNotesBuilder {
     ) -> [String] {
         let formattedFeatures = features.features
             .filter { $0.featureMetadata.trebuchet.featureType == "NEW_FEATURE" }
-            .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes)" }
+            .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes ?? "No description provided.")" }
             .joined(separator: .newline)
         if (!formattedFeatures.isEmpty) {
             return ["### Service Features", formattedFeatures]
@@ -66,7 +66,7 @@ struct ReleaseNotesBuilder {
     ) -> [String] {
         let formattedDocUpdates = features.features
             .filter { $0.featureMetadata.trebuchet.featureType == "DOC_UPDATE" }
-            .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes)" }
+            .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes ?? "No description provided.")" }
             .joined(separator: .newline)
         if (!formattedDocUpdates.isEmpty) {
             return ["### Service Documentation", formattedDocUpdates]
