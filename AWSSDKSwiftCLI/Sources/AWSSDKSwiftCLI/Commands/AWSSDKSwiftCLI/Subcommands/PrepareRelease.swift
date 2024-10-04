@@ -236,7 +236,7 @@ struct PrepareRelease {
     ) throws {
         let commits = try Process.git.listOfCommitsBetween("HEAD", "\(previousVersion)")
         
-        let releaseNotes = try ReleaseNotesBuilder(
+        let releaseNotes = ReleaseNotesBuilder(
             previousVersion: previousVersion,
             newVersion: newVersion,
             repoOrg: repoOrg,
