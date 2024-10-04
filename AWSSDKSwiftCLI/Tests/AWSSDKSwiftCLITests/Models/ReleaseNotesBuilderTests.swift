@@ -77,7 +77,7 @@ class ReleaseNotesBuilderTests: XCTestCase {
         * **AWS Service 2**: New feature description B.
         ### Service Documentation
         * **AWS Service 3**: Doc update description C.
-        ### AWS SDK for Swift
+        ### Miscellaneous
         * fix: Fix X
         * feat: Feat Y
 
@@ -97,7 +97,7 @@ class ReleaseNotesBuilderTests: XCTestCase {
         ## What's Changed
         ### Service Documentation
         * **AWS Service 3**: Doc update description C.
-        ### AWS SDK for Swift
+        ### Miscellaneous
         * fix: Fix X
         * feat: Feat Y
 
@@ -118,7 +118,7 @@ class ReleaseNotesBuilderTests: XCTestCase {
         ### Service Features
         * **AWS Service 1**: New feature description A.
         * **AWS Service 2**: New feature description B.
-        ### AWS SDK for Swift
+        ### Miscellaneous
         * fix: Fix X
         * feat: Feat Y
 

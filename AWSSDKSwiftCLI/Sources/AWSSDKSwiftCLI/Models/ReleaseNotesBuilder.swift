@@ -31,11 +31,11 @@ struct ReleaseNotesBuilder {
 
     func buildSDKChangeSection() -> [String] {
         let formattedCommits = commits
-            .filter { !$0.hasPrefix("chore") && !$0.hasPrefix("Update") }
+            .filter { $0.hasPrefix("feat") || $0.hasPrefix("fix") }
             .map { "* \($0)" }
             .joined(separator: .newline)
         if (!formattedCommits.isEmpty) {
-            return ["### AWS SDK for Swift", formattedCommits]
+            return ["### Miscellaneous", formattedCommits]
         }
         return []
     }
