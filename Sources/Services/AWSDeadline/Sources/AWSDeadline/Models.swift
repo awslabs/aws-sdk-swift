@@ -3330,15 +3330,15 @@ public struct CreateJobInput: Swift.Sendable {
     /// The ID of the queue that the job is submitted to.
     /// This member is required.
     public var queueId: Swift.String?
+    /// The job ID for the source job.
+    public var sourceJobId: Swift.String?
     /// The storage profile ID for the storage profile to connect to the job.
     public var storageProfileId: Swift.String?
     /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
     public var targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus?
     /// The job template to use for this job.
-    /// This member is required.
     public var template: Swift.String?
     /// The file type for the job template.
-    /// This member is required.
     public var templateType: DeadlineClientTypes.JobTemplateType?
 
     public init(
@@ -3350,6 +3350,7 @@ public struct CreateJobInput: Swift.Sendable {
         parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
         priority: Swift.Int? = nil,
         queueId: Swift.String? = nil,
+        sourceJobId: Swift.String? = nil,
         storageProfileId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus? = nil,
         template: Swift.String? = nil,
@@ -3364,6 +3365,7 @@ public struct CreateJobInput: Swift.Sendable {
         self.parameters = parameters
         self.priority = priority
         self.queueId = queueId
+        self.sourceJobId = sourceJobId
         self.storageProfileId = storageProfileId
         self.targetTaskRunStatus = targetTaskRunStatus
         self.template = template
@@ -3373,7 +3375,7 @@ public struct CreateJobInput: Swift.Sendable {
 
 extension CreateJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
+        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateJobOutput: Swift.Sendable {
@@ -6214,6 +6216,8 @@ public struct GetJobOutput: Swift.Sendable {
     /// The job priority.
     /// This member is required.
     public var priority: Swift.Int?
+    /// The job ID for the source job.
+    public var sourceJobId: Swift.String?
     /// The date and time the resource started running.
     public var startedAt: Foundation.Date?
     /// The storage profile ID associated with the job.
@@ -6243,6 +6247,7 @@ public struct GetJobOutput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
         priority: Swift.Int? = nil,
+        sourceJobId: Swift.String? = nil,
         startedAt: Foundation.Date? = nil,
         storageProfileId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
@@ -6265,6 +6270,7 @@ public struct GetJobOutput: Swift.Sendable {
         self.name = name
         self.parameters = parameters
         self.priority = priority
+        self.sourceJobId = sourceJobId
         self.startedAt = startedAt
         self.storageProfileId = storageProfileId
         self.targetTaskRunStatus = targetTaskRunStatus
@@ -6277,7 +6283,7 @@ public struct GetJobOutput: Swift.Sendable {
 
 extension GetJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSessionInput: Swift.Sendable {
@@ -7221,6 +7227,54 @@ public struct ListJobMembersOutput: Swift.Sendable {
     }
 }
 
+public struct ListJobParameterDefinitionsInput: Swift.Sendable {
+    /// The farm ID of the job to list.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The job ID to include on the list.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// The queue ID to include on the list.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    )
+    {
+        self.farmId = farmId
+        self.jobId = jobId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.queueId = queueId
+    }
+}
+
+public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
+    /// Lists parameter definitions of a job.
+    /// This member is required.
+    public var jobParameterDefinitions: [Smithy.Document]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobParameterDefinitions: [Smithy.Document]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.jobParameterDefinitions = jobParameterDefinitions
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListJobsInput: Swift.Sendable {
     /// The farm ID for the jobs.
     /// This member is required.
@@ -7282,6 +7336,8 @@ extension DeadlineClientTypes {
         /// The job priority.
         /// This member is required.
         public var priority: Swift.Int?
+        /// The job ID for the source job.
+        public var sourceJobId: Swift.String?
         /// The date and time the resource started running.
         public var startedAt: Foundation.Date?
         /// The task status to start with on the job.
@@ -7326,6 +7382,7 @@ extension DeadlineClientTypes {
             maxRetriesPerTask: Swift.Int? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
+            sourceJobId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
@@ -7344,6 +7401,7 @@ extension DeadlineClientTypes {
             self.maxRetriesPerTask = maxRetriesPerTask
             self.name = name
             self.priority = priority
+            self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
             self.taskRunStatus = taskRunStatus
@@ -10021,6 +10079,8 @@ extension DeadlineClientTypes {
         public var priority: Swift.Int?
         /// The queue ID.
         public var queueId: Swift.String?
+        /// The job ID for the source job.
+        public var sourceJobId: Swift.String?
         /// The date and time the resource started running.
         public var startedAt: Foundation.Date?
         /// The task status to start with on the job.
@@ -10063,6 +10123,7 @@ extension DeadlineClientTypes {
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             queueId: Swift.String? = nil,
+            sourceJobId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
@@ -10081,6 +10142,7 @@ extension DeadlineClientTypes {
             self.name = name
             self.priority = priority
             self.queueId = queueId
+            self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
             self.taskRunStatus = taskRunStatus
@@ -10091,7 +10153,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
+        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchJobsOutput: Swift.Sendable {
@@ -11947,6 +12009,38 @@ extension ListJobMembersInput {
     }
 }
 
+extension ListJobParameterDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListJobParameterDefinitionsInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queues/\(queueId.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())/parameter-definitions"
+    }
+}
+
+extension ListJobParameterDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListJobParameterDefinitionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListJobsInput {
 
     static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
@@ -13026,6 +13120,7 @@ extension CreateJobInput {
         try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: DeadlineClientTypes.JobParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["priority"].write(value.priority)
+        try writer["sourceJobId"].write(value.sourceJobId)
         try writer["storageProfileId"].write(value.storageProfileId)
         try writer["targetTaskRunStatus"].write(value.targetTaskRunStatus)
         try writer["template"].write(value.template)
@@ -13764,6 +13859,7 @@ extension GetJobOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.priority = try reader["priority"].readIfPresent() ?? 0
+        value.sourceJobId = try reader["sourceJobId"].readIfPresent()
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
@@ -14131,6 +14227,19 @@ extension ListJobMembersOutput {
         let reader = responseReader
         var value = ListJobMembersOutput()
         value.members = try reader["members"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.JobMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListJobParameterDefinitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobParameterDefinitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobParameterDefinitionsOutput()
+        value.jobParameterDefinitions = try reader["jobParameterDefinitions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -15679,6 +15788,24 @@ enum ListFleetsOutputError {
 }
 
 enum ListJobMembersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListJobParameterDefinitionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17628,6 +17755,7 @@ extension DeadlineClientTypes.JobSummary {
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
+        value.sourceJobId = try reader["sourceJobId"].readIfPresent()
         return value
     }
 }
@@ -17956,6 +18084,7 @@ extension DeadlineClientTypes.JobSearchSummary {
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.jobParameters = try reader["jobParameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sourceJobId = try reader["sourceJobId"].readIfPresent()
         return value
     }
 }

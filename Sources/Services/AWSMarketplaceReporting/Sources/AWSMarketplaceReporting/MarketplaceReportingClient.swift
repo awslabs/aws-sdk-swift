@@ -194,7 +194,7 @@ extension MarketplaceReportingClient {
 extension MarketplaceReportingClient {
     /// Performs the `GetBuyerDashboard` operation on the `AWSMarketplaceReporting` service.
     ///
-    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. The following rules apply to a generated URL:
+    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. This API is available only to Amazon Web Services Organization management accounts or delegated administrators registered for the procurement insights (procurement-insights.marketplace.amazonaws.com) feature. The following rules apply to a generated URL:
     ///
     /// * It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again.
     ///

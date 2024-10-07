@@ -10943,21 +10943,7 @@ public struct EnableLoggingInput: Swift.Sendable {
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
     /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
-    /// The prefix applied to the log file names. Constraints:
-    ///
-    /// * Cannot exceed 512 characters
-    ///
-    /// * Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\), or control characters. The hexadecimal codes for invalid characters are:
-    ///
-    /// * x00 to x20
-    ///
-    /// * x22
-    ///
-    /// * x27
-    ///
-    /// * x5c
-    ///
-    /// * x7f or larger
+    /// The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters: underscore (_), period (.), colon (:), slash (/), equal (=), plus (+), backslash (\), hyphen (-), at symbol (@).
     public var s3KeyPrefix: Swift.String?
 
     public init(
