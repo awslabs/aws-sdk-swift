@@ -52,83 +52,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-extension QConnectClientTypes {
-
-    /// Content association data for a [step-by-step guide](https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html).
-    public struct AmazonConnectGuideAssociationData: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow.
-        public var flowId: Swift.String?
-
-        public init(
-            flowId: Swift.String? = nil
-        )
-        {
-            self.flowId = flowId
-        }
-    }
-}
-
-extension QConnectClientTypes {
-
-    /// A leaf node condition which can be used to specify a tag condition.
-    public struct TagCondition: Swift.Sendable {
-        /// The tag key in the tag condition.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The tag value in the tag condition.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-extension QConnectClientTypes {
-
-    /// Configuration information for Amazon AppIntegrations to automatically ingest content.
-    public struct AppIntegrationsConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.
-        ///
-        /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.
-        ///
-        /// * For [ ServiceNow](https://developer.servicenow.com/dev.do#!/reference/api/rome/rest/knowledge-management-api), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.
-        ///
-        /// * For [ Zendesk](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.
-        ///
-        /// * For [SharePoint](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/sharepoint-net-server-csom-jsom-and-rest-api-index), your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.
-        ///
-        /// * For [Amazon S3](https://aws.amazon.com/s3/), the ObjectConfiguration and FileConfiguration of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the following format: s3://your_s3_bucket_name. The bucket policy of the corresponding S3 bucket must allow the Amazon Web Services principal app-integrations.amazonaws.com to perform s3:ListBucket, s3:GetObject, and s3:GetBucketLocation against the bucket.
-        /// This member is required.
-        public var appIntegrationArn: Swift.String?
-        /// The fields from the source that are made available to your agents in Amazon Q in Connect. Optional if ObjectConfiguration is included in the provided DataIntegration.
-        ///
-        /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.
-        ///
-        /// * For [ ServiceNow](https://developer.servicenow.com/dev.do#!/reference/api/rome/rest/knowledge-management-api), you must include at least number, short_description, sys_mod_count, workflow_state, and active.
-        ///
-        /// * For [ Zendesk](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/), you must include at least id, title, updated_at, and draft.
-        ///
-        ///
-        /// Make sure to include additional fields. These fields are indexed and used to source recommendations.
-        public var objectFields: [Swift.String]?
-
-        public init(
-            appIntegrationArn: Swift.String? = nil,
-            objectFields: [Swift.String]? = nil
-        )
-        {
-            self.appIntegrationArn = appIntegrationArn
-            self.objectFields = objectFields
-        }
-    }
-}
-
 /// The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -205,6 +128,30 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+/// The throttling limit has been exceeded.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// The input fails to satisfy the constraints specified by a service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -226,6 +173,1553 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     )
     {
         self.properties.message = message
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A leaf node condition which can be used to specify a tag condition.
+    public struct TagCondition: Swift.Sendable {
+        /// The tag key in the tag condition.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The tag value in the tag condition.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A list of conditions which would be applied together with an OR condition.
+    public enum OrCondition: Swift.Sendable {
+        /// A list of conditions which would be applied together with an AND condition.
+        case andconditions([QConnectClientTypes.TagCondition])
+        /// A leaf node condition which can be used to specify a tag condition.
+        case tagcondition(QConnectClientTypes.TagCondition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// An object that can be used to specify Tag conditions.
+    public enum TagFilter: Swift.Sendable {
+        /// A leaf node condition which can be used to specify a tag condition.
+        case tagcondition(QConnectClientTypes.TagCondition)
+        /// A list of conditions which would be applied together with an AND condition.
+        case andconditions([QConnectClientTypes.TagCondition])
+        /// A list of conditions which would be applied together with an OR condition.
+        case orconditions([QConnectClientTypes.OrCondition])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum KnowledgeBaseSearchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hybrid
+        case semantic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KnowledgeBaseSearchType] {
+            return [
+                .hybrid,
+                .semantic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hybrid: return "HYBRID"
+            case .semantic: return "SEMANTIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The data of the configuration for a KNOWLEDGE_BASE type Amazon Q in Connect Assistant Association.
+    public struct KnowledgeBaseAssociationConfigurationData: Swift.Sendable {
+        /// An object that can be used to specify Tag conditions.
+        public var contentTagFilter: QConnectClientTypes.TagFilter?
+        /// The maximum number of results to return per page.
+        public var maxResults: Swift.Int?
+        /// The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text
+        public var overrideKnowledgeBaseSearchType: QConnectClientTypes.KnowledgeBaseSearchType?
+
+        public init(
+            contentTagFilter: QConnectClientTypes.TagFilter? = nil,
+            maxResults: Swift.Int? = nil,
+            overrideKnowledgeBaseSearchType: QConnectClientTypes.KnowledgeBaseSearchType? = nil
+        )
+        {
+            self.contentTagFilter = contentTagFilter
+            self.maxResults = maxResults
+            self.overrideKnowledgeBaseSearchType = overrideKnowledgeBaseSearchType
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A typed union of the data of the configuration for an Amazon Q in Connect Assistant Association.
+    public enum AssociationConfigurationData: Swift.Sendable {
+        /// The data of the configuration for a KNOWLEDGE_BASE type Amazon Q in Connect Assistant Association.
+        case knowledgebaseassociationconfigurationdata(QConnectClientTypes.KnowledgeBaseAssociationConfigurationData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum AIAgentAssociationConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case knowledgeBase
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AIAgentAssociationConfigurationType] {
+            return [
+                .knowledgeBase
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .knowledgeBase: return "KNOWLEDGE_BASE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The configuration for an Amazon Q in Connect Assistant Association.
+    public struct AssociationConfiguration: Swift.Sendable {
+        /// The data of the configuration for an Amazon Q in Connect Assistant Association.
+        public var associationConfigurationData: QConnectClientTypes.AssociationConfigurationData?
+        /// The identifier of the association for this Association Configuration.
+        public var associationId: Swift.String?
+        /// The type of the association for this Association Configuration.
+        public var associationType: QConnectClientTypes.AIAgentAssociationConfigurationType?
+
+        public init(
+            associationConfigurationData: QConnectClientTypes.AssociationConfigurationData? = nil,
+            associationId: Swift.String? = nil,
+            associationType: QConnectClientTypes.AIAgentAssociationConfigurationType? = nil
+        )
+        {
+            self.associationConfigurationData = associationConfigurationData
+            self.associationId = associationId
+            self.associationType = associationType
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The configuration for the ANSWER_RECOMMENDATION AI Agent type.
+    public struct AnswerRecommendationAIAgentConfiguration: Swift.Sendable {
+        /// The AI Prompt identifier for the Answer Generation prompt used by the ANSWER_RECOMMENDATION AI Agent.
+        public var answerGenerationAIPromptId: Swift.String?
+        /// The association configurations for overriding behavior on this AI Agent.
+        public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
+        /// The AI Prompt identifier for the Intent Labeling prompt used by the ANSWER_RECOMMENDATION AI Agent.
+        public var intentLabelingGenerationAIPromptId: Swift.String?
+        /// The AI Prompt identifier for the Query Reformulation prompt used by the ANSWER_RECOMMENDATION AI Agent.
+        public var queryReformulationAIPromptId: Swift.String?
+
+        public init(
+            answerGenerationAIPromptId: Swift.String? = nil,
+            associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil,
+            intentLabelingGenerationAIPromptId: Swift.String? = nil,
+            queryReformulationAIPromptId: Swift.String? = nil
+        )
+        {
+            self.answerGenerationAIPromptId = answerGenerationAIPromptId
+            self.associationConfigurations = associationConfigurations
+            self.intentLabelingGenerationAIPromptId = intentLabelingGenerationAIPromptId
+            self.queryReformulationAIPromptId = queryReformulationAIPromptId
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The configuration for the MANUAL_SEARCH AI Agent type.
+    public struct ManualSearchAIAgentConfiguration: Swift.Sendable {
+        /// The AI Prompt identifier for the Answer Generation prompt used by the MANUAL_SEARCH AI Agent.
+        public var answerGenerationAIPromptId: Swift.String?
+        /// The association configurations for overriding behavior on this AI Agent.
+        public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
+
+        public init(
+            answerGenerationAIPromptId: Swift.String? = nil,
+            associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil
+        )
+        {
+            self.answerGenerationAIPromptId = answerGenerationAIPromptId
+            self.associationConfigurations = associationConfigurations
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A typed union that specifies the configuration based on the type of AI Agent.
+    public enum AIAgentConfiguration: Swift.Sendable {
+        /// The configuration for AI Agents of type MANUAL_SEARCH.
+        case manualsearchaiagentconfiguration(QConnectClientTypes.ManualSearchAIAgentConfiguration)
+        /// The configuration for AI Agents of type ANSWER_RECOMMENDATION.
+        case answerrecommendationaiagentconfiguration(QConnectClientTypes.AnswerRecommendationAIAgentConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum AIAgentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case answerRecommendation
+        case manualSearch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AIAgentType] {
+            return [
+                .answerRecommendation,
+                .manualSearch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .answerRecommendation: return "ANSWER_RECOMMENDATION"
+            case .manualSearch: return "MANUAL_SEARCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum VisibilityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case published
+        case saved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VisibilityStatus] {
+            return [
+                .published,
+                .saved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .published: return "PUBLISHED"
+            case .saved: return "SAVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateAIAgentInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The configuration of the AI Agent.
+    /// This member is required.
+    public var configuration: QConnectClientTypes.AIAgentConfiguration?
+    /// The description of the AI Agent.
+    public var description: Swift.String?
+    /// The name of the AI Agent.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of the AI Agent.
+    /// This member is required.
+    public var type: QConnectClientTypes.AIAgentType?
+    /// The visibility status of the AI Agent.
+    /// This member is required.
+    public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+    public init(
+        assistantId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: QConnectClientTypes.AIAgentConfiguration? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: QConnectClientTypes.AIAgentType? = nil,
+        visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+    )
+    {
+        self.assistantId = assistantId
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.description = description
+        self.name = name
+        self.tags = tags
+        self.type = type
+        self.visibilityStatus = visibilityStatus
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum Origin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case system
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Origin] {
+            return [
+                .customer,
+                .system
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .system: return "SYSTEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case createInProgress
+        case deleted
+        case deleteFailed
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .active,
+                .createFailed,
+                .createInProgress,
+                .deleted,
+                .deleteFailed,
+                .deleteInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The data for the AI Agent.
+    public struct AIAgentData: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AI agent.
+        /// This member is required.
+        public var aiAgentArn: Swift.String?
+        /// The identifier of the AI Agent.
+        /// This member is required.
+        public var aiAgentId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        /// This member is required.
+        public var assistantArn: Swift.String?
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var assistantId: Swift.String?
+        /// Configuration for the AI Agent.
+        /// This member is required.
+        public var configuration: QConnectClientTypes.AIAgentConfiguration?
+        /// The description of the AI Agent.
+        public var description: Swift.String?
+        /// The time the AI Agent was last modified.
+        public var modifiedTime: Foundation.Date?
+        /// The name of the AI Agent.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the origin of the AI Agent. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public var origin: QConnectClientTypes.Origin?
+        /// The status of the AI Agent.
+        public var status: QConnectClientTypes.Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+        /// The type of the AI Agent.
+        /// This member is required.
+        public var type: QConnectClientTypes.AIAgentType?
+        /// The visibility status of the AI Agent.
+        /// This member is required.
+        public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+        public init(
+            aiAgentArn: Swift.String? = nil,
+            aiAgentId: Swift.String? = nil,
+            assistantArn: Swift.String? = nil,
+            assistantId: Swift.String? = nil,
+            configuration: QConnectClientTypes.AIAgentConfiguration? = nil,
+            description: Swift.String? = nil,
+            modifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            origin: QConnectClientTypes.Origin? = nil,
+            status: QConnectClientTypes.Status? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            type: QConnectClientTypes.AIAgentType? = nil,
+            visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+        )
+        {
+            self.aiAgentArn = aiAgentArn
+            self.aiAgentId = aiAgentId
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.configuration = configuration
+            self.description = description
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+    }
+}
+
+public struct CreateAIAgentOutput: Swift.Sendable {
+    /// The data of the created AI Agent.
+    public var aiAgent: QConnectClientTypes.AIAgentData?
+
+    public init(
+        aiAgent: QConnectClientTypes.AIAgentData? = nil
+    )
+    {
+        self.aiAgent = aiAgent
+    }
+}
+
+public struct CreateAIAgentVersionInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI Agent.
+    /// This member is required.
+    public var aiAgentId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The modification time of the AI Agent should be tracked for version creation. This field should be specified to avoid version creation when simultaneous update to the underlying AI Agent are possible. The value should be the modifiedTime returned from the request to create or update an AI Agent so that version creation can fail if an update to the AI Agent post the specified modification time has been made.
+    public var modifiedTime: Foundation.Date?
+
+    public init(
+        aiAgentId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        modifiedTime: Foundation.Date? = nil
+    )
+    {
+        self.aiAgentId = aiAgentId
+        self.assistantId = assistantId
+        self.clientToken = clientToken
+        self.modifiedTime = modifiedTime
+    }
+}
+
+public struct CreateAIAgentVersionOutput: Swift.Sendable {
+    /// The data of the AI Agent version.
+    public var aiAgent: QConnectClientTypes.AIAgentData?
+    /// The version number of the AI Agent version.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        aiAgent: QConnectClientTypes.AIAgentData? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.aiAgent = aiAgent
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct DeleteAIAgentInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var aiAgentId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+
+    public init(
+        aiAgentId: Swift.String? = nil,
+        assistantId: Swift.String? = nil
+    )
+    {
+        self.aiAgentId = aiAgentId
+        self.assistantId = assistantId
+    }
+}
+
+public struct DeleteAIAgentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAIAgentVersionInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var aiAgentId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The version number of the AI Agent version.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        aiAgentId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.aiAgentId = aiAgentId
+        self.assistantId = assistantId
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct DeleteAIAgentVersionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAIAgentInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI Agent (with or without a version qualifier). Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var aiAgentId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+
+    public init(
+        aiAgentId: Swift.String? = nil,
+        assistantId: Swift.String? = nil
+    )
+    {
+        self.aiAgentId = aiAgentId
+        self.assistantId = assistantId
+    }
+}
+
+public struct GetAIAgentOutput: Swift.Sendable {
+    /// The data of the AI Agent.
+    public var aiAgent: QConnectClientTypes.AIAgentData?
+    /// The version number of the AI Agent version (returned if an AI Agent version was specified via use of a qualifier for the aiAgentId on the request).
+    public var versionNumber: Swift.Int?
+
+    public init(
+        aiAgent: QConnectClientTypes.AIAgentData? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.aiAgent = aiAgent
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct ListAIAgentsInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The origin of the AI Agents to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    public var origin: QConnectClientTypes.Origin?
+
+    public init(
+        assistantId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        origin: QConnectClientTypes.Origin? = nil
+    )
+    {
+        self.assistantId = assistantId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.origin = origin
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The summary of the AI Agent.
+    public struct AIAgentSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AI agent.
+        /// This member is required.
+        public var aiAgentArn: Swift.String?
+        /// The identifier of the AI Agent.
+        /// This member is required.
+        public var aiAgentId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        /// This member is required.
+        public var assistantArn: Swift.String?
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var assistantId: Swift.String?
+        /// The configuration for the AI Agent.
+        public var configuration: QConnectClientTypes.AIAgentConfiguration?
+        /// The description of the AI Agent.
+        public var description: Swift.String?
+        /// The time the AI Agent was last modified.
+        public var modifiedTime: Foundation.Date?
+        /// The name of the AI Agent.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The origin of the AI Agent. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public var origin: QConnectClientTypes.Origin?
+        /// The status of the AI Agent.
+        public var status: QConnectClientTypes.Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+        /// The type of the AI Agent.
+        /// This member is required.
+        public var type: QConnectClientTypes.AIAgentType?
+        /// The visibility status of the AI Agent.
+        /// This member is required.
+        public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+        public init(
+            aiAgentArn: Swift.String? = nil,
+            aiAgentId: Swift.String? = nil,
+            assistantArn: Swift.String? = nil,
+            assistantId: Swift.String? = nil,
+            configuration: QConnectClientTypes.AIAgentConfiguration? = nil,
+            description: Swift.String? = nil,
+            modifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            origin: QConnectClientTypes.Origin? = nil,
+            status: QConnectClientTypes.Status? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            type: QConnectClientTypes.AIAgentType? = nil,
+            visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+        )
+        {
+            self.aiAgentArn = aiAgentArn
+            self.aiAgentId = aiAgentId
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.configuration = configuration
+            self.description = description
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+    }
+}
+
+public struct ListAIAgentsOutput: Swift.Sendable {
+    /// The summaries of AI Agents.
+    /// This member is required.
+    public var aiAgentSummaries: [QConnectClientTypes.AIAgentSummary]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        aiAgentSummaries: [QConnectClientTypes.AIAgentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aiAgentSummaries = aiAgentSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAIAgentVersionsInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI Agent for which versions are to be listed.
+    /// This member is required.
+    public var aiAgentId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The origin of the AI Agent versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    public var origin: QConnectClientTypes.Origin?
+
+    public init(
+        aiAgentId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        origin: QConnectClientTypes.Origin? = nil
+    )
+    {
+        self.aiAgentId = aiAgentId
+        self.assistantId = assistantId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.origin = origin
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The summary of the AI Agent version.
+    public struct AIAgentVersionSummary: Swift.Sendable {
+        /// The data for the summary of the AI Agent version.
+        public var aiAgentSummary: QConnectClientTypes.AIAgentSummary?
+        /// The version number for this AI Agent version.
+        public var versionNumber: Swift.Int?
+
+        public init(
+            aiAgentSummary: QConnectClientTypes.AIAgentSummary? = nil,
+            versionNumber: Swift.Int? = nil
+        )
+        {
+            self.aiAgentSummary = aiAgentSummary
+            self.versionNumber = versionNumber
+        }
+    }
+}
+
+public struct ListAIAgentVersionsOutput: Swift.Sendable {
+    /// The summaries of AI Agent versions.
+    /// This member is required.
+    public var aiAgentVersionSummaries: [QConnectClientTypes.AIAgentVersionSummary]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        aiAgentVersionSummaries: [QConnectClientTypes.AIAgentVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aiAgentVersionSummaries = aiAgentVersionSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateAIAgentInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI Agent.
+    /// This member is required.
+    public var aiAgentId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The configuration of the Amazon Q in Connect AI Agent.
+    public var configuration: QConnectClientTypes.AIAgentConfiguration?
+    /// The description of the Amazon Q in Connect AI Agent.
+    public var description: Swift.String?
+    /// The visbility status of the Amazon Q in Connect AI Agent.
+    /// This member is required.
+    public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+    public init(
+        aiAgentId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: QConnectClientTypes.AIAgentConfiguration? = nil,
+        description: Swift.String? = nil,
+        visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+    )
+    {
+        self.aiAgentId = aiAgentId
+        self.assistantId = assistantId
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.description = description
+        self.visibilityStatus = visibilityStatus
+    }
+}
+
+public struct UpdateAIAgentOutput: Swift.Sendable {
+    /// The data of the updated Amazon Q in Connect AI Agent.
+    public var aiAgent: QConnectClientTypes.AIAgentData?
+
+    public init(
+        aiAgent: QConnectClientTypes.AIAgentData? = nil
+    )
+    {
+        self.aiAgent = aiAgent
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A type that specifies the AI Agent ID configuration data when mapping an AI Agents to be used for an AI Agent type on a session or assistant.
+    public struct AIAgentConfigurationData: Swift.Sendable {
+        /// The ID of the AI Agent to be configured.
+        /// This member is required.
+        public var aiAgentId: Swift.String?
+
+        public init(
+            aiAgentId: Swift.String? = nil
+        )
+        {
+            self.aiAgentId = aiAgentId
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum AIPromptAPIFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anthropicClaudeMessages
+        case anthropicClaudeTextCompletions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AIPromptAPIFormat] {
+            return [
+                .anthropicClaudeMessages,
+                .anthropicClaudeTextCompletions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .anthropicClaudeMessages: return "ANTHROPIC_CLAUDE_MESSAGES"
+            case .anthropicClaudeTextCompletions: return "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The configuration for a prompt template that supports full textual prompt configuration using a YAML prompt.
+    public struct TextFullAIPromptEditTemplateConfiguration: Swift.Sendable {
+        /// The YAML text for the AI Prompt template.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+}
+
+extension QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TextFullAIPromptEditTemplateConfiguration(text: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// A typed union that specifies the configuration for a prompt template based on its type.
+    public enum AIPromptTemplateConfiguration: Swift.Sendable {
+        /// The configuration for a prompt template that supports full textual prompt configuration using a YAML prompt.
+        case textfullaipromptedittemplateconfiguration(QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum AIPromptTemplateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AIPromptTemplateType] {
+            return [
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum AIPromptType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case answerGeneration
+        case intentLabelingGeneration
+        case queryReformulation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AIPromptType] {
+            return [
+                .answerGeneration,
+                .intentLabelingGeneration,
+                .queryReformulation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .answerGeneration: return "ANSWER_GENERATION"
+            case .intentLabelingGeneration: return "INTENT_LABELING_GENERATION"
+            case .queryReformulation: return "QUERY_REFORMULATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateAIPromptInput: Swift.Sendable {
+    /// The API Format of the AI Prompt.
+    /// This member is required.
+    public var apiFormat: QConnectClientTypes.AIPromptAPIFormat?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The description of the AI Prompt.
+    public var description: Swift.String?
+    /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
+    /// This member is required.
+    public var modelId: Swift.String?
+    /// The name of the AI Prompt.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The configuration of the prompt template for this AI Prompt.
+    /// This member is required.
+    public var templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration?
+    /// The type of the prompt template for this AI Prompt.
+    /// This member is required.
+    public var templateType: QConnectClientTypes.AIPromptTemplateType?
+    /// The type of this AI Prompt.
+    /// This member is required.
+    public var type: QConnectClientTypes.AIPromptType?
+    /// The visibility status of the AI Prompt.
+    /// This member is required.
+    public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+    public init(
+        apiFormat: QConnectClientTypes.AIPromptAPIFormat? = nil,
+        assistantId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        modelId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration? = nil,
+        templateType: QConnectClientTypes.AIPromptTemplateType? = nil,
+        type: QConnectClientTypes.AIPromptType? = nil,
+        visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+    )
+    {
+        self.apiFormat = apiFormat
+        self.assistantId = assistantId
+        self.clientToken = clientToken
+        self.description = description
+        self.modelId = modelId
+        self.name = name
+        self.tags = tags
+        self.templateConfiguration = templateConfiguration
+        self.templateType = templateType
+        self.type = type
+        self.visibilityStatus = visibilityStatus
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The data for the AI Prompt
+    public struct AIPromptData: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AI Prompt.
+        /// This member is required.
+        public var aiPromptArn: Swift.String?
+        /// The identifier of the Amazon Q in Connect AI prompt.
+        /// This member is required.
+        public var aiPromptId: Swift.String?
+        /// The API format used for this AI Prompt.
+        /// This member is required.
+        public var apiFormat: QConnectClientTypes.AIPromptAPIFormat?
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        /// This member is required.
+        public var assistantArn: Swift.String?
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var assistantId: Swift.String?
+        /// The description of the AI Prompt.
+        public var description: Swift.String?
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The time the AI Prompt was last modified.
+        public var modifiedTime: Foundation.Date?
+        /// The name of the AI Prompt
+        /// This member is required.
+        public var name: Swift.String?
+        /// The origin of the AI Prompt. SYSTEM for a default AI Prompt created by Q in Connect or CUSTOMER for an AI Prompt created by calling AI Prompt creation APIs.
+        public var origin: QConnectClientTypes.Origin?
+        /// The status of the AI Prompt.
+        public var status: QConnectClientTypes.Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+        /// The configuration of the prompt template for this AI Prompt.
+        /// This member is required.
+        public var templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration?
+        /// The type of the prompt template for this AI Prompt.
+        /// This member is required.
+        public var templateType: QConnectClientTypes.AIPromptTemplateType?
+        /// The type of this AI Prompt.
+        /// This member is required.
+        public var type: QConnectClientTypes.AIPromptType?
+        /// The visibility status of the AI Prompt.
+        /// This member is required.
+        public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+        public init(
+            aiPromptArn: Swift.String? = nil,
+            aiPromptId: Swift.String? = nil,
+            apiFormat: QConnectClientTypes.AIPromptAPIFormat? = nil,
+            assistantArn: Swift.String? = nil,
+            assistantId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            modelId: Swift.String? = nil,
+            modifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            origin: QConnectClientTypes.Origin? = nil,
+            status: QConnectClientTypes.Status? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration? = nil,
+            templateType: QConnectClientTypes.AIPromptTemplateType? = nil,
+            type: QConnectClientTypes.AIPromptType? = nil,
+            visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+        )
+        {
+            self.aiPromptArn = aiPromptArn
+            self.aiPromptId = aiPromptId
+            self.apiFormat = apiFormat
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.description = description
+            self.modelId = modelId
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.templateConfiguration = templateConfiguration
+            self.templateType = templateType
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+    }
+}
+
+public struct CreateAIPromptOutput: Swift.Sendable {
+    /// The data of the AI Prompt.
+    public var aiPrompt: QConnectClientTypes.AIPromptData?
+
+    public init(
+        aiPrompt: QConnectClientTypes.AIPromptData? = nil
+    )
+    {
+        self.aiPrompt = aiPrompt
+    }
+}
+
+public struct CreateAIPromptVersionInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI prompt.
+    /// This member is required.
+    public var aiPromptId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/https:/aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The time the AI Prompt was last modified.
+    public var modifiedTime: Foundation.Date?
+
+    public init(
+        aiPromptId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        modifiedTime: Foundation.Date? = nil
+    )
+    {
+        self.aiPromptId = aiPromptId
+        self.assistantId = assistantId
+        self.clientToken = clientToken
+        self.modifiedTime = modifiedTime
+    }
+}
+
+public struct CreateAIPromptVersionOutput: Swift.Sendable {
+    /// The data of the AI Prompt version.
+    public var aiPrompt: QConnectClientTypes.AIPromptData?
+    /// The version number of the AI Prompt version.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        aiPrompt: QConnectClientTypes.AIPromptData? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.aiPrompt = aiPrompt
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct DeleteAIPromptInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI prompt. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var aiPromptId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+
+    public init(
+        aiPromptId: Swift.String? = nil,
+        assistantId: Swift.String? = nil
+    )
+    {
+        self.aiPromptId = aiPromptId
+        self.assistantId = assistantId
+    }
+}
+
+public struct DeleteAIPromptOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAIPromptVersionInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI prompt.
+    /// This member is required.
+    public var aiPromptId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The version number of the AI Prompt version to be deleted.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        aiPromptId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.aiPromptId = aiPromptId
+        self.assistantId = assistantId
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct DeleteAIPromptVersionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAIPromptInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI prompt.
+    /// This member is required.
+    public var aiPromptId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+
+    public init(
+        aiPromptId: Swift.String? = nil,
+        assistantId: Swift.String? = nil
+    )
+    {
+        self.aiPromptId = aiPromptId
+        self.assistantId = assistantId
+    }
+}
+
+public struct GetAIPromptOutput: Swift.Sendable {
+    /// The data of the AI Prompt.
+    public var aiPrompt: QConnectClientTypes.AIPromptData?
+    /// The version number of the AI Prompt version (returned if an AI Prompt version was specified via use of a qualifier for the aiPromptId on the request).
+    public var versionNumber: Swift.Int?
+
+    public init(
+        aiPrompt: QConnectClientTypes.AIPromptData? = nil,
+        versionNumber: Swift.Int? = nil
+    )
+    {
+        self.aiPrompt = aiPrompt
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct ListAIPromptsInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The origin of the AI Prompts to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    public var origin: QConnectClientTypes.Origin?
+
+    public init(
+        assistantId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        origin: QConnectClientTypes.Origin? = nil
+    )
+    {
+        self.assistantId = assistantId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.origin = origin
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The summary of the AI Prompt.
+    public struct AIPromptSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AI Prompt.
+        /// This member is required.
+        public var aiPromptArn: Swift.String?
+        /// The identifier of the Amazon Q in Connect AI prompt.
+        /// This member is required.
+        public var aiPromptId: Swift.String?
+        /// The API format used for this AI Prompt.
+        /// This member is required.
+        public var apiFormat: QConnectClientTypes.AIPromptAPIFormat?
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        /// This member is required.
+        public var assistantArn: Swift.String?
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var assistantId: Swift.String?
+        /// The description of the AI Prompt.
+        public var description: Swift.String?
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The time the AI Prompt was last modified.
+        public var modifiedTime: Foundation.Date?
+        /// The name of the AI Prompt.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The origin of the AI Prompt. SYSTEM for a default AI Prompt created by Q in Connect or CUSTOMER for an AI Prompt created by calling AI Prompt creation APIs.
+        public var origin: QConnectClientTypes.Origin?
+        /// The status of the AI Prompt.
+        public var status: QConnectClientTypes.Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+        /// The type of the prompt template for this AI Prompt.
+        /// This member is required.
+        public var templateType: QConnectClientTypes.AIPromptTemplateType?
+        /// The type of this AI Prompt.
+        /// This member is required.
+        public var type: QConnectClientTypes.AIPromptType?
+        /// The visibility status of the AI Prompt.
+        /// This member is required.
+        public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+        public init(
+            aiPromptArn: Swift.String? = nil,
+            aiPromptId: Swift.String? = nil,
+            apiFormat: QConnectClientTypes.AIPromptAPIFormat? = nil,
+            assistantArn: Swift.String? = nil,
+            assistantId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            modelId: Swift.String? = nil,
+            modifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            origin: QConnectClientTypes.Origin? = nil,
+            status: QConnectClientTypes.Status? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            templateType: QConnectClientTypes.AIPromptTemplateType? = nil,
+            type: QConnectClientTypes.AIPromptType? = nil,
+            visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+        )
+        {
+            self.aiPromptArn = aiPromptArn
+            self.aiPromptId = aiPromptId
+            self.apiFormat = apiFormat
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.description = description
+            self.modelId = modelId
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.templateType = templateType
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+    }
+}
+
+public struct ListAIPromptsOutput: Swift.Sendable {
+    /// The summaries of the AI Prompts.
+    /// This member is required.
+    public var aiPromptSummaries: [QConnectClientTypes.AIPromptSummary]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        aiPromptSummaries: [QConnectClientTypes.AIPromptSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aiPromptSummaries = aiPromptSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAIPromptVersionsInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI prompt for which versions are to be listed.
+    /// This member is required.
+    public var aiPromptId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The origin of the AI Prompt versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    public var origin: QConnectClientTypes.Origin?
+
+    public init(
+        aiPromptId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        origin: QConnectClientTypes.Origin? = nil
+    )
+    {
+        self.aiPromptId = aiPromptId
+        self.assistantId = assistantId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.origin = origin
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The summary of the AI Prompt version.
+    public struct AIPromptVersionSummary: Swift.Sendable {
+        /// The date for the summary of the AI Prompt version.
+        public var aiPromptSummary: QConnectClientTypes.AIPromptSummary?
+        /// The version number for this AI Prompt version.
+        public var versionNumber: Swift.Int?
+
+        public init(
+            aiPromptSummary: QConnectClientTypes.AIPromptSummary? = nil,
+            versionNumber: Swift.Int? = nil
+        )
+        {
+            self.aiPromptSummary = aiPromptSummary
+            self.versionNumber = versionNumber
+        }
+    }
+}
+
+public struct ListAIPromptVersionsOutput: Swift.Sendable {
+    /// The summaries of the AI Prompt versions.
+    /// This member is required.
+    public var aiPromptVersionSummaries: [QConnectClientTypes.AIPromptVersionSummary]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        aiPromptVersionSummaries: [QConnectClientTypes.AIPromptVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.aiPromptVersionSummaries = aiPromptVersionSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateAIPromptInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect AI Prompt.
+    /// This member is required.
+    public var aiPromptId: Swift.String?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/https:/aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The description of the Amazon Q in Connect AI Prompt.
+    public var description: Swift.String?
+    /// The configuration of the prompt template for this AI Prompt.
+    public var templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration?
+    /// The visibility status of the Amazon Q in Connect AI prompt.
+    /// This member is required.
+    public var visibilityStatus: QConnectClientTypes.VisibilityStatus?
+
+    public init(
+        aiPromptId: Swift.String? = nil,
+        assistantId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration? = nil,
+        visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
+    )
+    {
+        self.aiPromptId = aiPromptId
+        self.assistantId = assistantId
+        self.clientToken = clientToken
+        self.description = description
+        self.templateConfiguration = templateConfiguration
+        self.visibilityStatus = visibilityStatus
+    }
+}
+
+public struct UpdateAIPromptOutput: Swift.Sendable {
+    /// The data of the updated Amazon Q in Connect AI Prompt.
+    public var aiPrompt: QConnectClientTypes.AIPromptData?
+
+    public init(
+        aiPrompt: QConnectClientTypes.AIPromptData? = nil
+    )
+    {
+        self.aiPrompt = aiPrompt
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Content association data for a [step-by-step guide](https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html).
+    public struct AmazonConnectGuideAssociationData: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow.
+        public var flowId: Swift.String?
+
+        public init(
+            flowId: Swift.String? = nil
+        )
+        {
+            self.flowId = flowId
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Configuration information for Amazon AppIntegrations to automatically ingest content.
+    public struct AppIntegrationsConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.
+        ///
+        /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.
+        ///
+        /// * For [ ServiceNow](https://developer.servicenow.com/dev.do#!/reference/api/rome/rest/knowledge-management-api), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.
+        ///
+        /// * For [ Zendesk](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.
+        ///
+        /// * For [SharePoint](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/sharepoint-net-server-csom-jsom-and-rest-api-index), your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.
+        ///
+        /// * For [Amazon S3](http://aws.amazon.com/s3/), the ObjectConfiguration and FileConfiguration of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the following format: s3://your_s3_bucket_name. The bucket policy of the corresponding S3 bucket must allow the Amazon Web Services principal app-integrations.amazonaws.com to perform s3:ListBucket, s3:GetObject, and s3:GetBucketLocation against the bucket.
+        /// This member is required.
+        public var appIntegrationArn: Swift.String?
+        /// The fields from the source that are made available to your agents in Amazon Q in Connect. Optional if ObjectConfiguration is included in the provided DataIntegration.
+        ///
+        /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.
+        ///
+        /// * For [ ServiceNow](https://developer.servicenow.com/dev.do#!/reference/api/rome/rest/knowledge-management-api), you must include at least number, short_description, sys_mod_count, workflow_state, and active.
+        ///
+        /// * For [ Zendesk](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/), you must include at least id, title, updated_at, and draft.
+        ///
+        ///
+        /// Make sure to include additional fields. These fields are indexed and used to source recommendations.
+        public var objectFields: [Swift.String]?
+
+        public init(
+            appIntegrationArn: Swift.String? = nil,
+            objectFields: [Swift.String]? = nil
+        )
+        {
+            self.appIntegrationArn = appIntegrationArn
+            self.objectFields = objectFields
+        }
     }
 }
 
@@ -703,6 +2197,8 @@ extension QConnectClientTypes {
 
     /// The assistant data.
     public struct AssistantData: Swift.Sendable {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that is set on the Amazon Q in Connect Assistant.
+        public var aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]?
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -730,6 +2226,7 @@ extension QConnectClientTypes {
         public var type: QConnectClientTypes.AssistantType?
 
         public init(
+            aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]? = nil,
             assistantArn: Swift.String? = nil,
             assistantId: Swift.String? = nil,
             capabilityConfiguration: QConnectClientTypes.AssistantCapabilityConfiguration? = nil,
@@ -742,6 +2239,7 @@ extension QConnectClientTypes {
             type: QConnectClientTypes.AssistantType? = nil
         )
         {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.capabilityConfiguration = capabilityConfiguration
@@ -978,6 +2476,53 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// Details about the detected intent.
+    public struct IntentDetectedDataDetails: Swift.Sendable {
+        /// The detected intent.
+        /// This member is required.
+        public var intent: Swift.String?
+        /// The identifier of the detected intent.
+        /// This member is required.
+        public var intentId: Swift.String?
+
+        public init(
+            intent: Swift.String? = nil,
+            intentId: Swift.String? = nil
+        )
+        {
+            self.intent = intent
+            self.intentId = intentId
+        }
+    }
+}
+
+extension QConnectClientTypes.IntentDetectedDataDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IntentDetectedDataDetails(intentId: \(Swift.String(describing: intentId)), intent: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// Contains information about where the text with a citation begins and ends in the generated output.
+    public struct CitationSpan: Swift.Sendable {
+        /// Where the text with a citation starts in the generated output.
+        public var beginOffsetInclusive: Swift.Int
+        /// Where the text with a citation ends in the generated output.
+        public var endOffsetExclusive: Swift.Int
+
+        public init(
+            beginOffsetInclusive: Swift.Int = 0,
+            endOffsetExclusive: Swift.Int = 0
+        )
+        {
+            self.beginOffsetInclusive = beginOffsetInclusive
+            self.endOffsetExclusive = endOffsetExclusive
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     public enum SourceContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case knowledgeContent
         case sdkUnknown(Swift.String)
@@ -1006,6 +2551,8 @@ extension QConnectClientTypes {
 
     /// Details about the source content data.
     public struct SourceContentDataDetails: Swift.Sendable {
+        /// Contains information about where the text with a citation begins and ends in the generated output.
+        public var citationSpan: QConnectClientTypes.CitationSpan?
         /// The identifier of the source content.
         /// This member is required.
         public var id: Swift.String?
@@ -1020,16 +2567,47 @@ extension QConnectClientTypes {
         public var type: QConnectClientTypes.SourceContentType?
 
         public init(
+            citationSpan: QConnectClientTypes.CitationSpan? = nil,
             id: Swift.String? = nil,
             rankingData: QConnectClientTypes.RankingData? = nil,
             textData: QConnectClientTypes.TextData? = nil,
             type: QConnectClientTypes.SourceContentType? = nil
         )
         {
+            self.citationSpan = citationSpan
             self.id = id
             self.rankingData = rankingData
             self.textData = textData
             self.type = type
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum ReferenceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case knowledgeBase
+        case webCrawler
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReferenceType] {
+            return [
+                .knowledgeBase,
+                .webCrawler
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .knowledgeBase: return "KNOWLEDGE_BASE"
+            case .webCrawler: return "WEB_CRAWLER"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1046,18 +2624,26 @@ extension QConnectClientTypes {
         public var knowledgeBaseArn: Swift.String?
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         public var knowledgeBaseId: Swift.String?
+        /// The type of reference content.
+        public var referenceType: QConnectClientTypes.ReferenceType?
+        /// The web URL of the source content.
+        public var sourceURL: Swift.String?
 
         public init(
             contentArn: Swift.String? = nil,
             contentId: Swift.String? = nil,
             knowledgeBaseArn: Swift.String? = nil,
-            knowledgeBaseId: Swift.String? = nil
+            knowledgeBaseId: Swift.String? = nil,
+            referenceType: QConnectClientTypes.ReferenceType? = nil,
+            sourceURL: Swift.String? = nil
         )
         {
             self.contentArn = contentArn
             self.contentId = contentId
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
+            self.referenceType = referenceType
+            self.sourceURL = sourceURL
         }
     }
 }
@@ -1122,6 +2708,7 @@ extension QConnectClientTypes {
 extension QConnectClientTypes {
 
     public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case detectedIntent
         case generativeAnswer
         case generativeResponse
         case knowledgeContent
@@ -1129,6 +2716,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [RecommendationType] {
             return [
+                .detectedIntent,
                 .generativeAnswer,
                 .generativeResponse,
                 .knowledgeContent
@@ -1142,6 +2730,7 @@ extension QConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .detectedIntent: return "DETECTED_INTENT"
             case .generativeAnswer: return "GENERATIVE_ANSWER"
             case .generativeResponse: return "GENERATIVE_RESPONSE"
             case .knowledgeContent: return "KNOWLEDGE_CONTENT"
@@ -1304,6 +2893,8 @@ extension QConnectClientTypes {
 
     /// Summary information about the assistant.
     public struct AssistantSummary: Swift.Sendable {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that is set on the Amazon Q in Connect Assistant.
+        public var aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]?
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -1331,6 +2922,7 @@ extension QConnectClientTypes {
         public var type: QConnectClientTypes.AssistantType?
 
         public init(
+            aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]? = nil,
             assistantArn: Swift.String? = nil,
             assistantId: Swift.String? = nil,
             capabilityConfiguration: QConnectClientTypes.AssistantCapabilityConfiguration? = nil,
@@ -1343,6 +2935,7 @@ extension QConnectClientTypes {
             type: QConnectClientTypes.AssistantType? = nil
         )
         {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.capabilityConfiguration = capabilityConfiguration
@@ -1692,6 +3285,57 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes {
+
+    /// Information about the Amazon Q intent.
+    public struct IntentInputData: Swift.Sendable {
+        /// The identifier of the Amazon Q intent.
+        /// This member is required.
+        public var intentId: Swift.String?
+
+        public init(
+            intentId: Swift.String? = nil
+        )
+        {
+            self.intentId = intentId
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Information about the text to search for.
+    public struct QueryTextInputData: Swift.Sendable {
+        /// The text to search for.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+}
+
+extension QConnectClientTypes.QueryTextInputData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "QueryTextInputData(text: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// Input information for the query.
+    public enum QueryInputData: Swift.Sendable {
+        /// Input information for the query.
+        case querytextinputdata(QConnectClientTypes.QueryTextInputData)
+        /// Input information for the intent.
+        case intentinputdata(QConnectClientTypes.IntentInputData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct QueryAssistantInput: Swift.Sendable {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
@@ -1700,10 +3344,13 @@ public struct QueryAssistantInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
+    /// The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text.
+    public var overrideKnowledgeBaseSearchType: QConnectClientTypes.KnowledgeBaseSearchType?
     /// Information about how to query content.
     public var queryCondition: [QConnectClientTypes.QueryCondition]?
+    /// Information about the query.
+    public var queryInputData: QConnectClientTypes.QueryInputData?
     /// The text to search for.
-    /// This member is required.
     public var queryText: Swift.String?
     /// The identifier of the Amazon Q in Connect session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     public var sessionId: Swift.String?
@@ -1712,7 +3359,9 @@ public struct QueryAssistantInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        overrideKnowledgeBaseSearchType: QConnectClientTypes.KnowledgeBaseSearchType? = nil,
         queryCondition: [QConnectClientTypes.QueryCondition]? = nil,
+        queryInputData: QConnectClientTypes.QueryInputData? = nil,
         queryText: Swift.String? = nil,
         sessionId: Swift.String? = nil
     )
@@ -1720,7 +3369,9 @@ public struct QueryAssistantInput: Swift.Sendable {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.overrideKnowledgeBaseSearchType = overrideKnowledgeBaseSearchType
         self.queryCondition = queryCondition
+        self.queryInputData = queryInputData
         self.queryText = queryText
         self.sessionId = sessionId
     }
@@ -1728,19 +3379,21 @@ public struct QueryAssistantInput: Swift.Sendable {
 
 extension QueryAssistantInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "QueryAssistantInput(assistantId: \(Swift.String(describing: assistantId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), queryCondition: \(Swift.String(describing: queryCondition)), sessionId: \(Swift.String(describing: sessionId)), queryText: \"CONTENT_REDACTED\")"}
+        "QueryAssistantInput(assistantId: \(Swift.String(describing: assistantId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), overrideKnowledgeBaseSearchType: \(Swift.String(describing: overrideKnowledgeBaseSearchType)), queryCondition: \(Swift.String(describing: queryCondition)), queryInputData: \(Swift.String(describing: queryInputData)), sessionId: \(Swift.String(describing: sessionId)), queryText: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
 
     public enum QueryResultType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case generativeAnswer
+        case intentAnswer
         case knowledgeContent
         case sdkUnknown(Swift.String)
 
         public static var allCases: [QueryResultType] {
             return [
                 .generativeAnswer,
+                .intentAnswer,
                 .knowledgeContent
             ]
         }
@@ -1753,11 +3406,35 @@ extension QConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .generativeAnswer: return "GENERATIVE_ANSWER"
+            case .intentAnswer: return "INTENT_ANSWER"
             case .knowledgeContent: return "KNOWLEDGE_CONTENT"
             case let .sdkUnknown(s): return s
             }
         }
     }
+}
+
+public struct RemoveAssistantAIAgentInput: Swift.Sendable {
+    /// The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant.
+    /// This member is required.
+    public var aiAgentType: QConnectClientTypes.AIAgentType?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+
+    public init(
+        aiAgentType: QConnectClientTypes.AIAgentType? = nil,
+        assistantId: Swift.String? = nil
+    )
+    {
+        self.aiAgentType = aiAgentType
+        self.assistantId = assistantId
+    }
+}
+
+public struct RemoveAssistantAIAgentOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension QConnectClientTypes {
@@ -1931,33 +3608,9 @@ public struct SearchSessionsOutput: Swift.Sendable {
     }
 }
 
-extension QConnectClientTypes {
-
-    /// A list of conditions which would be applied together with an OR condition.
-    public enum OrCondition: Swift.Sendable {
-        /// A list of conditions which would be applied together with an AND condition.
-        case andconditions([QConnectClientTypes.TagCondition])
-        /// A leaf node condition which can be used to specify a tag condition.
-        case tagcondition(QConnectClientTypes.TagCondition)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension QConnectClientTypes {
-
-    /// An object that can be used to specify Tag conditions.
-    public enum TagFilter: Swift.Sendable {
-        /// A leaf node condition which can be used to specify a tag condition.
-        case tagcondition(QConnectClientTypes.TagCondition)
-        /// A list of conditions which would be applied together with an AND condition.
-        case andconditions([QConnectClientTypes.TagCondition])
-        /// A list of conditions which would be applied together with an OR condition.
-        case orconditions([QConnectClientTypes.OrCondition])
-        case sdkUnknown(Swift.String)
-    }
-}
-
 public struct CreateSessionInput: Swift.Sendable {
+    /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
+    public var aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]?
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -1974,6 +3627,7 @@ public struct CreateSessionInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]? = nil,
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -1982,6 +3636,7 @@ public struct CreateSessionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     )
     {
+        self.aiAgentConfiguration = aiAgentConfiguration
         self.assistantId = assistantId
         self.clientToken = clientToken
         self.description = description
@@ -2011,6 +3666,8 @@ extension QConnectClientTypes {
 
     /// Information about the session.
     public struct SessionData: Swift.Sendable {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
+        public var aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]?
         /// The description of the session.
         public var description: Swift.String?
         /// The configuration information for the session integration.
@@ -2030,6 +3687,7 @@ extension QConnectClientTypes {
         public var tags: [Swift.String: Swift.String]?
 
         public init(
+            aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]? = nil,
             description: Swift.String? = nil,
             integrationConfiguration: QConnectClientTypes.SessionIntegrationConfiguration? = nil,
             name: Swift.String? = nil,
@@ -2039,6 +3697,7 @@ extension QConnectClientTypes {
             tags: [Swift.String: Swift.String]? = nil
         )
         {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
             self.name = name
@@ -2093,6 +3752,8 @@ public struct GetSessionOutput: Swift.Sendable {
 }
 
 public struct UpdateSessionInput: Swift.Sendable {
+    /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
+    public var aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]?
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -2105,12 +3766,14 @@ public struct UpdateSessionInput: Swift.Sendable {
     public var tagFilter: QConnectClientTypes.TagFilter?
 
     public init(
+        aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]? = nil,
         assistantId: Swift.String? = nil,
         description: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         tagFilter: QConnectClientTypes.TagFilter? = nil
     )
     {
+        self.aiAgentConfiguration = aiAgentConfiguration
         self.assistantId = assistantId
         self.description = description
         self.sessionId = sessionId
@@ -2127,6 +3790,349 @@ public struct UpdateSessionOutput: Swift.Sendable {
     )
     {
         self.session = session
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A union type that specifies the data stored on the session.
+    public enum RuntimeSessionDataValue: Swift.Sendable {
+        /// The string value of the data stored on the session.
+        case stringvalue(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The list of key-value pairs that are stored on the session.
+    public struct RuntimeSessionData: Swift.Sendable {
+        /// The key of the data stored on the session.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the data stored on the session.
+        /// This member is required.
+        public var value: QConnectClientTypes.RuntimeSessionDataValue?
+
+        public init(
+            key: Swift.String? = nil,
+            value: QConnectClientTypes.RuntimeSessionDataValue? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension QConnectClientTypes.RuntimeSessionData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RuntimeSessionData(value: \(Swift.String(describing: value)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    public enum SessionDataNamespace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionDataNamespace] {
+            return [
+                .custom
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "Custom"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateSessionDataInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The data stored on the Amazon Q in Connect Session.
+    /// This member is required.
+    public var data: [QConnectClientTypes.RuntimeSessionData]?
+    /// The namespace into which the session data is stored. Supported namespaces are: Custom
+    public var namespace: QConnectClientTypes.SessionDataNamespace?
+    /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        assistantId: Swift.String? = nil,
+        data: [QConnectClientTypes.RuntimeSessionData]? = nil,
+        namespace: QConnectClientTypes.SessionDataNamespace? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.assistantId = assistantId
+        self.data = data
+        self.namespace = namespace
+        self.sessionId = sessionId
+    }
+}
+
+public struct UpdateSessionDataOutput: Swift.Sendable {
+    /// Data stored in the session.
+    /// This member is required.
+    public var data: [QConnectClientTypes.RuntimeSessionData]?
+    /// The namespace into which the session data is stored. Supported namespaces are: Custom
+    /// This member is required.
+    public var namespace: QConnectClientTypes.SessionDataNamespace?
+    /// The Amazon Resource Name (ARN) of the session.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The identifier of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        data: [QConnectClientTypes.RuntimeSessionData]? = nil,
+        namespace: QConnectClientTypes.SessionDataNamespace? = nil,
+        sessionArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.data = data
+        self.namespace = namespace
+        self.sessionArn = sessionArn
+        self.sessionId = sessionId
+    }
+}
+
+public struct UpdateAssistantAIAgentInput: Swift.Sendable {
+    /// The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
+    /// This member is required.
+    public var aiAgentType: QConnectClientTypes.AIAgentType?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
+    /// This member is required.
+    public var configuration: QConnectClientTypes.AIAgentConfigurationData?
+
+    public init(
+        aiAgentType: QConnectClientTypes.AIAgentType? = nil,
+        assistantId: Swift.String? = nil,
+        configuration: QConnectClientTypes.AIAgentConfigurationData? = nil
+    )
+    {
+        self.aiAgentType = aiAgentType
+        self.assistantId = assistantId
+        self.configuration = configuration
+    }
+}
+
+public struct UpdateAssistantAIAgentOutput: Swift.Sendable {
+    /// The assistant data.
+    public var assistant: QConnectClientTypes.AssistantData?
+
+    public init(
+        assistant: QConnectClientTypes.AssistantData? = nil
+    )
+    {
+        self.assistant = assistant
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Instructions for interpreting the contents of a document.
+    public struct ParsingPrompt: Swift.Sendable {
+        /// Instructions for interpreting the contents of a document.
+        /// This member is required.
+        public var parsingPromptText: Swift.String?
+
+        public init(
+            parsingPromptText: Swift.String? = nil
+        )
+        {
+            self.parsingPromptText = parsingPromptText
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Settings for a foundation model used to parse documents for a data source.
+    public struct BedrockFoundationModelConfigurationForParsing: Swift.Sendable {
+        /// The ARN of the foundation model.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// Instructions for interpreting the contents of a document.
+        public var parsingPrompt: QConnectClientTypes.ParsingPrompt?
+
+        public init(
+            modelArn: Swift.String? = nil,
+            parsingPrompt: QConnectClientTypes.ParsingPrompt? = nil
+        )
+        {
+            self.modelArn = modelArn
+            self.parsingPrompt = parsingPrompt
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum ChunkingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fixedSize
+        case hierarchical
+        case `none`
+        case semantic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChunkingStrategy] {
+            return [
+                .fixedSize,
+                .hierarchical,
+                .none,
+                .semantic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fixedSize: return "FIXED_SIZE"
+            case .hierarchical: return "HIERARCHICAL"
+            case .none: return "NONE"
+            case .semantic: return "SEMANTIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Configurations for when you choose fixed-size chunking. If you set the chunkingStrategy as NONE, exclude this field.
+    public struct FixedSizeChunkingConfiguration: Swift.Sendable {
+        /// The maximum number of tokens to include in a chunk.
+        /// This member is required.
+        public var maxTokens: Swift.Int?
+        /// The percentage of overlap between adjacent chunks of a data source.
+        /// This member is required.
+        public var overlapPercentage: Swift.Int?
+
+        public init(
+            maxTokens: Swift.Int? = nil,
+            overlapPercentage: Swift.Int? = nil
+        )
+        {
+            self.maxTokens = maxTokens
+            self.overlapPercentage = overlapPercentage
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Token settings for each layer.
+    public struct HierarchicalChunkingLevelConfiguration: Swift.Sendable {
+        /// The maximum number of tokens that a chunk can contain in this layer.
+        /// This member is required.
+        public var maxTokens: Swift.Int?
+
+        public init(
+            maxTokens: Swift.Int? = nil
+        )
+        {
+            self.maxTokens = maxTokens
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Settings for hierarchical document chunking for a data source. Hierarchical chunking splits documents into layers of chunks where the first layer contains large chunks, and the second layer contains smaller chunks derived from the first layer.
+    public struct HierarchicalChunkingConfiguration: Swift.Sendable {
+        /// Token settings for each layer.
+        /// This member is required.
+        public var levelConfigurations: [QConnectClientTypes.HierarchicalChunkingLevelConfiguration]?
+        /// The number of tokens to repeat across chunks in the same layer.
+        /// This member is required.
+        public var overlapTokens: Swift.Int?
+
+        public init(
+            levelConfigurations: [QConnectClientTypes.HierarchicalChunkingLevelConfiguration]? = nil,
+            overlapTokens: Swift.Int? = nil
+        )
+        {
+            self.levelConfigurations = levelConfigurations
+            self.overlapTokens = overlapTokens
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Settings for semantic document chunking for a data source. Semantic chunking splits a document into smaller documents based on groups of similar content derived from the text with natural language processing.
+    public struct SemanticChunkingConfiguration: Swift.Sendable {
+        /// The dissimilarity threshold for splitting chunks.
+        /// This member is required.
+        public var breakpointPercentileThreshold: Swift.Int?
+        /// The buffer size.
+        /// This member is required.
+        public var bufferSize: Swift.Int?
+        /// The maximum number of tokens that a chunk can contain.
+        /// This member is required.
+        public var maxTokens: Swift.Int?
+
+        public init(
+            breakpointPercentileThreshold: Swift.Int? = nil,
+            bufferSize: Swift.Int? = nil,
+            maxTokens: Swift.Int? = nil
+        )
+        {
+            self.breakpointPercentileThreshold = breakpointPercentileThreshold
+            self.bufferSize = bufferSize
+            self.maxTokens = maxTokens
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
+    public struct ChunkingConfiguration: Swift.Sendable {
+        /// Knowledge base can split your source data into chunks. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried. You have the following options for chunking your data. If you opt for NONE, then you may want to pre-process your files by splitting them up such that each file corresponds to a chunk.
+        /// This member is required.
+        public var chunkingStrategy: QConnectClientTypes.ChunkingStrategy?
+        /// Configurations for when you choose fixed-size chunking. If you set the chunkingStrategy as NONE, exclude this field.
+        public var fixedSizeChunkingConfiguration: QConnectClientTypes.FixedSizeChunkingConfiguration?
+        /// Settings for hierarchical document chunking for a data source. Hierarchical chunking splits documents into layers of chunks where the first layer contains large chunks, and the second layer contains smaller chunks derived from the first layer.
+        public var hierarchicalChunkingConfiguration: QConnectClientTypes.HierarchicalChunkingConfiguration?
+        /// Settings for semantic document chunking for a data source. Semantic chunking splits a document into smaller documents based on groups of similar content derived from the text with natural language processing.
+        public var semanticChunkingConfiguration: QConnectClientTypes.SemanticChunkingConfiguration?
+
+        public init(
+            chunkingStrategy: QConnectClientTypes.ChunkingStrategy? = nil,
+            fixedSizeChunkingConfiguration: QConnectClientTypes.FixedSizeChunkingConfiguration? = nil,
+            hierarchicalChunkingConfiguration: QConnectClientTypes.HierarchicalChunkingConfiguration? = nil,
+            semanticChunkingConfiguration: QConnectClientTypes.SemanticChunkingConfiguration? = nil
+        )
+        {
+            self.chunkingStrategy = chunkingStrategy
+            self.fixedSizeChunkingConfiguration = fixedSizeChunkingConfiguration
+            self.hierarchicalChunkingConfiguration = hierarchicalChunkingConfiguration
+            self.semanticChunkingConfiguration = semanticChunkingConfiguration
+        }
     }
 }
 
@@ -2153,30 +4159,6 @@ extension QConnectClientTypes {
         /// The configuration information of the Amazon Connect data source.
         case connectconfiguration(QConnectClientTypes.ConnectConfiguration)
         case sdkUnknown(Swift.String)
-    }
-}
-
-/// The throttling limit has been exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -2936,6 +4918,8 @@ extension QConnectClientTypes {
     public enum KnowledgeBaseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case custom
         case external
+        case managed
+        case messageTemplates
         case quickResponses
         case sdkUnknown(Swift.String)
 
@@ -2943,6 +4927,8 @@ extension QConnectClientTypes {
             return [
                 .custom,
                 .external,
+                .managed,
+                .messageTemplates,
                 .quickResponses
             ]
         }
@@ -2956,6 +4942,8 @@ extension QConnectClientTypes {
             switch self {
             case .custom: return "CUSTOM"
             case .external: return "EXTERNAL"
+            case .managed: return "MANAGED"
+            case .messageTemplates: return "MESSAGE_TEMPLATES"
             case .quickResponses: return "QUICK_RESPONSES"
             case let .sdkUnknown(s): return s
             }
@@ -2990,11 +4978,205 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// The configuration of crawl limits for the web URLs.
+    public struct WebCrawlerLimits: Swift.Sendable {
+        /// Rate of web URLs retrieved per minute.
+        public var rateLimit: Swift.Int?
+
+        public init(
+            rateLimit: Swift.Int? = nil
+        )
+        {
+            self.rateLimit = rateLimit
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum WebScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hostOnly
+        case subdomains
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebScopeType] {
+            return [
+                .hostOnly,
+                .subdomains
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hostOnly: return "HOST_ONLY"
+            case .subdomains: return "SUBDOMAINS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A URL for crawling.
+    public struct SeedUrl: Swift.Sendable {
+        /// URL for crawling
+        public var url: Swift.String?
+
+        public init(
+            url: Swift.String? = nil
+        )
+        {
+            self.url = url
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The configuration of the URL/URLs for the web content that you want to crawl. You should be authorized to crawl the URLs.
+    public struct UrlConfiguration: Swift.Sendable {
+        /// List of URLs for crawling.
+        public var seedUrls: [QConnectClientTypes.SeedUrl]?
+
+        public init(
+            seedUrls: [QConnectClientTypes.SeedUrl]? = nil
+        )
+        {
+            self.seedUrls = seedUrls
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The configuration details for the web data source.
+    public struct WebCrawlerConfiguration: Swift.Sendable {
+        /// The configuration of crawl limits for the web URLs.
+        public var crawlerLimits: QConnectClientTypes.WebCrawlerLimits?
+        /// A list of one or more exclusion regular expression patterns to exclude certain URLs. If you specify an inclusion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isn’t crawled.
+        public var exclusionFilters: [Swift.String]?
+        /// A list of one or more inclusion regular expression patterns to include certain URLs. If you specify an inclusion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isn’t crawled.
+        public var inclusionFilters: [Swift.String]?
+        /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary domain. For example, only web pages that contain the seed URL https://docs.aws.amazon.com/bedrock/latest/userguide/ and no other domains. You can choose to include sub domains in addition to the host or primary domain. For example, web pages that contain aws.amazon.com can also include sub domain docs.aws.amazon.com.
+        public var scope: QConnectClientTypes.WebScopeType?
+        /// The configuration of the URL/URLs for the web content that you want to crawl. You should be authorized to crawl the URLs.
+        /// This member is required.
+        public var urlConfiguration: QConnectClientTypes.UrlConfiguration?
+
+        public init(
+            crawlerLimits: QConnectClientTypes.WebCrawlerLimits? = nil,
+            exclusionFilters: [Swift.String]? = nil,
+            inclusionFilters: [Swift.String]? = nil,
+            scope: QConnectClientTypes.WebScopeType? = nil,
+            urlConfiguration: QConnectClientTypes.UrlConfiguration? = nil
+        )
+        {
+            self.crawlerLimits = crawlerLimits
+            self.exclusionFilters = exclusionFilters
+            self.inclusionFilters = inclusionFilters
+            self.scope = scope
+            self.urlConfiguration = urlConfiguration
+        }
+    }
+}
+
+extension QConnectClientTypes.WebCrawlerConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WebCrawlerConfiguration(crawlerLimits: \(Swift.String(describing: crawlerLimits)), scope: \(Swift.String(describing: scope)), urlConfiguration: \(Swift.String(describing: urlConfiguration)), exclusionFilters: \"CONTENT_REDACTED\", inclusionFilters: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// Source configuration for managed resources.
+    public enum ManagedSourceConfiguration: Swift.Sendable {
+        /// Configuration data for web crawler data source.
+        case webcrawlerconfiguration(QConnectClientTypes.WebCrawlerConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
     /// Configuration information about the external data source.
     public enum SourceConfiguration: Swift.Sendable {
         /// Configuration information for Amazon AppIntegrations to automatically ingest content.
         case appintegrations(QConnectClientTypes.AppIntegrationsConfiguration)
+        /// Source configuration for managed resources.
+        case managedsourceconfiguration(QConnectClientTypes.ManagedSourceConfiguration)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum ParsingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bedrockFoundationModel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParsingStrategy] {
+            return [
+                .bedrockFoundationModel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bedrockFoundationModel: return "BEDROCK_FOUNDATION_MODEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Settings for parsing document contents. By default, the service converts the contents of each document into text before splitting it into chunks. To improve processing of PDF files with tables and images, you can configure the data source to convert the pages of text into images and use a model to describe the contents of each page.
+    public struct ParsingConfiguration: Swift.Sendable {
+        /// Settings for a foundation model used to parse documents for a data source.
+        public var bedrockFoundationModelConfiguration: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing?
+        /// The parsing strategy for the data source.
+        /// This member is required.
+        public var parsingStrategy: QConnectClientTypes.ParsingStrategy?
+
+        public init(
+            bedrockFoundationModelConfiguration: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing? = nil,
+            parsingStrategy: QConnectClientTypes.ParsingStrategy? = nil
+        )
+        {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.parsingStrategy = parsingStrategy
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Contains details about how to ingest the documents in a data source.
+    public struct VectorIngestionConfiguration: Swift.Sendable {
+        /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
+        public var chunkingConfiguration: QConnectClientTypes.ChunkingConfiguration?
+        /// A custom parser for data source documents.
+        public var parsingConfiguration: QConnectClientTypes.ParsingConfiguration?
+
+        public init(
+            chunkingConfiguration: QConnectClientTypes.ChunkingConfiguration? = nil,
+            parsingConfiguration: QConnectClientTypes.ParsingConfiguration? = nil
+        )
+        {
+            self.chunkingConfiguration = chunkingConfiguration
+            self.parsingConfiguration = parsingConfiguration
+        }
     }
 }
 
@@ -3017,6 +5199,8 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
     public var sourceConfiguration: QConnectClientTypes.SourceConfiguration?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
+    /// Contains details about how to ingest the documents in a data source.
+    public var vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -3026,7 +5210,8 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
         renderingConfiguration: QConnectClientTypes.RenderingConfiguration? = nil,
         serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
         sourceConfiguration: QConnectClientTypes.SourceConfiguration? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration? = nil
     )
     {
         self.clientToken = clientToken
@@ -3037,6 +5222,42 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
         self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         self.sourceConfiguration = sourceConfiguration
         self.tags = tags
+        self.vectorIngestionConfiguration = vectorIngestionConfiguration
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum SyncStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createInProgress
+        case syncingInProgress
+        case syncFailed
+        case syncSuccess
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncStatus] {
+            return [
+                .createInProgress,
+                .syncingInProgress,
+                .syncFailed,
+                .syncSuccess
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .syncingInProgress: return "SYNCING_IN_PROGRESS"
+            case .syncFailed: return "SYNC_FAILED"
+            case .syncSuccess: return "SYNC_SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -3087,6 +5308,10 @@ extension QConnectClientTypes {
     public struct KnowledgeBaseData: Swift.Sendable {
         /// The description.
         public var description: Swift.String?
+        /// List of failure reasons on ingestion per file.
+        public var ingestionFailureReasons: [Swift.String]?
+        /// Status of ingestion on data source.
+        public var ingestionStatus: QConnectClientTypes.SyncStatus?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
@@ -3112,9 +5337,13 @@ extension QConnectClientTypes {
         public var status: QConnectClientTypes.KnowledgeBaseStatus?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
+        /// Contains details about how to ingest the documents in a data source.
+        public var vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration?
 
         public init(
             description: Swift.String? = nil,
+            ingestionFailureReasons: [Swift.String]? = nil,
+            ingestionStatus: QConnectClientTypes.SyncStatus? = nil,
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             knowledgeBaseType: QConnectClientTypes.KnowledgeBaseType? = nil,
@@ -3124,10 +5353,13 @@ extension QConnectClientTypes {
             serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
             sourceConfiguration: QConnectClientTypes.SourceConfiguration? = nil,
             status: QConnectClientTypes.KnowledgeBaseStatus? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            tags: [Swift.String: Swift.String]? = nil,
+            vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration? = nil
         )
         {
             self.description = description
+            self.ingestionFailureReasons = ingestionFailureReasons
+            self.ingestionStatus = ingestionStatus
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
             self.knowledgeBaseType = knowledgeBaseType
@@ -3138,6 +5370,7 @@ extension QConnectClientTypes {
             self.sourceConfiguration = sourceConfiguration
             self.status = status
             self.tags = tags
+            self.vectorIngestionConfiguration = vectorIngestionConfiguration
         }
     }
 }
@@ -3938,6 +6171,8 @@ extension QConnectClientTypes {
         public var status: QConnectClientTypes.KnowledgeBaseStatus?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
+        /// Contains details about how to ingest the documents in a data source.
+        public var vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration?
 
         public init(
             description: Swift.String? = nil,
@@ -3949,7 +6184,8 @@ extension QConnectClientTypes {
             serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
             sourceConfiguration: QConnectClientTypes.SourceConfiguration? = nil,
             status: QConnectClientTypes.KnowledgeBaseStatus? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            tags: [Swift.String: Swift.String]? = nil,
+            vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration? = nil
         )
         {
             self.description = description
@@ -3962,6 +6198,7 @@ extension QConnectClientTypes {
             self.sourceConfiguration = sourceConfiguration
             self.status = status
             self.tags = tags
+            self.vectorIngestionConfiguration = vectorIngestionConfiguration
         }
     }
 }
@@ -4947,6 +7184,8 @@ extension QConnectClientTypes {
         case contentdata(QConnectClientTypes.ContentDataDetails)
         /// Details about the generative data.
         case generativedata(QConnectClientTypes.GenerativeDataDetails)
+        /// Details about the intent data.
+        case intentdetecteddata(QConnectClientTypes.IntentDetectedDataDetails)
         /// Details about the content data.
         case sourcecontentdata(QConnectClientTypes.SourceContentDataDetails)
         case sdkUnknown(Swift.String)
@@ -5111,6 +7350,52 @@ public struct QueryAssistantOutput: Swift.Sendable {
     }
 }
 
+extension CreateAIAgentInput {
+
+    static func urlPathProvider(_ value: CreateAIAgentInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents"
+    }
+}
+
+extension CreateAIAgentVersionInput {
+
+    static func urlPathProvider(_ value: CreateAIAgentVersionInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiAgentId = value.aiAgentId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents/\(aiAgentId.urlPercentEncoding())/versions"
+    }
+}
+
+extension CreateAIPromptInput {
+
+    static func urlPathProvider(_ value: CreateAIPromptInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts"
+    }
+}
+
+extension CreateAIPromptVersionInput {
+
+    static func urlPathProvider(_ value: CreateAIPromptVersionInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiPromptId = value.aiPromptId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts/\(aiPromptId.urlPercentEncoding())/versions"
+    }
+}
+
 extension CreateAssistantInput {
 
     static func urlPathProvider(_ value: CreateAssistantInput) -> Swift.String? {
@@ -5175,6 +7460,64 @@ extension CreateSessionInput {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/sessions"
+    }
+}
+
+extension DeleteAIAgentInput {
+
+    static func urlPathProvider(_ value: DeleteAIAgentInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiAgentId = value.aiAgentId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents/\(aiAgentId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAIAgentVersionInput {
+
+    static func urlPathProvider(_ value: DeleteAIAgentVersionInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiAgentId = value.aiAgentId else {
+            return nil
+        }
+        guard let versionNumber = value.versionNumber else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents/\(aiAgentId.urlPercentEncoding())/versions/\(versionNumber)"
+    }
+}
+
+extension DeleteAIPromptInput {
+
+    static func urlPathProvider(_ value: DeleteAIPromptInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiPromptId = value.aiPromptId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts/\(aiPromptId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAIPromptVersionInput {
+
+    static func urlPathProvider(_ value: DeleteAIPromptVersionInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiPromptId = value.aiPromptId else {
+            return nil
+        }
+        guard let versionNumber = value.versionNumber else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts/\(aiPromptId.urlPercentEncoding())/versions/\(versionNumber)"
     }
 }
 
@@ -5263,6 +7606,32 @@ extension DeleteQuickResponseInput {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses/\(quickResponseId.urlPercentEncoding())"
+    }
+}
+
+extension GetAIAgentInput {
+
+    static func urlPathProvider(_ value: GetAIAgentInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiAgentId = value.aiAgentId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents/\(aiAgentId.urlPercentEncoding())"
+    }
+}
+
+extension GetAIPromptInput {
+
+    static func urlPathProvider(_ value: GetAIPromptInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiPromptId = value.aiPromptId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts/\(aiPromptId.urlPercentEncoding())"
     }
 }
 
@@ -5406,6 +7775,132 @@ extension GetSessionInput {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+extension ListAIAgentsInput {
+
+    static func urlPathProvider(_ value: ListAIAgentsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents"
+    }
+}
+
+extension ListAIAgentsInput {
+
+    static func queryItemProvider(_ value: ListAIAgentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let origin = value.origin {
+            let originQueryItem = Smithy.URIQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin.rawValue).urlPercentEncoding())
+            items.append(originQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAIAgentVersionsInput {
+
+    static func urlPathProvider(_ value: ListAIAgentVersionsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiAgentId = value.aiAgentId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents/\(aiAgentId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListAIAgentVersionsInput {
+
+    static func queryItemProvider(_ value: ListAIAgentVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let origin = value.origin {
+            let originQueryItem = Smithy.URIQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin.rawValue).urlPercentEncoding())
+            items.append(originQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAIPromptsInput {
+
+    static func urlPathProvider(_ value: ListAIPromptsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts"
+    }
+}
+
+extension ListAIPromptsInput {
+
+    static func queryItemProvider(_ value: ListAIPromptsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let origin = value.origin {
+            let originQueryItem = Smithy.URIQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin.rawValue).urlPercentEncoding())
+            items.append(originQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAIPromptVersionsInput {
+
+    static func urlPathProvider(_ value: ListAIPromptVersionsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiPromptId = value.aiPromptId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts/\(aiPromptId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListAIPromptVersionsInput {
+
+    static func queryItemProvider(_ value: ListAIPromptVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let origin = value.origin {
+            let originQueryItem = Smithy.URIQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin.rawValue).urlPercentEncoding())
+            items.append(originQueryItem)
+        }
+        return items
     }
 }
 
@@ -5631,6 +8126,30 @@ extension QueryAssistantInput {
     }
 }
 
+extension RemoveAssistantAIAgentInput {
+
+    static func urlPathProvider(_ value: RemoveAssistantAIAgentInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagentConfiguration"
+    }
+}
+
+extension RemoveAssistantAIAgentInput {
+
+    static func queryItemProvider(_ value: RemoveAssistantAIAgentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let aiAgentType = value.aiAgentType else {
+            let message = "Creating a URL Query Item failed. aiAgentType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let aiAgentTypeQueryItem = Smithy.URIQueryItem(name: "aiAgentType".urlPercentEncoding(), value: Swift.String(aiAgentType.rawValue).urlPercentEncoding())
+        items.append(aiAgentTypeQueryItem)
+        return items
+    }
+}
+
 extension RemoveKnowledgeBaseTemplateUriInput {
 
     static func urlPathProvider(_ value: RemoveKnowledgeBaseTemplateUriInput) -> Swift.String? {
@@ -5775,6 +8294,42 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAIAgentInput {
+
+    static func urlPathProvider(_ value: UpdateAIAgentInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiAgentId = value.aiAgentId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagents/\(aiAgentId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAIPromptInput {
+
+    static func urlPathProvider(_ value: UpdateAIPromptInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let aiPromptId = value.aiPromptId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiprompts/\(aiPromptId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAssistantAIAgentInput {
+
+    static func urlPathProvider(_ value: UpdateAssistantAIAgentInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/aiagentConfiguration"
+    }
+}
+
 extension UpdateContentInput {
 
     static func urlPathProvider(_ value: UpdateContentInput) -> Swift.String? {
@@ -5821,6 +8376,68 @@ extension UpdateSessionInput {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateSessionDataInput {
+
+    static func urlPathProvider(_ value: UpdateSessionDataInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/data"
+    }
+}
+
+extension CreateAIAgentInput {
+
+    static func write(value: CreateAIAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: QConnectClientTypes.AIAgentConfiguration.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+        try writer["visibilityStatus"].write(value.visibilityStatus)
+    }
+}
+
+extension CreateAIAgentVersionInput {
+
+    static func write(value: CreateAIAgentVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["modifiedTime"].writeTimestamp(value.modifiedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension CreateAIPromptInput {
+
+    static func write(value: CreateAIPromptInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiFormat"].write(value.apiFormat)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["modelId"].write(value.modelId)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["templateConfiguration"].write(value.templateConfiguration, with: QConnectClientTypes.AIPromptTemplateConfiguration.write(value:to:))
+        try writer["templateType"].write(value.templateType)
+        try writer["type"].write(value.type)
+        try writer["visibilityStatus"].write(value.visibilityStatus)
+    }
+}
+
+extension CreateAIPromptVersionInput {
+
+    static func write(value: CreateAIPromptVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["modifiedTime"].writeTimestamp(value.modifiedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
@@ -5885,6 +8502,7 @@ extension CreateKnowledgeBaseInput {
         try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: QConnectClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
         try writer["sourceConfiguration"].write(value.sourceConfiguration, with: QConnectClientTypes.SourceConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["vectorIngestionConfiguration"].write(value.vectorIngestionConfiguration, with: QConnectClientTypes.VectorIngestionConfiguration.write(value:to:))
     }
 }
 
@@ -5910,6 +8528,7 @@ extension CreateSessionInput {
 
     static func write(value: CreateSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["aiAgentConfiguration"].writeMap(value.aiAgentConfiguration, valueWritingClosure: QConnectClientTypes.AIAgentConfigurationData.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
@@ -5942,7 +8561,9 @@ extension QueryAssistantInput {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["overrideKnowledgeBaseSearchType"].write(value.overrideKnowledgeBaseSearchType)
         try writer["queryCondition"].writeList(value.queryCondition, memberWritingClosure: QConnectClientTypes.QueryCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["queryInputData"].write(value.queryInputData, with: QConnectClientTypes.QueryInputData.write(value:to:))
         try writer["queryText"].write(value.queryText)
         try writer["sessionId"].write(value.sessionId)
     }
@@ -6002,6 +8623,37 @@ extension TagResourceInput {
     }
 }
 
+extension UpdateAIAgentInput {
+
+    static func write(value: UpdateAIAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: QConnectClientTypes.AIAgentConfiguration.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["visibilityStatus"].write(value.visibilityStatus)
+    }
+}
+
+extension UpdateAIPromptInput {
+
+    static func write(value: UpdateAIPromptInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["templateConfiguration"].write(value.templateConfiguration, with: QConnectClientTypes.AIPromptTemplateConfiguration.write(value:to:))
+        try writer["visibilityStatus"].write(value.visibilityStatus)
+    }
+}
+
+extension UpdateAssistantAIAgentInput {
+
+    static func write(value: UpdateAssistantAIAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aiAgentType"].write(value.aiAgentType)
+        try writer["configuration"].write(value.configuration, with: QConnectClientTypes.AIAgentConfigurationData.write(value:to:))
+    }
+}
+
 extension UpdateContentInput {
 
     static func write(value: UpdateContentInput?, to writer: SmithyJSON.Writer) throws {
@@ -6046,8 +8698,68 @@ extension UpdateSessionInput {
 
     static func write(value: UpdateSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["aiAgentConfiguration"].writeMap(value.aiAgentConfiguration, valueWritingClosure: QConnectClientTypes.AIAgentConfigurationData.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["tagFilter"].write(value.tagFilter, with: QConnectClientTypes.TagFilter.write(value:to:))
+    }
+}
+
+extension UpdateSessionDataInput {
+
+    static func write(value: UpdateSessionDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["data"].writeList(value.data, memberWritingClosure: QConnectClientTypes.RuntimeSessionData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["namespace"].write(value.namespace)
+    }
+}
+
+extension CreateAIAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAIAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAIAgentOutput()
+        value.aiAgent = try reader["aiAgent"].readIfPresent(with: QConnectClientTypes.AIAgentData.read(from:))
+        return value
+    }
+}
+
+extension CreateAIAgentVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAIAgentVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAIAgentVersionOutput()
+        value.aiAgent = try reader["aiAgent"].readIfPresent(with: QConnectClientTypes.AIAgentData.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateAIPromptOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAIPromptOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAIPromptOutput()
+        value.aiPrompt = try reader["aiPrompt"].readIfPresent(with: QConnectClientTypes.AIPromptData.read(from:))
+        return value
+    }
+}
+
+extension CreateAIPromptVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAIPromptVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAIPromptVersionOutput()
+        value.aiPrompt = try reader["aiPrompt"].readIfPresent(with: QConnectClientTypes.AIPromptData.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
     }
 }
 
@@ -6135,6 +8847,34 @@ extension CreateSessionOutput {
     }
 }
 
+extension DeleteAIAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAIAgentOutput {
+        return DeleteAIAgentOutput()
+    }
+}
+
+extension DeleteAIAgentVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAIAgentVersionOutput {
+        return DeleteAIAgentVersionOutput()
+    }
+}
+
+extension DeleteAIPromptOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAIPromptOutput {
+        return DeleteAIPromptOutput()
+    }
+}
+
+extension DeleteAIPromptVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAIPromptVersionOutput {
+        return DeleteAIPromptVersionOutput()
+    }
+}
+
 extension DeleteAssistantOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAssistantOutput {
@@ -6181,6 +8921,32 @@ extension DeleteQuickResponseOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQuickResponseOutput {
         return DeleteQuickResponseOutput()
+    }
+}
+
+extension GetAIAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAIAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAIAgentOutput()
+        value.aiAgent = try reader["aiAgent"].readIfPresent(with: QConnectClientTypes.AIAgentData.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAIPromptOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAIPromptOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAIPromptOutput()
+        value.aiPrompt = try reader["aiPrompt"].readIfPresent(with: QConnectClientTypes.AIPromptData.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
     }
 }
 
@@ -6301,6 +9067,58 @@ extension GetSessionOutput {
         let reader = responseReader
         var value = GetSessionOutput()
         value.session = try reader["session"].readIfPresent(with: QConnectClientTypes.SessionData.read(from:))
+        return value
+    }
+}
+
+extension ListAIAgentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAIAgentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAIAgentsOutput()
+        value.aiAgentSummaries = try reader["aiAgentSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AIAgentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAIAgentVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAIAgentVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAIAgentVersionsOutput()
+        value.aiAgentVersionSummaries = try reader["aiAgentVersionSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AIAgentVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAIPromptsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAIPromptsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAIPromptsOutput()
+        value.aiPromptSummaries = try reader["aiPromptSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AIPromptSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAIPromptVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAIPromptVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAIPromptVersionsOutput()
+        value.aiPromptVersionSummaries = try reader["aiPromptVersionSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AIPromptVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -6450,6 +9268,13 @@ extension QueryAssistantOutput {
     }
 }
 
+extension RemoveAssistantAIAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveAssistantAIAgentOutput {
+        return RemoveAssistantAIAgentOutput()
+    }
+}
+
 extension RemoveKnowledgeBaseTemplateUriOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveKnowledgeBaseTemplateUriOutput {
@@ -6537,6 +9362,42 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateAIAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAIAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAIAgentOutput()
+        value.aiAgent = try reader["aiAgent"].readIfPresent(with: QConnectClientTypes.AIAgentData.read(from:))
+        return value
+    }
+}
+
+extension UpdateAIPromptOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAIPromptOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAIPromptOutput()
+        value.aiPrompt = try reader["aiPrompt"].readIfPresent(with: QConnectClientTypes.AIPromptData.read(from:))
+        return value
+    }
+}
+
+extension UpdateAssistantAIAgentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAssistantAIAgentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAssistantAIAgentOutput()
+        value.assistant = try reader["assistant"].readIfPresent(with: QConnectClientTypes.AssistantData.read(from:))
+        return value
+    }
+}
+
 extension UpdateContentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContentOutput {
@@ -6582,6 +9443,97 @@ extension UpdateSessionOutput {
         var value = UpdateSessionOutput()
         value.session = try reader["session"].readIfPresent(with: QConnectClientTypes.SessionData.read(from:))
         return value
+    }
+}
+
+extension UpdateSessionDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSessionDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSessionDataOutput()
+        value.data = try reader["data"].readListIfPresent(memberReadingClosure: QConnectClientTypes.RuntimeSessionData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.namespace = try reader["namespace"].readIfPresent() ?? .sdkUnknown("")
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+enum CreateAIAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAIAgentVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAIPromptOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAIPromptVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -6709,6 +9661,76 @@ enum CreateSessionOutputError {
     }
 }
 
+enum DeleteAIAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAIAgentVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAIPromptOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAIPromptVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAssistantOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6817,6 +9839,40 @@ enum DeleteQuickResponseOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAIAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAIPromptOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6977,6 +10033,74 @@ enum GetSessionOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAIAgentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAIAgentVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAIPromptsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAIPromptVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7155,6 +10279,23 @@ enum QueryAssistantOutputError {
     }
 }
 
+enum RemoveAssistantAIAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RemoveKnowledgeBaseTemplateUriOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7283,6 +10424,59 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateAIAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAIPromptOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAssistantAIAgentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateContentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7335,6 +10529,22 @@ enum UpdateQuickResponseOutputError {
 }
 
 enum UpdateSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSessionDataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7469,6 +10679,297 @@ extension PreconditionFailedException {
     }
 }
 
+extension QConnectClientTypes.AIAgentData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIAgentData()
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
+        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.origin = try reader["origin"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.AIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .answerrecommendationaiagentconfiguration(answerrecommendationaiagentconfiguration):
+                try writer["answerRecommendationAIAgentConfiguration"].write(answerrecommendationaiagentconfiguration, with: QConnectClientTypes.AnswerRecommendationAIAgentConfiguration.write(value:to:))
+            case let .manualsearchaiagentconfiguration(manualsearchaiagentconfiguration):
+                try writer["manualSearchAIAgentConfiguration"].write(manualsearchaiagentconfiguration, with: QConnectClientTypes.ManualSearchAIAgentConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "manualSearchAIAgentConfiguration":
+                return .manualsearchaiagentconfiguration(try reader["manualSearchAIAgentConfiguration"].read(with: QConnectClientTypes.ManualSearchAIAgentConfiguration.read(from:)))
+            case "answerRecommendationAIAgentConfiguration":
+                return .answerrecommendationaiagentconfiguration(try reader["answerRecommendationAIAgentConfiguration"].read(with: QConnectClientTypes.AnswerRecommendationAIAgentConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.AnswerRecommendationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["intentLabelingGenerationAIPromptId"].write(value.intentLabelingGenerationAIPromptId)
+        try writer["queryReformulationAIPromptId"].write(value.queryReformulationAIPromptId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AnswerRecommendationAIAgentConfiguration()
+        value.intentLabelingGenerationAIPromptId = try reader["intentLabelingGenerationAIPromptId"].readIfPresent()
+        value.queryReformulationAIPromptId = try reader["queryReformulationAIPromptId"].readIfPresent()
+        value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AssociationConfiguration {
+
+    static func write(value: QConnectClientTypes.AssociationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationConfigurationData"].write(value.associationConfigurationData, with: QConnectClientTypes.AssociationConfigurationData.write(value:to:))
+        try writer["associationId"].write(value.associationId)
+        try writer["associationType"].write(value.associationType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssociationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AssociationConfiguration()
+        value.associationId = try reader["associationId"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.associationConfigurationData = try reader["associationConfigurationData"].readIfPresent(with: QConnectClientTypes.AssociationConfigurationData.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.AssociationConfigurationData {
+
+    static func write(value: QConnectClientTypes.AssociationConfigurationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .knowledgebaseassociationconfigurationdata(knowledgebaseassociationconfigurationdata):
+                try writer["knowledgeBaseAssociationConfigurationData"].write(knowledgebaseassociationconfigurationdata, with: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssociationConfigurationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "knowledgeBaseAssociationConfigurationData":
+                return .knowledgebaseassociationconfigurationdata(try reader["knowledgeBaseAssociationConfigurationData"].read(with: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.KnowledgeBaseAssociationConfigurationData {
+
+    static func write(value: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contentTagFilter"].write(value.contentTagFilter, with: QConnectClientTypes.TagFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["overrideKnowledgeBaseSearchType"].write(value.overrideKnowledgeBaseSearchType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseAssociationConfigurationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.KnowledgeBaseAssociationConfigurationData()
+        value.contentTagFilter = try reader["contentTagFilter"].readIfPresent(with: QConnectClientTypes.TagFilter.read(from:))
+        value.maxResults = try reader["maxResults"].readIfPresent()
+        value.overrideKnowledgeBaseSearchType = try reader["overrideKnowledgeBaseSearchType"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.TagFilter {
+
+    static func write(value: QConnectClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andconditions(andconditions):
+                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .orconditions(orconditions):
+                try writer["orConditions"].writeList(orconditions, memberWritingClosure: QConnectClientTypes.OrCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .tagcondition(tagcondition):
+                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "tagCondition":
+                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
+            case "andConditions":
+                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "orConditions":
+                return .orconditions(try reader["orConditions"].readList(memberReadingClosure: QConnectClientTypes.OrCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.OrCondition {
+
+    static func write(value: QConnectClientTypes.OrCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andconditions(andconditions):
+                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .tagcondition(tagcondition):
+                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "andConditions":
+                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "tagCondition":
+                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.TagCondition {
+
+    static func write(value: QConnectClientTypes.TagCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.TagCondition()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.ManualSearchAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.ManualSearchAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ManualSearchAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ManualSearchAIAgentConfiguration()
+        value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIPromptData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIPromptData()
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiPromptId = try reader["aiPromptId"].readIfPresent() ?? ""
+        value.aiPromptArn = try reader["aiPromptArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.apiFormat = try reader["apiFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: QConnectClientTypes.AIPromptTemplateConfiguration.read(from:))
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.origin = try reader["origin"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIPromptTemplateConfiguration {
+
+    static func write(value: QConnectClientTypes.AIPromptTemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .textfullaipromptedittemplateconfiguration(textfullaipromptedittemplateconfiguration):
+                try writer["textFullAIPromptEditTemplateConfiguration"].write(textfullaipromptedittemplateconfiguration, with: QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptTemplateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "textFullAIPromptEditTemplateConfiguration":
+                return .textfullaipromptedittemplateconfiguration(try reader["textFullAIPromptEditTemplateConfiguration"].read(with: QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration {
+
+    static func write(value: QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension QConnectClientTypes.AssistantData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantData {
@@ -7484,6 +10985,22 @@ extension QConnectClientTypes.AssistantData {
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantIntegrationConfiguration.read(from:))
         value.capabilityConfiguration = try reader["capabilityConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantCapabilityConfiguration.read(from:))
+        value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIAgentConfigurationData {
+
+    static func write(value: QConnectClientTypes.AIAgentConfigurationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aiAgentId"].write(value.aiAgentId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentConfigurationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIAgentConfigurationData()
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7655,11 +11172,14 @@ extension QConnectClientTypes.KnowledgeBaseData {
         value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.lastContentModificationTime = try reader["lastContentModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vectorIngestionConfiguration = try reader["vectorIngestionConfiguration"].readIfPresent(with: QConnectClientTypes.VectorIngestionConfiguration.read(from:))
         value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
         value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ingestionStatus = try reader["ingestionStatus"].readIfPresent()
+        value.ingestionFailureReasons = try reader["ingestionFailureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7686,6 +11206,8 @@ extension QConnectClientTypes.SourceConfiguration {
         switch value {
             case let .appintegrations(appintegrations):
                 try writer["appIntegrations"].write(appintegrations, with: QConnectClientTypes.AppIntegrationsConfiguration.write(value:to:))
+            case let .managedsourceconfiguration(managedsourceconfiguration):
+                try writer["managedSourceConfiguration"].write(managedsourceconfiguration, with: QConnectClientTypes.ManagedSourceConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -7697,9 +11219,103 @@ extension QConnectClientTypes.SourceConfiguration {
         switch name {
             case "appIntegrations":
                 return .appintegrations(try reader["appIntegrations"].read(with: QConnectClientTypes.AppIntegrationsConfiguration.read(from:)))
+            case "managedSourceConfiguration":
+                return .managedsourceconfiguration(try reader["managedSourceConfiguration"].read(with: QConnectClientTypes.ManagedSourceConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QConnectClientTypes.ManagedSourceConfiguration {
+
+    static func write(value: QConnectClientTypes.ManagedSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .webcrawlerconfiguration(webcrawlerconfiguration):
+                try writer["webCrawlerConfiguration"].write(webcrawlerconfiguration, with: QConnectClientTypes.WebCrawlerConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ManagedSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "webCrawlerConfiguration":
+                return .webcrawlerconfiguration(try reader["webCrawlerConfiguration"].read(with: QConnectClientTypes.WebCrawlerConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.WebCrawlerConfiguration {
+
+    static func write(value: QConnectClientTypes.WebCrawlerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["crawlerLimits"].write(value.crawlerLimits, with: QConnectClientTypes.WebCrawlerLimits.write(value:to:))
+        try writer["exclusionFilters"].writeList(value.exclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inclusionFilters"].writeList(value.inclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scope"].write(value.scope)
+        try writer["urlConfiguration"].write(value.urlConfiguration, with: QConnectClientTypes.UrlConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WebCrawlerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WebCrawlerConfiguration()
+        value.urlConfiguration = try reader["urlConfiguration"].readIfPresent(with: QConnectClientTypes.UrlConfiguration.read(from:))
+        value.crawlerLimits = try reader["crawlerLimits"].readIfPresent(with: QConnectClientTypes.WebCrawlerLimits.read(from:))
+        value.inclusionFilters = try reader["inclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionFilters = try reader["exclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scope = try reader["scope"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.WebCrawlerLimits {
+
+    static func write(value: QConnectClientTypes.WebCrawlerLimits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rateLimit"].write(value.rateLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WebCrawlerLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WebCrawlerLimits()
+        value.rateLimit = try reader["rateLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.UrlConfiguration {
+
+    static func write(value: QConnectClientTypes.UrlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["seedUrls"].writeList(value.seedUrls, memberWritingClosure: QConnectClientTypes.SeedUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.UrlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.UrlConfiguration()
+        value.seedUrls = try reader["seedUrls"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SeedUrl.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.SeedUrl {
+
+    static func write(value: QConnectClientTypes.SeedUrl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SeedUrl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SeedUrl()
+        value.url = try reader["url"].readIfPresent()
+        return value
     }
 }
 
@@ -7716,6 +11332,161 @@ extension QConnectClientTypes.AppIntegrationsConfiguration {
         var value = QConnectClientTypes.AppIntegrationsConfiguration()
         value.appIntegrationArn = try reader["appIntegrationArn"].readIfPresent() ?? ""
         value.objectFields = try reader["objectFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.VectorIngestionConfiguration {
+
+    static func write(value: QConnectClientTypes.VectorIngestionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chunkingConfiguration"].write(value.chunkingConfiguration, with: QConnectClientTypes.ChunkingConfiguration.write(value:to:))
+        try writer["parsingConfiguration"].write(value.parsingConfiguration, with: QConnectClientTypes.ParsingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.VectorIngestionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.VectorIngestionConfiguration()
+        value.chunkingConfiguration = try reader["chunkingConfiguration"].readIfPresent(with: QConnectClientTypes.ChunkingConfiguration.read(from:))
+        value.parsingConfiguration = try reader["parsingConfiguration"].readIfPresent(with: QConnectClientTypes.ParsingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ParsingConfiguration {
+
+    static func write(value: QConnectClientTypes.ParsingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockFoundationModelConfiguration"].write(value.bedrockFoundationModelConfiguration, with: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing.write(value:to:))
+        try writer["parsingStrategy"].write(value.parsingStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ParsingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ParsingConfiguration()
+        value.parsingStrategy = try reader["parsingStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.bedrockFoundationModelConfiguration = try reader["bedrockFoundationModelConfiguration"].readIfPresent(with: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.BedrockFoundationModelConfigurationForParsing {
+
+    static func write(value: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
+        try writer["parsingPrompt"].write(value.parsingPrompt, with: QConnectClientTypes.ParsingPrompt.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.BedrockFoundationModelConfigurationForParsing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.BedrockFoundationModelConfigurationForParsing()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.parsingPrompt = try reader["parsingPrompt"].readIfPresent(with: QConnectClientTypes.ParsingPrompt.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ParsingPrompt {
+
+    static func write(value: QConnectClientTypes.ParsingPrompt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parsingPromptText"].write(value.parsingPromptText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ParsingPrompt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ParsingPrompt()
+        value.parsingPromptText = try reader["parsingPromptText"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.ChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.ChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chunkingStrategy"].write(value.chunkingStrategy)
+        try writer["fixedSizeChunkingConfiguration"].write(value.fixedSizeChunkingConfiguration, with: QConnectClientTypes.FixedSizeChunkingConfiguration.write(value:to:))
+        try writer["hierarchicalChunkingConfiguration"].write(value.hierarchicalChunkingConfiguration, with: QConnectClientTypes.HierarchicalChunkingConfiguration.write(value:to:))
+        try writer["semanticChunkingConfiguration"].write(value.semanticChunkingConfiguration, with: QConnectClientTypes.SemanticChunkingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ChunkingConfiguration()
+        value.chunkingStrategy = try reader["chunkingStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.fixedSizeChunkingConfiguration = try reader["fixedSizeChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.FixedSizeChunkingConfiguration.read(from:))
+        value.hierarchicalChunkingConfiguration = try reader["hierarchicalChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.HierarchicalChunkingConfiguration.read(from:))
+        value.semanticChunkingConfiguration = try reader["semanticChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.SemanticChunkingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.SemanticChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.SemanticChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["breakpointPercentileThreshold"].write(value.breakpointPercentileThreshold)
+        try writer["bufferSize"].write(value.bufferSize)
+        try writer["maxTokens"].write(value.maxTokens)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SemanticChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SemanticChunkingConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        value.bufferSize = try reader["bufferSize"].readIfPresent() ?? 0
+        value.breakpointPercentileThreshold = try reader["breakpointPercentileThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.HierarchicalChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.HierarchicalChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["levelConfigurations"].writeList(value.levelConfigurations, memberWritingClosure: QConnectClientTypes.HierarchicalChunkingLevelConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["overlapTokens"].write(value.overlapTokens)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.HierarchicalChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.HierarchicalChunkingConfiguration()
+        value.levelConfigurations = try reader["levelConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.HierarchicalChunkingLevelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.overlapTokens = try reader["overlapTokens"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.HierarchicalChunkingLevelConfiguration {
+
+    static func write(value: QConnectClientTypes.HierarchicalChunkingLevelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.HierarchicalChunkingLevelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.HierarchicalChunkingLevelConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.FixedSizeChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.FixedSizeChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["overlapPercentage"].write(value.overlapPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.FixedSizeChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.FixedSizeChunkingConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        value.overlapPercentage = try reader["overlapPercentage"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7801,83 +11572,7 @@ extension QConnectClientTypes.SessionData {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.SessionIntegrationConfiguration.read(from:))
         value.tagFilter = try reader["tagFilter"].readIfPresent(with: QConnectClientTypes.TagFilter.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.TagFilter {
-
-    static func write(value: QConnectClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .andconditions(andconditions):
-                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .orconditions(orconditions):
-                try writer["orConditions"].writeList(orconditions, memberWritingClosure: QConnectClientTypes.OrCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .tagcondition(tagcondition):
-                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "tagCondition":
-                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
-            case "andConditions":
-                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "orConditions":
-                return .orconditions(try reader["orConditions"].readList(memberReadingClosure: QConnectClientTypes.OrCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.OrCondition {
-
-    static func write(value: QConnectClientTypes.OrCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .andconditions(andconditions):
-                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .tagcondition(tagcondition):
-                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "andConditions":
-                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "tagCondition":
-                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.TagCondition {
-
-    static func write(value: QConnectClientTypes.TagCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.TagCondition()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
+        value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8026,6 +11721,8 @@ extension QConnectClientTypes.DataDetails {
                 return .contentdata(try reader["contentData"].read(with: QConnectClientTypes.ContentDataDetails.read(from:)))
             case "generativeData":
                 return .generativedata(try reader["generativeData"].read(with: QConnectClientTypes.GenerativeDataDetails.read(from:)))
+            case "intentDetectedData":
+                return .intentdetecteddata(try reader["intentDetectedData"].read(with: QConnectClientTypes.IntentDetectedDataDetails.read(from:)))
             case "sourceContentData":
                 return .sourcecontentdata(try reader["sourceContentData"].read(with: QConnectClientTypes.SourceContentDataDetails.read(from:)))
             default:
@@ -8043,6 +11740,18 @@ extension QConnectClientTypes.SourceContentDataDetails {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.textData = try reader["textData"].readIfPresent(with: QConnectClientTypes.TextData.read(from:))
         value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
+        value.citationSpan = try reader["citationSpan"].readIfPresent(with: QConnectClientTypes.CitationSpan.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.CitationSpan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.CitationSpan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.CitationSpan()
+        value.beginOffsetInclusive = try reader["beginOffsetInclusive"].readIfPresent() ?? 0
+        value.endOffsetExclusive = try reader["endOffsetExclusive"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8087,6 +11796,17 @@ extension QConnectClientTypes.Highlight {
         var value = QConnectClientTypes.Highlight()
         value.beginOffsetInclusive = try reader["beginOffsetInclusive"].readIfPresent() ?? 0
         value.endOffsetExclusive = try reader["endOffsetExclusive"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.IntentDetectedDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.IntentDetectedDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.IntentDetectedDataDetails()
+        value.intent = try reader["intent"].readIfPresent() ?? ""
+        value.intentId = try reader["intentId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8150,6 +11870,8 @@ extension QConnectClientTypes.ContentReference {
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
         value.contentArn = try reader["contentArn"].readIfPresent()
         value.contentId = try reader["contentId"].readIfPresent()
+        value.sourceURL = try reader["sourceURL"].readIfPresent()
+        value.referenceType = try reader["referenceType"].readIfPresent()
         return value
     }
 }
@@ -8204,6 +11926,74 @@ extension QConnectClientTypes.QueryRecommendationTriggerData {
     }
 }
 
+extension QConnectClientTypes.AIAgentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIAgentSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
+        value.origin = try reader["origin"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIAgentVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIAgentVersionSummary()
+        value.aiAgentSummary = try reader["aiAgentSummary"].readIfPresent(with: QConnectClientTypes.AIAgentSummary.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIPromptSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIPromptSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiPromptId = try reader["aiPromptId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.aiPromptArn = try reader["aiPromptArn"].readIfPresent() ?? ""
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.apiFormat = try reader["apiFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.origin = try reader["origin"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIPromptVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIPromptVersionSummary()
+        value.aiPromptSummary = try reader["aiPromptSummary"].readIfPresent(with: QConnectClientTypes.AIPromptSummary.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
+    }
+}
+
 extension QConnectClientTypes.AssistantAssociationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationSummary {
@@ -8235,6 +12025,7 @@ extension QConnectClientTypes.AssistantSummary {
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantIntegrationConfiguration.read(from:))
         value.capabilityConfiguration = try reader["capabilityConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantCapabilityConfiguration.read(from:))
+        value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8287,6 +12078,7 @@ extension QConnectClientTypes.KnowledgeBaseSummary {
         value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
+        value.vectorIngestionConfiguration = try reader["vectorIngestionConfiguration"].readIfPresent(with: QConnectClientTypes.VectorIngestionConfiguration.read(from:))
         value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
@@ -8424,6 +12216,47 @@ extension QConnectClientTypes.SessionSummary {
     }
 }
 
+extension QConnectClientTypes.RuntimeSessionData {
+
+    static func write(value: QConnectClientTypes.RuntimeSessionData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value, with: QConnectClientTypes.RuntimeSessionDataValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RuntimeSessionData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.RuntimeSessionData()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: QConnectClientTypes.RuntimeSessionDataValue.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.RuntimeSessionDataValue {
+
+    static func write(value: QConnectClientTypes.RuntimeSessionDataValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RuntimeSessionDataValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension QConnectClientTypes.AssistantAssociationInputData {
 
     static func write(value: QConnectClientTypes.AssistantAssociationInputData?, to writer: SmithyJSON.Writer) throws {
@@ -8470,6 +12303,37 @@ extension QConnectClientTypes.QueryConditionItem {
         try writer["comparator"].write(value.comparator)
         try writer["field"].write(value.field)
         try writer["value"].write(value.value)
+    }
+}
+
+extension QConnectClientTypes.QueryInputData {
+
+    static func write(value: QConnectClientTypes.QueryInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .intentinputdata(intentinputdata):
+                try writer["intentInputData"].write(intentinputdata, with: QConnectClientTypes.IntentInputData.write(value:to:))
+            case let .querytextinputdata(querytextinputdata):
+                try writer["queryTextInputData"].write(querytextinputdata, with: QConnectClientTypes.QueryTextInputData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QConnectClientTypes.IntentInputData {
+
+    static func write(value: QConnectClientTypes.IntentInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["intentId"].write(value.intentId)
+    }
+}
+
+extension QConnectClientTypes.QueryTextInputData {
+
+    static func write(value: QConnectClientTypes.QueryTextInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
     }
 }
 
