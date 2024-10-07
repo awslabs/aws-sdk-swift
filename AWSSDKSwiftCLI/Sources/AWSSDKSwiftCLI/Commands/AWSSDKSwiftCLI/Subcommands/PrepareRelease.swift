@@ -81,16 +81,16 @@ struct PrepareRelease {
         try FileManager.default.changeWorkingDirectory(repoPath)
         
         let previousVersion = try getPreviousVersion()
-//        guard try repoHasChanges(previousVersion) else {
-//            /// If repo has no changes, create an empty release-manifest.json file.
-//            /// Empty manifest file makes GitHubReleasePublisher be no-op.
-//            /// The manifest file is required regardless of whether there should
-//            /// be a release or not.
-//            try createEmptyReleaseManifest()
-//            /// Return without creating new commit or tag in local repos.
-//            /// This makes GitPublisher be no-op.
-//            return
-//        }
+        guard try repoHasChanges(previousVersion) else {
+            /// If repo has no changes, create an empty release-manifest.json file.
+            /// Empty manifest file makes GitHubReleasePublisher be no-op.
+            /// The manifest file is required regardless of whether there should
+            /// be a release or not.
+            try createEmptyReleaseManifest()
+            /// Return without creating new commit or tag in local repos.
+            /// This makes GitPublisher be no-op.
+            return
+        }
         let newVersion = try createNewVersion(previousVersion)
         
         try stageFiles()
