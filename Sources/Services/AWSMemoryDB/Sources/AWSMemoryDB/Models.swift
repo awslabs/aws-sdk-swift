@@ -546,9 +546,11 @@ extension MemoryDBClientTypes {
         public var dataTiering: MemoryDBClientTypes.DataTieringStatus?
         /// A description of the cluster
         public var description: Swift.String?
-        /// The Redis OSS engine patch version used by the cluster
+        /// The Redis OSS or Valkey engine used by the cluster.
+        public var engine: Swift.String?
+        /// The engine patch version used by the cluster
         public var enginePatchVersion: Swift.String?
-        /// The Redis OSS engine version used by the cluster
+        /// The Redis engine version used by the cluster
         public var engineVersion: Swift.String?
         /// The ID of the KMS key used to encrypt the cluster
         public var kmsKeyId: Swift.String?
@@ -593,6 +595,7 @@ extension MemoryDBClientTypes {
             clusterEndpoint: MemoryDBClientTypes.Endpoint? = nil,
             dataTiering: MemoryDBClientTypes.DataTieringStatus? = nil,
             description: Swift.String? = nil,
+            engine: Swift.String? = nil,
             enginePatchVersion: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -621,6 +624,7 @@ extension MemoryDBClientTypes {
             self.clusterEndpoint = clusterEndpoint
             self.dataTiering = dataTiering
             self.description = description
+            self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
@@ -956,7 +960,9 @@ extension MemoryDBClientTypes {
     public struct ClusterConfiguration: Swift.Sendable {
         /// The description of the cluster configuration
         public var description: Swift.String?
-        /// The Redis OSS engine version used by the cluster
+        /// The configuration for the Redis OSS or Valkey engine used by the cluster.
+        public var engine: Swift.String?
+        /// The engine version used by the cluster
         public var engineVersion: Swift.String?
         /// The specified maintenance window for the cluster
         public var maintenanceWindow: Swift.String?
@@ -985,6 +991,7 @@ extension MemoryDBClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             maintenanceWindow: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -1001,6 +1008,7 @@ extension MemoryDBClientTypes {
         )
         {
             self.description = description
+            self.engine = engine
             self.engineVersion = engineVersion
             self.maintenanceWindow = maintenanceWindow
             self.name = name
@@ -1452,7 +1460,9 @@ public struct CreateClusterInput: Swift.Sendable {
     public var dataTiering: Swift.Bool?
     /// An optional description of the cluster.
     public var description: Swift.String?
-    /// The version number of the Redis OSS engine to be used for the cluster.
+    /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+    public var engine: Swift.String?
+    /// The version number of the engine to be used for the cluster.
     public var engineVersion: Swift.String?
     /// The ID of the KMS key used to encrypt the cluster.
     public var kmsKeyId: Swift.String?
@@ -1511,6 +1521,7 @@ public struct CreateClusterInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         dataTiering: Swift.Bool? = nil,
         description: Swift.String? = nil,
+        engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceWindow: Swift.String? = nil,
@@ -1535,6 +1546,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.clusterName = clusterName
         self.dataTiering = dataTiering
         self.description = description
+        self.engine = engine
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
         self.maintenanceWindow = maintenanceWindow
@@ -2533,7 +2545,9 @@ public struct DescribeClustersOutput: Swift.Sendable {
 public struct DescribeEngineVersionsInput: Swift.Sendable {
     /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
     public var defaultOnly: Swift.Bool?
-    /// The Redis OSS engine version
+    /// The engine version to return. Valid values are either valkey or redis.
+    public var engine: Swift.String?
+    /// The engine version.
     public var engineVersion: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -2544,6 +2558,7 @@ public struct DescribeEngineVersionsInput: Swift.Sendable {
 
     public init(
         defaultOnly: Swift.Bool? = false,
+        engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -2551,6 +2566,7 @@ public struct DescribeEngineVersionsInput: Swift.Sendable {
     )
     {
         self.defaultOnly = defaultOnly
+        self.engine = engine
         self.engineVersion = engineVersion
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2560,8 +2576,10 @@ public struct DescribeEngineVersionsInput: Swift.Sendable {
 
 extension MemoryDBClientTypes {
 
-    /// Provides details of the Redis OSS engine version
+    /// Provides details of the engine version.
     public struct EngineVersionInfo: Swift.Sendable {
+        /// The version of the Redis OSS or Valkey engine used by the cluster.
+        public var engine: Swift.String?
         /// The patched engine version
         public var enginePatchVersion: Swift.String?
         /// The engine version
@@ -2570,11 +2588,13 @@ extension MemoryDBClientTypes {
         public var parameterGroupFamily: Swift.String?
 
         public init(
+            engine: Swift.String? = nil,
             enginePatchVersion: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             parameterGroupFamily: Swift.String? = nil
         )
         {
+            self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
             self.parameterGroupFamily = parameterGroupFamily
@@ -3152,6 +3172,8 @@ extension MemoryDBClientTypes {
         public var clusterName: Swift.String?
         /// Provides details of the service update
         public var description: Swift.String?
+        /// The MemoryDB engine to which the update applies. The values are either Redis or Valkey.
+        public var engine: Swift.String?
         /// A list of nodes updated by the service update
         public var nodesUpdated: Swift.String?
         /// The date when the service update is initially available
@@ -3167,6 +3189,7 @@ extension MemoryDBClientTypes {
             autoUpdateStartDate: Foundation.Date? = nil,
             clusterName: Swift.String? = nil,
             description: Swift.String? = nil,
+            engine: Swift.String? = nil,
             nodesUpdated: Swift.String? = nil,
             releaseDate: Foundation.Date? = nil,
             serviceUpdateName: Swift.String? = nil,
@@ -3177,6 +3200,7 @@ extension MemoryDBClientTypes {
             self.autoUpdateStartDate = autoUpdateStartDate
             self.clusterName = clusterName
             self.description = description
+            self.engine = engine
             self.nodesUpdated = nodesUpdated
             self.releaseDate = releaseDate
             self.serviceUpdateName = serviceUpdateName
@@ -3875,6 +3899,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The description of the cluster to update
     public var description: Swift.String?
+    /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+    public var engine: Swift.String?
     /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
     /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
@@ -3919,6 +3945,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         aclName: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         description: Swift.String? = nil,
+        engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         maintenanceWindow: Swift.String? = nil,
         nodeType: Swift.String? = nil,
@@ -3935,6 +3962,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         self.aclName = aclName
         self.clusterName = clusterName
         self.description = description
+        self.engine = engine
         self.engineVersion = engineVersion
         self.maintenanceWindow = maintenanceWindow
         self.nodeType = nodeType
@@ -4407,6 +4435,7 @@ extension CreateClusterInput {
         try writer["ClusterName"].write(value.clusterName)
         try writer["DataTiering"].write(value.dataTiering)
         try writer["Description"].write(value.description)
+        try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MaintenanceWindow"].write(value.maintenanceWindow)
@@ -4546,6 +4575,7 @@ extension DescribeEngineVersionsInput {
     static func write(value: DescribeEngineVersionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DefaultOnly"].write(value.defaultOnly)
+        try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -4741,6 +4771,7 @@ extension UpdateClusterInput {
         try writer["ACLName"].write(value.aclName)
         try writer["ClusterName"].write(value.clusterName)
         try writer["Description"].write(value.description)
+        try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["MaintenanceWindow"].write(value.maintenanceWindow)
         try writer["NodeType"].write(value.nodeType)
@@ -6666,6 +6697,7 @@ extension MemoryDBClientTypes.Cluster {
         value.availabilityMode = try reader["AvailabilityMode"].readIfPresent()
         value.clusterEndpoint = try reader["ClusterEndpoint"].readIfPresent(with: MemoryDBClientTypes.Endpoint.read(from:))
         value.nodeType = try reader["NodeType"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.enginePatchVersion = try reader["EnginePatchVersion"].readIfPresent()
         value.parameterGroupName = try reader["ParameterGroupName"].readIfPresent()
@@ -6826,6 +6858,7 @@ extension MemoryDBClientTypes.ClusterConfiguration {
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.nodeType = try reader["NodeType"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
         value.topicArn = try reader["TopicArn"].readIfPresent()
@@ -6972,6 +7005,7 @@ extension MemoryDBClientTypes.EngineVersionInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.EngineVersionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MemoryDBClientTypes.EngineVersionInfo()
+        value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.enginePatchVersion = try reader["EnginePatchVersion"].readIfPresent()
         value.parameterGroupFamily = try reader["ParameterGroupFamily"].readIfPresent()
@@ -7064,6 +7098,7 @@ extension MemoryDBClientTypes.ServiceUpdate {
         value.description = try reader["Description"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
         value.nodesUpdated = try reader["NodesUpdated"].readIfPresent()
         value.autoUpdateStartDate = try reader["AutoUpdateStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
