@@ -12,8 +12,7 @@ import ClientRuntime
 import Smithy
 import SmithyTestUtil
 import XCTest
-import struct SmithyIdentity.AWSCredentialIdentity
-import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
+import func SmithyTestUtil.dummyIdentityResolver
 
 
 class DeleteObjectTaggingRequestTest: HttpRequestTestBase {
@@ -31,16 +30,11 @@ class DeleteObjectTaggingRequestTest: HttpRequestTestBase {
         )
 
         let config = try await S3Client.Config(
-            awsCredentialIdentityResolver: try SmithyIdentity.StaticAWSCredentialIdentityResolver(
-                SmithyIdentity.AWSCredentialIdentity(
-                    accessKey: "ASIAIOSFODNN7EXAMPLE",
-                    secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-                )
-            ),
-            httpClientEngine: ProtocolTestClient(),
-            idempotencyTokenGenerator: ProtocolTestIdempotencyTokenGenerator(),
+            awsCredentialIdentityResolver: try SmithyTestUtil.dummyIdentityResolver(),
             region: "us-west-2",
-            signingRegion: "us-west-2"
+            signingRegion: "us-west-2",
+            idempotencyTokenGenerator: ProtocolTestIdempotencyTokenGenerator(),
+            httpClientEngine: ProtocolTestClient()
         )
         let client = S3Client(config: config)
 
@@ -68,16 +62,11 @@ class DeleteObjectTaggingRequestTest: HttpRequestTestBase {
         )
 
         let config = try await S3Client.Config(
-            awsCredentialIdentityResolver: try SmithyIdentity.StaticAWSCredentialIdentityResolver(
-                SmithyIdentity.AWSCredentialIdentity(
-                    accessKey: "ASIAIOSFODNN7EXAMPLE",
-                    secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-                )
-            ),
-            httpClientEngine: ProtocolTestClient(),
-            idempotencyTokenGenerator: ProtocolTestIdempotencyTokenGenerator(),
+            awsCredentialIdentityResolver: try SmithyTestUtil.dummyIdentityResolver(),
             region: "us-west-2",
-            signingRegion: "us-west-2"
+            signingRegion: "us-west-2",
+            idempotencyTokenGenerator: ProtocolTestIdempotencyTokenGenerator(),
+            httpClientEngine: ProtocolTestClient()
         )
         let client = S3Client(config: config)
 
