@@ -297,6 +297,7 @@ extension CodePipelineClientTypes {
     public enum ActionCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approval
         case build
+        case compute
         case deploy
         case invoke
         case source
@@ -307,6 +308,7 @@ extension CodePipelineClientTypes {
             return [
                 .approval,
                 .build,
+                .compute,
                 .deploy,
                 .invoke,
                 .source,
@@ -323,6 +325,7 @@ extension CodePipelineClientTypes {
             switch self {
             case .approval: return "Approval"
             case .build: return "Build"
+            case .compute: return "Compute"
             case .deploy: return "Deploy"
             case .invoke: return "Invoke"
             case .source: return "Source"
