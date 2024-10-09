@@ -13,6 +13,8 @@ import Foundation
 import Smithy
 import SmithyTestUtil
 import XCTest
+import struct SmithyIdentity.AWSCredentialIdentity
+import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
 
 
 class GetObjectRequestTest: HttpRequestTestBase {
@@ -26,10 +28,18 @@ class GetObjectRequestTest: HttpRequestTestBase {
             resolvedHost: "mybucket.s3.us-west-2.amazonaws.com"
         )
 
-        let config = try await S3Client.S3ClientConfiguration()
-        config.region = "us-west-2"
-        config.httpClientEngine = ProtocolTestClient()
-        config.idempotencyTokenGenerator = ProtocolTestIdempotencyTokenGenerator()
+        let config = try await S3Client.Config(
+            awsCredentialIdentityResolver: try SmithyIdentity.StaticAWSCredentialIdentityResolver(
+                SmithyIdentity.AWSCredentialIdentity(
+                    accessKey: "ASIAIOSFODNN7EXAMPLE",
+                    secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+                )
+            ),
+            httpClientEngine: ProtocolTestClient(),
+            idempotencyTokenGenerator: ProtocolTestIdempotencyTokenGenerator(),
+            region: "us-west-2",
+            signingRegion: "us-west-2"
+        )
         let client = S3Client(config: config)
 
         let input = GetObjectInput(
@@ -52,10 +62,18 @@ class GetObjectRequestTest: HttpRequestTestBase {
             resolvedHost: "mybucket.s3.us-west-2.amazonaws.com"
         )
 
-        let config = try await S3Client.S3ClientConfiguration()
-        config.region = "us-west-2"
-        config.httpClientEngine = ProtocolTestClient()
-        config.idempotencyTokenGenerator = ProtocolTestIdempotencyTokenGenerator()
+        let config = try await S3Client.Config(
+            awsCredentialIdentityResolver: try SmithyIdentity.StaticAWSCredentialIdentityResolver(
+                SmithyIdentity.AWSCredentialIdentity(
+                    accessKey: "ASIAIOSFODNN7EXAMPLE",
+                    secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+                )
+            ),
+            httpClientEngine: ProtocolTestClient(),
+            idempotencyTokenGenerator: ProtocolTestIdempotencyTokenGenerator(),
+            region: "us-west-2",
+            signingRegion: "us-west-2"
+        )
         let client = S3Client(config: config)
 
         let input = GetObjectInput(
