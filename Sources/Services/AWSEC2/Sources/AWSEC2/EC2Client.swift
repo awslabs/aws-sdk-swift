@@ -258,6 +258,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AcceptCapacityReservationBillingOwnership` operation on the `AmazonEC2` service.
+    ///
+    /// Accepts a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
+    ///
+    /// - Parameter AcceptCapacityReservationBillingOwnershipInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptCapacityReservationBillingOwnershipOutput` : [no documentation found]
+    public func acceptCapacityReservationBillingOwnership(input: AcceptCapacityReservationBillingOwnershipInput) async throws -> AcceptCapacityReservationBillingOwnershipOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acceptCapacityReservationBillingOwnership")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>(AcceptCapacityReservationBillingOwnershipInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptCapacityReservationBillingOwnershipOutput>(AcceptCapacityReservationBillingOwnershipOutput.httpOutput(from:), AcceptCapacityReservationBillingOwnershipOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AcceptCapacityReservationBillingOwnershipOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AcceptCapacityReservationBillingOwnershipOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptCapacityReservationBillingOwnershipInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptCapacityReservationBillingOwnershipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptCapacityReservationBillingOwnershipInput, AcceptCapacityReservationBillingOwnershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptCapacityReservationBillingOwnership")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AcceptReservedInstancesExchangeQuote` operation on the `AmazonEC2` service.
     ///
     /// Accepts the Convertible Reserved Instance exchange quote described in the [GetReservedInstancesExchangeQuote] call.
@@ -1207,6 +1271,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateAddress")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AssociateCapacityReservationBillingOwner` operation on the `AmazonEC2` service.
+    ///
+    /// Initiates a request to assign billing of the unused capacity of a shared Capacity Reservation to a consumer account that is consolidated under the same Amazon Web Services organizations payer account. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
+    ///
+    /// - Parameter AssociateCapacityReservationBillingOwnerInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateCapacityReservationBillingOwnerOutput` : [no documentation found]
+    public func associateCapacityReservationBillingOwner(input: AssociateCapacityReservationBillingOwnerInput) async throws -> AssociateCapacityReservationBillingOwnerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateCapacityReservationBillingOwner")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>(AssociateCapacityReservationBillingOwnerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCapacityReservationBillingOwnerOutput>(AssociateCapacityReservationBillingOwnerOutput.httpOutput(from:), AssociateCapacityReservationBillingOwnerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCapacityReservationBillingOwnerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateCapacityReservationBillingOwnerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateCapacityReservationBillingOwnerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateCapacityReservationBillingOwnerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateCapacityReservationBillingOwnerInput, AssociateCapacityReservationBillingOwnerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateCapacityReservationBillingOwner")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2516,7 +2644,7 @@ extension EC2Client {
 
     /// Performs the `AttachVpnGateway` operation on the `AmazonEC2` service.
     ///
-    /// Attaches a virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
+    /// Attaches an available virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
     /// - Parameter AttachVpnGatewayInput : Contains the parameters for AttachVpnGateway.
     ///
@@ -3035,7 +3163,7 @@ extension EC2Client {
 
     /// Performs the `CancelConversionTask` operation on the `AmazonEC2` service.
     ///
-    /// Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception. For more information, see [Importing a Virtual Machine Using the Amazon EC2 CLI](https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ec2-cli-vmimport-export.html).
+    /// Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception.
     ///
     /// - Parameter CancelConversionTaskInput : [no documentation found]
     ///
@@ -15162,6 +15290,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeCapacityReservationBillingRequests` operation on the `AmazonEC2` service.
+    ///
+    /// Describes a request to assign the billing of the unused capacity of a Capacity Reservation. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/transfer-billing.html).
+    ///
+    /// - Parameter DescribeCapacityReservationBillingRequestsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCapacityReservationBillingRequestsOutput` : [no documentation found]
+    public func describeCapacityReservationBillingRequests(input: DescribeCapacityReservationBillingRequestsInput) async throws -> DescribeCapacityReservationBillingRequestsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityReservationBillingRequests")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>(DescribeCapacityReservationBillingRequestsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityReservationBillingRequestsOutput>(DescribeCapacityReservationBillingRequestsOutput.httpOutput(from:), DescribeCapacityReservationBillingRequestsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityReservationBillingRequestsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCapacityReservationBillingRequestsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityReservationBillingRequestsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityReservationBillingRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityReservationBillingRequests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeCapacityReservationFleets` operation on the `AmazonEC2` service.
     ///
     /// Describes one or more Capacity Reservation Fleets.
@@ -16060,7 +16252,7 @@ extension EC2Client {
 
     /// Performs the `DescribeElasticGpus` operation on the `AmazonEC2` service.
     ///
-    /// Amazon Elastic Graphics reached end of life on January 8, 2024. For workloads that require graphics acceleration, we recommend that you use Amazon EC2 G4, G5, or G6 instances. Describes the Elastic Graphics accelerator associated with your instances.
+    /// Amazon Elastic Graphics reached end of life on January 8, 2024. Describes the Elastic Graphics accelerator associated with your instances.
     ///
     /// - Parameter DescribeElasticGpusInput : [no documentation found]
     ///
@@ -17812,7 +18004,7 @@ extension EC2Client {
     ///
     /// * hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge
     ///
-    /// * p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge
+    /// * p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge
     ///
     /// * trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge
     ///
@@ -25764,6 +25956,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateCapacityReservationBillingOwner` operation on the `AmazonEC2` service.
+    ///
+    /// Cancels a pending request to assign billing of the unused capacity of a Capacity Reservation to a consumer account, or revokes a request that has already been accepted. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
+    ///
+    /// - Parameter DisassociateCapacityReservationBillingOwnerInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateCapacityReservationBillingOwnerOutput` : [no documentation found]
+    public func disassociateCapacityReservationBillingOwner(input: DisassociateCapacityReservationBillingOwnerInput) async throws -> DisassociateCapacityReservationBillingOwnerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateCapacityReservationBillingOwner")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>(DisassociateCapacityReservationBillingOwnerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCapacityReservationBillingOwnerOutput>(DisassociateCapacityReservationBillingOwnerOutput.httpOutput(from:), DisassociateCapacityReservationBillingOwnerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCapacityReservationBillingOwnerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateCapacityReservationBillingOwnerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateCapacityReservationBillingOwnerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateCapacityReservationBillingOwnerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateCapacityReservationBillingOwnerInput, DisassociateCapacityReservationBillingOwnerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateCapacityReservationBillingOwner")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateClientVpnTargetNetwork` operation on the `AmazonEC2` service.
     ///
     /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens:
@@ -31355,7 +31611,7 @@ extension EC2Client {
 
     /// Performs the `ImportInstance` operation on the `AmazonEC2` service.
     ///
-    /// We recommend that you use the [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) API. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide. Creates an import instance task using metadata from the specified disk image. This API action is not supported by the Command Line Interface (CLI). For information about using the Amazon EC2 CLI, which is deprecated, see [Importing a VM to Amazon EC2](https://awsdocs.s3.amazonaws.com/EC2/ec2-clt.pdf#UsingVirtualMachinesinAmazonEC2) in the Amazon EC2 CLI Reference PDF file. This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html).
+    /// We recommend that you use the [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) API instead. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide. Creates an import instance task using metadata from the specified disk image. This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html). This API action is not supported by the Command Line Interface (CLI).
     ///
     /// - Parameter ImportInstanceInput : [no documentation found]
     ///
@@ -31547,7 +31803,7 @@ extension EC2Client {
 
     /// Performs the `ImportVolume` operation on the `AmazonEC2` service.
     ///
-    /// Creates an import volume task using metadata from the specified disk image. This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. To import a disk to a snapshot, use [ImportSnapshot] instead. This API action is not supported by the Command Line Interface (CLI). For information about using the Amazon EC2 CLI, which is deprecated, see [Importing Disks to Amazon EBS](https://awsdocs.s3.amazonaws.com/EC2/ec2-clt.pdf#importing-your-volumes-into-amazon-ebs) in the Amazon EC2 CLI Reference PDF file. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html).
+    /// This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. To import a disk to a snapshot, use [ImportSnapshot] instead. Creates an import volume task using metadata from the specified disk image. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html). This API action is not supported by the Command Line Interface (CLI).
     ///
     /// - Parameter ImportVolumeInput : [no documentation found]
     ///
@@ -32755,6 +33011,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceCapacityReservationAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyInstanceCpuOptions` operation on the `AmazonEC2` service.
+    ///
+    /// By default, all vCPUs for the instance type are active when you launch an instance. When you configure the number of active vCPUs for the instance, it can help you save on licensing costs and optimize performance. The base cost of the instance remains unchanged. The number of active vCPUs equals the number of threads per CPU core multiplied by the number of cores. The instance must be in a Stopped state before you make changes. Some instance type options do not support this capability. For more information, see [Supported CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter ModifyInstanceCpuOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyInstanceCpuOptionsOutput` : [no documentation found]
+    public func modifyInstanceCpuOptions(input: ModifyInstanceCpuOptionsInput) async throws -> ModifyInstanceCpuOptionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyInstanceCpuOptions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>(ModifyInstanceCpuOptionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceCpuOptionsOutput>(ModifyInstanceCpuOptionsOutput.httpOutput(from:), ModifyInstanceCpuOptionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceCpuOptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ModifyInstanceCpuOptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyInstanceCpuOptionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyInstanceCpuOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyInstanceCpuOptionsInput, ModifyInstanceCpuOptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceCpuOptions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -37098,6 +37418,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterTransitGatewayMulticastGroupSources")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RejectCapacityReservationBillingOwnership` operation on the `AmazonEC2` service.
+    ///
+    /// Rejects a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
+    ///
+    /// - Parameter RejectCapacityReservationBillingOwnershipInput : [no documentation found]
+    ///
+    /// - Returns: `RejectCapacityReservationBillingOwnershipOutput` : [no documentation found]
+    public func rejectCapacityReservationBillingOwnership(input: RejectCapacityReservationBillingOwnershipInput) async throws -> RejectCapacityReservationBillingOwnershipOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "rejectCapacityReservationBillingOwnership")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>(RejectCapacityReservationBillingOwnershipInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectCapacityReservationBillingOwnershipOutput>(RejectCapacityReservationBillingOwnershipOutput.httpOutput(from:), RejectCapacityReservationBillingOwnershipOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RejectCapacityReservationBillingOwnershipOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RejectCapacityReservationBillingOwnershipOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: RejectCapacityReservationBillingOwnershipInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectCapacityReservationBillingOwnershipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectCapacityReservationBillingOwnershipInput, RejectCapacityReservationBillingOwnershipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectCapacityReservationBillingOwnership")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

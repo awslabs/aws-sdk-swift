@@ -25,17 +25,18 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
-public struct DeleteScheduledQueryOutput {
+
+public struct DeleteScheduledQueryOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct ExecuteScheduledQueryOutput {
+public struct ExecuteScheduledQueryOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateScheduledQueryOutput {
+public struct UpdateScheduledQueryOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -160,7 +161,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct CancelQueryInput {
+public struct CancelQueryInput: Swift.Sendable {
     /// The ID of the query that needs to be cancelled. QueryID is returned as part of the query result.
     /// This member is required.
     public var queryId: Swift.String?
@@ -173,7 +174,7 @@ public struct CancelQueryInput {
     }
 }
 
-public struct CancelQueryOutput {
+public struct CancelQueryOutput: Swift.Sendable {
     /// A CancellationMessage is returned when a CancelQuery request for the query specified by QueryId has already been issued.
     public var cancellationMessage: Swift.String?
 
@@ -187,7 +188,7 @@ public struct CancelQueryOutput {
 
 extension TimestreamQueryClientTypes {
 
-    public enum ScalarType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScalarType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bigint
         case boolean
         case date
@@ -291,7 +292,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension TimestreamQueryClientTypes {
 
-    public enum S3EncryptionOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum S3EncryptionOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sseKms
         case sseS3
         case sdkUnknown(Swift.String)
@@ -319,8 +320,9 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Details on S3 location for error reports that result from running a query.
-    public struct S3Configuration {
+    public struct S3Configuration: Swift.Sendable {
         /// Name of the S3 bucket under which error reports will be created.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -340,12 +342,12 @@ extension TimestreamQueryClientTypes {
             self.objectKeyPrefix = objectKeyPrefix
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Configuration required for error reporting.
-    public struct ErrorReportConfiguration {
+    public struct ErrorReportConfiguration: Swift.Sendable {
         /// The S3 configuration for the error reports.
         /// This member is required.
         public var s3Configuration: TimestreamQueryClientTypes.S3Configuration?
@@ -357,12 +359,12 @@ extension TimestreamQueryClientTypes {
             self.s3Configuration = s3Configuration
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Details on SNS that are required to send the notification.
-    public struct SnsConfiguration {
+    public struct SnsConfiguration: Swift.Sendable {
         /// SNS topic ARN that the scheduled query status notifications will be sent to.
         /// This member is required.
         public var topicArn: Swift.String?
@@ -374,12 +376,12 @@ extension TimestreamQueryClientTypes {
             self.topicArn = topicArn
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Notification configuration for a scheduled query. A notification is sent by Timestream when a scheduled query is created, its state is updated or when it is deleted.
-    public struct NotificationConfiguration {
+    public struct NotificationConfiguration: Swift.Sendable {
         /// Details on SNS configuration.
         /// This member is required.
         public var snsConfiguration: TimestreamQueryClientTypes.SnsConfiguration?
@@ -391,12 +393,12 @@ extension TimestreamQueryClientTypes {
             self.snsConfiguration = snsConfiguration
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Configuration of the schedule of the query.
-    public struct ScheduleConfiguration {
+    public struct ScheduleConfiguration: Swift.Sendable {
         /// An expression that denotes when to trigger the scheduled query run. This can be a cron expression or a rate expression.
         /// This member is required.
         public var scheduleExpression: Swift.String?
@@ -408,12 +410,12 @@ extension TimestreamQueryClientTypes {
             self.scheduleExpression = scheduleExpression
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// A tag is a label that you assign to a Timestream database and/or table. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize databases and/or tables, for example, by purpose, owner, or environment.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// The key of the tag. Tag keys are case sensitive.
         /// This member is required.
         public var key: Swift.String?
@@ -430,12 +432,11 @@ extension TimestreamQueryClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
 
-    public enum DimensionValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DimensionValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case varchar
         case sdkUnknown(Swift.String)
 
@@ -460,8 +461,9 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// This type is used to map column(s) from the query result to a dimension in the destination table.
-    public struct DimensionMapping {
+    public struct DimensionMapping: Swift.Sendable {
         /// Type for the dimension.
         /// This member is required.
         public var dimensionValueType: TimestreamQueryClientTypes.DimensionValueType?
@@ -478,12 +480,11 @@ extension TimestreamQueryClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
 
-    public enum MeasureValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MeasureValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bigint
         case boolean
         case double
@@ -521,7 +522,7 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes {
 
-    public enum ScalarMeasureValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScalarMeasureValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bigint
         case boolean
         case double
@@ -558,8 +559,9 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Attribute mapping for MULTI value measures.
-    public struct MultiMeasureAttributeMapping {
+    public struct MultiMeasureAttributeMapping: Swift.Sendable {
         /// Type of the attribute to be read from the source column.
         /// This member is required.
         public var measureValueType: TimestreamQueryClientTypes.ScalarMeasureValueType?
@@ -580,12 +582,12 @@ extension TimestreamQueryClientTypes {
             self.targetMultiMeasureAttributeName = targetMultiMeasureAttributeName
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// MixedMeasureMappings are mappings that can be used to ingest data into a mixture of narrow and multi measures in the derived table.
-    public struct MixedMeasureMapping {
+    public struct MixedMeasureMapping: Swift.Sendable {
         /// Refers to the value of measure_name in a result row. This field is required if MeasureNameColumn is provided.
         public var measureName: Swift.String?
         /// Type of the value that is to be read from sourceColumn. If the mapping is for MULTI, use MeasureValueType.MULTI.
@@ -613,12 +615,12 @@ extension TimestreamQueryClientTypes {
             self.targetMeasureName = targetMeasureName
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Only one of MixedMeasureMappings or MultiMeasureMappings is to be provided. MultiMeasureMappings can be used to ingest data as multi measures in the derived table.
-    public struct MultiMeasureMappings {
+    public struct MultiMeasureMappings: Swift.Sendable {
         /// Required. Attribute mappings to be used for mapping query results to ingest data for multi-measure attributes.
         /// This member is required.
         public var multiMeasureAttributeMappings: [TimestreamQueryClientTypes.MultiMeasureAttributeMapping]?
@@ -634,12 +636,12 @@ extension TimestreamQueryClientTypes {
             self.targetMultiMeasureName = targetMultiMeasureName
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Configuration to write data into Timestream database and table. This configuration allows the user to map the query result select columns into the destination table columns.
-    public struct TimestreamConfiguration {
+    public struct TimestreamConfiguration: Swift.Sendable {
         /// Name of Timestream database to which the query result will be written.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -678,12 +680,12 @@ extension TimestreamQueryClientTypes {
             self.timeColumn = timeColumn
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Configuration used for writing the output of a query.
-    public struct TargetConfiguration {
+    public struct TargetConfiguration: Swift.Sendable {
         /// Configuration needed to write data into the Timestream database and table.
         /// This member is required.
         public var timestreamConfiguration: TimestreamQueryClientTypes.TimestreamConfiguration?
@@ -695,10 +697,9 @@ extension TimestreamQueryClientTypes {
             self.timestreamConfiguration = timestreamConfiguration
         }
     }
-
 }
 
-public struct CreateScheduledQueryInput {
+public struct CreateScheduledQueryInput: Swift.Sendable {
     /// Using a ClientToken makes the call to CreateScheduledQuery idempotent, in other words, making the same request repeatedly will produce the same result. Making multiple identical CreateScheduledQuery requests has the same effect as making a single request.
     ///
     /// * If CreateScheduledQuery is called without a ClientToken, the Query SDK generates a ClientToken on your behalf.
@@ -761,7 +762,7 @@ extension CreateScheduledQueryInput: Swift.CustomDebugStringConvertible {
         "CreateScheduledQueryInput(errorReportConfiguration: \(Swift.String(describing: errorReportConfiguration)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), name: \(Swift.String(describing: name)), notificationConfiguration: \(Swift.String(describing: notificationConfiguration)), scheduleConfiguration: \(Swift.String(describing: scheduleConfiguration)), scheduledQueryExecutionRoleArn: \(Swift.String(describing: scheduledQueryExecutionRoleArn)), tags: \(Swift.String(describing: tags)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), clientToken: \"CONTENT_REDACTED\", queryString: \"CONTENT_REDACTED\")"}
 }
 
-public struct CreateScheduledQueryOutput {
+public struct CreateScheduledQueryOutput: Swift.Sendable {
     /// ARN for the created scheduled query.
     /// This member is required.
     public var arn: Swift.String?
@@ -802,7 +803,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-public struct DeleteScheduledQueryInput {
+public struct DeleteScheduledQueryInput: Swift.Sendable {
     /// The ARN of the scheduled query.
     /// This member is required.
     public var scheduledQueryArn: Swift.String?
@@ -815,14 +816,14 @@ public struct DeleteScheduledQueryInput {
     }
 }
 
-public struct DescribeAccountSettingsInput {
+public struct DescribeAccountSettingsInput: Swift.Sendable {
 
     public init() { }
 }
 
 extension TimestreamQueryClientTypes {
 
-    public enum QueryPricingModel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum QueryPricingModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bytesScanned
         case computeUnits
         case sdkUnknown(Swift.String)
@@ -849,7 +850,7 @@ extension TimestreamQueryClientTypes {
     }
 }
 
-public struct DescribeAccountSettingsOutput {
+public struct DescribeAccountSettingsOutput: Swift.Sendable {
     /// The maximum number of [Timestream compute units](https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html) (TCUs) the service will use at any point in time to serve your queries.
     public var maxQueryTCU: Swift.Int?
     /// The pricing model for queries in your account.
@@ -865,14 +866,15 @@ public struct DescribeAccountSettingsOutput {
     }
 }
 
-public struct DescribeEndpointsInput {
+public struct DescribeEndpointsInput: Swift.Sendable {
 
     public init() { }
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Represents an available endpoint against which to make API calls against, as well as the TTL for that endpoint.
-    public struct Endpoint {
+    public struct Endpoint: Swift.Sendable {
         /// An endpoint address.
         /// This member is required.
         public var address: Swift.String?
@@ -889,10 +891,9 @@ extension TimestreamQueryClientTypes {
             self.cachePeriodInMinutes = cachePeriodInMinutes
         }
     }
-
 }
 
-public struct DescribeEndpointsOutput {
+public struct DescribeEndpointsOutput: Swift.Sendable {
     /// An Endpoints object is returned when a DescribeEndpoints request is made.
     /// This member is required.
     public var endpoints: [TimestreamQueryClientTypes.Endpoint]?
@@ -905,7 +906,7 @@ public struct DescribeEndpointsOutput {
     }
 }
 
-public struct DescribeScheduledQueryInput {
+public struct DescribeScheduledQueryInput: Swift.Sendable {
     /// The ARN of the scheduled query.
     /// This member is required.
     public var scheduledQueryArn: Swift.String?
@@ -919,8 +920,9 @@ public struct DescribeScheduledQueryInput {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// S3 report location for the scheduled query run.
-    public struct S3ReportLocation {
+    public struct S3ReportLocation: Swift.Sendable {
         /// S3 bucket name.
         public var bucketName: Swift.String?
         /// S3 key.
@@ -935,12 +937,12 @@ extension TimestreamQueryClientTypes {
             self.objectKey = objectKey
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// This contains the location of the error report for a single scheduled query call.
-    public struct ErrorReportLocation {
+    public struct ErrorReportLocation: Swift.Sendable {
         /// The S3 location where error reports are written.
         public var s3ReportLocation: TimestreamQueryClientTypes.S3ReportLocation?
 
@@ -951,12 +953,12 @@ extension TimestreamQueryClientTypes {
             self.s3ReportLocation = s3ReportLocation
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Statistics for a single scheduled query run.
-    public struct ExecutionStats {
+    public struct ExecutionStats: Swift.Sendable {
         /// Bytes metered for a single scheduled query run.
         public var bytesMetered: Swift.Int
         /// Bytes scanned for a single scheduled query run.
@@ -987,12 +989,11 @@ extension TimestreamQueryClientTypes {
             self.recordsIngested = recordsIngested
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
 
-    public enum ScheduledQueryRunStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScheduledQueryRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoTriggerFailure
         case autoTriggerSuccess
         case manualTriggerFailure
@@ -1026,8 +1027,9 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Run summary for the scheduled query
-    public struct ScheduledQueryRunSummary {
+    public struct ScheduledQueryRunSummary: Swift.Sendable {
         /// S3 location for error report.
         public var errorReportLocation: TimestreamQueryClientTypes.ErrorReportLocation?
         /// Runtime statistics for a scheduled run.
@@ -1058,12 +1060,11 @@ extension TimestreamQueryClientTypes {
             self.triggerTime = triggerTime
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
 
-    public enum ScheduledQueryState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScheduledQueryState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
@@ -1091,8 +1092,9 @@ extension TimestreamQueryClientTypes {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Structure that describes scheduled query.
-    public struct ScheduledQueryDescription {
+    public struct ScheduledQueryDescription: Swift.Sendable {
         /// Scheduled query ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -1165,7 +1167,6 @@ extension TimestreamQueryClientTypes {
             self.targetConfiguration = targetConfiguration
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes.ScheduledQueryDescription: Swift.CustomDebugStringConvertible {
@@ -1173,7 +1174,7 @@ extension TimestreamQueryClientTypes.ScheduledQueryDescription: Swift.CustomDebu
         "ScheduledQueryDescription(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), errorReportConfiguration: \(Swift.String(describing: errorReportConfiguration)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lastRunSummary: \(Swift.String(describing: lastRunSummary)), name: \(Swift.String(describing: name)), nextInvocationTime: \(Swift.String(describing: nextInvocationTime)), notificationConfiguration: \(Swift.String(describing: notificationConfiguration)), previousInvocationTime: \(Swift.String(describing: previousInvocationTime)), recentlyFailedRuns: \(Swift.String(describing: recentlyFailedRuns)), scheduleConfiguration: \(Swift.String(describing: scheduleConfiguration)), scheduledQueryExecutionRoleArn: \(Swift.String(describing: scheduledQueryExecutionRoleArn)), state: \(Swift.String(describing: state)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), queryString: \"CONTENT_REDACTED\")"}
 }
 
-public struct DescribeScheduledQueryOutput {
+public struct DescribeScheduledQueryOutput: Swift.Sendable {
     /// The scheduled query.
     /// This member is required.
     public var scheduledQuery: TimestreamQueryClientTypes.ScheduledQueryDescription?
@@ -1186,7 +1187,7 @@ public struct DescribeScheduledQueryOutput {
     }
 }
 
-public struct ExecuteScheduledQueryInput {
+public struct ExecuteScheduledQueryInput: Swift.Sendable {
     /// Not used.
     public var clientToken: Swift.String?
     /// The timestamp in UTC. Query will be run as if it was invoked at this timestamp.
@@ -1213,7 +1214,7 @@ extension ExecuteScheduledQueryInput: Swift.CustomDebugStringConvertible {
         "ExecuteScheduledQueryInput(invocationTime: \(Swift.String(describing: invocationTime)), scheduledQueryArn: \(Swift.String(describing: scheduledQueryArn)), clientToken: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListScheduledQueriesInput {
+public struct ListScheduledQueriesInput: Swift.Sendable {
     /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as the argument to the subsequent call to ListScheduledQueriesRequest.
     public var maxResults: Swift.Int?
     /// A pagination token to resume pagination.
@@ -1230,8 +1231,9 @@ public struct ListScheduledQueriesInput {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Destination for scheduled query.
-    public struct TimestreamDestination {
+    public struct TimestreamDestination: Swift.Sendable {
         /// Timestream database name.
         public var databaseName: Swift.String?
         /// Timestream table name.
@@ -1246,12 +1248,12 @@ extension TimestreamQueryClientTypes {
             self.tableName = tableName
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Destination details to write data for a target data source. Current supported data source is Timestream.
-    public struct TargetDestination {
+    public struct TargetDestination: Swift.Sendable {
         /// Query result destination details for Timestream data source.
         public var timestreamDestination: TimestreamQueryClientTypes.TimestreamDestination?
 
@@ -1262,12 +1264,12 @@ extension TimestreamQueryClientTypes {
             self.timestreamDestination = timestreamDestination
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Scheduled Query
-    public struct ScheduledQuery {
+    public struct ScheduledQuery: Swift.Sendable {
         /// The Amazon Resource Name.
         /// This member is required.
         public var arn: Swift.String?
@@ -1313,10 +1315,9 @@ extension TimestreamQueryClientTypes {
             self.targetDestination = targetDestination
         }
     }
-
 }
 
-public struct ListScheduledQueriesOutput {
+public struct ListScheduledQueriesOutput: Swift.Sendable {
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// A list of scheduled queries.
@@ -1333,7 +1334,7 @@ public struct ListScheduledQueriesOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The maximum number of tags to return.
     public var maxResults: Swift.Int?
     /// A pagination token to resume pagination.
@@ -1354,7 +1355,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// A pagination token to resume pagination with a subsequent call to ListTagsForResourceResponse.
     public var nextToken: Swift.String?
     /// The tags currently associated with the Timestream resource.
@@ -1371,7 +1372,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct PrepareQueryInput {
+public struct PrepareQueryInput: Swift.Sendable {
     /// The Timestream query string that you want to use as a prepared statement. Parameter names can be specified in the query string @ character followed by an identifier.
     /// This member is required.
     public var queryString: Swift.String?
@@ -1417,7 +1418,7 @@ public struct QueryExecutionException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-public struct QueryInput {
+public struct QueryInput: Swift.Sendable {
     /// Unique, case-sensitive string of up to 64 ASCII characters specified when a Query request is made. Providing a ClientToken makes the call to Query idempotent. This means that running the same query repeatedly will produce the same result. In other words, making multiple identical Query requests has the same effect as making a single request. When using ClientToken in a query, note the following:
     ///
     /// * If the Query API is instantiated without a ClientToken, the Query SDK generates a ClientToken on your behalf.
@@ -1475,8 +1476,9 @@ extension QueryInput: Swift.CustomDebugStringConvertible {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Information about the status of the query, including progress and bytes scanned.
-    public struct QueryStatus {
+    public struct QueryStatus: Swift.Sendable {
         /// The amount of data scanned by the query in bytes that you will be charged for. This is a cumulative sum and represents the total amount of data that you will be charged for since the query was started. The charge is applied only once and is either applied when the query completes running or when the query is cancelled.
         public var cumulativeBytesMetered: Swift.Int
         /// The amount of data scanned by the query in bytes. This is a cumulative sum and represents the total amount of bytes scanned since the query was started.
@@ -1495,10 +1497,9 @@ extension TimestreamQueryClientTypes {
             self.progressPercentage = progressPercentage
         }
     }
-
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// Identifies the Timestream resource to which tags should be added. This value is an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1516,12 +1517,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The Timestream resource that the tags will be removed from. This value is an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1539,12 +1540,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateAccountSettingsInput {
+public struct UpdateAccountSettingsInput: Swift.Sendable {
     /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
     public var maxQueryTCU: Swift.Int?
     /// The pricing model for queries in an account.
@@ -1560,7 +1561,7 @@ public struct UpdateAccountSettingsInput {
     }
 }
 
-public struct UpdateAccountSettingsOutput {
+public struct UpdateAccountSettingsOutput: Swift.Sendable {
     /// The configured maximum number of compute units the service will use at any point in time to serve your queries.
     public var maxQueryTCU: Swift.Int?
     /// The pricing model for an account.
@@ -1576,7 +1577,7 @@ public struct UpdateAccountSettingsOutput {
     }
 }
 
-public struct UpdateScheduledQueryInput {
+public struct UpdateScheduledQueryInput: Swift.Sendable {
     /// ARN of the scheuled query.
     /// This member is required.
     public var scheduledQueryArn: Swift.String?
@@ -1595,8 +1596,9 @@ public struct UpdateScheduledQueryInput {
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Contains the metadata for query results such as the column names, data types, and other attributes.
-    public struct ColumnInfo {
+    public struct ColumnInfo: Swift.Sendable {
         /// The name of the result set column. The name of the result set is available for columns of all data types except for arrays.
         public var name: Swift.String?
         /// The data type of the result set column. The data type can be a scalar or complex. Scalar data types are integers, strings, doubles, Booleans, and others. Complex data types are types such as arrays, rows, and others.
@@ -1612,12 +1614,12 @@ extension TimestreamQueryClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Contains the data type of a column in a query result set. The data type can be scalar or complex. The supported scalar data types are integers, Boolean, string, double, timestamp, date, time, and intervals. The supported complex data types are arrays, rows, and timeseries.
-    public struct ModelType {
+    public struct ModelType: Swift.Sendable {
         /// Indicates if the column is an array.
         public var arrayColumnInfo: TimestreamQueryClientTypes.ColumnInfo?
         /// Indicates if the column is a row.
@@ -1640,12 +1642,12 @@ extension TimestreamQueryClientTypes {
             self.timeSeriesMeasureValueColumnInfo = timeSeriesMeasureValueColumnInfo
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Datum represents a single data point in a query result.
-    public struct Datum {
+    public struct Datum: Swift.Sendable {
         /// Indicates if the data point is an array.
         public var arrayValue: [TimestreamQueryClientTypes.Datum]?
         /// Indicates if the data point is null.
@@ -1672,12 +1674,12 @@ extension TimestreamQueryClientTypes {
             self.timeSeriesValue = timeSeriesValue
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Mapping for named parameters.
-    public struct ParameterMapping {
+    public struct ParameterMapping: Swift.Sendable {
         /// Parameter name.
         /// This member is required.
         public var name: Swift.String?
@@ -1694,12 +1696,12 @@ extension TimestreamQueryClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Details of the column that is returned by the query.
-    public struct SelectColumn {
+    public struct SelectColumn: Swift.Sendable {
         /// True, if the column name was aliased by the query. False otherwise.
         public var aliased: Swift.Bool?
         /// Database that has this column.
@@ -1726,12 +1728,12 @@ extension TimestreamQueryClientTypes {
             self.type = type
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// The timeseries data type represents the values of a measure over time. A time series is an array of rows of timestamps and measure values, with rows sorted in ascending order of time. A TimeSeriesDataPoint is a single data point in the time series. It represents a tuple of (time, measure value) in a time series.
-    public struct TimeSeriesDataPoint {
+    public struct TimeSeriesDataPoint: Swift.Sendable {
         /// The timestamp when the measure value was collected.
         /// This member is required.
         public var time: Swift.String?
@@ -1748,12 +1750,12 @@ extension TimestreamQueryClientTypes {
             self.value = value
         }
     }
-
 }
 
 extension TimestreamQueryClientTypes {
+
     /// Represents a single row in the query results.
-    public struct Row {
+    public struct Row: Swift.Sendable {
         /// List of data points in a single row of the result set.
         /// This member is required.
         public var data: [TimestreamQueryClientTypes.Datum]?
@@ -1765,10 +1767,9 @@ extension TimestreamQueryClientTypes {
             self.data = data
         }
     }
-
 }
 
-public struct QueryOutput {
+public struct QueryOutput: Swift.Sendable {
     /// The column data types of the returned result set.
     /// This member is required.
     public var columnInfo: [TimestreamQueryClientTypes.ColumnInfo]?
@@ -1799,7 +1800,7 @@ public struct QueryOutput {
     }
 }
 
-public struct PrepareQueryOutput {
+public struct PrepareQueryOutput: Swift.Sendable {
     /// A list of SELECT clause columns of the submitted query string.
     /// This member is required.
     public var columns: [TimestreamQueryClientTypes.SelectColumn]?

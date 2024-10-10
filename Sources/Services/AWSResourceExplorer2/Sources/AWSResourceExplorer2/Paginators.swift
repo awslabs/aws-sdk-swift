@@ -42,6 +42,38 @@ extension PaginatorSequence where OperationStackInput == ListIndexesForMembersIn
     }
 }
 extension ResourceExplorer2Client {
+    /// Paginate over `[ListResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutput`
+    public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResources(input:))
+    }
+}
+
+extension ListResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourcesInput {
+        return ListResourcesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            viewArn: self.viewArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourcesInput, OperationStackOutput == ListResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourcesPaginated`
+    /// to access the nested member `[ResourceExplorer2ClientTypes.Resource]`
+    /// - Returns: `[ResourceExplorer2ClientTypes.Resource]`
+    public func resources() async throws -> [ResourceExplorer2ClientTypes.Resource] {
+        return try await self.asyncCompactMap { item in item.resources }
+    }
+}
+extension ResourceExplorer2Client {
     /// Paginate over `[ListSupportedResourceTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

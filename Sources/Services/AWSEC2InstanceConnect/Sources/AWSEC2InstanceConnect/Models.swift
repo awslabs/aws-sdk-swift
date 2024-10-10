@@ -308,7 +308,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct SendSerialConsoleSSHPublicKeyInput {
+public struct SendSerialConsoleSSHPublicKeyInput: Swift.Sendable {
     /// The ID of the EC2 instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -330,7 +330,7 @@ public struct SendSerialConsoleSSHPublicKeyInput {
     }
 }
 
-public struct SendSerialConsoleSSHPublicKeyOutput {
+public struct SendSerialConsoleSSHPublicKeyOutput: Swift.Sendable {
     /// The ID of the request. Please provide this ID when contacting AWS Support for assistance.
     public var requestId: Swift.String?
     /// Is true if the request succeeds and an error otherwise.
@@ -346,7 +346,7 @@ public struct SendSerialConsoleSSHPublicKeyOutput {
     }
 }
 
-public struct SendSSHPublicKeyInput {
+public struct SendSSHPublicKeyInput: Swift.Sendable {
     /// The Availability Zone in which the EC2 instance was launched.
     public var availabilityZone: Swift.String?
     /// The ID of the EC2 instance.
@@ -373,7 +373,7 @@ public struct SendSSHPublicKeyInput {
     }
 }
 
-public struct SendSSHPublicKeyOutput {
+public struct SendSSHPublicKeyOutput: Swift.Sendable {
     /// The ID of the request. Please provide this ID when contacting AWS Support for assistance.
     public var requestId: Swift.String?
     /// Is true if the request succeeds and an error otherwise.

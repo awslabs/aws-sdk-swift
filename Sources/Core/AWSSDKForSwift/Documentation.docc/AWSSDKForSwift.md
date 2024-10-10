@@ -531,6 +531,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMarketplaceMetering](../../../../../swift/api/awsmarketplacemetering/latest)
 
+[AWSMarketplaceReporting](../../../../../swift/api/awsmarketplacereporting/latest)
+
 [AWSMediaConnect](../../../../../swift/api/awsmediaconnect/latest)
 
 [AWSMediaConvert](../../../../../swift/api/awsmediaconvert/latest)
@@ -776,6 +778,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSnowDeviceManagement](../../../../../swift/api/awssnowdevicemanagement/latest)
 
 [AWSSnowball](../../../../../swift/api/awssnowball/latest)
+
+[AWSSocialMessaging](../../../../../swift/api/awssocialmessaging/latest)
 
 [AWSSsmSap](../../../../../swift/api/awsssmsap/latest)
 
