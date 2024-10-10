@@ -779,6 +779,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSnowball](../../../../../swift/api/awssnowball/latest)
 
+[AWSSocialMessaging](../../../../../swift/api/awssocialmessaging/latest)
+
 [AWSSsmSap](../../../../../swift/api/awsssmsap/latest)
 
 [AWSStorageGateway](../../../../../swift/api/awsstoragegateway/latest)

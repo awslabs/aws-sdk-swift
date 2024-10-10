@@ -91,6 +91,31 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
+/// The resource is in a state that prevents it from being used for database migration.
+public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceStateFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// The resource could not be found.
 public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -267,31 +292,6 @@ public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
     )
     {
         self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
-    }
-}
-
-/// The resource is in a state that prevents it from being used for database migration.
-public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        ///
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidResourceStateFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -514,6 +514,54 @@ public struct CancelReplicationTaskAssessmentRunOutput: Swift.Sendable {
     }
 }
 
+/// A dependency threw an exception.
+public struct FailedDependencyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FailedDependencyFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The action or operation requested isn't valid.
+public struct InvalidOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidOperationFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// The resource you are attempting to create already exists.
 public struct ResourceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -565,6 +613,290 @@ public struct ResourceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
     )
     {
         self.properties.message = message
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    public enum MigrationTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cdc
+        case fullLoad
+        case fullLoadAndCdc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MigrationTypeValue] {
+            return [
+                .cdc,
+                .fullLoad,
+                .fullLoadAndCdc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cdc: return "cdc"
+            case .fullLoad: return "full-load"
+            case .fullLoadAndCdc: return "full-load-and-cdc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Defines settings for a source data provider for a data migration.
+    public struct SourceDataSetting: Swift.Sendable {
+        /// The change data capture (CDC) start position for the source data provider.
+        public var cdcStartPosition: Swift.String?
+        /// The change data capture (CDC) start time for the source data provider.
+        public var cdcStartTime: Foundation.Date?
+        /// The change data capture (CDC) stop time for the source data provider.
+        public var cdcStopTime: Foundation.Date?
+        /// The name of the replication slot on the source data provider. This attribute is only valid for a PostgreSQL or Aurora PostgreSQL source.
+        public var slotName: Swift.String?
+
+        public init(
+            cdcStartPosition: Swift.String? = nil,
+            cdcStartTime: Foundation.Date? = nil,
+            cdcStopTime: Foundation.Date? = nil,
+            slotName: Swift.String? = nil
+        )
+        {
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStartTime = cdcStartTime
+            self.cdcStopTime = cdcStopTime
+            self.slotName = slotName
+        }
+    }
+}
+
+public struct CreateDataMigrationInput: Swift.Sendable {
+    /// A user-friendly name for the data migration. Data migration names have the following constraints:
+    ///
+    /// * Must begin with a letter, and can only contain ASCII letters, digits, and hyphens.
+    ///
+    /// * Can't end with a hyphen or contain two consecutive hyphens.
+    ///
+    /// * Length must be from 1 to 255 characters.
+    public var dataMigrationName: Swift.String?
+    /// Specifies if the data migration is full-load only, change data capture (CDC) only, or full-load and CDC.
+    /// This member is required.
+    public var dataMigrationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+    /// Specifies whether to enable CloudWatch logs for the data migration.
+    public var enableCloudwatchLogs: Swift.Bool?
+    /// An identifier for the migration project.
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+    public var numberOfJobs: Swift.Int?
+    /// An optional JSON string specifying what tables, views, and schemas to include or exclude from the migration.
+    public var selectionRules: Swift.String?
+    /// The Amazon Resource Name (ARN) for the service access role that you want to use to create the data migration.
+    /// This member is required.
+    public var serviceAccessRoleArn: Swift.String?
+    /// Specifies information about the source data provider.
+    public var sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]?
+    /// One or more tags to be assigned to the data migration.
+    public var tags: [DatabaseMigrationClientTypes.Tag]?
+
+    public init(
+        dataMigrationName: Swift.String? = nil,
+        dataMigrationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+        enableCloudwatchLogs: Swift.Bool? = nil,
+        migrationProjectIdentifier: Swift.String? = nil,
+        numberOfJobs: Swift.Int? = nil,
+        selectionRules: Swift.String? = nil,
+        serviceAccessRoleArn: Swift.String? = nil,
+        sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil,
+        tags: [DatabaseMigrationClientTypes.Tag]? = nil
+    )
+    {
+        self.dataMigrationName = dataMigrationName
+        self.dataMigrationType = dataMigrationType
+        self.enableCloudwatchLogs = enableCloudwatchLogs
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.numberOfJobs = numberOfJobs
+        self.selectionRules = selectionRules
+        self.serviceAccessRoleArn = serviceAccessRoleArn
+        self.sourceDataSettings = sourceDataSettings
+        self.tags = tags
+    }
+}
+
+extension CreateDataMigrationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDataMigrationInput(dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), enableCloudwatchLogs: \(Swift.String(describing: enableCloudwatchLogs)), migrationProjectIdentifier: \(Swift.String(describing: migrationProjectIdentifier)), numberOfJobs: \(Swift.String(describing: numberOfJobs)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), tags: \(Swift.String(describing: tags)), selectionRules: \"CONTENT_REDACTED\")"}
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Options for configuring a data migration, including whether to enable CloudWatch logs, and the selection rules to use to include or exclude database objects from the migration.
+    public struct DataMigrationSettings: Swift.Sendable {
+        /// Whether to enable CloudWatch logging for the data migration.
+        public var cloudwatchLogsEnabled: Swift.Bool?
+        /// The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+        public var numberOfJobs: Swift.Int?
+        /// A JSON-formatted string that defines what objects to include and exclude from the migration.
+        public var selectionRules: Swift.String?
+
+        public init(
+            cloudwatchLogsEnabled: Swift.Bool? = nil,
+            numberOfJobs: Swift.Int? = nil,
+            selectionRules: Swift.String? = nil
+        )
+        {
+            self.cloudwatchLogsEnabled = cloudwatchLogsEnabled
+            self.numberOfJobs = numberOfJobs
+            self.selectionRules = selectionRules
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes.DataMigrationSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataMigrationSettings(cloudwatchLogsEnabled: \(Swift.String(describing: cloudwatchLogsEnabled)), numberOfJobs: \(Swift.String(describing: numberOfJobs)), selectionRules: \"CONTENT_REDACTED\")"}
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Information about the data migration run, including start and stop time, latency, and migration progress.
+    public struct DataMigrationStatistics: Swift.Sendable {
+        /// The current latency of the change data capture (CDC) operation.
+        public var cdcLatency: Swift.Int
+        /// The elapsed duration of the data migration run.
+        public var elapsedTimeMillis: Swift.Int
+        /// The data migration's progress in the full-load migration phase.
+        public var fullLoadPercentage: Swift.Int
+        /// The time when the migration started.
+        public var startTime: Foundation.Date?
+        /// The time when the migration stopped or failed.
+        public var stopTime: Foundation.Date?
+        /// The number of tables that DMS failed to process.
+        public var tablesErrored: Swift.Int
+        /// The number of tables loaded in the current data migration run.
+        public var tablesLoaded: Swift.Int
+        /// The data migration's table loading progress.
+        public var tablesLoading: Swift.Int
+        /// The number of tables that are waiting for processing.
+        public var tablesQueued: Swift.Int
+
+        public init(
+            cdcLatency: Swift.Int = 0,
+            elapsedTimeMillis: Swift.Int = 0,
+            fullLoadPercentage: Swift.Int = 0,
+            startTime: Foundation.Date? = nil,
+            stopTime: Foundation.Date? = nil,
+            tablesErrored: Swift.Int = 0,
+            tablesLoaded: Swift.Int = 0,
+            tablesLoading: Swift.Int = 0,
+            tablesQueued: Swift.Int = 0
+        )
+        {
+            self.cdcLatency = cdcLatency
+            self.elapsedTimeMillis = elapsedTimeMillis
+            self.fullLoadPercentage = fullLoadPercentage
+            self.startTime = startTime
+            self.stopTime = stopTime
+            self.tablesErrored = tablesErrored
+            self.tablesLoaded = tablesLoaded
+            self.tablesLoading = tablesLoading
+            self.tablesQueued = tablesQueued
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// This object provides information about a DMS data migration.
+    public struct DataMigration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that identifies this replication.
+        public var dataMigrationArn: Swift.String?
+        /// The UTC time when DMS created the data migration.
+        public var dataMigrationCreateTime: Foundation.Date?
+        /// The UTC time when data migration ended.
+        public var dataMigrationEndTime: Foundation.Date?
+        /// The user-friendly name for the data migration.
+        public var dataMigrationName: Swift.String?
+        /// Specifies CloudWatch settings and selection rules for the data migration.
+        public var dataMigrationSettings: DatabaseMigrationClientTypes.DataMigrationSettings?
+        /// The UTC time when DMS started the data migration.
+        public var dataMigrationStartTime: Foundation.Date?
+        /// Provides information about the data migration's run, including start and stop time, latency, and data migration progress.
+        public var dataMigrationStatistics: DatabaseMigrationClientTypes.DataMigrationStatistics?
+        /// The current status of the data migration.
+        public var dataMigrationStatus: Swift.String?
+        /// Specifies whether the data migration is full-load only, change data capture (CDC) only, or full-load and CDC.
+        public var dataMigrationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+        /// Information about the data migration's most recent error or failure.
+        public var lastFailureMessage: Swift.String?
+        /// The Amazon Resource Name (ARN) of the data migration's associated migration project.
+        public var migrationProjectArn: Swift.String?
+        /// The IP addresses of the endpoints for the data migration.
+        public var publicIpAddresses: [Swift.String]?
+        /// The IAM role that the data migration uses to access Amazon Web Services resources.
+        public var serviceAccessRoleArn: Swift.String?
+        /// Specifies information about the data migration's source data provider.
+        public var sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]?
+        /// The reason the data migration last stopped.
+        public var stopReason: Swift.String?
+
+        public init(
+            dataMigrationArn: Swift.String? = nil,
+            dataMigrationCreateTime: Foundation.Date? = nil,
+            dataMigrationEndTime: Foundation.Date? = nil,
+            dataMigrationName: Swift.String? = nil,
+            dataMigrationSettings: DatabaseMigrationClientTypes.DataMigrationSettings? = nil,
+            dataMigrationStartTime: Foundation.Date? = nil,
+            dataMigrationStatistics: DatabaseMigrationClientTypes.DataMigrationStatistics? = nil,
+            dataMigrationStatus: Swift.String? = nil,
+            dataMigrationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+            lastFailureMessage: Swift.String? = nil,
+            migrationProjectArn: Swift.String? = nil,
+            publicIpAddresses: [Swift.String]? = nil,
+            serviceAccessRoleArn: Swift.String? = nil,
+            sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil,
+            stopReason: Swift.String? = nil
+        )
+        {
+            self.dataMigrationArn = dataMigrationArn
+            self.dataMigrationCreateTime = dataMigrationCreateTime
+            self.dataMigrationEndTime = dataMigrationEndTime
+            self.dataMigrationName = dataMigrationName
+            self.dataMigrationSettings = dataMigrationSettings
+            self.dataMigrationStartTime = dataMigrationStartTime
+            self.dataMigrationStatistics = dataMigrationStatistics
+            self.dataMigrationStatus = dataMigrationStatus
+            self.dataMigrationType = dataMigrationType
+            self.lastFailureMessage = lastFailureMessage
+            self.migrationProjectArn = migrationProjectArn
+            self.publicIpAddresses = publicIpAddresses
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.sourceDataSettings = sourceDataSettings
+            self.stopReason = stopReason
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes.DataMigration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataMigration(dataMigrationArn: \(Swift.String(describing: dataMigrationArn)), dataMigrationCreateTime: \(Swift.String(describing: dataMigrationCreateTime)), dataMigrationEndTime: \(Swift.String(describing: dataMigrationEndTime)), dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationSettings: \(Swift.String(describing: dataMigrationSettings)), dataMigrationStartTime: \(Swift.String(describing: dataMigrationStartTime)), dataMigrationStatistics: \(Swift.String(describing: dataMigrationStatistics)), dataMigrationStatus: \(Swift.String(describing: dataMigrationStatus)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), lastFailureMessage: \(Swift.String(describing: lastFailureMessage)), migrationProjectArn: \(Swift.String(describing: migrationProjectArn)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), stopReason: \(Swift.String(describing: stopReason)), publicIpAddresses: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateDataMigrationOutput: Swift.Sendable {
+    /// Information about the created data migration.
+    public var dataMigration: DatabaseMigrationClientTypes.DataMigration?
+
+    public init(
+        dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
+    )
+    {
+        self.dataMigration = dataMigration
     }
 }
 
@@ -3350,7 +3682,7 @@ public struct CreateEndpointInput: Swift.Sendable {
     /// The type of endpoint. Valid values are source and target.
     /// This member is required.
     public var endpointType: DatabaseMigrationClientTypes.ReplicationEndpointTypeValue?
-    /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", and "babelfish".
+    /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", "babelfish", redshift-serverless, aurora-serverless, aurora-postgresql-serverless, gcp-mysql, azure-sql-managed-instance, redis, dms-transfer.
     /// This member is required.
     public var engineName: Swift.String?
     /// The external table definition.
@@ -4361,7 +4693,7 @@ extension DatabaseMigrationClientTypes {
         public var kmsKeyId: Swift.String?
         /// Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parameter is the only DCU parameter you are required to specify.
         public var maxCapacityUnits: Swift.Int?
-        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. You don't have to specify a value for the MinCapacityUnits parameter. If you don't set this value, DMS scans the current activity of available source tables to identify an optimum setting for this parameter. If there is no current source activity or DMS can't otherwise identify a more appropriate value, it sets this parameter to the minimum DCU value allowed, 1.
+        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. If you don't set this value, DMS sets this parameter to the minimum DCU value allowed, 1. If there is no current source activity, DMS scales down your replication until it reaches the value specified in MinCapacityUnits.
         public var minCapacityUnits: Swift.Int?
         /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
         public var multiAZ: Swift.Bool?
@@ -4393,38 +4725,6 @@ extension DatabaseMigrationClientTypes {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.replicationSubnetGroupId = replicationSubnetGroupId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
-        }
-    }
-}
-
-extension DatabaseMigrationClientTypes {
-
-    public enum MigrationTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cdc
-        case fullLoad
-        case fullLoadAndCdc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MigrationTypeValue] {
-            return [
-                .cdc,
-                .fullLoad,
-                .fullLoadAndCdc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cdc: return "cdc"
-            case .fullLoad: return "full-load"
-            case .fullLoadAndCdc: return "full-load-and-cdc"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -4988,7 +5288,7 @@ public struct CreateReplicationSubnetGroupInput: Swift.Sendable {
     /// The description for the subnet group.
     /// This member is required.
     public var replicationSubnetGroupDescription: Swift.String?
-    /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
+    /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
     /// This member is required.
     public var replicationSubnetGroupIdentifier: Swift.String?
     /// Two or more subnet IDs to be assigned to the subnet group.
@@ -5465,6 +5765,31 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDataMigrationInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the data migration to delete.
+    /// This member is required.
+    public var dataMigrationIdentifier: Swift.String?
+
+    public init(
+        dataMigrationIdentifier: Swift.String? = nil
+    )
+    {
+        self.dataMigrationIdentifier = dataMigrationIdentifier
+    }
+}
+
+public struct DeleteDataMigrationOutput: Swift.Sendable {
+    /// The deleted data migration.
+    public var dataMigration: DatabaseMigrationClientTypes.DataMigration?
+
+    public init(
+        dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
+    )
+    {
+        self.dataMigration = dataMigration
+    }
+}
+
 public struct DeleteDataProviderInput: Swift.Sendable {
     /// The identifier of the data provider to delete.
     /// This member is required.
@@ -5578,30 +5903,6 @@ public struct DeleteFleetAdvisorCollectorInput: Swift.Sendable {
     )
     {
         self.collectorReferencedId = collectorReferencedId
-    }
-}
-
-/// The action or operation requested isn't valid.
-public struct InvalidOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidOperationFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -6007,6 +6308,50 @@ public struct DescribeConversionConfigurationOutput: Swift.Sendable {
     {
         self.conversionConfiguration = conversionConfiguration
         self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+public struct DescribeDataMigrationsInput: Swift.Sendable {
+    /// Filters applied to the data migrations.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+    public var maxRecords: Swift.Int?
+    /// An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
+    public var withoutSettings: Swift.Bool?
+    /// An option to set to avoid returning information about statistics. Use this to reduce overhead when statistics information is too large. To use this option, choose true; otherwise, choose false (the default).
+    public var withoutStatistics: Swift.Bool?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        withoutSettings: Swift.Bool? = nil,
+        withoutStatistics: Swift.Bool? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.withoutSettings = withoutSettings
+        self.withoutStatistics = withoutStatistics
+    }
+}
+
+public struct DescribeDataMigrationsOutput: Swift.Sendable {
+    /// Returns information about the data migrations used in the project.
+    public var dataMigrations: [DatabaseMigrationClientTypes.DataMigration]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+
+    public init(
+        dataMigrations: [DatabaseMigrationClientTypes.DataMigration]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.dataMigrations = dataMigrations
+        self.marker = marker
     }
 }
 
@@ -9308,6 +9653,64 @@ public struct ModifyConversionConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyDataMigrationInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the data migration to modify.
+    /// This member is required.
+    public var dataMigrationIdentifier: Swift.String?
+    /// The new name for the data migration.
+    public var dataMigrationName: Swift.String?
+    /// The new migration type for the data migration.
+    public var dataMigrationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+    /// Whether to enable Cloudwatch logs for the data migration.
+    public var enableCloudwatchLogs: Swift.Bool?
+    /// The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+    public var numberOfJobs: Swift.Int?
+    /// A JSON-formatted string that defines what objects to include and exclude from the migration.
+    public var selectionRules: Swift.String?
+    /// The new service access role ARN for the data migration.
+    public var serviceAccessRoleArn: Swift.String?
+    /// The new information about the source data provider for the data migration.
+    public var sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]?
+
+    public init(
+        dataMigrationIdentifier: Swift.String? = nil,
+        dataMigrationName: Swift.String? = nil,
+        dataMigrationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+        enableCloudwatchLogs: Swift.Bool? = nil,
+        numberOfJobs: Swift.Int? = nil,
+        selectionRules: Swift.String? = nil,
+        serviceAccessRoleArn: Swift.String? = nil,
+        sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil
+    )
+    {
+        self.dataMigrationIdentifier = dataMigrationIdentifier
+        self.dataMigrationName = dataMigrationName
+        self.dataMigrationType = dataMigrationType
+        self.enableCloudwatchLogs = enableCloudwatchLogs
+        self.numberOfJobs = numberOfJobs
+        self.selectionRules = selectionRules
+        self.serviceAccessRoleArn = serviceAccessRoleArn
+        self.sourceDataSettings = sourceDataSettings
+    }
+}
+
+extension ModifyDataMigrationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModifyDataMigrationInput(dataMigrationIdentifier: \(Swift.String(describing: dataMigrationIdentifier)), dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), enableCloudwatchLogs: \(Swift.String(describing: enableCloudwatchLogs)), numberOfJobs: \(Swift.String(describing: numberOfJobs)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), selectionRules: \"CONTENT_REDACTED\")"}
+}
+
+public struct ModifyDataMigrationOutput: Swift.Sendable {
+    /// Information about the modified data migration.
+    public var dataMigration: DatabaseMigrationClientTypes.DataMigration?
+
+    public init(
+        dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
+    )
+    {
+        self.dataMigration = dataMigration
+    }
+}
+
 public struct ModifyDataProviderInput: Swift.Sendable {
     /// The identifier of the data provider. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
     /// This member is required.
@@ -10233,6 +10636,68 @@ public struct RunFleetAdvisorLsaAnalysisOutput: Swift.Sendable {
     }
 }
 
+extension DatabaseMigrationClientTypes {
+
+    public enum StartReplicationMigrationTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case reloadTarget
+        case resumeProcessing
+        case startReplication
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StartReplicationMigrationTypeValue] {
+            return [
+                .reloadTarget,
+                .resumeProcessing,
+                .startReplication
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .reloadTarget: return "reload-target"
+            case .resumeProcessing: return "resume-processing"
+            case .startReplication: return "start-replication"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartDataMigrationInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the data migration to start.
+    /// This member is required.
+    public var dataMigrationIdentifier: Swift.String?
+    /// Specifies the start type for the data migration. Valid values include start-replication, reload-target, and resume-processing.
+    /// This member is required.
+    public var startType: DatabaseMigrationClientTypes.StartReplicationMigrationTypeValue?
+
+    public init(
+        dataMigrationIdentifier: Swift.String? = nil,
+        startType: DatabaseMigrationClientTypes.StartReplicationMigrationTypeValue? = nil
+    )
+    {
+        self.dataMigrationIdentifier = dataMigrationIdentifier
+        self.startType = startType
+    }
+}
+
+public struct StartDataMigrationOutput: Swift.Sendable {
+    /// The data migration that DMS started.
+    public var dataMigration: DatabaseMigrationClientTypes.DataMigration?
+
+    public init(
+        dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
+    )
+    {
+        self.dataMigration = dataMigration
+    }
+}
+
 public struct StartExtensionPackAssociationInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
@@ -10714,6 +11179,31 @@ public struct StartReplicationTaskAssessmentRunOutput: Swift.Sendable {
     }
 }
 
+public struct StopDataMigrationInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the data migration to stop.
+    /// This member is required.
+    public var dataMigrationIdentifier: Swift.String?
+
+    public init(
+        dataMigrationIdentifier: Swift.String? = nil
+    )
+    {
+        self.dataMigrationIdentifier = dataMigrationIdentifier
+    }
+}
+
+public struct StopDataMigrationOutput: Swift.Sendable {
+    /// The data migration that DMS stopped.
+    public var dataMigration: DatabaseMigrationClientTypes.DataMigration?
+
+    public init(
+        dataMigration: DatabaseMigrationClientTypes.DataMigration? = nil
+    )
+    {
+        self.dataMigration = dataMigration
+    }
+}
+
 ///
 public struct StopReplicationInput: Swift.Sendable {
     /// The Amazon Resource Name of the replication to stop.
@@ -10853,6 +11343,13 @@ extension CancelReplicationTaskAssessmentRunInput {
     }
 }
 
+extension CreateDataMigrationInput {
+
+    static func urlPathProvider(_ value: CreateDataMigrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateDataProviderInput {
 
     static func urlPathProvider(_ value: CreateDataProviderInput) -> Swift.String? {
@@ -10933,6 +11430,13 @@ extension DeleteCertificateInput {
 extension DeleteConnectionInput {
 
     static func urlPathProvider(_ value: DeleteConnectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteDataMigrationInput {
+
+    static func urlPathProvider(_ value: DeleteDataMigrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11052,6 +11556,13 @@ extension DescribeConnectionsInput {
 extension DescribeConversionConfigurationInput {
 
     static func urlPathProvider(_ value: DescribeConversionConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeDataMigrationsInput {
+
+    static func urlPathProvider(_ value: DescribeDataMigrationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11350,6 +11861,13 @@ extension ModifyConversionConfigurationInput {
     }
 }
 
+extension ModifyDataMigrationInput {
+
+    static func urlPathProvider(_ value: ModifyDataMigrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifyDataProviderInput {
 
     static func urlPathProvider(_ value: ModifyDataProviderInput) -> Swift.String? {
@@ -11462,6 +11980,13 @@ extension RunFleetAdvisorLsaAnalysisInput {
     }
 }
 
+extension StartDataMigrationInput {
+
+    static func urlPathProvider(_ value: StartDataMigrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartExtensionPackAssociationInput {
 
     static func urlPathProvider(_ value: StartExtensionPackAssociationInput) -> Swift.String? {
@@ -11539,6 +12064,13 @@ extension StartReplicationTaskAssessmentRunInput {
     }
 }
 
+extension StopDataMigrationInput {
+
+    static func urlPathProvider(_ value: StopDataMigrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopReplicationInput {
 
     static func urlPathProvider(_ value: StopReplicationInput) -> Swift.String? {
@@ -11599,6 +12131,22 @@ extension CancelReplicationTaskAssessmentRunInput {
     static func write(value: CancelReplicationTaskAssessmentRunInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ReplicationTaskAssessmentRunArn"].write(value.replicationTaskAssessmentRunArn)
+    }
+}
+
+extension CreateDataMigrationInput {
+
+    static func write(value: CreateDataMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataMigrationName"].write(value.dataMigrationName)
+        try writer["DataMigrationType"].write(value.dataMigrationType)
+        try writer["EnableCloudwatchLogs"].write(value.enableCloudwatchLogs)
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+        try writer["NumberOfJobs"].write(value.numberOfJobs)
+        try writer["SelectionRules"].write(value.selectionRules)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
+        try writer["SourceDataSettings"].writeList(value.sourceDataSettings, memberWritingClosure: DatabaseMigrationClientTypes.SourceDataSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: DatabaseMigrationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11800,6 +12348,14 @@ extension DeleteConnectionInput {
     }
 }
 
+extension DeleteDataMigrationInput {
+
+    static func write(value: DeleteDataMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataMigrationIdentifier"].write(value.dataMigrationIdentifier)
+    }
+}
+
 extension DeleteDataProviderInput {
 
     static func write(value: DeleteDataProviderInput?, to writer: SmithyJSON.Writer) throws {
@@ -11943,6 +12499,18 @@ extension DescribeConversionConfigurationInput {
     static func write(value: DescribeConversionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+    }
+}
+
+extension DescribeDataMigrationsInput {
+
+    static func write(value: DescribeDataMigrationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: DatabaseMigrationClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["WithoutSettings"].write(value.withoutSettings)
+        try writer["WithoutStatistics"].write(value.withoutStatistics)
     }
 }
 
@@ -12377,6 +12945,21 @@ extension ModifyConversionConfigurationInput {
     }
 }
 
+extension ModifyDataMigrationInput {
+
+    static func write(value: ModifyDataMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataMigrationIdentifier"].write(value.dataMigrationIdentifier)
+        try writer["DataMigrationName"].write(value.dataMigrationName)
+        try writer["DataMigrationType"].write(value.dataMigrationType)
+        try writer["EnableCloudwatchLogs"].write(value.enableCloudwatchLogs)
+        try writer["NumberOfJobs"].write(value.numberOfJobs)
+        try writer["SelectionRules"].write(value.selectionRules)
+        try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
+        try writer["SourceDataSettings"].writeList(value.sourceDataSettings, memberWritingClosure: DatabaseMigrationClientTypes.SourceDataSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ModifyDataProviderInput {
 
     static func write(value: ModifyDataProviderInput?, to writer: SmithyJSON.Writer) throws {
@@ -12600,6 +13183,15 @@ extension RunFleetAdvisorLsaAnalysisInput {
     }
 }
 
+extension StartDataMigrationInput {
+
+    static func write(value: StartDataMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataMigrationIdentifier"].write(value.dataMigrationIdentifier)
+        try writer["StartType"].write(value.startType)
+    }
+}
+
 extension StartExtensionPackAssociationInput {
 
     static func write(value: StartExtensionPackAssociationInput?, to writer: SmithyJSON.Writer) throws {
@@ -12715,6 +13307,14 @@ extension StartReplicationTaskAssessmentRunInput {
     }
 }
 
+extension StopDataMigrationInput {
+
+    static func write(value: StopDataMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataMigrationIdentifier"].write(value.dataMigrationIdentifier)
+    }
+}
+
 extension StopReplicationInput {
 
     static func write(value: StopReplicationInput?, to writer: SmithyJSON.Writer) throws {
@@ -12787,6 +13387,18 @@ extension CancelReplicationTaskAssessmentRunOutput {
         let reader = responseReader
         var value = CancelReplicationTaskAssessmentRunOutput()
         value.replicationTaskAssessmentRun = try reader["ReplicationTaskAssessmentRun"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRun.read(from:))
+        return value
+    }
+}
+
+extension CreateDataMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataMigrationOutput()
+        value.dataMigration = try reader["DataMigration"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigration.read(from:))
         return value
     }
 }
@@ -12935,6 +13547,18 @@ extension DeleteConnectionOutput {
         let reader = responseReader
         var value = DeleteConnectionOutput()
         value.connection = try reader["Connection"].readIfPresent(with: DatabaseMigrationClientTypes.Connection.read(from:))
+        return value
+    }
+}
+
+extension DeleteDataMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDataMigrationOutput()
+        value.dataMigration = try reader["DataMigration"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigration.read(from:))
         return value
     }
 }
@@ -13134,6 +13758,19 @@ extension DescribeConversionConfigurationOutput {
         var value = DescribeConversionConfigurationOutput()
         value.conversionConfiguration = try reader["ConversionConfiguration"].readIfPresent()
         value.migrationProjectIdentifier = try reader["MigrationProjectIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeDataMigrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDataMigrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDataMigrationsOutput()
+        value.dataMigrations = try reader["DataMigrations"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.DataMigration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
         return value
     }
 }
@@ -13683,6 +14320,18 @@ extension ModifyConversionConfigurationOutput {
     }
 }
 
+extension ModifyDataMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyDataMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyDataMigrationOutput()
+        value.dataMigration = try reader["DataMigration"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigration.read(from:))
+        return value
+    }
+}
+
 extension ModifyDataProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyDataProviderOutput {
@@ -13871,6 +14520,18 @@ extension RunFleetAdvisorLsaAnalysisOutput {
     }
 }
 
+extension StartDataMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDataMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDataMigrationOutput()
+        value.dataMigration = try reader["DataMigration"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigration.read(from:))
+        return value
+    }
+}
+
 extension StartExtensionPackAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartExtensionPackAssociationOutput {
@@ -13998,6 +14659,18 @@ extension StartReplicationTaskAssessmentRunOutput {
     }
 }
 
+extension StopDataMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopDataMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopDataMigrationOutput()
+        value.dataMigration = try reader["DataMigration"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigration.read(from:))
+        return value
+    }
+}
+
 extension StopReplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopReplicationOutput {
@@ -14054,6 +14727,7 @@ enum AddTagsToResourceOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14106,6 +14780,24 @@ enum CancelReplicationTaskAssessmentRunOutputError {
     }
 }
 
+enum CreateDataMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
+            case "InvalidOperationFault": return try InvalidOperationFault.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsFault": return try ResourceAlreadyExistsFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            case "ResourceQuotaExceededFault": return try ResourceQuotaExceededFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDataProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14115,6 +14807,7 @@ enum CreateDataProviderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "ResourceAlreadyExistsFault": return try ResourceAlreadyExistsFault.makeError(baseError: baseError)
             case "ResourceQuotaExceededFault": return try ResourceQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14192,6 +14885,7 @@ enum CreateInstanceProfileOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "ResourceAlreadyExistsFault": return try ResourceAlreadyExistsFault.makeError(baseError: baseError)
@@ -14213,6 +14907,7 @@ enum CreateMigrationProjectOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "ResourceAlreadyExistsFault": return try ResourceAlreadyExistsFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             case "ResourceQuotaExceededFault": return try ResourceQuotaExceededFault.makeError(baseError: baseError)
@@ -14336,6 +15031,22 @@ enum DeleteConnectionOutputError {
     }
 }
 
+enum DeleteDataMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDataProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14345,6 +15056,7 @@ enum DeleteDataProviderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14390,6 +15102,7 @@ enum DeleteFleetAdvisorCollectorOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
             case "CollectorNotFoundFault": return try CollectorNotFoundFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14405,6 +15118,7 @@ enum DeleteFleetAdvisorDatabasesOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
             case "InvalidOperationFault": return try InvalidOperationFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14421,6 +15135,7 @@ enum DeleteInstanceProfileOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14437,6 +15152,7 @@ enum DeleteMigrationProjectOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14592,6 +15308,22 @@ enum DescribeConversionConfigurationOutputError {
     }
 }
 
+enum DescribeDataMigrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDataProvidersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14601,6 +15333,7 @@ enum DescribeDataProvidersOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14792,6 +15525,7 @@ enum DescribeInstanceProfilesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14877,6 +15611,7 @@ enum DescribeMigrationProjectsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15165,6 +15900,7 @@ enum ListTagsForResourceOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15186,6 +15922,22 @@ enum ModifyConversionConfigurationOutputError {
     }
 }
 
+enum ModifyDataMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyDataProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15195,6 +15947,7 @@ enum ModifyDataProviderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15251,6 +16004,7 @@ enum ModifyInstanceProfileOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -15270,6 +16024,7 @@ enum ModifyMigrationProjectOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             case "S3AccessDeniedFault": return try S3AccessDeniedFault.makeError(baseError: baseError)
@@ -15442,6 +16197,7 @@ enum RemoveTagsFromResourceOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15458,6 +16214,24 @@ enum RunFleetAdvisorLsaAnalysisOutputError {
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartDataMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
+            case "InvalidOperationFault": return try InvalidOperationFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            case "ResourceQuotaExceededFault": return try ResourceQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15677,6 +16451,22 @@ enum StartReplicationTaskAssessmentRunOutputError {
     }
 }
 
+enum StopDataMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FailedDependencyFault": return try FailedDependencyFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopReplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15741,11 +16531,11 @@ enum UpdateSubscriptionsToEventBridgeOutputError {
     }
 }
 
-extension ResourceNotFoundFault {
+extension InvalidResourceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateFault {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundFault()
+        var value = InvalidResourceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15754,11 +16544,11 @@ extension ResourceNotFoundFault {
     }
 }
 
-extension InvalidResourceStateFault {
+extension ResourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateFault()
+        var value = ResourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15787,6 +16577,32 @@ extension ResourceAlreadyExistsFault {
         var value = ResourceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOperationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOperationFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension FailedDependencyFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FailedDependencyFault {
+        let reader = baseError.errorBodyReader
+        var value = FailedDependencyFault()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16002,19 +16818,6 @@ extension CollectorNotFoundFault {
     }
 }
 
-extension InvalidOperationFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOperationFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidCertificateFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCertificateFault {
@@ -16133,6 +16936,81 @@ extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress {
         var value = DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress()
         value.individualAssessmentCount = try reader["IndividualAssessmentCount"].readIfPresent() ?? 0
         value.individualAssessmentCompletedCount = try reader["IndividualAssessmentCompletedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DataMigration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataMigration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DataMigration()
+        value.dataMigrationName = try reader["DataMigrationName"].readIfPresent()
+        value.dataMigrationArn = try reader["DataMigrationArn"].readIfPresent()
+        value.dataMigrationCreateTime = try reader["DataMigrationCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataMigrationStartTime = try reader["DataMigrationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataMigrationEndTime = try reader["DataMigrationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.serviceAccessRoleArn = try reader["ServiceAccessRoleArn"].readIfPresent()
+        value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
+        value.dataMigrationType = try reader["DataMigrationType"].readIfPresent()
+        value.dataMigrationSettings = try reader["DataMigrationSettings"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigrationSettings.read(from:))
+        value.sourceDataSettings = try reader["SourceDataSettings"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.SourceDataSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataMigrationStatistics = try reader["DataMigrationStatistics"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigrationStatistics.read(from:))
+        value.dataMigrationStatus = try reader["DataMigrationStatus"].readIfPresent()
+        value.publicIpAddresses = try reader["PublicIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
+        value.stopReason = try reader["StopReason"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DataMigrationStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataMigrationStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DataMigrationStatistics()
+        value.tablesLoaded = try reader["TablesLoaded"].readIfPresent() ?? 0
+        value.elapsedTimeMillis = try reader["ElapsedTimeMillis"].readIfPresent() ?? 0
+        value.tablesLoading = try reader["TablesLoading"].readIfPresent() ?? 0
+        value.fullLoadPercentage = try reader["FullLoadPercentage"].readIfPresent() ?? 0
+        value.cdcLatency = try reader["CDCLatency"].readIfPresent() ?? 0
+        value.tablesQueued = try reader["TablesQueued"].readIfPresent() ?? 0
+        value.tablesErrored = try reader["TablesErrored"].readIfPresent() ?? 0
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.stopTime = try reader["StopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.SourceDataSetting {
+
+    static func write(value: DatabaseMigrationClientTypes.SourceDataSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CDCStartPosition"].write(value.cdcStartPosition)
+        try writer["CDCStartTime"].writeTimestamp(value.cdcStartTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["CDCStopTime"].writeTimestamp(value.cdcStopTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["SlotName"].write(value.slotName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SourceDataSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.SourceDataSetting()
+        value.cdcStartPosition = try reader["CDCStartPosition"].readIfPresent()
+        value.cdcStartTime = try reader["CDCStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.cdcStopTime = try reader["CDCStopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.slotName = try reader["SlotName"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.DataMigrationSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DataMigrationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DataMigrationSettings()
+        value.numberOfJobs = try reader["NumberOfJobs"].readIfPresent()
+        value.cloudwatchLogsEnabled = try reader["CloudwatchLogsEnabled"].readIfPresent()
+        value.selectionRules = try reader["SelectionRules"].readIfPresent()
         return value
     }
 }

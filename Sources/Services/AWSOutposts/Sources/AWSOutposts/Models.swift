@@ -1134,6 +1134,7 @@ extension OutpostsClientTypes {
     public enum OrderStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case completed
+        case delivered
         case error
         case fulfilled
         case installing
@@ -1148,6 +1149,7 @@ extension OutpostsClientTypes {
             return [
                 .cancelled,
                 .completed,
+                .delivered,
                 .error,
                 .fulfilled,
                 .installing,
@@ -1168,6 +1170,7 @@ extension OutpostsClientTypes {
             switch self {
             case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
+            case .delivered: return "DELIVERED"
             case .error: return "ERROR"
             case .fulfilled: return "FULFILLED"
             case .installing: return "INSTALLING"
@@ -1206,7 +1209,9 @@ extension OutpostsClientTypes {
         ///
         /// * PREPARING - Order is received and being prepared.
         ///
-        /// * IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.
+        /// * IN_PROGRESS - Order is either being built or shipped. To get more details, see the line item status.
+        ///
+        /// * DELIVERED - Order was delivered to the Outpost site.
         ///
         /// * COMPLETED - Order is complete.
         ///
@@ -2153,12 +2158,16 @@ extension OutpostsClientTypes {
     public struct InstanceTypeItem: Swift.Sendable {
         /// The instance type.
         public var instanceType: Swift.String?
+        /// The number of default VCPUs in an instance type.
+        public var vcpUs: Swift.Int?
 
         public init(
-            instanceType: Swift.String? = nil
+            instanceType: Swift.String? = nil,
+            vcpUs: Swift.Int? = nil
         )
         {
             self.instanceType = instanceType
+            self.vcpUs = vcpUs
         }
     }
 }
@@ -4852,6 +4861,7 @@ extension OutpostsClientTypes.InstanceTypeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.InstanceTypeItem()
         value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.vcpUs = try reader["VCPUs"].readIfPresent()
         return value
     }
 }

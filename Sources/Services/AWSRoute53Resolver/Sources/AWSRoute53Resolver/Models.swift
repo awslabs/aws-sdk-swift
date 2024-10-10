@@ -2038,7 +2038,7 @@ public struct CreateResolverQueryLogConfigInput: Swift.Sendable {
     public var creatorRequestId: Swift.String?
     /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following:
     ///
-    /// * S3 bucket: arn:aws:s3:::examplebucket You can optionally append a file prefix to the end of the ARN. arn:aws:s3:::examplebucket/development/
+    /// * S3 bucket: arn:aws:s3:::amzn-s3-demo-bucket You can optionally append a file prefix to the end of the ARN. arn:aws:s3:::amzn-s3-demo-bucket/development/
     ///
     /// * CloudWatch Logs log group: arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*
     ///
@@ -2243,18 +2243,22 @@ extension Route53ResolverClientTypes {
         ///
         /// * None, which is treated as Do53.
         public var `protocol`: Route53ResolverClientTypes.ModelProtocol?
+        /// The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Protocol of the TargetAddress is DoH.
+        public var serverNameIndication: Swift.String?
 
         public init(
             ip: Swift.String? = nil,
             ipv6: Swift.String? = nil,
             port: Swift.Int? = nil,
-            `protocol`: Route53ResolverClientTypes.ModelProtocol? = nil
+            `protocol`: Route53ResolverClientTypes.ModelProtocol? = nil,
+            serverNameIndication: Swift.String? = nil
         )
         {
             self.ip = ip
             self.ipv6 = ipv6
             self.port = port
             self.`protocol` = `protocol`
+            self.serverNameIndication = serverNameIndication
         }
     }
 }
@@ -4941,7 +4945,7 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     ///
     /// * TXT: Verifies email senders and application-specific values.
     ///
-    /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+    /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types). If you set up a firewall BLOCK rule with action NXDOMAIN on query type equals AAAA, this action will not be applied to synthetic IPv6 addresses generated when DNS64 is enabled.
     public var qtype: Swift.String?
 
     public init(
@@ -8954,6 +8958,7 @@ extension Route53ResolverClientTypes.TargetAddress {
         try writer["Ipv6"].write(value.ipv6)
         try writer["Port"].write(value.port)
         try writer["Protocol"].write(value.`protocol`)
+        try writer["ServerNameIndication"].write(value.serverNameIndication)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.TargetAddress {
@@ -8963,6 +8968,7 @@ extension Route53ResolverClientTypes.TargetAddress {
         value.port = try reader["Port"].readIfPresent()
         value.ipv6 = try reader["Ipv6"].readIfPresent()
         value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.serverNameIndication = try reader["ServerNameIndication"].readIfPresent()
         return value
     }
 }

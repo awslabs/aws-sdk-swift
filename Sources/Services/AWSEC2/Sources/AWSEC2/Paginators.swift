@@ -176,6 +176,40 @@ extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockOf
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeCapacityReservationBillingRequestsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityReservationBillingRequestsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityReservationBillingRequestsOutput`
+    public func describeCapacityReservationBillingRequestsPaginated(input: DescribeCapacityReservationBillingRequestsInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityReservationBillingRequestsInput, DescribeCapacityReservationBillingRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityReservationBillingRequests(input:))
+    }
+}
+
+extension DescribeCapacityReservationBillingRequestsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityReservationBillingRequestsInput {
+        return DescribeCapacityReservationBillingRequestsInput(
+            capacityReservationIds: self.capacityReservationIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            role: self.role
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityReservationBillingRequestsInput, OperationStackOutput == DescribeCapacityReservationBillingRequestsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityReservationBillingRequestsPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityReservationBillingRequest]`
+    /// - Returns: `[EC2ClientTypes.CapacityReservationBillingRequest]`
+    public func capacityReservationBillingRequests() async throws -> [EC2ClientTypes.CapacityReservationBillingRequest] {
+        return try await self.asyncCompactMap { item in item.capacityReservationBillingRequests }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeCapacityReservationFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
