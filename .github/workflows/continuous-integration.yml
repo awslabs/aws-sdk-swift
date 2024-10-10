@@ -16,7 +16,7 @@ jobs:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
           - macos-13
-          - macos-14
+          - macos-15
         xcode:
           - Xcode_15.2
           - Xcode_16
@@ -33,7 +33,7 @@ jobs:
           - runner: macos-13
             xcode: Xcode_16
           # Don't run new macOS with old Xcode
-          - runner: macos-14
+          - runner: macos-15
             xcode: Xcode_15.2
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
