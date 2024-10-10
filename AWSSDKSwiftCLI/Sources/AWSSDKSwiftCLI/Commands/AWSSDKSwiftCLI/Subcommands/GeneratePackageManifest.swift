@@ -79,11 +79,37 @@ struct GeneratePackageManifest {
     /// Generates a package manifest file and saves it to `packageFileName`
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
+
+        // Generate package manifest for aws-sdk-swift and save it as aws-sdk-swift/Package.swift
         let contents = try generatePackageManifestContents()
-        try savePackageManifest(contents)
+        try savePackageManifest(contents, packageFileName)
+
+        // Generate package manifest for smoke tests and save it as aws-sdk-swift/SmokeTests/Package.swift
+        let smokeTestsContents = try generateSmokeTestsPackageManifestContents()
+        try savePackageManifest(contents, "SmokeTests/\(packageFileName)")
     }
 
     // MARK: - Helpers
+
+    func generateSmokeTestsPackageManifestContents() throws -> String {
+        return [
+            // SmokeTests package manifest uses same prefix as one for aws-sdk-swift.
+            try PackageManifestBuilder.contentReader(filename: "Package.Prefix")(),
+            try generateServiceNamesArray(),
+            try PackageManifestBuilder.contentReader(filename: "SmokeTestsPackage.Base.txt")()
+        ].joined(separator: .newline)
+    }
+
+    func generateServiceNamesArray() throws -> String {
+        let servicesWithSmokeTests = try FileManager.default.servicesWithSmokeTests()
+        let formatedServiceList = servicesWithSmokeTests.map { "\t\($0)," }.joined(separator: .newline)
+        return [
+            "// All services that have smoke tests generated for them.",
+            "let serviceNames: [String] = [",
+            formatedServiceList,
+            "]"
+        ].joined(separator: .newline)
+    }
 
     /// Returns the contents of the generated package manifest.
     /// This determines the versions of the dependencies and the list of services to include and then genraetes the package manifest with those values.
@@ -102,10 +128,10 @@ struct GeneratePackageManifest {
     /// If no file exists, then this will create a new file. Otherwise, this will overwrite the existing file.
     ///
     /// - Parameter contents: The contents of the package manifest.
-    func savePackageManifest(_ contents: String) throws {
-        log("Saving package manifest to \(packageFileName)...")
+    func savePackageManifest(_ contents: String, _ packageFilePath: String) throws {
+        log("Saving package manifest to \(packageFilePath)...")
         try contents.write(
-            toFile: packageFileName,
+            toFile: packageFilePath,
             atomically: true,
             encoding: .utf8
         )
