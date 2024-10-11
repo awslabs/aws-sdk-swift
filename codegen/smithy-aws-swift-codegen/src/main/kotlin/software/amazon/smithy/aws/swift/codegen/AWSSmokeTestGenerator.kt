@@ -10,6 +10,18 @@ import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 class AWSSmokeTestGenerator(
     private val ctx: ProtocolGenerator.GenerationContext
 ) : SmokeTestGenerator(ctx) {
+    // Filter out tests by name or tag at codegen time.
+    // Each element must have the prefix "<service-name>:" before the test name or tag name.
+    // E.g., "AWSS3:GetObjectTest" or "AWSS3:BucketTests"
+    override val testIdsToIgnore = setOf<String>(
+        // Add smoke test name to ignore here:
+        // E.g., "AWSACM:GetCertificateFailure",
+    )
+    override val testTagsToIgnore = setOf<String>(
+        // Add smoke test tag to ignore here:
+        // E.g., "AWSACM:TagToIgnore",
+    )
+
     override fun getServiceName(): String {
         return "AWS" + ctx.service.getTrait(ServiceTrait::class.java).get().sdkId.toUpperCamelCase()
     }
