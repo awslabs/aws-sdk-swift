@@ -710,7 +710,7 @@ extension RoboMakerClientTypes {
 
     /// Provides upload configuration information. Files are uploaded from the simulation job to a location you specify.
     public struct UploadConfiguration: Swift.Sendable {
-        /// A prefix that specifies where files will be uploaded in Amazon S3. It is appended to the simulation output location to determine the final path. For example, if your simulation output location is s3://my-bucket and your upload configuration name is robot-test, your files will be uploaded to s3://my-bucket///robot-test.
+        /// A prefix that specifies where files will be uploaded in Amazon S3. It is appended to the simulation output location to determine the final path. For example, if your simulation output location is s3://amzn-s3-demo-bucket and your upload configuration name is robot-test, your files will be uploaded to s3://amzn-s3-demo-bucket///robot-test.
         /// This member is required.
         public var name: Swift.String?
         /// Specifies the path of the file(s) to upload. Standard Unix glob matching rules are accepted, with the addition of ** as a super asterisk. For example, specifying /var/log/**.log causes all .log files in the /var/log directory tree to be collected. For more examples, see [Glob Library](https://github.com/gobwas/glob).
@@ -815,7 +815,7 @@ extension RoboMakerClientTypes {
         /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation. This API is no longer supported and will throw an error if used.
         @available(*, deprecated, message: "AWS RoboMaker is ending support for ROS software suite. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/software-support-policy.html.")
         public var useDefaultUploadConfigurations: Swift.Bool?
-        /// A list of world configurations.
+        /// A list of world configurations. This API is no longer supported and will throw an error if used.
         public var worldConfigs: [RoboMakerClientTypes.WorldConfig]?
 
         public init(
@@ -1783,11 +1783,11 @@ extension RoboMakerClientTypes {
 
 extension RoboMakerClientTypes {
 
-    /// Information about a robot software suite (ROS distribution).
+    /// Information about a robot software suite.
     public struct RobotSoftwareSuite: Swift.Sendable {
-        /// The name of the robot software suite (ROS distribution).
+        /// The name of the robot software suite. General is the only supported value.
         public var name: RoboMakerClientTypes.RobotSoftwareSuiteType?
-        /// The version of the robot software suite (ROS distribution).
+        /// The version of the robot software suite. Not applicable for General software suite.
         public var version: RoboMakerClientTypes.RobotSoftwareSuiteVersionType?
 
         public init(
@@ -1831,7 +1831,7 @@ public struct CreateRobotApplicationInput: Swift.Sendable {
     /// The name of the robot application.
     /// This member is required.
     public var name: Swift.String?
-    /// The robot software suite (ROS distribuition) used by the robot application.
+    /// The robot software suite used by the robot application.
     /// This member is required.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The sources of the robot application.
@@ -1894,7 +1894,7 @@ public struct CreateRobotApplicationOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The revision id of the robot application.
     public var revisionId: Swift.String?
-    /// The robot software suite (ROS distribution) used by the robot application.
+    /// The robot software suite used by the robot application.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The sources of the robot application.
     public var sources: [RoboMakerClientTypes.Source]?
@@ -1963,7 +1963,7 @@ public struct CreateRobotApplicationVersionOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The revision id of the robot application.
     public var revisionId: Swift.String?
-    /// The robot software suite (ROS distribution) used by the robot application.
+    /// The robot software suite used by the robot application.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The sources of the robot application.
     public var sources: [RoboMakerClientTypes.Source]?
@@ -2074,9 +2074,9 @@ extension RoboMakerClientTypes {
 
     /// Information about a simulation software suite.
     public struct SimulationSoftwareSuite: Swift.Sendable {
-        /// The name of the simulation software suite.
+        /// The name of the simulation software suite. SimulationRuntime is the only supported value.
         public var name: RoboMakerClientTypes.SimulationSoftwareSuiteType?
-        /// The version of the simulation software suite.
+        /// The version of the simulation software suite. Not applicable for SimulationRuntime.
         public var version: Swift.String?
 
         public init(
@@ -2098,7 +2098,7 @@ public struct CreateSimulationApplicationInput: Swift.Sendable {
     public var name: Swift.String?
     /// The rendering engine for the simulation application.
     public var renderingEngine: RoboMakerClientTypes.RenderingEngine?
-    /// The robot software suite (ROS distribution) used by the simulation application.
+    /// The robot software suite used by the simulation application.
     /// This member is required.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The simulation software suite used by the simulation application.
@@ -2142,7 +2142,7 @@ public struct CreateSimulationApplicationOutput: Swift.Sendable {
     public var renderingEngine: RoboMakerClientTypes.RenderingEngine?
     /// The revision id of the simulation application.
     public var revisionId: Swift.String?
-    /// Information about the robot software suite (ROS distribution).
+    /// Information about the robot software suite.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The simulation software suite used by the simulation application.
     public var simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite?
@@ -2219,7 +2219,7 @@ public struct CreateSimulationApplicationVersionOutput: Swift.Sendable {
     public var renderingEngine: RoboMakerClientTypes.RenderingEngine?
     /// The revision ID of the simulation application.
     public var revisionId: Swift.String?
-    /// Information about the robot software suite (ROS distribution).
+    /// Information about the robot software suite.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The simulation software suite used by the simulation application.
     public var simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite?
@@ -3544,7 +3544,7 @@ public struct DescribeRobotApplicationOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The revision id of the robot application.
     public var revisionId: Swift.String?
-    /// The robot software suite (ROS distribution) used by the robot application.
+    /// The robot software suite used by the robot application.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The sources of the robot application.
     public var sources: [RoboMakerClientTypes.Source]?
@@ -3611,7 +3611,7 @@ public struct DescribeSimulationApplicationOutput: Swift.Sendable {
     public var renderingEngine: RoboMakerClientTypes.RenderingEngine?
     /// The revision id of the simulation application.
     public var revisionId: Swift.String?
-    /// Information about the robot software suite (ROS distribution).
+    /// Information about the robot software suite.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The simulation software suite used by the simulation application.
     public var simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite?
@@ -4456,7 +4456,7 @@ extension RoboMakerClientTypes {
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the robot application.
         public var name: Swift.String?
-        /// Information about a robot software suite (ROS distribution).
+        /// Information about a robot software suite.
         public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
         /// The version of the robot application.
         public var version: Swift.String?
@@ -4566,7 +4566,7 @@ extension RoboMakerClientTypes {
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the simulation application.
         public var name: Swift.String?
-        /// Information about a robot software suite (ROS distribution).
+        /// Information about a robot software suite.
         public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
         /// Information about a simulation software suite.
         public var simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite?
@@ -5265,7 +5265,7 @@ public struct UpdateRobotApplicationInput: Swift.Sendable {
     public var currentRevisionId: Swift.String?
     /// The object that contains the Docker image URI for your robot application.
     public var environment: RoboMakerClientTypes.Environment?
-    /// The robot software suite (ROS distribution) used by the robot application.
+    /// The robot software suite used by the robot application.
     /// This member is required.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The sources of the robot application.
@@ -5298,7 +5298,7 @@ public struct UpdateRobotApplicationOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The revision id of the robot application.
     public var revisionId: Swift.String?
-    /// The robot software suite (ROS distribution) used by the robot application.
+    /// The robot software suite used by the robot application.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The sources of the robot application.
     public var sources: [RoboMakerClientTypes.Source]?
@@ -5337,7 +5337,7 @@ public struct UpdateSimulationApplicationInput: Swift.Sendable {
     public var environment: RoboMakerClientTypes.Environment?
     /// The rendering engine for the simulation application.
     public var renderingEngine: RoboMakerClientTypes.RenderingEngine?
-    /// Information about the robot software suite (ROS distribution).
+    /// Information about the robot software suite.
     /// This member is required.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The simulation software suite used by the simulation application.
@@ -5379,7 +5379,7 @@ public struct UpdateSimulationApplicationOutput: Swift.Sendable {
     public var renderingEngine: RoboMakerClientTypes.RenderingEngine?
     /// The revision id of the simulation application.
     public var revisionId: Swift.String?
-    /// Information about the robot software suite (ROS distribution).
+    /// Information about the robot software suite.
     public var robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
     /// The simulation software suite used by the simulation application.
     public var simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite?

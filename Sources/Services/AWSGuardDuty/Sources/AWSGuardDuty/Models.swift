@@ -971,6 +971,8 @@ extension GuardDutyClientTypes {
         public var connectionDirection: Swift.String?
         /// The local IP information of the connection.
         public var localIpDetails: GuardDutyClientTypes.LocalIpDetails?
+        /// The EC2 instance's local elastic network interface utilized for the connection.
+        public var localNetworkInterface: Swift.String?
         /// The local port information of the connection.
         public var localPortDetails: GuardDutyClientTypes.LocalPortDetails?
         /// The network connection protocol.
@@ -984,6 +986,7 @@ extension GuardDutyClientTypes {
             blocked: Swift.Bool? = nil,
             connectionDirection: Swift.String? = nil,
             localIpDetails: GuardDutyClientTypes.LocalIpDetails? = nil,
+            localNetworkInterface: Swift.String? = nil,
             localPortDetails: GuardDutyClientTypes.LocalPortDetails? = nil,
             `protocol`: Swift.String? = nil,
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil,
@@ -993,6 +996,7 @@ extension GuardDutyClientTypes {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
             self.localIpDetails = localIpDetails
+            self.localNetworkInterface = localNetworkInterface
             self.localPortDetails = localPortDetails
             self.`protocol` = `protocol`
             self.remoteIpDetails = remoteIpDetails
@@ -14081,6 +14085,7 @@ extension GuardDutyClientTypes.NetworkConnectionAction {
         value.localPortDetails = try reader["localPortDetails"].readIfPresent(with: GuardDutyClientTypes.LocalPortDetails.read(from:))
         value.`protocol` = try reader["protocol"].readIfPresent()
         value.localIpDetails = try reader["localIpDetails"].readIfPresent(with: GuardDutyClientTypes.LocalIpDetails.read(from:))
+        value.localNetworkInterface = try reader["localNetworkInterface"].readIfPresent()
         value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
         value.remotePortDetails = try reader["remotePortDetails"].readIfPresent(with: GuardDutyClientTypes.RemotePortDetails.read(from:))
         return value
