@@ -12,11 +12,11 @@ let package = Package(
     platforms: [
         .macOS(.v10_15)
     ],
+        products: serviceNames.map(productForRunner(_:)),
     dependencies: [
         .package(path: "../../smithy-swift"),
         .package(path: "../../aws-sdk-swift")
     ],
-    products: serviceNames.map(productForRunner(_:)),
     targets: serviceNames.map(targetForRunner(_:))
 )
 

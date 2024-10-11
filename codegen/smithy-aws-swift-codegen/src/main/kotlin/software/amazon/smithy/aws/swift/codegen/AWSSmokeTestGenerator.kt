@@ -20,7 +20,7 @@ class AWSSmokeTestGenerator(
 
     override fun renderCustomFilePrivateVariables(writer: SwiftWriter) {
         writer.write("fileprivate let regionFromEnv = ProcessInfo.processInfo.environment[\"AWS_SMOKE_TEST_REGION\"]")
-        writer.write("fileprivate let tagsToSkip = (ProcessInfo.processInfo.environment[\"AWS_SMOKE_TEST_SKIP_TAGS\"] ?? \"\").components(separatedBy: \\\",\\\")\")")
+        writer.write("fileprivate let tagsToSkip = (ProcessInfo.processInfo.environment[\"AWS_SMOKE_TEST_SKIP_TAGS\"] ?? \"\").components(separatedBy: \",\")")
     }
 
     override fun handleVendorParams(vendorParams: ObjectNode, writer: SwiftWriter) {
@@ -38,12 +38,12 @@ class AWSSmokeTestGenerator(
                 /* BaseAwsVendorParams members */
                 "region" -> {
                     // Take region value retrieved from environment variable if present; otherwise, take from trait definition.
-                    val regionValue = "regionFromEnv ?? " + originalMapping.value.expectStringNode().value
+                    val regionValue = "regionFromEnv ?? \"${originalMapping.value.expectStringNode().value}\""
                     formattedMapping.put("region", regionValue)
                     formattedMapping.put("signingRegion", regionValue)
                 }
                 "sigv4aRegionSet" -> { /* no-op; setting multiple signing regions in config is unsupported atm. */ }
-                "uri" -> { formattedMapping.put("endpoint", originalMapping.value.expectStringNode().value) }
+                "uri" -> { formattedMapping.put("endpoint", "\"${originalMapping.value.expectStringNode().value}\"") }
                 "useFips" -> { formattedMapping.put("useFIPS", originalMapping.value.expectBooleanNode().value.toString()) }
                 "useDualstack" -> { formattedMapping.put("useDualStack", originalMapping.value.expectBooleanNode().value.toString()) }
                 "useAccountIdRouting" -> { /* no-op; setting account ID routing in config is unsupported atm. */ }
