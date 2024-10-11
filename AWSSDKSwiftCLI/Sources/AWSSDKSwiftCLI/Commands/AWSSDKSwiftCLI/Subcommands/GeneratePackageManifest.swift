@@ -86,7 +86,7 @@ struct GeneratePackageManifest {
 
         // Generate package manifest for smoke tests and save it as aws-sdk-swift/SmokeTests/Package.swift
         let smokeTestsContents = try generateSmokeTestsPackageManifestContents()
-        try savePackageManifest(contents, "SmokeTests/\(packageFileName)")
+        try savePackageManifest(smokeTestsContents, "SmokeTests/\(packageFileName)")
     }
 
     // MARK: - Helpers
@@ -96,13 +96,13 @@ struct GeneratePackageManifest {
             // SmokeTests package manifest uses same prefix as one for aws-sdk-swift.
             try PackageManifestBuilder.contentReader(filename: "Package.Prefix")(),
             try generateServiceNamesArray(),
-            try PackageManifestBuilder.contentReader(filename: "SmokeTestsPackage.Base.txt")()
+            try PackageManifestBuilder.contentReader(filename: "SmokeTestsPackage.Base")()
         ].joined(separator: .newline)
     }
 
     func generateServiceNamesArray() throws -> String {
         let servicesWithSmokeTests = try FileManager.default.servicesWithSmokeTests()
-        let formatedServiceList = servicesWithSmokeTests.map { "\t\($0)," }.joined(separator: .newline)
+        let formatedServiceList = servicesWithSmokeTests.map { "\t\"\($0)\"," }.joined(separator: .newline)
         return [
             "// All services that have smoke tests generated for them.",
             "let serviceNames: [String] = [",
