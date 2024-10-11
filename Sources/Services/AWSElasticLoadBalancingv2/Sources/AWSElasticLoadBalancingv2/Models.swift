@@ -954,6 +954,100 @@ public struct AddTrustStoreRevocationsOutput: Swift.Sendable {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum TargetAdministrativeOverrideReasonEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalError
+        case noOverrideEngaged
+        case zonalShiftDelegatedToDns
+        case zonalShiftEngaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetAdministrativeOverrideReasonEnum] {
+            return [
+                .internalError,
+                .noOverrideEngaged,
+                .zonalShiftDelegatedToDns,
+                .zonalShiftEngaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalError: return "AdministrativeOverride.Unknown"
+            case .noOverrideEngaged: return "AdministrativeOverride.NoOverride"
+            case .zonalShiftDelegatedToDns: return "AdministrativeOverride.ZonalShiftDelegatedToDns"
+            case .zonalShiftEngaged: return "AdministrativeOverride.ZonalShiftActive"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum TargetAdministrativeOverrideStateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noOverride
+        case unknown
+        case zonalShiftActive
+        case zonalShiftDelegatedToDns
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetAdministrativeOverrideStateEnum] {
+            return [
+                .noOverride,
+                .unknown,
+                .zonalShiftActive,
+                .zonalShiftDelegatedToDns
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noOverride: return "no_override"
+            case .unknown: return "unknown"
+            case .zonalShiftActive: return "zonal_shift_active"
+            case .zonalShiftDelegatedToDns: return "zonal_shift_delegated_to_dns"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// Information about the override status applied to a target.
+    public struct AdministrativeOverride: Swift.Sendable {
+        /// A description of the override state that provides additional details.
+        public var description: Swift.String?
+        /// The reason code for the state.
+        public var reason: ElasticLoadBalancingv2ClientTypes.TargetAdministrativeOverrideReasonEnum?
+        /// The state of the override.
+        public var state: ElasticLoadBalancingv2ClientTypes.TargetAdministrativeOverrideStateEnum?
+
+        public init(
+            description: Swift.String? = nil,
+            reason: ElasticLoadBalancingv2ClientTypes.TargetAdministrativeOverrideReasonEnum? = nil,
+            state: ElasticLoadBalancingv2ClientTypes.TargetAdministrativeOverrideStateEnum? = nil
+        )
+        {
+            self.description = description
+            self.reason = reason
+            self.state = state
+        }
+    }
+}
+
 /// The specified allocation ID does not exist.
 public struct AllocationIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -3590,6 +3684,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The following attributes are supported by only Network Load Balancers:
         ///
         /// * dns_record.client_routing_policy - Indicates how traffic is distributed among the load balancer Availability Zones. The possible values are availability_zone_affinity with 100 percent zonal affinity, partial_availability_zone_affinity with 85 percent zonal affinity, and any_availability_zone with 0 percent zonal affinity.
+        ///
+        /// * zonal_shift.config.enabled - Indicates whether zonal shift is enabled. The possible values are true and false. The default is false.
         public var key: Swift.String?
         /// The value of the attribute.
         public var value: Swift.String?
@@ -4210,6 +4306,8 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about the health of a target.
     public struct TargetHealthDescription: Swift.Sendable {
+        /// The administrative override information for the target.
+        public var administrativeOverride: ElasticLoadBalancingv2ClientTypes.AdministrativeOverride?
         /// The anomaly detection result for the target. If no anomalies were detected, the result is normal. If anomalies were detected, the result is anomalous.
         public var anomalyDetection: ElasticLoadBalancingv2ClientTypes.AnomalyDetection?
         /// The port to use to connect with the target.
@@ -4220,12 +4318,14 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var targetHealth: ElasticLoadBalancingv2ClientTypes.TargetHealth?
 
         public init(
+            administrativeOverride: ElasticLoadBalancingv2ClientTypes.AdministrativeOverride? = nil,
             anomalyDetection: ElasticLoadBalancingv2ClientTypes.AnomalyDetection? = nil,
             healthCheckPort: Swift.String? = nil,
             target: ElasticLoadBalancingv2ClientTypes.TargetDescription? = nil,
             targetHealth: ElasticLoadBalancingv2ClientTypes.TargetHealth? = nil
         )
         {
+            self.administrativeOverride = administrativeOverride
             self.anomalyDetection = anomalyDetection
             self.healthCheckPort = healthCheckPort
             self.target = target
@@ -8679,6 +8779,19 @@ extension ElasticLoadBalancingv2ClientTypes.TargetHealthDescription {
         value.healthCheckPort = try reader["HealthCheckPort"].readIfPresent()
         value.targetHealth = try reader["TargetHealth"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.TargetHealth.read(from:))
         value.anomalyDetection = try reader["AnomalyDetection"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.AnomalyDetection.read(from:))
+        value.administrativeOverride = try reader["AdministrativeOverride"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.AdministrativeOverride.read(from:))
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.AdministrativeOverride {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.AdministrativeOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.AdministrativeOverride()
+        value.state = try reader["State"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }

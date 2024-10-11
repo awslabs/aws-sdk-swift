@@ -5144,18 +5144,32 @@ extension S3ClientTypes {
 extension S3ClientTypes {
 
     /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter can have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. If the Filter element is left empty, the Lifecycle Rule applies to all objects in the bucket.
-    public enum LifecycleRuleFilter: Swift.Sendable {
-        /// Prefix identifying one or more objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        case `prefix`(Swift.String)
-        /// This tag must exist in the object's tag set in order for the rule to apply.
-        case tag(S3ClientTypes.Tag)
-        /// Minimum object size to which the rule applies.
-        case objectsizegreaterthan(Swift.Int)
-        /// Maximum object size to which the rule applies.
-        case objectsizelessthan(Swift.Int)
+    public struct LifecycleRuleFilter: Swift.Sendable {
         /// This is used in a Lifecycle Rule Filter to apply a logical AND to two or more predicates. The Lifecycle Rule will apply to any object matching all of the predicates configured inside the And operator.
-        case and(S3ClientTypes.LifecycleRuleAndOperator)
-        case sdkUnknown(Swift.String)
+        public var and: S3ClientTypes.LifecycleRuleAndOperator?
+        /// Minimum object size to which the rule applies.
+        public var objectSizeGreaterThan: Swift.Int?
+        /// Maximum object size to which the rule applies.
+        public var objectSizeLessThan: Swift.Int?
+        /// Prefix identifying one or more objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        public var `prefix`: Swift.String?
+        /// This tag must exist in the object's tag set in order for the rule to apply.
+        public var tag: S3ClientTypes.Tag?
+
+        public init(
+            and: S3ClientTypes.LifecycleRuleAndOperator? = nil,
+            objectSizeGreaterThan: Swift.Int? = nil,
+            objectSizeLessThan: Swift.Int? = nil,
+            `prefix`: Swift.String? = nil,
+            tag: S3ClientTypes.Tag? = nil
+        )
+        {
+            self.and = and
+            self.objectSizeGreaterThan = objectSizeGreaterThan
+            self.objectSizeLessThan = objectSizeLessThan
+            self.`prefix` = `prefix`
+            self.tag = tag
+        }
     }
 }
 
@@ -6481,18 +6495,28 @@ extension S3ClientTypes {
 extension S3ClientTypes {
 
     /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, or an And child element.
-    public enum ReplicationRuleFilter: Swift.Sendable {
-        /// An object key name prefix that identifies the subset of objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        case `prefix`(Swift.String)
-        /// A container for specifying a tag key and value. The rule applies only to objects that have the tag in their tag set.
-        case tag(S3ClientTypes.Tag)
+    public struct ReplicationRuleFilter: Swift.Sendable {
         /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:
         ///
         /// * If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.
         ///
         /// * If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.
-        case and(S3ClientTypes.ReplicationRuleAndOperator)
-        case sdkUnknown(Swift.String)
+        public var and: S3ClientTypes.ReplicationRuleAndOperator?
+        /// An object key name prefix that identifies the subset of objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        public var `prefix`: Swift.String?
+        /// A container for specifying a tag key and value. The rule applies only to objects that have the tag in their tag set.
+        public var tag: S3ClientTypes.Tag?
+
+        public init(
+            and: S3ClientTypes.ReplicationRuleAndOperator? = nil,
+            `prefix`: Swift.String? = nil,
+            tag: S3ClientTypes.Tag? = nil
+        )
+        {
+            self.and = and
+            self.`prefix` = `prefix`
+            self.tag = tag
+        }
     }
 }
 
@@ -20408,39 +20432,22 @@ extension S3ClientTypes.LifecycleRuleFilter {
 
     static func write(value: S3ClientTypes.LifecycleRuleFilter?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .and(and):
-                try writer["And"].write(and, with: S3ClientTypes.LifecycleRuleAndOperator.write(value:to:))
-            case let .objectsizegreaterthan(objectsizegreaterthan):
-                try writer["ObjectSizeGreaterThan"].write(objectsizegreaterthan)
-            case let .objectsizelessthan(objectsizelessthan):
-                try writer["ObjectSizeLessThan"].write(objectsizelessthan)
-            case let .`prefix`(`prefix`):
-                try writer["Prefix"].write(`prefix`)
-            case let .tag(tag):
-                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["And"].write(value.and, with: S3ClientTypes.LifecycleRuleAndOperator.write(value:to:))
+        try writer["ObjectSizeGreaterThan"].write(value.objectSizeGreaterThan)
+        try writer["ObjectSizeLessThan"].write(value.objectSizeLessThan)
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["Tag"].write(value.tag, with: S3ClientTypes.Tag.write(value:to:))
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LifecycleRuleFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Prefix":
-                return .`prefix`(try reader["Prefix"].read())
-            case "Tag":
-                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
-            case "ObjectSizeGreaterThan":
-                return .objectsizegreaterthan(try reader["ObjectSizeGreaterThan"].read())
-            case "ObjectSizeLessThan":
-                return .objectsizelessthan(try reader["ObjectSizeLessThan"].read())
-            case "And":
-                return .and(try reader["And"].read(with: S3ClientTypes.LifecycleRuleAndOperator.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = S3ClientTypes.LifecycleRuleFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ClientTypes.Tag.read(from:))
+        value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
+        value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
+        value.and = try reader["And"].readIfPresent(with: S3ClientTypes.LifecycleRuleAndOperator.read(from:))
+        return value
     }
 }
 
@@ -21037,31 +21044,18 @@ extension S3ClientTypes.ReplicationRuleFilter {
 
     static func write(value: S3ClientTypes.ReplicationRuleFilter?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .and(and):
-                try writer["And"].write(and, with: S3ClientTypes.ReplicationRuleAndOperator.write(value:to:))
-            case let .`prefix`(`prefix`):
-                try writer["Prefix"].write(`prefix`)
-            case let .tag(tag):
-                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["And"].write(value.and, with: S3ClientTypes.ReplicationRuleAndOperator.write(value:to:))
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["Tag"].write(value.tag, with: S3ClientTypes.Tag.write(value:to:))
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationRuleFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Prefix":
-                return .`prefix`(try reader["Prefix"].read())
-            case "Tag":
-                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
-            case "And":
-                return .and(try reader["And"].read(with: S3ClientTypes.ReplicationRuleAndOperator.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = S3ClientTypes.ReplicationRuleFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ClientTypes.Tag.read(from:))
+        value.and = try reader["And"].readIfPresent(with: S3ClientTypes.ReplicationRuleAndOperator.read(from:))
+        return value
     }
 }
 

@@ -6393,6 +6393,8 @@ extension EMRClientTypes {
 
     /// Describes an instance fleet, which is a group of Amazon EC2 instances that host a particular node type (master, core, or task) in an Amazon EMR cluster. Instance fleets can consist of a mix of instance types and On-Demand and Spot Instances, which are provisioned to meet a defined target capacity. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     public struct InstanceFleet: Swift.Sendable {
+        /// Reserved.
+        public var context: Swift.String?
         /// The unique identifier of the instance fleet.
         public var id: Swift.String?
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK.
@@ -6417,6 +6419,7 @@ extension EMRClientTypes {
         public var targetSpotCapacity: Swift.Int?
 
         public init(
+            context: Swift.String? = nil,
             id: Swift.String? = nil,
             instanceFleetType: EMRClientTypes.InstanceFleetType? = nil,
             instanceTypeSpecifications: [EMRClientTypes.InstanceTypeSpecification]? = nil,
@@ -6430,6 +6433,7 @@ extension EMRClientTypes {
             targetSpotCapacity: Swift.Int? = nil
         )
         {
+            self.context = context
             self.id = id
             self.instanceFleetType = instanceFleetType
             self.instanceTypeSpecifications = instanceTypeSpecifications
@@ -6449,6 +6453,8 @@ extension EMRClientTypes {
 
     /// The configuration that defines an instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     public struct InstanceFleetConfig: Swift.Sendable {
+        /// Reserved.
+        public var context: Swift.String?
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, and TASK.
         /// This member is required.
         public var instanceFleetType: EMRClientTypes.InstanceFleetType?
@@ -6466,6 +6472,7 @@ extension EMRClientTypes {
         public var targetSpotCapacity: Swift.Int?
 
         public init(
+            context: Swift.String? = nil,
             instanceFleetType: EMRClientTypes.InstanceFleetType? = nil,
             instanceTypeConfigs: [EMRClientTypes.InstanceTypeConfig]? = nil,
             launchSpecifications: EMRClientTypes.InstanceFleetProvisioningSpecifications? = nil,
@@ -6475,6 +6482,7 @@ extension EMRClientTypes {
             targetSpotCapacity: Swift.Int? = nil
         )
         {
+            self.context = context
             self.instanceFleetType = instanceFleetType
             self.instanceTypeConfigs = instanceTypeConfigs
             self.launchSpecifications = launchSpecifications
@@ -6490,6 +6498,8 @@ extension EMRClientTypes {
 
     /// Configuration parameters for an instance fleet modification request. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     public struct InstanceFleetModifyConfig: Swift.Sendable {
+        /// Reserved.
+        public var context: Swift.String?
         /// A unique identifier for the instance fleet.
         /// This member is required.
         public var instanceFleetId: Swift.String?
@@ -6503,6 +6513,7 @@ extension EMRClientTypes {
         public var targetSpotCapacity: Swift.Int?
 
         public init(
+            context: Swift.String? = nil,
             instanceFleetId: Swift.String? = nil,
             instanceTypeConfigs: [EMRClientTypes.InstanceTypeConfig]? = nil,
             resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
@@ -6510,6 +6521,7 @@ extension EMRClientTypes {
             targetSpotCapacity: Swift.Int? = nil
         )
         {
+            self.context = context
             self.instanceFleetId = instanceFleetId
             self.instanceTypeConfigs = instanceTypeConfigs
             self.resizeSpecifications = resizeSpecifications
@@ -10192,6 +10204,7 @@ extension EMRClientTypes.InstanceFleet {
         value.instanceTypeSpecifications = try reader["InstanceTypeSpecifications"].readListIfPresent(memberReadingClosure: EMRClientTypes.InstanceTypeSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.launchSpecifications = try reader["LaunchSpecifications"].readIfPresent(with: EMRClientTypes.InstanceFleetProvisioningSpecifications.read(from:))
         value.resizeSpecifications = try reader["ResizeSpecifications"].readIfPresent(with: EMRClientTypes.InstanceFleetResizingSpecifications.read(from:))
+        value.context = try reader["Context"].readIfPresent()
         return value
     }
 }
@@ -10841,6 +10854,7 @@ extension EMRClientTypes.InstanceFleetConfig {
 
     static func write(value: EMRClientTypes.InstanceFleetConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Context"].write(value.context)
         try writer["InstanceFleetType"].write(value.instanceFleetType)
         try writer["InstanceTypeConfigs"].writeList(value.instanceTypeConfigs, memberWritingClosure: EMRClientTypes.InstanceTypeConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LaunchSpecifications"].write(value.launchSpecifications, with: EMRClientTypes.InstanceFleetProvisioningSpecifications.write(value:to:))
@@ -10923,6 +10937,7 @@ extension EMRClientTypes.InstanceFleetModifyConfig {
 
     static func write(value: EMRClientTypes.InstanceFleetModifyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Context"].write(value.context)
         try writer["InstanceFleetId"].write(value.instanceFleetId)
         try writer["InstanceTypeConfigs"].writeList(value.instanceTypeConfigs, memberWritingClosure: EMRClientTypes.InstanceTypeConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResizeSpecifications"].write(value.resizeSpecifications, with: EMRClientTypes.InstanceFleetResizingSpecifications.write(value:to:))
