@@ -400,7 +400,6 @@ let serviceTargets: [String] = [
     "AWSWellArchitected",
     "AWSWisdom",
     "AWSWorkDocs",
-    "AWSWorkLink",
     "AWSWorkMail",
     "AWSWorkMailMessageFlow",
     "AWSWorkSpaces",
