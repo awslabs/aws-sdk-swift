@@ -833,8 +833,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSWorkDocs](../../../../../swift/api/awsworkdocs/latest)
 
-[AWSWorkLink](../../../../../swift/api/awsworklink/latest)
-
 [AWSWorkMail](../../../../../swift/api/awsworkmail/latest)
 
 [AWSWorkMailMessageFlow](../../../../../swift/api/awsworkmailmessageflow/latest)
