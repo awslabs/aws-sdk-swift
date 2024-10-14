@@ -342,7 +342,7 @@ public struct CreateAgreementInput: Swift.Sendable {
     /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     /// This member is required.
     public var accessRole: Swift.String?
-    /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory.
+    /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /amzn-s3-demo-bucket/home/mydirectory.
     /// This member is required.
     public var baseDirectory: Swift.String?
     /// A name or short description to identify the agreement.
@@ -607,7 +607,7 @@ public struct UpdateAgreementInput: Swift.Sendable {
     /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
     /// This member is required.
     public var agreementId: Swift.String?
-    /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /DOC-EXAMPLE-BUCKET/home/mydirectory .
+    /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /amzn-s3-demo-bucket/home/mydirectory .
     public var baseDirectory: Swift.String?
     /// To replace the existing description, provide a short description for the agreement.
     public var description: Swift.String?
@@ -1350,6 +1350,71 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension TransferClientTypes {
 
+    public enum TransferTableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case queued
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransferTableStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .queued
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .queued: return "QUEUED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// A structure that contains the details for files transferred using an SFTP connector, during a single transfer.
+    public struct ConnectorFileTransferResult: Swift.Sendable {
+        /// For transfers that fail, this parameter contains a code indicating the reason. For example, RETRIEVE_FILE_NOT_FOUND
+        public var failureCode: Swift.String?
+        /// For transfers that fail, this parameter describes the reason for the failure.
+        public var failureMessage: Swift.String?
+        /// The filename and path to where the file was sent to or retrieved from.
+        /// This member is required.
+        public var filePath: Swift.String?
+        /// The current status for the transfer.
+        /// This member is required.
+        public var statusCode: TransferClientTypes.TransferTableStatus?
+
+        public init(
+            failureCode: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            filePath: Swift.String? = nil,
+            statusCode: TransferClientTypes.TransferTableStatus? = nil
+        )
+        {
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.filePath = filePath
+            self.statusCode = statusCode
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server. Because the SftpConnectorConfig data type is used for both creating and updating SFTP connectors, its parameters, TrustedHostKeys and UserSecretId are marked as not required. This is a bit misleading, as they are not required when you are updating an existing SFTP connector, but are required when you are creating a new SFTP connector.
     public struct SftpConnectorConfig: Swift.Sendable {
         /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
@@ -2028,7 +2093,7 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
-    /// The virtual private cloud (VPC) endpoint settings that are configured for your file transfer protocol-enabled server. With a VPC endpoint, you can restrict access to your server and resources only within your VPC. To control incoming internet traffic, invoke the UpdateServer API and attach an Elastic IP address to your server's endpoint. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint.
+    /// The virtual private cloud (VPC) endpoint settings that are configured for your file transfer protocol-enabled server. With a VPC endpoint, you can restrict access to your server and resources only within your VPC. To control incoming internet traffic, invoke the UpdateServer API and attach an Elastic IP address to your server's endpoint. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
     public struct EndpointDetails: Swift.Sendable {
         /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint. An address allocation ID corresponds to the allocation ID of an Elastic IP address. This value can be retrieved from the allocationId field from the Amazon EC2 [Address](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Address.html) data type. One way to retrieve this value is by calling the EC2 [DescribeAddresses](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAddresses.html) API. This parameter is optional. Set this parameter if you want to make your VPC endpoint public-facing. For details, see [Create an internet-facing endpoint for your server](https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#create-internet-facing-endpoint). This property can only be set as follows:
         ///
@@ -2415,9 +2480,9 @@ extension TransferClientTypes {
 
     /// Container for the WorkflowDetail data type. It is used by actions that trigger a workflow to begin execution.
     public struct WorkflowDetails: Swift.Sendable {
-        /// A trigger that starts a workflow if a file is only partially uploaded. You can attach a workflow to a server that executes whenever there is a partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// A trigger that starts a workflow if a file is only partially uploaded. You can attach a workflow to a server that executes whenever there is a partial upload. A partial upload occurs when a file is open when the session disconnects. OnPartialUpload can contain a maximum of one WorkflowDetail object.
         public var onPartialUpload: [TransferClientTypes.WorkflowDetail]?
-        /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+        /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'OnUpload can contain a maximum of one WorkflowDetail object.
         public var onUpload: [TransferClientTypes.WorkflowDetail]?
 
         public init(
@@ -4631,6 +4696,57 @@ public struct ListExecutionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListFileTransferResultsInput: Swift.Sendable {
+    /// A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The maximum number of files to return in a single page. Note that currently you can specify a maximum of 10 file paths in a single [StartFileTransfer](https://docs.aws.amazon.com/transfer/latest/APIReference/API_StartFileTransfer.html) operation. Thus, the maximum number of file transfer results that can be returned in a single page is 10.
+    public var maxResults: Swift.Int?
+    /// If there are more file details than returned in this call, use this value for a subsequent call to ListFileTransferResults to retrieve them.
+    public var nextToken: Swift.String?
+    /// A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call.
+    /// This member is required.
+    public var transferId: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        transferId: Swift.String? = nil
+    )
+    {
+        self.connectorId = connectorId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.transferId = transferId
+    }
+}
+
+public struct ListFileTransferResultsOutput: Swift.Sendable {
+    /// Returns the details for the files transferred in the transfer identified by the TransferId and ConnectorId specified.
+    ///
+    /// * FilePath: the filename and path to where the file was sent to or retrieved from.
+    ///
+    /// * StatusCode: current status for the transfer. The status returned is one of the following values:QUEUED, IN_PROGRESS, COMPLETED, or FAILED
+    ///
+    /// * FailureCode: for transfers that fail, this parameter contains a code indicating the reason. For example, RETRIEVE_FILE_NOT_FOUND
+    ///
+    /// * FailureMessage: for transfers that fail, this parameter describes the reason for the failure.
+    /// This member is required.
+    public var fileTransferResults: [TransferClientTypes.ConnectorFileTransferResult]?
+    /// Returns a token that you can use to call ListFileTransferResults again and receive additional results, if there are any (against the same TransferId.
+    public var nextToken: Swift.String?
+
+    public init(
+        fileTransferResults: [TransferClientTypes.ConnectorFileTransferResult]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.fileTransferResults = fileTransferResults
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListHostKeysInput: Swift.Sendable {
     /// The maximum number of host keys to return.
     public var maxResults: Swift.Int?
@@ -4975,7 +5091,7 @@ public struct UpdateServerInput: Swift.Sendable {
     public var certificate: Swift.String?
     /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
     public var endpointDetails: TransferClientTypes.EndpointDetails?
-    /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
+    /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
     public var endpointType: TransferClientTypes.EndpointType?
     /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Manage host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
     public var hostKey: Swift.String?
@@ -5141,7 +5257,7 @@ public struct StartFileTransferInput: Swift.Sendable {
     public var remoteDirectoryPath: Swift.String?
     /// One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer.
     public var retrieveFilePaths: [Swift.String]?
-    /// One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt . Replace  DOC-EXAMPLE-BUCKET  with one of your actual buckets.
+    /// One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  amzn-s3-demo-bucket/myfile.txt . Replace  amzn-s3-demo-bucket  with one of your actual buckets.
     public var sendFilePaths: [Swift.String]?
 
     public init(
@@ -5759,6 +5875,13 @@ extension ListExecutionsInput {
     }
 }
 
+extension ListFileTransferResultsInput {
+
+    static func urlPathProvider(_ value: ListFileTransferResultsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListHostKeysInput {
 
     static func urlPathProvider(_ value: ListHostKeysInput) -> Swift.String? {
@@ -6294,6 +6417,17 @@ extension ListExecutionsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["WorkflowId"].write(value.workflowId)
+    }
+}
+
+extension ListFileTransferResultsInput {
+
+    static func write(value: ListFileTransferResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorId"].write(value.connectorId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TransferId"].write(value.transferId)
     }
 }
 
@@ -6956,6 +7090,19 @@ extension ListExecutionsOutput {
         value.executions = try reader["Executions"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedExecution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ListFileTransferResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFileTransferResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFileTransferResultsOutput()
+        value.fileTransferResults = try reader["FileTransferResults"].readListIfPresent(memberReadingClosure: TransferClientTypes.ConnectorFileTransferResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -7871,6 +8018,23 @@ enum ListExecutionsOutputError {
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFileTransferResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -9224,6 +9388,19 @@ extension TransferClientTypes.ListedExecution {
         value.initialFileLocation = try reader["InitialFileLocation"].readIfPresent(with: TransferClientTypes.FileLocation.read(from:))
         value.serviceMetadata = try reader["ServiceMetadata"].readIfPresent(with: TransferClientTypes.ServiceMetadata.read(from:))
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.ConnectorFileTransferResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ConnectorFileTransferResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.ConnectorFileTransferResult()
+        value.filePath = try reader["FilePath"].readIfPresent() ?? ""
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
         return value
     }
 }
