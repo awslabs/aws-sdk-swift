@@ -4611,6 +4611,31 @@ public struct InvalidTagsMapException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+/// The requested action is not allowed.
+public struct OperationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Any message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotAllowedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// A repository resource limit was exceeded.
 public struct RepositoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -4713,7 +4738,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 /// Represents the input of a create repository operation.
 public struct CreateRepositoryInput: Swift.Sendable {
-    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for kmsKeyID, see [KeyId](https://docs.aws.amazon.com/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId) in the Decrypt API description in the Key Management Service API Reference. If no key is specified, the default aws/codecommit Amazon Web Services managed key is used.
+    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for kmsKeyID, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId) in the Decrypt API description in the Key Management Service API Reference. If no key is specified, the default aws/codecommit Amazon Web Services managed key is used.
     public var kmsKeyId: Swift.String?
     /// A comment or description about the new repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     public var repositoryDescription: Swift.String?
@@ -10155,7 +10180,7 @@ public struct EncryptionKeyRequiredException: ClientRuntime.ModeledError, AWSCli
 }
 
 public struct UpdateRepositoryEncryptionKeyInput: Swift.Sendable {
-    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for keyID, see [KeyId](https://docs.aws.amazon.com/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId) in the Decrypt API description in the Key Management Service API Reference.
+    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for keyID, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId) in the Decrypt API description in the Key Management Service API Reference.
     /// This member is required.
     public var kmsKeyId: Swift.String?
     /// The name of the repository for which you want to update the KMS encryption key used to encrypt and decrypt the repository.
@@ -12916,6 +12941,7 @@ enum CreateRepositoryOutputError {
             case "InvalidRepositoryNameException": return try InvalidRepositoryNameException.makeError(baseError: baseError)
             case "InvalidSystemTagUsageException": return try InvalidSystemTagUsageException.makeError(baseError: baseError)
             case "InvalidTagsMapException": return try InvalidTagsMapException.makeError(baseError: baseError)
+            case "OperationNotAllowedException": return try OperationNotAllowedException.makeError(baseError: baseError)
             case "RepositoryLimitExceededException": return try RepositoryLimitExceededException.makeError(baseError: baseError)
             case "RepositoryNameExistsException": return try RepositoryNameExistsException.makeError(baseError: baseError)
             case "RepositoryNameRequiredException": return try RepositoryNameRequiredException.makeError(baseError: baseError)
@@ -15935,6 +15961,19 @@ extension InvalidSystemTagUsageException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSystemTagUsageException {
         let reader = baseError.errorBodyReader
         var value = InvalidSystemTagUsageException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OperationNotAllowedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotAllowedException {
+        let reader = baseError.errorBodyReader
+        var value = OperationNotAllowedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

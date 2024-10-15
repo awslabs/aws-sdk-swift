@@ -172,6 +172,8 @@ extension RolesAnywhereClientTypes.Tag: Swift.CustomDebugStringConvertible {
 }
 
 public struct CreateProfileInput: Swift.Sendable {
+    /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+    public var acceptRoleSessionName: Swift.Bool?
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// Specifies whether the profile is enabled.
@@ -192,6 +194,7 @@ public struct CreateProfileInput: Swift.Sendable {
     public var tags: [RolesAnywhereClientTypes.Tag]?
 
     public init(
+        acceptRoleSessionName: Swift.Bool? = nil,
         durationSeconds: Swift.Int? = nil,
         enabled: Swift.Bool? = nil,
         managedPolicyArns: [Swift.String]? = nil,
@@ -202,6 +205,7 @@ public struct CreateProfileInput: Swift.Sendable {
         tags: [RolesAnywhereClientTypes.Tag]? = nil
     )
     {
+        self.acceptRoleSessionName = acceptRoleSessionName
         self.durationSeconds = durationSeconds
         self.enabled = enabled
         self.managedPolicyArns = managedPolicyArns
@@ -217,6 +221,8 @@ extension RolesAnywhereClientTypes {
 
     /// The state of the profile after a read or write operation.
     public struct ProfileDetail: Swift.Sendable {
+        /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+        public var acceptRoleSessionName: Swift.Bool?
         /// A mapping applied to the authenticating end-entity certificate.
         public var attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
@@ -245,6 +251,7 @@ extension RolesAnywhereClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            acceptRoleSessionName: Swift.Bool? = nil,
             attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
@@ -260,6 +267,7 @@ extension RolesAnywhereClientTypes {
             updatedAt: Foundation.Date? = nil
         )
         {
+            self.acceptRoleSessionName = acceptRoleSessionName
             self.attributeMappings = attributeMappings
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1432,6 +1440,8 @@ public struct PutAttributeMappingOutput: Swift.Sendable {
 }
 
 public struct UpdateProfileInput: Swift.Sendable {
+    /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+    public var acceptRoleSessionName: Swift.Bool?
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// A list of managed policy ARNs that apply to the vended session credentials.
@@ -1447,6 +1457,7 @@ public struct UpdateProfileInput: Swift.Sendable {
     public var sessionPolicy: Swift.String?
 
     public init(
+        acceptRoleSessionName: Swift.Bool? = nil,
         durationSeconds: Swift.Int? = nil,
         managedPolicyArns: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -1455,6 +1466,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         sessionPolicy: Swift.String? = nil
     )
     {
+        self.acceptRoleSessionName = acceptRoleSessionName
         self.durationSeconds = durationSeconds
         self.managedPolicyArns = managedPolicyArns
         self.name = name
@@ -2013,6 +2025,7 @@ extension CreateProfileInput {
 
     static func write(value: CreateProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["acceptRoleSessionName"].write(value.acceptRoleSessionName)
         try writer["durationSeconds"].write(value.durationSeconds)
         try writer["enabled"].write(value.enabled)
         try writer["managedPolicyArns"].writeList(value.managedPolicyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2106,6 +2119,7 @@ extension UpdateProfileInput {
 
     static func write(value: UpdateProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["acceptRoleSessionName"].write(value.acceptRoleSessionName)
         try writer["durationSeconds"].write(value.durationSeconds)
         try writer["managedPolicyArns"].writeList(value.managedPolicyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -3007,6 +3021,7 @@ extension RolesAnywhereClientTypes.ProfileDetail {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.durationSeconds = try reader["durationSeconds"].readIfPresent()
+        value.acceptRoleSessionName = try reader["acceptRoleSessionName"].readIfPresent()
         value.attributeMappings = try reader["attributeMappings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.AttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

@@ -2245,6 +2245,140 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes {
 
+    public enum FleetProxyRuleBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allowAll
+        case denyAll
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetProxyRuleBehavior] {
+            return [
+                .allowAll,
+                .denyAll
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allowAll: return "ALLOW_ALL"
+            case .denyAll: return "DENY_ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    public enum FleetProxyRuleEffectType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetProxyRuleEffectType] {
+            return [
+                .allow,
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "ALLOW"
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    public enum FleetProxyRuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domain
+        case ip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetProxyRuleType] {
+            return [
+                .domain,
+                .ip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domain: return "DOMAIN"
+            case .ip: return "IP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Information about the proxy rule for your reserved capacity instances.
+    public struct FleetProxyRule: Swift.Sendable {
+        /// The behavior of the proxy rule.
+        /// This member is required.
+        public var effect: CodeBuildClientTypes.FleetProxyRuleEffectType?
+        /// The destination of the proxy rule.
+        /// This member is required.
+        public var entities: [Swift.String]?
+        /// The type of proxy rule.
+        /// This member is required.
+        public var type: CodeBuildClientTypes.FleetProxyRuleType?
+
+        public init(
+            effect: CodeBuildClientTypes.FleetProxyRuleEffectType? = nil,
+            entities: [Swift.String]? = nil,
+            type: CodeBuildClientTypes.FleetProxyRuleType? = nil
+        )
+        {
+            self.effect = effect
+            self.entities = entities
+            self.type = type
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Information about the proxy configurations that apply network access control to your reserved capacity instances.
+    public struct ProxyConfiguration: Swift.Sendable {
+        /// The default behavior of outgoing traffic.
+        public var defaultBehavior: CodeBuildClientTypes.FleetProxyRuleBehavior?
+        /// An array of FleetProxyRule objects that represent the specified destination domains or IPs to allow or deny network access control to.
+        public var orderedProxyRules: [CodeBuildClientTypes.FleetProxyRule]?
+
+        public init(
+            defaultBehavior: CodeBuildClientTypes.FleetProxyRuleBehavior? = nil,
+            orderedProxyRules: [CodeBuildClientTypes.FleetProxyRule]? = nil
+        )
+        {
+            self.defaultBehavior = defaultBehavior
+            self.orderedProxyRules = orderedProxyRules
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
     public enum FleetScalingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case targetTrackingScaling
         case sdkUnknown(Swift.String)
@@ -2570,6 +2704,8 @@ extension CodeBuildClientTypes {
         ///
         /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand. If you choose to set your overflow behavior to on-demand while creating a VPC-connected fleet, make sure that you add the required VPC permissions to your project service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
         public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
+        /// The proxy configuration of the compute fleet.
+        public var proxyConfiguration: CodeBuildClientTypes.ProxyConfiguration?
         /// The scaling configuration of the compute fleet.
         public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput?
         /// The status of the compute fleet.
@@ -2591,6 +2727,7 @@ extension CodeBuildClientTypes {
             lastModified: Foundation.Date? = nil,
             name: Swift.String? = nil,
             overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
+            proxyConfiguration: CodeBuildClientTypes.ProxyConfiguration? = nil,
             scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput? = nil,
             status: CodeBuildClientTypes.FleetStatus? = nil,
             tags: [CodeBuildClientTypes.Tag]? = nil,
@@ -2608,6 +2745,7 @@ extension CodeBuildClientTypes {
             self.lastModified = lastModified
             self.name = name
             self.overflowBehavior = overflowBehavior
+            self.proxyConfiguration = proxyConfiguration
             self.scalingConfiguration = scalingConfiguration
             self.status = status
             self.tags = tags
@@ -2856,6 +2994,7 @@ extension CodeBuildClientTypes {
         case filePath
         case headRef
         case releaseName
+        case repositoryName
         case tagName
         case workflowName
         case sdkUnknown(Swift.String)
@@ -2869,6 +3008,7 @@ extension CodeBuildClientTypes {
                 .filePath,
                 .headRef,
                 .releaseName,
+                .repositoryName,
                 .tagName,
                 .workflowName
             ]
@@ -2888,6 +3028,7 @@ extension CodeBuildClientTypes {
             case .filePath: return "FILE_PATH"
             case .headRef: return "HEAD_REF"
             case .releaseName: return "RELEASE_NAME"
+            case .repositoryName: return "REPOSITORY_NAME"
             case .tagName: return "TAG_NAME"
             case .workflowName: return "WORKFLOW_NAME"
             case let .sdkUnknown(s): return s
@@ -3826,6 +3967,8 @@ public struct CreateFleetInput: Swift.Sendable {
     ///
     /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand. If you choose to set your overflow behavior to on-demand while creating a VPC-connected fleet, make sure that you add the required VPC permissions to your project service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
     public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
+    /// The proxy configuration of the compute fleet.
+    public var proxyConfiguration: CodeBuildClientTypes.ProxyConfiguration?
     /// The scaling configuration of the compute fleet.
     public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
     /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
@@ -3841,6 +3984,7 @@ public struct CreateFleetInput: Swift.Sendable {
         imageId: Swift.String? = nil,
         name: Swift.String? = nil,
         overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
+        proxyConfiguration: CodeBuildClientTypes.ProxyConfiguration? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil,
         vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
@@ -3853,6 +3997,7 @@ public struct CreateFleetInput: Swift.Sendable {
         self.imageId = imageId
         self.name = name
         self.overflowBehavior = overflowBehavior
+        self.proxyConfiguration = proxyConfiguration
         self.scalingConfiguration = scalingConfiguration
         self.tags = tags
         self.vpcConfig = vpcConfig
@@ -6236,6 +6381,8 @@ public struct UpdateFleetInput: Swift.Sendable {
     ///
     /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand. If you choose to set your overflow behavior to on-demand while creating a VPC-connected fleet, make sure that you add the required VPC permissions to your project service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
     public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
+    /// The proxy configuration of the compute fleet.
+    public var proxyConfiguration: CodeBuildClientTypes.ProxyConfiguration?
     /// The scaling configuration of the compute fleet.
     public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
     /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
@@ -6251,6 +6398,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         fleetServiceRole: Swift.String? = nil,
         imageId: Swift.String? = nil,
         overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
+        proxyConfiguration: CodeBuildClientTypes.ProxyConfiguration? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil,
         vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
@@ -6263,6 +6411,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         self.fleetServiceRole = fleetServiceRole
         self.imageId = imageId
         self.overflowBehavior = overflowBehavior
+        self.proxyConfiguration = proxyConfiguration
         self.scalingConfiguration = scalingConfiguration
         self.tags = tags
         self.vpcConfig = vpcConfig
@@ -6936,6 +7085,7 @@ extension CreateFleetInput {
         try writer["imageId"].write(value.imageId)
         try writer["name"].write(value.name)
         try writer["overflowBehavior"].write(value.overflowBehavior)
+        try writer["proxyConfiguration"].write(value.proxyConfiguration, with: CodeBuildClientTypes.ProxyConfiguration.write(value:to:))
         try writer["scalingConfiguration"].write(value.scalingConfiguration, with: CodeBuildClientTypes.ScalingConfigurationInput.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vpcConfig"].write(value.vpcConfig, with: CodeBuildClientTypes.VpcConfig.write(value:to:))
@@ -7389,6 +7539,7 @@ extension UpdateFleetInput {
         try writer["fleetServiceRole"].write(value.fleetServiceRole)
         try writer["imageId"].write(value.imageId)
         try writer["overflowBehavior"].write(value.overflowBehavior)
+        try writer["proxyConfiguration"].write(value.proxyConfiguration, with: CodeBuildClientTypes.ProxyConfiguration.write(value:to:))
         try writer["scalingConfiguration"].write(value.scalingConfiguration, with: CodeBuildClientTypes.ScalingConfigurationInput.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: CodeBuildClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vpcConfig"].write(value.vpcConfig, with: CodeBuildClientTypes.VpcConfig.write(value:to:))
@@ -9440,6 +9591,7 @@ extension CodeBuildClientTypes.Fleet {
         value.scalingConfiguration = try reader["scalingConfiguration"].readIfPresent(with: CodeBuildClientTypes.ScalingConfigurationOutput.read(from:))
         value.overflowBehavior = try reader["overflowBehavior"].readIfPresent()
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: CodeBuildClientTypes.VpcConfig.read(from:))
+        value.proxyConfiguration = try reader["proxyConfiguration"].readIfPresent(with: CodeBuildClientTypes.ProxyConfiguration.read(from:))
         value.imageId = try reader["imageId"].readIfPresent()
         value.fleetServiceRole = try reader["fleetServiceRole"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9460,6 +9612,42 @@ extension CodeBuildClientTypes.Tag {
         var value = CodeBuildClientTypes.Tag()
         value.key = try reader["key"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.ProxyConfiguration {
+
+    static func write(value: CodeBuildClientTypes.ProxyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultBehavior"].write(value.defaultBehavior)
+        try writer["orderedProxyRules"].writeList(value.orderedProxyRules, memberWritingClosure: CodeBuildClientTypes.FleetProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ProxyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.ProxyConfiguration()
+        value.defaultBehavior = try reader["defaultBehavior"].readIfPresent()
+        value.orderedProxyRules = try reader["orderedProxyRules"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.FleetProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.FleetProxyRule {
+
+    static func write(value: CodeBuildClientTypes.FleetProxyRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["effect"].write(value.effect)
+        try writer["entities"].writeList(value.entities, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.FleetProxyRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.FleetProxyRule()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.effect = try reader["effect"].readIfPresent() ?? .sdkUnknown("")
+        value.entities = try reader["entities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
